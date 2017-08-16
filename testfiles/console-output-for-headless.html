@@ -1,0 +1,19 @@
+<html>
+<head>
+</head>
+<body>
+<div id="text">Some body text</div>
+<div id="status">Writing garbage log</div>
+<script>
+console.info("This is garbage output an should not end up in the report");
+setTimeout(function() {
+console.info("<html><head></head><body>This is reporting output and tests are not ready</body></html>");
+document.getElementById("status").innerHTML="Writing test report";
+}, 3000);
+setTimeout(function() {
+console.info("<html><head></head><body>All tests completed!</body></html>");
+document.getElementById("status").innerHTML="Done testing";
+}, 5000);
+</script>
+</body>
+</html>
