@@ -1,0 +1,8 @@
+{
+  "name": "headless-chrome-driver",
+  "version": "1.0.0",
+  "description": "An Simple Driver for Chrome Headless",
+  "dependencies": {
+    "puppeteer": "^0.9.0"
+  }
+}
