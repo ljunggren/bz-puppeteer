@@ -6,34 +6,35 @@ if (process.argv.length < 4) {
   process.exit(-1);
 }
 
-var testurl = process.argv[2];
-var reportfile = process.argv[3];
-console.log('Test url :' + testurl);
+var testUrl = process.argv[2];
+var reportFile = process.argv[3];
+console.log('Accessing url: ' + testUrl);
 
 (async() => {
 
 const browser = await puppeteer.launch();
 const page = await browser.newPage();
-await page.goto(testurl);
-await page.screenshot({path: reportfile + ".png"});
+await page.goto(testUrl);
+await page.screenshot({path: reportFile + ".png"});
 
 page.on('console', (...args) => {
   for (let i =0; i < args.length; ++i) {
     
-    var logstring = args[i];
-    console.log('logstring: ' + logstring);
+    var logString = args[i];
+    console.log('Console output: ' + logString);
     
-    if (logstring.includes("<html>")) {
-      fs.writeFile(reportfile+".html", logstring, function(err) {
+    if (logString.includes("<html>")) {
+      fs.writeFile(reportFile+".html", logString, function(err) {
          if(err) {
            return console.log(err);
          }
-         console.log("The report was saved and screenshot made!");
+         console.log("The report was saved.");
          }); 
      }
 
-     if (logstring.includes("All tests completed!")) { 
-          browser.close();
+     if (logString.includes("All tests completed!")) { 
+        console.log("Tests completed. Closing browser.");
+        browser.close();
      }
   }
 });
