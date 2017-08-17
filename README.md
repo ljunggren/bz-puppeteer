@@ -6,5 +6,3 @@
     
 #### Usage:
       node test.js testurl reportfile       
-# bz-puppeteer
-# bz-puppeteer
