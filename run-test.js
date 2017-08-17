@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 var fs = require('fs');
 
 if (process.argv.length < 4) {
-  console.log('Usage: node test.js testurl reportfile [-d]');
+  console.log('Usage: node test.js testurl reportfile');
   process.exit(-1);
 }
 
