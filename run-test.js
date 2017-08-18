@@ -33,8 +33,11 @@ page.on('console', (...args) => {
      }
 
      if (logString.includes("All tests completed!")) { 
-        console.log("Tests completed. Closing browser.");
-        browser.close();
+        console.log("Tests completed. Waiting a few seconds to close browser so report is being sent.");
+        setTimeout(function(){
+          console.log("Closing browser.");
+          browser.close();
+        },6000);
      }
   }
 });
