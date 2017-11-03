@@ -5,6 +5,9 @@
   "dependencies": {
     "puppeteer": "^0.9.0"
   },
+  "bin": {
+    "bz-run": "bin/commit.js"
+  },
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
