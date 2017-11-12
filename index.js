@@ -1,7 +1,6 @@
 #! /usr/bin/env node
 // Device Descriptors https://github.com/GoogleChrome/puppeteer/blob/master/DeviceDescriptors.js
 
-console.log("Running bz-run...")
 
 const puppeteer = require('puppeteer');
 var options = require('node-options');
@@ -12,7 +11,9 @@ var opts =  {
   "headfull": false,
   "verbose" : false,
   "reportfile": "report",
-  "device" : "default"
+  "device" : "default",
+  "height": 1200,
+  "width": 800
 };
 
 // Remove the first two arguments, which are the 'node' binary and the name
@@ -23,14 +24,12 @@ if (result.errors) {
   if (opts.verbose) {
     console.log("Unknown argument(s): " + result.errors);
   }
-  console.log('USAGE: [--headfull] [--verbose] [--reportfile=report] [--device=default] [url]');
+  console.log('USAGE: [--headfull] [--verbose] [--reportfile=report] [--device=default] [--width=1200] [--height=800] [url]');
   process.exit(-1);
 }
 
-console.log('headfull=', opts.headfull);
-console.log('verbose=', opts.verbose);
-console.log('reportfile=', opts.reportfile);
-console.log('device=', opts.device);
+console.log('Running with options: headfull=', opts.headfull, ', verbose=', opts.verbose, ', reportfile=', opts.reportfile, ', device=', opts.device, ', width=', opts.width, ', height=', opts.height);
+
 
 
 var testUrl = "";
@@ -49,14 +48,30 @@ var reportFile = opts.reportfile;
 console.log('Opening url: ' + result.args);
 
 (async() => {
-  const devices = require('puppeteer/DeviceDescriptors');
   const browser = await puppeteer.launch({
     headless: !opts.headfull
   });
 
   const page = await browser.newPage();
+  const devices = require('puppeteer/DeviceDescriptors');
 
-  if (opts.device != "default"){
+  var width = parseInt(opts.width);
+  var height = parseInt(opts.height);
+
+  if (opts.device === "default") {
+    console.log('No device specified. Viewport is set to ',opts.width,'x',opts.height);
+    await page.setViewport({
+      width: width,
+      height: height
+    });
+  } else if (!devices[opts.device]) {
+    console.log('Device not found. Viewport is set to ',opts.width,'x',opts.height);
+    await page.setViewport({
+      width: width,
+      height: height
+    });
+  } else {
+    console.log('Viewport setting is set to ',opts.device);
     await page.emulate(devices[opts.device]);
   }
 
