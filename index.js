@@ -71,7 +71,7 @@ console.log('Opening url: ' + result.args);
       height: height
     });
   } else {
-    console.log('Viewport setting is set to ',opts.device);
+    console.log(opts.device, 'found. Viewport setting is set to ',devices[opts.device].viewport.width,'x',devices[opts.device].viewport.height);
     await page.emulate(devices[opts.device]);
   }
 
