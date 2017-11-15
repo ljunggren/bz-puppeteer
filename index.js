@@ -3,86 +3,66 @@
 
 
 const puppeteer = require('puppeteer');
-var options = require('node-options');
-var fs = require('fs');
+const options = require('node-options');
+const fs = require('fs');
 
 
-var opts =  { 
+const opts = {
   "headfull": false,
   "verbose" : false,
   "reportfile": "report",
-  "device" : "default",
-  "height": 1200,
-  "width": 800
+  "device" : "default"
 };
 
 // Remove the first two arguments, which are the 'node' binary and the name
 // of your script.
-var result = options.parse(process.argv.slice(2), opts);
+const result = options.parse(process.argv.slice(2), opts);
+const verbose = opts.verbose;
 
 if (result.errors) {
-  if (opts.verbose) {
-    console.log("Unknown argument(s): " + result.errors);
-  }
-  console.log('USAGE: [--headfull] [--verbose] [--reportfile=report] [--device=default] [--width=1200] [--height=800] [url]');
+  console.log('USAGE: boozang [--headfull] [--verbose] [--reportfile=report] [--device=default] [url]');
   process.exit(-1);
 }
 
-console.log('Running with options: headfull=', opts.headfull, ', verbose=', opts.verbose, ', reportfile=', opts.reportfile, ', device=', opts.device, ', width=', opts.width, ', height=', opts.height);
-
-
-
-var testUrl = "";
-
-if (result.args){
-  if (result.args.length === 1) {
-    testUrl = result.args.toString();      
-    console.log('url=', testUrl)
-  } else {
-    console.log("Unknown argument(s): " + result.errors);
+if (!result.args || result.args.length != 1 ){
+    console.log('USAGE: boozang [--headfull] [--verbose] [--reportfile=report] [--device=default] [url]');
     process.exit(-2);
-  }
 }
 
-var reportFile = opts.reportfile;
-console.log('Opening url: ' + result.args);
+const url = result.args.toString(); 
+
+console.log('Opening URL: '+ url);
+console.log('Running with options: headfull=', opts.headfull, ', verbose=', opts.verbose, ', reportfile=', opts.reportfile, ', device=', opts.device, ', width=', opts.width, ', height=', opts.height);
+const reportFile = opts.reportfile;
+
 
 (async() => {
   const browser = await puppeteer.launch({
     headless: !opts.headfull
   });
 
+
   const page = await browser.newPage();
   const devices = require('puppeteer/DeviceDescriptors');
 
-  var width = parseInt(opts.width);
-  var height = parseInt(opts.height);
 
   if (opts.device === "default") {
-    console.log('No device specified. Viewport is set to ',opts.width,'x',opts.height);
-    await page.setViewport({
-      width: width,
-      height: height
-    });
+    console.log('No device specified.');
   } else if (!devices[opts.device]) {
-    console.log('Device not found. Viewport is set to ',opts.width,'x',opts.height);
-    await page.setViewport({
-      width: width,
-      height: height
-    });
+    console.log('Device ' + opts.device + ' not found. Ignoring');
   } else {
-    console.log(opts.device, 'found. Viewport setting is set to ',devices[opts.device].viewport.width,'x',devices[opts.device].viewport.height);
+    console.log(opts.device, 'found. Viewport is set to ',devices[opts.device].viewport.width,'x',devices[opts.device].viewport.height);
     await page.emulate(devices[opts.device]);
   }
 
-  await page.goto(testUrl);
+  await page.goto(url);
   await page.screenshot({path: reportFile + ".png"});
 
 
   page.on('console', msg => {
-    var logString = msg.text;
+    const logString = msg.text;
 
-    console.log('Console output: ' + logString);
+    if (verbose) console.log('Console output: ' + logString);
 
     if (logString.includes("<html>")) {
       fs.writeFile(reportFile+".html", logString, function(err) {
@@ -96,8 +76,20 @@ console.log('Opening url: ' + result.args);
       setTimeout(function(){
         console.log("Closing browser.");
         browser.close();
-      },4000);
+      },6000);
     }
   });
 
+  //browser.close();
+
 })();
+
+function isURL(str) {
+  const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  return pattern.test(str);
+}

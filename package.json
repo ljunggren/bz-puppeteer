@@ -7,7 +7,7 @@
     "puppeteer": "latest"
   },
   "bin": {
-    "bz-run": "index.js"
+    "boozang": "index.js"
   },
   "main": "index.js",
   "devDependencies": {},
