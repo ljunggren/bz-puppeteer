@@ -5,4 +5,4 @@
       2. Exits on console output of "All tests completed!"
     
 #### Usage:
-      node test.js testurl reportfile       
+      USAGE: boozang [--headfull] [--verbose] [--reportfile=report] [--device=default] url    
