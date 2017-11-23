@@ -1,0 +1,145 @@
+//Register
+window.extensionContent=1;
+setTimeout(function(){
+  //_console("content register")
+  chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ)},function(_msg){
+    if(_msg){
+      //_console("this is ctrl tab: "+chrome.runtime.id)
+      _insertCssAndClientCode(_msg._css)
+      BZ[ecMap.ss](_msg._newStatus,_msg._status);
+      window[ecMap.u][ecMap.k]()
+    }
+  });
+},0);
+
+chrome.runtime.onMessage.addListener(function(_event, _, sendResponse) {
+  //_console("content get message: ",_event)
+  if(_event.twPage){
+    if(window.BZ){
+      if(_event.frameId.includes(BZ.iframeId)){
+        if(_event[ecMap.s]==ecMap.tw){
+          window[ecMap.tw][_event[ecMap.f]](_event[ecMap.d]);
+        }else if(_event[ecMap.s]==ecMap.dr){
+          window[ecMap.dr][_event[ecMap.f]](_event[ecMap.d]);
+        }
+      }else if(BZ.iframeId===undefined){
+        window.postMessage(_event, "*");
+      }
+    }
+  }else if(_event._newStatus!==undefined){
+    BZ[ecMap.ss](_event._newStatus,_event._newStatus);
+  //set execute action
+  }else if(_event.exeAction){
+    if(_event.frameId.includes(BZ.iframeId)){
+      window[ecMap.dat][ecMap.ea](_event.exeAction,_event.setting,function(r){
+        chrome.runtime.sendMessage({bz:1,result:r})
+      });
+    }
+  }else if(_event.ctrlInfo){
+    _event.bz=1;
+    window.postMessage(_event, "*");
+  }else if(_event.tw!==undefined){
+    window.postMessage({bz:1,tw:_event.tw}, "*");
+  }else if(_event.status!==undefined){
+    window.postMessage({bz:1,status:_event.status}, "*");
+  //set selected element
+  }else if(_event.curAction!==undefined){
+    //_IDE._data._curTest=_event.curTest
+    if(_event.frameId===undefined || _event.frameId.includes(BZ.iframeId)){
+      var o=_event.curTest;
+      if(o){
+        //o=o?_CtrlDriver._buildProxy(_event.curTest):o;
+        o=o?window[ecMap.cd][ecMap.bp](o):o;
+        window[ecMap.i][ecMap.d][ecMap.ct]=o;
+        
+        //o=o._data.actions[_event.curAction]
+        o=o[ecMap.d].actions[_event.curAction];
+        o.element=_event.element;
+        window[ecMap.iam][ecMap.sca](o);
+      }
+    }
+  }else if(_event.curTest!==undefined){
+    //_IDE._data._curTest=_event.curTest
+    var o=_event.curTest;
+    //o=o?_CtrlDriver._buildProxy(_event.curTest):o;
+    o=o?window[ecMap.cd][ecMap.bp](o):o;
+    window[ecMap.i][ecMap.d][ecMap.ct]=o;
+  }else if(_event.element){
+    if(_event.frameId.includes(BZ.iframeId)){
+      //BZ._DomPicker._flashTmpCover(_event.element)
+      BZ[ecMap.dp][ecMap.ftc](_event.element);
+    }
+  }else if(_event.exePickElement){
+//    _IDE._data._curAction=_event.exePickElement;
+    window[ecMap.i][ecMap.d][ecMap.ca]=_event.exePickElement;
+    //_ideActionManagement._pickElement()
+    window[ecMap.iam][ecMap.pe]()
+  }else if(_event.updateExpection){
+  //_IDE._data._curAction=_event.updateExpection
+    window[ecMap.i][ecMap.d][ecMap.ca]=_event.updateExpection;
+//    _ideActionManagement._quickUpdateExpection(_IDE._data._curAction=_event.updateExpection)
+    window[ecMap.iam][ecMap.que](_event.updateExpection)
+  }else if(_event.getFramePath){
+    if(BZ.iframeId===0){
+      sendResponse(BZ.refreshFramePath(_event.getFramePath));
+    }
+  }
+});
+
+window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
+
+function _insertCssAndClientCode(_css,_time){
+  _time=_time||Date.now()
+  t=document.body;
+  if(document && document.body && document.body.innerHTML && (document.readyState=="complete" || (Date.now()-_time>100000))){
+    var o=document.createElement("style");
+    o.innerHTML=_css;
+    document.body.parentNode.append(o);
+    
+    o=document.createElement("script");
+    var _html="";
+    /**/
+    //_html+="_Util="+_Util._toString(_Util);
+    _html+=ecMap.u+"="+window[ecMap.u][ecMap.ts](window[ecMap.u]);
+    //_html+="_TWHandler="+_Util._toString(_TWHandler);
+    _html+=ecMap.tw+"="+window[ecMap.u][ecMap.ts](window[ecMap.tw]);
+    //_html+="_domActionTask="+_Util._toString(_domActionTask);
+    _html+=ecMap.dat+"="+window[ecMap.u][ecMap.ts](window[ecMap.dat]);
+    //_html+="_domRecorder="+_Util._toString(_domRecorder);
+    _html+=ecMap.dr+"="+window[ecMap.u][ecMap.ts](window[ecMap.dr]);
+    _html+="bzTwComm="+window[ecMap.u][ecMap.ts](bzTwComm);
+    /**/
+    _html+="bzTwComm."+ecMap.init+"('"+chrome.runtime.id+"');"
+    o.innerHTML=_html;
+    document.body.parentNode.append(o);
+
+    chrome.runtime.sendMessage({ready:1})
+  }else{
+    setTimeout(function(){
+      _insertCssAndClientCode(_css,_time);
+    },10);
+  }
+}
+
+var _console=function(msg,o){
+  console.log(msg)
+  if(o){
+    console.log(o)
+  }
+}
+
+function showCode(v){
+  if(window.noMsg){
+    return;
+  }
+  $("#BZ-Info").remove();
+  var o=$("<b id='BZ-Info' style='cursor:pointer;z-index:1000000000000000;position:fixed;background:red;color:#FFF;padding:5px;top:0;left:0;'>BZ "+v+"</b>").insertAfter(document.body).fadeOut(3000).click(function(){
+    this.remove();
+    window.noMsg=1
+  });
+  setTimeout(function(){
+    if(o[0].parentNode){
+      showCode(v)
+    }
+  },3000);
+};

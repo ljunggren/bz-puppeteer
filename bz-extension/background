@@ -1,0 +1,211 @@
+var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_ctrlTabId,_frameIds={},_code,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl;
+
+chrome.browserAction.setBadgeText({text: "ON"});
+
+chrome.browserAction.onClicked.addListener(function() {
+  chrome.tabs.create({url: _appUrl}, function(tab) {});
+});
+
+/*Get Message from web page*/
+chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) {
+  //_console("background (web page): ",_req)
+  //check whether the request from BZ pages. If not from BZ do nothing.
+  if(!_req.bz){
+    return;
+  }
+  //check whether the request from BZ client web page
+  if(_req.twPage){
+    if(_req.tab=="master"){
+      _req.frameId=[0];
+      chrome.tabs.sendMessage(_masterTabId, _req);
+    }else{
+      _req.frameId=[_sender.frameId];
+      chrome.tabs.sendMessage(_ctrlTabId, _req);
+    }
+  //Master tab send dynamic code to background to forward to content
+  }else if(_req.bzExeCode){
+    _setCodeToContent(_req.bzExeCode);
+  //Master send current status
+  }else if(_req.status!==undefined){
+    //master tab set status before start pop client win
+    if(_req.status=="popwin-start"){
+      _doingPopCtrl=1
+    //master tab set status after end pop client win
+    }else if(_req.status=="popwin-end"){
+      _doingPopCtrl=0
+    }else{
+      _newStatus=_status=_req.status;
+      if(_ctrlTabId){
+        chrome.tabs.sendMessage(_ctrlTabId, {_newStatus:_newStatus,_newStatus:_req.status});
+        _newStatus=0;
+      }
+    }
+  //Set BZ code mapping data to unecrypt code from https://ai.boozang.com
+  }else if(_req.ecMap){
+    ecMap=_req.ecMap;
+  //Dynamic code from BZ master page
+  }else if(_req.bzCode){
+    _masterTabId=_sender.tab.id;
+    _code=_req.bzCode;
+  //Set CSS file path from BZ master page
+  }else if(_req.bzCss){
+    _css=_req.bzCss;
+  //Dynamic data from BZ master page
+  }else if(_req.bzEnvCode){
+    _bzEnvCode=_req.bzEnvCode;
+  //check whether BZ client tab ready
+  }else if(_ctrlTabId){
+    //for request execution a BZ testing action
+    if(_req.exeAction){
+      _req.frameId=[0];
+      _lastExeActionReq=_req;
+      if(_req.exeAction.element){
+        _req.frameId=_getFrameIds(_req.exeAction.element[0]);
+        _req.exeAction.element[0]="BZ.TW.document";
+        //co=_code
+      }else if(_req.exeAction[ecMap.co]){
+        //_req.exeAction.code._element
+        var e=_req.exeAction[ecMap.co][ecMap.e];
+        if(e){
+          //_req.exeAction.code._element[0]._css
+          e=e[0][ecMap.c];
+          if(e && e[0].startsWith("IFRAME:")){
+            _req.frameId=_getFrameIds(e[0]);
+            _req.exeAction[ecMap.co][ecMap.e].shift()
+          }
+        }
+      }
+    //for request highlight a BZ action element
+    }else if(_req.element!==undefined){
+      _req.frameId=[0];
+      if(_req.element){
+        _req.frameId=_getFrameIds(_req.element[0]);
+        _req.element[0]="BZ.TW.document";
+      }
+    }
+    chrome.tabs.sendMessage(_ctrlTabId, _req);
+  }
+});
+
+//to get frame ids by element path
+function _getFrameIds(_root){
+  var ids=[];
+  var id=0
+  if(_root!=="BZ.TW.document"){
+    for(k in _frameIds){
+      id=k;
+      if(_frameIds[k].path && _frameIds[k].path.includes(_root)){
+        ids.push(parseInt(k));
+      }
+    }
+  }
+  if(!ids.length){
+    ids.push(id)
+  }
+  return ids;
+}
+
+//set code to chrome extension content
+function _setCodeToContent(c,id){
+  //for set dynamic code to current controled client tab, 
+  if(_ctrlTabId){
+    if(id!==undefined){
+      chrome.tabs.executeScript(_ctrlTabId, {code: c,matchAboutBlank:true,frameId:id});
+    }else{
+      chrome.tabs.executeScript(_ctrlTabId, {code: c,matchAboutBlank:true,allFrames:true});
+    }
+  }
+}
+
+//get message from extension content
+chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
+  //_console("background (content): ",_msg)
+  //For register tab, it only work for new pop window. The new window must pop up from master window.
+  if(_msg._registerTab && _ctrlTabId==t.tab.id){
+    if(t.frameId){
+      _frameIds[t.frameId]={url:t.url,id:t.frameId};
+      setTimeout(function(){
+        chrome.tabs.sendMessage(_ctrlTabId, {getFramePath:_frameIds}, function(m){
+          if(m){
+            _frameIds=m;
+          }
+        });
+      },10);
+    }
+    //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
+    if(!_msg.BZ){
+      _setCodeToContent(_code,t.frameId);
+      _setCodeToContent("showCode(window[ecMap.bm].plugInfo.record);",t.frameId);
+    }else{
+      //for BZ developer debugging in BZ office
+      _setCodeToContent("showCode('BZ Debugging');",t.frameId);
+    }
+    _setCodeToContent(_bzEnvCode+"BZ.iframeId="+t.frameId+";",t.frameId);
+    _sendResponse({_css:_css,_newStatus:_newStatus,_status:_status});
+    _newStatus=0;
+    if(_lastExeActionReq){
+      chrome.tabs.sendMessage(_ctrlTabId, _lastExeActionReq);
+    }
+  }else if(_msg.keep){
+    return;
+  //only work after master window is ready, and the requestion will send to master
+  }else if(_masterTabId){
+    _msg.ctrlInfo=1;
+    if(_msg.result){
+      _lastExeActionReq=0;
+    }else if(_msg.action){
+      if(t.frameId){
+        _msg.action.element[0]=_frameIds[t.frameId].path;
+      }
+    }else if(_msg._updateAction){
+      if(t.frameId){
+        //_msg._updateAction.element[0]=_frameIds[t.frameId].path;
+        _msg[ecMap.ua].element[0]=_frameIds[t.frameId].path;
+      }
+      _setCodeToContent("BZ."+ecMap.dp+"."+ecMap.er+"()")
+    }else if(_msg[ecMap.f]==ecMap.rca){
+      if(t.frameId){
+        if(_msg[ecMap.d][ecMap.a].element){
+          _msg[ecMap.d][ecMap.a].element[0]=_frameIds[t.frameId].path;
+        }
+      }
+    }
+    
+    chrome.tabs.sendMessage(_masterTabId, _msg);
+  }
+});
+
+chrome.tabs.onRemoved.addListener(function(_tab, info) {
+  //_console("background: remove tab")
+  //clear data when master tab close
+  if(_masterTabId==_tab){
+    //_console("background: remove master")
+    _masterTabId=0;
+    _ctrlTabId=0;
+    _frameIds={}
+  //clear client info
+  }else if(_ctrlTabId==_tab){
+    //_console("background: remove ctrl")
+    _ctrlTabId=0;
+    chrome.tabs.sendMessage(_masterTabId, {tw:0});
+  }
+});
+
+chrome.tabs.onCreated.addListener(function(_tab, info) {
+  //_console("background add tab")
+  //only register the poping up client win
+  if(_doingPopCtrl){
+    //_console("background add ctrl tab")
+    _ctrlTabId=_tab.id;
+    _frameIds={};
+    //to tell master the current client tab id
+    chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId});
+  }
+});
+
+var _console=function(msg,o){
+  console.log(msg)
+  if(o){
+    console.log(o)
+  }
+};

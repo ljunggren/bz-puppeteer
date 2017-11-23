@@ -32,20 +32,38 @@ if (!result.args || result.args.length != 1 ){
 const url = result.args.toString(); 
 
 console.log('Opening URL: '+ url);
-console.log('Running with options: headfull=', opts.headfull, ', verbose=', opts.verbose, ', reportfile=', opts.reportfile, ', device=', opts.device, ', width=', opts.width, ', height=', opts.height);
+console.log('Running with options: headfull=', opts.headfull, ', verbose=', opts.verbose, ', reportfile=', opts.reportfile, ', device=', opts.device);
 const reportFile = opts.reportfile;
 
 
 (async() => {
+
+   // Load extension if URL reference is to extension
+  const launchargs = getLaunchargs(url);
+
+  function getLaunchargs(url){
+     if (url.includes('extension')) {
+      return [
+      '--disable-extensions-except=bz-extension',
+      '--load-extension=bz-extension',
+        ];
+     } else {
+      return [];
+     }
+  }
+
+  console.log("Oops" + launchargs);
+
   const browser = await puppeteer.launch({
-    headless: !opts.headfull
+    headless: !opts.headfull,
+    args: launchargs 
   });
 
 
   const page = await browser.newPage();
   const devices = require('puppeteer/DeviceDescriptors');
 
-
+ 
   if (opts.device === "default") {
     console.log('No device specified.');
   } else if (!devices[opts.device]) {
