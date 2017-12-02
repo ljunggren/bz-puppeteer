@@ -12,19 +12,16 @@ setTimeout(function(){
   });
 },0);
 
-chrome.runtime.onMessage.addListener(function(_event, _, sendResponse) {
+chrome.runtime.onMessage.addListener(handleMsg);
+
+function handleMsg(_event, _, sendResponse) {
   //_console("content get message: ",_event)
   if(_event.twPage){
+    if(_event.tab=="master"){
+      return chrome.runtime.sendMessage(_event);
+    }
     if(window.BZ){
-      if(_event.frameId.includes(BZ.iframeId)){
-        if(_event[ecMap.s]==ecMap.tw){
-          window[ecMap.tw][_event[ecMap.f]](_event[ecMap.d]);
-        }else if(_event[ecMap.s]==ecMap.dr){
-          window[ecMap.dr][_event[ecMap.f]](_event[ecMap.d]);
-        }
-      }else if(BZ.iframeId===undefined){
-        window.postMessage(_event, "*");
-      }
+      window[_event[ecMap.s]][_event[ecMap.f]](_event[ecMap.d]);
     }
   }else if(_event._newStatus!==undefined){
     BZ[ecMap.ss](_event._newStatus,_event._newStatus);
@@ -32,7 +29,7 @@ chrome.runtime.onMessage.addListener(function(_event, _, sendResponse) {
   }else if(_event.exeAction){
     if(_event.frameId.includes(BZ.iframeId)){
       window[ecMap.dat][ecMap.ea](_event.exeAction,_event.setting,function(r){
-        chrome.runtime.sendMessage({bz:1,result:r})
+        chrome.runtime.sendMessage({bz:1,result:r,data:{$project:$project,$module:$module,$test:$test,$loop:$loop}})
       });
     }
   }else if(_event.ctrlInfo){
@@ -77,15 +74,14 @@ chrome.runtime.onMessage.addListener(function(_event, _, sendResponse) {
   }else if(_event.updateExpection){
   //_IDE._data._curAction=_event.updateExpection
     window[ecMap.i][ecMap.d][ecMap.ca]=_event.updateExpection;
-//    _ideActionManagement._quickUpdateExpection(_IDE._data._curAction=_event.updateExpection)
+//    _ideActionManagement._quickUpdateExpection(_event.updateExpection)
     window[ecMap.iam][ecMap.que](_event.updateExpection)
   }else if(_event.getFramePath){
     if(BZ.iframeId===0){
       sendResponse(BZ.refreshFramePath(_event.getFramePath));
     }
   }
-});
-
+}
 window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
 
 function _insertCssAndClientCode(_css,_time){
@@ -107,6 +103,11 @@ function _insertCssAndClientCode(_css,_time){
     _html+=ecMap.dat+"="+window[ecMap.u][ecMap.ts](window[ecMap.dat]);
     //_html+="_domRecorder="+_Util._toString(_domRecorder);
     _html+=ecMap.dr+"="+window[ecMap.u][ecMap.ts](window[ecMap.dr]);
+    //_html+="_uploadHandler="+_Util._toString(_uploadHandler);
+    _html+=ecMap.uh+"="+window[ecMap.u][ecMap.ts](window[ecMap.uh]);
+
+    _html+="bzUtil="+window[ecMap.u][ecMap.ts]($util);
+    
     _html+="bzTwComm="+window[ecMap.u][ecMap.ts](bzTwComm);
     /**/
     _html+="bzTwComm."+ecMap.init+"('"+chrome.runtime.id+"');"

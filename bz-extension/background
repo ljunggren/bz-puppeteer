@@ -47,6 +47,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   }else if(_req.bzCode){
     _masterTabId=_sender.tab.id;
     _code=_req.bzCode;
+    _lastExeActionReq=0;
   //Set CSS file path from BZ master page
   }else if(_req.bzCss){
     _css=_req.bzCss;
@@ -122,15 +123,23 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
   //_console("background (content): ",_msg)
   //For register tab, it only work for new pop window. The new window must pop up from master window.
   if(_msg._registerTab && _ctrlTabId==t.tab.id){
-    if(t.frameId){
+    if(t.frameId && !_frameIds[t.frameId]){
       _frameIds[t.frameId]={url:t.url,id:t.frameId};
-      setTimeout(function(){
-        chrome.tabs.sendMessage(_ctrlTabId, {getFramePath:_frameIds}, function(m){
-          if(m){
-            _frameIds=m;
-          }
-        });
-      },10);
+      var v={getFramePath:_frameIds};
+      chrome.tabs.executeScript(
+        _ctrlTabId,
+        {frameId: t.frameId, code:"BZ.retrieveWinSize()"},
+        function(data) { 
+          _frameIds[t.frameId].size=data[0] 
+          setTimeout(function(){
+            chrome.tabs.sendMessage(_ctrlTabId, v, function(m){
+              if(m){
+                _frameIds=m;
+              }
+            });
+          },10);
+        }
+      );
     }
     //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
     if(!_msg.BZ){
@@ -143,7 +152,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     _setCodeToContent(_bzEnvCode+"BZ.iframeId="+t.frameId+";",t.frameId);
     _sendResponse({_css:_css,_newStatus:_newStatus,_status:_status});
     _newStatus=0;
-    if(_lastExeActionReq){
+    if(_lastExeActionReq && _status=="play"){
       chrome.tabs.sendMessage(_ctrlTabId, _lastExeActionReq);
     }
   }else if(_msg.keep){
