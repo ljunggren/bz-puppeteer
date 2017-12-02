@@ -38,7 +38,7 @@ const reportFile = opts.reportfile;
 
 (async() => {
 
-   // Load extension if URL reference is to extension
+  // Load extension if URL contains the word extension
   const launchargs = getLaunchargs(url);
 
   function getLaunchargs(url){
@@ -52,7 +52,6 @@ const reportFile = opts.reportfile;
      }
   }
 
-  console.log("Oops" + launchargs);
 
   const browser = await puppeteer.launch({
     headless: !opts.headfull,
