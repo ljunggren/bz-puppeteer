@@ -10,8 +10,9 @@ const fs = require('fs');
 const opts = {
   "headfull": false,
   "verbose" : false,
-  "reportfile": "report",
-  "device" : "default"
+  "file": "result",
+  "device" : "default",
+  "screenshot": false
 };
 
 console.log("Grogg " + __dirname);
@@ -23,20 +24,20 @@ const result = options.parse(process.argv.slice(2), opts);
 const verbose = opts.verbose;
 
 if (result.errors) {
-  console.log('USAGE: boozang [--headfull] [--verbose] [--reportfile=report] [--device=default] [url]');
+  console.log('USAGE: boozang [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]');
   process.exit(-1);
 }
 
 if (!result.args || result.args.length != 1 ){
-    console.log('USAGE: boozang [--headfull] [--verbose] [--reportfile=report] [--device=default] [url]');
-    process.exit(-2);
+  console.log('USAGE: boozang [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]');
+  process.exit(-2);
 }
 
 const url = result.args.toString(); 
 
 console.log('Opening URL: '+ url);
 console.log('Running with options: headfull=', opts.headfull, ', verbose=', opts.verbose, ', reportfile=', opts.reportfile, ', device=', opts.device);
-const reportFile = opts.reportfile;
+const file = opts.file;
 
 
 (async() => {
@@ -83,8 +84,14 @@ const reportFile = opts.reportfile;
   }
 
   await page.goto(url);
-  await page.screenshot({path: reportFile + ".png"});
 
+  if (opts.screenshot){
+    console.log("Wait a second for screenshot.");
+    await timeout(1000);
+    await page.screenshot({path: file + ".png"});
+    console.log("Closing browser.");
+    browser.close(); 
+  }
 
   page.on('console', msg => {
     const logString = msg.text;
@@ -92,7 +99,7 @@ const reportFile = opts.reportfile;
     if (verbose) console.log('Console output: ' + logString);
 
     if (logString.includes("<html>")) {
-      fs.writeFile(reportFile+".html", logString, function(err) {
+      fs.writeFile(file+".html", logString, function(err) {
         if(err) {
           return console.log(err);
         }
@@ -110,6 +117,11 @@ const reportFile = opts.reportfile;
   //browser.close();
 
 })();
+
+
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 function isURL(str) {
   const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
