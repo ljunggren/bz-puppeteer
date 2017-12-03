@@ -14,6 +14,9 @@ const opts = {
   "device" : "default"
 };
 
+console.log("Grogg " + __dirname);
+
+
 // Remove the first two arguments, which are the 'node' binary and the name
 // of your script.
 const result = options.parse(process.argv.slice(2), opts);
@@ -41,20 +44,27 @@ const reportFile = opts.reportfile;
   // Load extension if URL contains the word extension
   const launchargs = getLaunchargs(url);
 
+ 
+
   function getLaunchargs(url){
      if (url.includes('extension')) {
       return [
-      '--disable-extensions-except=bz-extension',
-      '--load-extension=bz-extension',
+      '--disable-extensions-except=' + __dirname + '/bz-extension',
+      '--load-extension=' + __dirname + '/bz-extension',
         ];
      } else {
       return [];
      }
   }
 
+  if (launchargs.length > 0 && !opts.headfull) {
+    console.log("Url needs extension to run. Forcing headless mode to false.");
+  }
 
+  const headlessMode = ! (opts.headfull || launchargs.length > 0)
+  
   const browser = await puppeteer.launch({
-    headless: !opts.headfull,
+    headless: headlessMode,
     args: launchargs 
   });
 
