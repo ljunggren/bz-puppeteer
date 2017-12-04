@@ -6,7 +6,7 @@ setTimeout(function(){
     if(_msg){
       //_console("this is ctrl tab: "+chrome.runtime.id)
       _insertCssAndClientCode(_msg._css)
-      BZ[ecMap.ss](_msg._newStatus,_msg._status);
+      BZ[ecMap.ss](_msg._newStatus,_msg.data);
       window[ecMap.u][ecMap.k]()
     }
   });
@@ -24,7 +24,7 @@ function handleMsg(_event, _, sendResponse) {
       window[_event[ecMap.s]][_event[ecMap.f]](_event[ecMap.d]);
     }
   }else if(_event._newStatus!==undefined){
-    BZ[ecMap.ss](_event._newStatus,_event._newStatus);
+    BZ[ecMap.ss](_event._newStatus,_event.data);
   //set execute action
   }else if(_event.exeAction){
     if(_event.frameId.includes(BZ.iframeId)){
@@ -130,17 +130,8 @@ var _console=function(msg,o){
 }
 
 function showCode(v){
-  if(window.noMsg){
-    return;
-  }
-  $("#BZ-Info").remove();
-  var o=$("<b id='BZ-Info' style='cursor:pointer;z-index:1000000000000000;position:fixed;background:red;color:#FFF;padding:5px;top:0;left:0;'>BZ "+v+"</b>").insertAfter(document.body).fadeOut(3000).click(function(){
+  var o=$("<b id='BZ-Info' style='cursor:pointer;z-index:1000000000000000;position:fixed;background:red;color:#FFF;padding:5px;top:0;left:0;'>"+v+"</b>").insertAfter(document.body).click(function(){
     this.remove();
     window.noMsg=1
   });
-  setTimeout(function(){
-    if(o[0].parentNode){
-      showCode(v)
-    }
-  },3000);
 };

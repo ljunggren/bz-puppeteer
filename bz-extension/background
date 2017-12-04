@@ -1,4 +1,4 @@
-var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_ctrlTabId,_frameIds={},_code,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl;
+var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_ctrlTabId,_frameIds={},_code,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction;
 
 chrome.browserAction.setBadgeText({text: "ON"});
 
@@ -36,7 +36,10 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     }else{
       _newStatus=_status=_req.status;
       if(_ctrlTabId){
-        chrome.tabs.sendMessage(_ctrlTabId, {_newStatus:_newStatus,_newStatus:_req.status});
+        if(_req.data){
+          _data=_req.data;
+        }
+        chrome.tabs.sendMessage(_ctrlTabId, {_newStatus:_newStatus,data:_req.data});
         _newStatus=0;
       }
     }
@@ -55,7 +58,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   }else if(_req.bzEnvCode){
     _bzEnvCode=_req.bzEnvCode;
   //check whether BZ client tab ready
-  }else if(_ctrlTabId){
+  }else{
     //for request execution a BZ testing action
     if(_req.exeAction){
       _req.frameId=[0];
@@ -83,8 +86,15 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
         _req.frameId=_getFrameIds(_req.element[0]);
         _req.element[0]="BZ.TW.document";
       }
+    }else if(_req.curTest){
+      _curTest=_req.curTest
+      if(_req.curAction){
+        _curAction=_req.curAction;
+      }
     }
-    chrome.tabs.sendMessage(_ctrlTabId, _req);
+    if(_ctrlTabId){
+      chrome.tabs.sendMessage(_ctrlTabId, _req);
+    }
   }
 });
 
@@ -144,14 +154,18 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
     if(!_msg.BZ){
       _setCodeToContent(_code,t.frameId);
-      _setCodeToContent("showCode(window[ecMap.bm].plugInfo.record);",t.frameId);
     }else{
       //for BZ developer debugging in BZ office
       _setCodeToContent("showCode('BZ Debugging');",t.frameId);
     }
     _setCodeToContent(_bzEnvCode+"BZ.iframeId="+t.frameId+";",t.frameId);
-    _sendResponse({_css:_css,_newStatus:_newStatus,_status:_status});
-    _newStatus=0;
+    _sendResponse({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data});
+    if(_curAction){
+      chrome.tabs.sendMessage(_ctrlTabId,{curAction:_curAction});
+    }else if(_curTest){
+      chrome.tabs.sendMessage(_ctrlTabId,{curTest:_curTest});
+    }
+
     if(_lastExeActionReq && _status=="play"){
       chrome.tabs.sendMessage(_ctrlTabId, _lastExeActionReq);
     }

@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Boozang AI",
-  "description": "Boozang test automation is powered by AI. Tests can be recorded or written in clear text.",
-  "version": "1.3",
+  "description": "Boozang extension allows you to record automated regression tests and highlight bugs, in the browser.",
+  "version": "1.0",
   "permissions": ["tabs", "*://*/*"],
   "background": {
     "scripts": ["background"],
@@ -11,6 +11,7 @@
   "externally_connectable":{
     "matches":["*://localhost/*","*://*.boozang.com/*"]
   },
+  "content_security_policy": "script-src 'self'; object-src 'self'",
   "content_scripts": [
     {
       "matches": [
