@@ -84,8 +84,6 @@ const file = opts.file;
     testUrl += "run";
   }
 
-  console.log("Clean URL" + testUrl);
-
   const page = await browser.newPage();
   const devices = require('puppeteer/DeviceDescriptors');
 
@@ -98,6 +96,8 @@ const file = opts.file;
     console.log(opts.device, 'found. Viewport is set to ',devices[opts.device].viewport.width,'x',devices[opts.device].viewport.height);
     await page.emulate(devices[opts.device]);
   }
+
+  console.log("Opening URL: " + testUrl);
 
   await page.goto(testUrl);
 
