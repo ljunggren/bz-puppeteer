@@ -12,7 +12,8 @@ const opts = {
   "verbose" : false,
   "file": "result",
   "device" : "default",
-  "screenshot": false
+  "screenshot": false,
+  "token":""
 };
 
 console.log("Grogg " + __dirname);
@@ -22,14 +23,15 @@ console.log("Grogg " + __dirname);
 // of your script.
 const result = options.parse(process.argv.slice(2), opts);
 const verbose = opts.verbose;
+const token = opts.token;
 
 if (result.errors) {
-  console.log('USAGE: boozang [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]');
+  console.log('USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]');
   process.exit(-1);
 }
 
 if (!result.args || result.args.length != 1 ){
-  console.log('USAGE: boozang [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]');
+  console.log('USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]');
   process.exit(-2);
 }
 
@@ -44,8 +46,6 @@ const file = opts.file;
 
   // Load extension if URL contains the word extension
   const launchargs = getLaunchargs(url);
-
- 
 
   function getLaunchargs(url){
      if (url.includes('extension')) {
@@ -70,6 +70,19 @@ const file = opts.file;
   });
 
 
+  // Insert token if found in parameter. Append run if not screenshot
+  let testurl = url;
+  let appendURL = "";
+
+  if (token) {
+    if (!opts.screenshot) {
+      appendURL = "run";
+    }
+    const position = url.indexOf('?')+1;
+    testurl = [url.slice(0, position), "token=" + token + "&", url.slice(position), appendURL].join('');
+    console.log("Clean URL" + testurl);
+  } 
+
   const page = await browser.newPage();
   const devices = require('puppeteer/DeviceDescriptors');
 
@@ -83,7 +96,7 @@ const file = opts.file;
     await page.emulate(devices[opts.device]);
   }
 
-  await page.goto(url);
+  await page.goto(testurl);
 
   if (opts.screenshot){
     console.log("Wait a second for screenshot.");
