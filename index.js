@@ -70,18 +70,21 @@ const file = opts.file;
   });
 
 
-  // Insert token if found in parameter. Append run if not screenshot
-  let testurl = url;
-  let appendURL = "";
+  let testUrl = url;
 
-  if (token) {
-    if (!opts.screenshot) {
-      appendURL = "run";
-    }
+  // Insert token if found in parameter. Append run if not screenshot
+  if (token) {  
     const position = url.indexOf('?')+1;
-    testurl = [url.slice(0, position), "token=" + token + "&", url.slice(position), appendURL].join('');
-    console.log("Clean URL" + testurl);
+    testUrl = [url.slice(0, position), "token=" + token + "&", url.slice(position)].join('');
+    
   } 
+
+  // Append run if not screenshot and non-existing
+  if (!opts.screenshot && !testUrl.endsWith("run")) {
+    testUrl += "run";
+  }
+
+  console.log("Clean URL" + testUrl);
 
   const page = await browser.newPage();
   const devices = require('puppeteer/DeviceDescriptors');
@@ -96,7 +99,7 @@ const file = opts.file;
     await page.emulate(devices[opts.device]);
   }
 
-  await page.goto(testurl);
+  await page.goto(testUrl);
 
   if (opts.screenshot){
     console.log("Wait a second for screenshot.");
