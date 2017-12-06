@@ -80,6 +80,8 @@ function handleMsg(_event, _, sendResponse) {
     if(BZ.iframeId===0){
       sendResponse(BZ.refreshFramePath(_event.getFramePath));
     }
+  }else if(_event.fun && _event.scope){
+    window.BZ.exeFun(_event.fun,_event.scope,_event.data);
   }
 }
 window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
