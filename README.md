@@ -49,6 +49,8 @@ Run with Boozang authentification token
 
 ```USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] url```
 
+- token: The Boozang authorization token. The recommended way of generating a token is to create a team member with CI credentials on your project. In the management UI (ai.boozang.com) login as CI member and generate a token under Account->Get Token. You can now simply control CI access and consolidate all email notifications under the CI team member email address. 
+
 - headfull: Runs Boozang in full mode (non-headless). Will be triggered authomatically for URL with extension dependencies
 
 - verbose: Turn on verbose logging
