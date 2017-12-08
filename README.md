@@ -4,7 +4,7 @@
 
 ```USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] url```
 
-## Disclaimer
+## Introduction
 
 This is a helper package for Boozang test platform and allows for test execution from the command line. The test runner is designed to run Boozang tests (http://boozang.com) both in headless and non-headless mode, and is based on the amazing npm package Puppeteer (https://github.com/GoogleChrome/puppeteer) by Chrome developers. Just like Puppeteer it can be configured to use both headless Chrome and "full" Chrome. 
 
@@ -39,7 +39,7 @@ Headless run
 
 "Full" mode
 
-```boozang --headfull [testurl-including-auth-token```
+```boozang --headfull [testurl-including-auth-token]```
 
 Run with Boozang authentification token
 
