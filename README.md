@@ -2,7 +2,7 @@
 
 ## Usage
 
-USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]
+```USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] url```
 
 ## Disclaimer
 
@@ -14,36 +14,40 @@ Installing Node v8.9.0+ is recommended.
 
 ## Installation
 To install the command-line package run
-npm install -g boozang
+
+```npm install -g boozang```
 
 To run
-boozang options...
+
+```boozang http://ai.boozang.com/extension/abc...```
 
 
-To clone the repository run 
-git clone https://github.com/ljunggren/bz-puppeteer
+To clone the repository run
 
-To run the application from source simply run 
-node index.js options...
+```git clone https://github.com/ljunggren/bz-puppeteer```
+
+To run the application from source simply run
+
+```node index.js http://ai.boozang.com/extension/abc...```
 
 
 ## Commands
 
 Headless run 
 
-boozang [testurl-including-auth-token]
+```boozang [testurl-including-auth-token]```
 
 "Full" mode
 
-boozang --headfull [testurl-including-auth-token]
+```boozang --headfull [testurl-including-auth-token```
 
 Run with Boozang authentification token
 
-boozang --token=auth-token [testurl-excluding-auth-token]
+```boozang --token=auth-token [testurl-excluding-auth-token]```
 
 ## Options
 
-USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]
+```USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] url```
 
 - headfull: Runs Boozang in full mode (non-headless). Will be triggered authomatically for URL with extension dependencies
 
