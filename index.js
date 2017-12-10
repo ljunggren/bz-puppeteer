@@ -16,9 +16,6 @@ const opts = {
   "token":""
 };
 
-console.log("Grogg " + __dirname);
-
-
 // Remove the first two arguments, which are the 'node' binary and the name
 // of your script.
 const result = options.parse(process.argv.slice(2), opts);
