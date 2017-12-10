@@ -18,7 +18,12 @@ function handleMsg(_event, _, sendResponse) {
   //_console("content get message: ",_event)
   if(_event.twPage){
     if(_event.tab=="master"){
-      return chrome.runtime.sendMessage(_event);
+      if(BZ.iframeId===undefined){
+        window.postMessage(_event, "*");
+      }else{
+        chrome.runtime.sendMessage(_event)
+        return;
+      }
     }
     if(window.BZ){
       window[_event[ecMap.s]][_event[ecMap.f]](_event[ecMap.d]);
