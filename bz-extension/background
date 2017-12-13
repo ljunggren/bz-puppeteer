@@ -1,4 +1,4 @@
-var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_ctrlTabId,_frameIds={},_code,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction;
+var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterUrl,_ctrlTabId,_frameIds={},_code,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction;
 
 chrome.browserAction.setBadgeText({text: "ON"});
 
@@ -49,6 +49,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   //Dynamic code from BZ master page
   }else if(_req.bzCode){
     _masterTabId=_sender.tab.id;
+    _masterUrl=_sender.url;
     _code=_req.bzCode;
     _lastExeActionReq=0;
   //Set CSS file path from BZ master page
@@ -156,6 +157,9 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       _setCodeToContent(_code,t.frameId);
     }else{
       //for BZ developer debugging in BZ office
+      if(_masterUrl.includes("boozang")){
+        alert("The extension is not for production")
+      }
       _setCodeToContent("showCode('BZ Debugging');",t.frameId);
     }
     _setCodeToContent(_bzEnvCode+"BZ.iframeId="+t.frameId+";",t.frameId);
