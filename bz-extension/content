@@ -66,6 +66,10 @@ function handleMsg(_event, _, sendResponse) {
     //o=o?_CtrlDriver._buildProxy(_event.curTest):o;
     o=o?window[ecMap.cd][ecMap.bp](o):o;
     window[ecMap.i][ecMap.d][ecMap.ct]=o;
+  }else if(_event.shareData!==undefined){
+    if(BZ.iframeId===0){
+      BZ[ecMap.sd](_event.shareData);
+    }
   }else if(_event.element){
     if(_event.frameId.includes(BZ.iframeId)){
       //BZ._DomPicker._flashTmpCover(_event.element)
