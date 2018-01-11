@@ -65,8 +65,11 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       _req.frameId=[0];
       _lastExeActionReq=_req;
       if(_req.exeAction.element){
-        _req.frameId=_getFrameIds(_req.exeAction.element[0]);
-        _req.exeAction.element[0]="BZ.TW.document";
+        if(_req.exeAction.element[0].startsWith("$(BZ.TW.document.body)")){
+        }else{
+          _req.frameId=_getFrameIds(_req.exeAction.element[0]);
+          _req.exeAction.element[0]="BZ.TW.document";
+        }
         //co=_code
       }else if(_req.exeAction[ecMap.co]){
         //_req.exeAction.code._element
@@ -84,8 +87,11 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     }else if(_req.element!==undefined){
       _req.frameId=[0];
       if(_req.element){
-        _req.frameId=_getFrameIds(_req.element[0]);
-        _req.element[0]="BZ.TW.document";
+        if(_req.element[0].startsWith("$(BZ.TW.document.body)")){
+        }else{
+          _req.frameId=_getFrameIds(_req.element[0]);
+          _req.element[0]="BZ.TW.document";
+        }
       }
     }else if(_req.curTest){
       _curTest=_req.curTest
