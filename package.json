@@ -1,6 +1,6 @@
 {
   "name": "boozang",
-  "version": "1.2.11",
+  "version": "1.2.14",
   "description": "An Simple Driver for Chrome Headless basded on Puppeteer",
   "dependencies": {
     "node-options": "latest",
