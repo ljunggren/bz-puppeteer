@@ -69,17 +69,12 @@ const file = opts.file;
 
   let testUrl = url;
 
-  // Insert token if found in parameter. Append run if not screenshot
+  // Insert token if found in parameter.
   if (token) {  
-    const position = url.indexOf('?')+1;
-    testUrl = [url.slice(0, position), "token=" + token + "&", url.slice(position)].join('');
+    const position = url.indexOf('#');
+    testUrl = [url.slice(0, position), "&token=" + token, url.slice(position)].join('');
     
   } 
-
-  // Append run if not screenshot and non-existing
-  if (!opts.screenshot && !testUrl.endsWith("run")) {
-    testUrl += "run";
-  }
 
   const page = await browser.newPage();
   const devices = require('puppeteer/DeviceDescriptors');
@@ -112,7 +107,8 @@ const file = opts.file;
     if (verbose) console.log('Console output: ' + logString);
 
     if (logString.includes("<html>")) {
-      fs.writeFile(file+".html", logString, function(err) {
+      let datestring = new Date().toISOString().split('.')[0];
+      fs.writeFile(file+"-" + datestring + ".html", logString, function(err) {
         if(err) {
           return console.log(err);
         }
