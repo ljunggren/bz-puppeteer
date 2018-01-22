@@ -102,7 +102,7 @@ const file = opts.file;
   }
 
   page.on('console', async msg => {
-    const logString = msg.text;
+    const logString = msg.text();
 
     if (verbose) console.log('Console output: ' + logString);
 
