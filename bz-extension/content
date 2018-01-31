@@ -60,12 +60,14 @@ function handleMsg(_event, _, sendResponse) {
         window[ecMap.iam][ecMap.sca](o);
       }
     }
+    window[ecMap.i][ecMap.inn][ecMap.r]()
   }else if(_event.curTest!==undefined){
     //_IDE._data._curTest=_event.curTest
     var o=_event.curTest;
     //o=o?_CtrlDriver._buildProxy(_event.curTest):o;
     o=o?window[ecMap.cd][ecMap.bp](o):o;
     window[ecMap.i][ecMap.d][ecMap.ct]=o;
+    window[ecMap.i][ecMap.inn][ecMap.r]()
   }else if(_event.shareData!==undefined){
     if(BZ.iframeId===0){
       BZ[ecMap.sd](_event.shareData);
