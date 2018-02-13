@@ -1,4 +1,4 @@
-# Boozang Chromium Test runner 
+# Boozang Puppeteer Test runner 
 
 ## Usage
 
