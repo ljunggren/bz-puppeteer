@@ -2,9 +2,6 @@ var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterUrl,_ctrlTabId,_fram
 
 chrome.browserAction.setBadgeText({text: "ON"});
 
-chrome.browserAction.onClicked.addListener(function() {
-  chrome.tabs.create({url: _appUrl}, function(tab) {});
-});
 
 /*Get Message from web page*/
 chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) {
@@ -43,6 +40,8 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
         _newStatus=0;
       }
     }
+  }else if(_req.open){
+    window.open(req.url,req.name,req.size);
   //Set BZ code mapping data to unecrypt code from https://ai.boozang.com
   }else if(_req.ecMap){
     ecMap=_req.ecMap;
@@ -145,6 +144,9 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
   //_console("background (content): ",_msg)
   //For register tab, it only work for new pop window. The new window must pop up from master window.
   if(_msg._registerTab && _ctrlTabId==t.tab.id){
+    if(t.url.startsWith(_appUrl)){
+      return alert("Not support to test on the website!");
+    }
     if(t.frameId && !_frameIds[t.frameId]){
       _frameIds[t.frameId]={url:t.url,id:t.frameId};
       var v={getFramePath:_frameIds};
@@ -163,6 +165,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
         }
       );
     }
+//    chrome.tabs.sendMessage(_masterTabId, {tw:-1});
     //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
     if(!_msg.BZ){
       _setCodeToContent(_code,t.frameId);
@@ -237,6 +240,9 @@ chrome.tabs.onCreated.addListener(function(_tab, info) {
   //only register the poping up client win
   if(_doingPopCtrl){
     //_console("background add ctrl tab")
+    if(_ctrlTabId && _ctrlTabId!=_tab.id){
+      chrome.tabs.sendMessage(_ctrlTabId, {close:1})
+    }
     _ctrlTabId=_tab.id;
     _frameIds={};
     //to tell master the current client tab id
@@ -244,9 +250,15 @@ chrome.tabs.onCreated.addListener(function(_tab, info) {
   }
 });
 
+chrome.tabs.onUpdated.addListener(function(_tab, info) {
+  if(_masterTabId && _ctrlTabId==_tab){
+    chrome.tabs.sendMessage(_masterTabId, {twUpdate:1});
+  }
+})
+
 var _console=function(msg,o){
   console.log(msg)
   if(o){
     console.log(o)
   }
-};
+}

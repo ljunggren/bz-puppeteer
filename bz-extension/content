@@ -37,11 +37,15 @@ function handleMsg(_event, _, sendResponse) {
         chrome.runtime.sendMessage({bz:1,result:r,data:{$project:$project,$module:$module,$test:$test,$loop:$loop,$parameter:window.$parameter}})
       });
     }
+  }else if(_event.close){
+    window.close();
   }else if(_event.ctrlInfo){
     _event.bz=1;
     window.postMessage(_event, "*");
   }else if(_event.tw!==undefined){
     window.postMessage({bz:1,tw:_event.tw}, "*");
+  }else if(_event.twUpdate){
+    window.postMessage({bz:1,twUpdate:1}, "*");
   }else if(_event.status!==undefined){
     window.postMessage({bz:1,status:_event.status}, "*");
   //set selected element
@@ -147,4 +151,4 @@ function showCode(v){
     this.remove();
     window.noMsg=1
   });
-};
+}
