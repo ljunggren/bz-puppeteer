@@ -60,3 +60,20 @@ Run with Boozang authentification token
 - file: Overrides default report name "result".
 
 - device: Emulate device. Find devices here: https://github.com/GoogleChrome/puppeteer/blob/master/DeviceDescriptors.js
+
+
+## Built With
+
+* [Puppeteer](https://github.com/GoogleChrome/puppeteer) - Headless Chrome Node API from Google Chrome
+
+## Authors
+
+
+* **Mats Ljunggren** - *Initial work* - [ljunggren](https://github.com/ljunggren)
+
+* **Wensheng Li** - *Initial work* - [lwshome](https://github.com/lwshome)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
