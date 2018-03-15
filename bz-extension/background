@@ -255,6 +255,13 @@ chrome.tabs.onCreated.addListener(function(_tab, info) {
 
 chrome.tabs.onUpdated.addListener(function(_tab, info) {
   if(_masterTabId && _ctrlTabId==_tab){
+    if(info.status=="complete"){
+      chrome.tabs.sendMessage(_ctrlTabId, {isActive:1},function(a,b,c){
+        if(!a){
+          chrome.tabs.sendMessage(_masterTabId, {ctrlInfo:1,ready:1,error:1})
+        }
+      });
+    }
     chrome.tabs.sendMessage(_masterTabId, {twUpdate:1});
   }
 })
@@ -265,3 +272,21 @@ var _console=function(msg,o){
     console.log(o)
   }
 }
+
+chrome.runtime.onUpdateAvailable.addListener(function(details) {
+  console.log("updating to version " + details.version);
+  if(_masterTabId){
+    alert("Extension will be updated soon. After that, please refresh your Boozang IDE page! Thanks")
+  }
+  chrome.runtime.reload();
+});
+
+chrome.runtime.requestUpdateCheck(function(status) {
+  if (status == "update_available") {
+    console.log("update pending...");
+  } else if (status == "no_update") {
+    console.log("no update found");
+  } else if (status == "throttled") {
+    console.log("Oops, I'm asking too frequently - I need to back off.");
+  }
+});

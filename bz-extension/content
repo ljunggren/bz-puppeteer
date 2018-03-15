@@ -37,6 +37,8 @@ function handleMsg(_event, _, sendResponse) {
         chrome.runtime.sendMessage({bz:1,result:r,data:{$project:$project,$module:$module,$test:$test,$loop:$loop,$parameter:window.$parameter}})
       });
     }
+  }else if(_event.isActive){
+    sendResponse(1);
   }else if(_event.close){
     window.close();
   }else if(_event.ctrlInfo){
