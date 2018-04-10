@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Boozang AI",
-  "description": "Boozang test automation is powered by AI. Tests can be recorded or written in clear text.",
+  "name": "SQA-AT AI",
+  "description": "SQA-AT 自动化测试是具有智能化功能的测试工具。测试用例可以通过录制或文字描述实现。",
   "version": "2.5",
   "permissions": ["tabs", "*://*/*"],
   "background": {
@@ -9,7 +9,7 @@
     "persistent": false
   },
   "externally_connectable":{
-    "matches":["*://localhost/*","*://*.boozang.com/*","http://47.93.0.182/*"]
+    "matches":["*://localhost/*","http://192.168.2.13/*"]
   },
   "content_scripts": [
     {

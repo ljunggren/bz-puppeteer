@@ -1,4 +1,4 @@
-var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterUrl,_ctrlTabId,_frameIds={},_code,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData;
+var _appUrl="https:/"+"/192.168.2.13",_masterTabId,_masterUrl,_ctrlTabId,_frameIds={},_code,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData;
 
 chrome.browserAction.setBadgeText({text: "ON"});
 //open management page from extension icon!
@@ -276,7 +276,7 @@ var _console=function(msg,o){
 chrome.runtime.onUpdateAvailable.addListener(function(details) {
   console.log("updating to version " + details.version);
   if(_masterTabId){
-    alert("Extension will be updated soon. After that, please refresh your Boozang IDE page! Thanks")
+//    alert("Extension will be updated soon. After that, please refresh your Boozang IDE page! Thanks")
   }
   chrome.runtime.reload();
 });
