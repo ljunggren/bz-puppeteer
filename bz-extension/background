@@ -255,9 +255,6 @@ chrome.tabs.onCreated.addListener(function(_tab, info) {
 
 chrome.tabs.onUpdated.addListener(function(_tab, info) {
   if(_masterTabId && _ctrlTabId==_tab){
-    if(info.status=="loading"){
-      _frameIds={}
-    }
     if(info.status=="complete"){
       chrome.tabs.sendMessage(_ctrlTabId, {isActive:1},function(a,b,c){
         if(!a){
