@@ -119,7 +119,7 @@ function _getFrameIds(_root){
   if(_root!=="BZ.TW.document"){
     for(k in _frameIds){
       id=k;
-      if(_frameIds[k].path && _frameIds[k].path.includes(_root)){
+      if(_frameIds[k].path2 && _frameIds[k].path2.includes(_root)){
         ids.push(parseInt(k));
       }
     }
@@ -225,11 +225,11 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
 chrome.tabs.onRemoved.addListener(function(_tab, info) {
   //_console("background: remove tab")
   //clear data when master tab close
+  _frameIds={}
   if(_masterTabId==_tab){
     //_console("background: remove master")
     _masterTabId=0;
     _ctrlTabId=0;
-    _frameIds={}
   //clear client info
   }else if(_ctrlTabId==_tab){
     //_console("background: remove ctrl")
@@ -255,6 +255,9 @@ chrome.tabs.onCreated.addListener(function(_tab, info) {
 
 chrome.tabs.onUpdated.addListener(function(_tab, info) {
   if(_masterTabId && _ctrlTabId==_tab){
+    if(info.status=="loading"){
+      _frameIds={}
+    }
     if(info.status=="complete"){
       chrome.tabs.sendMessage(_ctrlTabId, {isActive:1},function(a,b,c){
         if(!a){
