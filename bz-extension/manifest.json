@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Boozang AI",
   "description": "Boozang test automation is powered by AI. Tests can be recorded or written in clear text.",
-  "version": "2.5",
+  "version": "2.6",
   "permissions": ["tabs", "*://*/*"],
   "background": {
     "scripts": ["background"],
@@ -11,6 +11,7 @@
   "externally_connectable":{
     "matches":["*://localhost/*","*://*.boozang.com/*","http://47.93.0.182/*"]
   },
+  "content_security_policy": "script-src 'unsafe-eval'; object-src 'self'",
   "content_scripts": [
     {
       "matches": [
