@@ -71,12 +71,27 @@ function handleMsg(_event, _, sendResponse) {
     //_IDE._data._curTest=_event.curTest
     var o=_event.curTest;
     //o=o?_CtrlDriver._buildProxy(_event.curTest):o;
-    o=o?window[ecMap.cd][ecMap.bp](o):o;
-    window[ecMap.i][ecMap.d][ecMap.ct]=o;
-    window[ecMap.i][ecMap.inn][ecMap.r]()
+    
+    _doIt()
+    function _doIt(){
+      if(window.ecMap){
+        o=o?window[ecMap.cd][ecMap.bp](o):o;
+        window[ecMap.i][ecMap.d][ecMap.ct]=o;
+        window[ecMap.i][ecMap.inn][ecMap.r]()
+      }else{
+        setTimeout(function(){_doIt()},1);
+      }
+    }
   }else if(_event.shareData!==undefined){
-    if(BZ.iframeId===0){
-      BZ[ecMap.sd](_event.shareData);
+    _doIt1();
+    function _doIt1(){
+      if(window.BZ){
+        if(BZ.iframeId===0){
+          BZ[ecMap.sd](_event.shareData);
+        }
+      }else{
+        setTimeout(function(){_doIt1()},1)
+      }
     }
   }else if(_event.element){
     if(_event.frameId.includes(BZ.iframeId)){
@@ -94,11 +109,25 @@ function handleMsg(_event, _, sendResponse) {
 //    _ideActionManagement._quickUpdateExpection(_event.updateExpection)
     window[ecMap.iam][ecMap.que](_event.updateExpection)
   }else if(_event.getFramePath){
-    if(BZ.iframeId===0){
-      sendResponse(BZ.refreshFramePath(_event.getFramePath));
+    _doIt2();
+    function _doIt2(){
+      if(window.BZ){
+        if(BZ.iframeId===0){
+          sendResponse(BZ.refreshFramePath(_event.getFramePath));
+        }
+      }else{
+        setTimeout(function(){_doIt2()},1)
+      }
     }
   }else if(_event.fun && _event.scope){
-    window.BZ.exeFun(_event.fun,_event.scope,_event.data);
+    _doIt3();
+    function _doIt3(){
+      if(window.BZ){
+        window.BZ.exeFun(_event.fun,_event.scope,_event.data);
+      }else{
+        setTimeout(function(){_doIt3()},1)
+      }
+    }
   }
 }
 window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
@@ -109,7 +138,7 @@ function _insertCssAndClientCode(_css,_time){
   if(document && document.body && document.body.innerHTML && (document.readyState=="complete" || (Date.now()-_time>100000))){
     var o=document.createElement("style");
     o.innerHTML=_css;
-    document.body.parentNode.append(o);
+    document.body.parentNode.appendChild(o);
     
     o=document.createElement("script");
     var _html="";
@@ -131,7 +160,7 @@ function _insertCssAndClientCode(_css,_time){
     /**/
     _html+="bzTwComm."+ecMap.init+"('"+chrome.runtime.id+"');"
     o.innerHTML=_html;
-    document.body.parentNode.append(o);
+    document.body.parentNode.appendChild(o);
 
     chrome.runtime.sendMessage({ready:1})
   }else{

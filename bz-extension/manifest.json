@@ -2,15 +2,17 @@
   "manifest_version": 2,
   "name": "SQA-AT",
   "description": "SQA-AT 自动化测试是具有智能化功能的测试工具。测试用例可以通过录制或文字描述实现。",
-  "version": "2.5",
+  "version": "3.0",
   "permissions": ["tabs", "*://*/*"],
   "background": {
     "scripts": ["background"],
     "persistent": false
   },
   "externally_connectable":{
+    "ids": [ "*" ],
     "matches":["*://localhost/*","http://192.168.2.13:3000/*"]
   },
+  "content_security_policy": "script-src 'unsafe-eval'; object-src 'self'",
   "content_scripts": [
     {
       "matches": [

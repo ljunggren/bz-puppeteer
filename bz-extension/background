@@ -155,7 +155,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       var v={getFramePath:_frameIds};
       chrome.tabs.executeScript(
         _ctrlTabId,
-        {frameId: t.frameId, code:"BZ.retrieveWinSize()"},
+        {frameId: t.frameId, code:"if(window.BZ){BZ.retrieveWinSize()}"},
         function(data) { 
           _frameIds[t.frameId].size=data[0] 
           setTimeout(function(){
