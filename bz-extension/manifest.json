@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "SQA-AT AI",
+  "name": "SQA-AT",
   "description": "SQA-AT 自动化测试是具有智能化功能的测试工具。测试用例可以通过录制或文字描述实现。",
   "version": "2.5",
   "permissions": ["tabs", "*://*/*"],
