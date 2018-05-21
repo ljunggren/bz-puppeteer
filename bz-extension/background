@@ -120,7 +120,7 @@ function _getFrameIds(_root){
     for(k in _frameIds){
       id=k;
       if(_frameIds[k].path2 && _frameIds[k].path2.includes(_root)){
-        ids.push(parseInt(k));
+        ids=[parseInt(k)];
       }
     }
   }

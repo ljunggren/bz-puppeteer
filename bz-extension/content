@@ -148,6 +148,7 @@ function _insertCssAndClientCode(_css,_time){
     //_html+="_TWHandler="+_Util._toString(_TWHandler);
     _html+=ecMap.tw+"="+window[ecMap.u][ecMap.ts](window[ecMap.tw]);
     //_html+="_domActionTask="+_Util._toString(_domActionTask);
+    delete window[ecMap.dat].TW;
     _html+=ecMap.dat+"="+window[ecMap.u][ecMap.ts](window[ecMap.dat]);
     //_html+="_domRecorder="+_Util._toString(_domRecorder);
     _html+=ecMap.dr+"="+window[ecMap.u][ecMap.ts](window[ecMap.dr]);
