@@ -162,8 +162,6 @@ function _insertCssAndClientCode(_css,_time){
     _html+="bzTwComm."+ecMap.init+"('"+chrome.runtime.id+"');"
     o.innerHTML=_html;
     document.body.parentNode.append(o);
-
-    chrome.runtime.sendMessage({ready:1})
   }else{
     setTimeout(function(){
       _insertCssAndClientCode(_css,_time);

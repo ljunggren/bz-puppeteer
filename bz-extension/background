@@ -1,5 +1,5 @@
 var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterUrl,_ctrlTabId,_frameIds={},_code,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData;
-
+var _lastErrPage=0;
 chrome.browserAction.setBadgeText({text: "ON"});
 //open management page from extension icon!
 chrome.browserAction.onClicked.addListener(function() {
@@ -133,12 +133,14 @@ function _getFrameIds(_root){
 //set code to chrome extension content
 function _setCodeToContent(c,id){
   //for set dynamic code to current controled client tab, 
-  if(_ctrlTabId){
-    if(id!==undefined){
-      chrome.tabs.executeScript(_ctrlTabId, {code: c,matchAboutBlank:true,frameId:id});
-    }else{
-      chrome.tabs.executeScript(_ctrlTabId, {code: c,matchAboutBlank:true,allFrames:true});
-    }
+  if(_ctrlTabId && !_lastErrPage){
+    try{
+      if(id!==undefined){
+        chrome.tabs.executeScript(_ctrlTabId, {code: c,matchAboutBlank:true,frameId:id});
+      }else{
+        chrome.tabs.executeScript(_ctrlTabId, {code: c,matchAboutBlank:true,allFrames:true});
+      }
+    }catch(e){}
   }
 }
 
@@ -255,13 +257,6 @@ chrome.tabs.onCreated.addListener(function(_tab, info) {
 
 chrome.tabs.onUpdated.addListener(function(_tab, info) {
   if(_masterTabId && _ctrlTabId==_tab){
-    if(info.status=="complete"){
-      chrome.tabs.sendMessage(_ctrlTabId, {isActive:1},function(a,b,c){
-        if(!a){
-          chrome.tabs.sendMessage(_masterTabId, {ctrlInfo:1,ready:1,error:1})
-        }
-      });
-    }
     chrome.tabs.sendMessage(_masterTabId, {twUpdate:1});
   }
 })
@@ -290,3 +285,57 @@ chrome.runtime.requestUpdateCheck(function(status) {
     console.log("Oops, I'm asking too frequently - I need to back off.");
   }
 });
+
+chrome.webRequest.onCompleted.addListener(function(v){
+  if(v.tabId==_ctrlTabId){
+    var r={ctrlInfo:1,url:v.url}
+    if(v.statusCode>=400){
+      r.failed=1
+    }
+    if(v.type=="main_frame"){
+      if(_isDownloading(v.responseHeaders)){
+        r.download=1
+      }else{
+        r.mainPage=1
+        _lastErrPage=0
+      }
+    }else if(v.type=="other"){
+      r.download=1
+    }else if(r.failed){
+      r.extraFile=1;
+    }else{
+      return;
+    }
+    chrome.tabs.sendMessage(_masterTabId, r)
+  }
+},{urls: ["<all_urls>"]},["responseHeaders"]);
+function _isDownloading(rs){
+  for(var i=0;rs && i<rs.length;i++){
+    var r=rs[i];
+    if(r.name=="Content-Disposition" && (r.value.includes("attachment")||r.value.includes("filename"))){
+      return 1
+    }
+  }
+}
+chrome.webRequest.onErrorOccurred.addListener(function(v){
+  if(v.tabId==_ctrlTabId){
+    var r={ctrlInfo:1,url:v.url,error:1};
+    
+    if(v.type=="main_frame"){
+      if(_isDownloading(v.responseHeaders)){
+        r.download=1
+      }else{
+        r.mainPage=1
+      }
+      if(_lastErrPage && _lastErrPage.url==r.url && Date.now()-_lastErrPage.time<1000){
+        return;
+      }
+      _lastErrPage={url:r.url,time:Date.now()}
+    }else if(v.type=="other"){
+      r.download=1
+    }else{
+      r.extraFile=1;
+    }
+    chrome.tabs.sendMessage(_masterTabId, r)
+  }
+},{urls: ["<all_urls>"]});
