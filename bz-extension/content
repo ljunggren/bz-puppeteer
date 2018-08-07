@@ -24,8 +24,7 @@ function handleMsg(_event, _, sendResponse) {
         chrome.runtime.sendMessage(_event)
         return;
       }
-    }
-    if(window.BZ){
+    }else if(window.BZ){
       window[_event[ecMap.s]][_event[ecMap.f]](_event[ecMap.d]);
     }
   }else if(_event._newStatus!==undefined){
