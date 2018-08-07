@@ -300,7 +300,7 @@ chrome.webRequest.onCompleted.addListener(function(v){
       if(_isDownloading(v.responseHeaders)){
         r.download=1
       }else{
-        r.mainPage=1
+        r.ready=1;//mainPage
         _lastErrPage=0
         return _loadPageInfo=r;
       }
@@ -330,7 +330,7 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
       if(_isDownloading(v.responseHeaders)){
         r.download=1
       }else{
-        r.mainPage=1
+        r.ready=1;//mainPage
       }
       if(_lastErrPage && _lastErrPage.url==r.url && Date.now()-_lastErrPage.time<1000){
         return;
