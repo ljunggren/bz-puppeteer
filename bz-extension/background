@@ -294,7 +294,8 @@ chrome.webRequest.onCompleted.addListener(function(v){
   if(v.tabId==_ctrlTabId){
     var r={ctrlInfo:1,url:v.url}
     if(v.statusCode>=400){
-      r.failed=1
+      r.failed=1;
+      r.code=v.statusCode
     }
     if(v.type=="main_frame"){
       if(_isDownloading(v.responseHeaders)){
@@ -330,7 +331,7 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
       if(_isDownloading(v.responseHeaders)){
         r.download=1
       }else{
-        r.ready=1;//mainPage
+        r.ready=1
       }
       if(_lastErrPage && _lastErrPage.url==r.url && Date.now()-_lastErrPage.time<1000){
         return;
