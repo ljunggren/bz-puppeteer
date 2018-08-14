@@ -222,6 +222,10 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
           _msg[ecMap.d][ecMap.a].element[0]=_frameIds[t.frameId].path;
         }
       }
+    }else if(_msg._fun==ecMap.pe){
+      if(t.frameId){
+        _msg[ecMap.d][0]=_frameIds[t.frameId].path
+      }
     }
     
     chrome.tabs.sendMessage(_masterTabId, _msg);
