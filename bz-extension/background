@@ -88,7 +88,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     //for request highlight a BZ action element
     }else if(_req.element!==undefined){
       _req.frameId=[0];
-      if(_req.element){
+      if(_req.element && _req.element[0]){
         if(_req.element[0].startsWith("$(BZ.TW.document.body)")){
         }else{
           _req.frameId=_getFrameIds(_req.element[0]);
@@ -159,7 +159,10 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
         _ctrlTabId,
         {frameId: t.frameId, code:"if(window.BZ){BZ.retrieveWinSize()}"},
         function(data) { 
-          _frameIds[t.frameId].size=data[0] 
+          if(_frameIds[t.frameId]){
+            _frameIds[t.frameId].size=data[0] 
+          }
+          
           setTimeout(function(){
             chrome.tabs.sendMessage(_ctrlTabId, v, function(m){
               if(m){
@@ -181,7 +184,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       }
       _setCodeToContent("showCode('BZ Debugging');",t.frameId);
     }
-    _setCodeToContent(_bzEnvCode+"BZ.iframeId="+t.frameId+";",t.frameId);
+    _setCodeToContent(_bzEnvCode+"BZ.iframeId="+t.frameId+";window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:BZ.iframeId})}",t.frameId);
     _sendResponse({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data});
     if(_curAction){
       chrome.tabs.sendMessage(_ctrlTabId,{curAction:_curAction});
@@ -228,6 +231,8 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       }
     }else if(_msg._fun==ecMap.lnp){
       _frameIds={}
+    }else if(_msg.unloadFrame){
+      delete _frameIds[_msg.id]
     }
     
     chrome.tabs.sendMessage(_masterTabId, _msg);
