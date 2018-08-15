@@ -1,5 +1,5 @@
 var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterUrl,_ctrlTabId,_frameIds={},_code,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData;
-var _lastErrPage=0,_loadPageInfo;
+var _lastErrPage=0,_loadPageInfo,_missSize={};
 chrome.browserAction.setBadgeText({text: "ON"});
 //open management page from extension icon!
 chrome.browserAction.onClicked.addListener(function() {
@@ -161,12 +161,19 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
         function(data) { 
           if(_frameIds[t.frameId]){
             _frameIds[t.frameId].size=data[0] 
+          }else{
+            _missSize[t.frameId]=data[0]
           }
           
           setTimeout(function(){
             chrome.tabs.sendMessage(_ctrlTabId, v, function(m){
               if(m){
                 _frameIds=m;
+                for(var k in m){
+                  if(!m[k].size){
+                    m[k].size=_missSize[k];
+                  }
+                }
               }
             });
           },200);
@@ -233,6 +240,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       _frameIds={}
     }else if(_msg.unloadFrame){
       delete _frameIds[_msg.id]
+      delete _missSize[_msg.id]
     }
     
     chrome.tabs.sendMessage(_masterTabId, _msg);
