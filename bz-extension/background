@@ -226,6 +226,8 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       if(t.frameId){
         _msg[ecMap.d][0]=_frameIds[t.frameId].path
       }
+    }else if(_msg._fun==ecMap.lnp){
+      _frameIds={}
     }
     
     chrome.tabs.sendMessage(_masterTabId, _msg);
@@ -235,7 +237,6 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
 chrome.tabs.onRemoved.addListener(function(_tab, info) {
   //_console("background: remove tab")
   //clear data when master tab close
-  _frameIds={}
   if(_masterTabId==_tab){
     //_console("background: remove master")
     _masterTabId=0;
@@ -245,7 +246,12 @@ chrome.tabs.onRemoved.addListener(function(_tab, info) {
     //_console("background: remove ctrl")
     _ctrlTabId=0;
     chrome.tabs.sendMessage(_masterTabId, {tw:0});
+  }else{
+    delete _frameIds[_tab]
+    return
   }
+  
+  _frameIds={}
 });
 
 chrome.tabs.onCreated.addListener(function(_tab, info) {
