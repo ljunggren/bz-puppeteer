@@ -33,7 +33,7 @@ function handleMsg(_event, _, sendResponse) {
   }else if(_event.exeAction){
     if(_event.frameId.includes(BZ.iframeId)){
       window[ecMap.dat][ecMap.ea](_event.exeAction,_event.setting,function(r){
-        chrome.runtime.sendMessage({bz:1,result:r,data:{$project:$project,$module:$module,$test:$test,$loop:$loop,$parameter:window.$parameter}})
+        chrome.runtime.sendMessage({bz:1,result:r,data:{$project:$project,$module:$module,$test:$test,$loop:$loop,$parameter:window.$parameter,$newElement:window.$newElement}})
       });
     }
   }else if(_event.isActive){
