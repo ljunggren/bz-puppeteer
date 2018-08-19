@@ -326,6 +326,14 @@ chrome.webRequest.onCompleted.addListener(function(v){
       }else{
         r.ready=1;//mainPage
         _lastErrPage=0
+        if(_loadPageInfo){
+          chrome.tabs.sendMessage(_masterTabId, _loadPageInfo);
+        }
+        setTimeout(function(){
+          if(_loadPageInfo){
+            chrome.tabs.sendMessage(_masterTabId, _loadPageInfo);
+          }
+        },1000)
         return _loadPageInfo=r;
       }
     }else if(v.type=="other"){
@@ -342,6 +350,8 @@ function _isDownloading(rs){
   for(var i=0;rs && i<rs.length;i++){
     var r=rs[i];
     if(r.name=="Content-Disposition" && (r.value.includes("attachment")||r.value.includes("filename"))){
+      return 1
+    }else if(r.name=="content-type" && (r.value.includes("application")||r.value.includes("stream"))){
       return 1
     }
   }
