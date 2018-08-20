@@ -125,7 +125,7 @@ function _getFrameIds(_root){
     }
   }
   if(!ids.length){
-    ids.push(id)
+    ids.push(parseInt(id))
   }
   return ids;
 }
