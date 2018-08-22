@@ -24,7 +24,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     }
   //Master tab send dynamic code to background to forward to content
   }else if(_req.bzExeCode){
-    _setCodeToContent(_req.bzExeCode);
+    _setCodeToContent(_req.bzExeCode,_req.id);
   //Master send current status
   }else if(_req.status!==undefined){
     //master tab set status before start pop client win
