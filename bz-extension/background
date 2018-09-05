@@ -1,6 +1,6 @@
 var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterUrl,_ctrlTabId,_frameIds={},_code,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData;
 var _lastErrPage=0,_loadPageInfo;
-chrome.browserAction.setBadgeText({text: "ON"});
+chrome.browserAction.setBadgeText({text: "AI"});
 //open management page from extension icon!
 chrome.browserAction.onClicked.addListener(function() {
   chrome.tabs.create({url: _appUrl}, function(tab) {});
