@@ -140,7 +140,7 @@ function _insertCssAndClientCode(_css,_time){
     document.body.parentNode.append(o);
     
     o=document.createElement("script");
-    var _html="if(document.getElementById('inBZReportBug')){alert('Boozang IDE cannot work with \"Boozang Public Report Bug\" feature. If you want work in Boozang IDE, please remove \"Public Report Bug Lib\" temporarily.')}\n";
+    var _html="";
     /**/
     //_html+="_Util="+_Util._toString(_Util);
     _html+=ecMap.u+"="+window[ecMap.u][ecMap.ts](window[ecMap.u]);
@@ -159,7 +159,6 @@ function _insertCssAndClientCode(_css,_time){
     _html+="bzTwComm="+window[ecMap.u][ecMap.ts](bzTwComm);
     /**/
     _html+="bzTwComm."+ecMap.init+"('"+chrome.runtime.id+"');"
-
     o.innerHTML=_html;
     document.body.parentNode.append(o);
   }else{
