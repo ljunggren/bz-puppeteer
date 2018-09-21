@@ -94,8 +94,10 @@ function handleMsg(_event, _, sendResponse) {
     }
   }else if(_event.element){
     if(_event.frameId.includes(BZ.iframeId)){
-      //BZ._DomPicker._flashTmpCover(_event.element)
-      BZ[ecMap.dp][ecMap.ftc](_event.element);
+      //_bzDomPicker._flashTmpCover(_event.element)
+      if(BZ[ecMap.dp]){
+        BZ[ecMap.dp][ecMap.ftc](_event.element);
+      }
     }
   }else if(_event.exePickElement){
 //    _IDE._data._curAction=_event.exePickElement;
@@ -140,7 +142,7 @@ function _insertCssAndClientCode(_css,_time){
     document.body.parentNode.append(o);
     
     o=document.createElement("script");
-    var _html="if(document.getElementById('inBZReportBug')){alert('Boozang IDE cannot work with \"Boozang Public Report Bug\" feature. If you want work in Boozang IDE, please remove \"Public Report Bug Lib\" temporarily.')}\n";
+    var _html="";
     /**/
     //_html+="_Util="+_Util._toString(_Util);
     _html+=ecMap.u+"="+window[ecMap.u][ecMap.ts](window[ecMap.u]);

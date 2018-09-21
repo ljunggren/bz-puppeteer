@@ -1,6 +1,6 @@
 var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterUrl,_ctrlTabId,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData;
 var _lastErrPage=0,_loadPageInfo;
-chrome.browserAction.setBadgeText({text: "AI"});
+chrome.browserAction.setBadgeText({text: chrome.runtime.getManifest().version=="1.2"?"TEST":"AI"});
 //open management page from extension icon!
 chrome.browserAction.onClicked.addListener(function() {
   chrome.tabs.create({url: _appUrl}, function(tab) {});
@@ -223,7 +223,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
         //_msg._updateAction.element[0]=_frameIds[t.frameId].path;
         _msg[ecMap.ua].element[0]=_frameIds[t.frameId].path;
       }
-      _setCodeToContent("BZ."+ecMap.dp+"."+ecMap.er+"()")
+      _setCodeToContent("if(window.BZ && BZ."+ecMap.dp+"){BZ."+ecMap.dp+"."+ecMap.er+"()}")
     }else if(_msg[ecMap.f]==ecMap.rca){
       if(t.frameId){
         if(_msg[ecMap.d][ecMap.a].element){
