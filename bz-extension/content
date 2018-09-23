@@ -136,7 +136,7 @@ window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
 function _insertCssAndClientCode(_css,_time){
   _time=_time||Date.now()
   t=document.body;
-  if(document && document.body && document.body.innerHTML && (document.readyState=="complete" || (document.readyState=="interactive" && Date.now()-_time>5000) || (Date.now()-_time>100000))){
+  if(document && document.body && document.body.innerHTML && (document.readyState=="complete" || (document.readyState=="interactive" && Date.now()-_time>2000) || (Date.now()-_time>100000))){
     var o=document.createElement("style");
     o.innerHTML=_css;
     document.body.parentNode.append(o);
