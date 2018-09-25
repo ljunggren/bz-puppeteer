@@ -33,7 +33,10 @@ function handleMsg(_event, _, sendResponse) {
   }else if(_event.exeAction){
     if(window.BZ && _event.frameId.includes(BZ.iframeId)){
       window[ecMap.dat][ecMap.ea](_event.exeAction,_event.setting,function(r){
-        chrome.runtime.sendMessage({bz:1,result:r,data:{$project:$project,$module:$module,$test:$test,$loop:$loop,$parameter:window.$parameter,$newElement:window.$newElement}})
+        var d={$newElement:window.$newElement};
+        //d["_tmpTaskDataMap"]=_ideDataManagement._tmpTaskDataMap
+        d[ecMap.ttmd]=window[ecMap.idm][ecMap.ttmd]
+        chrome.runtime.sendMessage({bz:1,result:r,data:d})
       });
     }
   }else if(_event.isActive){
