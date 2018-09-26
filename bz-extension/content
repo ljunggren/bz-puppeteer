@@ -98,8 +98,8 @@ function handleMsg(_event, _, sendResponse) {
   }else if(_event.element){
     if(_event.frameId.includes(BZ.iframeId)){
       //_bzDomPicker._flashTmpCover(_event.element)
-      if(BZ[ecMap.dp]){
-        BZ[ecMap.dp][ecMap.ftc](_event.element);
+      if(window[ecMap.dp]){
+        window[ecMap.dp][ecMap.ftc](_event.element);
       }
     }
   }else if(_event.exePickElement){

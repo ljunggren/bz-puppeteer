@@ -223,7 +223,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
         //_msg._updateAction.element[0]=_frameIds[t.frameId].path;
         _msg[ecMap.ua].element[0]=_frameIds[t.frameId].path;
       }
-      _setCodeToContent("if(window.BZ && BZ."+ecMap.dp+"){BZ."+ecMap.dp+"."+ecMap.er+"()}")
+      _setCodeToContent("if(window."+ecMap.dp+"){"+ecMap.dp+"."+ecMap.er+"()}")
     }else if(_msg[ecMap.f]==ecMap.rca){
       if(t.frameId){
         if(_msg[ecMap.d][ecMap.a].element){
