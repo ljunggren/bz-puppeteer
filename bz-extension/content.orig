@@ -88,7 +88,9 @@ function handleMsg(_event, _, sendResponse) {
     _doIt1();
     function _doIt1(){
       if(window.BZ){
-        BZ[ecMap.sd](_event.shareData);
+        if(BZ.iframeId===0){
+          BZ[ecMap.sd](_event.shareData);
+        }
       }else{
         setTimeout(function(){_doIt1()},1)
       }
