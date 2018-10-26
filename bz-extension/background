@@ -341,6 +341,7 @@ chrome.webRequest.onCompleted.addListener(function(v){
       r.download=1
     }else if(r.failed){
       r.extraFile=1;
+      r.initUrl=v.initiator
     }else{
       return;
     }
@@ -375,6 +376,7 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
       r.download=1
     }else{
       r.extraFile=1;
+      r.initUrl=v.initiator
     }
     chrome.tabs.sendMessage(_masterTabId, r)
   }
