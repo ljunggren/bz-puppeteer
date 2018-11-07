@@ -112,7 +112,6 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       if(_req.exeAction){
         if(_ctrlTabId){
           chrome.tabs.get(_ctrlTabId,function(o){
-            console.log(o.url)
             chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",data:{url:o.url},twPage:1,tab:"master",bz:1});
           })
         }else{
