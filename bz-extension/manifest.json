@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "Boozang AI (2.11.9)",
+  "name": "Boozang AI (2.11.10)",
   "short_name": "Boozang AI",
   "description": "Boozang test automation is powered by AI. Tests can be recorded or written in clear text.",
-  "version": "2.11.9",
+  "version": "2.11.10",
   "permissions": ["webRequest", "webRequestBlocking","tabs", "*://*/*"],
   "background": {
     "scripts": ["background"]

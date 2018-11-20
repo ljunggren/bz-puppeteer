@@ -1,5 +1,6 @@
-var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterUrl,_ctrlTabId,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData;
+var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterUrl,_ctrlTabId,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={};
 var _lastErrPage=0,_loadPageInfo;
+var _ignoreList=["https://vars.hotjar.com"]
 chrome.browserAction.setBadgeText({text: chrome.runtime.getManifest().version=="1.2"?"TEST":"AI"});
 //open management page from extension icon!
 chrome.browserAction.onClicked.addListener(function() {
@@ -155,14 +156,25 @@ function _setCodeToContent(c,id){
     }catch(e){}
   }
 }
-
+function isIgnoreFrame(v){
+  for(var i=0;i<_ignoreList.length;i++){
+    if(v.startsWith(_ignoreList[i])){
+      return 1
+    }
+  }
+}
 //get message from extension content
 chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
   //_console("background (content): ",_msg)
-  //For register tab, it only work for new pop window. The new window must pop up from master window.
+  /*****************************************************************************************************
+  //For REGISTER tab, it only work for new pop window. The new window must pop up from master window.
+  *****************************************************************************************************/
   if(_msg._registerTab && _ctrlTabId==t.tab.id){
     if(t.url.startsWith(_appUrl)){
       return alert("Not support to test on the website!");
+    }
+    if(isIgnoreFrame(t.url)){
+      return
     }
     if(t.frameId && !_frameIds[t.frameId]){
       _frameIds[t.frameId]={url:t.url,id:t.frameId};
