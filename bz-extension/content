@@ -16,6 +16,9 @@ chrome.runtime.onMessage.addListener(handleMsg);
 
 function handleMsg(_event, _, sendResponse) {
   //_console("content get message: ",_event)
+  if(!window.SERVER_HOST && window.name!="bz-master"){
+    return
+  }
   if(_event.twPage){
     if(_event.tab=="master"){
       if(!window.BZ || BZ.iframeId===undefined){
