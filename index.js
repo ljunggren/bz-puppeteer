@@ -81,6 +81,7 @@ const file = opts.file;
 
  
   if (opts.device === "default") {
+    await page._client.send('Emulation.clearDeviceMetricsOverride')
     console.log('No device specified.');
   } else if (!devices[opts.device]) {
     console.log('Device ' + opts.device + ' not found. Ignoring');
