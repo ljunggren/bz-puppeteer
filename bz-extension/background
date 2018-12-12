@@ -1,5 +1,5 @@
 var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterUrl,_ctrlTabId,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={};
-var _lastErrPage=0,_loadPageInfo;
+var _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs;
 var _ignoreList=["https://vars.hotjar.com"]
 chrome.browserAction.setBadgeText({text: chrome.runtime.getManifest().version=="1.2"?"TEST":"AI"});
 //open management page from extension icon!
@@ -56,6 +56,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     _plugInCode=_req.bzCode;
     _lastExeActionReq=0;
     _shareData={}
+    ignoreReqs=0;
   //Set CSS file path from BZ master page
   }else if(_req.bzCss){
     _css=_req.bzCss;
@@ -127,18 +128,23 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
 
 //to get frame ids by element path
 function _getFrameIds(_root){
-  var ids=[];
-  var id=0
+  var ids=[],id=0,bk;
   if(_root!=="BZ.TW.document"){
     for(k in _frameIds){
       id=k;
       if(_frameIds[k].path2 && _frameIds[k].path2.includes(_root)){
         ids=[parseInt(k)];
+      }else if(!_frameIds[k].path2){
+        bk=parseInt(k)
       }
     }
   }
   if(!ids.length){
-    ids.push(parseInt(id))
+    if(bk){
+      ids.push(parseInt(bk))
+    }else{
+      ids.push(parseInt(id))
+    }
   }
   return ids;
 }
@@ -177,6 +183,20 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       return
     }
     if(t.frameId && !_frameIds[t.frameId]){
+      if(!ignoreReqs){
+        var s=_shareData["_IDE._data._setting"];
+        if(s){
+          ignoreReqs=(s.ignoreRequest||"").split("\n")
+        }
+      }
+      for(var i=0;i<ignoreReqs.length;i++){
+        if(ignoreReqs[i] && t.url.startsWith(ignoreReqs[i])){
+          _sendResponse({_ignore:1});
+          return
+        }
+      }
+
+      clearTimeout(assignfirmeCall)
       _frameIds[t.frameId]={url:t.url,id:t.frameId};
       var v={getFramePath:_frameIds};
       chrome.tabs.executeScript(
@@ -184,8 +204,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
         {frameId: t.frameId, code:"if(window.BZ){BZ.retrieveWinSize()}"},
         function(data) { 
           _frameIds[t.frameId].size=data[0] 
-          
-          setTimeout(function(){
+          assignfirmeCall=setTimeout(function(){
             chrome.tabs.sendMessage(_ctrlTabId, v, function(m){
               if(m){
                 for(var k in m){
@@ -273,6 +292,7 @@ chrome.tabs.onRemoved.addListener(function(_tab, info) {
     //_console("background: remove master")
     _masterTabId=0;
     _shareData={}
+    ignoreReqs=0
     _ctrlTabId=0;
   //clear client info
   }else if(_ctrlTabId==_tab){
