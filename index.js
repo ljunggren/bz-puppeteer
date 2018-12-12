@@ -79,8 +79,9 @@ const file = opts.file;
   const page = await browser.newPage();
   const devices = require('puppeteer/DeviceDescriptors');
 
- 
+  await page._client.send('Emulation.clearDeviceMetricsOverride');
   if (opts.device === "default") {
+   
     console.log('No device specified.');
   } else if (!devices[opts.device]) {
     console.log('Device ' + opts.device + ' not found. Ignoring');
