@@ -49,9 +49,10 @@ const file = opts.file;
       return [
       '--disable-extensions-except=' + __dirname + '/bz-extension',
       '--load-extension=' + __dirname + '/bz-extension',
+       '--disable-infobars',
         ];
      } else {
-      return [];
+      return ['--disable-infobars'];
      }
   }
 
@@ -96,7 +97,7 @@ const file = opts.file;
 
   if (opts.screenshot){
     console.log("Wait a second for screenshot.");
-    await timeout(1000);
+    await timeout(2000);
     await page.screenshot({path: file + ".png"});
     console.log("Closing browser.");
     browser.close(); 
