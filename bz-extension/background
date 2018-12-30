@@ -183,6 +183,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       return
     }
     if(t.frameId && !_frameIds[t.frameId]){
+      /*
       if(!ignoreReqs){
         var s=_shareData["_IDE._data._setting"];
         if(s){
@@ -195,7 +196,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
           return
         }
       }
-
+      */
       clearTimeout(assignfirmeCall)
       _frameIds[t.frameId]={url:t.url,id:t.frameId};
       var v={getFramePath:_frameIds};
@@ -324,7 +325,7 @@ chrome.tabs.onCreated.addListener(function(_tab, info) {
 
 chrome.tabs.onUpdated.addListener(function(_tab, info) {
   if(_masterTabId && _ctrlTabId==_tab){
-    chrome.tabs.sendMessage(_masterTabId, {twUpdate:1});
+//    chrome.tabs.sendMessage(_masterTabId, {twUpdate:1});
   }
 })
 
@@ -355,6 +356,9 @@ chrome.runtime.requestUpdateCheck(function(status) {
 
 chrome.webRequest.onCompleted.addListener(function(v){
   if(v.tabId==_ctrlTabId){
+    if(!v.url.includes("bzInsert.css")){
+      chrome.tabs.sendMessage(_masterTabId, {twUpdate:1});
+    }
     var r={ctrlInfo:1,url:v.url}
     if(v.statusCode>=400){
       r.failed=1;
