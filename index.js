@@ -23,16 +23,39 @@ const verbose = opts.verbose;
 const token = opts.token;
 
 if (result.errors) {
-  console.log('USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]');
-  process.exit(-1);
+    if (opts.verbose) console.log('Unknown argument(s): "' + result.errors.join('", "') + '"');
+    process.exit(2);
 }
 
-if (!result.args || result.args.length != 1 ){
+if (result.errors || !result.args || result.args.length !== 1) {
   console.log('USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]');
-  process.exit(-2);
+  process.exit(2);
 }
 
-const url = result.args.toString(); 
+const isURL = (str) => {
+    const pattern = new RegExp('^(https?:\\/\\/)' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[.-a-z\\d_/]*)/run$', 'i') // mandatory fragment locator (. and / are allowed even if they are normally invalid)
+    return pattern.test(str)
+}
+
+
+let url = result.args[0]
+
+if (typeof (url) == 'string' && !url.endsWith("/run")) {
+    if (!url.endsWith("/")) {
+        url += "/"
+    }
+    url += "run"
+}
+
+if (!url || !isURL(url)) {
+    console.error("Invalid URL: " + url)
+    process.exit(2)
+}
 
 console.log('Opening URL: '+ url);
 console.log('Running with options: headfull=', opts.headfull, ', verbose=', opts.verbose, ', reportfile=', opts.reportfile, ', device=', opts.device);
@@ -90,16 +113,6 @@ const parseReport = (json) => {
 
 function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function isURL(str) {
-  const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
-  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-  return pattern.test(str);
 }
 
 
