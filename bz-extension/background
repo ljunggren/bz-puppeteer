@@ -1,5 +1,5 @@
 var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterUrl,_ctrlTabId,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={};
-var _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs;
+var _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="";
 var _ignoreList=["https://vars.hotjar.com"]
 chrome.browserAction.setBadgeText({text: chrome.runtime.getManifest().version=="1.2"?"TEST":"AI"});
 //open management page from extension icon!
@@ -56,7 +56,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     _plugInCode=_req.bzCode;
     _lastExeActionReq=0;
     _shareData={}
-    ignoreReqs=0;
+    ignoreReqs="";
   //Set CSS file path from BZ master page
   }else if(_req.bzCss){
     _css=_req.bzCss;
@@ -184,13 +184,16 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     }
     if(t.frameId && !_frameIds[t.frameId]){
       /*
-      if(!ignoreReqs){
-        var s=_shareData["_IDE._data._setting"];
-        if(s){
-          ignoreReqs=(s.ignoreRequest||"").split("\n")
+      if(!ignoreReqs&&_shareData&&_shareData.content){
+        for(var k in _shareData.content){
+          s=_shareData.content[k].ignoreRequest
+          if(s){
+            ignoreReqs=(s.ignoreRequest||"").split("\n")
+            break
+          }
         }
       }
-      for(var i=0;i<ignoreReqs.length;i++){
+      for(var i=0;ignoreReqs&&i<ignoreReqs.length;i++){
         if(ignoreReqs[i] && t.url.startsWith(ignoreReqs[i])){
           _sendResponse({_ignore:1});
           return
@@ -294,6 +297,7 @@ chrome.tabs.onRemoved.addListener(function(_tab, info) {
     _masterTabId=0;
     _shareData={}
     ignoreReqs=0
+    _newStatus=_status=0
     _ctrlTabId=0;
   //clear client info
   }else if(_ctrlTabId==_tab){
@@ -356,7 +360,7 @@ chrome.runtime.requestUpdateCheck(function(status) {
 
 chrome.webRequest.onCompleted.addListener(function(v){
   if(v.tabId==_ctrlTabId){
-    if(!v.url.includes("bzInsert.css")){
+    if(!v.url.includes("bzInsert.css")&&!v.url.includes("insert.icons.css")){
       chrome.tabs.sendMessage(_masterTabId, {twUpdate:1});
     }
     var r={ctrlInfo:1,url:v.url}
