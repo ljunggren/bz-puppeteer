@@ -97,9 +97,9 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
           _req.element[0]="BZ.TW.document";
         }
       }
-    }else if(_req.curTest){
+    }else if(_req.curTest!==undefined){
       _curTest=_req.curTest
-      if(_req.curAction){
+      if(_req.curAction!==undefined){
         _curAction=_req.curAction;
       }
     }else if(_req.shareData){

@@ -69,9 +69,13 @@ function handleMsg(_event, _, sendResponse) {
         
         //o=o._data.actions[_event.curAction]
         o=o[ecMap.d].actions[_event.curAction];
-        o.element=_event.element;
-        window[ecMap.iam][ecMap.sca](o);
+        if(o){
+          o.element=_event.element;
+        }
+      }else{
+        window[ecMap.i][ecMap.d][ecMap.ct]=o;
       }
+      window[ecMap.iam][ecMap.sca](o);
     }
     window[ecMap.i][ecMap.inn][ecMap.r]()
   }else if(_event.curTest!==undefined){
