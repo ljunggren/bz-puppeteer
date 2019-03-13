@@ -1,18 +1,20 @@
 //Register
 window.extensionContent=1;
-setTimeout(function(){
-  //_console("content register")
-  chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ)},function(_msg){
-    if(_msg && _msg._ignore){
-      chrome.runtime.onMessage.removeListener()
-    }else if(_msg){
-      //_console("this is ctrl tab: "+chrome.runtime.id)
-      _insertCssAndClientCode(_msg._css)
-      BZ[ecMap.ss](_msg._newStatus,_msg.data);
-      window[ecMap.u][ecMap.k]()
-    }
-  });
-},0);
+if(name!=="bz-master"){
+  setTimeout(function(){
+    //_console("content register")
+    chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ)},function(_msg){
+      if(_msg && _msg._ignore){
+        chrome.runtime.onMessage.removeListener()
+      }else if(_msg){
+        //_console("this is ctrl tab: "+chrome.runtime.id)
+        _insertCssAndClientCode(_msg._css)
+        BZ[ecMap.ss](_msg._newStatus,_msg.data);
+        window[ecMap.u][ecMap.k]()
+      }
+    });
+  },0);
+}
 
 chrome.runtime.onMessage.addListener(handleMsg);
 
