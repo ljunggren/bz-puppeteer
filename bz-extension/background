@@ -1,5 +1,5 @@
-var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterUrl,_ctrlTabId,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={};
-var _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="";
+var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={};
+var _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId;
 var _ignoreList=["https://vars.hotjar.com"]
 chrome.browserAction.setBadgeText({text: chrome.runtime.getManifest().version=="1.2"?"TEST":"AI"});
 //open management page from extension icon!
@@ -17,7 +17,9 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   //check whether the request from BZ client web page
   if(_req.twPage){
     if(_req.tab=="master"){
-      _req.frameId=[0];
+//      _req.frameId=[0];
+      delete _req.twPage
+      _req.twPage2=1
       chrome.tabs.sendMessage(_masterTabId, _req);
     }else{
       _req.frameId=[_sender.frameId];
@@ -52,6 +54,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   //Dynamic code from BZ master page
   }else if(_req.bzCode){
     _masterTabId=_sender.tab.id;
+    _masterFrameId=_sender.frameId
     _masterUrl=_sender.url;
     _plugInCode=_req.bzCode;
     _lastExeActionReq=0;
@@ -67,7 +70,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   }else{
     //for request execution a BZ testing action
     if(_req.exeAction){
-      _req.frameId=[0];
+      _req.frameId=[_topFrameId];
       _lastExeActionReq=_req;
       if(_req.exeAction.element){
         if(_req.exeAction.element[0].startsWith("$(BZ.TW.document.body)")){
@@ -89,7 +92,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       }
     //for request highlight a BZ action element
     }else if(_req.element!==undefined){
-      _req.frameId=[0];
+      _req.frameId=[_topFrameId];
       if(_req.element && _req.element[0]){
         if(_req.element[0].startsWith("$(BZ.TW.document.body)")){
         }else{
@@ -138,6 +141,8 @@ function _getFrameIds(_root){
         bk=parseInt(k)
       }
     }
+  }else{
+    return[_topFrameId||0]
   }
   if(!ids.length){
     if(bk){
@@ -155,6 +160,9 @@ function _setCodeToContent(c,id){
   if(_ctrlTabId && !_lastErrPage){
     try{
       if(id!==undefined){
+        if(!id&&_topFrameId){
+          id=_topFrameId
+        }
         chrome.tabs.executeScript(_ctrlTabId, {code: c,matchAboutBlank:true,frameId:id});
       }else{
         chrome.tabs.executeScript(_ctrlTabId, {code: c,matchAboutBlank:true,allFrames:true});
@@ -175,14 +183,23 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
   /*****************************************************************************************************
   //For REGISTER tab, it only work for new pop window. The new window must pop up from master window.
   *****************************************************************************************************/
-  if(_msg._registerTab && _ctrlTabId==t.tab.id){
+  if(_msg.keep){
+    return;
+  }else if(_msg._registerTab && (_msg.name=="bz-client"||_ctrlTabId==t.tab.id)){
+    if(_msg.name=="bz-client"){
+      _ctrlTabId=t.tab.id;
+      _frameIds={};
+      //to tell master the current client tab id
+      chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,tab:"master"});
+    }
     if(t.url.startsWith(_appUrl)){
       return alert("Not support to test on the website!");
     }
     if(isIgnoreFrame(t.url)){
       return
     }
-    if(t.frameId && !_frameIds[t.frameId]){
+    _topFrameId=_msg.name=="bz-client"?t.frameId:_topFrameId
+    if(t.frameId &&_msg.name!="bz-client" && !_frameIds[t.frameId]){
       /*
       if(!ignoreReqs&&_shareData&&_shareData.content){
         for(var k in _shareData.content){
@@ -223,7 +240,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
         }
       );
     }
-//    chrome.tabs.sendMessage(_masterTabId, {tw:-1});
+//    chrome.tabs.sendMessage(_masterTabId, {tw:-1,tab:"master"});
     //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
     if(!_msg.BZ){
       _setCodeToContent(_plugInCode,t.frameId);
@@ -252,31 +269,29 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       chrome.tabs.sendMessage(_masterTabId, _loadPageInfo)
       _loadPageInfo=0
     }
-  }else if(_msg.keep){
-    return;
   //only work after master window is ready, and the requestion will send to master
   }else if(_masterTabId){
     _msg.ctrlInfo=1;
     if(_msg.result){
       _lastExeActionReq=0;
     }else if(_msg.action){
-      if(t.frameId){
+      if(t.frameId&&_frameIds[t.frameId]){
         _msg.action.element[0]=_frameIds[t.frameId].path;
       }
     }else if(_msg[ecMap.ua]){
-      if(t.frameId){
+      if(t.frameId&&_frameIds[t.frameId]){
         //_msg._updateAction.element[0]=_frameIds[t.frameId].path;
         _msg[ecMap.ua].element[0]=_frameIds[t.frameId].path;
       }
       _setCodeToContent("if(window."+ecMap.dp+"){"+ecMap.dp+"."+ecMap.er+"()}")
     }else if(_msg[ecMap.f]==ecMap.rca){
-      if(t.frameId){
+      if(t.frameId&&_frameIds[t.frameId]){
         if(_msg[ecMap.d][ecMap.a].element){
           _msg[ecMap.d][ecMap.a].element[0]=_frameIds[t.frameId].path;
         }
       }
     }else if(_msg._fun==ecMap.pe){
-      if(t.frameId){
+      if(t.frameId&&_frameIds[t.frameId]){
         _msg[ecMap.d][0]=_frameIds[t.frameId].path
       }
     }else if(_msg._fun==ecMap.lnp){
@@ -284,7 +299,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     }else if(_msg.unloadFrame){
       delete _frameIds[_msg.id]
     }
-    
+    _msg.tab="master"
     chrome.tabs.sendMessage(_masterTabId, _msg);
   }
 });
@@ -294,16 +309,12 @@ chrome.tabs.onRemoved.addListener(function(_tab, info) {
   //clear data when master tab close
   if(_masterTabId==_tab){
     //_console("background: remove master")
-    _masterTabId=0;
-    _shareData={}
-    ignoreReqs=0
-    _newStatus=_status=0
-    _ctrlTabId=0;
+    cleanMaster()
   //clear client info
   }else if(_ctrlTabId==_tab){
     //_console("background: remove ctrl")
     _ctrlTabId=0;
-    chrome.tabs.sendMessage(_masterTabId, {tw:0});
+    chrome.tabs.sendMessage(_masterTabId, {tw:0,tab:"master"});
   }else{
     delete _frameIds[_tab]
     return
@@ -323,15 +334,9 @@ chrome.tabs.onCreated.addListener(function(_tab, info) {
     _ctrlTabId=_tab.id;
     _frameIds={};
     //to tell master the current client tab id
-    chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId});
+    chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,tab:"master"});
   }
 });
-
-chrome.tabs.onUpdated.addListener(function(_tab, info) {
-  if(_masterTabId && _ctrlTabId==_tab){
-//    chrome.tabs.sendMessage(_masterTabId, {twUpdate:1});
-  }
-})
 
 var _console=function(msg,o){
   console.log(msg)
@@ -342,9 +347,7 @@ var _console=function(msg,o){
 
 chrome.runtime.onUpdateAvailable.addListener(function(details) {
   console.log("updating to version " + details.version);
-  if(_masterTabId){
-//    alert("Extension will be updated soon. After that, please refresh your Boozang IDE page! Thanks")
-  }
+
   chrome.runtime.reload();
 });
 
@@ -359,16 +362,19 @@ chrome.runtime.requestUpdateCheck(function(status) {
 });
 
 chrome.webRequest.onCompleted.addListener(function(v){    
+  if(_masterTabId&&v.tabId==_masterTabId&&v.frameId==0&&_masterFrameId){
+    cleanMaster()
+  }
   if((v.tabId==_ctrlTabId||v.tabId==-1)&&_masterTabId){
     if(!v.url.includes("bzInsert.css")&&!v.url.includes("insert.icons.css")){
-      chrome.tabs.sendMessage(_masterTabId, {twUpdate:1});
+      chrome.tabs.sendMessage(_masterTabId, {twUpdate:1,tab:"master"});
     }
     var r={ctrlInfo:1,url:v.url}
     if(v.statusCode>=400){
       r.failed=1;
       r.code=v.statusCode
     }
-    if(v.type=="main_frame"||v.tabId==-1){
+    if(v.type=="main_frame"||v.tabId==-1||(v.type=="sub_frame"&&v.frameId==_topFrameId)){
       if(_isDownloading(v.responseHeaders)){
         r.download=1
       }else{
@@ -382,7 +388,9 @@ chrome.webRequest.onCompleted.addListener(function(v){
             chrome.tabs.sendMessage(_masterTabId, _loadPageInfo);
           }
         },1000)
-        return _loadPageInfo=r;
+        r.tab="master"
+        _loadPageInfo=r;
+        return
       }
     }else if(v.type=="other"){
       /*****************************
@@ -395,6 +403,7 @@ chrome.webRequest.onCompleted.addListener(function(v){
     }else{
       return;
     }
+    r.tab="master"
     chrome.tabs.sendMessage(_masterTabId, r)
   }
 },{urls: ["<all_urls>"]},["responseHeaders"]);
@@ -409,10 +418,10 @@ function _isDownloading(rs){
   }
 }
 chrome.webRequest.onErrorOccurred.addListener(function(v){
-  if(v.tabId==_ctrlTabId){
+  if(v.tabId==_ctrlTabId||(_masterFrameId&&!_ctrlTabId)){
     var r={ctrlInfo:1,url:v.url,error:1};
     
-    if(v.type=="main_frame"){
+    if(v.type=="main_frame"||(v.type=="sub_frame"&&((_masterFrameId&&!_ctrlTabId)||v.frameId==_topFrameId))){
       if(_isDownloading(v.responseHeaders)){
         r.download=1
       }else{
@@ -428,6 +437,16 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
       r.extraFile=1;
       r.initUrl=v.initiator
     }
+    r.tab="master"
     chrome.tabs.sendMessage(_masterTabId, r)
   }
 },{urls: ["<all_urls>"]});
+
+function cleanMaster(){
+  _masterTabId=0;
+  _masterFrameId=0;
+  _shareData={}
+  ignoreReqs=0
+  _newStatus=_status=0
+  _ctrlTabId=0;
+}

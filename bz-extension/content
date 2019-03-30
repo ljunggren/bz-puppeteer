@@ -3,7 +3,7 @@ window.extensionContent=1;
 if(name!=="bz-master"){
   setTimeout(function(){
     //_console("content register")
-    chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ)},function(_msg){
+    chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ),name:window.name},function(_msg){
       if(_msg && _msg._ignore){
         chrome.runtime.onMessage.removeListener()
       }else if(_msg){
@@ -23,10 +23,17 @@ function handleMsg(_event, _, sendResponse) {
   if(!window.SERVER_HOST && window.name!="bz-master"){
     return
   }
-  if(_event.twPage){
+  if(name=="bz-master"&&_event.tab!="master"){
+    return
+  }else if(name!="bz-master"&&_event.tab=="master"&&!_event.twPage){
+    return
+  }
+  if(_event.twPage||_event.twPage2){
+    _event.twPage=0
+    _event.twPage2=1
     if(_event.tab=="master"){
-      if(!window.BZ || BZ.iframeId===undefined){
-        window.postMessage(_event, "*");
+      if(name=="bz-master"){
+        window.postMessage(_event);
       }else{
         chrome.runtime.sendMessage(_event)
         return;
