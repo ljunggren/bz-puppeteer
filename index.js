@@ -157,7 +157,7 @@ function timeout(ms) {
 
             // Report step
             if (logString.includes("<html>")) {
-                fs.writeFile(`/var/boozang/${opts.file}.html`, logString, (err) => {
+                fs.writeFile(`${opts.file}.html`, logString, (err) => {
                     if (err) {
                         console.error("Error: ", err)
                         process.exit(2)
