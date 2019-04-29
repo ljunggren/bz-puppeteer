@@ -132,7 +132,7 @@ function handleMsg(_event, _, sendResponse) {
     _doIt2();
     function _doIt2(){
       if(window.BZ){
-        if(BZ.iframeId===0){
+        if(BZ.topFrame){
           sendResponse(BZ.refreshFramePath(_event.getFramePath));
         }
       }else{
