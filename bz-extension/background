@@ -420,6 +420,7 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
     }else if(v.type=="other"){
       r.download=1
     }else{
+      r.error=0
       r.extraFile=1;
       r.initUrl=v.initiator
     }
