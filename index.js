@@ -84,7 +84,7 @@ const parseReport = (json) => {
 }
 
 (async () => {
-    if (url) {
+  if (url) {
   // Load extension if URL contains the word extension
   const launchargs = getLaunchargs(url);
 
@@ -151,52 +151,54 @@ function timeout(ms) {
     browser.close(); 
   }
 
-        page.on('console', msg => {
-            let logString = msg.text();
-            // Report step
-            if (logString.includes("<html>")) {
-                fs.writeFile(`${opts.file}.html`, logString, (err) => {
-                    if (err) {
-                        console.error("Error: ", err)
-                        process.exit(2)
-                    }
-                    console.log(`Report "${opts.file}.html" saved.`)
-                })
+  page.on('console', msg => {
+    let logString = msg.text();
 
-                // To be added if we want to display HTML on-screen
-                // console.log(pretty(logString))
-
-                if (logString.includes("Failed !")) {
-                    success = false
-                } else if (logString.includes("Success !")) {
-                    success = true
-                }
-                // Tests end
-            } else if (logString.includes('"result": {')) {
-                fs.writeFile(`${opts.file}.json`, logString, (err) => {
-                    if (err) {
-                        console.error("Error: ", err)
-                        process.exit(2)
-                    }
-                    console.log(`Report "${opts.file}.json" saved.`)
-                })
-                const json = JSON.parse(logString)
-                success = (json.result.type == 1)
-
-                console.log(parseReport(json))
-            } else if (logString.includes("All tests completed!")) {
-                if (success) {
-                    console.log(GREEN + "Tests success" + BLANK)
-                } else {
-                    console.error(RED + "Tests failure" + BLANK)
-                }
-                process.exit(Number(!success))
-            } else {
-                console.log(logString)
-            }
-        })
+    if (verbose) {
+      console.log("DEBUG: " + logString);
     }
+
+    if (logString.includes("Failed !")) {
+          success = false
+    } else if (logString.includes("Success !")) {
+          success = true
+    }
+            
+    // Report progress
+    if (logString.includes("BZ-LOG")) {
+      console.log(logstring.replace("BZ-LOG:",""));
+    }
+    else if (logString.includes("<html>")) {
+      fs.writeFile(`${opts.file}.html`, logString, (err) => {
+        if (err) {
+          console.error("Error: ", err)
+          process.exit(2)
+        }
+        console.log(`Report "${opts.file}.html" saved.`)
+      })
+    } else if (logString.includes('"result": {')) {
+      fs.writeFile(`${opts.file}.json`, logString, (err) => {
+        if (err) {
+          console.error("Error: ", err)
+          process.exit(2)
+        }
+        console.log(`Report "${opts.file}.json" saved.`)
+      })
+      const json = JSON.parse(logString)
+      success = (json.result.type == 1)
+      console.log(parseReport(json))
+    } else if (logString.includes("All tests completed!")) {
+      if (success) {
+        console.log(GREEN + "Tests success" + BLANK)
+      } else {
+        console.error(RED + "Tests failure" + BLANK)
+      }
+      process.exit(Number(!success))
+    } 
+
+    }) //end console
+  } // end if(url)
 })().catch((e) => {
-    console.error(e);
-    process.exit(2)
+  console.error(e);
+  process.exit(2)
 })
