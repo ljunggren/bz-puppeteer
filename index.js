@@ -33,12 +33,15 @@ if (result.errors || !result.args || result.args.length !== 1) {
 }
 
 const isURL = (str) => {
+    const pattern = /^http(s|):\/\/.+$/i;
+  /*
     const pattern = new RegExp('^(https?:\\/\\/)' + // protocol
         '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
         '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
         '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
         '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
         '(\\#[.-a-z\\d_/]*)/run$', 'i') // mandatory fragment locator (. and / are allowed even if they are normally invalid)
+  */
     return pattern.test(str)
 }
 
