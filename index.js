@@ -47,14 +47,14 @@ let url = result.args[0]
 
 if (typeof (url) == 'string' && !url.endsWith("/run")) {
     if (!url.endsWith("/")) {
-        url += "/"
+        //url += "/"
     }
-    url += "run"
+    // url += "run"
 }
 
 if (!url || !isURL(url)) {
     console.error("Invalid URL: " + url)
-    process.exit(2)
+    //process.exit(2)
 }
 
 console.log('Opening URL: '+ url);
@@ -151,10 +151,23 @@ function timeout(ms) {
     browser.close(); 
   }
 
-  // Messages processing
-        page.on('console', async msg => {
-            let logString = msg.text()
+    // New code
+    // page.on('console', msg => console.log('PAGE LOG:', msg.text()));
+    // const pages = await browser.pages(); // get all open pages by the browser
+    
+    // const popup = pages[pages.length - 1]; 
+    //const ideWindow = pages[0];
+    // console.log("Pages l=" + pages.length);
+    // ideWindow.on('console', msg => console.log('PAGE LOG IDE:', msg.text()));
+    // popup.on('console', msg => console.log('PAGE LOG POPUP:', msg.text()));
+    
+    
 
+  // Old cade Messages processing
+        page.on('console', msg => {
+            let success = false;
+            let logString = msg.text();
+            console.log("Logstring " + logString);
             // Report step
             if (logString.includes("<html>")) {
                 fs.writeFile(`${opts.file}.html`, logString, (err) => {
