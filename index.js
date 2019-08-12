@@ -48,7 +48,7 @@ const isURL = (str) => {
 
 let url = result.args[0]
 
-if (typeof (url) == 'string' && !url.endsWith("/run")) {
+if ((!opts.screenshot) && typeof (url) == 'string' && !url.endsWith("/run")) {
     if (!url.endsWith("/")) {
         url += "/"
     }
