@@ -195,12 +195,12 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,topFrame:t.frameId,tab:"master"});
     }
     if(t.url.startsWith(_appUrl)){
-      return alert("Testing on Boozang sites not supported!");
+      return alert("Not support to test on the website!");
     }
     if(isIgnoreFrame(t.url)){
       return
     }
-    _topFrameId=_msg.name=="bz-client"?t.frameId:_topFrameId
+    _topFrameId=_msg.name=="bz-client"||_msg.name=="bz-manager"?t.frameId:_topFrameId
     if(t.frameId &&_msg.name!="bz-client" && !_frameIds[t.frameId]){
       clearTimeout(assignfirmeCall)
       _frameIds[t.frameId]={url:t.url,id:t.frameId};
