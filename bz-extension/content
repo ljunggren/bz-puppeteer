@@ -14,6 +14,8 @@ if(name!=="bz-master"){
       }
     });
   },0);
+}else{
+  window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
 }
 
 chrome.runtime.onMessage.addListener(handleMsg);
@@ -150,8 +152,6 @@ function handleMsg(_event, _, sendResponse) {
     }
   }
 }
-window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
-
 function _insertCssAndClientCode(_css,_time){
   _time=_time||Date.now()
   t=document.body;
