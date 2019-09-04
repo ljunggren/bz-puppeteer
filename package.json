@@ -1,5 +1,5 @@
 {
-  "name": "boozang",
+  "name": "sqa",
   "version": "3.1.6",
   "description": "An Simple Driver for Chrome Headless basded on Puppeteer",
   "dependencies": {

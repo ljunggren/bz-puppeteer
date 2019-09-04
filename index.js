@@ -10,8 +10,10 @@ const fs = require('fs');
 const opts = {
   "headfull": false,
   "verbose" : false,
+  "path": "",
   "file": "result",
   "device" : "default",
+  "screenshot": false,
   "screenshot": false,
   "token":""
 };
@@ -28,7 +30,7 @@ if (result.errors) {
 }
 
 if (result.errors || !result.args || result.args.length !== 1) {
-  console.log('USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]');
+  console.log('USAGE: boozang [--token] [--headfull] [--verbose] [--path] [--screenshot] [--file=report] [--device=default] [url]');
   process.exit(2);
 }
 
@@ -109,9 +111,13 @@ const parseReport = (json) => {
   const headlessMode = ! (opts.headfull || launchargs.length > 0)
   
   const browser = await puppeteer.launch({
+
+    executablePath: opts.path,
+    //executablePath: "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome",
     headless: headlessMode,
     args: launchargs 
   });
+
 
 
 function timeout(ms) {
