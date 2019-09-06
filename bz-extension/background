@@ -73,11 +73,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       _req.frameId=[_topFrameId];
       _lastExeActionReq=_req;
       if(_req.exeAction.element){
-        if(_req.exeAction.element[0].startsWith("$(BZ.TW.document.body)")){
-        }else{
-          _req.frameId=_getFrameIds(_req.exeAction.element[0]);
-          _req.exeAction.element[0]="BZ.TW.document";
-        }
+        _addFrameId(_req,_req.exeAction.element)
       }else if(_req.exeAction[ecMap.co]){
         //_req.exeAction.code._element
         var e=_req.exeAction[ecMap.co][ecMap.e];
@@ -92,14 +88,9 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       }
     //for request highlight a BZ action element
     }else if(_req.element!==undefined){
-      _req.frameId=[_topFrameId];
-      if(_req.element && _req.element[0]){
-        if(_req.element[0].startsWith("$(BZ.TW.document.body)")){
-        }else{
-          _req.frameId=_getFrameIds(_req.element[0]);
-          _req.element[0]="BZ.TW.document";
-        }
-      }
+      _addFrameId(_req,_req.element)
+    }else if(_req.data&&_req.data.element){
+      _addFrameId(_req,_req.data.element)
     }else if(_req.curTest!==undefined){
       _curTest=_req.curTest
       if(_req.curAction!==undefined){
@@ -128,7 +119,15 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     }
   }
 });
-
+function _addFrameId(_req,_element){
+  _req.frameId=[_topFrameId];
+  if(_element && _element[0]){
+    if(!_element[0].startsWith("$(BZ.TW.document.body)")){
+      _req.frameId=_getFrameIds(_element[0]);
+      _element[0]="BZ.TW.document";
+    }
+  }
+}
 //to get frame ids by element path
 function _getFrameIds(_root){
   var ids=[],id=0,bk;
@@ -195,7 +194,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,topFrame:t.frameId,tab:"master"});
     }
     if(t.url.startsWith(_appUrl)){
-      return alert("Not support to test on the website!");
+      return alert("Testing on Boozang sites not supported!");
     }
     if(isIgnoreFrame(t.url)){
       return
@@ -347,7 +346,6 @@ chrome.runtime.requestUpdateCheck(function(status) {
 });
 
 chrome.webRequest.onCompleted.addListener(function(v){
-  console.log(v)
   if(_masterTabId&&v.tabId==_masterTabId&&v.frameId==0&&_masterFrameId){
     cleanMaster()
   }

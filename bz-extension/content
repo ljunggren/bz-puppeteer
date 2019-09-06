@@ -145,6 +145,11 @@ function handleMsg(_event, _, sendResponse) {
     _doIt3();
     function _doIt3(){
       if(window.BZ){
+        if(window.BZ&&_event.frameId){
+          if(!_event.frameId.includes(BZ.iframeId)){
+            return
+          }
+        }
         window.BZ.exeFun(_event.fun,_event.scope,_event.data);
       }else{
         setTimeout(function(){_doIt3()},1)
