@@ -1,40 +1,58 @@
 //Register
 window.extensionContent=1;
-setTimeout(function(){
-  //_console("content register")
-  chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ)},function(_msg){
-    if(_msg){
-      //_console("this is ctrl tab: "+chrome.runtime.id)
-      _insertCssAndClientCode(_msg._css)
-      BZ[ecMap.ss](_msg._newStatus,_msg.data);
-      window[ecMap.u][ecMap.k]()
-    }
-  });
-},0);
+if(name!=="bz-master"){
+  setTimeout(function(){
+    //_console("content register")
+    chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ),name:window.name},function(_msg){
+      if(_msg && _msg._ignore){
+        chrome.runtime.onMessage.removeListener()
+      }else if(_msg){
+        //_console("this is ctrl tab: "+chrome.runtime.id)
+        _insertCssAndClientCode(_msg._css)
+        BZ[ecMap.ss](_msg._newStatus,_msg.data);
+        window[ecMap.u][ecMap.k]()
+      }
+    });
+  },0);
+}else{
+  window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
+}
 
 chrome.runtime.onMessage.addListener(handleMsg);
 
 function handleMsg(_event, _, sendResponse) {
   //_console("content get message: ",_event)
-  if(_event.twPage){
+  if(!window.SERVER_HOST && window.name!="bz-master"){
+    return
+  }
+  if(name=="bz-master"&&_event.tab!="master"){
+    return
+  }else if(name!="bz-master"&&_event.tab=="master"&&!_event.twPage){
+    return
+  }
+  if(_event.twPage||_event.twPage2){
+    _event.twPage=0
+    _event.twPage2=1
     if(_event.tab=="master"){
-      if(!window.BZ || BZ.iframeId===undefined){
-        window.postMessage(_event, "*");
+      if(name=="bz-master"){
+        window.postMessage(_event);
       }else{
         chrome.runtime.sendMessage(_event)
         return;
       }
-    }
-    if(window.BZ){
+    }else if(window.BZ){
       window[_event[ecMap.s]][_event[ecMap.f]](_event[ecMap.d]);
     }
   }else if(_event._newStatus!==undefined){
     BZ[ecMap.ss](_event._newStatus,_event.data);
   //set execute action
   }else if(_event.exeAction){
-    if(_event.frameId.includes(BZ.iframeId)){
+    if(window.BZ && _event.frameId.includes(BZ.iframeId)){
       window[ecMap.dat][ecMap.ea](_event.exeAction,_event.setting,function(r){
-        chrome.runtime.sendMessage({bz:1,result:r,data:{$project:$project,$module:$module,$test:$test,$loop:$loop,$parameter:window.$parameter}})
+        var d={$newElement:window.$newElement};
+        //d["_tmpTaskDataMap"]=_ideDataManagement._tmpTaskDataMap
+        d[ecMap.ttmd]=window[ecMap.idm][ecMap.ttmd]
+        chrome.runtime.sendMessage({bz:1,result:r,data:d})
       });
     }
   }else if(_event.isActive){
@@ -62,9 +80,13 @@ function handleMsg(_event, _, sendResponse) {
         
         //o=o._data.actions[_event.curAction]
         o=o[ecMap.d].actions[_event.curAction];
-        o.element=_event.element;
-        window[ecMap.iam][ecMap.sca](o);
+        if(o){
+          o.element=_event.element;
+        }
+      }else{
+        window[ecMap.i][ecMap.d][ecMap.ct]=o;
       }
+      window[ecMap.iam][ecMap.sca](o);
     }
     window[ecMap.i][ecMap.inn][ecMap.r]()
   }else if(_event.curTest!==undefined){
@@ -86,17 +108,17 @@ function handleMsg(_event, _, sendResponse) {
     _doIt1();
     function _doIt1(){
       if(window.BZ){
-        if(BZ.iframeId===0){
-          BZ[ecMap.sd](_event.shareData);
-        }
+        BZ[ecMap.sd](_event.shareData);
       }else{
         setTimeout(function(){_doIt1()},1)
       }
     }
   }else if(_event.element){
     if(_event.frameId.includes(BZ.iframeId)){
-      //BZ._DomPicker._flashTmpCover(_event.element)
-      BZ[ecMap.dp][ecMap.ftc](_event.element);
+      //_bzDomPicker._flashTmpCover(_event.element)
+      if(window[ecMap.dp]){
+        window[ecMap.dp][ecMap.ftc](_event.element);
+      }
     }
   }else if(_event.exePickElement){
 //    _IDE._data._curAction=_event.exePickElement;
@@ -112,7 +134,7 @@ function handleMsg(_event, _, sendResponse) {
     _doIt2();
     function _doIt2(){
       if(window.BZ){
-        if(BZ.iframeId===0){
+        if(BZ.topFrame){
           sendResponse(BZ.refreshFramePath(_event.getFramePath));
         }
       }else{
@@ -123,6 +145,11 @@ function handleMsg(_event, _, sendResponse) {
     _doIt3();
     function _doIt3(){
       if(window.BZ){
+        if(window.BZ&&_event.frameId){
+          if(!_event.frameId.includes(BZ.iframeId)){
+            return
+          }
+        }
         window.BZ.exeFun(_event.fun,_event.scope,_event.data);
       }else{
         setTimeout(function(){_doIt3()},1)
@@ -130,15 +157,13 @@ function handleMsg(_event, _, sendResponse) {
     }
   }
 }
-window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
-
 function _insertCssAndClientCode(_css,_time){
   _time=_time||Date.now()
   t=document.body;
-  if(document && document.body && document.body.innerHTML && (document.readyState=="complete" || (Date.now()-_time>100000))){
+  if(document && document.body && document.body.innerHTML && (document.readyState=="complete" || (document.readyState=="interactive" && Date.now()-_time>2000) || (Date.now()-_time>100000))){
     var o=document.createElement("style");
     o.innerHTML=_css;
-    document.body.parentNode.appendChild(o);
+    document.body.parentNode.append(o);
     
     o=document.createElement("script");
     var _html="";
@@ -147,8 +172,11 @@ function _insertCssAndClientCode(_css,_time){
     _html+=ecMap.u+"="+window[ecMap.u][ecMap.ts](window[ecMap.u]);
     //_html+="_TWHandler="+_Util._toString(_TWHandler);
     _html+=ecMap.tw+"="+window[ecMap.u][ecMap.ts](window[ecMap.tw]);
+    var w=window[ecMap.dat].TW
     //_html+="_domActionTask="+_Util._toString(_domActionTask);
+    delete window[ecMap.dat].TW;
     _html+=ecMap.dat+"="+window[ecMap.u][ecMap.ts](window[ecMap.dat]);
+    window[ecMap.dat].TW=w
     //_html+="_domRecorder="+_Util._toString(_domRecorder);
     _html+=ecMap.dr+"="+window[ecMap.u][ecMap.ts](window[ecMap.dr]);
     //_html+="_uploadHandler="+_Util._toString(_uploadHandler);
@@ -159,10 +187,9 @@ function _insertCssAndClientCode(_css,_time){
     _html+="bzTwComm="+window[ecMap.u][ecMap.ts](bzTwComm);
     /**/
     _html+="bzTwComm."+ecMap.init+"('"+chrome.runtime.id+"');"
-    o.innerHTML=_html;
-    document.body.parentNode.appendChild(o);
 
-    chrome.runtime.sendMessage({ready:1})
+    o.innerHTML=_html;
+    document.body.parentNode.append(o);
   }else{
     setTimeout(function(){
       _insertCssAndClientCode(_css,_time);

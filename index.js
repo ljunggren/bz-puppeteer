@@ -23,24 +23,71 @@ const verbose = opts.verbose;
 const token = opts.token;
 
 if (result.errors) {
-  console.log('USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]');
-  process.exit(-1);
+    if (opts.verbose) console.log('Unknown argument(s): "' + result.errors.join('", "') + '"');
+    process.exit(2);
 }
 
-if (!result.args || result.args.length != 1 ){
+if (result.errors || !result.args || result.args.length !== 1) {
   console.log('USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]');
-  process.exit(-2);
+  process.exit(2);
 }
 
-const url = result.args.toString(); 
+const isURL = (str) => {
+    const pattern = /^http(s|):\/\/.+$/i;
+  /*
+    const pattern = new RegExp('^(https?:\\/\\/)' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[.-a-z\\d_/]*)/run$', 'i') // mandatory fragment locator (. and / are allowed even if they are normally invalid)
+  */
+    return pattern.test(str)
+}
+
+
+let url = result.args[0]
+
+if ((!opts.screenshot) && typeof (url) == 'string' && !url.endsWith("/run")) {
+    if (!url.endsWith("/")) {
+        url += "/"
+    }
+    url += "run"
+}
+
+if (!url || !isURL(url)) {
+    console.error("Invalid URL: " + url)
+    process.exit(2)
+}
 
 console.log('Opening URL: '+ url);
 console.log('Running with options: headfull=', opts.headfull, ', verbose=', opts.verbose, ', reportfile=', opts.reportfile, ', device=', opts.device);
 const file = opts.file;
 
+const RED = '\033[0;31m'
+const GREEN = '\033[0;32m'
+const BLANK = '\033[0m'
 
-(async() => {
+const parseReport = (json) => {
+    report = ''
+    report += json.details.map(detail =>
+        (detail.test ?
+            `\n\t${detail.result == 4 ? GREEN + "✓" : RED + "✘"} ` +
+            `[${detail.module.code}] ${detail.module.name} - [${detail.test.code}] ${detail.test.name} ` +
+            `(${detail.test.actions} actions, ${detail.time}ms)` + BLANK
+            :
+            `\n\t\t${detail.result == 4 ? GREEN + "✓" : RED + "✘"} ` +
+            `${detail.description} (${detail.time}ms)` + BLANK
+        )).join('')
+    report += `\n\n\tStatus: ${json.result.type == 1 ? GREEN + "success" + BLANK : RED + "failure" + BLANK}`
+    report += `    Passing tests: ${json.result.summary.test - json.result.summary.failedTest}/${json.result.summary.test}`
+    report += `    Passing actions: ${json.result.summary.action - json.result.summary.failedAction}/${json.result.summary.action}\n`
 
+    return report
+}
+
+(async () => {
+  if (url) {
   // Load extension if URL contains the word extension
   const launchargs = getLaunchargs(url);
 
@@ -67,6 +114,11 @@ const file = opts.file;
   });
 
 
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
   let testUrl = url;
 
   // Insert token if found in parameter.
@@ -79,8 +131,9 @@ const file = opts.file;
   const page = await browser.newPage();
   const devices = require('puppeteer/DeviceDescriptors');
 
- 
+  await page._client.send('Emulation.clearDeviceMetricsOverride');
   if (opts.device === "default") {
+   
     console.log('No device specified.');
   } else if (!devices[opts.device]) {
     console.log('Device ' + opts.device + ' not found. Ignoring');
@@ -101,43 +154,54 @@ const file = opts.file;
     browser.close(); 
   }
 
-  page.on('console', async msg => {
-    const logString = msg.text();
+  page.on('console', msg => {
+    let logString = msg.text();
 
-    if (verbose) console.log('Console output: ' + logString);
-
-    if (logString.includes("<html>")) {
-      let datestring = new Date().toISOString().split('.')[0];
-      fs.writeFile(file+"-" + datestring + ".html", logString, function(err) {
-        if(err) {
-          return console.log(err);
-        }
-        console.log("The report was saved.");
-      }); 
-    }else if (logString.includes("All tests completed!")) { 
-      console.log("Tests completed. Waiting a few seconds to close browser so report is being sent.");
-      setTimeout(function(){
-        console.log("Closing browser.");
-        browser.close();
-      },6000);
+    if (verbose) {
+      console.log("DEBUG: " + logString);
     }
-  });
 
-  //browser.close();
+    if (logString.includes("Failed !")) {
+          success = false
+    } else if (logString.includes("Success !")) {
+          success = true
+    }
+            
+    // Report progress
+    if (logString.includes("BZ-LOG")) {
+      console.log(logstring.replace("BZ-LOG:",""));
+    }
+    else if (logString.includes("<html>")) {
+      fs.writeFile(`${opts.file}.html`, logString, (err) => {
+        if (err) {
+          console.error("Error: ", err)
+          process.exit(2)
+        }
+        console.log(`Report "${opts.file}.html" saved.`)
+      })
+    } else if (logString.includes('"result": {')) {
+      fs.writeFile(`${opts.file}.json`, logString, (err) => {
+        if (err) {
+          console.error("Error: ", err)
+          process.exit(2)
+        }
+        console.log(`Report "${opts.file}.json" saved.`)
+      })
+      const json = JSON.parse(logString)
+      success = (json.result.type == 1)
+      console.log(parseReport(json))
+    } else if (logString.includes("All tests completed!")) {
+      if (success) {
+        console.log(GREEN + "Tests success" + BLANK)
+      } else {
+        console.error(RED + "Tests failure" + BLANK)
+      }
+      process.exit(Number(!success))
+    } 
 
-})();
-
-
-function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function isURL(str) {
-  const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
-  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-  return pattern.test(str);
-}
+    }) //end console
+  } // end if(url)
+})().catch((e) => {
+  console.error(e);
+  process.exit(2)
+})
