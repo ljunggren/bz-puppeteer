@@ -13,8 +13,8 @@ const opts = {
   "file": "result",
   "device" : "default",
   "screenshot": false,
-  "token":""
-};
+  "token":"",
+}
 
 // Remove the first two arguments, which are the 'node' binary and the name
 // of your script.
@@ -61,8 +61,8 @@ if (!url || !isURL(url)) {
 }
 
 console.log('Opening URL: '+ url);
-console.log('Running with options: headfull=', opts.headfull, ', verbose=', opts.verbose, ', reportfile=', opts.reportfile, ', device=', opts.device);
-const file = opts.file;
+console.log('Running with options: headfull=', opts.headfull, ', verbose=', opts.verbose, ', reportfile=', opts.file, ', device=', opts.device);
+const file = "/var/boozang/" + (opts.file || "results");
 
 const RED = '\033[0;31m'
 const GREEN = '\033[0;32m'
@@ -169,23 +169,23 @@ function timeout(ms) {
             
     // Report progress
     if (logString.includes("BZ-LOG")) {
-      console.log(logstring.replace("BZ-LOG:",""));
+      console.log(logString.replace("BZ-LOG:",""));
     }
     else if (logString.includes("<html>")) {
-      fs.writeFile(`${opts.file}.html`, logString, (err) => {
+      fs.writeFile(`${file}.html`, logString, (err) => {
         if (err) {
           console.error("Error: ", err)
           process.exit(2)
         }
-        console.log(`Report "${opts.file}.html" saved.`)
+        console.log(`Report "${file}.html" saved.`)
       })
     } else if (logString.includes('"result": {')) {
-      fs.writeFile(`${opts.file}.json`, logString, (err) => {
+      fs.writeFile(`${file}.json`, logString, (err) => {
         if (err) {
           console.error("Error: ", err)
           process.exit(2)
         }
-        console.log(`Report "${opts.file}.json" saved.`)
+        console.log(`Report "${file}.json" saved.`)
       })
       const json = JSON.parse(logString)
       success = (json.result.type == 1)
