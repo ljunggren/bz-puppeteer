@@ -229,9 +229,15 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     }else{
       //for BZ developer debugging in BZ office
       if(_masterUrl.includes("boozang")){
-        alert("The extension is not for production")
+        //alert("The extension is not for production")
+        if(_plugInCode){
+          _setCodeToContent(_plugInCode,t.frameId);
+        }else{
+          _setCodeToContent("showCode('BZ Debugging');",t.frameId);
+        }
+      }else{
+        _setCodeToContent("showCode('BZ Debugging');",t.frameId);
       }
-      _setCodeToContent("showCode('BZ Debugging');",t.frameId);
     }
     _setCodeToContent(_bzEnvCode+";BZ.iframeId="+t.frameId+";BZ.topFrame="+(_msg.name=="bz-client"?1:0)+";window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:BZ.iframeId})}",t.frameId);
     _sendResponse({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data});
