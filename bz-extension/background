@@ -73,24 +73,29 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       _req.frameId=[_topFrameId];
       _lastExeActionReq=_req;
       if(_req.exeAction.element){
-        _addFrameId(_req,_req.exeAction.element)
+        return _addFrameId(_req,_req.exeAction.element,function(){
+          _doIt()
+        })
       }else if(_req.exeAction[ecMap.co]){
         //_req.exeAction.code._element
         var e=_req.exeAction[ecMap.co][ecMap.e];
         if(e){
           //_req.exeAction.code._element[0]._css
           e=e[0][ecMap.c];
-          if(e && e[0].startsWith("IFRAME:")){
-            _req.frameId=_getFrameIds(e[0]);
-            _req.exeAction[ecMap.co][ecMap.e].shift()
-          }
+          return _addFrameId(_req,e,function(){
+            _doIt()
+          })
         }
       }
     //for request highlight a BZ action element
     }else if(_req.element!==undefined){
-      _addFrameId(_req,_req.element)
+      return _addFrameId(_req,_req.element,function(){
+        _doIt()
+      })
     }else if(_req.data&&_req.data.element){
-      _addFrameId(_req,_req.data.element)
+      return _addFrameId(_req,_req.data.element,function(){
+        _doIt()
+      })
     }else if(_req.curTest!==undefined){
       _curTest=_req.curTest
       if(_req.curAction!==undefined){
@@ -104,53 +109,46 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
         chrome.tabs.sendMessage(_ctrlTabId,{shareData:_req.shareData});
       }
     }
-    if(!_ctrlTabId||_lastErrPage){
-      if(_req.exeAction){
-        if(_ctrlTabId){
-          chrome.tabs.get(_ctrlTabId,function(o){
-            chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",data:{url:o.url},twPage:1,tab:"master",bz:1});
-          })
-        }else{
-          chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",twPage:1,tab:"master",bz:1});
+    _doIt()
+    function _doIt(){
+      if(!_ctrlTabId||_lastErrPage){
+        if(_req.exeAction){
+          if(_ctrlTabId){
+            chrome.tabs.get(_ctrlTabId,function(o){
+              chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",data:{url:o.url},twPage:1,tab:"master",bz:1});
+            })
+          }else{
+            chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",twPage:1,tab:"master",bz:1});
+          }
         }
+      }else{
+        chrome.tabs.sendMessage(_ctrlTabId, _req);
       }
-    }else{
-      chrome.tabs.sendMessage(_ctrlTabId, _req);
     }
   }
 });
-function _addFrameId(_req,_element){
+function _addFrameId(_req,_element,_fun){
   _req.frameId=[_topFrameId];
   if(_element && _element[0]){
-    if(!_element[0].startsWith("$(BZ.TW.document.body)")){
-      _req.frameId=_getFrameIds(_element[0]);
-      _element[0]="BZ.TW.document";
+    if(!_element[0].startsWith("$(BZ.TW.document.body)")&&_element[0][0]=="$"){
+      var v=_element[0].match(/\(([0-9\,]+)\)/)
+      if(v){
+        _element[0]="BZ.TW.document";
+        v=v[1].split(",")
+        return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v},function(r){
+          if(r!==undefined){
+            _req.frameId=[r];
+            _fun()
+          }
+        })
+      }
     }
   }
+  _fun()
 }
 //to get frame ids by element path
 function _getFrameIds(_root){
-  var ids=[],id=0,bk;
-  if(_root!=="BZ.TW.document"){
-    for(k in _frameIds){
-      id=k;
-      if(_frameIds[k].path2 && _frameIds[k].path2.includes(_root)){
-        ids=[parseInt(k)];
-      }else if(!_frameIds[k].path2){
-        bk=parseInt(k)
-      }
-    }
-  }else{
-    return[_topFrameId||0]
-  }
-  if(!ids.length){
-    if(bk){
-      ids.push(parseInt(bk))
-    }else{
-      ids.push(parseInt(id))
-    }
-  }
-  return ids;
+  
 }
 
 //set code to chrome extension content
@@ -259,14 +257,14 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     if(_msg.result){
       _lastExeActionReq=0;
     }else if(_msg.action){
-      if(t.frameId&&_frameIds[t.frameId]){
-        _msg.action.element[0]=_frameIds[t.frameId].path;
-      }
+//      if(t.frameId&&_frameIds[t.frameId]){
+  //      _msg.action.element[0]=_frameIds[t.frameId].path;
+    //  }
     }else if(_msg[ecMap.ua]){
-      if(t.frameId&&_frameIds[t.frameId]){
+      //if(t.frameId&&_frameIds[t.frameId]){
         //_msg._updateAction.element[0]=_frameIds[t.frameId].path;
-        _msg[ecMap.ua].element[0]=_frameIds[t.frameId].path;
-      }
+        //_msg[ecMap.ua].element[0]=_frameIds[t.frameId].path;
+      //}
       _setCodeToContent("if(window."+ecMap.dp+"){"+ecMap.dp+"."+ecMap.er+"()}")
     }else if(_msg[ecMap.f]==ecMap.rca){
       if(t.frameId&&_frameIds[t.frameId]){

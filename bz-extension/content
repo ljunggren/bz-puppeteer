@@ -43,6 +43,8 @@ function handleMsg(_event, _, sendResponse) {
     }else if(window.BZ){
       window[_event[ecMap.s]][_event[ecMap.f]](_event[ecMap.d]);
     }
+  }else if(_event.findFrameId){
+    return BZ.responseIFrameId(_event.findFrameId,sendResponse)
   }else if(_event._newStatus!==undefined){
     BZ[ecMap.ss](_event._newStatus,_event.data);
   //set execute action
