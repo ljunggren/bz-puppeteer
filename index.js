@@ -157,7 +157,12 @@ function timeout(ms) {
 
   assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 20000);
 
-  await page.goto(testUrl);
+  try { 
+    await page.goto(testUrl);
+  } catch (err) {
+    console.error("Failed to open URL with error: " + err.message);
+    process.exit(2)
+  }
 
   if (opts.screenshot){
     console.log("Wait a second for screenshot.");
@@ -166,8 +171,6 @@ function timeout(ms) {
     console.log("Closing browser.");
     browser.close(); 
   }
-
-  console.log("Loading test");
 
   page.on('console', msg => {
     let logString = (!!msg && msg.text()) || "def";
@@ -184,8 +187,15 @@ function timeout(ms) {
             
     // Report progress
     if (logString.includes("BZ-LOG")) {
-      console.log(logString.replace("BZ-LOG:",""));
-      assignTimeout("Error: Browser not responding. Timing out.", 60000);
+      if (logString.includes("action")){
+        let timeout = parseInt(logString.split("ms:")[1])+10000;
+        assignTimeout("Error: Action taking too long. Timing out.", timeout);
+      } else if (logString.includes("screenshot")){
+        console.log("Screenshot " +  logString.split("screenshot:")[1]);
+      } else 
+      {
+        console.log(logString.replace("BZ-LOG: ",""));  
+      } 
     }
     else if (logString.includes("<html>")) {
       fs.writeFile(`${file}.html`, logString, (err) => {
