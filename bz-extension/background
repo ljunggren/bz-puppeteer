@@ -352,8 +352,20 @@ chrome.runtime.requestUpdateCheck(function(status) {
     console.log("Oops, I'm asking too frequently - I need to back off.");
   }
 });
-
+var _list={}
+chrome.webRequest.onBeforeRequest.addListener(function(a,b){
+  if(a.tabId==_ctrlTabId&&_ctrlTabId){
+    _list[a.requestId]=a
+    chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"BZ",fun:"addReq",data:a});
+  }
+},{urls: ["<all_urls>"]})
 chrome.webRequest.onCompleted.addListener(function(v){
+  if(v.tabId!=_ctrlTabId){
+    return
+  }
+  delete _list[v.requestId]
+  chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"BZ",fun:"addRep",data:v});
+  
   if(_masterTabId&&v.tabId==_masterTabId&&v.frameId==0&&_masterFrameId){
     cleanMaster()
   }
@@ -399,6 +411,14 @@ chrome.webRequest.onCompleted.addListener(function(v){
     chrome.tabs.sendMessage(_masterTabId, r)
   }
 },{urls: ["<all_urls>"]},["responseHeaders"]);
+
+chrome.webRequest.onActionIgnored.addListener(function(v){
+  if(v.tabId!=_ctrlTabId){
+    return
+  }
+  delete _list[v.requestId]
+  chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"BZ",fun:"addRep",data:v});
+})
 function _isDownloading(rs){
   for(var i=0;rs && i<rs.length;i++){
     var r=rs[i];
@@ -412,6 +432,8 @@ function _isDownloading(rs){
 chrome.webRequest.onErrorOccurred.addListener(function(v){
   if(v.tabId==_ctrlTabId||(_masterFrameId&&!_ctrlTabId)){
     var r={ctrlInfo:1,url:v.url,error:1};
+    
+    chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"BZ",fun:"addRep",data:v});
     
     if(v.type=="main_frame"||(v.type=="sub_frame"&&((_masterFrameId&&!_ctrlTabId)||v.frameId==_topFrameId))){
       if(_isDownloading(v.responseHeaders)){
