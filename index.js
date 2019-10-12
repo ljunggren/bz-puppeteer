@@ -10,11 +10,11 @@ const fs = require('fs');
 const opts = {
   "headfull": false,
   "verbose" : false,
-  "file": "result",
-  "device" : "default",
+  "file": "",
+  "device" : "",
   "screenshot": false,
-  "token":""
-};
+  "token":"",
+}
 
 // Remove the first two arguments, which are the 'node' binary and the name
 // of your script.
@@ -34,14 +34,6 @@ if (result.errors || !result.args || result.args.length !== 1) {
 
 const isURL = (str) => {
     const pattern = /^http(s|):\/\/.+$/i;
-  /*
-    const pattern = new RegExp('^(https?:\\/\\/)' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[.-a-z\\d_/]*)/run$', 'i') // mandatory fragment locator (. and / are allowed even if they are normally invalid)
-  */
     return pattern.test(str)
 }
 
@@ -59,10 +51,20 @@ if (!url || !isURL(url)) {
     console.error("Invalid URL: " + url)
     process.exit(2)
 }
+console.log("Running Boozang test runner...");
 
-console.log('Opening URL: '+ url);
-console.log('Running with options: headfull=', opts.headfull, ', verbose=', opts.verbose, ', reportfile=', opts.reportfile, ', device=', opts.device);
-const file = opts.file;
+if (!opts.headfull)
+  console.log('Running headless mode.');
+if (opts.verbose)
+  console.log("Verbose logging on");
+if (opts.file)
+  console.log("Using custom report file: " + opts.file);
+if (opts.device)
+  console.log("Using custom device: " + opts.device);
+
+
+//const file = "/var/boozang/" + (opts.file || "results");
+const file = (opts.file || "results");
 
 const RED = '\033[0;31m'
 const GREEN = '\033[0;32m'
@@ -132,9 +134,9 @@ function timeout(ms) {
   const devices = require('puppeteer/DeviceDescriptors');
 
   await page._client.send('Emulation.clearDeviceMetricsOverride');
-  if (opts.device === "default") {
+  if (!opts.device) {
    
-    console.log('No device specified.');
+    //console.log('No device specified.');
   } else if (!devices[opts.device]) {
     console.log('Device ' + opts.device + ' not found. Ignoring');
   } else {
@@ -144,7 +146,23 @@ function timeout(ms) {
 
   console.log("Opening URL: " + testUrl);
 
-  await page.goto(testUrl);
+  let timer=0
+  function assignTimeout(msg, seconds){
+    clearTimeout(timer)
+    timer=setTimeout(function(){
+      console.error(msg)
+      process.exit(2)
+    },seconds)
+  }
+
+  assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 20000);
+
+  try { 
+    await page.goto(testUrl);
+  } catch (err) {
+    console.error("Failed to open URL with error: " + err.message);
+    process.exit(2)
+  }
 
   if (opts.screenshot){
     console.log("Wait a second for screenshot.");
@@ -155,7 +173,7 @@ function timeout(ms) {
   }
 
   page.on('console', msg => {
-    let logString = msg.text();
+    let logString = (!!msg && msg.text()) || "def";
 
     if (verbose) {
       console.log("DEBUG: " + logString);
@@ -169,23 +187,31 @@ function timeout(ms) {
             
     // Report progress
     if (logString.includes("BZ-LOG")) {
-      console.log(logstring.replace("BZ-LOG:",""));
+      if (logString.includes("action")){
+        let timeout = parseInt(logString.split("ms:")[1])+1160000;
+        assignTimeout("Error: Action taking too long. Timing out.", timeout);
+      } else if (logString.includes("screenshot")){
+        console.log("Screenshot " +  logString.split("screenshot:")[1]);
+      } else 
+      {
+        console.log(logString.replace("BZ-LOG: ",""));  
+      } 
     }
     else if (logString.includes("<html>")) {
-      fs.writeFile(`${opts.file}.html`, logString, (err) => {
+      fs.writeFile(`${file}.html`, logString, (err) => {
         if (err) {
           console.error("Error: ", err)
           process.exit(2)
         }
-        console.log(`Report "${opts.file}.html" saved.`)
+        console.log(`Report "${file}.html" saved.`)
       })
     } else if (logString.includes('"result": {')) {
-      fs.writeFile(`${opts.file}.json`, logString, (err) => {
+      fs.writeFile(`${file}.json`, logString, (err) => {
         if (err) {
           console.error("Error: ", err)
           process.exit(2)
         }
-        console.log(`Report "${opts.file}.json" saved.`)
+        console.log(`Report "${file}.json" saved.`)
       })
       const json = JSON.parse(logString)
       success = (json.result.type == 1)
