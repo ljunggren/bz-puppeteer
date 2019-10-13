@@ -359,6 +359,16 @@ chrome.webRequest.onBeforeRequest.addListener(function(a,b){
     chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"BZ",fun:"addReq",data:a});
   }
 },{urls: ["<all_urls>"]})
+
+
+chrome.webRequest.onBeforeRedirect.addListener(function(a,b){
+  if(a.tabId==_ctrlTabId&&_ctrlTabId){
+    _list[a.requestId]=a
+    chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"BZ",fun:"addRep",data:a});
+//    chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"BZ",fun:"addReq",data:a});
+  }
+},{urls: ["<all_urls>"]})
+
 chrome.webRequest.onCompleted.addListener(function(v){
   if(v.tabId!=_ctrlTabId){
     return
