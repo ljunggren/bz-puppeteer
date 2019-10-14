@@ -1,6 +1,7 @@
 var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
 var _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId;
-var _ignoreList=["https://vars.hotjar.com"]
+var _ignoreList=["https://vars.hotjar.com"],funMap={}
+var _list={},_responseList={}
 chrome.browserAction.setBadgeText({text: chrome.runtime.getManifest().version=="1.2"?"TEST":"AI"});
 //open management page from extension icon!
 chrome.browserAction.onClicked.addListener(function() {
@@ -15,7 +16,9 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     return;
   }
   //check whether the request from BZ client web page
-  if(_req.twPage){
+  if(_req.bg){
+    return funMap[_req.fun](_req.bkScope,_req.bkFun,_req.data)
+  }else if(_req.twPage){
     if(_req.tab=="master"){
 //      _req.frameId=[0];
       delete _req.twPage
@@ -352,10 +355,14 @@ chrome.runtime.requestUpdateCheck(function(status) {
     console.log("Oops, I'm asking too frequently - I need to back off.");
   }
 });
-var _list={}
 chrome.webRequest.onBeforeRequest.addListener(function(a,b){
   if(a.tabId==_ctrlTabId&&_ctrlTabId){
-    _list[a.requestId]=a
+    if(a.type=="xmlhttprequest"){
+      _list[a.requestId]=a
+    }else if(a.type=="main_frame"){
+      _list={}
+      _responseList={}
+    }
     chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"BZ",fun:"addReq",data:a});
   }
 },{urls: ["<all_urls>"]})
@@ -363,7 +370,8 @@ chrome.webRequest.onBeforeRequest.addListener(function(a,b){
 
 chrome.webRequest.onBeforeRedirect.addListener(function(a,b){
   if(a.tabId==_ctrlTabId&&_ctrlTabId){
-    _list[a.requestId]=a
+    delete _list[a.requestId]
+    _responseList[a.requestId]=a
     chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"BZ",fun:"addRep",data:a});
 //    chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"BZ",fun:"addReq",data:a});
   }
@@ -374,6 +382,7 @@ chrome.webRequest.onCompleted.addListener(function(v){
     return
   }
   delete _list[v.requestId]
+  _responseList[v.requestId]=v
   chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"BZ",fun:"addRep",data:v});
   
   if(_masterTabId&&v.tabId==_masterTabId&&v.frameId==0&&_masterFrameId){
@@ -427,6 +436,7 @@ chrome.webRequest.onActionIgnored.addListener(function(v){
     return
   }
   delete _list[v.requestId]
+  _responseList[v.requestId]=v
   chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"BZ",fun:"addRep",data:v});
 })
 function _isDownloading(rs){
@@ -442,7 +452,8 @@ function _isDownloading(rs){
 chrome.webRequest.onErrorOccurred.addListener(function(v){
   if(v.tabId==_ctrlTabId||(_masterFrameId&&!_ctrlTabId)){
     var r={ctrlInfo:1,url:v.url,error:1};
-    
+    delete _list[v.requestId]
+    _responseList[v.requestId]=v
     chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"BZ",fun:"addRep",data:v});
     
     if(v.type=="main_frame"||(v.type=="sub_frame"&&((_masterFrameId&&!_ctrlTabId)||v.frameId==_topFrameId))){
@@ -466,7 +477,12 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
     chrome.tabs.sendMessage(_masterTabId, r)
   }
 },{urls: ["<all_urls>"]});
-
+funMap.isRequestCompleted=function(bkScope,bkFun,_rList){
+  _rList.forEach((r,i)=>{
+    _rList[i]=_responseList[r]
+  })
+  chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:bkScope,fun:bkFun,data:{result:!Object.keys(_list).length,data:_rList}});
+}
 function cleanMaster(){
   _masterTabId=0;
   _masterFrameId=0;
