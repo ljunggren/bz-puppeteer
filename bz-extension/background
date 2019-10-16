@@ -487,5 +487,3 @@ chrome.webRequest.onActionIgnored.addListener(function(v){
   }
   funMap.postRequest(v,"BZ","addRep")
 })
-
-})
