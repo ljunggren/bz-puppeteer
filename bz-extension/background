@@ -14,8 +14,17 @@ var funMap={
     chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:bkScope,fun:bkFun,data:{result:!Object.keys(_list).length,data:_rList}});
   },
   postRequest:function(v,scope,fun){
-    v=funMap.buildRequestData(v)
-    chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:scope,fun:fun,data:v});
+    if(["main_frame","xmlhttprequest"].includes(v.type)){
+      v=funMap.buildRequestData(v)
+      var id=v.requestId
+      if(fun=="addReq"){
+        _list[id]=v
+      }else{
+        delete _list[id]
+        _responseList[id]=v
+      }
+      chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:scope,fun:fun,data:v});
+    }
   },
   buildRequestData:function(v){
     return {
@@ -231,32 +240,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     if(isIgnoreFrame(t.url)){
       return
     }
-    _topFrameId=_msg.name=="bz-client"||_msg.name=="bz-manager"?t.frameId:_topFrameId
-    if(t.frameId &&_msg.name!="bz-client" && !_frameIds[t.frameId]){
-      clearTimeout(assignfirmeCall)
-      _frameIds[t.frameId]={url:t.url,id:t.frameId};
-      var v={getFramePath:_frameIds};
-      chrome.tabs.executeScript(
-        _ctrlTabId,
-        {frameId: t.frameId, code:"if(window.BZ){BZ.retrieveWinSize()}"},
-        function(data) { 
-          _frameIds[t.frameId].size=data[0] 
-          assignfirmeCall=setTimeout(function(){
-            chrome.tabs.sendMessage(_ctrlTabId, v,function(m){
-              if(m){
-                for(var k in m){
-                  if(_frameIds[k] && !m[k].size){
-                    m[k].size=_frameIds[k].size
-                  }
-                  _frameIds[k]=m[k]
-                }
-              }
-            });
-          },200);
-        }
-      );
-    }
-//    chrome.tabs.sendMessage(_masterTabId, {tw:-1,tab:"master"});
+    _topFrameId=_msg.name=="bz-client"||_msg.name=="bz-manager"?t.frameId:_topFrameId;
     //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
     if(!_msg.BZ){
       _setCodeToContent(_plugInCode,t.frameId);
@@ -384,11 +368,10 @@ chrome.runtime.requestUpdateCheck(function(status) {
 });
 chrome.webRequest.onBeforeRequest.addListener(function(a,b){
   if(a.tabId==_ctrlTabId&&_ctrlTabId){
-    if(a.type=="xmlhttprequest"){
-      _list[a.requestId]=a
-    }else if(a.type=="main_frame"){
+    if(a.type=="main_frame"){
       _list={}
       _responseList={}
+      console.clear()
     }
     funMap.postRequest(a,"BZ","addReq")
   }
@@ -397,8 +380,6 @@ chrome.webRequest.onBeforeRequest.addListener(function(a,b){
 
 chrome.webRequest.onBeforeRedirect.addListener(function(a,b){
   if(a.tabId==_ctrlTabId&&_ctrlTabId){
-    delete _list[a.requestId]
-    _responseList[a.requestId]=a
     funMap.postRequest(a,"BZ","addRep")
   }
 },{urls: ["<all_urls>"]})
@@ -407,8 +388,6 @@ chrome.webRequest.onCompleted.addListener(function(v){
   if(v.tabId!=_ctrlTabId){
     return
   }
-  delete _list[v.requestId]
-  _responseList[v.requestId]=v
   funMap.postRequest(v,"BZ","addRep")
   
   if(_masterTabId&&v.tabId==_masterTabId&&v.frameId==0&&_masterFrameId){
@@ -470,8 +449,6 @@ function _isDownloading(rs){
 chrome.webRequest.onErrorOccurred.addListener(function(v){
   if(v.tabId==_ctrlTabId||(_masterFrameId&&!_ctrlTabId)){
     var r={ctrlInfo:1,url:v.url,error:1};
-    delete _list[v.requestId]
-    _responseList[v.requestId]=v
     funMap.postRequest(v,"BZ","addRep")
     
     if(v.type=="main_frame"||(v.type=="sub_frame"&&((_masterFrameId&&!_ctrlTabId)||v.frameId==_topFrameId))){
@@ -508,7 +485,5 @@ chrome.webRequest.onActionIgnored.addListener(function(v){
   if(v.tabId!=_ctrlTabId){
     return
   }
-  delete _list[v.requestId]
-  _responseList[v.requestId]=v
   funMap.postRequest(v,"BZ","addRep")
 })
