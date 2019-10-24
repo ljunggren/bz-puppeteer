@@ -144,9 +144,6 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       for(var k in _req.shareData){
         _shareData[k]=_req.shareData[k];
       }
-      if(_ctrlTabId){
-        chrome.tabs.sendMessage(_ctrlTabId,{shareData:_req.shareData});
-      }
     }
     _doIt()
     function _doIt(){
