@@ -1,3 +1,5 @@
+let curContentExeAction=0;
+
 //Register
 window.extensionContent=1;
 if(name!=="bz-master"){
@@ -67,7 +69,12 @@ function handleMsg(_event, _, sendResponse) {
   //set execute action
   }else if(_event.exeAction){
     if(window.BZ && _event.frameId.includes(BZ.iframeId)){
+      if(curContentExeAction&&curContentExeAction._path==_event.exeAction._path){
+        return
+      }
+      curContentExeAction=_event.exeAction
       window[ecMap.dat][ecMap.ea](_event.exeAction,_event.setting,function(r){
+        curContentExeAction=0
         var d={$newElement:window.$newElement};
         //d["_tmpTaskDataMap"]=_ideDataManagement._tmpTaskDataMap
         d[ecMap.ttmd]=window[ecMap.idm][ecMap.ttmd]
