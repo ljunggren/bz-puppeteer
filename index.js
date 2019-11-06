@@ -155,7 +155,7 @@ function timeout(ms) {
     },seconds)
   }
 
-  assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 20000);
+  assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 2000000);
 
   try { 
     await page.goto(testUrl);
@@ -163,6 +163,10 @@ function timeout(ms) {
     console.error("Failed to open URL with error: " + err.message);
     process.exit(2)
   }
+
+  await page.evaluate(() => {
+    localStorage.setItem('token', 'example-token');
+  });
 
   if (opts.screenshot){
     console.log("Wait a second for screenshot.");
@@ -188,10 +192,15 @@ function timeout(ms) {
     // Report progress
     if (logString.includes("BZ-LOG")) {
       if (logString.includes("action")){
-        let timeout = parseInt(logString.split("ms:")[1])+1160000;
+        let timeout = parseInt(logString.split("ms:")[1])+20000;
         assignTimeout("Error: Action taking too long. Timing out.", timeout);
       } else if (logString.includes("screenshot")){
-        console.log("Screenshot " +  logString.split("screenshot:")[1]);
+        //console.log("Screenshot " +  logString.split("screenshot:")[1]);
+      } else if (logString.includes("next schedule at")){
+        let nextSchedule = Date.parse(logString.split("next schedule at: ")[1]);
+        let timeout = nextSchedule - Date.now() + 30000;
+        console.log(logString.replace("BZ-LOG: ","")); 
+        assignTimeout("Next scheduled test not starting in time", timeout);
       } else 
       {
         console.log(logString.replace("BZ-LOG: ",""));  
@@ -206,7 +215,8 @@ function timeout(ms) {
         console.log(`Report "${file}.html" saved.`)
       })
     } else if (logString.includes('"result": {')) {
-      fs.writeFile(`${file}.json`, logString, (err) => {
+       assignTimeout("Report generation taking too long", 30000);
+       fs.writeFile(`${file}.json`, logString, (err) => {
         if (err) {
           console.error("Error: ", err)
           process.exit(2)
