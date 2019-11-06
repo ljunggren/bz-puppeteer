@@ -1,4 +1,4 @@
-let curContentExeAction=0;
+let curContentExeAction=0,lastContentExeAction;
 
 //Register
 window.extensionContent=1;
@@ -68,11 +68,17 @@ function handleMsg(_event, _, sendResponse) {
   //set execute action
   }else if(_event.exeAction){
     if(window.BZ && _event.frameId.includes(BZ.iframeId)){
-      if(curContentExeAction&&curContentExeAction._path==_event.exeAction._path){
+      if(curContentExeAction&&curContentExeAction._exeTime==_event.exeAction._exeTime){
         return
       }
       curContentExeAction=_event.exeAction
+      if(lastContentExeAction&&lastContentExeAction._path==_event.exeAction._path){
+        if(lastContentExeAction._exeTime==_event.exeAction._exeTime){
+          return
+        }
+      }
       window[ecMap.dat][ecMap.ea](_event.exeAction,_event.setting,function(r){
+        lastContentExeAction=curContentExeAction
         curContentExeAction=0
         var d={$newElement:window.$newElement};
         //d["_tmpTaskDataMap"]=_ideDataManagement._tmpTaskDataMap
