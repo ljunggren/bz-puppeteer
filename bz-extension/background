@@ -503,6 +503,7 @@ function cleanMaster(){
   ignoreReqs=0
   _newStatus=_status=_topFrameId=0
   _ctrlTabId=0;
+  _uncodeFrames=[]
 }
 
 chrome.webRequest.onActionIgnored.addListener(function(v){
