@@ -1,5 +1,5 @@
 var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
-var _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId;
+var _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId,_uncodeFrames=[];
 var _ignoreList=["https://vars.hotjar.com"]
 var funMap={
   isRequestCompleted:function(bkScope,bkFun,_rList){
@@ -99,6 +99,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     _lastExeActionReq=0;
     _shareData={}
     ignoreReqs="";
+    _setCodeToContent("window.close();",_topFrameId);
   //Set CSS file path from BZ master page
   }else if(_req.bzCss){
     _css=_req.bzCss;
@@ -169,6 +170,10 @@ function _addFrameId(_req,_element,_fun){
   if(_element&&_element.constructor==Object){
     _element=_element.path
   }
+  var _badRequest=setTimeout(function(){
+    _fun()
+  },2000)
+  
   if(_element && _element[0]){
     if(!_element[0].startsWith("$(BZ.TW.document.body)")&&_element[0][0]=="$"){
       var v=_element[0].match(/\(([0-9\,]+)\)/)
@@ -178,6 +183,11 @@ function _addFrameId(_req,_element,_fun){
         return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v},function(r){
           if(r!==undefined){
             _req.frameId=[r];
+            if(_uncodeFrames.includes(r)){
+              _uncodeFrames.splice(_uncodeFrames.indexOf(r),1)
+              clearTimeout(_badRequest)
+              _initFrame(r)
+            }
             _fun()
           }
         })
@@ -238,40 +248,13 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       return
     }
     _topFrameId=_msg.name=="bz-client"||_msg.name=="bz-manager"?t.frameId:_topFrameId;
-    //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
-    if(!_msg.BZ){
-      _setCodeToContent(_plugInCode,t.frameId);
-    }else{
-      //for BZ developer debugging in BZ office
-      if(_masterUrl.includes("boozang")){
-        //alert("The extension is not for production")
-        if(_plugInCode){
-          _setCodeToContent(_plugInCode,t.frameId);
-        }else{
-          _setCodeToContent("showCode('BZ Debugging');",t.frameId);
-        }
-      }else{
-        _setCodeToContent("showCode('BZ Debugging');",t.frameId);
-      }
+    _setCodeToContent("bzIframeId="+t.frameId+";topFrame="+(_msg.name=="bz-client"?1:0)+";",t.frameId)
+    if(_topFrameId!=t.frameId&&_status=="play"){
+      _uncodeFrames.push(t.frameId)
+      return
     }
-    _setCodeToContent(_bzEnvCode+";BZ.iframeId="+t.frameId+";BZ.topFrame="+(_msg.name=="bz-client"?1:0)+";window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:BZ.iframeId})}",t.frameId);
-    _sendResponse({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data});
-    if(_curAction){
-      chrome.tabs.sendMessage(_ctrlTabId,{curAction:_curAction});
-    }else if(_curTest){
-      chrome.tabs.sendMessage(_ctrlTabId,{curTest:_curTest});
-    }
-    if(_shareData){
-      chrome.tabs.sendMessage(_ctrlTabId,{shareData:_shareData});
-    }
+    _initFrame(t.frameId,_sendResponse)
 
-    if(_lastExeActionReq && _status=="play"){
-      chrome.tabs.sendMessage(_ctrlTabId, _lastExeActionReq);
-    }
-    if(_loadPageInfo){
-      chrome.tabs.sendMessage(_masterTabId, _loadPageInfo)
-      _loadPageInfo=0
-    }
   //only work after master window is ready, and the requestion will send to master
   }else if(_masterTabId){
     _msg.ctrlInfo=1;
@@ -306,6 +289,48 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     chrome.tabs.sendMessage(_masterTabId, _msg);
   }
 });
+
+function _initFrame(frameId,_sendResponse){
+  //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
+  if(!window.BZ){
+    _setCodeToContent(_plugInCode,frameId);
+  }else{
+    //for BZ developer debugging in BZ office
+    if(_masterUrl.includes("boozang")){
+      //alert("The extension is not for production")
+      if(_plugInCode){
+        _setCodeToContent(_plugInCode,frameId);
+      }else{
+        _setCodeToContent("showCode('BZ Debugging');",frameId);
+      }
+    }else{
+      _setCodeToContent("showCode('BZ Debugging');",frameId);
+    }
+  }
+  _setCodeToContent(_bzEnvCode+";window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:bzIframeId})}",frameId);
+  _setCodeToContent("_insertCssAndClientCode("+JSON.stringify({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data})+")",frameId)
+//  _sendResponse({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data});
+  if(_status!="play"){
+    if(_curAction){
+      chrome.tabs.sendMessage(_ctrlTabId,{curAction:_curAction});
+    }else if(_curTest){
+      chrome.tabs.sendMessage(_ctrlTabId,{curTest:_curTest});
+    }
+  }
+  if(_shareData){
+    chrome.tabs.sendMessage(_ctrlTabId,{shareData:_shareData});
+  }
+
+  if(_lastExeActionReq && _status=="play"){
+    setTimeout(function(){
+      chrome.tabs.sendMessage(_ctrlTabId, _lastExeActionReq);
+    },100)
+  }
+  if(_loadPageInfo){
+    chrome.tabs.sendMessage(_masterTabId, _loadPageInfo)
+    _loadPageInfo=0
+  }
+}
 
 chrome.tabs.onRemoved.addListener(function(_tab, info) {
   //_console("background: remove tab")
@@ -354,12 +379,12 @@ chrome.runtime.onUpdateAvailable.addListener(function(details) {
   chrome.runtime.reload();
 });
 
-chrome.runtime.requestUpdateCheck(function(status) {
-  if (status == "update_available") {
+chrome.runtime.requestUpdateCheck(function(s) {
+  if (s == "update_available") {
     console.log("update pending...");
-  } else if (status == "no_update") {
+  } else if (s == "no_update") {
     console.log("no update found");
-  } else if (status == "throttled") {
+  } else if (s == "throttled") {
     console.log("Oops, I'm asking too frequently - I need to back off.");
   }
 });
@@ -368,7 +393,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(a,b){
     if(a.type=="main_frame"){
       _list={}
       _responseList={}
-      console.clear()
+      //console.clear()
     }
     funMap.postRequest(a,"BZ","addReq")
   }
@@ -457,7 +482,8 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
       if(_lastErrPage && _lastErrPage.url==r.url && Date.now()-_lastErrPage.time<1000){
         return;
       }
-      _lastErrPage={url:r.url,time:Date.now()}
+      _lastErrPage={url:r.url,time:Date.now(),type:v.type}
+      console.log(_lastErrPage)
     }else if(v.type=="other"){
       r.download=1
     }else{
@@ -470,11 +496,12 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
   }
 },{urls: ["<all_urls>"]});
 function cleanMaster(){
+  _setCodeToContent("window.close();",_topFrameId);
   _masterTabId=0;
   _masterFrameId=0;
   _shareData={}
   ignoreReqs=0
-  _newStatus=_status=0
+  _newStatus=_status=_topFrameId=0
   _ctrlTabId=0;
 }
 
