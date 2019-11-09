@@ -1,4 +1,4 @@
-var _appUrl="https:/"+"/192.168.5.8",_masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
+var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
 var _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId,_uncodeFrames=[];
 var _ignoreList=["https://vars.hotjar.com"]
 var funMap={
@@ -503,6 +503,7 @@ function cleanMaster(){
   ignoreReqs=0
   _newStatus=_status=_topFrameId=0
   _ctrlTabId=0;
+  _uncodeFrames=[]
 }
 
 chrome.webRequest.onActionIgnored.addListener(function(v){
