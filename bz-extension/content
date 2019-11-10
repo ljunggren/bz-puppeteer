@@ -65,7 +65,7 @@ function handleMsg(_event, _, sendResponse) {
   }else if(_event.exeAction){
     if(window.BZ && _event.frameId.includes(bzIframeId)){
       afterDocReady(function(){
-        if(curContentExeAction&&curContentExeAction._exeTime==_event.exeAction._exeTime){
+        if(curContentExeAction&&curContentExeAction.exeTime==_event.exeAction.exeTime){
           return
         }
         curContentExeAction=_event.exeAction
