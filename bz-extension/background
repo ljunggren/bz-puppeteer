@@ -477,7 +477,7 @@ function _isDownloading(rs){
 }
 chrome.webRequest.onErrorOccurred.addListener(function(v){
   if(v.tabId==_ctrlTabId||(_masterFrameId&&!_ctrlTabId)){
-    var r={ctrlInfo:1,url:v.url,error:1};
+    var r={ctrlInfo:1,url:v.url,error:v.error};
     funMap.postRequest(v,"BZ","addRep")
     
     if(v.type=="main_frame"||(v.type=="sub_frame"&&((_masterFrameId&&!_ctrlTabId)||v.frameId==_topFrameId))){
