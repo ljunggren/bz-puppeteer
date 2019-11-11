@@ -66,12 +66,11 @@ function handleMsg(_event, _, sendResponse) {
   }else if(_event.exeAction){
     if(window.BZ && _event.frameId.includes(bzIframeId)){
       afterDocReady(function(){
-        if(curContentExeAction&&curContentExeAction._exeTime==_event.exeAction._exeTime){
+        if(curContentExeAction&&curContentExeAction.exeTime==_event.exeAction.exeTime){
           return
         }
         curContentExeAction=_event.exeAction
         window[ecMap.dat][ecMap.ea](_event.exeAction,_event.setting,function(r){
-          curContentExeAction=0
           var d={$newElement:window.$newElement};
           //d["_tmpTaskDataMap"]=_ideDataManagement._tmpTaskDataMap
           d[ecMap.ttmd]=window[ecMap.idm][ecMap.ttmd]

@@ -182,10 +182,10 @@ function _addFrameId(_req,_element,_fun){
         v=v[1].split(",")
         return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v},function(r){
           if(r!==undefined){
+            clearTimeout(_badRequest)
             _req.frameId=[r];
             if(_uncodeFrames.includes(r)){
               _uncodeFrames.splice(_uncodeFrames.indexOf(r),1)
-              clearTimeout(_badRequest)
               _initFrame(r)
             }
             _fun()
@@ -194,6 +194,7 @@ function _addFrameId(_req,_element,_fun){
       }
     }
   }
+  clearTimeout(_badRequest)
   _fun()
 }
 //to get frame ids by element path
