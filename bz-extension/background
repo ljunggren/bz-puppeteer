@@ -35,6 +35,9 @@ var funMap={
       type:v.type,
       method:v.method
     }
+  },
+  enableAllIframe:function(){
+    _uncodeFrames.forEach(f=>{_initFrame(f)})
   }
 }
 var _list={},_responseList={}
@@ -80,6 +83,9 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       if(_ctrlTabId){
         if(_req.data){
           _data=_req.data;
+        }
+        if(_newStatus=="record"){
+          funMap.enableAllIframe()
         }
         chrome.tabs.sendMessage(_ctrlTabId, {_newStatus:_newStatus,data:_req.data});
         _newStatus=0;
@@ -254,7 +260,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       _uncodeFrames.push(t.frameId)
       return
     }
-    _initFrame(t.frameId,_sendResponse)
+    _initFrame(t.frameId)
 
   //only work after master window is ready, and the requestion will send to master
   }else if(_masterTabId){
@@ -291,7 +297,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
   }
 });
 
-function _initFrame(frameId,_sendResponse){
+function _initFrame(frameId){
   //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
   if(!window.BZ){
     _setCodeToContent(_plugInCode,frameId);
@@ -310,7 +316,7 @@ function _initFrame(frameId,_sendResponse){
   }
   _setCodeToContent(_bzEnvCode+";window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:bzIframeId})}",frameId);
   _setCodeToContent("_insertCssAndClientCode("+JSON.stringify({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data})+")",frameId)
-//  _sendResponse({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data});
+
   if(_status!="play"){
     if(_curAction){
       chrome.tabs.sendMessage(_ctrlTabId,{curAction:_curAction});
