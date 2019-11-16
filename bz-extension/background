@@ -230,9 +230,19 @@ function _setCodeToContent(c,id,tabId){
         if(!id&&_topFrameId){
           id=_topFrameId
         }
-        chrome.tabs.executeScript(tabId, {code: c,matchAboutBlank:true,frameId:id});
+        chrome.tabs.executeScript(tabId, {code: c,matchAboutBlank:true,frameId:id},_=>{
+          let e = chrome.runtime.lastError;
+          if(e !== undefined){
+            console.log(tabId, _, e);
+          }
+        });
       }else{
-        chrome.tabs.executeScript(tabId, {code: c,matchAboutBlank:true,allFrames:true});
+        chrome.tabs.executeScript(tabId, {code: c,matchAboutBlank:true,allFrames:true},_=>{
+          let e = chrome.runtime.lastError;
+          if(e !== undefined){
+            console.log(tabId, _, e);
+          }
+        });
       }
     }catch(e){}
   }
