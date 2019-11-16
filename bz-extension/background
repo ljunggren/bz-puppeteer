@@ -98,6 +98,10 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     ecMap=_req.ecMap;
   //Dynamic code from BZ master page
   }else if(_req.bzCode){
+    if(_masterTabId&&_masterTabId!=_sender.tab.id){
+      chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"window",fun:"close"});
+      chrome.tabs.sendMessage(_ctrlTabId, {tab:"master",scope:"window",fun:"close"});
+    }
     _masterTabId=_sender.tab.id;
     _masterFrameId=_sender.frameId
     _masterUrl=_sender.url;
@@ -207,19 +211,28 @@ function _addFrameId(_req,_element,_fun){
 function _getFrameIds(_root){
   
 }
-
+function _isExistTab(id,_fun){
+  chrome.tabs.query({}, function(tabs) {
+    for(var i=0;i<tabs.length;i++){
+      if(tabs[i].windowId==id){
+        return _fun()
+      }
+    }
+  });
+}
 //set code to chrome extension content
-function _setCodeToContent(c,id){
+function _setCodeToContent(c,id,tabId){
+  tabId=tabId||_ctrlTabId
   //for set dynamic code to current controled client tab, 
-  if(_ctrlTabId && !_lastErrPage){
+  if(tabId && !_lastErrPage){
     try{
       if(id!==undefined){
         if(!id&&_topFrameId){
           id=_topFrameId
         }
-        chrome.tabs.executeScript(_ctrlTabId, {code: c,matchAboutBlank:true,frameId:id});
+        chrome.tabs.executeScript(tabId, {code: c,matchAboutBlank:true,frameId:id});
       }else{
-        chrome.tabs.executeScript(_ctrlTabId, {code: c,matchAboutBlank:true,allFrames:true});
+        chrome.tabs.executeScript(tabId, {code: c,matchAboutBlank:true,allFrames:true});
       }
     }catch(e){}
   }
@@ -503,7 +516,10 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
   }
 },{urls: ["<all_urls>"]});
 function cleanMaster(){
-  _setCodeToContent("window.close();",_topFrameId);
+  var tabId=_ctrlTabId
+  _isExistTab(tabId,function(){
+    _setCodeToContent("window.close();",_topFrameId,tabId);
+  })
   _masterTabId=0;
   _masterFrameId=0;
   _shareData={}
