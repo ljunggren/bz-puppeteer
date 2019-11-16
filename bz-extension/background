@@ -107,7 +107,6 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     _masterUrl=_sender.url;
     _plugInCode=_req.bzCode;
     _lastExeActionReq=0;
-    _shareData={}
     ignoreReqs="";
     _setCodeToContent("window.close();",_topFrameId);
   //Set CSS file path from BZ master page
@@ -153,6 +152,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       }
     }else if(_req.shareData){
       for(var k in _req.shareData){
+        console.log("shareData: "+k)
         _shareData[k]=_req.shareData[k];
       }
     }
