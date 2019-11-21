@@ -165,7 +165,7 @@ function timeout(ms) {
   }
 
   await page.evaluate(() => {
-    localStorage.setItem('token', 'example-token');
+    localStorage.setItem('ci', 'example-token');
   });
 
   if (opts.screenshot){
@@ -192,7 +192,7 @@ function timeout(ms) {
     // Report progress
     if (logString.includes("BZ-LOG")) {
       if (logString.includes("action")){
-        let timeout = parseInt(logString.split("ms:")[1])+20000;
+        let timeout = parseInt(logString.split("ms:")[1]+60000);
         assignTimeout("Error: Action taking too long. Timing out.", timeout);
       } else if (logString.includes("screenshot")){
         //console.log("Screenshot " +  logString.split("screenshot:")[1]);
