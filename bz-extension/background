@@ -158,11 +158,12 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     }
     _doIt()
     function _doIt(){
-      if(!_ctrlTabId||_lastErrPage){
+//      if(!_ctrlTabId||_lastErrPage){
+      if(!_ctrlTabId){
         if(_req.exeAction){
           if(_ctrlTabId){
             chrome.tabs.get(_ctrlTabId,function(o){
-              chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",data:{url:o.url},twPage:1,tab:"master",bz:1});
+              chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",data:_lastErrPage,twPage:1,tab:"master",bz:1});
             })
           }else{
             chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",twPage:1,tab:"master",bz:1});
@@ -510,6 +511,7 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
         r.ready=1
       }
       if(_lastErrPage && _lastErrPage.url==r.url && Date.now()-_lastErrPage.time<1000){
+        _lastErrPage.time=Date.now()
         return;
       }
       _lastErrPage={url:r.url,time:Date.now(),type:v.type}
