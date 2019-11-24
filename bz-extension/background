@@ -1,6 +1,46 @@
-var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
-var _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId;
+var _appUrl="http:/"+"/localhost",_masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
+var _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId,_uncodeFrames=[];
 var _ignoreList=["https://vars.hotjar.com"]
+var funMap={
+  isRequestCompleted:function(bkScope,bkFun,_rList){
+    _rList.forEach((r,i)=>{
+      var v=_responseList[r]
+      if(v){
+        _rList[i]=funMap.buildRequestData(v)
+      }else{
+        _rList[i]=null
+      }
+    })
+    chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:bkScope,fun:bkFun,data:{result:!Object.keys(_list).length,data:_rList}});
+  },
+  postRequest:function(v,scope,fun){
+    if(["main_frame","xmlhttprequest"].includes(v.type)){
+      v=funMap.buildRequestData(v)
+      var id=v.requestId
+      if(fun=="addReq"){
+        _list[id]=v
+      }else{
+        delete _list[id]
+        _responseList[id]=v
+      }
+      chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:scope,fun:fun,data:v});
+    }
+  },
+  buildRequestData:function(v){
+    return {
+      requestId:v.requestId,
+      url:v.url,
+      timeStamp:v.timeStamp,
+      statusCode:v.statusCode,
+      type:v.type,
+      method:v.method
+    }
+  },
+  enableAllIframe:function(){
+    _uncodeFrames.forEach(f=>{_initFrame(f)})
+  }
+}
+var _list={},_responseList={}
 chrome.browserAction.setBadgeText({text: chrome.runtime.getManifest().version=="1.2"?"TEST":"AI"});
 //open management page from extension icon!
 chrome.browserAction.onClicked.addListener(function() {
@@ -15,7 +55,9 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     return;
   }
   //check whether the request from BZ client web page
-  if(_req.twPage){
+  if(_req.bg){
+    return funMap[_req.fun](_req.bkScope,_req.bkFun,_req.data)
+  }else if(_req.twPage){
     if(_req.tab=="master"){
 //      _req.frameId=[0];
       delete _req.twPage
@@ -42,6 +84,9 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
         if(_req.data){
           _data=_req.data;
         }
+        if(_newStatus=="record"){
+          funMap.enableAllIframe()
+        }
         chrome.tabs.sendMessage(_ctrlTabId, {_newStatus:_newStatus,data:_req.data});
         _newStatus=0;
       }
@@ -53,13 +98,17 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     ecMap=_req.ecMap;
   //Dynamic code from BZ master page
   }else if(_req.bzCode){
+    if(_masterTabId&&_masterTabId!=_sender.tab.id){
+      chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"window",fun:"close"});
+      chrome.tabs.sendMessage(_ctrlTabId, {tab:"master",scope:"window",fun:"close"});
+    }
     _masterTabId=_sender.tab.id;
     _masterFrameId=_sender.frameId
     _masterUrl=_sender.url;
     _plugInCode=_req.bzCode;
     _lastExeActionReq=0;
-    _shareData={}
     ignoreReqs="";
+    _setCodeToContent("window.close();",_topFrameId);
   //Set CSS file path from BZ master page
   }else if(_req.bzCss){
     _css=_req.bzCss;
@@ -73,33 +122,29 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       _req.frameId=[_topFrameId];
       _lastExeActionReq=_req;
       if(_req.exeAction.element){
-        if(_req.exeAction.element[0].startsWith("$(BZ.TW.document.body)")){
-        }else{
-          _req.frameId=_getFrameIds(_req.exeAction.element[0]);
-          _req.exeAction.element[0]="BZ.TW.document";
-        }
+        return _addFrameId(_req,_req.exeAction.element,function(){
+          _doIt()
+        })
       }else if(_req.exeAction[ecMap.co]){
         //_req.exeAction.code._element
         var e=_req.exeAction[ecMap.co][ecMap.e];
         if(e){
           //_req.exeAction.code._element[0]._css
           e=e[0][ecMap.c];
-          if(e && e[0].startsWith("IFRAME:")){
-            _req.frameId=_getFrameIds(e[0]);
-            _req.exeAction[ecMap.co][ecMap.e].shift()
-          }
+          return _addFrameId(_req,e,function(){
+            _doIt()
+          })
         }
       }
     //for request highlight a BZ action element
     }else if(_req.element!==undefined){
-      _req.frameId=[_topFrameId];
-      if(_req.element && _req.element[0]){
-        if(_req.element[0].startsWith("$(BZ.TW.document.body)")){
-        }else{
-          _req.frameId=_getFrameIds(_req.element[0]);
-          _req.element[0]="BZ.TW.document";
-        }
-      }
+      return _addFrameId(_req,_req.element,function(){
+        _doIt()
+      })
+    }else if(_req.data&&_req.data.element){
+      return _addFrameId(_req,_req.data.element,function(){
+        _doIt()
+      })
     }else if(_req.curTest!==undefined){
       _curTest=_req.curTest
       if(_req.curAction!==undefined){
@@ -107,65 +152,98 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       }
     }else if(_req.shareData){
       for(var k in _req.shareData){
+        console.log("shareData: "+k)
         _shareData[k]=_req.shareData[k];
       }
-      if(_ctrlTabId){
-        chrome.tabs.sendMessage(_ctrlTabId,{shareData:_req.shareData});
-      }
     }
-    if(!_ctrlTabId||_lastErrPage){
-      if(_req.exeAction){
-        if(_ctrlTabId){
-          chrome.tabs.get(_ctrlTabId,function(o){
-            chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",data:{url:o.url},twPage:1,tab:"master",bz:1});
-          })
-        }else{
-          chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",twPage:1,tab:"master",bz:1});
+    _doIt()
+    function _doIt(){
+//      if(!_ctrlTabId||_lastErrPage){
+      if(!_ctrlTabId){
+        if(_req.exeAction){
+          if(_ctrlTabId){
+            chrome.tabs.get(_ctrlTabId,function(o){
+              chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",data:_lastErrPage,twPage:1,tab:"master",bz:1});
+            })
+          }else{
+            chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",twPage:1,tab:"master",bz:1});
+          }
         }
+      }else{
+        chrome.tabs.sendMessage(_ctrlTabId, _req);
       }
-    }else{
-      chrome.tabs.sendMessage(_ctrlTabId, _req);
+//      chrome.tabs.sendMessage(_ctrlTabId, _req);
     }
   }
 });
-
-//to get frame ids by element path
-function _getFrameIds(_root){
-  var ids=[],id=0,bk;
-  if(_root!=="BZ.TW.document"){
-    for(k in _frameIds){
-      id=k;
-      if(_frameIds[k].path2 && _frameIds[k].path2.includes(_root)){
-        ids=[parseInt(k)];
-      }else if(!_frameIds[k].path2){
-        bk=parseInt(k)
+function _addFrameId(_req,_element,_fun){
+  _req.frameId=[_topFrameId];
+  if(_element&&_element.constructor==Object){
+    _element=_element.path
+  }
+  var _badRequest=setTimeout(function(){
+    _fun()
+  },2000)
+  
+  if(_element && _element[0]){
+    if(!_element[0].startsWith("$(BZ.TW.document.body)")&&_element[0][0]=="$"){
+      var v=_element[0].match(/\(([0-9\,]+)\)/)
+      if(v){
+        _element[0]="BZ.TW.document";
+        v=v[1].split(",")
+        return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v},function(r){
+          if(r!==undefined){
+            clearTimeout(_badRequest)
+            _req.frameId=[r];
+            if(_uncodeFrames.includes(r)){
+              _uncodeFrames.splice(_uncodeFrames.indexOf(r),1)
+              _initFrame(r)
+            }
+            _fun()
+          }
+        })
       }
     }
-  }else{
-    return[_topFrameId||0]
   }
-  if(!ids.length){
-    if(bk){
-      ids.push(parseInt(bk))
-    }else{
-      ids.push(parseInt(id))
-    }
-  }
-  return ids;
+  clearTimeout(_badRequest)
+  _fun()
 }
-
+//to get frame ids by element path
+function _getFrameIds(_root){
+  
+}
+function _isExistTab(id,_fun){
+  chrome.tabs.query({}, function(tabs) {
+    for(var i=0;i<tabs.length;i++){
+      if(tabs[i].windowId==id){
+        return _fun()
+      }
+    }
+  });
+}
 //set code to chrome extension content
-function _setCodeToContent(c,id){
+function _setCodeToContent(c,id,tabId){
+  tabId=tabId||_ctrlTabId
   //for set dynamic code to current controled client tab, 
-  if(_ctrlTabId && !_lastErrPage){
+  if(tabId && !_lastErrPage){
     try{
       if(id!==undefined){
         if(!id&&_topFrameId){
           id=_topFrameId
         }
-        chrome.tabs.executeScript(_ctrlTabId, {code: c,matchAboutBlank:true,frameId:id});
+        chrome.tabs.executeScript(tabId, {code: c,matchAboutBlank:true,frameId:id},_=>{
+          let e = chrome.runtime.lastError;
+          if(e !== undefined){
+            console.log(tabId, _, e);
+          }
+        });
       }else{
-        chrome.tabs.executeScript(_ctrlTabId, {code: c,matchAboutBlank:true,allFrames:true});
+        chrome.tabs.executeScript(tabId, {code: c,matchAboutBlank:true,allFrames:true},_=>{
+          let e = chrome.runtime.lastError;
+          if(e !== undefined){
+            console.log(tabId, _, e);
+          }
+        });
       }
     }catch(e){}
   }
@@ -195,79 +273,33 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,topFrame:t.frameId,tab:"master"});
     }
     if(t.url.startsWith(_appUrl)){
-      return alert("Not support to test on the website!");
+      return alert("Testing on Boozang sites not supported!");
     }
     if(isIgnoreFrame(t.url)){
       return
     }
-    _topFrameId=_msg.name=="bz-client"||_msg.name=="bz-manager"?t.frameId:_topFrameId
-    if(t.frameId &&_msg.name!="bz-client" && !_frameIds[t.frameId]){
-      clearTimeout(assignfirmeCall)
-      _frameIds[t.frameId]={url:t.url,id:t.frameId};
-      var v={getFramePath:_frameIds};
-      chrome.tabs.executeScript(
-        _ctrlTabId,
-        {frameId: t.frameId, code:"if(window.BZ){BZ.retrieveWinSize()}"},
-        function(data) { 
-          _frameIds[t.frameId].size=data[0] 
-          assignfirmeCall=setTimeout(function(){
-            chrome.tabs.sendMessage(_ctrlTabId, v,function(m){
-              if(m){
-                for(var k in m){
-                  if(_frameIds[k] && !m[k].size){
-                    m[k].size=_frameIds[k].size
-                  }
-                  _frameIds[k]=m[k]
-                }
-              }
-            });
-          },200);
-        }
-      );
+    _topFrameId=_msg.name=="bz-client"||_msg.name=="bz-manager"?t.frameId:_topFrameId;
+    _setCodeToContent("bzIframeId="+t.frameId+";topFrame="+(_msg.name=="bz-client"?1:0)+";",t.frameId)
+    if(_topFrameId!=t.frameId&&_status=="play"){
+      _uncodeFrames.push(t.frameId)
+      return
     }
-//    chrome.tabs.sendMessage(_masterTabId, {tw:-1,tab:"master"});
-    //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
-    if(!_msg.BZ){
-      _setCodeToContent(_plugInCode,t.frameId);
-    }else{
-      //for BZ developer debugging in BZ office
-      if(_masterUrl.includes("boozang")){
-        alert("The extension is not for production")
-      }
-      _setCodeToContent("showCode('BZ Debugging');",t.frameId);
-    }
-    _setCodeToContent(_bzEnvCode+";BZ.iframeId="+t.frameId+";BZ.topFrame="+(_msg.name=="bz-client"?1:0)+";window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:BZ.iframeId})}",t.frameId);
-    _sendResponse({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data});
-    if(_curAction){
-      chrome.tabs.sendMessage(_ctrlTabId,{curAction:_curAction});
-    }else if(_curTest){
-      chrome.tabs.sendMessage(_ctrlTabId,{curTest:_curTest});
-    }
-    if(_shareData){
-      chrome.tabs.sendMessage(_ctrlTabId,{shareData:_shareData});
-    }
+    _initFrame(t.frameId)
 
-    if(_lastExeActionReq && _status=="play"){
-      chrome.tabs.sendMessage(_ctrlTabId, _lastExeActionReq);
-    }
-    if(_loadPageInfo){
-      chrome.tabs.sendMessage(_masterTabId, _loadPageInfo)
-      _loadPageInfo=0
-    }
   //only work after master window is ready, and the requestion will send to master
   }else if(_masterTabId){
     _msg.ctrlInfo=1;
     if(_msg.result){
       _lastExeActionReq=0;
     }else if(_msg.action){
-      if(t.frameId&&_frameIds[t.frameId]){
-        _msg.action.element[0]=_frameIds[t.frameId].path;
-      }
+//      if(t.frameId&&_frameIds[t.frameId]){
+  //      _msg.action.element[0]=_frameIds[t.frameId].path;
+    //  }
     }else if(_msg[ecMap.ua]){
-      if(t.frameId&&_frameIds[t.frameId]){
+      //if(t.frameId&&_frameIds[t.frameId]){
         //_msg._updateAction.element[0]=_frameIds[t.frameId].path;
-        _msg[ecMap.ua].element[0]=_frameIds[t.frameId].path;
-      }
+        //_msg[ecMap.ua].element[0]=_frameIds[t.frameId].path;
+      //}
       _setCodeToContent("if(window."+ecMap.dp+"){"+ecMap.dp+"."+ecMap.er+"()}")
     }else if(_msg[ecMap.f]==ecMap.rca){
       if(t.frameId&&_frameIds[t.frameId]){
@@ -288,6 +320,48 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     chrome.tabs.sendMessage(_masterTabId, _msg);
   }
 });
+
+function _initFrame(frameId){
+  //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
+  if(!window.BZ){
+    _setCodeToContent(_plugInCode,frameId);
+  }else{
+    //for BZ developer debugging in BZ office
+    if(_masterUrl.includes("boozang")){
+      //alert("The extension is not for production")
+      if(_plugInCode){
+        _setCodeToContent(_plugInCode,frameId);
+      }else{
+        _setCodeToContent("showCode('BZ Debugging');",frameId);
+      }
+    }else{
+      _setCodeToContent("showCode('BZ Debugging');",frameId);
+    }
+  }
+  _setCodeToContent(_bzEnvCode+";window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:bzIframeId})}",frameId);
+  _setCodeToContent("_insertCssAndClientCode("+JSON.stringify({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data})+")",frameId)
+
+  if(_status!="play"){
+    if(_curAction){
+      chrome.tabs.sendMessage(_ctrlTabId,{curAction:_curAction});
+    }else if(_curTest){
+      chrome.tabs.sendMessage(_ctrlTabId,{curTest:_curTest});
+    }
+  }
+  if(_shareData){
+    chrome.tabs.sendMessage(_ctrlTabId,{shareData:_shareData});
+  }
+
+  if(_lastExeActionReq && _status=="play"){
+    setTimeout(function(){
+      chrome.tabs.sendMessage(_ctrlTabId, _lastExeActionReq);
+    },100)
+  }
+  if(_loadPageInfo){
+    chrome.tabs.sendMessage(_masterTabId, _loadPageInfo)
+    _loadPageInfo=0
+  }
+}
 
 chrome.tabs.onRemoved.addListener(function(_tab, info) {
   //_console("background: remove tab")
@@ -336,18 +410,39 @@ chrome.runtime.onUpdateAvailable.addListener(function(details) {
   chrome.runtime.reload();
 });
 
-chrome.runtime.requestUpdateCheck(function(status) {
-  if (status == "update_available") {
+chrome.runtime.requestUpdateCheck(function(s) {
+  if (s == "update_available") {
     console.log("update pending...");
-  } else if (status == "no_update") {
+  } else if (s == "no_update") {
     console.log("no update found");
-  } else if (status == "throttled") {
+  } else if (s == "throttled") {
     console.log("Oops, I'm asking too frequently - I need to back off.");
   }
 });
+chrome.webRequest.onBeforeRequest.addListener(function(a,b){
+  if(a.tabId==_ctrlTabId&&_ctrlTabId){
+    if(a.type=="main_frame"){
+      _list={}
+      _responseList={}
+      //console.clear()
+    }
+    funMap.postRequest(a,"BZ","addReq")
+  }
+},{urls: ["<all_urls>"]})
+
+
+chrome.webRequest.onBeforeRedirect.addListener(function(a,b){
+  if(a.tabId==_ctrlTabId&&_ctrlTabId){
+    funMap.postRequest(a,"BZ","addRep")
+  }
+},{urls: ["<all_urls>"]})
 
 chrome.webRequest.onCompleted.addListener(function(v){
-  console.log(v)
+  if(v.tabId!=_ctrlTabId){
+    return
+  }
+  funMap.postRequest(v,"BZ","addRep")
+  
   if(_masterTabId&&v.tabId==_masterTabId&&v.frameId==0&&_masterFrameId){
     cleanMaster()
   }
@@ -393,6 +488,7 @@ chrome.webRequest.onCompleted.addListener(function(v){
     chrome.tabs.sendMessage(_masterTabId, r)
   }
 },{urls: ["<all_urls>"]},["responseHeaders"]);
+
 function _isDownloading(rs){
   for(var i=0;rs && i<rs.length;i++){
     var r=rs[i];
@@ -405,7 +501,8 @@ function _isDownloading(rs){
 }
 chrome.webRequest.onErrorOccurred.addListener(function(v){
   if(v.tabId==_ctrlTabId||(_masterFrameId&&!_ctrlTabId)){
-    var r={ctrlInfo:1,url:v.url,error:1};
+    var r={ctrlInfo:1,url:v.url,error:v.error};
+    funMap.postRequest(v,"BZ","addRep")
     
     if(v.type=="main_frame"||(v.type=="sub_frame"&&((_masterFrameId&&!_ctrlTabId)||v.frameId==_topFrameId))){
       if(_isDownloading(v.responseHeaders)){
@@ -414,9 +511,11 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
         r.ready=1
       }
       if(_lastErrPage && _lastErrPage.url==r.url && Date.now()-_lastErrPage.time<1000){
+        _lastErrPage.time=Date.now()
         return;
       }
-      _lastErrPage={url:r.url,time:Date.now()}
+      _lastErrPage={url:r.url,time:Date.now(),type:v.type}
+      console.log(_lastErrPage)
     }else if(v.type=="other"){
       r.download=1
     }else{
@@ -428,12 +527,23 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
     chrome.tabs.sendMessage(_masterTabId, r)
   }
 },{urls: ["<all_urls>"]});
-
 function cleanMaster(){
+  var tabId=_ctrlTabId
+  _isExistTab(tabId,function(){
+    _setCodeToContent("window.close();",_topFrameId,tabId);
+  })
   _masterTabId=0;
   _masterFrameId=0;
   _shareData={}
   ignoreReqs=0
-  _newStatus=_status=0
+  _newStatus=_status=_topFrameId=0
   _ctrlTabId=0;
+  _uncodeFrames=[]
 }
+
+chrome.webRequest.onActionIgnored.addListener(function(v){
+  if(v.tabId!=_ctrlTabId){
+    return
+  }
+  funMap.postRequest(v,"BZ","addRep")
+})

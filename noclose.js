@@ -24,12 +24,12 @@ const token = opts.token;
 
 if (result.errors) {
     if (opts.verbose) console.log('Unknown argument(s): "' + result.errors.join('", "') + '"');
-    process.exit(2);
+    //process.exit(2);
 }
 
 if (result.errors || !result.args || result.args.length !== 1) {
-  console.log('USAGE: boozang [--token] [--headfull] [--verbose] [--path] [--screenshot] [--file=report] [--device=default] [url]');
-  process.exit(2);
+  console.log('USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]');
+  //process.exit(2);
 }
 
 const isURL = (str) => {
@@ -49,7 +49,7 @@ if ((!opts.screenshot) && typeof (url) == 'string' && !url.endsWith("/run")) {
 
 if (!url || !isURL(url)) {
     console.error("Invalid URL: " + url)
-    process.exit(2)
+    //process.exit(2)
 }
 console.log("Running Boozang test runner...");
 
@@ -111,13 +111,9 @@ const parseReport = (json) => {
   const headlessMode = ! (opts.headfull || launchargs.length > 0)
   
   const browser = await puppeteer.launch({
-
-    executablePath: opts.path,
-    //executablePath: "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome",
     headless: headlessMode,
     args: launchargs 
   });
-
 
 
 function timeout(ms) {
@@ -155,7 +151,7 @@ function timeout(ms) {
     clearTimeout(timer)
     timer=setTimeout(function(){
       console.error(msg)
-      process.exit(2)
+      //process.exit(2)
     },seconds)
   }
 
@@ -165,11 +161,11 @@ function timeout(ms) {
     await page.goto(testUrl);
   } catch (err) {
     console.error("Failed to open URL with error: " + err.message);
-    process.exit(2)
+    //process.exit(2)
   }
 
   await page.evaluate(() => {
-    localStorage.setItem('ci', 'example-token');
+    localStorage.setItem('token', 'example-token');
   });
 
   if (opts.screenshot){
@@ -196,7 +192,7 @@ function timeout(ms) {
     // Report progress
     if (logString.includes("BZ-LOG")) {
       if (logString.includes("action")){
-        let timeout = parseInt(logString.split("ms:")[1]+60000);
+        let timeout = parseInt(logString.split("ms:")[1])+20000;
         assignTimeout("Error: Action taking too long. Timing out.", timeout);
       } else if (logString.includes("screenshot")){
         //console.log("Screenshot " +  logString.split("screenshot:")[1]);
@@ -214,7 +210,7 @@ function timeout(ms) {
       fs.writeFile(`${file}.html`, logString, (err) => {
         if (err) {
           console.error("Error: ", err)
-          process.exit(2)
+          //process.exit(2)
         }
         console.log(`Report "${file}.html" saved.`)
       })
@@ -223,7 +219,7 @@ function timeout(ms) {
        fs.writeFile(`${file}.json`, logString, (err) => {
         if (err) {
           console.error("Error: ", err)
-          process.exit(2)
+          //process.exit(2)
         }
         console.log(`Report "${file}.json" saved.`)
       })
@@ -236,12 +232,12 @@ function timeout(ms) {
       } else {
         console.error(RED + "Tests failure" + BLANK)
       }
-      process.exit(Number(!success))
+      //process.exit(Number(!success))
     } 
 
     }) //end console
   } // end if(url)
 })().catch((e) => {
   console.error(e);
-  process.exit(2)
+  //process.exit(2)
 })
