@@ -273,7 +273,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,topFrame:t.frameId,tab:"master"});
     }
     if(t.url.startsWith(_appUrl)){
-      return alert("Testing on Boozang sites not supported!");
+//      return alert("Testing on Boozang sites not supported!");
     }
     if(isIgnoreFrame(t.url)){
       return
