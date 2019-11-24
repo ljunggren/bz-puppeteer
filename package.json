@@ -1,5 +1,5 @@
 {
-  "name": "sqa",
+  "name": "sqa-gj",
   "version": "3.1.7",
   "description": "An Simple Driver for Chrome Headless basded on Puppeteer",
   "dependencies": {
@@ -7,7 +7,7 @@
     "puppeteer": "latest"
   },
   "bin": {
-    "boozang": "index.js"
+    "sqa-gj": "index.js"
   },
   "main": "index.js",
   "devDependencies": {},
