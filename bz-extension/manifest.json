@@ -3,7 +3,7 @@
   "name": "SQA-AT",
   "short_name": "SQA-AT",
   "description": "SQA-AT 自动化测试是具有智能化功能的测试工具。测试用例可以通过录制或文字描述实现。",
-  "version": "3.5.2",
+  "version": "3.5.3",
   "permissions": ["webRequest", "webRequestBlocking","tabs", "*://*/*"],
   "background": {
     "scripts": ["background"]

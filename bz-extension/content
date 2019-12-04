@@ -37,7 +37,9 @@ function handleMsg(_event, _, sendResponse) {
       if(name=="bz-master"){
         window.postMessage(_event);
       }else{
-        //chrome.runtime.sendMessage(_event)
+        try{
+          chrome.runtime.sendMessage(_event)
+        }catch(e){}
         return;
       }
     }else if(window.BZ){
@@ -47,8 +49,7 @@ function handleMsg(_event, _, sendResponse) {
     _doIt3();
     function _doIt3(){
       if(name=="bz-master"){
-        var js="javascript:"+_event.scope+"."+_event.fun+"("+JSON.stringify(_event.data)+")"
-        location.href=js
+        location.href="javascript:"+_event.scope+"."+_event.fun+"("+JSON.stringify(_event.data)+")"
       }else if(window.BZ){
         if(window.BZ&&_event.frameId){
           if(!_event.frameId.includes(bzIframeId)){
