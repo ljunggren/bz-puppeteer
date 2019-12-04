@@ -37,7 +37,9 @@ function handleMsg(_event, _, sendResponse) {
       if(name=="bz-master"){
         window.postMessage(_event);
       }else{
-        //chrome.runtime.sendMessage(_event)
+        try{
+          chrome.runtime.sendMessage(_event)
+        }catch(e){}
         return;
       }
     }else if(window.BZ){
