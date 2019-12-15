@@ -152,13 +152,11 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       }
     }else if(_req.shareData){
       for(var k in _req.shareData){
-        console.log("shareData: "+k)
         _shareData[k]=_req.shareData[k];
       }
     }
     _doIt()
     function _doIt(){
-//      if(!_ctrlTabId||_lastErrPage){
       if(!_ctrlTabId){
         if(_req.exeAction){
           if(_ctrlTabId){
@@ -172,7 +170,6 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       }else{
         chrome.tabs.sendMessage(_ctrlTabId, _req);
       }
-//      chrome.tabs.sendMessage(_ctrlTabId, _req);
     }
   }
 });
@@ -192,7 +189,7 @@ function _addFrameId(_req,_element,_fun){
         _element[0]="BZ.TW.document";
         v=v[1].split(",")
         return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v},function(r){
-          if(r!==undefined){
+          if(r!==undefined&&r!==null){
             clearTimeout(_badRequest)
             _req.frameId=[r];
             if(_uncodeFrames.includes(r)){
