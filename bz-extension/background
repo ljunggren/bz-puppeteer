@@ -173,13 +173,19 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     }
   }
 });
-function _addFrameId(_req,_element,_fun){
+function _addFrameId(_req,_element,_fun,_retry){
+  _retry=_retry||0
   _req.frameId=[_topFrameId];
   if(_element&&_element.constructor==Object){
     _element=_element.path
   }
   var _badRequest=setTimeout(function(){
-    _fun()
+    console.log("Retry ::::::::::::::::::::::"+_retry)
+    if(_retry>5){
+      _fun()
+    }else{
+      _addFrameId(_req,_element,_fun,++_retry)
+    }
   },2000)
   
   if(_element && _element[0]){
