@@ -17,7 +17,7 @@ if(name!=="bz-master"){
 
 chrome.runtime.onMessage.addListener(handleMsg);
 
-function handleMsg(_event, _, sendResponse) {
+function handleMsg(_event, _, sendResponse) {  
   //_console("content get message: ",_event)
   if(_event.findFrameId){
     return responseIFrameId(_event.findFrameId,sendResponse)
