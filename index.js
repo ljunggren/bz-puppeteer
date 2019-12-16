@@ -98,6 +98,7 @@ const parseReport = (json) => {
       return [
       '--disable-extensions-except=' + __dirname + '/bz-extension',
       '--load-extension=' + __dirname + '/bz-extension',
+      '--no-sandbox'
         ];
      } else {
       return [];
@@ -111,10 +112,7 @@ const parseReport = (json) => {
   const headlessMode = ! (opts.headfull || launchargs.length > 0)
   
   const browser = await puppeteer.launch({
-
-    executablePath: opts.path,
-    //executablePath: "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome",
-    headless: headlessMode,
+    headless: false,
     args: launchargs 
   });
 
@@ -151,12 +149,13 @@ function timeout(ms) {
   console.log("Opening URL: " + testUrl);
 
   let timer=0
-  function assignTimeout(msg, seconds){
+  function assignTimeout(msg, milliseconds){
     clearTimeout(timer)
     timer=setTimeout(function(){
       console.error(msg)
+      console.error("Timeout was set to: " + milliseconds)
       process.exit(2)
-    },seconds)
+    },milliseconds)
   }
 
   assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 2000000);
@@ -180,6 +179,8 @@ function timeout(ms) {
     browser.close(); 
   }
 
+  let logIndex = 0;
+
   page.on('console', msg => {
     let logString = (!!msg && msg.text()) || "def";
 
@@ -196,8 +197,8 @@ function timeout(ms) {
     // Report progress
     if (logString.includes("BZ-LOG")) {
       if (logString.includes("action")){
-        let timeout = parseInt(logString.split("ms:")[1]+60000);
-        assignTimeout("Error: Action taking too long. Timing out.", timeout);
+        let timeout = parseInt(logString.split("ms:")[1]);
+        assignTimeout("Error: Action taking too long. Timing out.", timeout+120000);
       } else if (logString.includes("screenshot")){
         //console.log("Screenshot " +  logString.split("screenshot:")[1]);
       } else if (logString.includes("next schedule at")){
@@ -211,12 +212,12 @@ function timeout(ms) {
       } 
     }
     else if (logString.includes("<html>")) {
-      fs.writeFile(`${file}.html`, logString, (err) => {
+      fs.writeFile(`${file}${logIndex++}.html`, logString, (err) => {
         if (err) {
           console.error("Error: ", err)
           process.exit(2)
         }
-        console.log(`Report "${file}.html" saved.`)
+        console.log(`Report "${file}${logIndex}.html" saved.`)
       })
     } else if (logString.includes('"result": {')) {
        assignTimeout("Report generation taking too long", 30000);
