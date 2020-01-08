@@ -14,6 +14,9 @@ const opts = {
   "device" : "",
   "screenshot": false,
   "token":"",
+  "width":1280,
+  "height":1024,
+  "docker": false
 }
 
 // Remove the first two arguments, which are the 'node' binary and the name
@@ -21,6 +24,10 @@ const opts = {
 const result = options.parse(process.argv.slice(2), opts);
 const verbose = opts.verbose;
 const token = opts.token;
+const docker = opts.docker;
+const width = opts.width;
+const height = opts.height;
+
 
 if (result.errors) {
     if (opts.verbose) console.log('Unknown argument(s): "' + result.errors.join('", "') + '"');
@@ -28,7 +35,7 @@ if (result.errors) {
 }
 
 if (result.errors || !result.args || result.args.length !== 1) {
-  console.log('USAGE: boozang [--token] [--headfull] [--verbose] [--screenshot] [--file=report] [--device=default] [url]');
+console.log('USAGE: boozang [--token] [--headfull] [--docker] [--verbose] [--width] [--height] [--screenshot] [--file=report] [--device=default] [url]');
   process.exit(2);
 }
 
@@ -63,8 +70,8 @@ if (opts.device)
   console.log("Using custom device: " + opts.device);
 
 
-//const file = "/var/boozang/" + (opts.file || "results");
-const file = (opts.file || "results");
+const file = (docker ? "/var/boozang/" : "") + (opts.file || "results");
+//const file = (opts.file || "results");
 
 const RED = '\033[0;31m'
 const GREEN = '\033[0;32m'
@@ -74,11 +81,11 @@ const parseReport = (json) => {
     report = ''
     report += json.details.map(detail =>
         (detail.test ?
-            `\n\t${detail.result == 4 ? GREEN + "✓" : RED + "✘"} ` +
+            `\n\t${(detail.result == 4 || detail.result == 3)? GREEN + "✓" : RED + "✘"} ` +
             `[${detail.module.code}] ${detail.module.name} - [${detail.test.code}] ${detail.test.name} ` +
             `(${detail.test.actions} actions, ${detail.time}ms)` + BLANK
             :
-            `\n\t\t${detail.result == 4 ? GREEN + "✓" : RED + "✘"} ` +
+            `\n\t\t${(detail.result == 4 || detail.result == 3)? GREEN + "✓" : RED + "✘"} ` +
             `${detail.description} (${detail.time}ms)` + BLANK
         )).join('')
     report += `\n\n\tStatus: ${json.result.type == 1 ? GREEN + "success" + BLANK : RED + "failure" + BLANK}`
@@ -98,7 +105,9 @@ const parseReport = (json) => {
       return [
       '--disable-extensions-except=' + __dirname + '/bz-extension',
       '--load-extension=' + __dirname + '/bz-extension',
-      '--no-sandbox'
+      '--ignore-certificate-errors',
+      '--no-sandbox',
+      '--defaultViewport: null'
         ];
      } else {
       return [];
@@ -114,6 +123,20 @@ const parseReport = (json) => {
   const browser = await puppeteer.launch({
     headless: false,
     args: launchargs 
+  });
+
+
+  let pages = await browser.pages();
+  browser.on('targetcreated', async () => {
+        console.log('New window/tab event created');
+        pages = await browser.pages();
+        let popup = pages[pages.length-1]; 
+        console.log("Setting viewport to: " + width + "x" + height);
+        popup.setViewport({
+          width: width,
+          height: height
+        });
+        // console.log('global.pages.length', global.pages.length);
   });
 
 
@@ -172,21 +195,25 @@ function timeout(ms) {
 
   if (opts.screenshot){
     console.log("Wait a second for screenshot.");
-    await timeout(1000);
-    await page.screenshot({path: file + ".png"});
+    await timeout(1000);                     
     console.log("Closing browser.");
     browser.close(); 
   }
 
   let logIndex = 0;
 
+  
   page.on('console', msg => {
+    
+    // Set logString
     let logString = (!!msg && msg.text()) || "def";
-
+    
+    // Handle verbose logging
     if (verbose) {
       console.log("DEBUG: " + logString);
     }
 
+    // Set exit status
     if (logString.includes("Failed !")) {
           success = false
     } else if (logString.includes("Success !")) {
@@ -195,21 +222,48 @@ function timeout(ms) {
             
     // Report progress
     if (logString.includes("BZ-LOG")) {
+      
+      // Re-assign app window reference
+      let popup = pages[pages.length-1]; 
+
+      // Handle set timeouts and action log
       if (logString.includes("action")){
         let timeout = parseInt(logString.split("ms:")[1]);
-        assignTimeout("Error: Action taking too long. Timing out.", timeout+120000);
-      } else if (logString.includes("screenshot")){
-        //console.log("Screenshot " +  logString.split("screenshot:")[1]);
-      } else if (logString.includes("next schedule at")){
+        assignTimeout("Error: Action taking too long. Timing out.", timeout+1500000); 
+        console.log(logString.replace("BZ-LOG: ","").replace("&check;","✓")); 
+      } 
+      // Handle screenshots
+      else if (logString.includes("screenshot")){
+        let screenshotFile = (docker ? "/var/boozang/" : "") + logString.split("screenshot:")[1]+".png";
+        console.log("Making screenshot: " + screenshotFile); 
+        popup.screenshot({path: screenshotFile});
+      } 
+      // Handle built-in scheduler timeouts
+      else if (logString.includes("next schedule at")){
         let nextSchedule = Date.parse(logString.split("next schedule at: ")[1]);
         let timeout = nextSchedule - Date.now() + 30000;
         console.log(logString.replace("BZ-LOG: ","")); 
         assignTimeout("Next scheduled test not starting in time", timeout);
-      } else 
+      } 
+      // Handle execute Javascript for hanging app window
+      else if (logString.includes("app-run")){
+        let command = logString.split("app-run:")[1];
+        console.log("Running app command: " + command); 
+        popup.evaluate(()=>{ command;  });
+      } 
+     // Handle execute Javascript for hanging ide window
+      else if (logString.includes("ide-run")){
+        let command = logString.split("ide-run:")[1];
+        console.log("Running ide command: " + command); 
+        page.evaluate(()=>{ command;  });
+      }
+      // Log rest of log events
+      else 
       {
         console.log(logString.replace("BZ-LOG: ",""));  
       } 
     }
+    // Write the html reports
     else if (logString.includes("<html>")) {
       fs.writeFile(`${file}${logIndex++}.html`, logString, (err) => {
         if (err) {
@@ -218,7 +272,9 @@ function timeout(ms) {
         }
         console.log(`Report "${file}${logIndex}.html" saved.`)
       })
-    } else if (logString.includes('"result": {')) {
+    } 
+    // Write the json report
+    else if (logString.includes('"result": {')) {
        assignTimeout("Report generation taking too long", 30000);
        fs.writeFile(`${file}.json`, logString, (err) => {
         if (err) {
@@ -230,7 +286,9 @@ function timeout(ms) {
       const json = JSON.parse(logString)
       success = (json.result.type == 1)
       console.log(parseReport(json))
-    } else if (logString.includes("All tests completed!")) {
+    } 
+    // Set exit status
+    else if (logString.includes("All tests completed!")) {
       if (success) {
         console.log(GREEN + "Tests success" + BLANK)
       } else {
