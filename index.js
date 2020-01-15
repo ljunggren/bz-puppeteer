@@ -212,9 +212,15 @@ function assignGlobalTimeout(msg, milliseconds){
 
   if (opts.screenshot){
     console.log("Wait a second for screenshot.");
-    await timeout(1000);                     
+    await timeout(1000); 
+    let screenshotFile = (docker ? "/var/boozang/" : "") + file + ".png";
+    console.log("Making screenshot: " + screenshotFile); 
+    page.screenshot({path: screenshotFile});
+    
+    await timeout(5000);                     
     console.log("Closing browser.");
     browser.close(); 
+    process.exit(0);
   }
 
   let logIndex = 0;
