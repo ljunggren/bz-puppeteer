@@ -197,7 +197,7 @@ function assignGlobalTimeout(msg, milliseconds){
     },milliseconds)
   }
 
-  assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 2000000);
+  assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 30000);
 
   try { 
     await page.goto(testUrl);
