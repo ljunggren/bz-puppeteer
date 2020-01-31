@@ -16,7 +16,8 @@ const opts = {
   "token":"",
   "width":1280,
   "height":1024,
-  "docker": false
+  "docker": false,
+  "gtimeout": 120
 }
 
 // Remove the first two arguments, which are the 'node' binary and the name
@@ -27,6 +28,7 @@ const token = opts.token;
 const docker = opts.docker;
 const width = opts.width;
 const height = opts.height;
+const gtimeout=opts.gtimeout;
 
 
 if (result.errors) {
@@ -35,7 +37,7 @@ if (result.errors) {
 }
 
 if (result.errors || !result.args || result.args.length !== 1) {
-console.log('USAGE: boozang [--token] [--headfull] [--docker] [--verbose] [--width] [--height] [--screenshot] [--file=report] [--device=default] [url]');
+console.log('USAGE: boozang [--token] [--headfull] [--docker] [--gtimeout] [--verbose] [--width] [--height] [--screenshot] [--file=report] [--device=default] [url]');
   process.exit(2);
 }
 
@@ -145,6 +147,21 @@ function timeout(ms) {
 }
 
 
+let globaltimer=0
+function assignGlobalTimeout(msg, milliseconds){
+  clearTimeout(globaltimer)
+  globaltimer=setTimeout(function(){
+    console.error(msg)
+    console.error("Timeout was set to: " + milliseconds)
+    process.exit(2)
+  },milliseconds)
+}
+  if (gtimeout){
+    console.log("Assigning global timeout to " + gtimeout + " minutes");
+    assignGlobalTimeout("Test execution taking too long. Global timeout kicked in.", gtimeout*1000*60);
+  }
+
+
   let testUrl = url;
 
   // Insert token if found in parameter.
@@ -180,7 +197,7 @@ function timeout(ms) {
     },milliseconds)
   }
 
-  assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 2000000);
+  assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 30000);
 
   try { 
     await page.goto(testUrl);
@@ -195,9 +212,15 @@ function timeout(ms) {
 
   if (opts.screenshot){
     console.log("Wait a second for screenshot.");
-    await timeout(1000);                     
+    await timeout(1000); 
+    let screenshotFile = (docker ? "/var/boozang/" : "") + file + ".png";
+    console.log("Making screenshot: " + screenshotFile); 
+    page.screenshot({path: screenshotFile});
+    
+    await timeout(5000);                     
     console.log("Closing browser.");
     browser.close(); 
+    process.exit(0);
   }
 
   let logIndex = 0;
@@ -229,7 +252,7 @@ function timeout(ms) {
       // Handle set timeouts and action log
       if (logString.includes("action")){
         let timeout = parseInt(logString.split("ms:")[1]);
-        assignTimeout("Error: Action taking too long. Timing out.", timeout+1500000); 
+        assignTimeout("Error: Action taking too long. Timing out.", timeout+150000); 
         console.log(logString.replace("BZ-LOG: ","").replace("&check;","✓")); 
       } 
       // Handle screenshots
@@ -283,9 +306,14 @@ function timeout(ms) {
         }
         console.log(`Report "${file}.json" saved.`)
       })
-      const json = JSON.parse(logString)
-      success = (json.result.type == 1)
-      console.log(parseReport(json))
+      const json = JSON.parse(logString);
+      if (json[0] && json[0].keyword === "Feature"){
+        //Cucumber report - do nothing
+        console.log("Writing Cucumber report");
+      } else {
+        success = (json.result.type == 1);
+        console.log(parseReport(json));
+      } 
     } 
     // Set exit status
     else if (logString.includes("All tests completed!")) {
