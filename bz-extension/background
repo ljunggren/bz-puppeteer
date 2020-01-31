@@ -2,6 +2,11 @@ var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterFrameId,_masterUrl,_
 var _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId,_uncodeFrames=[];
 var _ignoreList=["https://vars.hotjar.com"],_lastIframeRequest=0,_dblCheckTime=0;
 var funMap={
+  // storeEventGroupData:function(bkScope,bkFun,data){
+    // for(var k in data){
+      // _lastExeActionReq[k]=data[k]
+    // }
+  // },
   isRequestCompleted:function(bkScope,bkFun,_rList){
     _rList.forEach((r,i)=>{
       var v=_responseList[r]
@@ -38,6 +43,33 @@ var funMap={
   },
   enableAllIframe:function(){
     _uncodeFrames.forEach(f=>{_initFrame(f)})
+  },
+  ajax:function(scope,fun,data){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4) {
+        var d={
+          tab:"master",
+          scope:scope,
+          fun:fun,
+          data:{status:this.status,data:this.response}
+        }
+        if(data.responseType&&this.response){
+          d.data.data=String.fromCharCode.apply(null, new Uint8Array(this.response));
+        }
+        chrome.tabs.sendMessage(_masterTabId, d);
+      }
+    };
+    xhttp.open(data.method, data.url, true);
+    for(var k in data.headers){
+      xhttp.setRequestHeader(k,data.headers[k])
+    }
+    if(data.responseType){
+      xhttp.responseType = "arraybuffer";
+    }
+    xhttp.send(data.data);
+    
+    
   }
 }
 var _list={},_responseList={}
@@ -310,6 +342,8 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
   *****************************************************************************************************/
   if(_msg.keep){
     return;
+  }else if(_msg.bg){
+    return funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data)
   }else if(_msg._registerTab && (_msg.name=="bz-client"||_ctrlTabId==t.tab.id)){
     if(_msg.name=="bz-client"){
       _ctrlTabId=t.tab.id;
