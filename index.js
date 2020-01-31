@@ -11,6 +11,7 @@ const opts = {
   "headfull": false,
   "verbose" : false,
   "file": "",
+  "listscenarios":"",
   "device" : "",
   "screenshot": false,
   "token":"",
@@ -29,7 +30,7 @@ const docker = opts.docker;
 const width = opts.width;
 const height = opts.height;
 const gtimeout=opts.gtimeout;
-
+const listscenarios=opts.listscenarios;
 
 if (result.errors) {
     if (opts.verbose) console.log('Unknown argument(s): "' + result.errors.join('", "') + '"');
@@ -37,7 +38,7 @@ if (result.errors) {
 }
 
 if (result.errors || !result.args || result.args.length !== 1) {
-console.log('USAGE: boozang [--token] [--headfull] [--docker] [--gtimeout] [--verbose] [--width] [--height] [--screenshot] [--file=report] [--device=default] [url]');
+console.log('USAGE: boozang [--token] [--headfull] [--docker] [--gtimeout] [--verbose] [--listscenarios] [--width] [--height] [--screenshot] [--file=report] [--device=default] [url]');
   process.exit(2);
 }
 
@@ -49,7 +50,7 @@ const isURL = (str) => {
 
 let url = result.args[0]
 
-if ((!opts.screenshot) && typeof (url) == 'string' && !url.endsWith("/run")) {
+if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run")) {
     if (!url.endsWith("/")) {
         url += "/"
     }
@@ -197,7 +198,7 @@ function assignGlobalTimeout(msg, milliseconds){
     },milliseconds)
   }
 
-  assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 30000);
+  assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 300000);
 
   try { 
     await page.goto(testUrl);
@@ -225,7 +226,7 @@ function assignGlobalTimeout(msg, milliseconds){
 
   let logIndex = 0;
 
-  
+    
   page.on('console', msg => {
     
     // Set logString
@@ -246,6 +247,21 @@ function assignGlobalTimeout(msg, milliseconds){
     // Report progress
     if (logString.includes("BZ-LOG")) {
       
+      // Handle list tests
+      if (logString.includes("list-scenarios")){
+        let scenarios=logString.split("list-scenarios:")[1];
+        let formattedScenarios = scenarios.split(",").join("\n")
+        
+        console.log("Found matching scenarios: " + scenarios);
+        fs.writeFile(`${file}.list`, formattedScenarios, (err) => {
+          if (err) {
+            console.error("Error: ", err)
+            process.exit(2)
+          }
+        console.log(`File list: "${file}.list" saved.`)
+        })
+      }
+
       // Re-assign app window reference
       let popup = pages[pages.length-1]; 
 
@@ -326,6 +342,21 @@ function assignGlobalTimeout(msg, milliseconds){
     } 
 
     }) //end console
+
+      
+  if (listscenarios){
+    await timeout(2000);  
+    console.log("Listing scenarios: "+listscenarios)
+    let tags=JSON.parse(listscenarios);
+    let or=["tag1,tag2"];
+    let and=["tag1","tag2"];
+    console.log("test " + tags);
+    await page.evaluate((tags)=>{ console.log("BZ-LOG: list-scenarios:"+$util.getScenariosByTag(tags).map(m=>{return m.path})) }, tags);
+    await timeout(2000); 
+    process.exit(0);
+  }
+
+
   } // end if(url)
 })().catch((e) => {
   console.error(e);
