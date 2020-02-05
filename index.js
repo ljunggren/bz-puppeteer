@@ -18,7 +18,8 @@ const opts = {
   "width":1280,
   "height":1024,
   "docker": false,
-  "gtimeout": 120
+  "gtimeout": 120,
+  "notimeout": false
 }
 
 // Remove the first two arguments, which are the 'node' binary and the name
@@ -31,6 +32,7 @@ const width = opts.width;
 const height = opts.height;
 const gtimeout=opts.gtimeout;
 const listscenarios=opts.listscenarios;
+const notimeout=opts.notimeout;
 
 if (result.errors) {
     if (opts.verbose) console.log('Unknown argument(s): "' + result.errors.join('", "') + '"');
@@ -38,7 +40,7 @@ if (result.errors) {
 }
 
 if (result.errors || !result.args || result.args.length !== 1) {
-console.log('USAGE: boozang [--token] [--headfull] [--docker] [--gtimeout] [--verbose] [--listscenarios] [--width] [--height] [--screenshot] [--file=report] [--device=default] [url]');
+console.log('USAGE: boozang [--token] [--headfull] [--docker] [--gtimeout] [--notimeout] [--verbose] [--listscenarios] [--width] [--height] [--screenshot] [--file=report] [--device=default] [url]');
   process.exit(2);
 }
 
@@ -71,7 +73,8 @@ if (opts.file)
   console.log("Using custom report file: " + opts.file);
 if (opts.device)
   console.log("Using custom device: " + opts.device);
-
+if (opts.notimeout)
+  console.log("Surpressing timeouts");
 
 const file = (docker ? "/var/boozang/" : "") + (opts.file || "results");
 //const file = (opts.file || "results");
@@ -150,6 +153,8 @@ function timeout(ms) {
 
 let globaltimer=0
 function assignGlobalTimeout(msg, milliseconds){
+  if (notimeout)
+    return;
   clearTimeout(globaltimer)
   globaltimer=setTimeout(function(){
     console.error(msg)
@@ -190,18 +195,35 @@ function assignGlobalTimeout(msg, milliseconds){
 
   let timer=0
   function assignTimeout(msg, milliseconds){
+    if (notimeout)
+      return;
     clearTimeout(timer)
     timer=setTimeout(function(){
-      console.error(msg)
-      console.error("Timeout was set to: " + milliseconds)
-      process.exit(2)
+      let popup = pages[pages.length-1]; 
+      let screenshotFile = (docker ? "/var/boozang/" : "") + Math.random().toString(36).substring(7) + ".png";
+      console.error("Generating timeout screenshot: " + screenshotFile);
+      popup.screenshot({path: screenshotFile});
+      console.error(msg);
+      console.error("Timeout was set to: " + milliseconds);
+      // Wait 5 seconds for screenshot to finish before exiting
+      setTimeout(function(){
+        process.exit(2)
+      },5000)   
+      
     },milliseconds)
   }
 
-  assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 300000);
+  assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 900000);
 
   try { 
-    await page.goto(testUrl);
+    const response = await page.goto(testUrl);
+    console.log("Status code: " + response.status());
+    if (response.status() < 400){
+      console.error("Good http response code.");
+    } else {
+      console.error("Bad http response code: Existing.");
+      process.exit(2)
+    }
   } catch (err) {
     console.error("Failed to open URL with error: " + err.message);
     process.exit(2)
@@ -251,7 +273,6 @@ function assignGlobalTimeout(msg, milliseconds){
       if (logString.includes("list-scenarios")){
         let scenarios=logString.split("list-scenarios:")[1];
         let formattedScenarios = scenarios.split(",").join("\n")
-        
         console.log("Found matching scenarios: " + scenarios);
         fs.writeFile(`${file}.list`, formattedScenarios, (err) => {
           if (err) {
