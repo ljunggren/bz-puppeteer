@@ -101,6 +101,8 @@ const parseReport = (json) => {
     return report
 }
 
+
+
 (async () => {
   if (url) {
   // Load extension if URL contains the word extension
@@ -247,8 +249,9 @@ function assignGlobalTimeout(msg, milliseconds){
   }
 
   let logIndex = 0;
+  let popup = pages[pages.length-1]; 
 
-    
+
   page.on('console', msg => {
     
     // Set logString
@@ -363,8 +366,28 @@ function assignGlobalTimeout(msg, milliseconds){
     } 
 
     }) //end console
+    
+    popup.on("error", function(err) {  
+      theTempValue = err.toString();
+      console.log("App Error: " + theTempValue); 
+    })
+  
+    popup.on("pageerror", function(err) {  
+      theTempValue = err.toString();
+      console.log("App page error: " + theTempValue); 
+    })
+  
+    page.on("error", function(err) {  
+      theTempValue = err.toString();
+      console.log("Error: " + theTempValue); 
+    })
+  
+    page.on("pageerror", function(err) {  
+      theTempValue = err.toString();
+      console.log("Page error: " + theTempValue); 
+    })  
 
-      
+
   if (listscenarios){
     await timeout(2000);  
     console.log("Listing scenarios: "+listscenarios)
@@ -380,6 +403,7 @@ function assignGlobalTimeout(msg, milliseconds){
 
   } // end if(url)
 })().catch((e) => {
+  console.log('an expection on page.evaluate ', e);
   console.error(e);
   process.exit(2)
 })
