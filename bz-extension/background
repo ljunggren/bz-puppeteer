@@ -134,6 +134,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"window",fun:"close"});
       chrome.tabs.sendMessage(_ctrlTabId, {tab:"master",scope:"window",fun:"close"});
     }
+    _shareData={}
     _masterTabId=_sender.tab.id;
     _masterFrameId=_sender.frameId
     _masterUrl=_sender.url;
