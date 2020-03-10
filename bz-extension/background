@@ -206,23 +206,27 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     }
   }
 });
+var _appRetry=0
 function _addFrameId(_req,_element,_fun,_retry){
   if(_req.exeAction&&_lastIframeRequest&&_req!=_lastIframeRequest._req){
     _lastIframeRequest=0
     clearTimeout(_dblCheckTime)
     _dblCheckTime=0
+    _retry=_appRetry+1;
   }
   _retry=_retry||0
+  _appRetry=_retry
   _req.frameId=[_topFrameId];
   if(_element&&_element.constructor==Object){
     _element=_element.path
   }
   var _badRequest=setTimeout(function(){
+    _appRetry++
     console.log("Retry ::::::::::::::::::::::"+_retry)
-    if(_retry>30){
+    if(_appRetry>30){
       _fun(_req)
     }else{
-      _addFrameId(_req,_element,_fun,++_retry)
+      _addFrameId(_req,_element,_fun,_appRetry)
     }
   },2000)
   
@@ -231,7 +235,7 @@ function _addFrameId(_req,_element,_fun,_retry){
       var v=_element[0].match(/\(([0-9\,]+)\)/)
       if(v){
         v=v[1].split(",")
-        return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v},function(r){
+        return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v,element:_element,retry:_appRetry},function(r){
           if(r!==undefined&&r!==null){
             console.log(r)
             clearTimeout(_badRequest)
