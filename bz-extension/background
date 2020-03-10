@@ -220,16 +220,19 @@ function _addFrameId(_req,_element,_fun,_retry){
   if(_element&&_element.constructor==Object){
     _element=_element.path
   }
-  var _badRequest=setTimeout(function(){
-    _appRetry++
-    console.log("Retry ::::::::::::::::::::::"+_retry)
-    if(_appRetry>30){
-      _fun(_req)
-    }else{
-      _addFrameId(_req,_element,_fun,_appRetry)
-    }
-  },2000)
   
+  var _badRequest=0;
+  if(_req.exeAction){
+    _badRequest=setTimeout(function(){
+      _appRetry++
+      console.log("Retry ::::::::::::::::::::::"+_retry)
+      if(_appRetry>30){
+        _fun(_req)
+      }else{
+        _addFrameId(_req,_element,_fun,_appRetry)
+      }
+    },2000)
+  }
   if(_element && _element[0]){
     if(!_element[0].startsWith("$(BZ.TW.document.body)")&&_element[0][0]=="$"){
       var v=_element[0].match(/\(([0-9\,]+)\)/)
