@@ -442,6 +442,9 @@ function _initFrame(frameId){
   }
 
   if(_lastExeActionReq && _status=="play"){
+    if(_lastExeActionReq.exeAction.token){
+      _lastExeActionReq.exeAction.tokenFailed=1
+    }
     setTimeout(function(){
       chrome.tabs.sendMessage(_ctrlTabId, _lastExeActionReq);
     },100)
@@ -583,7 +586,7 @@ function _isDownloading(rs){
     var r=rs[i];
     if(r.name=="Content-Disposition" && (r.value.includes("attachment")||r.value.includes("filename"))){
       return 1
-    }else if(r.name=="content-type" && (r.value.includes("application")||r.value.includes("stream"))){
+    }else if((r.name||"").toLowerCase()=="content-type" && (r.value.includes("application")||r.value.includes("stream"))){
       return 1
     }
   }
