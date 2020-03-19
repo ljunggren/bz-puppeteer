@@ -239,14 +239,16 @@ function showCode(v){
 }
 
 function responseIFrameId(vs,_sendResponse,element,retry){
-  var p=parent,w=window
+  var p=parent,w=window;
+  var r=w.document.body.getBoundingClientRect()
+  
   while(vs.length){
     var v=parseInt(vs.pop());_found=0
     
     if(p.frames[v]!=w){
-      for(var i=0;i<p.frames.length;i++){
+      for(var i=0;retry&&i<p.frames.length;i++){
         if(w==p.frames[i]){
-          if(i-1==v&&retry){
+          if(i>v&&r.width&&r.height){
             _found=1
           }
         }
@@ -258,7 +260,7 @@ function responseIFrameId(vs,_sendResponse,element,retry){
     if(vs.length){
       w=p
       p=p.parent
-    }else{
+    }else if(r.width&&r.height){
       _sendResponse(bzIframeId)
     }
   }
