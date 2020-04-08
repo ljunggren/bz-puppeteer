@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener(handleMsg);
 function handleMsg(_event, _, sendResponse) {  
   //_console("content get message: ",_event)
   if(_event.findFrameId){
-    return responseIFrameId(_event.findFrameId,sendResponse)
+    return responseIFrameId(_event.findFrameId,sendResponse,_event.element,_event.retry)
   }
   if(!window.SERVER_HOST && window.name!="bz-master"){
     return
@@ -238,17 +238,29 @@ function showCode(v){
   });
 }
 
-function responseIFrameId(vs,_sendResponse){
-  var p=parent,w=window
+function responseIFrameId(vs,_sendResponse,element,retry){
+  var p=parent,w=window;
+  var r=w.document.body.getBoundingClientRect()
+  
   while(vs.length){
-    var v=vs.pop()
+    var v=parseInt(vs.pop());_found=0
+    
     if(p.frames[v]!=w){
-      return
+      for(var i=0;retry&&i<p.frames.length;i++){
+        if(w==p.frames[i]){
+          if(i>v&&r.width&&r.height){
+            _found=1
+          }
+        }
+      }
+      if(!_found){
+        return
+      }
     }
     if(vs.length){
       w=p
       p=p.parent
-    }else{
+    }else if(r.width&&r.height){
       _sendResponse(bzIframeId)
     }
   }
