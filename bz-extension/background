@@ -2,6 +2,11 @@ var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterFrameId,_masterUrl,_
 var _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId,_uncodeFrames=[];
 var _ignoreList=["https://vars.hotjar.com"],_lastIframeRequest=0,_dblCheckTime=0;
 var funMap={
+  // storeEventGroupData:function(bkScope,bkFun,data){
+    // for(var k in data){
+      // _lastExeActionReq[k]=data[k]
+    // }
+  // },
   isRequestCompleted:function(bkScope,bkFun,_rList){
     _rList.forEach((r,i)=>{
       var v=_responseList[r]
@@ -38,6 +43,33 @@ var funMap={
   },
   enableAllIframe:function(){
     _uncodeFrames.forEach(f=>{_initFrame(f)})
+  },
+  ajax:function(scope,fun,data){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4) {
+        var d={
+          tab:"master",
+          scope:scope,
+          fun:fun,
+          data:{status:this.status,data:this.response}
+        }
+        if(data.responseType&&this.response){
+          d.data.data=String.fromCharCode.apply(null, new Uint8Array(this.response));
+        }
+        chrome.tabs.sendMessage(_masterTabId, d);
+      }
+    };
+    xhttp.open(data.method, data.url, true);
+    for(var k in data.headers){
+      xhttp.setRequestHeader(k,data.headers[k])
+    }
+    if(data.responseType){
+      xhttp.responseType = "arraybuffer";
+    }
+    xhttp.send(data.data);
+    
+    
   }
 }
 var _list={},_responseList={}
@@ -102,6 +134,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"window",fun:"close"});
       chrome.tabs.sendMessage(_ctrlTabId, {tab:"master",scope:"window",fun:"close"});
     }
+    _shareData={}
     _masterTabId=_sender.tab.id;
     _masterFrameId=_sender.frameId
     _masterUrl=_sender.url;
@@ -173,32 +206,39 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     }
   }
 });
+var _appRetry=0
 function _addFrameId(_req,_element,_fun,_retry){
   if(_req.exeAction&&_lastIframeRequest&&_req!=_lastIframeRequest._req){
     _lastIframeRequest=0
     clearTimeout(_dblCheckTime)
     _dblCheckTime=0
+    _retry=_appRetry+1;
   }
   _retry=_retry||0
+  _appRetry=_retry
   _req.frameId=[_topFrameId];
   if(_element&&_element.constructor==Object){
     _element=_element.path
   }
-  var _badRequest=setTimeout(function(){
-    console.log("Retry ::::::::::::::::::::::"+_retry)
-    if(_retry>30){
-      _fun(_req)
-    }else{
-      _addFrameId(_req,_element,_fun,++_retry)
-    }
-  },2000)
   
+  var _badRequest=0;
+  if(_req.exeAction){
+    _badRequest=setTimeout(function(){
+      _appRetry++
+      console.log("Retry ::::::::::::::::::::::"+_retry)
+      if(_appRetry>30){
+        _fun(_req)
+      }else{
+        _addFrameId(_req,_element,_fun,_appRetry)
+      }
+    },2000)
+  }
   if(_element && _element[0]){
     if(!_element[0].startsWith("$(BZ.TW.document.body)")&&_element[0][0]=="$"){
       var v=_element[0].match(/\(([0-9\,]+)\)/)
       if(v){
         v=v[1].split(",")
-        return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v},function(r){
+        return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v,element:_element,retry:_appRetry},function(r){
           if(r!==undefined&&r!==null){
             console.log(r)
             clearTimeout(_badRequest)
@@ -310,6 +350,8 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
   *****************************************************************************************************/
   if(_msg.keep){
     return;
+  }else if(_msg.bg){
+    return funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data)
   }else if(_msg._registerTab && (_msg.name=="bz-client"||_ctrlTabId==t.tab.id)){
     if(_msg.name=="bz-client"){
       _ctrlTabId=t.tab.id;
@@ -400,6 +442,9 @@ function _initFrame(frameId){
   }
 
   if(_lastExeActionReq && _status=="play"){
+    if(_lastExeActionReq.exeAction.token){
+      _lastExeActionReq.exeAction.tokenFailed=1
+    }
     setTimeout(function(){
       chrome.tabs.sendMessage(_ctrlTabId, _lastExeActionReq);
     },100)
@@ -541,7 +586,7 @@ function _isDownloading(rs){
     var r=rs[i];
     if(r.name=="Content-Disposition" && (r.value.includes("attachment")||r.value.includes("filename"))){
       return 1
-    }else if(r.name=="content-type" && (r.value.includes("application")||r.value.includes("stream"))){
+    }else if((r.name||"").toLowerCase()=="content-type" && (r.value.includes("application")||r.value.includes("stream"))){
       return 1
     }
   }

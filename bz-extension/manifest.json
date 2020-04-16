@@ -3,7 +3,7 @@
   "name": "SQA-AT",
   "short_name": "SQA-AT",
   "description": "SQA-AT 自动化测试是具有智能化功能的测试工具。测试用例可以通过录制或文字描述实现。",
-  "version": "3.6.1",
+  "version": "3.6.8",
   "permissions": ["webRequest", "webRequestBlocking","tabs", "*://*/*"],
   "background": {
     "scripts": ["background"]
@@ -12,6 +12,7 @@
     "matches":[
       "*://localhost/*",
       "*://*.boozang.com/*",
+      "*://192.168.1.5/*",
       "*://47.93.0.182/*",
       "*://212.64.20.13/*",
       "*://118.25.68.218/*"
