@@ -56,7 +56,7 @@ if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !
     if (!url.endsWith("/")) {
         url += "/"
     }
-    url += "run"
+    url += ""
 }
 
 if (!url || !isURL(url)) {
@@ -95,8 +95,8 @@ const parseReport = (json) => {
             `${detail.description} (${detail.time}ms)` + BLANK
         )).join('')
     report += `\n\n\tStatus: ${json.result.type == 1 ? GREEN + "success" + BLANK : RED + "failure" + BLANK}`
-    report += `    Passing tests: ${json.result.summary.test - json.result.summary.failedTest}/${json.result.summary.test}`
-    report += `    Passing actions: ${json.result.summary.action - json.result.summary.failedAction}/${json.result.summary.action}\n`
+    report += `    Passing tests: ${json.result.summary.test - json.result.summary.failedTests}/${json.result.summary.test}`
+    report += `    Passing actions: ${json.result.summary.action - json.result.summary.failedActions}/${json.result.summary.action}\n`
 
     return report
 }
@@ -133,19 +133,39 @@ const parseReport = (json) => {
     args: launchargs 
   });
 
+  let popup = null;
+  function setupPopup() {
+        popup = pages[pages.length-1]; 
+        popup.setViewport({
+          width: parseInt(width,10),
+          height: parseInt(height,10)
+        });
+
+        popup.on("error", function(err) {  
+          theTempValue = err.toString();
+          console.error(
+            "\n#######################################\n"
+          + "APP error: " + theTempValue
+          + "\n#######################################\n"
+          );         })
+        
+        popup.on("pageerror", function(err) {  
+          theTempValue = err.toString();
+          console.error(
+            "\n#######################################\n"
+          + "APP page error: " + theTempValue
+          + "\n#######################################\n"
+          ); 
+        })
+  }
 
 
   let pages = await browser.pages();
   browser.on('targetcreated', async () => {
-        console.log('New window/tab event created');
+        //console.log('New window/tab event created');
         pages = await browser.pages();
-        let popup = pages[pages.length-1]; 
-        console.log("Setting viewport to: " + width + "x" + height);
-        popup.setViewport({
-          width: width,
-          height: height
-        });
-        // console.log('global.pages.length', global.pages.length);
+        //console.log("Pages length " + pages.length);
+        setupPopup();   
   });
 
 
@@ -200,14 +220,22 @@ function assignGlobalTimeout(msg, milliseconds){
   function assignTimeout(msg, milliseconds){
     if (notimeout)
       return;
-    clearTimeout(timer)
+    
+      clearTimeout(timer)
     timer=setTimeout(function(){
-      let popup = pages[pages.length-1]; 
-      let screenshotFile = (docker ? "/var/boozang/" : "") + Math.random().toString(36).substring(7) + ".png";
+      setupPopup();
+      let screenshotFile = file + "_timeout.png";
       console.error("Generating timeout screenshot: " + screenshotFile);
+      //console.log("Generating timeout screenshot: " + screenshotFile);
       popup.screenshot({path: screenshotFile});
       console.error(msg);
+      //console.log(msg);
       console.error("Timeout was set to: " + milliseconds);
+      //console.log("Timeout was set to: " + milliseconds);
+      
+      // Get stacktrace
+      page.evaluate(()=>{ console.log("BZ-LOG: Timing out check IDE response");  });
+
       // Wait 5 seconds for screenshot to finish before exiting
       setTimeout(function(){
         process.exit(2)
@@ -216,7 +244,7 @@ function assignGlobalTimeout(msg, milliseconds){
     },milliseconds)
   }
 
-  assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 900000);
+  assignTimeout("Error: Timeout kicked in before loading the test. Verify access token and test URL.", 90000);
 
   try { 
     const response = await page.goto(testUrl);
@@ -239,7 +267,7 @@ function assignGlobalTimeout(msg, milliseconds){
   if (opts.screenshot){
     console.log("Wait a second for screenshot.");
     await timeout(1000); 
-    let screenshotFile = (docker ? "/var/boozang/" : "") + file + ".png";
+    let screenshotFile = file + ".png";
     console.log("Making screenshot: " + screenshotFile); 
     page.screenshot({path: screenshotFile});
     
@@ -250,9 +278,7 @@ function assignGlobalTimeout(msg, milliseconds){
   }
 
   let logIndex = 0;
-  let popup = pages[pages.length-1]; 
-
-
+  
   page.on('console', msg => {
     
     // Set logString
@@ -272,9 +298,13 @@ function assignGlobalTimeout(msg, milliseconds){
             
     // Report progress
     if (logString.includes("BZ-LOG")) {
-      
+
+      // Format logstring
+      formattedLog = logString.replace("BZ-LOG: ","").replace(": &check;"," ✓").replace("action","  ");
+      console.log(formattedLog);
+
       // Handle list tests
-      if (logString.includes("list-scenarios")){
+      if (formattedLog.includes("list-scenarios")){
         let scenarios=logString.split("list-scenarios:")[1];
         let formattedScenarios = scenarios.split(",").join("\n")
         console.log("Found matching scenarios: " + scenarios);
@@ -287,45 +317,47 @@ function assignGlobalTimeout(msg, milliseconds){
         })
       }
 
-      // Re-assign app window reference
-      let popup = pages[pages.length-1]; 
-
       // Handle set timeouts and action log
-      if (logString.includes("action")){
+      if (formattedLog.includes("ms:")){
         let timeout = parseInt(logString.split("ms:")[1]);
+        //console.log("Setting timeout: " + timeout);
         assignTimeout("Error: Action taking too long. Timing out.", timeout+150000); 
-        console.log(logString.replace("BZ-LOG: ","").replace("&check;","✓")); 
       } 
       // Handle screenshots
-      else if (logString.includes("screenshot")){
-        let screenshotFile = (docker ? "/var/boozang/" : "") + logString.split("screenshot:")[1]+".png";
+      else if (formattedLog.includes("screenshot:")){
+        let screenshotFile = file + "_" + logString.split("screenshot:")[1]+".png";
         console.log("Making screenshot: " + screenshotFile); 
         popup.screenshot({path: screenshotFile});
       } 
       // Handle built-in scheduler timeouts
-      else if (logString.includes("next schedule at")){
+      else if (formattedLog.includes("next schedule at:")){
         let nextSchedule = Date.parse(logString.split("next schedule at: ")[1]);
         let timeout = nextSchedule - Date.now() + 30000;
-        console.log(logString.replace("BZ-LOG: ","")); 
         assignTimeout("Next scheduled test not starting in time", timeout);
       } 
+      // Handle built-in scheduler timeouts
+      else if (formattedLog.includes("failed test:")){
+        let failedTest = logString.split("failed test: ")[1]; 
+        fs.writeFile(`${file}-failed.log`, failedTest + "\n",  { flag: 'a+' }, (err) => {
+          if (err) {
+            console.error("File exists: ", err)
+            //process.exit(2)
+          }
+          console.log("Test: " + failedTest +" failed. Added to " + file + "-failed.log saved.");
+        })
+      } 
       // Handle execute Javascript for hanging app window
-      else if (logString.includes("app-run")){
+      else if (formattedLog.includes("app-run:")){
         let command = logString.split("app-run:")[1];
         console.log("Running app command: " + command); 
         popup.evaluate(()=>{ command;  });
       } 
      // Handle execute Javascript for hanging ide window
-      else if (logString.includes("ide-run")){
-        let command = logString.split("ide-run:")[1];
+      else if (formattedLog.includes("ide-run:")){
+        let command = formattedLog.split("ide-run:")[1];
         console.log("Running ide command: " + command); 
         page.evaluate(()=>{ command;  });
       }
-      // Log rest of log events
-      else 
-      {
-        console.log(logString.replace("BZ-LOG: ",""));  
-      } 
     }
     // Write the html reports
     else if (logString.includes("<html>")) {
@@ -366,38 +398,36 @@ function assignGlobalTimeout(msg, milliseconds){
       process.exit(Number(!success))
     } 
 
-    }) //end console
-    
-    popup.on("error", function(err) {  
-      theTempValue = err.toString();
-      console.log("App Error: " + theTempValue); 
-    })
+  }) //end console
   
-    popup.on("pageerror", function(err) {  
-      theTempValue = err.toString();
-      console.log("App page error: " + theTempValue); 
-    })
+  page.on("error", function(err) {  
+    theTempValue = err.toString();
+    console.error(
+      "\n#######################################\n"
+    + "IDE error: " + theTempValue
+    + "\n#######################################\n"
+    ); 
+  })
   
-    page.on("error", function(err) {  
-      theTempValue = err.toString();
-      console.log("Error: " + theTempValue); 
-    })
-  
-    page.on("pageerror", function(err) {  
-      theTempValue = err.toString();
-      console.log("Page error: " + theTempValue); 
-    })  
+  page.on("pageerror", function(err) {  
+    theTempValue = err.toString();
+    console.error(
+      "\n#######################################\n"
+    + " IDE page error: " + theTempValue
+    + "\n#######################################\n"
+    ); 
+  })  
 
 
   if (listscenarios){
     await timeout(2000);  
     console.log("Listing scenarios: "+listscenarios)
     let tags=JSON.parse(listscenarios);
-    let or=["tag1,tag2"];
-    let and=["tag1","tag2"];
-    console.log("test " + tags);
+    //let or=["tag1,tag2"];
+    //let and=["tag1","tag2"];
+    //console.log("test " + tags);
     await page.evaluate((tags)=>{ console.log("BZ-LOG: list-scenarios:"+$util.getScenariosByTag(tags).map(m=>{return m.path})) }, tags);
-    await timeout(2000); 
+    await timeout(3000); 
     process.exit(0);
   }
 
