@@ -542,7 +542,7 @@ chrome.webRequest.onCompleted.addListener(function(v){
     if(!v.url.includes("bzInsert.css")&&!v.url.includes("insert.icons.css")){
       chrome.tabs.sendMessage(_masterTabId, {twUpdate:1,tab:"master"});
     }
-    var r={ctrlInfo:1,url:v.url}
+    var r={ctrlInfo:1,url:v.url,from:"complete"}
     if(v.statusCode>=400){
       r.failed=1;
       r.code=v.statusCode
@@ -562,6 +562,7 @@ chrome.webRequest.onCompleted.addListener(function(v){
           }
         },1000)
         r.tab="master"
+        r.type=v.type
         _loadPageInfo=r;
         return
       }
