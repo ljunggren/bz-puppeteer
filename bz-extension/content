@@ -21,6 +21,8 @@ function handleMsg(_event, _, sendResponse) {
   //_console("content get message: ",_event)
   if(_event.findFrameId){
     return responseIFrameId(_event.findFrameId,sendResponse,_event.element,_event.retry)
+  }else if(_event.findOffset){
+    return responseIframeOffset(_event.findOffset,sendResponse)
   }
   if(!window.SERVER_HOST && window.name!="bz-master"){
     return
@@ -56,7 +58,7 @@ function handleMsg(_event, _, sendResponse) {
             return
           }
         }
-        window.BZ.exeFun(_event.fun,_event.scope,_event.data);
+        window.BZ.exeFun(_event.fun,_event.scope,_event.data,_event.fromBg&&sendResponse);
       }else{
         setTimeout(function(){_doIt3()},1)
       }
@@ -266,6 +268,43 @@ function responseIFrameId(vs,_sendResponse,element,retry){
       p=p.parent
     }else if(r.width&&r.height){
       _sendResponse(bzIframeId)
+    }
+  }
+}
+
+function responseIframeOffset(vs,_sendResponse){
+  let p=parent,w=window;
+  let r=w.document.body.getBoundingClientRect()
+  let idx=vs.pop()
+  let k=vs.join(",")
+  if(!vs.length){
+    if(p==w){
+      r=document.getElementsByTagName("IFRAME")[idx].getBoundingClientRect()
+      _sendResponse(r)
+    }
+  }else{
+    while(vs.length){
+      var v=parseInt(vs.pop());_found=0
+      
+      if(p.frames[v]!=w){
+        for(var i=0;retry&&i<p.frames.length;i++){
+          if(w==p.frames[i]){
+            if(i>v&&r.width&&r.height){
+              _found=1
+            }
+          }
+        }
+        if(!_found){
+          return
+        }
+      }
+      if(vs.length){
+        w=p
+        p=p.parent
+      }else if(r.width&&r.height){
+        r=document.getElementsByTagName("IFRAME")[idx].getBoundingClientRect()
+        _sendResponse(r)
+      }
     }
   }
 }

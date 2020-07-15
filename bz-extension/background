@@ -1,7 +1,7 @@
-var _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
-var _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId,_uncodeFrames=[];
-var _ignoreList=["https://vars.hotjar.com"],_lastIframeRequest=0,_dblCheckTime=0;
-var funMap={
+let _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_ctrlWindowId,curElement,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
+let _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId,_uncodeFrames=[];
+let _ignoreList=["https://vars.hotjar.com"],_lastIframeRequest=0,_dblCheckTime=0;
+let funMap={
   // storeEventGroupData:function(bkScope,bkFun,data){
     // for(var k in data){
       // _lastExeActionReq[k]=data[k]
@@ -44,7 +44,7 @@ var funMap={
   enableAllIframe:function(){
     _uncodeFrames.forEach(f=>{_initFrame(f)})
   },
-  ajax:function(scope,fun,data){
+  ajax:function(scope,fun,data,tab){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4) {
@@ -68,18 +68,46 @@ var funMap={
       xhttp.responseType = "arraybuffer";
     }
     xhttp.send(data.data);
+  },
+  getScreenshot:function(bkScope,bkFun,d,t){
+    let offset={
+      left:0,
+      top:0
+    }
+    chrome.tabs.captureVisibleTab((t&&t.tab.windowId)||_ctrlWindowId,(img) => {
+      let vs=getIframePath(curElement)||[]
+      findOffset(vs,img)
+    })
     
-    
+    function findOffset(vs,img){
+      if(vs.length){
+        chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findOffset:vs},function(r){
+          offset.left+=r.left;
+          offset.top+=r.top
+          vs.pop()
+          findOffset(vs,img)
+        });
+      }else{
+        chrome.tabs.sendMessage((t&&t.tab.id)||_masterTabId, {
+          tab:(t&&t.tab.id)||"master",
+          scope:bkScope,
+          fun:bkFun,
+          data:{imgUrl:img,offset:offset}
+        });
+      }
+    }
   }
 }
-var _list={},_responseList={}
+let _list={},_responseList={}
+
 chrome.browserAction.setBadgeText({text: chrome.runtime.getManifest().version=="1.2"?"TEST":"AI"});
 //open management page from extension icon!
 chrome.browserAction.onClicked.addListener(function() {
   chrome.tabs.create({url: _appUrl}, function(tab) {});
 });
 
-/*Get Message from web page*/
+
+/*Get Message from IDE*/
 chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) {
   //_console("background (web page): ",_req)
   //check whether the request from BZ pages. If not from BZ do nothing.
@@ -208,6 +236,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
 });
 var _appRetry=0
 function _addFrameId(_req,_element,_fun,_retry){
+  curElement=[_element[0]]
   if(_req.exeAction&&_lastIframeRequest&&_req!=_lastIframeRequest._req){
     _lastIframeRequest=0
     clearTimeout(_dblCheckTime)
@@ -225,7 +254,6 @@ function _addFrameId(_req,_element,_fun,_retry){
   if(_req.exeAction){
     _badRequest=setTimeout(function(){
       _appRetry++
-      console.log("Retry ::::::::::::::::::::::"+_retry)
       if(_appRetry>30){
         _fun(_req)
       }else{
@@ -233,55 +261,58 @@ function _addFrameId(_req,_element,_fun,_retry){
       }
     },2000)
   }
-  if(_element && _element[0]){
-    if(!_element[0].startsWith("$(BZ.TW.document.body)")&&_element[0][0]=="$"){
-      var v=_element[0].match(/\(([0-9\,]+)\)/)
-      if(v){
-        v=v[1].split(",")
-        return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v,element:_element,retry:_appRetry},function(r){
-          if(r!==undefined&&r!==null){
-            console.log(r)
-            clearTimeout(_badRequest)
-            if(_element[0]!="BZ.TW.document"){
-              if(_req.exeAction){
-                if(!_lastIframeRequest){
-                  _lastIframeRequest={
-                    _element:[],
-                    r:r,
-                    _req:_req,
-                    _fun:_fun
-                  }
-                  _element.forEach(e=>{
-                    _lastIframeRequest._element.push(e)
-                  })
-                }else{
-                  if(_lastIframeRequest.r==r){
-                    return 
-                  }else{
-                    _lastIframeRequest.r=r
-                  }
-                }
-                dblCheckForIframe()
+  let v=getIframePath(_element)
+  if(v){
+    return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v,element:_element,retry:_appRetry},function(r){
+      if(r!==undefined&&r!==null){
+        console.log(r)
+        clearTimeout(_badRequest)
+        if(_element[0]!="BZ.TW.document"){
+          if(_req.exeAction){
+            if(!_lastIframeRequest){
+              _lastIframeRequest={
+                _element:[],
+                r:r,
+                _req:_req,
+                _fun:_fun
               }
-              _element[0]="BZ.TW.document";
-              _req.frameId=[r];
-              if(_uncodeFrames.includes(r)){
-                _uncodeFrames.splice(_uncodeFrames.indexOf(r),1)
-                _initFrame(r)
+              _element.forEach(e=>{
+                _lastIframeRequest._element.push(e)
+              })
+            }else{
+              if(_lastIframeRequest.r==r){
+                return 
+              }else{
+                _lastIframeRequest.r=r
               }
-              return _fun(_req)
             }
-            console.log("error:")
-            console.log(JSON.stringify(_element))
+            dblCheckForIframe()
           }
-        })
+          _element[0]="BZ.TW.document";
+          _req.frameId=[r];
+          if(_uncodeFrames.includes(r)){
+            _uncodeFrames.splice(_uncodeFrames.indexOf(r),1)
+            _initFrame(r)
+          }
+          return _fun(_req)
+        }
+        console.log("error:")
+        console.log(JSON.stringify(_element))
       }
-    }
+    })
   }
   clearTimeout(_badRequest)
   _fun()
 }
 
+function getIframePath(_element){
+  if(!_element[0].startsWith("$(BZ.TW.document.body)")&&_element[0][0]=="$"){
+    var v=_element[0].match(/\(([0-9\,]+)\)/)
+    if(v){
+      return v[1].split(",")
+    }
+  }
+}
 function dblCheckForIframe(){
   console.log("dblCheckForIframe ....")
   _dblCheckTime=setTimeout(function(){
@@ -342,7 +373,7 @@ function isIgnoreFrame(v){
     }
   }
 }
-//get message from extension content
+//get message from app extension content
 chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
   //_console("background (content): ",_msg)
   /*****************************************************************************************************
@@ -351,10 +382,11 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
   if(_msg.keep){
     return;
   }else if(_msg.bg){
-    return funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data)
+    return funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data,t)
   }else if(_msg._registerTab && (_msg.name=="bz-client"||_ctrlTabId==t.tab.id)){
     if(_msg.name=="bz-client"){
       _ctrlTabId=t.tab.id;
+      _ctrlWindowId=t.tab.windowId;
       if(_ctrlTabId==_masterTabId){
         _ctrlFrameId=t.frameId
       }
@@ -374,7 +406,6 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       return
     }
     _initFrame(t.frameId)
-
   //only work after master window is ready, and the requestion will send to master
   }else if(_masterTabId){
     _msg.ctrlInfo=1;
