@@ -306,7 +306,7 @@ function _addFrameId(_req,_element,_fun,_retry){
 }
 
 function getIframePath(_element){
-  if(!_element[0].startsWith("$(BZ.TW.document.body)")&&_element[0][0]=="$"){
+  if(_element&&!_element[0].startsWith("$(BZ.TW.document.body)")&&_element[0][0]=="$"){
     var v=_element[0].match(/\(([0-9\,]+)\)/)
     if(v){
       return v[1].split(",")
