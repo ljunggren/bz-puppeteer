@@ -15,6 +15,7 @@ const opts = {
   "device" : "",
   "screenshot": false,
   "token":"",
+  "userdatadir":"",
   "width":1280,
   "height":1024,
   "docker": false,
@@ -28,6 +29,7 @@ const result = options.parse(process.argv.slice(2), opts);
 const verbose = opts.verbose;
 const token = opts.token;
 const docker = opts.docker;
+const userdatadir = opts.userdatadir;
 const width = opts.width;
 const height = opts.height;
 const gtimeout=opts.gtimeout;
@@ -40,7 +42,7 @@ if (result.errors) {
 }
 
 if (result.errors || !result.args || result.args.length !== 1) {
-console.log('USAGE: boozang [--token] [--headfull] [--docker] [--gtimeout] [--notimeout] [--verbose] [--listscenarios] [--width] [--height] [--screenshot] [--file=report] [--device=default] [url]');
+console.log('USAGE: boozang [--token] [--headfull] [--docker] [--gtimeout] [--notimeout] [--verbose] [--userdatadir] [--listscenarios] [--width] [--height] [--screenshot] [--file=report] [--device=default] [url]');
   process.exit(2);
 }
 
@@ -56,7 +58,7 @@ if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !
     if (!url.endsWith("/")) {
         url += "/"
     }
-    url += ""
+    url += "run"
 }
 
 if (!url || !isURL(url)) {
@@ -126,10 +128,17 @@ const parseReport = (json) => {
     console.log("Url needs extension to run. Forcing headless mode to false.");
   }
 
+  let userdatadir = "";
+  if (opts.userdatadir){
+    userdatadir = (docker ? "/var/boozang/" : "") + (opts.userdatadir || "");
+    console.log("Setting userdatadir: " + userdatadir);
+  }
+
   const headlessMode = ! (opts.headfull || launchargs.length > 0)
   
   const browser = await puppeteer.launch({
     headless: false,
+    userdatadir: userdatadir,
     args: launchargs 
   });
 
@@ -234,12 +243,14 @@ function assignGlobalTimeout(msg, milliseconds){
       //console.log("Timeout was set to: " + milliseconds);
       
       // Get stacktrace
-      page.evaluate(()=>{ console.log("BZ-LOG: Timing out check IDE response");  });
+      console.error("Try to get Boozang to exit gracefully and write report");
+      page.evaluate(()=>{  BZ.e();console.log("BZ-LOG: Timing out check IDE response"); 
+                        });
 
-      // Wait 5 seconds for screenshot to finish before exiting
+      // Wait 100 seconds for Boozang to finish before force kill
       setTimeout(function(){
         process.exit(2)
-      },5000)   
+      },100000)   
       
     },milliseconds)
   }
@@ -321,7 +332,8 @@ function assignGlobalTimeout(msg, milliseconds){
       if (formattedLog.includes("ms:")){
         let timeout = parseInt(logString.split("ms:")[1]);
         //console.log("Setting timeout: " + timeout);
-        assignTimeout("Error: Action taking too long. Timing out.", timeout+150000); 
+        //assignTimeout("Error: Action taking too long. Timing out.", timeout+150000); 
+        assignTimeout("Error: Action taking too long. Timing out.", 3000); 
       } 
       // Handle screenshots
       else if (formattedLog.includes("screenshot:")){
