@@ -117,6 +117,7 @@ const parseReport = (json) => {
       '--load-extension=' + __dirname + '/bz-extension',
       '--ignore-certificate-errors',
       '--no-sandbox',
+      `--window-size=${width},${height}`,
       '--defaultViewport: null'
         ];
      } else {
@@ -288,7 +289,8 @@ function assignGlobalTimeout(msg, milliseconds){
   }
 
   let logIndex = 0;
-  
+  let success = false;
+
   page.on('console', msg => {
     
     // Set logString
@@ -305,6 +307,22 @@ function assignGlobalTimeout(msg, milliseconds){
     } else if (logString.includes("Success !")) {
           success = true
     }
+
+    // CSV writer
+    if (logString.includes("BZ-OUTPUT-FILE:")){
+        let filearray= logString.split("\n");
+        let filename = filearray.shift().split(":")[1].trim();
+        console.log("Writing CSV file to disk " + filename); 
+        filearray.pop();
+        let filecontent = filearray.join("\n");
+
+        fs.writeFile(`${filename}`, filecontent, (err) => {
+          if (err) {
+            console.error("Error: ", err)
+            process.exit(2)
+          }
+        })   
+    } 
             
     // Report progress
     if (logString.includes("BZ-LOG")) {
@@ -331,8 +349,8 @@ function assignGlobalTimeout(msg, milliseconds){
       if (formattedLog.includes("ms:")){
         let timeout = parseInt(logString.split("ms:")[1]);
         //console.log("Setting timeout: " + timeout);
-        //assignTimeout("Error: Action taking too long. Timing out.", timeout+150000); 
-        assignTimeout("Error: Action taking too long. Timing out.", 3000); 
+        assignTimeout("Error: Action taking too long. Timing out.", timeout+150000); 
+        //assignTimeout("Error: Action taking too long. Timing out.", 3000); 
       } 
       // Handle screenshots
       else if (formattedLog.includes("screenshot:")){
@@ -357,6 +375,7 @@ function assignGlobalTimeout(msg, milliseconds){
           console.log("Test: " + failedTest +" failed. Added to " + file + "-failed.log saved.");
         })
       } 
+
       // Handle execute Javascript for hanging app window
       else if (formattedLog.includes("app-run:")){
         let command = logString.split("app-run:")[1];
