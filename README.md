@@ -59,7 +59,7 @@ Run with Boozang authentification token
 
 - file: Overrides default report name "result".
 
-- device: Emulate device. Find devices here: https://github.com/GoogleChrome/puppeteer/blob/master/DeviceDescriptors.js
+- device: Emulate device. Find devices here: https://github.com/puppeteer/puppeteer/blob/main/src/common/DeviceDescriptors.ts
 
 
 ## Built With
