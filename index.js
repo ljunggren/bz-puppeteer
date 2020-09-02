@@ -210,7 +210,7 @@ function assignGlobalTimeout(msg, milliseconds){
   } 
 
   const page = await browser.newPage();
-  const devices = require('puppeteer/DeviceDescriptors');
+  const devices = puppeteer.devices;
 
   await page._client.send('Emulation.clearDeviceMetricsOverride');
   if (!opts.device) {
