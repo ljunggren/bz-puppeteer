@@ -4,6 +4,7 @@
 
 const puppeteer = require('puppeteer');
 const options = require('node-options');
+const Service = require('./logService').Service;
 const fs = require('fs');
 
 // Command defaults
@@ -102,10 +103,44 @@ console.log("Running with " + opts.toString());
         setupPopup();   
   });
 
-})
+  const page = await browser.newPage();
+  Service.logMonitor(page,notimeout,gtimeout)
+  
+  let url = result.args[0]
+  const response = await page.goto(url);
+})()
 // end async
 
 
+Service.addTask({
+  key:"ms:",
+  fun(msg){
+    return (parseInt(msg.split(this.key)[1].trim())||0)+15000
+  },
+  msg:"Action timeout"
+})
 
-
-
+Service.addTask({
+  key:"BZ-File output:",
+  fun(msg){
+    msg=msg.substring(this.key.length).trim()
+    console.log("Parse file: ...............")
+    console.log(msg)
+    if(!this.name){
+      this.name=msg
+    }else if(msg=="end"){
+      let name=this.name
+      fs.writeFile(name, this.content, (err)=>{
+        if (err) {
+          Service.shutdown("Error: on output file: "+name+", "+ err.message)
+        }
+        console.log("Report "+name+" saved.")
+      })
+      this.name=0
+    }else{
+      this.content=msg
+    }
+  },
+  timeout:60000,
+  noLog:1
+})
