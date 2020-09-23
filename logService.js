@@ -14,13 +14,13 @@ const Service = {
   logMonitor(page,notimeout,gtimeout){
     if(!notimeout&&gtimeout){
       setTimeout(()=>{
-        Service.shutdown("Globle timeout trigger shutdown")
+        Service.gracefulShutdown("Global timeout triggered - try to do graceful shutdown")
       },gtimeout*60000)
     }
     if(!notimeout){
       setTimeout(()=>{
         if(Object.keys(Service.initMap).length){
-          Service.shutdown("Initial timeout")
+          Service.shutdown("Failed to load test")
         }
       },60000)
     }
@@ -102,6 +102,17 @@ const Service = {
   shutdown(msg){
     console.log(msg)
     process.exit(2)
+  },
+  gracefulShutdown(msg){
+    console.error("Try to get Boozang to exit gracefully and write report");
+    popup.screenshot({path: "graceful_shutdown.png"});
+    page.evaluate(()=>{  
+      BZ.e();console.log("BZ-LOG: Timing out check IDE response"); 
+    });
+    // Wait 100 seconds for Boozang to finish before force kill
+    setTimeout(function(){
+      Service.shutdown(msg);
+    },100000)   
   }
 }
 Service.init()

@@ -293,8 +293,6 @@ function assignGlobalTimeout(msg, milliseconds){
   let logIndex = 0;
   let success = false;
 
-  let ready = false;
-
   page.on('console', msg => {
     
     // Set logString
@@ -349,20 +347,18 @@ function assignGlobalTimeout(msg, milliseconds){
         })
       }
 
-       // Handle list tests
-       if (formattedLog.includes("list-suite")){
-        let scenarios=logString.split("list-suite:")[1];
-        console.log("Found vector: " + scenarios);
-        let formattedScenarios = scenarios.replace(".","/");
-        console.log("Found matching tests: " + formattedScenarios);
-        fs.writeFile(`${file}.list`, formattedScenarios, (err) => {
-          if (err) {
-            console.error("Error: ", err)
-            process.exit(2)
-          }
-        console.log(`File list: "${file}.list" saved.`)
-        })
-      }
+         // Handle list tests
+         if (formattedLog.includes("list-suite")){
+          let scenarios=logString.split("list-suite:")[1];
+          console.log("Found matching scenarios: " + scenarios);
+          fs.writeFile(`${file}.list`, scenarios, (err) => {
+            if (err) {
+              console.error("Error: ", err)
+              process.exit(2)
+            }
+          console.log(`File list: "${file}.list" saved.`)
+          })
+        }
 
       // Handle set timeouts and action log
       if (formattedLog.includes("ms:")){
@@ -393,14 +389,7 @@ function assignGlobalTimeout(msg, milliseconds){
           }
           console.log("Test: " + failedTest +" failed. Added to " + file + "-failed.log saved.");
         })
-      }
-      // Handle ready
-      else if (formattedLog.includes("ready")){
-        console.log("Server ready");
-        ready = true;
-        page.evaluate(()=> {console.log("BZ-LOG: Trigger")} );
-   
-      }
+      } 
 
       // Handle execute Javascript for hanging app window
       else if (formattedLog.includes("app-run:")){
@@ -477,28 +466,22 @@ function assignGlobalTimeout(msg, milliseconds){
 
   if (listscenarios){
     await timeout(2000);  
-    console.log("Listing scenarios: "+listscenarios)
+    console.log("Listing scenarios: "+listscenarios);
     let tags=JSON.parse(listscenarios);
-    //let or=["tag1,tag2"];
-    //let and=["tag1","tag2"];
-    //console.log("test " + tags);
     await page.evaluate((tags)=>{ console.log("BZ-LOG: list-scenarios:"+$util.getScenariosByTag(tags).map(m=>{return m.path})) }, tags);
-    await timeout(3000); 
+    await timeout(3000);
     process.exit(0);
   }
-
   if (listsuite){
-    console.log("Listing test from suite: " + listsuite);
-    await timeout(5000); 
-    await page.evaluate((listsuite)=>{ console.log("BZ-LOG: list-suite:"+$util.getTestsBySuite(listsuite).toString())}, listsuite);
+    console.log("Listing test from suite: "+listsuite);
+    await page.evaluate((listsuite)=>{ console.log("BZ-LOG: list-suite:"+$util.getTestsBySuite(listsuite))}, listsuite);
     await timeout(3000); 
     process.exit(0);
   }
-
 
   } // end if(url)
 })().catch((e) => {
-  console.log('an expection on page.evaluate ', e);
+  console.log('an expectation on page.evaluate ', e);
   console.error(e);
   process.exit(2)
 })

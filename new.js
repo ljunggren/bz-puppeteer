@@ -69,6 +69,15 @@ console.log("Running with " + opts.toString());
     args: launchargs 
   });
 
+  function printStackTrace(app,err){
+    console.error(
+      "\n#######################################\n"
+    + app + " error: " + err.message
+    + "\n#######################################\n"
+    );   
+  }
+
+  // Setup popup
   let popup = null;
   function setupPopup() {
         popup = pages[pages.length-1]; 
@@ -77,22 +86,9 @@ console.log("Running with " + opts.toString());
           height: parseInt(height,10)
         });
 
-        popup.on("error", function(err) {  
-          theTempValue = err.toString();
-          console.error(
-            "\n#######################################\n"
-          + "APP error: " + theTempValue
-          + "\n#######################################\n"
-          );         })
+        popup.on("error", printStackTrace("app", err));
+        popup.on("pageerror", printStackTrace("app", err));
         
-        popup.on("pageerror", function(err) {  
-          theTempValue = err.toString();
-          console.error(
-            "\n#######################################\n"
-          + "APP page error: " + theTempValue
-          + "\n#######################################\n"
-          ); 
-        })
   }
 
   let pages = await browser.pages();
@@ -104,10 +100,16 @@ console.log("Running with " + opts.toString());
   });
 
   const page = await browser.newPage();
+
+  // Assign all log listeners
   Service.logMonitor(page,notimeout,gtimeout)
   
   let url = result.args[0]
   const response = await page.goto(url);
+
+  page.on("error", printStackTrace("ide", err));
+  page.on("pageerror", printStackTrace("ide", err));
+
 })()
 // end async
 
@@ -118,6 +120,28 @@ Service.addTask({
     return (parseInt(msg.split(this.key)[1].trim())||0)+15000
   },
   msg:"Action timeout"
+})
+
+Service.addTask({
+  key:"app-run:",
+  fun(msg){
+    popup.evaluate(()=>{ msg;  });
+  }
+})
+
+Service.addTask({
+  key:"ide-run:",
+  fun(msg){
+    page.evaluate(()=>{ msg;  });
+  }
+})
+
+Service.addTask({
+  key:"screenshot:",
+  fun(msg){
+    let screenshotFile = msg.split("screenshot:")[1]+".png";
+    popup.screenshot({path: screenshotFile});
+  }
 })
 
 Service.addTask({
