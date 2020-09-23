@@ -77,6 +77,15 @@ console.log("Running with " + opts.toString());
     );   
   }
 
+  function appPrintStackTrace(err){
+    printStackTrace("app",err);
+  }
+
+  function idePrintStackTrace(err){
+    printStackTrace("ide",err);
+  }
+
+
   // Setup popup
   let popup = null;
   function setupPopup() {
@@ -86,8 +95,8 @@ console.log("Running with " + opts.toString());
           height: parseInt(height,10)
         });
 
-        popup.on("error", printStackTrace("app", err));
-        popup.on("pageerror", printStackTrace("app", err));
+        popup.on("error", appPrintStackTrace);
+        popup.on("pageerror", appPrintStackTrace);
         
   }
 
@@ -107,8 +116,8 @@ console.log("Running with " + opts.toString());
   let url = result.args[0]
   const response = await page.goto(url);
 
-  page.on("error", printStackTrace("ide", err));
-  page.on("pageerror", printStackTrace("ide", err));
+  page.on("error", idePrintStackTrace(err));
+  page.on("pageerror", idePrintStackTrace(err));
 
 })()
 // end async
