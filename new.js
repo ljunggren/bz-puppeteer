@@ -111,7 +111,18 @@ console.log("Running with " + opts.toString());
 
   // Assign all log listeners
   Service.logMonitor(page,notimeout,gtimeout)
-  
+  if(listsuite||listscenarios){
+    Service.setBeginningFun(function(){
+      Service.insertFileTask(function(){
+        Service.shutdown()
+      })
+      page.evaluate((v)=>{
+        $util.getTestsBySuite(v)
+      }, listsuite||listscenarios);
+    })
+  }
+
+
   let url = result.args[0]
   const response = await page.goto(url);
 

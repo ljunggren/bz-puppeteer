@@ -26,10 +26,15 @@ const Service = {
         return
       }
       
-      for(let key in Service.taskMap){
-        if(msg.includes(key)){
-          t=Service.taskMap[key]
-          break
+      if(Service.curTask){
+        t=Service.curTask
+        Service.curTask=0
+      }else{
+        for(let key in Service.taskMap){
+          if(msg.includes(key)){
+            t=Service.taskMap[key]
+            break
+          }
         }
       }
       
@@ -66,6 +71,9 @@ const Service = {
       return msg
     }
   },
+  setBeginningFun(fun){
+    Service.beginningFun=fun
+  },
   setPopup(popup){
     this.popup=popup
   },
@@ -88,7 +96,11 @@ const Service = {
       fun(){
         Service.status="ready"
         console.log("Ready on logService")
-        Service.setRunTasks()
+        if(Service.beginningFun){
+          Service.beginningFun()
+        }else{
+          Service.setRunTasks()
+        }
       },
       oneTime:1,
       timeout:Service.stdTimeout
@@ -140,34 +152,43 @@ const Service = {
   setEndTasks(){
     Service.taskMap={}
     Service.addTask({
+      key:"All tests completed!",
+      fun(msg){
+        Service.shutdown(this.key)
+      }
+    })
+    this.insertFileTask()
+  },
+  insertFileTask(exFun){
+    Service.addTask({
       key:"BZ-File output:",
       fun(msg){
         msg=msg.substring(this.key.length).trim()
-        console.log("Parse file: ...............")
-        console.log(msg)
         if(!this.name){
           this.name=msg
         }else if(msg=="end"){
           let name=this.name
+          console.log(name)
+          console.log("2::::::::::")
+          console.log(this.content)
           fs.writeFile(name, this.content, (err)=>{
             if (err) {
               Service.shutdown("Error: on output file: "+name+", "+ err.message)
             }
             console.log("Report "+name+" saved.")
+            if(exFun){
+              exFun()
+            }
           })
           this.name=0
         }else{
           this.content=msg
+          console.log("1::::::::::")
+          console.log(this.content)
         }
       },
       timeout:Service.stdTimeout,
       noLog:1
-    })
-    Service.addTask({
-      key:"All tests completed!",
-      fun(msg){
-        Service.shutdown(this.key)
-      }
     })
   },
   shutdown(msg){
