@@ -111,10 +111,8 @@ function handleMsg(_event, _, sendResponse) {
         if(_event.frameId===undefined || _event.frameId.includes(bzIframeId)){
           o.element=_event.element;
           window[ecMap.iam][ecMap.sca](o);
-          window[ecMap.i][ecMap.inn][ecMap.r]()
-        }else{
-          window[ecMap.iam][ecMap.sca](0);
         }
+        window[ecMap.i][ecMap.inn][ecMap.r]()
       }
     }else{
       window[ecMap.i][ecMap.d][ecMap.ct]=o;
@@ -224,7 +222,7 @@ function _insertCssAndClientCode(_msg,_time){
   }else{
     setTimeout(function(){
       _insertCssAndClientCode(_msg,_time)
-    },10)
+    },0)
   }
 }
 function noCrash(){
