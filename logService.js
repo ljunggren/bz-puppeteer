@@ -40,12 +40,16 @@ const Service = {
         for(let key in Service.taskMap){
           if(msg.includes(key)){
             t=Service.taskMap[key]
+            
             break
           }
         }
       }
       
       if(t){
+        if (!t.noLog){
+          console.log(msg)
+        }
         clearTimeout(Service.timer)
         if(!t.timeout){
           timeout=t.fun(msg)
