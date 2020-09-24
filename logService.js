@@ -5,8 +5,15 @@ const Service = {
   taskMap:{},
   timer:0,
   status:"",
-  logMonitor(page,notimeout,gtimeout,stdTimeout){
-    Service.stdTimeout=stdTimeout||60000;
+  logMonitor(page,notimeout,gtimeout,stdTimeout,reportPrefix){
+
+    console.log("Initializing logMonitor");
+    gtimeout && console.log("Override global timeout: " + gtimeout + " mins");
+    stdTimeout && console.log("Override action timeout: " + stdTimeout + " mins");
+    reportPrefix && console.log("Override report prefix: " + reportPrefix);
+
+    Service.stdTimeout=stdTimeout*60000||60000;
+    Service.reportPrefix=reportPrefix + "_"||"";
     
     if(!notimeout&&gtimeout){
       setTimeout(()=>{
@@ -42,13 +49,13 @@ const Service = {
         clearTimeout(Service.timer)
         if(!t.timeout){
           timeout=t.fun(msg)
-          console.log("Get timeout: "+timeout)
+          //console.log("Get timeout: "+timeout)
         }else{
           timeout=t.timeout
         }
         
         if(!notimeout){
-          console.log("set timeout for shutdown: "+timeout)
+          // console.log("set timeout for shutdown: "+timeout)
           Service.timer=setTimeout(()=>{
             Service.shutdown(t.msg)
           },timeout)
@@ -67,7 +74,6 @@ const Service = {
       }else{
         return
       }
-      console.log(msg)
       return msg
     }
   },
@@ -165,12 +171,9 @@ const Service = {
       fun(msg){
         msg=msg.substring(this.key.length).trim()
         if(!this.name){
-          this.name=msg
+          this.name=Service.reportPrefix + msg.toLowerCase().replace(/\ /g,"_");
         }else if(msg=="end"){
           let name=this.name
-          console.log(name)
-          console.log("2::::::::::")
-          console.log(this.content)
           fs.writeFile(name, this.content, (err)=>{
             if (err) {
               Service.shutdown("Error: on output file: "+name+", "+ err.message)
@@ -183,8 +186,6 @@ const Service = {
           this.name=0
         }else{
           this.content=msg
-          console.log("1::::::::::")
-          console.log(this.content)
         }
       },
       timeout:Service.stdTimeout,

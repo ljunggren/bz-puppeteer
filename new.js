@@ -8,9 +8,8 @@ const Service = require('./logService').Service;
 
 // Command defaults
 const opts = {
-  "headfull": false,
   "verbose" : false,
-  "file": "result",
+  "file": "",
   "listscenarios":"",
   "listsuite":"",
   "device" : "",
@@ -20,8 +19,9 @@ const opts = {
   "width":1280,
   "height":1024,
   "docker": false,
-  "gtimeout": 120,
-  "notimeout": false
+  "gtimeout": "",
+  "notimeout": false,
+  "timeout": "",
 }
 
 // Remove the first two arguments, which are the 'node' binary and the name
@@ -37,13 +37,17 @@ const gtimeout=opts.gtimeout;
 const listscenarios=opts.listscenarios;
 const listsuite=opts.listsuite;
 const notimeout=opts.notimeout;
+const timeout= opts.timeout;
+const file = opts.file;
 
 if (result.errors || !result.args || result.args.length !== 1) {
   console.log('USAGE: boozang [--token] [--headfull] [--docker] [--gtimeout] [--notimeout] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [--device=default] [url]');
   process.exit(2);
 }
 
-console.log("Running with " + opts.toString());
+console.log("Running with following args");
+console.log(opts);
+console.log("Example: Use --verbose for verbose logging (boolean example). Use --width=800 to override default width (value example.)");
 
 (async () => {
 
@@ -110,7 +114,7 @@ console.log("Running with " + opts.toString());
   const page = await browser.newPage();
 
   // Assign all log listeners
-  Service.logMonitor(page,notimeout,gtimeout)
+  Service.logMonitor(page,notimeout,gtimeout,timeout,file)
   if(listsuite||listscenarios){
     Service.setBeginningFun(function(){
       Service.insertFileTask(function(){
