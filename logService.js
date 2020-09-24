@@ -1,32 +1,24 @@
+const fs = require('fs');
+
 const Service = {
-  initMap:{},
-  taskMap:{
-    "All tests completed":{
-      key:"All tests completed",
-      fun(){
-        Service.taskMap={}
-      },
-      timeout:60000
-    }
-  },
+  stdTimeout:60000,
+  taskMap:{},
   timer:0,
   status:"",
-  logMonitor(page,notimeout,gtimeout){
+  logMonitor(page,notimeout,gtimeout,stdTimeout){
+    Service.stdTimeout=stdTimeout||60000;
+    
     if(!notimeout&&gtimeout){
       setTimeout(()=>{
         Service.gracefulShutdown("Global timeout triggered - try to do graceful shutdown")
       },gtimeout*60000)
     }
-    if(!notimeout){
-      setTimeout(()=>{
-        if(Object.keys(Service.initMap).length){
-          Service.shutdown("Failed to load test")
-        }
-      },60000)
+    if(notimeout){
+      clearTimeout(Service.status)
     }
 
     page.on('console', msg => {
-      let timeout,t,map;
+      let timeout,t;
 
       msg = (!!msg && msg.text()) || "def";
       msg=trimPreMsg(msg)
@@ -34,16 +26,9 @@ const Service = {
         return
       }
       
-      if(Object.keys(Service.initMap).length){
-        map=Service.initMap
-      }else{
-        map=Service.taskMap
-      }
-      
-      
-      for(let key in map){
+      for(let key in Service.taskMap){
         if(msg.includes(key)){
-          t=map[key]
+          t=Service.taskMap[key]
           break
         }
       }
@@ -58,7 +43,7 @@ const Service = {
         }
         
         if(!notimeout){
-          console.log("set timeout for showdown: "+timeout)
+          console.log("set timeout for shutdown: "+timeout)
           Service.timer=setTimeout(()=>{
             Service.shutdown(t.msg)
           },timeout)
@@ -81,6 +66,9 @@ const Service = {
       return msg
     }
   },
+  setPopup(popup){
+    this.popup=popup
+  },
   //task:{key,fun,onTime,timeout}
   addTask(task){
     this.taskMap[task.key]=task
@@ -89,15 +77,98 @@ const Service = {
     delete this.taskMap[task.key]
   },
   init(){
-    Service.initMap.ready={
+    this.status=setTimeout(()=>{
+      if(Service.status!="ready"){
+        Service.shutdown("Failed to load test")
+      }
+    },Service.stdTimeout)
+    
+    Service.addTask({
       key:"ready",
       fun(){
-        delete Service.initMap.ready
+        Service.status="ready"
         console.log("Ready on logService")
+        Service.setRunTasks()
       },
       oneTime:1,
-      timeout:60000
-    }
+      timeout:Service.stdTimeout
+    })
+  },
+  setRunTasks(){
+    Service.taskMap={}
+    Service.addTask({
+      key:"ms:",
+      fun(msg){
+        return (parseInt(msg.split(this.key)[1].trim())||0)+15000
+      },
+      msg:"Action timeout"
+    })
+
+    Service.addTask({
+      key:"app-run:",
+      fun(msg){
+        Service.popup.evaluate(()=>{ msg;  });
+      },
+      timeout:Service.stdTimeout
+    })
+
+    Service.addTask({
+      key:"ide-run:",
+      fun(msg){
+        page.evaluate(()=>{ msg;  });
+      },
+      timeout:Service.stdTimeout
+    })
+
+    Service.addTask({
+      key:"screenshot:",
+      fun(msg){
+        let screenshotFile = msg.split("screenshot:")[1]+".png";
+        Service.popup.screenshot({path: screenshotFile});
+      },
+      timeout:Service.stdTimeout
+    })
+
+    Service.addTask({
+      key:"Stop task!",
+      fun(msg){
+        Service.setEndTasks()
+      },
+      timeout:Service.stdTimeout
+    })
+  },
+  setEndTasks(){
+    Service.taskMap={}
+    Service.addTask({
+      key:"BZ-File output:",
+      fun(msg){
+        msg=msg.substring(this.key.length).trim()
+        console.log("Parse file: ...............")
+        console.log(msg)
+        if(!this.name){
+          this.name=msg
+        }else if(msg=="end"){
+          let name=this.name
+          fs.writeFile(name, this.content, (err)=>{
+            if (err) {
+              Service.shutdown("Error: on output file: "+name+", "+ err.message)
+            }
+            console.log("Report "+name+" saved.")
+          })
+          this.name=0
+        }else{
+          this.content=msg
+        }
+      },
+      timeout:Service.stdTimeout,
+      noLog:1
+    })
+    Service.addTask({
+      key:"All tests completed!",
+      fun(msg){
+        Service.shutdown(this.key)
+      }
+    })
   },
   shutdown(msg){
     console.log(msg)
@@ -105,7 +176,7 @@ const Service = {
   },
   gracefulShutdown(msg){
     console.error("Try to get Boozang to exit gracefully and write report");
-    popup.screenshot({path: "graceful_shutdown.png"});
+    Service.popup.screenshot({path: "graceful_shutdown.png"});
     page.evaluate(()=>{  
       BZ.e();console.log("BZ-LOG: Timing out check IDE response"); 
     });
