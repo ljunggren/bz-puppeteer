@@ -6,7 +6,7 @@ const Service = {
   timer:0,
   status:"",
   logMonitor(page,notimeout,gtimeout,stdTimeout,reportPrefix){
-
+    this.notimeout=notimeout
     console.log("Initializing logMonitor");
     gtimeout && console.log("Override global timeout: " + gtimeout + " mins");
     stdTimeout && console.log("Override action timeout: " + stdTimeout + " mins");
@@ -198,7 +198,9 @@ const Service = {
   },
   shutdown(msg){
     console.log(msg)
-    process.exit(2)
+    if(!this.notimeout){
+      process.exit(2)
+    }
   },
   gracefulShutdown(msg){
     console.error("Try to get Boozang to exit gracefully and write report");

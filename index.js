@@ -121,9 +121,15 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
       Service.insertFileTask(function(){
         Service.shutdown()
       })
-      page.evaluate((v)=>{
-        $util.getTestsBySuite(v)
-      }, listsuite||listscenarios);
+      if(listsuite){
+        page.evaluate((v)=>{
+          $util.getTestsBySuite(v)
+        }, listsuite);
+      }else if(listscenarios){
+        page.evaluate((v)=>{
+          console.log("BZ-LOG:"+$util.getScenariosByTag(v))
+        }, JSON.parse(listscenarios));
+      }
     })
   }
 
@@ -133,18 +139,6 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
 
   page.on("error", idePrintStackTrace);
   page.on("pageerror", idePrintStackTrace);
-
-  if (listscenarios){
-    console.log("Listing scenarios: "+listscenarios)
-    let tags=JSON.parse(listscenarios);
-    await page.evaluate((tags)=>{ console.log("BZ-LOG: list-scenarios:"+$util.getScenariosByTag(tags).map(m=>{return m.path})) }, tags);
-  }
-  
-  if (listsuite){
-    console.log("Listing test from suite: " + listsuite);
-    await page.evaluate((listsuite)=>{ console.log("BZ-LOG: list-suite:"+$util.getTestsBySuite(listsuite).toString())}, listsuite);
-  }
-  // end async
 
 })()
 
