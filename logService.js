@@ -13,7 +13,7 @@ const Service = {
     reportPrefix && console.log("Override report prefix: " + reportPrefix);
 
     Service.stdTimeout=stdTimeout*60000||60000;
-    Service.reportPrefix=reportPrefix + "_"||"";
+    Service.reportPrefix=reportPrefix ? reportPrefix + "_":"";
     
     if(!notimeout&&gtimeout){
       setTimeout(()=>{

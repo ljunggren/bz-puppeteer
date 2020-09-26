@@ -51,10 +51,14 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
 
 (async () => {
 
-  let userdatadir = "";
-  userdatadir = (docker ? "/var/boozang/" : "") + (opts.userdatadir || "");
-  console.log("Setting userdatadir: " + userdatadir);
+  const file = (docker ? "/var/boozang/" : "") + (opts.file || "results");
 
+  let userdatadir = "";
+  if (opts.userdatadir){
+    userdatadir = (docker ? "/var/boozang/userdatadir" : "") + (opts.userdatadir || "");
+    console.log("Setting userdatadir: " + userdatadir);
+  }
+  
   const launchargs = [
     '--disable-extensions-except=' + __dirname + '/bz-extension',
     '--load-extension=' + __dirname + '/bz-extension',
@@ -66,7 +70,7 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
 
   const browser = await puppeteer.launch({
     headless: false,
-    userdatadir: userdatadir,
+    userDataDir: userdatadir,
     args: launchargs 
   });
 
@@ -85,7 +89,6 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   function idePrintStackTrace(err){
     printStackTrace("ide",err);
   }
-
 
   // Setup popup
   let popup = null;
@@ -131,7 +134,21 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   page.on("error", idePrintStackTrace);
   page.on("pageerror", idePrintStackTrace);
 
+  if (listscenarios){
+    console.log("Listing scenarios: "+listscenarios)
+    let tags=JSON.parse(listscenarios);
+    await page.evaluate((tags)=>{ console.log("BZ-LOG: list-scenarios:"+$util.getScenariosByTag(tags).map(m=>{return m.path})) }, tags);
+  }
+  
+  if (listsuite){
+    console.log("Listing test from suite: " + listsuite);
+    await page.evaluate((listsuite)=>{ console.log("BZ-LOG: list-suite:"+$util.getTestsBySuite(listsuite).toString())}, listsuite);
+  }
+  // end async
+
 })()
-// end async
+
+
+
 
 
