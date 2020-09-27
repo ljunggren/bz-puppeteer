@@ -127,7 +127,7 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
         }, listsuite);
       }else if(listscenarios){
         page.evaluate((v)=>{
-          console.log("BZ-LOG:"+$util.getScenariosByTag(v))
+          console.log("BZ-LOG:"+$util.getScenariosByTag(v).map(p=>{ return p.path }))
         }, JSON.parse(listscenarios));
       }
     })
