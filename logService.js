@@ -5,6 +5,7 @@ const Service = {
   taskMap:{},
   timer:0,
   status:"",
+  result: 2,
   logMonitor(page,notimeout,gtimeout,stdTimeout,reportPrefix){
     this.notimeout=notimeout
     console.log("Initializing logMonitor");
@@ -158,6 +159,14 @@ const Service = {
       },
       timeout:Service.stdTimeout
     })
+
+    Service.addTask({
+      key:"Result:",
+      fun(msg){
+        Service.result = msg == "Success" ? 0:2;
+      },
+      timeout:Service.stdTimeout
+    })
   },
   setEndTasks(){
     Service.taskMap={}
@@ -199,7 +208,7 @@ const Service = {
   shutdown(msg){
     console.log(msg)
     if(!this.notimeout){
-      process.exit(2)
+      process.exit(Service.result)
     }
   },
   gracefulShutdown(msg){
