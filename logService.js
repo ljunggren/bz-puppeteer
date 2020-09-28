@@ -163,7 +163,8 @@ const Service = {
     Service.addTask({
       key:"Result:",
       fun(msg){
-        Service.result = msg == "Success" ? 0:2;
+        Service.result = msg.split("Result:")[1].trim() == "Success" ? 0:2;
+        console.log("Exit with status code: ", Service.result);
       },
       timeout:Service.stdTimeout
     })
