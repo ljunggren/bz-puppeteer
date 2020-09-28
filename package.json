@@ -1,10 +1,10 @@
 {
   "name": "sqa-gj",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "An Simple Driver for Chrome Headless basded on Puppeteer",
   "dependencies": {
     "node-options": "latest",
-    "puppeteer": "latest"
+    "puppeteer": "^5.2.1"
   },
   "bin": {
     "sqa-gj": "index.js"

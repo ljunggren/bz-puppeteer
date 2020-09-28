@@ -41,7 +41,7 @@ const timeout= opts.timeout;
 const file = opts.file;
 
 if (result.errors || !result.args || result.args.length !== 1) {
-  console.log('USAGE: boozang [--token] [--docker] [--gtimeout] [--notimeout] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
+  console.log('USAGE: boozang [--token] [--headfull] [--docker] [--gtimeout] [--notimeout] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [--device=default] [url]');
   process.exit(2);
 }
 
@@ -51,14 +51,12 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
 
 (async () => {
 
-  const file = (docker ? "/var/boozang/" : "") + (opts.file || "results");
-
   let userdatadir = "";
   if (opts.userdatadir){
-    userdatadir = (docker ? "/var/boozang/userdatadir" : "") + (opts.userdatadir || "");
+    userdatadir = (docker ? "/var/boozang/" : "") + (opts.userdatadir || "");
     console.log("Setting userdatadir: " + userdatadir);
   }
-  
+
   const launchargs = [
     '--disable-extensions-except=' + __dirname + '/bz-extension',
     '--load-extension=' + __dirname + '/bz-extension',
@@ -70,7 +68,7 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
 
   const browser = await puppeteer.launch({
     headless: false,
-    userDataDir: userdatadir,
+    userdatadir: userdatadir,
     args: launchargs 
   });
 
@@ -90,6 +88,7 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
     printStackTrace("ide",err);
   }
 
+
   // Setup popup
   let popup = null;
   function setupPopup() {
@@ -103,7 +102,6 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
     popup.on("pageerror", appPrintStackTrace);
     Service.setPopup(popup)
   }
-
 
   let pages = await browser.pages();
   browser.on('targetcreated', async () => {
@@ -122,15 +120,9 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
       Service.insertFileTask(function(){
         Service.shutdown()
       })
-      if(listsuite){
-        page.evaluate((v)=>{
-          $util.getTestsBySuite(v)
-        }, listsuite);
-      }else if(listscenarios){
-        page.evaluate((v)=>{
-          $util.getScenariosByTag(v)
-        }, JSON.parse(listscenarios));
-      }
+      page.evaluate((v)=>{
+        $util.getTestsBySuite(v)
+      }, listsuite||listscenarios);
     })
   }
 
@@ -142,8 +134,6 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   page.on("pageerror", idePrintStackTrace);
 
 })()
-
-
-
+// end async
 
 
