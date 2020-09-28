@@ -51,7 +51,7 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
 
 (async () => {
 
-  const file = (docker ? "/var/boozang/" : "") + (opts.file || "results");
+  const file = (docker ? "/var/boozang/" : "") + opts.file;
 
   let userdatadir = "";
   if (opts.userdatadir){
@@ -119,6 +119,7 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   if(listsuite||listscenarios){
     Service.setBeginningFun(function(){
       Service.insertFileTask(function(){
+        Service.result = 0;
         Service.shutdown()
       })
       if(listsuite){
