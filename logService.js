@@ -207,7 +207,7 @@ const Service = {
     })
   },
   shutdown(msg){
-    console.log(msg)
+    msg && console.log(msg)
     if(!this.notimeout){
       process.exit(Service.result)
     }
