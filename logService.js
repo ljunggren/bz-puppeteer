@@ -4,6 +4,7 @@ const Service = {
   stdTimeout:60000,
   taskMap:{},
   timer:0,
+  reportPrefix:"",
   status:"",
   result: 2,
   logMonitor(page,notimeout,gtimeout,stdTimeout,reportPrefix){
@@ -222,7 +223,8 @@ const Service = {
     console.error("Try to get Boozang to exit gracefully and write report");
     Service.popup.screenshot({path: "graceful_shutdown.png"});
     Service.page.evaluate(()=>{  
-      BZ.e();console.log("BZ-LOG: Graceful shutdown message received. Exiting... "); 
+      BZ.e();
+      console.log("BZ-LOG: Graceful shutdown message received. Exiting... "); 
     });
     // Wait 100 seconds for Boozang to finish before force kill
     setTimeout(function(){
