@@ -11,10 +11,13 @@ const Service = {
     console.log("Initializing logMonitor");
     gtimeout && console.log("Override global timeout: " + gtimeout + " mins");
     stdTimeout && console.log("Override action timeout: " + stdTimeout + " mins");
-    reportPrefix && console.log("Override report prefix: " + reportPrefix);
+    if (reportPrefix) {
+      console.log("Override report prefix: " + reportPrefix);
+      Service.reportPrefix=reportPrefix;
+    } 
 
     Service.stdTimeout=stdTimeout*60000||60000;
-    Service.reportPrefix=reportPrefix ? reportPrefix + "_":"";
+    
     
     if(!notimeout&&gtimeout){
       setTimeout(()=>{
@@ -88,6 +91,9 @@ const Service = {
   setPopup(popup){
     this.popup=popup
   },
+  setPage(page){
+    this.page=page
+  },
   //task:{key,fun,onTime,timeout}
   addTask(task){
     this.taskMap[task.key]=task
@@ -122,7 +128,7 @@ const Service = {
     Service.addTask({
       key:"ms:",
       fun(msg){
-        return (parseInt(msg.split(this.key)[1].trim())||0)+15000
+        return (parseInt(msg.split(this.key)[1].trim())||0)+1000
       },
       msg:"Action timeout"
     })
@@ -138,7 +144,7 @@ const Service = {
     Service.addTask({
       key:"ide-run:",
       fun(msg){
-        page.evaluate(()=>{ msg;  });
+        Service.page.evaluate(()=>{ msg;  });
       },
       timeout:Service.stdTimeout
     })
@@ -215,8 +221,8 @@ const Service = {
   gracefulShutdown(msg){
     console.error("Try to get Boozang to exit gracefully and write report");
     Service.popup.screenshot({path: "graceful_shutdown.png"});
-    page.evaluate(()=>{  
-      BZ.e();console.log("BZ-LOG: Timing out check IDE response"); 
+    Service.page.evaluate(()=>{  
+      BZ.e();console.log("BZ-LOG: Graceful shutdown message received. Exiting... "); 
     });
     // Wait 100 seconds for Boozang to finish before force kill
     setTimeout(function(){

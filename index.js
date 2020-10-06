@@ -109,7 +109,8 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
         //console.log('New window/tab event created');
         pages = await browser.pages();
         //console.log("Pages length " + pages.length);
-        setupPopup();   
+        setupPopup(); 
+        Service.setPage(page);  
   });
 
   const page = await browser.newPage();
