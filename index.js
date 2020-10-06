@@ -135,7 +135,13 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   }
 
 
-  let url = result.args[0]
+  let url = result.args[0];
+  if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run")) {
+    if (!url.endsWith("/")) {
+        url += "/"
+    }
+    url += "run"
+}
   const response = await page.goto(url);
 
   page.on("error", idePrintStackTrace);
