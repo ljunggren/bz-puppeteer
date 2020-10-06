@@ -33,6 +33,8 @@ const Service = {
       if(!msg){
         return
       }
+      // Todo add noLog conditions
+      // console.log(msg);
       
       if(Service.curTask){
         t=Service.curTask
@@ -40,17 +42,15 @@ const Service = {
       }else{
         for(let key in Service.taskMap){
           if(msg.includes(key)){
-            t=Service.taskMap[key]
-            
+            t=Service.taskMap[key]           
             break
           }
         }
       }
-      
+      if (!t || !t.noLog){
+        console.log(msg)
+      }
       if(t){
-        if (!t.noLog){
-          console.log(msg)
-        }
         clearTimeout(Service.timer)
         if(!t.timeout){
           timeout=t.fun(msg)
