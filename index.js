@@ -9,7 +9,7 @@ const Service = require('./logService').Service;
 // Command defaults
 const opts = {
   "verbose" : false,
-  "file": "",
+  "file": "report",
   "listscenarios":"",
   "listsuite":"",
   "device" : "",
@@ -50,8 +50,11 @@ console.log(opts);
 console.log("Example: Use --verbose for verbose logging (boolean example). Use --width=800 to override default width (value example.)");
 
 (async () => {
-
-  const file = (docker ? "/var/boozang/" : "") + opts.file;
+  
+  let file = (docker ? "/var/boozang/" : "");
+  if (opts.file){
+    file += opts.file;
+  }
 
   let userdatadir = "";
   if (opts.userdatadir){

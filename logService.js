@@ -14,7 +14,7 @@ const Service = {
     stdTimeout && console.log("Override action timeout: " + stdTimeout + " mins");
     if (reportPrefix) {
       console.log("Override report prefix: " + reportPrefix);
-      Service.reportPrefix=reportPrefix;
+      Service.reportPrefix=reportPrefix + "_";
     } 
 
     Service.stdTimeout=stdTimeout*60000||60000;
@@ -129,7 +129,7 @@ const Service = {
     Service.addTask({
       key:"ms:",
       fun(msg){
-        return (parseInt(msg.split(this.key)[1].trim())||0)+1000
+        return (parseInt(msg.split(this.key)[1].trim())||0) + Service.stdTimeout;
       },
       msg:"Action timeout"
     })
