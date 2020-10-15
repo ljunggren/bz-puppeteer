@@ -24,6 +24,14 @@
         "<all_urls>"
       ],
       "all_frames":true,
+      "js": ["first.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "all_frames":true,
       "js": ["content"]
     }
   ],
