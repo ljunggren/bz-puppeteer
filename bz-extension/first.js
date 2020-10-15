@@ -10,7 +10,6 @@ if(name!=="bz-master"){
         this._addEventListener(t,function(event){
           let play=localStorage.getItem("playModel")
           if(t=="beforeunload"&&play=="play"){
-            console.log("ignore: "+t)
           }else{
             return f(event)
           }
