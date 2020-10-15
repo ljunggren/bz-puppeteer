@@ -7,7 +7,6 @@ if(name!=="bz-master"){
     
     EventTarget.prototype.addEventListener=function(t,f,c){
       addEventListener(t,function(event){
-        console.log(t)
         let play=localStorage.getItem("playModel")
         if(t=="beforeunload"&&play=="play"){
           
