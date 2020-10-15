@@ -3,17 +3,21 @@ if(name!=="bz-master"){
   script.type = "application/javascript";
   script.textContent = "(" + (function() {
     
-    var addEventListener = EventTarget.prototype.addEventListener;
+    EventTarget.prototype._addEventListener = EventTarget.prototype.addEventListener;
     
     EventTarget.prototype.addEventListener=function(t,f,c){
-      addEventListener(t,function(event){
-        let play=localStorage.getItem("playModel")
-        if(t=="beforeunload"&&play=="play"){
-          
-        }else{
-          return f(event)
-        }
-      },c)
+      if(this==window&&t=="beforeunload"){
+        this._addEventListener(t,function(event){
+          let play=localStorage.getItem("playModel")
+          if(t=="beforeunload"&&play=="play"){
+            console.log("ignore: "+t)
+          }else{
+            return f(event)
+          }
+        },c)
+      }else{
+        this._addEventListener(t,f,c)
+      }
     }
   }) + ")();";
   document.documentElement.appendChild(script);
