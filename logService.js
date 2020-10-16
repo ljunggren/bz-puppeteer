@@ -4,16 +4,21 @@ const Service = {
   stdTimeout:60000,
   taskMap:{},
   timer:0,
+  reportPrefix:"",
   status:"",
+  result: 2,
   logMonitor(page,notimeout,gtimeout,stdTimeout,reportPrefix){
     this.notimeout=notimeout
     console.log("Initializing logMonitor");
     gtimeout && console.log("Override global timeout: " + gtimeout + " mins");
     stdTimeout && console.log("Override action timeout: " + stdTimeout + " mins");
-    reportPrefix && console.log("Override report prefix: " + reportPrefix);
+    if (reportPrefix) {
+      console.log("Override report prefix: " + reportPrefix);
+      Service.reportPrefix=reportPrefix + "_";
+    } 
 
     Service.stdTimeout=stdTimeout*60000||60000;
-    Service.reportPrefix=reportPrefix ? reportPrefix + "_":"";
+    
     
     if(!notimeout&&gtimeout){
       setTimeout(()=>{
@@ -32,6 +37,8 @@ const Service = {
       if(!msg){
         return
       }
+      // Todo add noLog conditions
+      // console.log(msg);
       
       if(Service.curTask){
         t=Service.curTask
@@ -39,17 +46,15 @@ const Service = {
       }else{
         for(let key in Service.taskMap){
           if(msg.includes(key)){
-            t=Service.taskMap[key]
-            
+            t=Service.taskMap[key]           
             break
           }
         }
       }
-      
+      if (!t || !t.noLog){
+        console.log(msg)
+      }
       if(t){
-        if (!t.noLog){
-          console.log(msg)
-        }
         clearTimeout(Service.timer)
         if(!t.timeout){
           timeout=t.fun(msg)
@@ -61,7 +66,7 @@ const Service = {
         if(!notimeout){
           // console.log("set timeout for shutdown: "+timeout)
           Service.timer=setTimeout(()=>{
-            Service.shutdown(t.msg)
+            Service.gracefulShutdown("Action timeout triggered - try to do graceful shutdown")
           },timeout)
         }
         
@@ -86,6 +91,9 @@ const Service = {
   },
   setPopup(popup){
     this.popup=popup
+  },
+  setPage(page){
+    this.page=page
   },
   //task:{key,fun,onTime,timeout}
   addTask(task){
@@ -121,7 +129,7 @@ const Service = {
     Service.addTask({
       key:"ms:",
       fun(msg){
-        return (parseInt(msg.split(this.key)[1].trim())||0)+15000
+        return (parseInt(msg.split(this.key)[1].trim())||0) + Service.stdTimeout;
       },
       msg:"Action timeout"
     })
@@ -137,7 +145,7 @@ const Service = {
     Service.addTask({
       key:"ide-run:",
       fun(msg){
-        page.evaluate(()=>{ msg;  });
+        Service.page.evaluate(()=>{ msg;  });
       },
       timeout:Service.stdTimeout
     })
@@ -161,6 +169,15 @@ const Service = {
   },
   setEndTasks(){
     Service.taskMap={}
+    Service.addTask({
+      key:"Result:",
+      fun(msg){
+        msg=msg.split("Result:")[1].trim()
+        Service.result = msg == "Success" ? 0:2;
+        console.log("Exit with status code: ", Service.result);
+      },
+      timeout:Service.stdTimeout
+    })
     Service.addTask({
       key:"All tests completed!",
       fun(msg){
@@ -197,16 +214,17 @@ const Service = {
     })
   },
   shutdown(msg){
-    console.log(msg)
+    msg && console.log(msg)
     if(!this.notimeout){
-      process.exit(2)
+      process.exit(Service.result)
     }
   },
   gracefulShutdown(msg){
     console.error("Try to get Boozang to exit gracefully and write report");
     Service.popup.screenshot({path: "graceful_shutdown.png"});
-    page.evaluate(()=>{  
-      BZ.e();console.log("BZ-LOG: Timing out check IDE response"); 
+    Service.page.evaluate(()=>{  
+      BZ.e();
+      console.log("BZ-LOG: Graceful shutdown message received. Exiting... "); 
     });
     // Wait 100 seconds for Boozang to finish before force kill
     setTimeout(function(){

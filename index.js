@@ -9,7 +9,7 @@ const Service = require('./logService').Service;
 // Command defaults
 const opts = {
   "verbose" : false,
-  "file": "",
+  "file": "report",
   "listscenarios":"",
   "listsuite":"",
   "device" : "",
@@ -50,8 +50,11 @@ console.log(opts);
 console.log("Example: Use --verbose for verbose logging (boolean example). Use --width=800 to override default width (value example.)");
 
 (async () => {
-
-  const file = (docker ? "/var/boozang/" : "") + (opts.file || "results");
+  
+  let file = (docker ? "/var/boozang/" : "");
+  if (opts.file){
+    file += opts.file;
+  }
 
   let userdatadir = "";
   if (opts.userdatadir){
@@ -110,7 +113,8 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
         //console.log('New window/tab event created');
         pages = await browser.pages();
         //console.log("Pages length " + pages.length);
-        setupPopup();   
+        setupPopup(); 
+        Service.setPage(page);  
   });
 
   const page = await browser.newPage();
@@ -120,6 +124,7 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   if(listsuite||listscenarios){
     Service.setBeginningFun(function(){
       Service.insertFileTask(function(){
+        Service.result = 0;
         Service.shutdown()
       })
       if(listsuite){
@@ -135,7 +140,13 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   }
 
 
-  let url = result.args[0]
+  let url = result.args[0];
+  if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run")) {
+    if (!url.endsWith("/")) {
+        url += "/"
+    }
+    url += "run"
+}
   const response = await page.goto(url);
 
   page.on("error", idePrintStackTrace);
