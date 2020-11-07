@@ -136,6 +136,16 @@ const Service = {
     })
 
     Service.addTask({
+      key:"update-std-timeout:",
+      fun(msg){
+        Service.stdTimeout = (parseInt(msg.split(this.key)[1].trim())||120000);
+        console.log("Setting std timeout to: " + Service.stdTimeout);
+        return Service.stdTimeout;
+      },
+      msg:"Standard timeout"
+    })
+
+    Service.addTask({
       key:"app-run:",
       fun(msg){
         Service.popup.evaluate(()=>{ msg;  });
