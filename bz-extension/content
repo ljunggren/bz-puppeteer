@@ -1,5 +1,5 @@
 let curContentExeAction=0,bzIframeId=null,topFrame=0,initEnv=0;
-
+ 
 //Register
 window.extensionContent=1;
 if(name!=="bz-master"){
@@ -48,7 +48,7 @@ function handleMsg(_event, _, sendResponse) {
       window[_event[ecMap.s]][_event[ecMap.f]](_event[ecMap.d]);
     }
   }else if(_event.fun && _event.scope){
-    _doIt3();
+    return _doIt3();
     function _doIt3(){
       if(name=="bz-master"){
         location.href="javascript:"+_event.scope+"."+_event.fun+"("+JSON.stringify(_event.data)+")"
@@ -171,6 +171,7 @@ function handleMsg(_event, _, sendResponse) {
     }
 
   }
+  sendResponse&&sendResponse("ok")
 }
 function afterDocReady(_fun,_time){
   _time=_time||Date.now()
