@@ -232,7 +232,9 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
           }
         }
       }else{
-        chrome.tabs.sendMessage(_ctrlTabId, _req);
+        chrome.tabs.sendMessage(_ctrlTabId, _req,function(v){
+          _callback&&_callback(v)
+        });
       }
     }
   }

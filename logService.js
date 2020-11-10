@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const Service = {
-  stdTimeout:60000,
+  stdTimeout:120000,
   taskMap:{},
   timer:0,
   reportPrefix:"",
@@ -17,8 +17,9 @@ const Service = {
       Service.reportPrefix=reportPrefix + "_";
     } 
 
-    Service.stdTimeout=stdTimeout*60000||60000;
+    Service.stdTimeout=stdTimeout*60000||120000;
     
+    console.log("Setting timeout to " + Service.stdTimeout + "ms.");
     
     if(!notimeout&&gtimeout){
       setTimeout(()=>{
@@ -135,6 +136,16 @@ const Service = {
     })
 
     Service.addTask({
+      key:"update-std-timeout:",
+      fun(msg){
+        Service.stdTimeout = (parseInt(msg.split(this.key)[1].trim())||120000);
+        console.log("Setting std timeout to: " + Service.stdTimeout);
+        return Service.stdTimeout;
+      },
+      msg:"Standard timeout"
+    })
+
+    Service.addTask({
       key:"app-run:",
       fun(msg){
         Service.popup.evaluate(()=>{ msg;  });
@@ -219,11 +230,13 @@ const Service = {
       process.exit(Service.result)
     }
   },
-  gracefulShutdown(msg){
+  async gracefulShutdown(msg){
     console.error("Try to get Boozang to exit gracefully and write report");
+    //const { JSHeapUsedSize } = await Service.page.metrics();
+    //console.log("Memory usage on exit: " + (JSHeapUsedSize / (1024*1024)).toFixed(2) + " MB");  
     Service.popup.screenshot({path: "graceful_shutdown.png"});
     Service.page.evaluate(()=>{  
-      BZ.e();
+      BZ.e("Timeout. Test runner telling BZ to shut down.");
       console.log("BZ-LOG: Graceful shutdown message received. Exiting... "); 
     });
     // Wait 100 seconds for Boozang to finish before force kill

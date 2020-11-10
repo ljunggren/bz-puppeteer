@@ -118,9 +118,11 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   });
 
   const page = await browser.newPage();
-
+  //const { JSHeapUsedSize } = await page.metrics();
+  //console.log("Memory usage on start: " + (JSHeapUsedSize / (1024*1024)).toFixed(2) + " MB");
   // Assign all log listeners
-  Service.logMonitor(page,notimeout,gtimeout,timeout,file)
+  Service.logMonitor(page,notimeout,gtimeout,timeout,file);
+
   if(listsuite||listscenarios){
     Service.setBeginningFun(function(){
       Service.insertFileTask(function(){
