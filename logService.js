@@ -7,25 +7,15 @@ const Service = {
   reportPrefix:"",
   status:"",
   result: 2,
-  logMonitor(page,notimeout,gtimeout,stdTimeout,reportPrefix){
+  logMonitor(page,notimeout,reportPrefix){
     this.notimeout=notimeout
     console.log("Initializing logMonitor");
-    gtimeout && console.log("Override global timeout: " + gtimeout + " mins");
-    stdTimeout && console.log("Override action timeout: " + stdTimeout + " mins");
+   
     if (reportPrefix) {
       console.log("Override report prefix: " + reportPrefix);
       Service.reportPrefix=reportPrefix + "_";
     } 
 
-    Service.stdTimeout=stdTimeout*60000||120000;
-    
-    console.log("Setting timeout to " + Service.stdTimeout + "ms.");
-    
-    if(!notimeout&&gtimeout){
-      setTimeout(()=>{
-        Service.gracefulShutdown("Global timeout triggered - try to do graceful shutdown")
-      },gtimeout*60000)
-    }
     if(notimeout){
       clearTimeout(Service.status)
     }
