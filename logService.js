@@ -69,9 +69,6 @@ const Service = {
     })
     
     function trimPreMsg(msg){
-      if(msg){
-        console.log(new Date()+" -- "+msg.substring(0,30))
-      }
       if(msg&&msg.startsWith("BZ-LOG:")){
         msg=msg.substring(7).trim()
       }else{
@@ -122,7 +119,7 @@ const Service = {
     Service.addTask({
       key:"update-std-timeout:",
       fun(msg){
-        Service.stdTimeout = (parseInt(msg.split(this.key)[1].trim())||120000)*10;
+        Service.stdTimeout = (parseInt(msg.split(this.key)[1].trim())||120000);
         console.log("Setting std timeout to: " + Service.stdTimeout);
         return Service.stdTimeout;
       },
