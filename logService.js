@@ -71,6 +71,7 @@ const Service = {
     function trimPreMsg(msg){
       if(msg&&msg.startsWith("BZ-LOG:")){
         msg=msg.substring(7).trim()
+        console.log(new Date())
       }else{
         return
       }
