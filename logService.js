@@ -122,7 +122,7 @@ const Service = {
     Service.addTask({
       key:"update-std-timeout:",
       fun(msg){
-        Service.stdTimeout = (parseInt(msg.split(this.key)[1].trim())||120000);
+        Service.stdTimeout = (parseInt(msg.split(this.key)[1].trim())||120000)*10;
         console.log("Setting std timeout to: " + Service.stdTimeout);
         return Service.stdTimeout;
       },
