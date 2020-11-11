@@ -19,9 +19,7 @@ const opts = {
   "width":1280,
   "height":1024,
   "docker": false,
-  "gtimeout": "",
-  "notimeout": false,
-  "timeout": "",
+  "notimeout": false
 }
 
 // Remove the first two arguments, which are the 'node' binary and the name
@@ -33,15 +31,13 @@ const docker = opts.docker;
 const userdatadir = opts.userdatadir;
 const width = opts.width;
 const height = opts.height;
-const gtimeout=opts.gtimeout;
 const listscenarios=opts.listscenarios;
 const listsuite=opts.listsuite;
 const notimeout=opts.notimeout;
-const timeout= opts.timeout;
 const file = opts.file;
 
 if (result.errors || !result.args || result.args.length !== 1) {
-  console.log('USAGE: boozang [--token] [--docker] [--gtimeout] [--notimeout] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
+  console.log('USAGE: boozang [--token] [--docker] [--notimeout] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
   process.exit(2);
 }
 
@@ -119,8 +115,9 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   const page = await browser.newPage();
   //const { JSHeapUsedSize } = await page.metrics();
   //console.log("Memory usage on start: " + (JSHeapUsedSize / (1024*1024)).toFixed(2) + " MB");
+
   // Assign all log listeners
-  Service.logMonitor(page,notimeout,gtimeout,timeout,file);
+  Service.logMonitor(page,notimeout,file);
 
   if(listsuite||listscenarios){
     Service.setBeginningFun(function(){
