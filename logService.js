@@ -133,11 +133,11 @@ const Service = {
     Service.addTask({
       key:"start-socket-server:",
       fun(msg){
-        Service.socketServerId = (parseInt(msg.split(this.key)[1].trim()));
+        Service.socketServerId = msg.split(this.key)[1].trim();
         console.log("Starting socket server: " + Service.socketServerId);
-        if (Service.sockerServerId) {
-          Service.startSocketServer()
-        }
+       
+        Service.startSocketServer()
+        
         return Service.stdTimeout;
       },
       msg:"Start socket server"
@@ -145,7 +145,7 @@ const Service = {
   },
   startSocketServer(){
     // Listen to connections on port 3000
-    io.listen(3000);
+    io.listen(4000);
 
     var isSearching = false;
 
