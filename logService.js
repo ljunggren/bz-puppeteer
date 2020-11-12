@@ -145,17 +145,24 @@ const Service = {
   },
   startSocketServer(){
     // Listen to connections on port 3000
-    io.listen(4000);
+    try {
+      io.listen(4000);
 
-    var isSearching = false;
+      var isSearching = false;
 
-    console.log('SERVER STARTED. Listening to port 3000...');
+      console.log('SERVER STARTED. Listening to port 4000...');
+  
+      io.sockets.on('connection', function (socket) {
+          socket.on('search-order', (order, response) => {
+             
+          })
+      })
+    }
+    catch (e){
+      console.log("Duplicate")
+    }
 
-    io.sockets.on('connection', function (socket) {
-        socket.on('search-order', (order, response) => {
-           
-        })
-    })
+   
   },
   setRunTasks(){
     Service.taskMap={}
