@@ -1,4 +1,6 @@
 const fs = require('fs');
+const io = require('socket.io')();
+
 
 const Service = {
   stdTimeout:120000,
@@ -6,6 +8,7 @@ const Service = {
   timer:0,
   reportPrefix:"",
   status:"",
+  sockerServerId:"",
   result: 2,
   logMonitor(page,notimeout,reportPrefix){
     this.notimeout=notimeout
@@ -126,10 +129,39 @@ const Service = {
       msg:"Standard timeout"
     })
   },
+  startSocketServerTask(){
+    Service.addTask({
+      key:"start-socket-server:",
+      fun(msg){
+        Service.socketServerId = (parseInt(msg.split(this.key)[1].trim()));
+        console.log("Starting socket server: " + Service.socketServerId);
+        if (Service.sockerServerId) {
+          Service.startSocketServer()
+        }
+        return Service.stdTimeout;
+      },
+      msg:"Start socket server"
+    })
+  },
+  startSocketServer(){
+    // Listen to connections on port 3000
+    io.listen(3000);
+
+    var isSearching = false;
+
+    console.log('SERVER STARTED. Listening to port 3000...');
+
+    io.sockets.on('connection', function (socket) {
+        socket.on('search-order', (order, response) => {
+           
+        })
+    })
+  },
   setRunTasks(){
     Service.taskMap={}
     
     Service.insertSetStdTimeout()
+    Service.startSocketServerTask()
     
     Service.addTask({
       key:"ms:",
