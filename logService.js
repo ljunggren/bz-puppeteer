@@ -8,7 +8,8 @@ const Service = {
   timer:0,
   reportPrefix:"",
   status:"",
-  sockerServerId:"",
+  socketServerId:"",
+  serverStarted:false,
   result: 2,
   logMonitor(page,notimeout,reportPrefix){
     this.notimeout=notimeout
@@ -145,7 +146,8 @@ const Service = {
   },
   startSocketServer(){
     // Listen to connections on port 3000
-    try {
+    if (!Service.serverStarted) {
+      Service.serverStarted = true;
       io.listen(4000);
 
       var isSearching = false;
@@ -158,7 +160,7 @@ const Service = {
           })
       })
     }
-    catch (e){
+    else {
       console.log("Duplicate")
     }
 
