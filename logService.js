@@ -321,10 +321,9 @@ const Service = {
     Service.page.evaluate(()=>{  
       localStorage.setItem("bz-reboot",1)
     });
-    setTimeout(()=>{
-      await Service.page.reload();
-      Service.init()
-    },100)
+    
+    await Service.page.reload();
+    Service.init() 
   },
   shutdown(msg){
     msg && console.log(msg)
