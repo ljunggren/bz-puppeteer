@@ -7,7 +7,8 @@ const Service = {
   reportPrefix:"",
   status:"",
   result: 2,
-  logMonitor(page,notimeout,reportPrefix){
+  logMonitor(page,notimeout,reportPrefix,inService){
+    this.inService=inService;
     this.notimeout=notimeout
     console.log("Initializing logMonitor");
    
@@ -37,6 +38,9 @@ const Service = {
       }else{
         for(let key in Service.taskMap){
           if(msg.includes(key)){
+            if(!key.startsWith("coop-")){
+              Service.reChkCoop(key)
+            }
             t=Service.taskMap[key]           
             break
           }
@@ -93,7 +97,52 @@ const Service = {
   removeTask(task){
     delete this.taskMap[task.key]
   },
+  insertStdTask(p){
+    Service.curProcess=p
+    Service.taskMap={}
+    Service.inChkCoop=0
+    Service.coopAnswerList=[]
+    clearTimeout(Service.coopAnswerTimer)
+    
+    Service.addTask({
+      key:"update-std-timeout:",
+      fun(msg){
+        Service.stdTimeout = (parseInt(msg.split(this.key)[1].trim())||120000);
+        console.log("Setting std timeout to: " + Service.stdTimeout);
+        return Service.stdTimeout;
+      },
+      msg:"Standard timeout"
+    })
+
+    Service.addTask({
+      key:"coop-shutdown",
+      fun(msg){
+        Service.notimeout=0
+        Service.shutdown("As cooperator server request to shutdown!")
+      },
+      timeout:Service.stdTimeout
+    })
+    
+    Service.addTask({
+      key:"coop-reload",
+      fun(msg){
+        Service.cancelChkCoop()
+        Service.init()
+      },
+      timeout:Service.stdTimeout
+    })
+
+    Service.addTask({
+      key:"coop-answer",
+      fun(msg){
+        Service.coopAnswer&&Service.coopAnswer(msg)
+      },
+      timeout:Service.stdTimeout
+    })
+  },
   init(){
+    Service.insertStdTask("init")
+    
     this.status=setTimeout(()=>{
       if(Service.status!="ready"){
         Service.shutdown("Failed to load test")
@@ -115,21 +164,8 @@ const Service = {
       timeout:Service.stdTimeout
     })
   },
-  insertSetStdTimeout(){
-    Service.addTask({
-      key:"update-std-timeout:",
-      fun(msg){
-        Service.stdTimeout = (parseInt(msg.split(this.key)[1].trim())||120000);
-        console.log("Setting std timeout to: " + Service.stdTimeout);
-        return Service.stdTimeout;
-      },
-      msg:"Standard timeout"
-    })
-  },
   setRunTasks(){
-    Service.taskMap={}
-    
-    Service.insertSetStdTimeout()
+    Service.insertStdTask("run")
     
     Service.addTask({
       key:"ms:",
@@ -173,8 +209,7 @@ const Service = {
     })
   },
   setEndTasks(){
-    Service.taskMap={}
-    Service.insertSetStdTimeout()
+    Service.insertStdTask("end")
     Service.addTask({
       key:"Result:",
       fun(msg){
@@ -219,10 +254,80 @@ const Service = {
       noLog:1
     })
   },
+  chkIDE(){
+    if(Service.inService){
+      if(Service.inChkCoop){
+        Service.inChkCoop++
+        return
+      }
+      clearTimeout(Service.chkCoopTimer)
+      Service.chkCoopTimer=setTimeout(()=>{
+        Service.inChkCoop=1
+        Service.coopAnswerList=[]
+        Service.coopAnswer=function(v){
+          clearTimeout(Service.coopAnswerTimer)
+          v=JSON.parse(v)
+          console.log("get coop status:")
+          console.log(v)
+          Service.addCoopAnswer(v)
+        }
+        Service.getCoopStatus()
+      },5000)
+    }
+  },
+  addCoopAnswer(v){
+    Service.coopAnswerList.push(v)
+    if(Service.coopAnswerList.length<2){
+      Service.chkCoopTimer=setTimeout(()=>{
+        Service.getCoopStatus()
+      },60000)
+    }else{
+      console.log("Checking coop status")
+      let v1=Service.coopAnswerList[0],
+          v2=Service.coopAnswerList[1]
+      console.log(JSON.stringify(v1,0,2))
+      console.log(JSON.stringify(v2,0,2))
+      if(v1.status.type!=v2.status.type){
+        return
+      }else if(v1.status.type=="report"){
+        //TODO
+      }
+    }
+  },
+  reChkCoop(v){
+    if(Service.inChkCoop){
+      Service.cancelChkCoop()
+      if(!Service.lastChkCoopTimer){
+        Service.lastChkCoopTimer=Date.now()
+        Service.chkIDE()
+      }
+    }
+  },
+  cancelChkCoop(){
+    Service.inChkCoop=0
+    clearTimeout(Service.chkCoopTimer)
+    clearTimeout(Service.coopAnswerTimer)
+    Service.coopAnswerList=[]
+  },
+  getCoopStatus(){
+    Service.coopAnswerTimer=setTimeout(()=>{
+      Service.reloadIDE("Coop Server stop work! reload IDE")
+    },Service.stdTimeout)
+    this.page.evaluate(()=>{
+      $util.getCoopStatus()
+    })
+  },
+  async reloadIDE(msg){
+    console.log(msg)
+    await Service.page.reload();
+    Service.init()
+  },
   shutdown(msg){
     msg && console.log(msg)
     if(!this.notimeout){
       process.exit(Service.result)
+    }else{
+      Service.setRunTasks()
     }
   },
   async gracefulShutdown(msg){

@@ -33,7 +33,8 @@ const width = opts.width;
 const height = opts.height;
 const listscenarios=opts.listscenarios;
 const listsuite=opts.listsuite;
-const notimeout=opts.notimeout;
+let notimeout=opts.notimeout;
+let inService;
 const file = opts.file;
 
 if (result.errors || !result.args || result.args.length !== 1) {
@@ -78,7 +79,7 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
       "\n#######################################\n"
     + app + " error: " + err.message
     + "\n#######################################\n"
-    );   
+    );
   }
 
   function appPrintStackTrace(err){
@@ -87,6 +88,7 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
 
   function idePrintStackTrace(err){
     printStackTrace("ide",err);
+    Service.chkIDE()
   }
 
   // Setup popup
@@ -116,8 +118,20 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   //const { JSHeapUsedSize } = await page.metrics();
   //console.log("Memory usage on start: " + (JSHeapUsedSize / (1024*1024)).toFixed(2) + " MB");
 
+  let url = result.args[0];
+  if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run") && url.match(/\/m[0-9]+\/t[0-9]+/)) {
+    if (!url.endsWith("/")) {
+        url += "/"
+    }
+    url += "run"
+  }
+  if(url.match(/(\?|\&)number=.+(\&|\#)/)){
+    notimeout=1
+    inService=1
+  }
+
   // Assign all log listeners
-  Service.logMonitor(page,notimeout,file);
+  Service.logMonitor(page,notimeout,file,inService);
 
   if(listsuite||listscenarios){
     Service.setBeginningFun(function(){
@@ -138,13 +152,6 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   }
 
 
-  let url = result.args[0];
-  if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run")) {
-    if (!url.endsWith("/")) {
-        url += "/"
-    }
-    url += "run"
-}
   const response = await page.goto(url);
 
   page.on("error", idePrintStackTrace);
