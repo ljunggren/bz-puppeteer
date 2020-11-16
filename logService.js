@@ -58,7 +58,9 @@ const Service = {
         
         // console.log("set timeout for shutdown: "+timeout)
         Service.timer=setTimeout(()=>{
-          Service.handleTimeout("Action timeout triggered - try to do graceful shutdown")
+          if(Service.curProcess!="init"){
+            Service.handleTimeout("Action timeout triggered - try to do graceful shutdown")
+          }
         },timeout)
         
         t.timeout&&t.fun(msg,Service.timer)
