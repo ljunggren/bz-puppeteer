@@ -7,9 +7,9 @@ const Service = {
   reportPrefix:"",
   status:"",
   result: 2,
-  logMonitor(page,notimeout,reportPrefix,inService){
+  logMonitor(page,keepalive,reportPrefix,inService){
     this.inService=inService;
-    this.notimeout=notimeout
+    this.keepalive=keepalive
     console.log("Initializing logMonitor");
    
     if (reportPrefix) {
@@ -17,9 +17,7 @@ const Service = {
       Service.reportPrefix=reportPrefix + "_";
     } 
 
-    if(notimeout){
-      clearTimeout(Service.status)
-    }
+    clearTimeout(Service.status)
 
     page.on('console', msg => {
       let timeout,t;
@@ -58,12 +56,10 @@ const Service = {
           timeout=t.timeout
         }
         
-        if(!notimeout){
-          // console.log("set timeout for shutdown: "+timeout)
-          Service.timer=setTimeout(()=>{
-            Service.gracefulShutdown("Action timeout triggered - try to do graceful shutdown")
-          },timeout)
-        }
+        // console.log("set timeout for shutdown: "+timeout)
+        Service.timer=setTimeout(()=>{
+          Service.handleTimeout("Action timeout triggered - try to do graceful shutdown")
+        },timeout)
         
         t.timeout&&t.fun(msg,Service.timer)
         if(t.oneTime){
@@ -117,8 +113,17 @@ const Service = {
     Service.addTask({
       key:"coop-shutdown",
       fun(msg){
-        Service.notimeout=0
         Service.shutdown("As cooperator server request to shutdown!")
+      },
+      timeout:Service.stdTimeout
+    })
+
+    Service.addTask({
+      key:"task-done",
+      fun(msg){
+        if(!Service.keepalive){
+          Service.shutdown("One-Task Completed!")
+        }
       },
       timeout:Service.stdTimeout
     })
@@ -145,7 +150,7 @@ const Service = {
     
     this.status=setTimeout(()=>{
       if(Service.status!="ready"){
-        Service.shutdown("Failed to load test")
+        Service.reload("Failed to load test")
       }
     },Service.stdTimeout)
     
@@ -218,12 +223,6 @@ const Service = {
         console.log("Exit with status code: ", Service.result);
       },
       timeout:Service.stdTimeout
-    })
-    Service.addTask({
-      key:"All tests completed!",
-      fun(msg){
-        Service.shutdown(this.key)
-      }
     })
     this.insertFileTask()
   },
@@ -319,26 +318,31 @@ const Service = {
   },
   async reloadIDE(msg){
     console.log(msg)
-    await Service.page.reload();
-    Service.init()
+    Service.page.evaluate(()=>{  
+      localStorage.setItem("bz-reboot",1)
+    });
+    setTimeout(()=>{
+      await Service.page.reload();
+      Service.init()
+    },100)
   },
   shutdown(msg){
     msg && console.log(msg)
-    if(!this.notimeout){
-      process.exit(Service.result)
-    }else{
-      Service.setRunTasks()
-    }
+    process.exit(Service.result)
   },
-  async gracefulShutdown(msg){
+  async handleTimeout(msg){
     console.error("Try to get Boozang to exit gracefully and write report");
     //const { JSHeapUsedSize } = await Service.page.metrics();
     //console.log("Memory usage on exit: " + (JSHeapUsedSize / (1024*1024)).toFixed(2) + " MB");  
-    Service.popup.screenshot({path: "graceful_shutdown.png"});
-    Service.page.evaluate(()=>{  
-      BZ.e("Timeout. Test runner telling BZ to shut down.");
-      console.log("BZ-LOG: Graceful shutdown message received. Exiting... "); 
-    });
+    Service.popup.screenshot({path: "graceful-timeout-"+getCurrentTimeString()+".png"});
+    if(Service.inService){
+      return Service.reloadIDE("Timeout")
+    }else{
+      Service.page.evaluate(()=>{  
+        BZ.e("Timeout. Test runner telling BZ to shut down.");
+        console.log("BZ-LOG: Graceful shutdown message received. Exiting... "); 
+      });
+    }
     // Wait 100 seconds for Boozang to finish before force kill
     setTimeout(function(){
       Service.shutdown(msg);
@@ -346,4 +350,10 @@ const Service = {
   }
 }
 Service.init()
+
+
+function getCurrentTimeString(){
+  let d=new Date()
+  return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+'-'+d.getHours()+'-'+d.getMinutes()+"-"+d.getSeconds()
+}
 exports.Service = Service;

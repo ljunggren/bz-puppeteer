@@ -19,7 +19,7 @@ const opts = {
   "width":1280,
   "height":1024,
   "docker": false,
-  "notimeout": false
+  "keepalive": false
 }
 
 // Remove the first two arguments, which are the 'node' binary and the name
@@ -33,12 +33,12 @@ const width = opts.width;
 const height = opts.height;
 const listscenarios=opts.listscenarios;
 const listsuite=opts.listsuite;
-let notimeout=opts.notimeout;
+let keepalive=opts.keepalive;
 let inService;
 const file = opts.file;
 
 if (result.errors || !result.args || result.args.length !== 1) {
-  console.log('USAGE: boozang [--token] [--docker] [--notimeout] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
+  console.log('USAGE: boozang [--token] [--docker] [--keepalive] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
   process.exit(2);
 }
 
@@ -126,12 +126,11 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
     url += "run"
   }
   if(url.match(/(\?|\&)number=.+(\&|\#)/)){
-    notimeout=1
     inService=1
   }
 
   // Assign all log listeners
-  Service.logMonitor(page,notimeout,file,inService);
+  Service.logMonitor(page,keepalive,file,inService);
 
   if(listsuite||listscenarios){
     Service.setBeginningFun(function(){
