@@ -228,6 +228,12 @@ const Service = {
       },
       timeout:Service.stdTimeout
     })
+    Service.addTask({
+      key:"The Task Completed!",
+      fun(msg){
+        Service.init()
+      }
+    })
     this.insertFileTask()
   },
   insertFileTask(exFun){
