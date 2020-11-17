@@ -56,10 +56,10 @@ const Service = {
           timeout=t.timeout
         }
         
-        // console.log("set timeout for shutdown: "+timeout)
+        console.log("set timeout for shutdown: "+t.key+":"+timeout)
         Service.timer=setTimeout(()=>{
           if(Service.curProcess!="init"){
-            Service.handleTimeout("Action timeout triggered - try to do graceful shutdown")
+            Service.handleTimeout("Timeout on: "+t.key+":"+timeout)
           }
         },timeout)
         
@@ -177,7 +177,9 @@ const Service = {
     Service.addTask({
       key:"ms:",
       fun(msg){
-        return (parseInt(msg.split(this.key)[1].trim())||0) + Service.stdTimeout;
+        let v= (parseInt(msg.split(this.key)[1].trim())||0) + Service.stdTimeout;
+        console.log("Set timeout to:"+v)
+        return v;
       },
       msg:"Action timeout"
     })
@@ -332,6 +334,8 @@ const Service = {
     process.exit(Service.result)
   },
   async handleTimeout(msg){
+    console.log(getCurrentTimeString());
+    console.log(msg)
     console.error("Try to get Boozang to exit gracefully and write report");
     //const { JSHeapUsedSize } = await Service.page.metrics();
     //console.log("Memory usage on exit: " + (JSHeapUsedSize / (1024*1024)).toFixed(2) + " MB");  
@@ -346,7 +350,7 @@ const Service = {
     }
     // Wait 100 seconds for Boozang to finish before force kill
     setTimeout(function(){
-      Service.shutdown(msg);
+      Service.shutdown("IDE Freeze - try to do graceful shutdown");
     },100000)   
   }
 }
