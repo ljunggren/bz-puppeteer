@@ -125,7 +125,7 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
     }
     url += "run"
   }
-  if(url.match(/(\?|\&)number=.+(\&|\#)/)){
+  if(url.match(/(\?|\&)key=.+(\&|\#)/)){
     inService=1
   }
 
