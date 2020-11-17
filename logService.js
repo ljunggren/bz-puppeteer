@@ -236,7 +236,7 @@ const Service = {
     Service.addTask({
       key:"The Task Completed!",
       fun(msg){
-        Service.init()
+        Service.setRunTasks()
       },
       timeout:Service.stdTimeout
     })
