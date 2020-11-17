@@ -50,7 +50,7 @@ const Service = {
       if(t){
         clearTimeout(Service.timer)
         if(!t.timeout){
-          timeout=t.fun(msg)
+          timeout=t.fun(msg)||Service.stdTimeout
           //console.log("Get timeout: "+timeout)
         }else{
           timeout=t.timeout
@@ -237,7 +237,8 @@ const Service = {
       key:"The Task Completed!",
       fun(msg){
         Service.init()
-      }
+      },
+      timeout:Service.stdTimeout
     })
     this.insertFileTask()
   },
