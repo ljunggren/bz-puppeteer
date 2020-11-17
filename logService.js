@@ -101,7 +101,13 @@ const Service = {
     Service.inChkCoop=0
     Service.coopAnswerList=[]
     clearTimeout(Service.coopAnswerTimer)
-    
+    Service.addTask({
+      key:"I-AM-OK",
+      fun:function(){
+        clearTimeout(Service.wakeupTimer)
+      },
+      timeout:Service.stdTimeout
+    })
     Service.addTask({
       key:"update-std-timeout:",
       fun(msg){
@@ -178,7 +184,6 @@ const Service = {
       key:"ms:",
       fun(msg){
         let v= (parseInt(msg.split(this.key)[1].trim())||0) + Service.stdTimeout;
-        console.log("Set timeout to:"+v)
         return v;
       },
       msg:"Action timeout"
@@ -327,7 +332,7 @@ const Service = {
     })
   },
   async reloadIDE(msg){
-    console.log(msg)
+    console.log("Reload IDE for "+msg)
     Service.page.evaluate(()=>{  
       localStorage.setItem("bz-reboot",1)
     });
@@ -340,24 +345,36 @@ const Service = {
     process.exit(Service.result)
   },
   async handleTimeout(msg){
-    console.log(getCurrentTimeString());
-    console.log(msg)
-    console.error("Try to get Boozang to exit gracefully and write report");
-    //const { JSHeapUsedSize } = await Service.page.metrics();
-    //console.log("Memory usage on exit: " + (JSHeapUsedSize / (1024*1024)).toFixed(2) + " MB");  
-    Service.popup.screenshot({path: "graceful-timeout-"+getCurrentTimeString()+".png"});
-    if(Service.inService){
-      return Service.reloadIDE("Timeout")
-    }else{
-      Service.page.evaluate(()=>{  
-        BZ.e("Timeout. Test runner telling BZ to shut down.");
-        console.log("BZ-LOG: Graceful shutdown message received. Exiting... "); 
-      });
-    }
-    // Wait 100 seconds for Boozang to finish before force kill
-    setTimeout(function(){
-      Service.shutdown("IDE Freeze - try to do graceful shutdown");
-    },100000)   
+    console.log(getCurrentTimeString()+": "+msg)
+    console.log("Try to wakeup IDE");
+    Service.wakeupIDE()
+    // //const { JSHeapUsedSize } = await Service.page.metrics();
+    // //console.log("Memory usage on exit: " + (JSHeapUsedSize / (1024*1024)).toFixed(2) + " MB");  
+    // Service.popup.screenshot({path: "graceful-timeout-"+getCurrentTimeString()+".png"});
+    // if(Service.inService){
+      // return Service.reloadIDE("Timeout")
+    // }else{
+      // Service.page.evaluate(()=>{  
+        // BZ.e("Timeout. Test runner telling BZ to shut down.");
+        // console.log("BZ-LOG: Graceful shutdown message received. Exiting... "); 
+      // });
+    // }
+    // // Wait 100 seconds for Boozang to finish before force kill
+    // setTimeout(function(){
+      // Service.shutdown("IDE Freeze - try to do graceful shutdown");
+    // },100000)   
+  },
+  wakeupIDE:function(){
+    Service.page.evaluate(()=>{
+      BZ.wakeup()
+    })
+    Service.wakeupTimer=setTimeout(()=>{
+      if(Service.keepalive){
+        Service.reloadIDE("IDE Freezen")
+      }else{
+        Service.shutdown("IDE Freezen")
+      }
+    },10000)
   }
 }
 Service.init()
