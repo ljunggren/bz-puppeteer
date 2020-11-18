@@ -7,6 +7,7 @@ const Service = {
   reportPrefix:"",
   status:"",
   result: 2,
+  consoleNum:1,
   logMonitor(page,keepalive,reportPrefix,inService){
     this.inService=inService;
     this.keepalive=keepalive
@@ -45,7 +46,7 @@ const Service = {
         }
       }
       if (!t || !t.noLog){
-        console.log(msg)
+        console.log(Service.consoleNum+": "+msg)
       }
       if(t){
         clearTimeout(Service.timer)
