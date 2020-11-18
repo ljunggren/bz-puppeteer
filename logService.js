@@ -56,7 +56,6 @@ const Service = {
           timeout=t.timeout
         }
         
-        console.log("set timeout for shutdown: "+t.key+":"+timeout+" - "+getCurrentTimeString())
         Service.timer=setTimeout(()=>{
           if(Service.curProcess!="init"){
             Service.handleTimeout("Timeout on: "+t.key+":"+timeout)
