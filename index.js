@@ -128,6 +128,8 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   if(url.match(/(\?|\&)key=.+(\&|\#)/)){
     console.log("Running in cooperation!")
     inService=1
+  }else{
+    console.log("Running in stand alone!")
   }
 
   // Assign all log listeners
