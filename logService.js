@@ -7,7 +7,7 @@ const Service = {
   reportPrefix:"",
   status:"",
   result: 2,
-  consoleNum:1,
+  consoleNum:0,
   logMonitor(page,keepalive,reportPrefix,inService){
     this.inService=inService;
     this.keepalive=keepalive
@@ -46,7 +46,7 @@ const Service = {
         }
       }
       if (!t || !t.noLog){
-        console.log(Service.consoleNum+": "+msg)
+        console.log((Service.consoleNum++)+": "+msg)
       }
       if(t){
         clearTimeout(Service.timer)
@@ -56,10 +56,10 @@ const Service = {
         }else{
           timeout=t.timeout
         }
-        
+        //console.log("set timeout: "+t.key+":"+timeout)
         Service.timer=setTimeout(()=>{
           if(Service.curProcess!="init"){
-            Service.handleTimeout("Timeout on: "+t.key+":"+timeout)
+            Service.handleTimeout(timeout,"Timeout on: "+t.key+":"+timeout)
           }
         },timeout)
         
@@ -105,6 +105,7 @@ const Service = {
       key:"I-AM-OK",
       fun:function(){
         clearTimeout(Service.wakeupTimer)
+        
       },
       timeout:Service.stdTimeout
     })
@@ -172,6 +173,7 @@ const Service = {
         }else{
           Service.setRunTasks()
         }
+        Service.wakeupIDE()
       },
       oneTime:1,
       timeout:Service.stdTimeout
@@ -345,10 +347,10 @@ const Service = {
     msg && console.log(msg)
     process.exit(Service.result)
   },
-  async handleTimeout(msg){
+  async handleTimeout(timeout,msg){
     console.log(getCurrentTimeString()+": "+msg)
     console.log("Try to wakeup IDE");
-    Service.wakeupIDE()
+    Service.wakeupIDE(timeout)
     // //const { JSHeapUsedSize } = await Service.page.metrics();
     // //console.log("Memory usage on exit: " + (JSHeapUsedSize / (1024*1024)).toFixed(2) + " MB");  
     // Service.popup.screenshot({path: "graceful-timeout-"+getCurrentTimeString()+".png"});
@@ -365,10 +367,10 @@ const Service = {
       // Service.shutdown("IDE Freeze - try to do graceful shutdown");
     // },100000)   
   },
-  wakeupIDE:function(){
-    Service.page.evaluate(()=>{
-      BZ.wakeup()
-    })
+  wakeupIDE:function(timeout){
+    Service.page.evaluate((timeout)=>{
+      BZ.wakeup(timeout)
+    },timeout)
     Service.wakeupTimer=setTimeout(()=>{
       if(Service.keepalive){
         Service.reloadIDE("IDE Freezen")
