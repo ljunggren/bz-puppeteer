@@ -173,7 +173,6 @@ const Service = {
         }else{
           Service.setRunTasks()
         }
-        Service.wakeupIDE()
       },
       oneTime:1,
       timeout:Service.stdTimeout
