@@ -373,9 +373,9 @@ const Service = {
     },timeout)
     Service.wakeupTimer=setTimeout(()=>{
       if(Service.keepalive){
-        Service.reloadIDE("IDE Freezen")
+        Service.reloadIDE("No response from IDE. Shutting down...")
       }else{
-        Service.shutdown("IDE Freezen")
+        Service.shutdown("No response from IDE. Shutting down...")
       }
     },10000)
   }
