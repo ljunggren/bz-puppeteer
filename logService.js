@@ -1,31 +1,12 @@
 const fs = require('fs');
-const io = require('socket.io')();
+const BZSocket = require('./bzSocket').BZSocket;
 
-const { networkInterfaces } = require('os');
-
-const nets = networkInterfaces();
-const results = Object.create(null); // or just '{}', an empty object
-
-for (const name of Object.keys(nets)) {
-    for (const net of nets[name]) {
-        // skip over non-ipv4 and internal (i.e. 127.0.0.1) addresses
-        if (net.family === 'IPv4' && !net.internal) {
-            if (!results[name]) {
-                results[name] = [];
-            }
-
-            results[name].push(net.address);
-        }
-    }
-}
-console.log(results)
 const Service = {
   stdTimeout:120000,
   taskMap:{},
   timer:0,
   reportPrefix:"",
   status:"",
-  socketServerId:"",
   result: 2,
   consoleNum:0,
   logMonitor(page,keepalive,reportPrefix,inService){
@@ -204,34 +185,15 @@ const Service = {
     Service.addTask({
       key:"start-socket-server:",
       fun(msg){
-        Service.startSocketServer()
-        return Service.stdTimeout;
+        BZSocket.startSocketServer(msg,function(v){
+          Service.page.evaluate((v)=>{
+            BZ.setTeamSocket(v)
+          },v)
+        })
       },
+      timeout:Service.stdTimeout,
       msg:"Start socket server"
     })
-  },
-  startSocketServer(){
-    // Listen to connections on port 3000
-    try {
-      if(!Service.socketStarted){
-        io.listen(4000);
-
-        var isSearching = false;
-
-        console.log('SERVER STARTED. Listening to port 4000...');
-    
-        io.sockets.on('connection', function (socket) {
-            socket.on('search-order', (order, response) => {
-               
-            })
-        })
-      }
-    }
-    catch (e){
-      console.log("Duplicate")
-    }
-
-   
   },
   setRunTasks(){
     Service.insertStdTask("run")
