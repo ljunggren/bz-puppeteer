@@ -47,7 +47,7 @@ let funMap={
   enableAllIframe:function(){
     _uncodeFrames.forEach(f=>{_initFrame(f)})
   },
-  ajax:function(scope,fun,data,tab){
+  ajax:function(scope,fun,data,_callback){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4) {
@@ -60,7 +60,7 @@ let funMap={
         if(data.responseType&&this.response){
           d.data.data=String.fromCharCode.apply(null, new Uint8Array(this.response));
         }
-        chrome.tabs.sendMessage(_masterTabId, d);
+        _callback(d.data)
       }
     };
     xhttp.open(data.method, data.url, true);
@@ -68,7 +68,10 @@ let funMap={
       xhttp.setRequestHeader(k,data.headers[k])
     }
     if(data.responseType){
-      xhttp.responseType = "arraybuffer";
+      xhttp.responseType = data.responseType;
+    }
+    if(data.contentType){
+      xhttp.setRequestHeader("Content-Type",data.contentType)
     }
     xhttp.send(data.data);
   },
@@ -119,7 +122,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   }
   //check whether the request from BZ client web page
   if(_req.bg){
-    return funMap[_req.fun](_req.bkScope,_req.bkFun,_req.data)
+    return funMap[_req.fun](_req.bkScope,_req.bkFun,_req.data,_callback)
   }else if(_req.twPage){
     if(_req.tab=="master"){
 //      _req.frameId=[0];
