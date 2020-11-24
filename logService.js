@@ -6,6 +6,7 @@ const Service = {
   timer:0,
   reportPrefix:"",
   status:"",
+  tryWakeup:0,
   result: 2,
   consoleNum:0,
   logMonitor(page,keepalive,reportPrefix,inService){
@@ -62,8 +63,11 @@ const Service = {
             Service.handleTimeout(timeout,"Timeout on: "+t.key+":"+timeout)
           }
         },timeout)
-        
+        let tryWakeup=Service.tryWakeup
         t.timeout&&t.fun(msg,Service.timer)
+        if(tryWakeup==Service.tryWakeup){
+          Service.tryWakeup=0
+        }
         if(t.oneTime){
           Service.removeTask(t)
         }
@@ -105,7 +109,7 @@ const Service = {
       key:"I-AM-OK",
       fun:function(){
         clearTimeout(Service.wakeupTimer)
-        
+        Service.tryWakeup++
       },
       timeout:Service.stdTimeout
     })
@@ -367,16 +371,22 @@ const Service = {
     // },100000)   
   },
   wakeupIDE:function(timeout){
-    Service.page.evaluate((timeout)=>{
-      BZ.wakeup(timeout)
-    },timeout)
-    Service.wakeupTimer=setTimeout(()=>{
-      if(Service.keepalive){
-        Service.reloadIDE("No response from IDE. Shutting down...")
-      }else{
-        Service.shutdown("No response from IDE. Shutting down...")
-      }
-    },10000)
+    if(Service.tryWakeup>=3){
+      Service.page.evaluate(()=>{  
+        BZ.e("Try wakeup 3 times. Test runner telling BZ to stop.");
+      });
+    }else{
+      Service.page.evaluate((timeout)=>{
+        BZ.wakeup(timeout)
+      },timeout)
+      Service.wakeupTimer=setTimeout(()=>{
+        if(Service.keepalive){
+          Service.reloadIDE("No response from IDE. Shutting down...")
+        }else{
+          Service.shutdown("No response from IDE. Shutting down...")
+        }
+      },10000)
+    }
   }
 }
 Service.init()
