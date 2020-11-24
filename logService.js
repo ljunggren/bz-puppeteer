@@ -19,8 +19,6 @@ const Service = {
       Service.reportPrefix=reportPrefix + "_";
     } 
 
-    clearTimeout(Service.status)
-
     page.on('console', msg => {
       let timeout,t;
 
@@ -159,11 +157,14 @@ const Service = {
     })
   },
   init(){
+    console.log("init ....")
     Service.insertStdTask("init")
     
     this.status=setTimeout(()=>{
+      console.log("checking status ready")
       if(Service.status!="ready"){
-        Service.reload("Failed to load test")
+        
+        Service.shutdown("Failed to load test")
       }
     },Service.stdTimeout)
     
