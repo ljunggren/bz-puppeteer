@@ -11,6 +11,7 @@ let funMap={
     _rList.forEach((r,i)=>{
       var v=_responseList[r]
       if(v){
+        delete _responseList[r]
         _rList[i]=funMap.buildRequestData(v)
       }else{
         _rList[i]=null
