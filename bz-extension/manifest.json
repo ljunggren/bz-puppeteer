@@ -3,7 +3,7 @@
   "name": "Boozang AI",
   "short_name": "Boozang AI",
   "description": "Boozang test automation is powered by AI. Tests can be recorded or written in clear text.",
-  "version": "3.7.6",
+  "version": "3.7.7",
   "permissions": ["webRequest", "tabs", "*://*/*","<all_urls>"],
   "background": {
     "scripts": ["background"]
