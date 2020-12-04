@@ -51,7 +51,17 @@ function handleMsg(_event, _, sendResponse) {
     return _doIt3();
     function _doIt3(){
       if(name=="bz-master"){
-        location.href="javascript:"+_event.scope+"."+_event.fun+"("+JSON.stringify(_event.data)+")"
+        let script=document.getElementById("transefer-script")
+        if(script){
+          script.remove()
+        }
+        script=document.createElement("script")
+        script.id="transefer-script"
+        script.innerHTML=_event.scope+"."+_event.fun+"("+JSON.stringify(_event.data)+")"
+        document.body.append(script)
+        
+        
+//        location.href="javascript:"+_event.scope+"."+_event.fun+"("+JSON.stringify(_event.data)+")"
       }else if(window.BZ){
         if(window.BZ&&_event.frameId){
           if(!_event.frameId.includes(bzIframeId)){
