@@ -1,0 +1,76 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "Cleanup data",
+    "line": 1,
+    "tags": [
+      {
+        "name": "@Cleanup",
+        "type": "tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ],
+    "id": "m80",
+    "uri": "jira-features/2_Cleanup.feature",
+    "elements": [
+      {
+        "before": [],
+        "after": [],
+        "line": 2,
+        "name": "Cleanup groups",
+        "description": "Cleanup groups",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@Cleanup"
+          },
+          {
+            "name": "@Group"
+          }
+        ],
+        "steps": [
+          {
+            "line": 3,
+            "result": {
+              "duration": 36198000000,
+              "status": "passed"
+            },
+            "name": "i am a brewer",
+            "match": {
+              "location": "5fc1cc7d7e8b1ddd5d8f038d/master/m80/t2/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 4,
+            "result": {
+              "duration": 805000000,
+              "status": "passed"
+            },
+            "name": "i cleanup all group data",
+            "match": {
+              "location": "5fc1cc7d7e8b1ddd5d8f038d/master/m80/t2/4/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 5,
+            "result": {
+              "duration": 2156000000,
+              "status": "passed"
+            },
+            "name": "no group data should remain",
+            "match": {
+              "location": "5fc1cc7d7e8b1ddd5d8f038d/master/m80/t2/6/"
+            },
+            "keyword": "Then"
+          }
+        ]
+      }
+    ]
+  }
+]

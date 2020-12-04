@@ -1,0 +1,115 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "IDIT - Contact Management",
+    "line": 1,
+    "tags": [
+      {
+        "name": "@NISTA-410",
+        "type": "tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ],
+    "id": "m42",
+    "uri": "jira-features/2_NISTA-410.feature",
+    "elements": [
+      {
+        "before": [],
+        "after": [],
+        "line": 2,
+        "name": "Update a contact with the contact services API",
+        "description": "Update a contact with the contact services API",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@NISTA-410"
+          },
+          {
+            "name": "@NISTA-412"
+          },
+          {
+            "name": "@done"
+          }
+        ],
+        "steps": [
+          {
+            "line": 3,
+            "result": {
+              "duration": 8991000000,
+              "status": "passed"
+            },
+            "name": "a contact is created with the contact services API",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m42/t3/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 4,
+            "result": {
+              "duration": 4685000000,
+              "status": "passed"
+            },
+            "name": "the contact is updated with the contact services API",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m42/t3/3/"
+            },
+            "keyword": "and"
+          },
+          {
+            "line": 5,
+            "result": {
+              "duration": 62149000000,
+              "status": "passed"
+            },
+            "name": "i am logged in as frontoffice in IDIT",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m42/t3/4/"
+            },
+            "keyword": "and"
+          },
+          {
+            "line": 6,
+            "result": {
+              "duration": 46059000000,
+              "status": "passed"
+            },
+            "name": "i search and select the contact in IDIT with firstname lastname",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m42/t3/6/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 7,
+            "result": {
+              "duration": 11262000000,
+              "status": "passed"
+            },
+            "name": "the contact details are correct",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m42/t3/8/"
+            },
+            "keyword": "Then"
+          },
+          {
+            "line": 8,
+            "result": {
+              "duration": 1586000000,
+              "status": "passed"
+            },
+            "name": "i sign out from IDIT",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m42/t3/9/"
+            },
+            "keyword": "and"
+          }
+        ]
+      }
+    ]
+  }
+]

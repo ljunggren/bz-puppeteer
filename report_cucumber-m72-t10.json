@@ -1,0 +1,601 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "Sales - New proposals & policies",
+    "line": 1,
+    "tags": [
+      {
+        "name": "@NISTA-403",
+        "type": "tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ],
+    "id": "m72",
+    "uri": "jira-features/2_NISTA-403.feature",
+    "elements": [
+      {
+        "before": [],
+        "after": [],
+        "line": 2,
+        "name": "Create proposal/policy for product",
+        "description": "Create proposal/policy for product",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@NISTA-403"
+          },
+          {
+            "name": "@NISTA-1045"
+          },
+          {
+            "name": "@done"
+          }
+        ],
+        "steps": [
+          {
+            "line": 3,
+            "result": {
+              "duration": 13450000000,
+              "status": "passed"
+            },
+            "name": "a contact is created with the contact services API",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 4,
+            "result": {
+              "duration": 400552000000,
+              "status": "passed"
+            },
+            "name": "i create a offer: Policy for product: TCS Livret ETI acquisition for the contact",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/4/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 5,
+            "result": {
+              "duration": 45281000000,
+              "status": "passed"
+            },
+            "name": "i can validate the offer: Policy for product: TCS Livret ETI",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/6/"
+            },
+            "keyword": "Then"
+          }
+        ]
+      },
+      {
+        "before": [],
+        "after": [],
+        "line": 6,
+        "name": "Create proposal/policy for product",
+        "description": "Create proposal/policy for product",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@NISTA-403"
+          },
+          {
+            "name": "@NISTA-1045"
+          },
+          {
+            "name": "@done"
+          }
+        ],
+        "steps": [
+          {
+            "line": 7,
+            "result": {
+              "duration": 10778000000,
+              "status": "passed"
+            },
+            "name": "a contact is created with the contact services API",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 8,
+            "result": {
+              "duration": 383226000000,
+              "status": "passed"
+            },
+            "name": "i create a offer: Proposal for product: TCS Livret ETI acquisition for the contact",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/4/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 9,
+            "result": {
+              "duration": 43673000000,
+              "status": "passed"
+            },
+            "name": "i can validate the offer: Proposal for product: TCS Livret ETI",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/6/"
+            },
+            "keyword": "Then"
+          }
+        ]
+      },
+      {
+        "before": [],
+        "after": [],
+        "line": 10,
+        "name": "Create proposal/policy for product",
+        "description": "Create proposal/policy for product",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@NISTA-403"
+          },
+          {
+            "name": "@NISTA-1045"
+          },
+          {
+            "name": "@done"
+          }
+        ],
+        "steps": [
+          {
+            "line": 11,
+            "result": {
+              "duration": 10182000000,
+              "status": "passed"
+            },
+            "name": "a contact is created with the contact services API",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 12,
+            "result": {
+              "duration": 190641000000,
+              "status": "passed"
+            },
+            "name": "i create a offer: Policy for product: TCS Sociétariat acquisition for the contact",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/4/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 13,
+            "result": {
+              "duration": 41713000000,
+              "status": "passed"
+            },
+            "name": "i can validate the offer: Policy for product: TCS Sociétariat",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/6/"
+            },
+            "keyword": "Then"
+          }
+        ]
+      },
+      {
+        "before": [],
+        "after": [],
+        "line": 14,
+        "name": "Create proposal/policy for product",
+        "description": "Create proposal/policy for product",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@NISTA-403"
+          },
+          {
+            "name": "@NISTA-1045"
+          },
+          {
+            "name": "@done"
+          }
+        ],
+        "steps": [
+          {
+            "line": 15,
+            "result": {
+              "duration": 9802000000,
+              "status": "passed"
+            },
+            "name": "a contact is created with the contact services API",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 16,
+            "result": {
+              "duration": 183902000000,
+              "status": "passed"
+            },
+            "name": "i create a offer: Proposal for product: TCS Sociétariat acquisition for the contact",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/4/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 17,
+            "result": {
+              "duration": 42399000000,
+              "status": "passed"
+            },
+            "name": "i can validate the offer: Proposal for product: TCS Sociétariat",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/6/"
+            },
+            "keyword": "Then"
+          }
+        ]
+      },
+      {
+        "before": [],
+        "after": [],
+        "line": 18,
+        "name": "Create proposal/policy for product",
+        "description": "Create proposal/policy for product",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@NISTA-403"
+          },
+          {
+            "name": "@NISTA-1045"
+          },
+          {
+            "name": "@done"
+          }
+        ],
+        "steps": [
+          {
+            "line": 19,
+            "result": {
+              "duration": 10281000000,
+              "status": "passed"
+            },
+            "name": "a contact is created with the contact services API",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 20,
+            "result": {
+              "duration": 410599000000,
+              "status": "passed"
+            },
+            "name": "i create a offer: Policy for product: TCS Sociétariat Camping acquisition for the contact",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/4/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 21,
+            "result": {
+              "duration": 42582000000,
+              "status": "passed"
+            },
+            "name": "i can validate the offer: Policy for product: TCS Sociétariat Camping",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/6/"
+            },
+            "keyword": "Then"
+          }
+        ]
+      },
+      {
+        "before": [],
+        "after": [],
+        "line": 22,
+        "name": "Create proposal/policy for product",
+        "description": "Create proposal/policy for product",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@NISTA-403"
+          },
+          {
+            "name": "@NISTA-1045"
+          },
+          {
+            "name": "@done"
+          }
+        ],
+        "steps": [
+          {
+            "line": 23,
+            "result": {
+              "duration": 9890000000,
+              "status": "passed"
+            },
+            "name": "a contact is created with the contact services API",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 24,
+            "result": {
+              "duration": 386397000000,
+              "status": "passed"
+            },
+            "name": "i create a offer: Proposal for product: TCS Sociétariat Camping acquisition for the contact",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/4/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 25,
+            "result": {
+              "duration": 41868000000,
+              "status": "passed"
+            },
+            "name": "i can validate the offer: Proposal for product: TCS Sociétariat Camping",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/6/"
+            },
+            "keyword": "Then"
+          }
+        ]
+      },
+      {
+        "before": [],
+        "after": [],
+        "line": 26,
+        "name": "Create proposal/policy for product",
+        "description": "Create proposal/policy for product",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@NISTA-403"
+          },
+          {
+            "name": "@NISTA-1045"
+          },
+          {
+            "name": "@done"
+          }
+        ],
+        "steps": [
+          {
+            "line": 27,
+            "result": {
+              "duration": 10165000000,
+              "status": "passed"
+            },
+            "name": "a contact is created with the contact services API",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 28,
+            "result": {
+              "duration": 192047000000,
+              "status": "passed"
+            },
+            "name": "i create a offer: Policy for product: TCS Livret Protection Internet acquisition for the contact",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/4/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 29,
+            "result": {
+              "duration": 43478000000,
+              "status": "passed"
+            },
+            "name": "i can validate the offer: Policy for product: TCS Livret Protection Internet",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/6/"
+            },
+            "keyword": "Then"
+          }
+        ]
+      },
+      {
+        "before": [],
+        "after": [],
+        "line": 30,
+        "name": "Create proposal/policy for product",
+        "description": "Create proposal/policy for product",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@NISTA-403"
+          },
+          {
+            "name": "@NISTA-1045"
+          },
+          {
+            "name": "@done"
+          }
+        ],
+        "steps": [
+          {
+            "line": 31,
+            "result": {
+              "duration": 9945000000,
+              "status": "passed"
+            },
+            "name": "a contact is created with the contact services API",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 32,
+            "result": {
+              "duration": 191564000000,
+              "status": "passed"
+            },
+            "name": "i create a offer: Proposal for product: TCS Livret Protection Internet acquisition for the contact",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/4/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 33,
+            "result": {
+              "duration": 41184000000,
+              "status": "passed"
+            },
+            "name": "i can validate the offer: Proposal for product: TCS Livret Protection Internet",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/6/"
+            },
+            "keyword": "Then"
+          }
+        ]
+      },
+      {
+        "before": [],
+        "after": [],
+        "line": 34,
+        "name": "Create proposal/policy for product",
+        "description": "Create proposal/policy for product",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@NISTA-403"
+          },
+          {
+            "name": "@NISTA-1045"
+          },
+          {
+            "name": "@done"
+          }
+        ],
+        "steps": [
+          {
+            "line": 35,
+            "result": {
+              "duration": 10263000000,
+              "status": "passed"
+            },
+            "name": "a contact is created with the contact services API",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 36,
+            "result": {
+              "duration": 194901000000,
+              "status": "passed"
+            },
+            "name": "i create a offer: Policy for product: TCS Protection juridique circulation acquisition for the contact",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/4/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 37,
+            "result": {
+              "duration": 42984000000,
+              "status": "passed"
+            },
+            "name": "i can validate the offer: Policy for product: TCS Protection juridique circulation",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/6/"
+            },
+            "keyword": "Then"
+          }
+        ]
+      },
+      {
+        "before": [],
+        "after": [],
+        "line": 38,
+        "name": "Create proposal/policy for product",
+        "description": "Create proposal/policy for product",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@NISTA-403"
+          },
+          {
+            "name": "@NISTA-1045"
+          },
+          {
+            "name": "@done"
+          }
+        ],
+        "steps": [
+          {
+            "line": 39,
+            "result": {
+              "duration": 10826000000,
+              "status": "passed"
+            },
+            "name": "a contact is created with the contact services API",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 40,
+            "result": {
+              "duration": 198450000000,
+              "status": "passed"
+            },
+            "name": "i create a offer: Proposal for product: TCS Protection juridique circulation acquisition for the contact",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/4/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 41,
+            "result": {
+              "duration": 42400000000,
+              "status": "passed"
+            },
+            "name": "i can validate the offer: Proposal for product: TCS Protection juridique circulation",
+            "match": {
+              "location": "5e60f3e3deb43b53367fb106/master/m72/t10/6/"
+            },
+            "keyword": "Then"
+          }
+        ]
+      }
+    ]
+  }
+]

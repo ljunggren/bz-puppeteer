@@ -168,17 +168,18 @@ const Service = {
     console.log("init ....")
     Service.insertStdTask("init")
     
-    this.status=setTimeout(()=>{
+    Service.status=setTimeout(()=>{
       console.log("checking status ready")
       if(Service.status!="ready"){
         
-        Service.shutdown("Failed to load test")
+        Service.shutdown("Failed to load test: "+Service.status)
       }
     },Service.stdTimeout)
     
     Service.addTask({
       key:"ready",
       fun(){
+        clearTimeout(Service.status)
         Service.status="ready"
         console.log("Ready on logService")
         if(Service.beginningFun){

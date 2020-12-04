@@ -1,0 +1,82 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "Authentication",
+    "line": 1,
+    "tags": [
+      {
+        "name": "@Authentication",
+        "type": "tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ],
+    "id": "m79",
+    "uri": "jira-features/2_Authentication.feature",
+    "elements": [
+      {
+        "before": [],
+        "after": [],
+        "line": 2,
+        "name": "Login",
+        "description": "Login",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@Authentication"
+          },
+          {
+            "name": "@Smoke"
+          },
+          {
+            "name": "@Authentication"
+          },
+          {
+            "name": "@Logout"
+          }
+        ],
+        "steps": [
+          {
+            "line": 3,
+            "result": {
+              "duration": 5783000000,
+              "status": "passed"
+            },
+            "name": "i am logged out",
+            "match": {
+              "location": "5fc1cc7d7e8b1ddd5d8f038d/master/m79/t2/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 4,
+            "result": {
+              "duration": 31706000000,
+              "status": "passed"
+            },
+            "name": "i login",
+            "match": {
+              "location": "5fc1cc7d7e8b1ddd5d8f038d/master/m79/t2/4/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 5,
+            "result": {
+              "duration": 22203000000,
+              "status": "passed"
+            },
+            "name": "i should be logged in",
+            "match": {
+              "location": "5fc1cc7d7e8b1ddd5d8f038d/master/m79/t2/6/"
+            },
+            "keyword": "Then"
+          }
+        ]
+      }
+    ]
+  }
+]
