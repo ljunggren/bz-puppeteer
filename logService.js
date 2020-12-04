@@ -57,6 +57,9 @@ const Service = {
         console.log((Service.consoleNum++)+": "+msg)
       }
       if(t){
+        if(t.notimeout){
+          return t.fun(msg)
+        }
         clearTimeout(Service.timer)
         if(!t.timeout){
           timeout=t.fun(msg)||Service.stdTimeout
@@ -211,7 +214,7 @@ const Service = {
           },v)
         })
       },
-      timeout:Service.stdTimeout,
+      notimeout:1,
       msg:"Start socket server"
     })
   },
