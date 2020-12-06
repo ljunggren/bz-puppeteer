@@ -4,8 +4,7 @@
   "description": "An Simple Driver for Chrome Headless basded on Puppeteer",
   "dependencies": {
     "node-options": "latest",
-    "puppeteer": "latest",
-    "socket.io": "latest"
+    "puppeteer": "latest"
   },
   "bin": {
     "boozang": "index.js"

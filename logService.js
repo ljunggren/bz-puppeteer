@@ -209,7 +209,12 @@ const Service = {
       key:"start-socket-server:",
       fun(msg){
         BZSocket.startSocketServer(msg,function(v){
+          console.log("-----------")
+          console.log(v)
+          console.log("-----------")
           Service.page.evaluate((v)=>{
+            console.log("lws")
+            console.log(v);
             BZ.setTeamSocket(v)
           },v)
         })
