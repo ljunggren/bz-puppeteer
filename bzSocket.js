@@ -47,6 +47,8 @@ const BZSocket={
                 BZSocket.registor(d.user,socket)
               }else{
                 d.centerSocket=1
+                d.fromUser=socket.bzUser.code
+                d.fromToken=socket.bzUser.token
                 BZSocket.sendMsg(d,data);
               }
             }catch(e){
@@ -84,6 +86,7 @@ const BZSocket={
     socket.bzUser=u;
   },
   sendMsg(d,msg){
+    
     if(d.to){
       let m=BZSocket.userMap[d.to]
       if(m){
