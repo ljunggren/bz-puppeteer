@@ -109,6 +109,7 @@ const Service = {
     delete this.taskMap[task.key]
   },
   insertStdTask(p){
+    console.log("In "+p+" task processing")
     Service.curProcess=p
     Service.taskMap={}
     Service.inChkCoop=0
@@ -132,7 +133,7 @@ const Service = {
     Service.addTask({
       key:"RUNNING!",
       fun:function(){
-        Service.insertStdTask("run")
+        Service.setRunTasks()
       },
       timeout:Service.stdTimeout
     })
@@ -218,7 +219,6 @@ const Service = {
     })
   },
   init(){
-    console.log("init ....")
     Service.insertStdTask("init")
     
     Service.status=setTimeout(()=>{
