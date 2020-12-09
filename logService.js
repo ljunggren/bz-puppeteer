@@ -56,10 +56,13 @@ const Service = {
         console.log((Service.consoleNum++)+": "+msg)
       }
       if(t){
+        if(t.notimeout){
+          return t.fun(msg)
+        }
         clearTimeout(Service.timer)
         if(!t.timeout){
           timeout=t.fun(msg)||Service.stdTimeout
-          //console.log("Get timeout: "+timeout)
+          //console.log("Get timeout: "+timeout);
         }else{
           timeout=t.timeout
         }
@@ -120,6 +123,20 @@ const Service = {
       timeout:Service.stdTimeout
     })
     Service.addTask({
+      key:"NO-TASK!",
+      fun:function(){
+        Service.curProcess="init"
+      },
+      notimeout:1
+    })
+    Service.addTask({
+      key:"RUNNING!",
+      fun:function(){
+        Service.insertStdTask("run")
+      },
+      timeout:Service.stdTimeout
+    })
+    Service.addTask({
       key:"update-std-timeout:",
       fun(msg){
         Service.stdTimeout = (parseInt(msg.split(this.key)[1].trim())||120000);
@@ -157,9 +174,45 @@ const Service = {
     })
 
     Service.addTask({
-      key:"coop-answer",
+      key:"coop-answer:",
       fun(msg){
-        Service.coopAnswer&&Service.coopAnswer(msg)
+        Service.coopAnswer&&Service.coopAnswer(msg.substring(12).trim())
+      },
+      timeout:Service.stdTimeout
+    })
+
+    Service.addTask({
+      key:"center-exe:",
+      fun(msg){
+        msg=msg.substring(11)
+        console.log(msg)
+        try{
+          eval(msg);
+        }catch(e){}
+      },
+      timeout:Service.stdTimeout
+    })
+
+    Service.addTask({
+      key:"app-exe:",
+      fun(msg){
+        msg=msg.substring(8)
+        console.log(msg)
+        Service.popup.evaluate((msg)=>{ 
+          eval(msg);  
+        },msg);
+      },
+      timeout:Service.stdTimeout
+    })
+
+    Service.addTask({
+      key:"ide-exe:",
+      fun(msg){
+        msg=msg.substring(8)
+        console.log(msg)
+        Service.page.evaluate((msg)=>{
+          eval(msg);
+        },msg);
       },
       timeout:Service.stdTimeout
     })
@@ -199,8 +252,11 @@ const Service = {
     })
   },
   setRunTasks(){
+    if(Service.status=="run"){
+      return
+    }
     Service.insertStdTask("run")
-    
+    Service.status="run"
     Service.addTask({
       key:"ms:",
       fun(msg){
@@ -208,22 +264,6 @@ const Service = {
         return v;
       },
       msg:"Action timeout"
-    })
-
-    Service.addTask({
-      key:"app-run:",
-      fun(msg){
-        Service.popup.evaluate(()=>{ msg;  });
-      },
-      timeout:Service.stdTimeout
-    })
-
-    Service.addTask({
-      key:"ide-run:",
-      fun(msg){
-        Service.page.evaluate(()=>{ msg;  });
-      },
-      timeout:Service.stdTimeout
     })
 
     Service.addTask({
@@ -279,6 +319,7 @@ const Service = {
   },
   setEndTasks(){
     Service.insertStdTask("end")
+    Service.status="end"
     Service.addTask({
       key:"Result:",
       fun(msg){
@@ -325,7 +366,7 @@ const Service = {
     })
   },
   chkIDE(){
-    if(Service.inService){
+    if(Service.inService&&(Service.status=="run"||Service.status=="end")){
       if(Service.inChkCoop){
         Service.inChkCoop++
         return
