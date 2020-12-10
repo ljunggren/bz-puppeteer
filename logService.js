@@ -237,8 +237,8 @@ const Service = {
         console.log("Ready on logService")
         if(Service.beginningFun){
           Service.beginningFun()
-        }else{
-          Service.setRunTasks()
+        // }else{
+          // Service.setRunTasks()
         }
         if(Service.video && Service.video != "none"){
           Service.page.evaluate((v)=>{
