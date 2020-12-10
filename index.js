@@ -19,9 +19,7 @@ const opts = {
   "width":1280,
   "height":1024,
   "docker": false,
-  "gtimeout": "",
-  "notimeout": false,
-  "timeout": "",
+  "keepalive": false
 }
 
 // Remove the first two arguments, which are the 'node' binary and the name
@@ -33,15 +31,14 @@ const docker = opts.docker;
 const userdatadir = opts.userdatadir;
 const width = opts.width;
 const height = opts.height;
-const gtimeout=opts.gtimeout;
 const listscenarios=opts.listscenarios;
 const listsuite=opts.listsuite;
-const notimeout=opts.notimeout;
-const timeout= opts.timeout;
+let keepalive=opts.keepalive;
+let inService;
 const file = opts.file;
 
 if (result.errors || !result.args || result.args.length !== 1) {
-  console.log('USAGE: boozang [--token] [--docker] [--gtimeout] [--notimeout] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
+  console.log('USAGE: boozang [--token] [--docker] [--keepalive] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
   process.exit(2);
 }
 
@@ -82,7 +79,7 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
       "\n#######################################\n"
     + app + " error: " + err.message
     + "\n#######################################\n"
-    );   
+    );
   }
 
   function appPrintStackTrace(err){
@@ -91,6 +88,7 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
 
   function idePrintStackTrace(err){
     printStackTrace("ide",err);
+    Service.chkIDE()
   }
 
   // Setup popup
@@ -98,8 +96,8 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   function setupPopup() {
     popup = pages[pages.length-1]; 
     popup.setViewport({
-      width: parseInt(width,10),
-      height: parseInt(height,10)
+      width: parseInt(width),
+      height: parseInt(height)
     });
 
     popup.on("error", appPrintStackTrace);
@@ -120,8 +118,26 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   const page = await browser.newPage();
   //const { JSHeapUsedSize } = await page.metrics();
   //console.log("Memory usage on start: " + (JSHeapUsedSize / (1024*1024)).toFixed(2) + " MB");
+
+  let url = result.args[0];
+  if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run") && url.match(/\/m[0-9]+\/t[0-9]+/)) {
+    if (!url.endsWith("/")) {
+        url += "/"
+    }
+    url += "run"
+  }
+
+  let inService=0;
+  console.log("Browser URL: "+url)
+  if(url.match(/(\?|\&)key=.+(\&|\#)/)){
+    console.log("Running in cooperation!")
+    inService=1
+  }else{
+    console.log("Running in stand alone!")
+  }
+
   // Assign all log listeners
-  Service.logMonitor(page,notimeout,gtimeout,timeout,file);
+  Service.logMonitor(page,keepalive,file,inService);
 
   if(listsuite||listscenarios){
     Service.setBeginningFun(function(){
@@ -142,13 +158,6 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   }
 
 
-  let url = result.args[0];
-  if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run")) {
-    if (!url.endsWith("/")) {
-        url += "/"
-    }
-    url += "run"
-}
   const response = await page.goto(url);
 
   page.on("error", idePrintStackTrace);

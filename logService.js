@@ -6,29 +6,26 @@ const Service = {
   timer:0,
   reportPrefix:"",
   status:"",
+  tryWakeup:0,
   result: 2,
-  logMonitor(page,notimeout,gtimeout,stdTimeout,reportPrefix){
-    this.notimeout=notimeout
+  consoleNum:0,
+  logMonitor(page,keepalive,reportPrefix,inService, browser, video, saveVideo){
+    this.inService=inService;
+    this.keepalive=keepalive;
+    this.video=video;
+    this.page=page;
+    this.saveVideo = saveVideo;
+
+    if (this.video && this.video != "none") {
+      console.log("Running in video mode");
+    }
+
     console.log("Initializing logMonitor");
-    gtimeout && console.log("Override global timeout: " + gtimeout + " mins");
-    stdTimeout && console.log("Override action timeout: " + stdTimeout + " mins");
+   
     if (reportPrefix) {
       console.log("Override report prefix: " + reportPrefix);
       Service.reportPrefix=reportPrefix + "_";
     } 
-
-    Service.stdTimeout=stdTimeout*60000||120000;
-    
-    console.log("Setting timeout to " + Service.stdTimeout + "ms.");
-    
-    if(!notimeout&&gtimeout){
-      setTimeout(()=>{
-        Service.gracefulShutdown("Global timeout triggered - try to do graceful shutdown")
-      },gtimeout*60000)
-    }
-    if(notimeout){
-      clearTimeout(Service.status)
-    }
 
     page.on('console', msg => {
       let timeout,t;
@@ -47,31 +44,39 @@ const Service = {
       }else{
         for(let key in Service.taskMap){
           if(msg.includes(key)){
+            if(!key.startsWith("coop-")){
+              Service.reChkCoop(key)
+            }
             t=Service.taskMap[key]           
             break
           }
         }
       }
       if (!t || !t.noLog){
-        console.log(msg)
+        console.log((Service.consoleNum++)+": "+msg)
       }
       if(t){
+        if(t.notimeout){
+          return t.fun(msg)
+        }
         clearTimeout(Service.timer)
         if(!t.timeout){
-          timeout=t.fun(msg)
-          //console.log("Get timeout: "+timeout)
+          timeout=t.fun(msg)||Service.stdTimeout
+          //console.log("Get timeout: "+timeout);
         }else{
           timeout=t.timeout
         }
-        
-        if(!notimeout){
-          // console.log("set timeout for shutdown: "+timeout)
-          Service.timer=setTimeout(()=>{
-            Service.gracefulShutdown("Action timeout triggered - try to do graceful shutdown")
-          },timeout)
-        }
-        
+        //console.log("set timeout: "+t.key+":"+timeout)
+        Service.timer=setTimeout(()=>{
+          if(Service.curProcess!="init"){
+            Service.handleTimeout(timeout,"Timeout on: "+t.key+":"+timeout)
+          }
+        },timeout)
+        let tryWakeup=Service.tryWakeup
         t.timeout&&t.fun(msg,Service.timer)
+        if(tryWakeup==Service.tryWakeup){
+          Service.tryWakeup=0
+        }
         if(t.oneTime){
           Service.removeTask(t)
         }
@@ -103,29 +108,35 @@ const Service = {
   removeTask(task){
     delete this.taskMap[task.key]
   },
-  init(){
-    this.status=setTimeout(()=>{
-      if(Service.status!="ready"){
-        Service.shutdown("Failed to load test")
-      }
-    },Service.stdTimeout)
-    
+  insertStdTask(p){
+    console.log("In "+p+" task processing")
+    Service.curProcess=p
+    Service.taskMap={}
+    Service.inChkCoop=0
+    Service.coopAnswerList=[]
+    clearTimeout(Service.coopAnswerTimer)
     Service.addTask({
-      key:"ready",
-      fun(){
-        Service.status="ready"
-        console.log("Ready on logService")
-        if(Service.beginningFun){
-          Service.beginningFun()
-        }else{
-          Service.setRunTasks()
-        }
+      key:"I-AM-OK",
+      fun:function(){
+        clearTimeout(Service.wakeupTimer)
+        Service.tryWakeup++
       },
-      oneTime:1,
       timeout:Service.stdTimeout
     })
-  },
-  insertSetStdTimeout(){
+    Service.addTask({
+      key:"NO-TASK!",
+      fun:function(){
+        Service.curProcess="init"
+      },
+      notimeout:1
+    })
+    Service.addTask({
+      key:"RUNNING!",
+      fun:function(){
+        Service.setRunTasks()
+      },
+      timeout:Service.stdTimeout
+    })
     Service.addTask({
       key:"update-std-timeout:",
       fun(msg){
@@ -135,32 +146,156 @@ const Service = {
       },
       msg:"Standard timeout"
     })
-  },
-  setRunTasks(){
-    Service.taskMap={}
-    
-    Service.insertSetStdTimeout()
-    
-    Service.addTask({
-      key:"ms:",
-      fun(msg){
-        return (parseInt(msg.split(this.key)[1].trim())||0) + Service.stdTimeout;
-      },
-      msg:"Action timeout"
-    })
 
     Service.addTask({
-      key:"app-run:",
+      key:"coop-shutdown",
       fun(msg){
-        Service.popup.evaluate(()=>{ msg;  });
+        Service.shutdown("As cooperator server request to shutdown!")
       },
       timeout:Service.stdTimeout
     })
 
     Service.addTask({
-      key:"ide-run:",
+      key:"task-done",
       fun(msg){
-        Service.page.evaluate(()=>{ msg;  });
+        if(!Service.keepalive){
+          Service.shutdown("One-Task Completed!")
+        }
+      },
+      timeout:Service.stdTimeout
+    })
+    
+    Service.addTask({
+      key:"coop-reload",
+      fun(msg){
+        Service.cancelChkCoop()
+        Service.init()
+      },
+      timeout:Service.stdTimeout
+    })
+
+    Service.addTask({
+      key:"coop-answer:",
+      fun(msg){
+        Service.coopAnswer&&Service.coopAnswer(msg.substring(12).trim())
+      },
+      timeout:Service.stdTimeout
+    })
+
+    Service.addTask({
+      key:"center-exe:",
+      fun(msg){
+        msg=msg.substring(11)
+        console.log(msg)
+        try{
+          eval(msg);
+        }catch(e){}
+      },
+      timeout:Service.stdTimeout
+    })
+
+    Service.addTask({
+      key:"app-exe:",
+      fun(msg){
+        msg=msg.substring(8)
+        console.log(msg)
+        Service.popup.evaluate((msg)=>{ 
+          eval(msg);  
+        },msg);
+      },
+      timeout:Service.stdTimeout
+    })
+
+    Service.addTask({
+      key:"ide-exe:",
+      fun(msg){
+        msg=msg.substring(8)
+        console.log(msg)
+        Service.page.evaluate((msg)=>{
+          eval(msg);
+        },msg);
+      },
+      timeout:Service.stdTimeout
+    })
+  },
+  init(){
+    Service.insertStdTask("init")
+    
+    Service.status=setTimeout(()=>{
+      console.log("checking status ready")
+      if(Service.status!="ready"){
+        
+        Service.shutdown("Failed to load test: "+Service.status)
+      }
+    },Service.stdTimeout)
+    
+    Service.addTask({
+      key:"ready",
+      fun(){
+        clearTimeout(Service.status)
+        Service.status="ready"
+        console.log("Ready on logService")
+        if(Service.beginningFun){
+          Service.beginningFun()
+        // }else{
+          // Service.setRunTasks()
+        }
+        if(Service.video && Service.video != "none"){
+          Service.page.evaluate((v)=>{
+            console.log("Initializing video capture...");
+            BZ.requestVideo()
+          });
+        }
+      },
+      oneTime:1,
+      timeout:Service.stdTimeout
+    })
+  },
+  setRunTasks(){
+    if(Service.status=="run"){
+      return
+    }
+    Service.insertStdTask("run")
+    Service.status="run"
+    Service.addTask({
+      key:"ms:",
+      fun(msg){
+        let v= (parseInt(msg.split(this.key)[1].trim())||0) + Service.stdTimeout;
+        return v;
+      },
+      msg:"Action timeout"
+    })
+
+    Service.addTask({
+      key:"videostart:",
+      fun(msg){
+        (async () => {
+          let videoFile = msg.split("videostart:")[1].split(",")[0]+".mp4";
+           console.log("Start recording video: ", videoFile);
+           Service.capture = await Service.saveVideo(Service.popup||Service.page, Service.reportPrefix + videoFile, {followPopups:true, fps: 5});      
+        })()
+      },
+      timeout:Service.stdTimeout
+    })
+
+    Service.addTask({
+      key:"videostop:",
+      fun(msg){
+        (async () => {
+          let success = msg.includes(",success");
+          let videoFile = msg.split("videostop:")[1].split(",")[0]+".mp4";
+          console.log("Stop recording video: ", videoFile);
+          await Service.capture.stop();
+          if (success && Service.video != "all"){
+            console.log("Test success. Deleting video: " + videoFile);
+            fs.unlinkSync(Service.reportPrefix + videoFile);
+          }
+          await (()=>{
+            Service.page.evaluate((v)=>{
+              BZ.savedVideo()
+            });
+          })()
+        })()
       },
       timeout:Service.stdTimeout
     })
@@ -183,8 +318,8 @@ const Service = {
     })
   },
   setEndTasks(){
-    Service.taskMap={}
-    Service.insertSetStdTimeout()
+    Service.insertStdTask("end")
+    Service.status="end"
     Service.addTask({
       key:"Result:",
       fun(msg){
@@ -195,10 +330,11 @@ const Service = {
       timeout:Service.stdTimeout
     })
     Service.addTask({
-      key:"All tests completed!",
+      key:"The Task Completed!",
       fun(msg){
-        Service.shutdown(this.key)
-      }
+        Service.setRunTasks()
+      },
+      timeout:Service.stdTimeout
     })
     this.insertFileTask()
   },
@@ -229,26 +365,111 @@ const Service = {
       noLog:1
     })
   },
-  shutdown(msg){
-    msg && console.log(msg)
-    if(!this.notimeout){
-      process.exit(Service.result)
+  chkIDE(){
+    if(Service.inService&&(Service.status=="run"||Service.status=="end")){
+      if(Service.inChkCoop){
+        Service.inChkCoop++
+        return
+      }
+      clearTimeout(Service.chkCoopTimer)
+      Service.chkCoopTimer=setTimeout(()=>{
+        Service.inChkCoop=1
+        Service.coopAnswerList=[]
+        Service.coopAnswer=function(v){
+          clearTimeout(Service.coopAnswerTimer)
+          v=JSON.parse(v)
+          console.log("get coop status:")
+          console.log(v)
+          Service.addCoopAnswer(v)
+        }
+        Service.getCoopStatus()
+      },5000)
     }
   },
-  async gracefulShutdown(msg){
-    console.error("Try to get Boozang to exit gracefully and write report");
-    //const { JSHeapUsedSize } = await Service.page.metrics();
-    //console.log("Memory usage on exit: " + (JSHeapUsedSize / (1024*1024)).toFixed(2) + " MB");  
-    Service.popup.screenshot({path: "graceful_shutdown.png"});
+  addCoopAnswer(v){
+    Service.coopAnswerList.push(v)
+    if(Service.coopAnswerList.length<2){
+      Service.chkCoopTimer=setTimeout(()=>{
+        Service.getCoopStatus()
+      },60000)
+    }else{
+      console.log("Checking coop status")
+      let v1=Service.coopAnswerList[0],
+          v2=Service.coopAnswerList[1]
+      console.log(JSON.stringify(v1,0,2))
+      console.log(JSON.stringify(v2,0,2))
+      if(v1.status.type!=v2.status.type){
+        return
+      }else if(v1.status.type=="report"){
+        //TODO
+      }
+    }
+  },
+  reChkCoop(v){
+    if(Service.inChkCoop){
+      Service.cancelChkCoop()
+      if(!Service.lastChkCoopTimer){
+        Service.lastChkCoopTimer=Date.now()
+        Service.chkIDE()
+      }
+    }
+  },
+  cancelChkCoop(){
+    Service.inChkCoop=0
+    clearTimeout(Service.chkCoopTimer)
+    clearTimeout(Service.coopAnswerTimer)
+    Service.coopAnswerList=[]
+  },
+  getCoopStatus(){
+    Service.coopAnswerTimer=setTimeout(()=>{
+      Service.reloadIDE("Coop Server stop work! reload IDE")
+    },Service.stdTimeout)
+    this.page.evaluate(()=>{
+      $util.getCoopStatus()
+    })
+  },
+  async reloadIDE(msg){
+    console.log("Reload IDE for "+msg)
     Service.page.evaluate(()=>{  
-      BZ.e("Timeout. Test runner telling BZ to shut down.");
-      console.log("BZ-LOG: Graceful shutdown message received. Exiting... "); 
+      localStorage.setItem("bz-reboot",1)
     });
-    // Wait 100 seconds for Boozang to finish before force kill
-    setTimeout(function(){
-      Service.shutdown(msg);
-    },100000)   
+    
+    await Service.page.reload();
+    Service.init() 
+  },
+  shutdown(msg){
+    msg && console.log(msg)
+    process.exit(Service.result)
+  },
+  async handleTimeout(timeout,msg){
+    console.log(getCurrentTimeString()+": "+msg)
+    console.log("Try to wakeup IDE");
+    Service.wakeupIDE(timeout)
+  },
+  wakeupIDE:function(timeout){
+    if(Service.tryWakeup>=3){
+      Service.page.evaluate(()=>{  
+        BZ.e("Try wakeup 3 times. Test runner telling BZ to stop.");
+      });
+    }else{
+      Service.page.evaluate((timeout)=>{
+        BZ.wakeup(timeout)
+      },timeout)
+      Service.wakeupTimer=setTimeout(()=>{
+        if(Service.keepalive){
+          Service.reloadIDE("No response from IDE. Shutting down...")
+        }else{
+          Service.shutdown("No response from IDE. Shutting down...")
+        }
+      },10000)
+    }
   }
 }
 Service.init()
+
+
+function getCurrentTimeString(){
+  let d=new Date()
+  return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+'-'+d.getHours()+'-'+d.getMinutes()+"-"+d.getSeconds()
+}
 exports.Service = Service;
