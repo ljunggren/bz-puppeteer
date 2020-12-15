@@ -164,10 +164,12 @@ function handleMsg(_event, _, sendResponse) {
     //_ideActionManagement._pickElement()
     window[ecMap.iam][ecMap.pe]()
   }else if(_event.updateExpection){
-  //_IDE._data._curAction=_event.updateExpection
-    window[ecMap.i][ecMap.d][ecMap.ca]=_event.updateExpection;
-//    _ideActionManagement._quickUpdateExpection(_event.updateExpection)
-    window[ecMap.iam][ecMap.que](_event.updateExpection)
+    if(_event.frameId.includes(bzIframeId)){
+    //_IDE._data._curAction=_event.updateExpection
+      window[ecMap.i][ecMap.d][ecMap.ca]=_event.updateExpection;
+  //    _ideActionManagement._quickUpdateExpection(_event.updateExpection)
+      window[ecMap.iam][ecMap.que](_event.updateExpection)
+    }
   }else if(_event.getFramePath){
     _doIt2();
     function _doIt2(){

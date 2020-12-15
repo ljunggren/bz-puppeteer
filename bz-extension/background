@@ -210,6 +210,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
         _doIt(r||_req)
       })
     }else if(_req.data&&_req.data.element){
+      _req.frameId=[_topFrameId];
       return _addFrameId(_req,_req.data.element,function(r){
         _doIt(r||_req)
       })
@@ -222,6 +223,11 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       for(var k in _req.shareData){
         _shareData[k]=_req.shareData[k];
       }
+    }else if(_req.updateExpection&&_req.updateExpection.element){
+      _req.frameId=[_topFrameId];
+      return _addFrameId(_req,_req.updateExpection.element,function(r){
+        _doIt(r||_req)
+      })
     }
     _doIt(_req)
     function _doIt(_req){
