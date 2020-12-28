@@ -3,7 +3,7 @@
   "name": "智能仿真测试工具",
   "short_name": "智能仿真测试工具",
   "description": "智能仿真测试工具是具有智能化功能的测试工具。测试用例可以通过录制或文字描述实现。",
-  "version": "3.7.7",
+  "version": "3.7.8",
   "permissions": ["webRequest", "tabs", "*://*/*","<all_urls>"],
   "background": {
     "scripts": ["background"]
