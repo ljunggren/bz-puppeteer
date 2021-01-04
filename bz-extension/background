@@ -7,6 +7,18 @@ let funMap={
       // _lastExeActionReq[k]=data[k]
     // }
   // },
+  getExtensions:function(bkScope,bkFun,v,_callback){
+    // let blockExtensions={
+      // "kbfnbcaeplbcioakkpcpgfkobkghlhen":"Grammarly"
+    // }
+    //try to find extension: Grammarly, it cause performance issue!
+    chrome.management.getAll(vs=>{
+      vs.filter(x=>{
+        return x.enabled
+      })
+      _callback(vs)
+    })
+  },
   isRequestCompleted:function(bkScope,bkFun,_rList){
     _rList.forEach((r,i)=>{
       var v=_responseList[r]
@@ -390,13 +402,14 @@ function isIgnoreFrame(v){
 }
 //get message from app extension content
 chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
+  if(_msg.keep){
+    return;
+  }
   //_console("background (content): ",_msg)
   /*****************************************************************************************************
   //For REGISTER tab, it only work for new pop window. The new window must pop up from master window.
   *****************************************************************************************************/
-  if(_msg.keep){
-    return;
-  }else if(_msg.bg){
+  if(_msg.bg){
     return funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data,t)
   }else if(_msg._registerTab && (_msg.name=="bz-client"||_ctrlTabId==t.tab.id)){
     if(_msg.name=="bz-client"){
@@ -686,3 +699,5 @@ chrome.webRequest.onActionIgnored.addListener(function(v){
   }
   funMap.postRequest(v,"BZ","addRep")
 })
+
+
