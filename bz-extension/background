@@ -13,10 +13,9 @@ let funMap={
     // }
     //try to find extension: Grammarly, it cause performance issue!
     chrome.management.getAll(vs=>{
-      vs.filter(x=>{
+      _callback(vs.filter(x=>{
         return x.enabled
-      })
-      _callback(vs)
+      }))
     })
   },
   isRequestCompleted:function(bkScope,bkFun,_rList){
