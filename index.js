@@ -115,9 +115,7 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   });
 
   const page = await browser.newPage();
-  //const { JSHeapUsedSize } = await page.metrics();
-  //console.log("Memory usage on start: " + (JSHeapUsedSize / (1024*1024)).toFixed(2) + " MB");
-
+  
   let url = result.args[0];
   if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run") && url.match(/\/m[0-9]+\/t[0-9]+/)) {
     if (!url.endsWith("/")) {
@@ -156,7 +154,8 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
     })
   }
 
-
+  const version = await page.browser().version();
+  console.log("Running Chrome version: " + version);
   const response = await page.goto(url);
 
   page.on("error", idePrintStackTrace);
