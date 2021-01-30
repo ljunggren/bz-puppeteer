@@ -447,9 +447,9 @@ const Service = {
     Service.wakeupIDE(timeout)
   },
   wakeupIDE:function(timeout){
-    if(Service.tryWakeup>=3){
+    if(Service.tryWakeup>=1){
       Service.page.evaluate(()=>{  
-        BZ.e("Try wakeup 3 times. Test runner telling BZ to stop.");
+        BZ.e("BZ-LOG: Wake-up IDE failed. Test runner telling BZ to stop.");
       });
     }else{
       Service.page.evaluate((timeout)=>{
