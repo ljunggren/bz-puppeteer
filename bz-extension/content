@@ -37,7 +37,7 @@ function handleMsg(_event, _, sendResponse) {
     _event.twPage2=1
     if(_event.tab=="master"){
       if(name=="bz-master"){
-        window.postMessage(_event);
+        window.postMessage(_event,"*");
       }else{
         try{
           chrome.runtime.sendMessage(_event)
