@@ -394,8 +394,7 @@ const Service = {
       console.log("Checking coop status")
       let v1=Service.coopAnswerList[0],
           v2=Service.coopAnswerList[1]
-      console.log(JSON.stringify(v1,0,2))
-      console.log(JSON.stringify(v2,0,2))
+
       if(v1.status.type!=v2.status.type){
         return
       }else if(v1.status.type=="report"){
