@@ -378,8 +378,6 @@ const Service = {
         Service.coopAnswer=function(v){
           clearTimeout(Service.coopAnswerTimer)
           v=JSON.parse(v)
-          console.log("get coop status:")
-          console.log(v)
           Service.addCoopAnswer(v)
         }
         Service.getCoopStatus()
