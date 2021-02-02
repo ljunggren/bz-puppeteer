@@ -440,7 +440,7 @@ const Service = {
   },
   async handleTimeout(timeout,msg){
     console.log(getCurrentTimeString()+": "+msg)
-    console.log("Try to wakeup IDE");
+    console.log(_formatTimestamp()+ " Try to wakeup IDE");
     Service.wakeupIDE(timeout)
   },
   wakeupIDE:function(timeout){
@@ -470,3 +470,46 @@ function getCurrentTimeString(){
   return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+'-'+d.getHours()+'-'+d.getMinutes()+"-"+d.getSeconds()
 }
 exports.Service = Service;
+
+function _formatTimestamp(t,f){
+  t=t||Date.now()
+  if(t.constructor==String&&!$.isNumeric(t)){
+    f=t
+    t=Date.now()
+  }
+  t=parseInt(t)
+  f=f||"hh:mm";
+  var d=new Date(t);
+  var mp={
+    y:d.getFullYear()+"",
+    M:_formatNumberLength(d.getMonth()+1),
+    d:_formatNumberLength(d.getDate()),
+    h:_formatNumberLength(d.getHours()),
+    m:_formatNumberLength(d.getMinutes()),
+    s:_formatNumberLength(d.getSeconds())
+  }
+  for(var k in mp){
+    var r= new RegExp("["+k+"]+"),
+        v=mp[k]
+    
+    r=f.match(r)
+    if(r){
+      r=r[0]
+      if(k=="y"){
+        v=v.substring(v.length-r.length)
+      }else if(r.length==1){
+        v=parseInt(v)+""
+      }
+      f=f.replace(r,v)
+    }
+  }
+  return f
+}
+function _formatNumberLength(v,l){
+  l=l||2;
+  v=v+"";
+  while(v.length<l){
+    v="0"+v;
+  }
+  return v;
+}
