@@ -63,11 +63,21 @@ let funMap={
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4) {
+        let hs={}
+        this.getAllResponseHeaders().split("\n").forEach(x=>{
+          if(x){
+            let k=x.indexOf(":")
+            let v=x.substring(k+1)
+            hs[x.substring(0,k)]=v
+          }
+        })
+        
         var d={
           tab:"master",
           scope:scope,
           fun:fun,
-          data:{status:this.status,data:this.response}
+          data:{status:this.status,data:this.response,headers:hs},
+          
         }
         if(data.responseType&&this.response){
           d.data.data=String.fromCharCode.apply(null, new Uint8Array(this.response));
@@ -174,6 +184,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   //Set BZ code mapping data to unecrypt code from https://ai.boozang.com
   }else if(_req.ecMap){
     ecMap=_req.ecMap;
+    // _callback("background get ecMap")
   //Dynamic code from BZ master page
   }else if(_req.bzCode){
     if(_masterTabId&&_masterTabId!=_sender.tab.id){
@@ -291,7 +302,6 @@ function _addFrameId(_req,_element,_fun,_retry){
   if(v){
     return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v,element:_element,retry:_appRetry},function(r){
       if(r!==undefined&&r!==null){
-        console.log(r)
         clearTimeout(_badRequest)
         if(_element[0]!="BZ.TW.document"){
           if(_req.exeAction){
@@ -371,10 +381,12 @@ function _setCodeToContent(c,id,tabId){
   //for set dynamic code to current controled client tab, 
   if(tabId && !_lastErrPage){
     try{
+      
       if(id!==undefined){
         if(!id&&_topFrameId){
           id=_topFrameId
         }
+        // chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code 1 to client:"+c.length,twPage:1,tab:"master",bz:1});
         chrome.tabs.executeScript(tabId, {code: c,matchAboutBlank:true,frameId:id},_=>{
           let e = chrome.runtime.lastError;
           if(e !== undefined){
@@ -382,14 +394,18 @@ function _setCodeToContent(c,id,tabId){
           }
         });
       }else{
+        // chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code 2 to client:"+c.length,twPage:1,tab:"master",bz:1});
         chrome.tabs.executeScript(tabId, {code: c,matchAboutBlank:true,allFrames:true},_=>{
           let e = chrome.runtime.lastError;
           if(e !== undefined){
+            chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code to client get error1:"+e,twPage:1,tab:"master",bz:1});
             console.log(tabId, _, e);
           }
         });
       }
-    }catch(e){}
+    }catch(e){
+      // chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code to client get error2:"+e.message,twPage:1,tab:"master",bz:1});
+    }
   }
 }
 function isIgnoreFrame(v){
