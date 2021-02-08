@@ -2,10 +2,13 @@ if(name!=="bz-master"){
   var script = document.createElement("script");
   script.type = "application/javascript";
   script.textContent = "(" + (function() {
-    
-    EventTarget.prototype._addEventListener = EventTarget.prototype.addEventListener;
+    let _fun=EventTarget.prototype.addEventListener;
+    EventTarget.prototype._addEventListener = _fun
     
     EventTarget.prototype.addEventListener=function(t,f,c){
+      if(EventTarget.prototype._addEventListener != _fun){
+        EventTarget.prototype._addEventListener = _fun
+      }
       if(this==window&&t=="beforeunload"){
         this._addEventListener(t,function(event){
           let play=localStorage.getItem("playModel")

@@ -378,8 +378,6 @@ const Service = {
         Service.coopAnswer=function(v){
           clearTimeout(Service.coopAnswerTimer)
           v=JSON.parse(v)
-          console.log("get coop status:")
-          console.log(v)
           Service.addCoopAnswer(v)
         }
         Service.getCoopStatus()
@@ -396,8 +394,7 @@ const Service = {
       console.log("Checking coop status")
       let v1=Service.coopAnswerList[0],
           v2=Service.coopAnswerList[1]
-      console.log(JSON.stringify(v1,0,2))
-      console.log(JSON.stringify(v2,0,2))
+
       if(v1.status.type!=v2.status.type){
         return
       }else if(v1.status.type=="report"){
@@ -443,13 +440,13 @@ const Service = {
   },
   async handleTimeout(timeout,msg){
     console.log(getCurrentTimeString()+": "+msg)
-    console.log("Try to wakeup IDE");
+    console.log(_formatTimestamp()+ " Try to wakeup IDE");
     Service.wakeupIDE(timeout)
   },
   wakeupIDE:function(timeout){
-    if(Service.tryWakeup>=3){
+    if(Service.tryWakeup>=1){
       Service.page.evaluate(()=>{  
-        BZ.e("Try wakeup 3 times. Test runner telling BZ to stop.");
+        BZ.e("BZ-LOG: Wake-up IDE failed. Test runner telling BZ to stop.");
       });
     }else{
       Service.page.evaluate((timeout)=>{
@@ -473,3 +470,46 @@ function getCurrentTimeString(){
   return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+'-'+d.getHours()+'-'+d.getMinutes()+"-"+d.getSeconds()
 }
 exports.Service = Service;
+
+function _formatTimestamp(t,f){
+  t=t||Date.now()
+  if(t.constructor==String&&!$.isNumeric(t)){
+    f=t
+    t=Date.now()
+  }
+  t=parseInt(t)
+  f=f||"hh:mm";
+  var d=new Date(t);
+  var mp={
+    y:d.getFullYear()+"",
+    M:_formatNumberLength(d.getMonth()+1),
+    d:_formatNumberLength(d.getDate()),
+    h:_formatNumberLength(d.getHours()),
+    m:_formatNumberLength(d.getMinutes()),
+    s:_formatNumberLength(d.getSeconds())
+  }
+  for(var k in mp){
+    var r= new RegExp("["+k+"]+"),
+        v=mp[k]
+    
+    r=f.match(r)
+    if(r){
+      r=r[0]
+      if(k=="y"){
+        v=v.substring(v.length-r.length)
+      }else if(r.length==1){
+        v=parseInt(v)+""
+      }
+      f=f.replace(r,v)
+    }
+  }
+  return f
+}
+function _formatNumberLength(v,l){
+  l=l||2;
+  v=v+"";
+  while(v.length<l){
+    v="0"+v;
+  }
+  return v;
+}
