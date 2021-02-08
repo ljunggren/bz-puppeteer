@@ -1,4 +1,4 @@
-let _appUrl="https:/"+"/143.3.52.78",_masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_ctrlWindowId,curElement,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
+let _appUrl="http:/"+"/143.3.52.78",_masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_ctrlWindowId,curElement,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
 let _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId,_uncodeFrames=[];
 let _ignoreList=["https://vars.hotjar.com"],_lastIframeRequest=0,_dblCheckTime=0;
 let funMap={

@@ -21,6 +21,6 @@ if(name!=="bz-master"){
         this._addEventListener(t,f,c)
       }
     }
-  }) + ")();";
+  }) + ")();window.onbeforeunload=null;";
   document.documentElement.appendChild(script);
 }
