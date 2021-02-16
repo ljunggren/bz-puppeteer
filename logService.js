@@ -257,9 +257,16 @@ const Service = {
     }
     Service.insertStdTask("run")
     Service.status="run"
+    let timer=0;
+    if(!Service.keepalive){
+      timer=setTimeout(()=>{
+        Service.shutdown("No task to run")
+      },120000)
+    }
     Service.addTask({
       key:"ms:",
       fun(msg){
+        clearTimeout(timer)
         let v= (parseInt(msg.split(this.key)[1].trim())||0) + Service.stdTimeout;
         return v;
       },
