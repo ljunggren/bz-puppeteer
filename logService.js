@@ -218,6 +218,13 @@ const Service = {
       timeout:Service.stdTimeout
     })
   },
+  insertHandleIdling(){
+    if(!Service.keepalive){
+      Service.idlingTimer=setTimeout(()=>{
+        Service.shutdown("No task to run")
+      },120000)
+    }
+  },
   init(){
     Service.insertStdTask("init")
     
@@ -240,6 +247,9 @@ const Service = {
         // }else{
           // Service.setRunTasks()
         }
+        
+        Service.insertHandleIdling();
+
         if(Service.video && Service.video != "none"){
           Service.page.evaluate((v)=>{
             console.log("Initializing video capture...");
@@ -252,6 +262,7 @@ const Service = {
     })
   },
   setRunTasks(){
+    clearTimeout(Service.idlingTimer)
     if(Service.status=="run"){
       return
     }
