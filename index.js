@@ -46,6 +46,10 @@ console.log("Running with following args");
 console.log(opts);
 console.log("Example: Use --verbose for verbose logging (boolean example). Use --width=800 to override default width (value example.)");
 
+
+Service.setButton(function(s){
+  start()
+});
 (async () => {
   
   let file = (docker ? "/var/boozang/" : "");
@@ -162,8 +166,3 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
   page.on("pageerror", idePrintStackTrace);
 
 })()
-
-
-
-
-
