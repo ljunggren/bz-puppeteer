@@ -227,12 +227,11 @@ const Service = {
   },
   init(){
     Service.insertStdTask("init")
-    
+    clearTimeout(Service.status)
     Service.status=setTimeout(()=>{
       console.log("checking status ready")
-      if(Service.status!="ready"){
-        
-        Service.shutdown("Failed to load test: "+Service.status)
+      if(!Number.isNaN(parseInt(Service.status))){
+        Service.shutdown("Failed to load IDE!")
       }
     },Service.stdTimeout)
     
