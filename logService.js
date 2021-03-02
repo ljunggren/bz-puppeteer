@@ -7,8 +7,12 @@ const Service = {
   reportPrefix:"",
   status:"",
   tryWakeup:0,
+  shutdownNum:0,
   result: 2,
   consoleNum:0,
+  setResetButton(restartFun){
+    this.restartFun=restartFun
+  },
   logMonitor(page,keepalive,reportPrefix,inService, browser, video, saveVideo){
     this.inService=inService;
     this.keepalive=keepalive;
@@ -230,16 +234,28 @@ const Service = {
     console.log(_formatTimestamp()+": init")
     clearTimeout(Service.status)
     Service.status=setTimeout(()=>{
-      console.log("checking status ready")
-      if(!Number.isNaN(parseInt(Service.status))){
-        Service.shutdown(_formatTimestamp()+": Failed to load IDE!")
-      }
-    },120000)
+      console.log(_formatTimestamp()+"checking status ready")
+      //if(!Number.isNaN(parseInt(Service.status))){
+        if(Service.shutdownNum){
+          if(Date.now()-Service.shutdownNum<600000){
+            return Service.shutdown(_formatTimestamp()+": Failed to load IDE!")
+          }
+        }
+        Service.shutdownNum=Date.now()
+        console.log("shutdown ...")
+        Service.page.close()
+        setTimeout(()=>{
+          console.log("restart ...")
+          Service.restartFun()
+          Service.init()
+        },15000)
+      // }
+    },12000)
     
     Service.addTask({
       key:"ready",
       fun(){
-        clearTimeout(Service.status)
+//        clearTimeout(Service.status)
         Service.status="ready"
         console.log("Ready on logService")
         if(Service.beginningFun){
@@ -489,7 +505,7 @@ function _formatTimestamp(t,f){
     t=Date.now()
   }
   t=parseInt(t)
-  f=f||"hh:mm";
+  f=f||"hh:mm:ss";
   var d=new Date(t);
   var mp={
     y:d.getFullYear()+"",

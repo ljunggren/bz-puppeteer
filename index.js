@@ -46,124 +46,126 @@ console.log("Running with following args");
 console.log(opts);
 console.log("Example: Use --verbose for verbose logging (boolean example). Use --width=800 to override default width (value example.)");
 
-(async () => {
-  
-  let file = (docker ? "/var/boozang/" : "");
-  if (opts.file){
-    file += opts.file;
-  }
 
-  let userdatadir = "";
-  if (opts.userdatadir){
-    userdatadir = (docker ? "/var/boozang/userdatadir" : "") + (opts.userdatadir || "");
-    console.log("Setting userdatadir: " + userdatadir);
-  }
-  
-  const launchargs = [
-    '--disable-extensions-except=' + __dirname + '/bz-extension',
-    '--load-extension=' + __dirname + '/bz-extension',
-    '--ignore-certificate-errors',
-    '--no-sandbox',
-    `--window-size=${width},${height}`,
-    '--defaultViewport: null'
-    ];
+Service.setResetButton(function(s){
+  start()
+});
+function start(){
+  (async () => {
+    
+    let file = (docker ? "/var/boozang/" : "");
+    if (opts.file){
+      file += opts.file;
+    }
 
-  const browser = await puppeteer.launch({
-    headless: false,
-    userDataDir: userdatadir,
-    args: launchargs 
-  });
+    let userdatadir = "";
+    if (opts.userdatadir){
+      userdatadir = (docker ? "/var/boozang/userdatadir" : "") + (opts.userdatadir || "");
+      console.log("Setting userdatadir: " + userdatadir);
+    }
+    
+    const launchargs = [
+      '--disable-extensions-except=' + __dirname + '/bz-extension',
+      '--load-extension=' + __dirname + '/bz-extension',
+      '--ignore-certificate-errors',
+      '--no-sandbox',
+      `--window-size=${width},${height}`,
+      '--defaultViewport: null'
+      ];
 
-  function printStackTrace(app,err){
-    console.error(
-      "\n#######################################\n"
-    + app + " error: " + err.message
-    + "\n#######################################\n"
-    );
-  }
-
-  function appPrintStackTrace(err){
-    printStackTrace("app",err);
-  }
-
-  function idePrintStackTrace(err){
-    printStackTrace("ide",err);
-    Service.chkIDE()
-  }
-
-  // Setup popup
-  let popup = null;
-  function setupPopup() {
-    popup = pages[pages.length-1]; 
-    popup.setViewport({
-      width: parseInt(width),
-      height: parseInt(height)
+    const browser = await puppeteer.launch({
+      headless: false,
+      userDataDir: userdatadir,
+      args: launchargs 
     });
 
-    popup.on("error", appPrintStackTrace);
-    popup.on("pageerror", appPrintStackTrace);
-    Service.setPopup(popup)
-  }
-
-  let pages = await browser.pages();
-  browser.on('targetcreated', async () => {
-        //console.log('New window/tab event created');
-        pages = await browser.pages();
-        //console.log("Pages length " + pages.length);
-        setupPopup(); 
-        Service.setPage(page);  
-  });
-
-  const page = await browser.newPage();
-  
-  let url = result.args[0];
-  if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run") && url.match(/\/m[0-9]+\/t[0-9]+/)) {
-    if (!url.endsWith("/")) {
-        url += "/"
+    function printStackTrace(app,err){
+      console.error(
+        "\n#######################################\n"
+      + app + " error: " + err.message
+      + "\n#######################################\n"
+      );
     }
-    url += "run"
-  }
 
-  let inService=0;
-  console.log("Browser URL: "+url)
-  if(url.match(/(\?|\&)key=.+(\&|\#)/)){
-    console.log("Running in cooperation!")
-    inService=1
-  }else{
-    console.log("Running in stand alone!")
-  }
+    function appPrintStackTrace(err){
+      printStackTrace("app",err);
+    }
 
-  // Assign all log listeners
-  Service.logMonitor(page,keepalive,file,inService);
+    function idePrintStackTrace(err){
+      printStackTrace("ide",err);
+      Service.chkIDE()
+    }
 
-  if(listsuite||listscenarios){
-    Service.setBeginningFun(function(){
-      Service.insertFileTask(function(){
-        Service.result = 0;
-        Service.shutdown()
-      })
-      if(listsuite){
-        page.evaluate((v)=>{
-          $util.getTestsBySuite(v)
-        }, listsuite);
-      }else if(listscenarios){
-        page.evaluate((v)=>{
-          $util.getScenariosByTag(v)
-        }, JSON.parse(listscenarios));
+    // Setup popup
+    let popup = null;
+    function setupPopup() {
+      popup = pages[pages.length-1]; 
+      popup.setViewport({
+        width: parseInt(width),
+        height: parseInt(height)
+      });
+
+      popup.on("error", appPrintStackTrace);
+      popup.on("pageerror", appPrintStackTrace);
+      Service.setPopup(popup)
+    }
+
+    let pages = await browser.pages();
+    browser.on('targetcreated', async () => {
+          //console.log('New window/tab event created');
+          pages = await browser.pages();
+          //console.log("Pages length " + pages.length);
+          setupPopup(); 
+          Service.setPage(page);  
+    });
+
+    const page = await browser.newPage();
+    
+    let url = result.args[0];
+    if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run") && url.match(/\/m[0-9]+\/t[0-9]+/)) {
+      if (!url.endsWith("/")) {
+          url += "/"
       }
-    })
-  }
+      url += "run"
+    }
 
-  const version = await page.browser().version();
-  console.log("Running Chrome version: " + version);
-  const response = await page.goto(url);
+    let inService=0;
+    console.log("Browser URL: "+url)
+    if(url.match(/(\?|\&)key=.+(\&|\#)/)){
+      console.log("Running in cooperation!")
+      inService=1
+    }else{
+      console.log("Running in stand alone!")
+    }
 
-  page.on("error", idePrintStackTrace);
-  page.on("pageerror", idePrintStackTrace);
+    // Assign all log listeners
+    Service.logMonitor(page,keepalive,file,inService);
 
-})()
+    if(listsuite||listscenarios){
+      Service.setBeginningFun(function(){
+        Service.insertFileTask(function(){
+          Service.result = 0;
+          Service.shutdown()
+        })
+        if(listsuite){
+          page.evaluate((v)=>{
+            $util.getTestsBySuite(v)
+          }, listsuite);
+        }else if(listscenarios){
+          page.evaluate((v)=>{
+            $util.getScenariosByTag(v)
+          }, JSON.parse(listscenarios));
+        }
+      })
+    }
 
+    const version = await page.browser().version();
+    console.log("Running Chrome version: " + version);
+    const response = await page.goto(url);
 
+    page.on("error", idePrintStackTrace);
+    page.on("pageerror", idePrintStackTrace);
 
-
-
+  })()
+}
+start()
