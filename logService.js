@@ -227,13 +227,14 @@ const Service = {
   },
   init(){
     Service.insertStdTask("init")
+    console.log(_formatTimestamp()+": init")
     clearTimeout(Service.status)
     Service.status=setTimeout(()=>{
       console.log("checking status ready")
       if(!Number.isNaN(parseInt(Service.status))){
-        Service.shutdown("Failed to load IDE!")
+        Service.shutdown(_formatTimestamp()+": Failed to load IDE!")
       }
-    },Service.stdTimeout)
+    },120000)
     
     Service.addTask({
       key:"ready",
