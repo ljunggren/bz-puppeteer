@@ -232,7 +232,7 @@ const Service = {
       console.log("checking status ready")
       if(Service.status!="ready"){
         
-        Service.shutdown("Failed to load test: "+Service.status)
+        Service.shutdown("Failed to load IDE!")
       }
     },Service.stdTimeout)
     
