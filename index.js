@@ -116,7 +116,7 @@ function start(){
           pages = await browser.pages();
           //console.log("Pages length " + pages.length);
           setupPopup(); 
-          Service.setPage(page);  
+          Service.setPage(page,browser);  
     });
 
     const page = await browser.newPage();

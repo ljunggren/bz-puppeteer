@@ -102,8 +102,9 @@ const Service = {
   setPopup(popup){
     this.popup=popup
   },
-  setPage(page){
+  setPage(page,browser){
     this.page=page
+    this.browser=browser
   },
   //task:{key,fun,onTime,timeout}
   addTask(task){
@@ -235,7 +236,7 @@ const Service = {
     clearTimeout(Service.status)
     Service.status=setTimeout(()=>{
       console.log(_formatTimestamp()+"checking status ready")
-      //if(!Number.isNaN(parseInt(Service.status))){
+      if(!Number.isNaN(parseInt(Service.status))){
         if(Service.shutdownNum){
           if(Date.now()-Service.shutdownNum<600000){
             return Service.shutdown(_formatTimestamp()+": Failed to load IDE!")
@@ -243,14 +244,15 @@ const Service = {
         }
         Service.shutdownNum=Date.now()
         console.log("shutdown ...")
-        Service.page.close()
+//        Service.page.close()
+        Service.browser.close()
         setTimeout(()=>{
           console.log("restart ...")
           Service.restartFun()
           Service.init()
         },15000)
-      // }
-    },12000)
+      }
+    },120000)
     
     Service.addTask({
       key:"ready",
