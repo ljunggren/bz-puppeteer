@@ -266,13 +266,15 @@ const Service = {
       timeout:Service.stdTimeout
     })
   },
-  reset(){
-    if(Service.shutdownNum){
-      if(Date.now()-Service.shutdownNum<600000){
-        return Service.shutdown(_formatTimestamp()+": Failed to load IDE!")
+  reset(forKeep){
+    if(!forKeep){
+      if(Service.shutdownNum){
+        if(Date.now()-Service.shutdownNum<600000){
+          return Service.shutdown(_formatTimestamp()+": Failed to load IDE!")
+        }
       }
+      Service.shutdownNum=Date.now()
     }
-    Service.shutdownNum=Date.now()
     console.log("shutdown ...")
 //        Service.page.close()
     Service.browser.close()
@@ -485,12 +487,8 @@ const Service = {
         BZ.wakeup(timeout)
       },timeout)
       Service.wakeupTimer=setTimeout(()=>{
-        if(Service.keepalive){
-          Service.reloadIDE("No response from IDE! going to reset...")
-          Service.reset()
-        }else{
-          Service.shutdown("No response from IDE. Shutting down...")
-        }
+        Service.reloadIDE("No response from IDE! going to reset...")
+        Service.reset(Service.keepalive)
       },10000)
     }
   }
