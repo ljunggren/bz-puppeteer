@@ -13,8 +13,9 @@ const Service = {
   setResetButton(restartFun){
     this.restartFun=restartFun
   },
-  logMonitor(page,keepalive,reportPrefix,inService, browser, video, saveVideo){
+  logMonitor(page,testReset,keepalive,reportPrefix,inService, browser, video, saveVideo){
     this.inService=inService;
+    this.testReset=testReset;
     this.keepalive=keepalive;
     this.video=video;
     this.page=page;
@@ -376,8 +377,11 @@ const Service = {
     Service.addTask({
       key:"The Task Completed!",
       fun(msg){
-        Service.reset(1)
-        // Service.setRunTasks()
+        if(Service.testReset){
+          Service.reset(1)
+        }else{
+          Service.setRunTasks()
+        }
       },
       timeout:Service.stdTimeout
     })
