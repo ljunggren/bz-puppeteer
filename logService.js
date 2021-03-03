@@ -282,7 +282,7 @@ const Service = {
       console.log("restart ...")
       Service.restartFun()
       Service.init()
-    },15000)
+    },1000)
   },
   setRunTasks(){
     clearTimeout(Service.idlingTimer)
