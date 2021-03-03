@@ -225,6 +225,7 @@ const Service = {
   },
   insertHandleIdling(){
     if(!Service.keepalive){
+      clearTimeout(Service.idlingTimer)
       Service.idlingTimer=setTimeout(()=>{
         Service.shutdown("No task to run")
       },120000)
@@ -233,19 +234,17 @@ const Service = {
   init(){
     Service.insertStdTask("init")
     console.log(_formatTimestamp()+": init")
-    clearTimeout(Service.status)
-    Service.status=setTimeout(()=>{
-      console.log(_formatTimestamp()+"checking status ready")
+    Service.setStatus(setTimeout(()=>{
+      console.log(_formatTimestamp()+": checking status ready, status: "+Service.status)
       if(!Number.isNaN(parseInt(Service.status))){
         Service.reset()
       }
-    },120000)
+    },120000))
     
     Service.addTask({
       key:"ready",
       fun(){
-//        clearTimeout(Service.status)
-        Service.status="ready"
+        Service.setStatus("ready")
         console.log("Ready on logService")
         if(Service.beginningFun){
           Service.beginningFun()
@@ -289,13 +288,19 @@ const Service = {
       Service.init()
     },forKeep?1000:15000)
   },
+  setStatus(v){
+    clearTimeout(Service.status)
+    Service.status=v
+  },
   setRunTasks(){
+    console.log("Set run tasks")
     clearTimeout(Service.idlingTimer)
     if(Service.status=="run"){
       return
     }
     Service.insertStdTask("run")
-    Service.status="run"
+    Service.setStatus("run")
+
     Service.addTask({
       key:"ms:",
       fun(msg){
@@ -358,7 +363,7 @@ const Service = {
   },
   setEndTasks(){
     Service.insertStdTask("end")
-    Service.status="end"
+    Service.setStatus("end")
     Service.addTask({
       key:"Result:",
       fun(msg){
