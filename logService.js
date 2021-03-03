@@ -282,7 +282,7 @@ const Service = {
       console.log("restart ...")
       Service.restartFun()
       Service.init()
-    },1000)
+    },15000)
   },
   setRunTasks(){
     clearTimeout(Service.idlingTimer)
@@ -366,7 +366,7 @@ const Service = {
     Service.addTask({
       key:"The Task Completed!",
       fun(msg){
-        Service.reset(1)
+        Service.setRunTasks()
       },
       timeout:Service.stdTimeout
     })
