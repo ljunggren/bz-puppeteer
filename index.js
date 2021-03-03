@@ -46,7 +46,7 @@ console.log("Running with following args");
 console.log(opts);
 console.log("Example: Use --verbose for verbose logging (boolean example). Use --width=800 to override default width (value example.)");
 
-
+let browser;
 Service.setResetButton(function(s){
   start(1)
 });
@@ -73,11 +73,13 @@ function start(reset){
       '--defaultViewport: null'
       ];
 
-    const browser = await puppeteer.launch({
-      headless: false,
-      userDataDir: userdatadir,
-      args: launchargs 
-    });
+    if(!browser||browser._closed){
+      browser = await puppeteer.launch({
+        headless: false,
+        userDataDir: userdatadir,
+        args: launchargs 
+      });
+    }
 
     function printStackTrace(app,err){
       console.error(

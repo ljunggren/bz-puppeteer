@@ -277,10 +277,15 @@ const Service = {
     }
     console.log("shutdown ...")
 //        Service.page.close()
-    Service.browser.close()
+    if(forKeep){
+      Service.page.close()
+    }else{
+      Service.browser._closed=1
+      Service.browser.close()
+    }
     setTimeout(()=>{
       console.log("restart ...")
-      Service.restartFun()
+      Service.restartFun(forKeep)
       Service.init()
     },forKeep?1000:15000)
   },
@@ -366,7 +371,8 @@ const Service = {
     Service.addTask({
       key:"The Task Completed!",
       fun(msg){
-        Service.setRunTasks()
+        Service.reset(1)
+//        Service.setRunTasks()
       },
       timeout:Service.stdTimeout
     })
