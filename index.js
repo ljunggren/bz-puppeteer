@@ -48,9 +48,9 @@ console.log("Example: Use --verbose for verbose logging (boolean example). Use -
 
 
 Service.setResetButton(function(s){
-  start()
+  start(1)
 });
-function start(){
+function start(reset){
   (async () => {
     
     let file = (docker ? "/var/boozang/" : "");
@@ -127,6 +127,9 @@ function start(){
           url += "/"
       }
       url += "run"
+    }
+    if(reset){
+      url=url.replace(/\/run$/,"/")
     }
 
     let inService=0;
