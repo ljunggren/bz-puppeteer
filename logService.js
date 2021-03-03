@@ -237,20 +237,7 @@ const Service = {
     Service.status=setTimeout(()=>{
       console.log(_formatTimestamp()+"checking status ready")
       if(!Number.isNaN(parseInt(Service.status))){
-        if(Service.shutdownNum){
-          if(Date.now()-Service.shutdownNum<600000){
-            return Service.shutdown(_formatTimestamp()+": Failed to load IDE!")
-          }
-        }
-        Service.shutdownNum=Date.now()
-        console.log("shutdown ...")
-//        Service.page.close()
-        Service.browser.close()
-        setTimeout(()=>{
-          console.log("restart ...")
-          Service.restartFun()
-          Service.init()
-        },15000)
+        Service.reset()
       }
     },120000)
     
@@ -278,6 +265,22 @@ const Service = {
       oneTime:1,
       timeout:Service.stdTimeout
     })
+  },
+  reset(){
+    if(Service.shutdownNum){
+      if(Date.now()-Service.shutdownNum<600000){
+        return Service.shutdown(_formatTimestamp()+": Failed to load IDE!")
+      }
+    }
+    Service.shutdownNum=Date.now()
+    console.log("shutdown ...")
+//        Service.page.close()
+    Service.browser.close()
+    setTimeout(()=>{
+      console.log("restart ...")
+      Service.restartFun()
+      Service.init()
+    },15000)
   },
   setRunTasks(){
     clearTimeout(Service.idlingTimer)
@@ -483,7 +486,8 @@ const Service = {
       },timeout)
       Service.wakeupTimer=setTimeout(()=>{
         if(Service.keepalive){
-          Service.reloadIDE("No response from IDE. Shutting down...")
+          Service.reloadIDE("No response from IDE! going to reset...")
+          Service.reset()
         }else{
           Service.shutdown("No response from IDE. Shutting down...")
         }
