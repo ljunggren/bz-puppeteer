@@ -401,6 +401,7 @@ const Service = {
       key:"The Task Completed!",
       fun(msg){
         if(Service.nextResetTime&&(Date.now()>=Service.nextResetTime)){
+          console.log("Reset in schedule")
           Service.reset(1)
         }else{
           Service.setRunTasks()
