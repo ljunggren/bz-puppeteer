@@ -8,7 +8,7 @@ const Service = {
   reportPrefix:"",
   status:"",
   tryWakeup:0,
-  shutdownNum:0,
+  lastHardResetTimer:0,
   result: 2,
   consoleNum:0,
   setResetButton(restartFun){
@@ -291,14 +291,14 @@ const Service = {
   reset(forKeep){
     Service.setNextResetTime()
     if(!forKeep){
-      if(Service.shutdownNum){
-        if(Date.now()-Service.shutdownNum<600000){
+      if(Service.lastHardResetTimer){
+        if(Date.now()-Service.lastHardResetTimer<600000){
           return Service.shutdown(_formatTimestamp()+": Failed to load IDE!")
         }
       }
-      Service.shutdownNum=Date.now()
+      Service.lastHardResetTimer=Date.now()
     }
-    console.log("shutdown ...")
+    console.log("reset ...")
 //        Service.page.close()
     if(forKeep){
       Service.page.close()
@@ -400,6 +400,7 @@ const Service = {
     Service.addTask({
       key:"The Task Completed!",
       fun(msg){
+        Service.lastHardResetTimer=0
         if(Service.nextResetTime&&(Date.now()>=Service.nextResetTime)){
           console.log("Reset in schedule")
           Service.reset(1)
