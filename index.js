@@ -20,7 +20,8 @@ const opts = {
   "height":1024,
   "docker": false,
   "keepalive": false,
-  "testreset":false
+  "testreset":false,
+  "loglevel": "debug"
 }
 
 // Remove the first two arguments, which are the 'node' binary and the name
@@ -39,6 +40,7 @@ let keepalive=opts.keepalive;
 let testReset=opts.testreset;
 let inService;
 const file = opts.file;
+const logLevel=opts.loglevel;
 
 if (result.errors || !result.args || result.args.length !== 1) {
   console.log('USAGE: boozang [--token] [--docker] [--keepalive] [--testreset] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
@@ -48,6 +50,18 @@ if (result.errors || !result.args || result.args.length !== 1) {
 console.log("Running with following args");
 console.log(opts);
 console.log("Example: Use --verbose for verbose logging (boolean example). Use --width=800 to override default width (value example.)");
+
+let LogLevelArray = ["error","warning","info","debug","log"];
+
+if (logLevel === "error"){
+  LogLevelArray = ["error"]
+} else if (logLevel === "warning"){
+  LogLevelArray = ["error","warning"]
+} else if (logLevel === "info"){
+  LogLevelArray = ["error","warning","info"]
+}
+
+console.log("Setting log levels: ", LogLevelArray);
 
 let browser;
 Service.setResetButton(function(s){
@@ -147,7 +161,7 @@ function start(reset){
     }
 
     // Assign all log listeners
-    Service.logMonitor(page,testReset,keepalive,file,inService);
+    Service.logMonitor(page,testReset,keepalive,file,inService,LogLevelArray);
 
     if(listsuite||listscenarios){
       Service.setBeginningFun(function(){
