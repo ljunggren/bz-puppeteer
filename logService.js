@@ -2,15 +2,28 @@ const fs = require('fs');
 
 const Service = {
   stdTimeout:120000,
+  issueResetCount:0,
   taskMap:{},
   timer:0,
   reportPrefix:"",
   status:"",
   tryWakeup:0,
+  lastHardResetTimer:0,
   result: 2,
   consoleNum:0,
-  logMonitor(page,keepalive,reportPrefix,inService, browser, video, saveVideo){
+  setResetButton(restartFun){
+    this.restartFun=restartFun
+  },
+  setNextResetTime:function(){
+    if(Service.testReset){
+      Service.nextResetTime=Date.now()+((parseInt(Service.testReset)||1)*60000)
+    }
+  },
+  logMonitor(page,testReset,keepalive,reportPrefix,inService, browser, video, saveVideo){
     this.inService=inService;
+    this.testReset=testReset;
+    Service.setNextResetTime()
+
     this.keepalive=keepalive;
     this.video=video;
     this.page=page;
@@ -98,8 +111,9 @@ const Service = {
   setPopup(popup){
     this.popup=popup
   },
-  setPage(page){
+  setPage(page,browser){
     this.page=page
+    this.browser=browser
   },
   //task:{key,fun,onTime,timeout}
   addTask(task){
@@ -169,7 +183,21 @@ const Service = {
       key:"coop-reload",
       fun(msg){
         Service.cancelChkCoop()
-        Service.init()
+        Service.reset(1)
+      },
+      timeout:Service.stdTimeout
+    })
+
+    Service.addTask({
+      key:"coop-issue-reset",
+      fun(msg){
+        Service.issueResetCount++
+        if(Service.issueResetCount>2){
+          Service.shutdown(_formatTimestamp()+": Issue happened multiple times!")
+        }else{
+          Service.cancelChkCoop()
+          Service.reset()
+        }
       },
       timeout:Service.stdTimeout
     })
@@ -220,6 +248,7 @@ const Service = {
   },
   insertHandleIdling(){
     if(!Service.keepalive){
+      clearTimeout(Service.idlingTimer)
       Service.idlingTimer=setTimeout(()=>{
         Service.shutdown("No task to run")
       },120000)
@@ -227,19 +256,18 @@ const Service = {
   },
   init(){
     Service.insertStdTask("init")
-    clearTimeout(Service.status)
-    Service.status=setTimeout(()=>{
-      console.log("checking status ready")
+    console.log(_formatTimestamp()+": init")
+    Service.setStatus(setTimeout(()=>{
+      console.log(_formatTimestamp()+": checking status ready, status: "+Service.status)
       if(!Number.isNaN(parseInt(Service.status))){
-        Service.shutdown("Failed to load IDE!")
+        Service.reset()
       }
-    },Service.stdTimeout)
+    },120000))
     
     Service.addTask({
       key:"ready",
       fun(){
-        clearTimeout(Service.status)
-        Service.status="ready"
+        Service.setStatus("ready")
         console.log("Ready on logService")
         if(Service.beginningFun){
           Service.beginningFun()
@@ -260,13 +288,43 @@ const Service = {
       timeout:Service.stdTimeout
     })
   },
+  reset(forKeep){
+    Service.setNextResetTime()
+    if(!forKeep){
+      if(Service.lastHardResetTimer){
+        if(Date.now()-Service.lastHardResetTimer<600000){
+          return Service.shutdown(_formatTimestamp()+": Failed to load IDE!")
+        }
+      }
+      Service.lastHardResetTimer=Date.now()
+    }
+    console.log("reset ...")
+//        Service.page.close()
+    if(forKeep){
+      Service.page.close()
+    }else{
+      Service.browser._closed=1
+      Service.browser.close()
+    }
+    setTimeout(()=>{
+      console.log("restart ...")
+      Service.restartFun(forKeep)
+      Service.init()
+    },forKeep?1000:15000)
+  },
+  setStatus(v){
+    clearTimeout(Service.status)
+    Service.status=v
+  },
   setRunTasks(){
+    console.log("Set run tasks")
     clearTimeout(Service.idlingTimer)
     if(Service.status=="run"){
       return
     }
     Service.insertStdTask("run")
-    Service.status="run"
+    Service.setStatus("run")
+
     Service.addTask({
       key:"ms:",
       fun(msg){
@@ -329,7 +387,7 @@ const Service = {
   },
   setEndTasks(){
     Service.insertStdTask("end")
-    Service.status="end"
+    Service.setStatus("end")
     Service.addTask({
       key:"Result:",
       fun(msg){
@@ -342,7 +400,13 @@ const Service = {
     Service.addTask({
       key:"The Task Completed!",
       fun(msg){
-        Service.setRunTasks()
+        Service.lastHardResetTimer=0
+        if(Service.nextResetTime&&(Date.now()>=Service.nextResetTime)){
+          console.log("Reset in schedule")
+          Service.reset(1)
+        }else{
+          Service.setRunTasks()
+        }
       },
       timeout:Service.stdTimeout
     })
@@ -463,11 +527,8 @@ const Service = {
         BZ.wakeup(timeout)
       },timeout)
       Service.wakeupTimer=setTimeout(()=>{
-        if(Service.keepalive){
-          Service.reloadIDE("No response from IDE. Shutting down...")
-        }else{
-          Service.shutdown("No response from IDE. Shutting down...")
-        }
+        Service.reloadIDE("No response from IDE! going to reset...")
+        Service.reset(Service.keepalive)
       },10000)
     }
   }
@@ -488,7 +549,7 @@ function _formatTimestamp(t,f){
     t=Date.now()
   }
   t=parseInt(t)
-  f=f||"hh:mm";
+  f=f||"hh:mm:ss";
   var d=new Date(t);
   var mp={
     y:d.getFullYear()+"",

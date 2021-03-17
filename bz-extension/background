@@ -68,7 +68,7 @@ let funMap={
           if(x){
             let k=x.indexOf(":")
             let v=x.substring(k+1)
-            hs[x.substring(0,k)]=v
+            hs[x.substring(0,k).trim()]=v.trim()
           }
         })
         
