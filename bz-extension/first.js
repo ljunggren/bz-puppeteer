@@ -12,7 +12,7 @@ if(name!=="bz-master"){
       if(this==window&&t=="beforeunload"){
         this._addEventListener(t,function(event){
           let play=localStorage.getItem("playModel")
-          if(t=="beforeunload"&&play=="play"){
+          if(t=="beforeunload"){
           }else{
             return f(event)
           }

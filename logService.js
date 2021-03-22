@@ -287,6 +287,15 @@ const Service = {
       oneTime:1,
       timeout:Service.stdTimeout
     })
+    
+    Service.addTask({
+      key:"Tasks are not completed",
+      fun(){
+        Service.insertHandleIdling();
+      },
+      oneTime:1,
+      timeout:Service.stdTimeout
+    })
   },
   reset(forKeep){
     Service.setNextResetTime()
