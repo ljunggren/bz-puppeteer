@@ -11,6 +11,7 @@ const Service = {
   lastHardResetTimer:0,
   result: 2,
   consoleNum:0,
+  logLevel: ["info","warn","error"],
   setResetButton(restartFun){
     this.restartFun=restartFun
   },
@@ -19,7 +20,7 @@ const Service = {
       Service.nextResetTime=Date.now()+((parseInt(Service.testReset)||1)*60000)
     }
   },
-  logMonitor(page,testReset,keepalive,reportPrefix,inService, browser, video, saveVideo){
+  logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video, saveVideo){
     this.inService=inService;
     this.testReset=testReset;
     Service.setNextResetTime()
@@ -28,6 +29,8 @@ const Service = {
     this.video=video;
     this.page=page;
     this.saveVideo = saveVideo;
+
+    this.logLevel=logLevel;
 
     if (this.video && this.video != "none") {
       console.log("Running in video mode");
@@ -40,8 +43,12 @@ const Service = {
       Service.reportPrefix=reportPrefix + "_";
     } 
 
+   // page.on('console', (log) => console[log._type](log._text));
+
+
     page.on('console', msg => {
       let timeout,t;
+      let msgType=msg._type;
 
       msg = (!!msg && msg.text()) || "def";
       msg=trimPreMsg(msg)
@@ -65,7 +72,8 @@ const Service = {
           }
         }
       }
-      if (!t || !t.noLog){
+      //console.log("Type: " + msgType);
+      if ((!t || !t.noLog) && Service.logLevel.includes(msgType)){
         console.log((Service.consoleNum++)+": "+msg)
       }
       if(t){
