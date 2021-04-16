@@ -31,9 +31,6 @@ let funMap={
     chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:bkScope,fun:bkFun,data:{result:!Object.keys(_list).length,data:_rList}});
   },
   postRequest:function(v,scope,fun){
-    if(v.url&&decodeURI(v.url)!=v.url){
-      v.url=encodeURI(v.url)
-    }
     if(["main_frame","xmlhttprequest"].includes(v.type)){
       v=funMap.buildRequestData(v)
       var id=v.requestId
