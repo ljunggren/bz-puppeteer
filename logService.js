@@ -539,6 +539,9 @@ const Service = {
       Service.page.evaluate(()=>{  
         BZ.e("BZ-LOG: Wake-up IDE failed. Test runner telling BZ to stop.");
       });
+      setTimeout(()=>{
+        Service.shutdown("Shutdown on no reaction from IDE!")
+      },120000)
     }else{
       Service.page.evaluate((timeout)=>{
         BZ.wakeup(timeout)
