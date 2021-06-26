@@ -2,6 +2,9 @@ let _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterFrameId,_masterUrl,_
 let _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId,_uncodeFrames=[];
 let _ignoreList=["https://vars.hotjar.com"],_lastIframeRequest=0,_dblCheckTime=0;
 let funMap={
+  cleanMaster:function(){
+    cleanMaster()
+  },
   // storeEventGroupData:function(bkScope,bkFun,data){
     // for(var k in data){
       // _lastExeActionReq[k]=data[k]
@@ -696,6 +699,7 @@ function cleanMaster(){
   _isExistTab(tabId,function(){
     _setCodeToContent("window.close();",_topFrameId,tabId);
   })
+  _status=""
   _masterTabId=0;
   _masterFrameId=0;
   _shareData={}
