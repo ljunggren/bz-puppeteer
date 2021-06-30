@@ -291,12 +291,12 @@ function _addFrameId(_req,_element,_fun,_retry){
   if(_req.exeAction){
     _badRequest=setTimeout(function(){
       _appRetry++
-      if(_appRetry>30){
+      if(_appRetry*1000>(_req.exeAction.max||_req.exAction.min||2000)){
         _fun(_req)
       }else{
         _addFrameId(_req,_element,_fun,_appRetry)
       }
-    },2000)
+    },1000)
   }
   let v=getIframePath(_element)
   if(v){
@@ -360,7 +360,7 @@ function dblCheckForIframe(){
     }else{
       console.log("dblCheckForIframe doesn't work....")
     }
-  },10000)
+  },3000)
 }
 //to get frame ids by element path
 function _getFrameIds(_root){
