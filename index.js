@@ -64,6 +64,7 @@ if (logLevel === "error"){
 console.log("Setting log levels: ", LogLevelArray);
 
 let browser;
+
 Service.setResetButton(function(s){
   start(1)
 });
@@ -98,20 +99,12 @@ function start(reset){
       });
     }
 
-    function printStackTrace(app,err){
-      console.error(
-        "\n#######################################\n"
-      + app + " error: " + err.message
-      + "\n#######################################\n"
-      );
-    }
-
     function appPrintStackTrace(err){
-      printStackTrace("app",err);
+      Service.consoleMsg(err.message,"error","app");
     }
 
     function idePrintStackTrace(err){
-      printStackTrace("ide",err);
+      Service.consoleMsg(err.message,"error","ide");
       Service.chkIDE()
     }
 
@@ -190,4 +183,5 @@ function start(reset){
 
   })()
 }
+
 start()
