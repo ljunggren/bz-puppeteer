@@ -569,7 +569,7 @@ const Service = {
           console.log("repeat: "+(".".repeat(lastMsg.count)))
         }
       }
-      lastMsg={
+      this.lastMsg=lastMsg={
         msg:msg,
         type:type,
         scope:scope,
