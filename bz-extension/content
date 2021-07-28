@@ -4,21 +4,35 @@ let curContentExeAction=0,bzIframeId=null,topFrame=0,initEnv=0;
 window.extensionContent=1;
 if(name!=="bz-master"){
   setTimeout(function(){
-    //_console("content register")
-    chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ),name:window.name},function(_msg){
-      if(_msg && _msg._ignore){
-        chrome.runtime.onMessage.removeListener()
-      }
-    });
+    registerTab()
   },0);
 }else{
   window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
 }
 
+function registerTab(){
+  //_console("content register")
+  chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ),name:window.name},function(_msg){
+    if(_msg && _msg._ignore){
+      chrome.runtime.onMessage.removeListener()
+    }
+  });
+}
 chrome.runtime.onMessage.addListener(handleMsg);
 
-function handleMsg(_event, _, sendResponse) {  
+function handleMsg(_event, _, sendResponse, codeTime) {  
   //_console("content get message: ",_event)
+  if(window.name!="bz-master"&&!window[ecMap.i]){
+    console.log("BZ-LOG: waiting app code!")
+    codeTime=codeTime||0
+    if(codeTime>10){
+      registerTab()
+      codeTime=0
+    }
+    return setTimeout(()=>{
+      handleMsg(_event,_,sendResponse,codeTime+1)
+    },100)
+  }
   if(_event.findFrameId){
     return responseIFrameId(_event.findFrameId,sendResponse,_event.element,_event.retry)
   }else if(_event.findOffset){

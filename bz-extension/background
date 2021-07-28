@@ -57,6 +57,7 @@ let funMap={
     }
   },
   enableAllIframe:function(){
+    _initFrame(0)
     _uncodeFrames.forEach(f=>{_initFrame(f)})
   },
   ajax:function(scope,fun,data,_callback){
@@ -198,7 +199,8 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     _plugInCode=_req.bzCode;
     _lastExeActionReq=0;
     ignoreReqs="";
-    _setCodeToContent("window.close();",_topFrameId);
+    _callback(1)
+    // _setCodeToContent("window.close();",_topFrameId);
   //Set CSS file path from BZ master page
   }else if(_req.bzCss){
     _css=_req.bzCss;
@@ -428,6 +430,9 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     return funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data,t)
   }else if(_msg._registerTab && (_msg.name=="bz-client"||_ctrlTabId==t.tab.id)){
     if(_msg.name=="bz-client"){
+      if(!_plugInCode){
+        chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"_extensionComm",fun:"_loadPlugCode"});
+      }
       _ctrlTabId=t.tab.id;
       _ctrlWindowId=t.tab.windowId;
       if(_ctrlTabId==_masterTabId){
