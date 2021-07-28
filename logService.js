@@ -1,4 +1,6 @@
 const fs = require('fs');
+const killer = require('tree-kill');
+
 
 const Service = {
   stdTimeout:120000,
@@ -321,7 +323,8 @@ const Service = {
       Service.page.close()
     }else{
       Service.browser._closed=1
-      Service.browser.close()
+//      Service.browser.close()
+      killer(Service.browser.process().pid, 'SIGKILL');
     }
     setTimeout(()=>{
       Service.consoleMsg("restart ...")
@@ -527,6 +530,8 @@ const Service = {
   },
   shutdown(msg){
     msg && Service.consoleMsg(msg)
+    killer(Service.browser.process().pid, 'SIGKILL');
+
     process.exit(Service.result)
   },
   async handleTimeout(timeout,msg){
@@ -638,3 +643,18 @@ function _formatNumberLength(v,l){
   }
   return v;
 }
+
+function testReset(){
+  setTimeout(()=>{
+    try{
+      console.log("Do reset ---------------------------------------------------------------------------")
+      if(Service.page){
+        Service.reset(1)
+      }else{
+        console.log("wait to reset++++++++++++++++++")
+      }
+    }catch(ex){}
+    testReset()
+  },3000)
+}
+testReset()

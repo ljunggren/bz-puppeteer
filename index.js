@@ -5,6 +5,8 @@
 const puppeteer = require('puppeteer');
 const options = require('node-options');
 const Service = require('./logService').Service;
+const http = require('http');
+const https = require('https');
 
 // Command defaults
 const opts = {
@@ -41,6 +43,7 @@ let testReset=opts.testreset;
 let inService;
 const file = opts.file;
 const logLevel=opts.loglevel;
+let url = result.args[0];
 
 if (result.errors || !result.args || result.args.length !== 1) {
   console.log('USAGE: boozang [--token] [--docker] [--keepalive] [--testreset] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
@@ -63,11 +66,104 @@ if (logLevel === "error"){
 
 console.log("Setting log levels: ", LogLevelArray);
 
-let browser;
+let browser,code=[],urlObj;
 
 Service.setResetButton(function(s){
   start(1)
 });
+
+(()=>{
+  loadIDE(url,()=>{
+    start()
+//    loadData(urlObj)
+  })
+})();
+
+function loadIDE(url,_fun){
+  urlObj=parseUrl(url)
+  loadFile(url,function(s){
+    s=s.match(/\<script [^\<]+\<\/script\>/ig);
+    
+    syncLoadFile(s,function(){
+      _fun()
+    })
+  })
+}
+
+function loadData(o){
+  let u=`${o.protocol}://${o.host}/api/projects/${o.project}/?token=${o.token}`
+  loadFile(u,function(x){
+    console.log(x)
+  })
+}
+
+function syncLoadFile(fs,_fun){
+  let x=fs.shift()
+  if(x){
+    x=x.replace(/[\r\n]/g,"")
+      
+    x=x.match(/\<script (.+)\<\/script\>/)[1].trim()
+
+    if(x.startsWith("src=")){
+      x=x.match(/[\"\'](.+)[\"\']/)[1]
+      x=urlObj.protocol+"://"+urlObj.host+"/"+x.replace(/^[\/]/,"")
+
+      loadFile(x,(v)=>{
+        code.push(v)
+        syncLoadFile(fs,_fun)
+      })
+    }else{
+      code.unshift(x.substring(x.indexOf(">")+1))
+      
+      syncLoadFile(fs,_fun)
+    }
+  }else{
+    _fun()
+  }
+}
+
+function parseUrl(url){
+  let s=url.split("/");
+  let o={
+    url:url,
+    protocol:s[0].replace(":",""),
+    host:s[2],
+    hash:url.split("#")[1],
+    query:url.split("?")[1]
+  }
+  s=o.hash.split("/")
+  o.project=s[0]
+  o.version=s[1]
+  o.module=s[2]
+  o.test=s[3]
+  s=o.query.split("#")[0].split("&")
+  s.forEach(x=>{
+    x=x.split("=")
+    o[x[0]]=x[1]
+  })
+  console.log(o)
+  return o
+}
+function loadFile(url,_fun){
+  let httpTool;
+  if(url.startsWith("http:")){
+    httpTool=http
+  }else{
+    httpTool=https
+  }
+  
+  httpTool.get(url, function(res) {
+    var s = '';
+    res.on('data', function (chunk) {
+        s += chunk;
+    });
+    res.on('end', function () {
+      console.log(`Finished download: ${url} (${s.length})`);
+      _fun(s)
+    });    
+  });
+  
+}
 function start(reset){
   (async () => {
     
@@ -133,7 +229,6 @@ function start(reset){
 
     const page = await browser.newPage();
     
-    let url = result.args[0];
     if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run") && url.match(/\/m[0-9]+\/t[0-9]+/)) {
       if (!url.endsWith("/")) {
           url += "/"
@@ -176,12 +271,27 @@ function start(reset){
 
     const version = await page.browser().version();
     console.log("Running Chrome version: " + version);
-    const response = await page.goto(url);
+    const response = await page.goto(urlObj.protocol+"://"+urlObj.host+"/docker?"+urlObj.query);
 
     page.on("error", idePrintStackTrace);
     page.on("pageerror", idePrintStackTrace);
 
+    postCode(page,code)
+    
   })()
 }
 
-start()
+function postCode(page,cs,_fun,i){
+  i=i||0
+  let x=cs[i]
+  if(x){
+    page.evaluate(x)
+
+    setTimeout(()=>{
+      postCode(page,cs,_fun,i+1)
+    },200)
+  }else{
+    _fun&&_fun()
+  }
+  
+}

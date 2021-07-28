@@ -2,12 +2,21 @@ let curContentExeAction=0,bzIframeId=null,topFrame=0,initEnv=0;
  
 //Register
 window.extensionContent=1;
+console.log("window name: "+name)
 if(name!=="bz-master"){
   setTimeout(function(){
     registerTab()
   },0);
 }else{
-  window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
+  _extensionSyncFun(function(f){
+    let size=document.getElementsByTagName("div").length
+    if(size){
+      f()
+      return 1
+    }
+  },function(){
+    window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
+  })
 }
 
 function registerTab(){
@@ -19,6 +28,14 @@ function registerTab(){
   });
 }
 chrome.runtime.onMessage.addListener(handleMsg);
+
+function _extensionSyncFun(_fun,_bkFun){
+  if(!_fun(_bkFun)){
+    setTimeout(()=>{
+      _extensionSyncFun(_fun,_bkFun)
+    },100)
+  }
+}
 
 function handleMsg(_event, _, sendResponse, codeTime) {  
   //_console("content get message: ",_event)
