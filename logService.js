@@ -11,6 +11,7 @@ const Service = {
   lastHardResetTimer:0,
   result: 2,
   consoleNum:0,
+  resetTime:0,
   logLevel: ["info","warn","error"],
   setResetButton(restartFun){
     this.restartFun=restartFun
@@ -94,7 +95,7 @@ const Service = {
           }
         },timeout)
         let tryWakeup=Service.tryWakeup
-        t.timeout&&t.fun(msg,Service.timer)
+        t.timeout&&t.fun(msg,Service.timer);
         if(tryWakeup==Service.tryWakeup){
           Service.tryWakeup=0
         }
@@ -139,12 +140,25 @@ const Service = {
     clearTimeout(Service.coopAnswerTimer)
     Service.addTask({
       key:"I-AM-OK",
-      fun:function(){
+      fun:function(v){
         clearTimeout(Service.wakeupTimer)
-        Service.tryWakeup++
+        if(Service.lastWakeupAction==v||Service.resetTime>2){
+          Service.page.evaluate(()=>{  
+            BZ.e("BZ-LOG: Stop! Repeat failed on action: "+v);
+          });
+          setTimeout(()=>{
+            Service.shutdown("Shutdown on no reaction from IDE!")
+          },120000)
+        }else{
+          Service.lastWakeupAction=v
+          Service.resetTime++
+          Service.reset(1)
+        }
+        Service.tryWakeup=0
       },
       timeout:Service.stdTimeout
     })
+
     Service.addTask({
       key:"NO-TASK!",
       fun:function(){
@@ -535,7 +549,7 @@ const Service = {
     Service.wakeupIDE(timeout)
   },
   wakeupIDE:function(timeout){
-    if(Service.tryWakeup>=1){
+    if(Service.tryWakeup){
       Service.page.evaluate(()=>{  
         BZ.e("BZ-LOG: Wake-up IDE failed. Test runner telling BZ to stop.");
       });
@@ -543,6 +557,7 @@ const Service = {
         Service.shutdown("Shutdown on no reaction from IDE!")
       },120000)
     }else{
+      Service.tryWakeup=1
       Service.page.evaluate((timeout)=>{
         BZ.wakeup(timeout)
       },timeout)
