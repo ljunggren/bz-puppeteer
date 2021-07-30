@@ -236,7 +236,8 @@ function start(reset){
       url += "run"
     }
     if(reset){
-      url=url.replace(/\/run$/,"/")
+      //TODO: take back
+      //url=url.replace(/\/run$/,"/")
     }
 
     let inService=0;
@@ -275,7 +276,10 @@ function start(reset){
 
     page.on("error", idePrintStackTrace);
     page.on("pageerror", idePrintStackTrace);
-
+    
+    console.log(JSON.stringify(Service.projectData))
+    
+    page.evaluate("preData="+JSON.stringify(Service.projectData))
     postCode(page,code)
     
   })()

@@ -13,6 +13,7 @@ const Service = {
   lastHardResetTimer:0,
   result: 2,
   consoleNum:0,
+  projectData:{},
   logLevel: ["info","warn","error"],
   setResetButton(restartFun){
     this.restartFun=restartFun
@@ -255,6 +256,21 @@ const Service = {
       },
       timeout:Service.stdTimeout
     })
+
+    Service.addTask({
+      key:"pre-data:",
+      fun(msg){
+        Service._keepData(msg)
+      },
+      noLog:1,
+      notimeout:1
+    })
+  },
+  _keepData(v){
+    let _size=v.length
+    eval("v="+v.substring(v.indexOf("\n")).trim())
+    Service.projectData=Object.assign(Service.projectData,v)
+    console.log(Object.keys(Service.projectData).join(",")+":"+_size)
   },
   insertHandleIdling(){
     if(!Service.keepalive){
@@ -655,6 +671,6 @@ function testReset(){
       }
     }catch(ex){}
     testReset()
-  },3000)
+  },15000)
 }
 testReset()
