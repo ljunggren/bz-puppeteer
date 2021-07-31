@@ -305,6 +305,27 @@ const Service = {
       timeout:Service.stdTimeout
     })
   },
+  //new
+  reset(forKeep){
+    Service.setNextResetTime()
+    if(!forKeep){
+      if(Service.lastHardResetTimer){
+        if(Date.now()-Service.lastHardResetTimer<600000){
+          return Service.shutdown(_formatTimestamp()+": Failed to load IDE!")
+        }
+      }
+      Service.lastHardResetTimer=Date.now()
+    }
+    Service.consoleMsg("reset ...")
+    Service.browser._closed=1
+    killer(Service.browser.process().pid, 'SIGKILL');
+    setTimeout(()=>{
+      Service.consoleMsg("restart ...")
+      Service.restartFun(forKeep)
+      Service.init()
+    },forKeep?1000:15000)
+  },
+  /*old
   reset(forKeep){
     Service.setNextResetTime()
     if(!forKeep){
@@ -329,6 +350,7 @@ const Service = {
       Service.init()
     },forKeep?1000:15000)
   },
+  */
   setStatus(v){
     clearTimeout(Service.status)
     Service.status=v
