@@ -329,7 +329,6 @@ const Service = {
       Service.init()
     },forKeep?1000:15000)
   },
-  */
   setStatus(v){
     clearTimeout(Service.status)
     Service.status=v
@@ -654,3 +653,5 @@ function testReset(){
     testReset()
   },30000)
 }
+//0.
+testReset()
