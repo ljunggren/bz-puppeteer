@@ -653,5 +653,3 @@ function testReset(){
     testReset()
   },30000)
 }
-//0.
-testReset()
