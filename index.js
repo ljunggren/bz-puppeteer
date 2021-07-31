@@ -186,7 +186,10 @@ function start(reset){
       `--window-size=${width},${height}`,
       '--defaultViewport: null'
       ];
-
+    
+    console.log("///////////////////////////////////////////")
+    console.log("$$$$ "+Object.keys(Service.projectData))+" $$$$"
+    console.log("///////////////////////////////////////////")
     if(!browser||browser._closed){
       browser = await puppeteer.launch({
         headless: false,

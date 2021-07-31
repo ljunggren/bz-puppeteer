@@ -8,15 +8,16 @@ if(name!=="bz-master"){
     registerTab()
   },0);
 }else{
-  _extensionSyncFun(function(f){
-    let size=document.getElementsByTagName("div").length
-    if(size){
-      f()
-      return 1
-    }
-  },function(){
-    window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
-  })
+  window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");  
+  setId()
+}
+
+function setId(){
+  if(document.getElementById("extension-id")){
+    window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");  
+  }else{
+    setTimeout(()=>{setId()},100)
+  }
 }
 
 function registerTab(){
@@ -28,14 +29,6 @@ function registerTab(){
   });
 }
 chrome.runtime.onMessage.addListener(handleMsg);
-
-function _extensionSyncFun(_fun,_bkFun){
-  if(!_fun(_bkFun)){
-    setTimeout(()=>{
-      _extensionSyncFun(_fun,_bkFun)
-    },100)
-  }
-}
 
 function handleMsg(_event, _, sendResponse, codeTime) {  
   //_console("content get message: ",_event)

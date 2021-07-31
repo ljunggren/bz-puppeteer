@@ -335,13 +335,13 @@ const Service = {
     }
     Service.consoleMsg("reset ...")
 //        Service.page.close()
-    if(forKeep){
-      Service.page.close()
-    }else{
+    // if(forKeep){
+      // Service.page.close()
+    // }else{
       Service.browser._closed=1
 //      Service.browser.close()
       killer(Service.browser.process().pid, 'SIGKILL');
-    }
+    // }
     setTimeout(()=>{
       Service.consoleMsg("restart ...")
       Service.restartFun(forKeep)
@@ -671,6 +671,6 @@ function testReset(){
       }
     }catch(ex){}
     testReset()
-  },15000)
+  },30000)
 }
 testReset()

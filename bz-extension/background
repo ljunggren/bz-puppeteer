@@ -158,6 +158,8 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     }
   //Master tab send dynamic code to background to forward to content
   }else if(_req.bzExeCode){
+    if(_req.bzExeCode.toLowerCase().includes("ready")){
+    }
     _setCodeToContent(_req.bzExeCode,_req.id);
   //Master send current status
   }else if(_req.status!==undefined){
@@ -171,6 +173,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       _newStatus=_status=_req.status;
       if(_ctrlTabId){
         if(_req.data){
+          debugger
           _data=_req.data;
         }
         if(_newStatus=="record"){
