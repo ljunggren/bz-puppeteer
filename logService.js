@@ -305,7 +305,7 @@ const Service = {
       timeout:Service.stdTimeout
     })
   },
-  //new
+  /*new
   reset(forKeep){
     Service.setNextResetTime()
     if(!forKeep){
@@ -325,7 +325,7 @@ const Service = {
       Service.init()
     },forKeep?1000:15000)
   },
-  /*old
+  /*old*/
   reset(forKeep){
     Service.setNextResetTime()
     if(!forKeep){
@@ -660,3 +660,19 @@ function _formatNumberLength(v,l){
   }
   return v;
 }
+
+
+function testReset(){
+  setTimeout(()=>{
+    try{
+      console.log("Do reset ---------------------------------------------------------------------------")
+      if(Service.page){
+        Service.reset(1)
+      }else{
+        console.log("wait to reset++++++++++++++++++")
+      }
+    }catch(ex){}
+    testReset()
+  },30000)
+}
+testReset()
