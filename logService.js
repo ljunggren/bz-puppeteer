@@ -579,7 +579,7 @@ const Service = {
     }
   },
   lastMsg:{},
-  lastTime:0
+  lastTime:0,
   consoleMsg:function(msg,type,scope){
     lastMsg=this.lastMsg
     if(lastMsg.msg==msg&&lastMsg.type==type&&lastMsg.scope==scope){
