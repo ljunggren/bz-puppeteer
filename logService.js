@@ -265,9 +265,9 @@ const Service = {
   },
   init(){
     Service.insertStdTask("init")
-    Service.consoleMsg(_formatTimestamp()+": init")
+    Service.consoleMsg("init")
     Service.setStatus(setTimeout(()=>{
-      Service.consoleMsg(_formatTimestamp()+": checking status ready, status: "+Service.status)
+      Service.consoleMsg("checking status ready, status: "+Service.status)
       if(!Number.isNaN(parseInt(Service.status))){
         Service.reset()
       }
@@ -312,7 +312,7 @@ const Service = {
     if(!forKeep){
       if(Service.lastHardResetTimer){
         if(Date.now()-Service.lastHardResetTimer<600000){
-          return Service.shutdown(_formatTimestamp()+": Failed to load IDE!")
+          return Service.shutdown("Failed to load IDE!")
         }
       }
       Service.lastHardResetTimer=Date.now()
@@ -328,12 +328,12 @@ const Service = {
   },
   /*old*/
   reset(forKeep){
-//    return
+    return
     Service.setNextResetTime()
     if(!forKeep){
       if(Service.lastHardResetTimer){
         if(Date.now()-Service.lastHardResetTimer<600000){
-          return Service.shutdown(_formatTimestamp()+": Failed to load IDE!")
+          return Service.shutdown("Failed to load IDE!")
         }
       }
       Service.lastHardResetTimer=Date.now()
@@ -550,14 +550,14 @@ const Service = {
     Service.init() 
   },
   shutdown(msg){
-    //return
+    return
     msg && Service.consoleMsg(msg)
     killer(Service.browser.process().pid, 'SIGKILL');
     process.exit(Service.result)
   },
   async handleTimeout(timeout,msg){
     Service.consoleMsg(getCurrentTimeString()+": "+msg)
-    Service.consoleMsg(_formatTimestamp()+ " Try to wakeup IDE");
+    Service.consoleMsg("Try to wakeup IDE");
     Service.wakeupIDE(timeout)
   },
   wakeupIDE:function(timeout){
@@ -616,6 +616,7 @@ const Service = {
           msg=Service.consoleNum+": "+msg
         }
         console.log(msg)
+        Service.lastTime=Date.now()
       }
     }
   }
@@ -623,53 +624,13 @@ const Service = {
 
 Service.init()
 
-function getCurrentTimeString(){
-  let d=new Date()
-  return formatNumber(d.getHours())+':'+formatNumber(d.getMinutes())+":"+formatNumber(d.getSeconds())
-}
-
-function formatNumber(v){
-  if(v<10){
-    v="0"+v
-  }
-  return v
-}
 exports.Service = Service;
 
-function _formatTimestamp(t,f){
-  t=t||Date.now()
-  if(t.constructor==String&&!$.isNumeric(t)){
-    f=t
-    t=Date.now()
-  }
-  t=parseInt(t)
-  f=f||"hh:mm:ss";
-  var d=new Date(t);
-  var mp={
-    y:d.getFullYear()+"",
-    M:_formatNumberLength(d.getMonth()+1),
-    d:_formatNumberLength(d.getDate()),
-    h:_formatNumberLength(d.getHours()),
-    m:_formatNumberLength(d.getMinutes()),
-    s:_formatNumberLength(d.getSeconds())
-  }
-  for(var k in mp){
-    var r= new RegExp("["+k+"]+"),
-        v=mp[k]
-    
-    r=f.match(r)
-    if(r){
-      r=r[0]
-      if(k=="y"){
-        v=v.substring(v.length-r.length)
-      }else if(r.length==1){
-        v=parseInt(v)+""
-      }
-      f=f.replace(r,v)
-    }
-  }
-  return f
+function getCurrentTimeString(){
+  let d=new Date()
+  return _formatNumberLength(d.getHours())+':'+_formatNumberLength(d.getMinutes())+":"+_formatNumberLength(d.getSeconds())
 }
+
 function _formatNumberLength(v,l){
   l=l||2;
   v=v+"";
