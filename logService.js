@@ -75,7 +75,7 @@ const Service = {
       }
       //Service.consoleMsg("Type: " + msgType);
       if ((!t || !t.noLog) && Service.logLevel.includes(msgType)){
-        Service.consoleMsg((Service.consoleNum++)+": "+msg)
+        Service.consoleMsg(msg)
       }
       if(t){
         if(t.notimeout){
@@ -579,6 +579,7 @@ const Service = {
     }
   },
   lastMsg:{},
+  lastTime:0
   consoleMsg:function(msg,type,scope){
     lastMsg=this.lastMsg
     if(lastMsg.msg==msg&&lastMsg.type==type&&lastMsg.scope==scope){
@@ -587,9 +588,9 @@ const Service = {
       if(lastMsg.count){
         if(lastMsg.scope){
           console.error(
-            "\n#######################################\n"
+            "\n####"+getCurrentTimeString()+"####\n"
             + lastMsg.scope + " repeat: " + (".".repeat(lastMsg.count))
-            + "\n#######################################\n"
+            + "\n################\n"
           )
         }else{
           console.log("repeat: "+(".".repeat(lastMsg.count)))
@@ -603,11 +604,17 @@ const Service = {
       }
       if(lastMsg.scope){
         console.error(
-          "\n#######################################\n"
+          "\n####"+getCurrentTimeString()+"####\n"
           + lastMsg.scope + " error: " + msg
-          + "\n#######################################\n"
+          + "\n################\n"
         )
       }else{
+        Service.consoleNum++
+        if(Date.now()-Service.lastTime>1000&&!msg.match(/^(\>\>\>\>|\<\<\<\<|\.\.\.\.)/)){
+          msg=getCurrentTimeString()+": "+msg
+        }else{
+          msg=Service.consoleNum+": "+msg
+        }
         console.log(msg)
       }
     }
@@ -618,7 +625,14 @@ Service.init()
 
 function getCurrentTimeString(){
   let d=new Date()
-  return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+'-'+d.getHours()+'-'+d.getMinutes()+"-"+d.getSeconds()
+  return formatNumber(d.getHours())+':'+formatNumber(d.getMinutes())+":"+formatNumber(d.getSeconds())
+}
+
+function formatNumber(v){
+  if(v<10){
+    v="0"+v
+  }
+  return v
 }
 exports.Service = Service;
 
