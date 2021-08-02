@@ -620,7 +620,7 @@ const Service = {
             w=""
             n=""
           }
-          console.log("\n..........[ "+getCurrentTimeString()+s+w+" ]..........\n")
+          console.log("\n..........[ "+getCurrentTimeString()+n+w+" ]..........\n")
           Service.lastTime=Date.now()
         }
         console.log(msg=Service.consoleNum+": "+msg)
