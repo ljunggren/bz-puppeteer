@@ -610,13 +610,18 @@ const Service = {
         )
       }else{
         Service.consoleNum++
-        if(Date.now()-Service.lastTime>1000&&!msg.match(/^(\>\>\>\>|\<\<\<\<|\.\.\.\.)/)){
-          msg=getCurrentTimeString()+": "+msg
-        }else{
-          msg=Service.consoleNum+": "+msg
+        if(Date.now()-Service.lastTime>1000){
+          let n=parseInt((Date.now()-Service.lastTime)/1000)
+          let w="+"
+          if(Service.lastTime){
+            w=w.repeat(n)
+          }else{
+            w=""
+          }
+          console.log("\n..........[ "+getCurrentTimeString()+" ("+n+"s) "+w+" ]..........\n")
+          Service.lastTime=Date.now()
         }
-        console.log(msg)
-        Service.lastTime=Date.now()
+        console.log(msg=Service.consoleNum+": "+msg)
       }
     }
   }
