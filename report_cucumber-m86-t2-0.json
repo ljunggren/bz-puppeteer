@@ -1,0 +1,106 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "[m86] Marketplace cart",
+    "line": 1,
+    "tags": [
+      {
+        "name": "@Cart",
+        "type": "tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      },
+      {
+        "name": "@Retailer",
+        "type": "tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ],
+    "id": "m86",
+    "uri": "jira-features/2_Cart,Retailer.feature",
+    "elements": [
+      {
+        "before": [],
+        "after": [],
+        "line": 2,
+        "name": "[m86.t2(0)] Remove from cart (李文胜 - 1)",
+        "description": "Remove from cart",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@Cart"
+          },
+          {
+            "name": "@Retailer"
+          },
+          {
+            "name": "@Smoke"
+          }
+        ],
+        "steps": [
+          {
+            "line": 3,
+            "result": {
+              "duration": 20808000000,
+              "status": "passed"
+            },
+            "name": "I am a retailer: boozang-retailer",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m86/t2/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 4,
+            "result": {
+              "duration": 11821000000,
+              "status": "passed"
+            },
+            "name": "I add a product to cart",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m86/t2/3/"
+            },
+            "keyword": "and"
+          },
+          {
+            "line": 5,
+            "result": {
+              "duration": 14207000000,
+              "status": "passed"
+            },
+            "name": "I clear the cart",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m86/t2/5/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 6,
+            "result": {
+              "duration": 5542000000,
+              "status": "passed"
+            },
+            "name": "The cart should be empty",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m86/t2/7/"
+            },
+            "keyword": "Then"
+          }
+        ],
+        "extraData": {
+          "id": "m86.t2(0)",
+          "name": "Remove from cart",
+          "worker": "李文胜 - 1",
+          "start": "06:30:53",
+          "end": "06:31:50"
+        }
+      }
+    ]
+  }
+]

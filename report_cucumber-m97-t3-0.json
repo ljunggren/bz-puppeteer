@@ -1,0 +1,154 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "[m97] Marketplace checkout",
+    "line": 1,
+    "tags": [
+      {
+        "name": "@Checkout",
+        "type": "tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      },
+      {
+        "name": "@Retailer",
+        "type": "tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ],
+    "id": "m97",
+    "uri": "jira-features/2_Checkout,Retailer.feature",
+    "elements": [
+      {
+        "before": [],
+        "after": [],
+        "line": 2,
+        "name": "[m97.t3(0)] Order rejected (李文胜 - 1)",
+        "description": "Order rejected",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@Checkout"
+          },
+          {
+            "name": "@Retailer"
+          },
+          {
+            "name": "@Smoke"
+          }
+        ],
+        "steps": [
+          {
+            "line": 3,
+            "result": {
+              "duration": 6368000000,
+              "status": "passed"
+            },
+            "name": "I am a retailer: boozang-retailer",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m97/t3/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 4,
+            "result": {
+              "duration": 8339000000,
+              "status": "passed"
+            },
+            "name": "I add a product to cart",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m97/t3/3/"
+            },
+            "keyword": "and"
+          },
+          {
+            "line": 5,
+            "result": {
+              "duration": 11938000000,
+              "status": "passed"
+            },
+            "name": "I place the order",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m97/t3/4/"
+            },
+            "keyword": "and"
+          },
+          {
+            "line": 6,
+            "result": {
+              "duration": 4118000000,
+              "status": "passed"
+            },
+            "name": "I switch to brewer: boozang-brewer",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m97/t3/6/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 7,
+            "result": {
+              "duration": 12389000000,
+              "status": "passed"
+            },
+            "name": "Refuse the order",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m97/t3/7/"
+            },
+            "embeddings": [
+              {
+                "data": "PHByZSBzdHlsZT0nYmFja2dyb3VuZC1jb2xvcjojQ0NDO3BhZGRpbmc6MTBweDsnPjxiPkRhdGE6PC9iPiA8YnIvPjxici8+ewogICIkcGFyYW1ldGVyLm9yZGVyX2lkIjogIjEwMTQiCn08L3ByZT4=",
+                "mime_type": "text/html"
+              }
+            ],
+            "keyword": "and"
+          },
+          {
+            "line": 8,
+            "result": {
+              "duration": 4116000000,
+              "status": "passed"
+            },
+            "name": "I switch to retailer: boozang-retailer",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m97/t3/9/"
+            },
+            "keyword": "Then"
+          },
+          {
+            "line": 9,
+            "result": {
+              "duration": 9650000000,
+              "status": "passed"
+            },
+            "name": "I should see the order as cancelled",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m97/t3/10/"
+            },
+            "embeddings": [
+              {
+                "data": "PHByZSBzdHlsZT0nYmFja2dyb3VuZC1jb2xvcjojQ0NDO3BhZGRpbmc6MTBweDsnPjxiPkRhdGE6PC9iPiA8YnIvPjxici8+ewogICIkcGFyYW1ldGVyLm9yZGVyX2lkIjogIjEwMTQiCn08L3ByZT4=",
+                "mime_type": "text/html"
+              }
+            ],
+            "keyword": "and"
+          }
+        ],
+        "extraData": {
+          "id": "m97.t3(0)",
+          "name": "Order rejected",
+          "worker": "李文胜 - 1",
+          "start": "06:42:52",
+          "end": "06:43:55"
+        }
+      }
+    ]
+  }
+]

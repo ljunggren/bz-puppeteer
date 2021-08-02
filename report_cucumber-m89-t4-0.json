@@ -1,0 +1,109 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "[m89] Product management",
+    "line": 1,
+    "tags": [
+      {
+        "name": "@Product",
+        "type": "tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      },
+      {
+        "name": "@Brewer",
+        "type": "tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ],
+    "id": "m89",
+    "uri": "jira-features/2_Product,Brewer.feature",
+    "elements": [
+      {
+        "before": [],
+        "after": [],
+        "line": 2,
+        "name": "[m89.t4(0)] Create product with attributes (李文胜 - 1)",
+        "description": "Create product with attributes",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@Product"
+          },
+          {
+            "name": "@Brewer"
+          },
+          {
+            "name": "@Create"
+          },
+          {
+            "name": "@Smoke"
+          }
+        ],
+        "steps": [
+          {
+            "line": 3,
+            "result": {
+              "duration": 6304000000,
+              "status": "passed"
+            },
+            "name": "I am a brewer: boozang-brewer",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m89/t4/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 4,
+            "result": {
+              "duration": 19670000000,
+              "status": "passed"
+            },
+            "name": "I add a product with alchohol: 5.1, and description: bz desc 1",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m89/t4/4/"
+            },
+            "embeddings": [
+              {
+                "data": "PHByZSBzdHlsZT0nYmFja2dyb3VuZC1jb2xvcjojQ0NDO3BhZGRpbmc6MTBweDsnPjxiPkRhdGE6PC9iPiA8YnIvPjxici8+ewogICIkcGFyYW1ldGVyLmFsY29ob2wiOiAiOC44IiwKICAiJHBhcmFtZXRlci5iZWVyX25hbWUiOiAiQlpfbWttc3ZfYmVlciIsCiAgIiRwYXJhbWV0ZXIuZGVzY3JpcHRpb24iOiAiYnogZGVzYyAxIiwKICAiJHBhcmFtZXRlci5mb3JtYXQiOiAiYm90dGxlIDc1MG1MIHggMTIiLAogICIkcGFyYW1ldGVyLnByb2R1Y3QiOiAiQmVlciIsCiAgIiRwYXJhbWV0ZXIudHlwZSI6ICJORUlQQSIKfTwvcHJlPg==",
+                "mime_type": "text/html"
+              }
+            ],
+            "keyword": "When"
+          },
+          {
+            "line": 5,
+            "result": {
+              "duration": 5358000000,
+              "status": "passed"
+            },
+            "name": "The product details should show alchohol: 5.1 and description: bz desc 1",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m89/t4/6/"
+            },
+            "embeddings": [
+              {
+                "data": "PHByZSBzdHlsZT0nYmFja2dyb3VuZC1jb2xvcjojQ0NDO3BhZGRpbmc6MTBweDsnPjxiPkRhdGE6PC9iPiA8YnIvPjxici8+ewogICIkcGFyYW1ldGVyLmFsY29ob2xfcGVyY2VudGFnZSI6ICI4LjgiLAogICIkcGFyYW1ldGVyLmJlZXJfbmFtZSI6ICJCWl9ta21zdl9iZWVyIgp9PC9wcmU+",
+                "mime_type": "text/html"
+              }
+            ],
+            "keyword": "Then"
+          }
+        ],
+        "extraData": {
+          "id": "m89.t4(0)",
+          "name": "Create product with attributes",
+          "worker": "李文胜 - 1",
+          "start": "06:31:59",
+          "end": "06:32:36"
+        }
+      }
+    ]
+  }
+]

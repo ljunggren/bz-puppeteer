@@ -1,4 +1,5 @@
 const fs = require('fs');
+const killer = require('tree-kill');
 
 const Service = {
   stdTimeout:120000,
@@ -305,7 +306,29 @@ const Service = {
       timeout:Service.stdTimeout
     })
   },
+  /*new*
   reset(forKeep){
+    Service.setNextResetTime()
+    if(!forKeep){
+      if(Service.lastHardResetTimer){
+        if(Date.now()-Service.lastHardResetTimer<600000){
+          return Service.shutdown(_formatTimestamp()+": Failed to load IDE!")
+        }
+      }
+      Service.lastHardResetTimer=Date.now()
+    }
+    Service.consoleMsg("reset ...")
+    Service.browser._closed=1
+    killer(Service.browser.process().pid, 'SIGKILL');
+    setTimeout(()=>{
+      Service.consoleMsg("restart ...")
+      Service.restartFun(forKeep)
+      Service.init()
+    },forKeep?1000:15000)
+  },
+  /*old*/
+  reset(forKeep){
+    return
     Service.setNextResetTime()
     if(!forKeep){
       if(Service.lastHardResetTimer){
@@ -329,6 +352,7 @@ const Service = {
       Service.init()
     },forKeep?1000:15000)
   },
+  /**/
   setStatus(v){
     clearTimeout(Service.status)
     Service.status=v
@@ -343,7 +367,7 @@ const Service = {
     Service.setStatus("run")
 
     Service.addTask({
-      key:"ms:",
+      key:"timeout in ms:",
       fun(msg){
         let v= (parseInt(msg.split(this.key)[1].trim())||0) + Service.stdTimeout;
         return v;
@@ -408,7 +432,7 @@ const Service = {
     Service.addTask({
       key:"Result:",
       fun(msg){
-        msg=msg.split("Result:")[1].trim()
+        msg=msg.split("BZ-Result:")[1].trim()
         Service.result = msg == "Success" ? 0:2;
         Service.consoleMsg("Exit with status code: ", Service.result);
       },
@@ -526,7 +550,9 @@ const Service = {
     Service.init() 
   },
   shutdown(msg){
+    return
     msg && Service.consoleMsg(msg)
+    killer(Service.browser.process().pid, 'SIGKILL');
     process.exit(Service.result)
   },
   async handleTimeout(timeout,msg){
@@ -639,7 +665,7 @@ function _formatNumberLength(v,l){
   return v;
 }
 
-
+//testReset()
 function testReset(){
   setTimeout(()=>{
     try{

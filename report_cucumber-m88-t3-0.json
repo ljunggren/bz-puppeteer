@@ -1,0 +1,178 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "[m88] Order Management",
+    "line": 1,
+    "tags": [
+      {
+        "name": "@Order",
+        "type": "tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      },
+      {
+        "name": "@Brewer",
+        "type": "tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ],
+    "id": "m88",
+    "uri": "jira-features/2_Order,Brewer.feature",
+    "elements": [
+      {
+        "before": [],
+        "after": [],
+        "line": 2,
+        "name": "[m88.t3(0)] Order product mixed (李文胜 - 1)",
+        "description": "Order product mixed",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@Order"
+          },
+          {
+            "name": "@Brewer"
+          },
+          {
+            "name": "@Smoke"
+          }
+        ],
+        "steps": [
+          {
+            "line": 3,
+            "result": {
+              "duration": 6394000000,
+              "status": "passed"
+            },
+            "name": "I am a brewer: boozang-brewer",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m88/t3/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 4,
+            "result": {
+              "duration": 18794000000,
+              "status": "passed"
+            },
+            "name": "I add a product: beer with format: 375mL x 12",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m88/t3/3/"
+            },
+            "embeddings": [
+              {
+                "data": "PHByZSBzdHlsZT0nYmFja2dyb3VuZC1jb2xvcjojQ0NDO3BhZGRpbmc6MTBweDsnPjxiPkRhdGE6PC9iPiA8YnIvPjxici8+ewogICIkcGFyYW1ldGVyLmFsY29ob2wiOiAiNy4zIiwKICAiJHBhcmFtZXRlci5iZWVyX25hbWUiOiAiQlpfbGFyaXpfYmVlciIsCiAgIiRwYXJhbWV0ZXIuZGVzY3JpcHRpb24iOiAiSSBhbSBhIGRlc2NyaXB0aW9uIiwKICAiJHBhcmFtZXRlci5mb3JtYXQiOiAiMzc1bUwgeCAxMiIsCiAgIiRwYXJhbWV0ZXIucHJvZHVjdCI6ICJiZWVyIiwKICAiJHBhcmFtZXRlci50eXBlIjogIkJsYWNrIElQQSIKfTwvcHJlPg==",
+                "mime_type": "text/html"
+              }
+            ],
+            "keyword": "and"
+          },
+          {
+            "line": 5,
+            "result": {
+              "duration": 15746000000,
+              "status": "passed"
+            },
+            "name": "I set the inventory",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m88/t3/4/"
+            },
+            "embeddings": [
+              {
+                "data": "PHByZSBzdHlsZT0nYmFja2dyb3VuZC1jb2xvcjojQ0NDO3BhZGRpbmc6MTBweDsnPjxiPkRhdGE6PC9iPiA8YnIvPjxici8+ewogICIkcGFyYW1ldGVyLmluaXRpYWxfc3RvY2siOiAiNTAiLAogICIkcGFyYW1ldGVyLnNrdSI6ICIxNTkzIiwKICAiJHByb2plY3QucHJvZHVjdC5iZWVyX25hbWUiOiAiQlpfbGFyaXpfYmVlciIKfTwvcHJlPg==",
+                "mime_type": "text/html"
+              }
+            ],
+            "keyword": "and"
+          },
+          {
+            "line": 6,
+            "result": {
+              "duration": 19001000000,
+              "status": "passed"
+            },
+            "name": "I set the price: 74.99",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m88/t3/5/"
+            },
+            "embeddings": [
+              {
+                "data": "PHByZSBzdHlsZT0nYmFja2dyb3VuZC1jb2xvcjojQ0NDO3BhZGRpbmc6MTBweDsnPjxiPkRhdGE6PC9iPiA8YnIvPjxici8+ewogICIkcGFyYW1ldGVyLnByaWNlIjogIjc0Ljk5IiwKICAiJHByb2plY3QucHJvZHVjdC5iZWVyX25hbWUiOiAiQlpfbGFyaXpfYmVlciIKfTwvcHJlPg==",
+                "mime_type": "text/html"
+              }
+            ],
+            "keyword": "and"
+          },
+          {
+            "line": 7,
+            "result": {
+              "duration": 14507000000,
+              "status": "passed"
+            },
+            "name": "I order product quantity: 14",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m88/t3/7/"
+            },
+            "embeddings": [
+              {
+                "data": "PHByZSBzdHlsZT0nYmFja2dyb3VuZC1jb2xvcjojQ0NDO3BhZGRpbmc6MTBweDsnPjxiPkRhdGE6PC9iPiA8YnIvPjxici8+ewogICIkcGFyYW1ldGVyLmRpc3RyaWJ1dG9yIjogIkJvb3phbmcgRGlzdHJpYnV0b3IiLAogICIkcGFyYW1ldGVyLm9yZGVyX3F1YW50aXR5IjogIjE0IiwKICAiJHByb2plY3QucHJvZHVjdC5iZWVyX25hbWUiOiAiQlpfbGFyaXpfYmVlciIsCiAgIiRwcm9qZWN0LnByb2R1Y3QuZm9ybWF0IjogIjM3NW1MIHggMTIiLAogICIkcHJvamVjdC5yZXRhaWxlci5yZXRhaWxlcl9uYW1lIjogIkJvb3phbmcgUmV0YWlsZXIiCn08L3ByZT4=",
+                "mime_type": "text/html"
+              }
+            ],
+            "keyword": "When"
+          },
+          {
+            "line": 8,
+            "result": {
+              "duration": 6767000000,
+              "status": "passed"
+            },
+            "name": "The order list should include product",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m88/t3/9/"
+            },
+            "embeddings": [
+              {
+                "data": "PHByZSBzdHlsZT0nYmFja2dyb3VuZC1jb2xvcjojQ0NDO3BhZGRpbmc6MTBweDsnPjxiPkRhdGE6PC9iPiA8YnIvPjxici8+ewogICIkcGFyYW1ldGVyLm9yZGVyX2lkIjogIjEwMDgiLAogICIkcHJvamVjdC5wcm9kdWN0LmJlZXJfbmFtZSI6ICJCWl9sYXJpel9iZWVyIgp9PC9wcmU+",
+                "mime_type": "text/html"
+              }
+            ],
+            "keyword": "Then"
+          },
+          {
+            "line": 9,
+            "result": {
+              "duration": 9664000000,
+              "status": "passed"
+            },
+            "name": "The order details should be subtotal: 1049.86, gst: 52.49, qst: 104.72, total deposits: 16.80, and total: 1223.87",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m88/t3/10/"
+            },
+            "embeddings": [
+              {
+                "data": "PHByZSBzdHlsZT0nYmFja2dyb3VuZC1jb2xvcjojQ0NDO3BhZGRpbmc6MTBweDsnPjxiPkRhdGE6PC9iPiA8YnIvPjxici8+ewogICIkcGFyYW1ldGVyLmRpc2NvdW50cykiOiAiJHBhcmFtZXRlci5kaXNjb3VudHMpID0+IEVycm9yIGRhdGE6IFVuZXhwZWN0ZWQgdG9rZW4gJyknIiwKICAiJHBhcmFtZXRlci5xc3QpIjogIiRwYXJhbWV0ZXIucXN0KSA9PiBFcnJvciBkYXRhOiBVbmV4cGVjdGVkIHRva2VuICcpJyIsCiAgIiRwYXJhbWV0ZXIuc3VidG90YWwpIjogIiRwYXJhbWV0ZXIuc3VidG90YWwpID0+IEVycm9yIGRhdGE6IFVuZXhwZWN0ZWQgdG9rZW4gJyknIiwKICAiJHByb2plY3Qub3JkZXIub3JkZXJfaWQiOiAiMTAwOCIKfTwvcHJlPg==",
+                "mime_type": "text/html"
+              }
+            ],
+            "keyword": "and"
+          }
+        ],
+        "extraData": {
+          "id": "m88.t3(0)",
+          "name": "Order product mixed",
+          "worker": "李文胜 - 1",
+          "start": "06:37:31",
+          "end": "06:39:08"
+        }
+      }
+    ]
+  }
+]

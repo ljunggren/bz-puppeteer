@@ -1,0 +1,95 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "[m79] Authentication",
+    "line": 1,
+    "tags": [
+      {
+        "name": "@Authentication",
+        "type": "tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ],
+    "id": "m79",
+    "uri": "jira-features/2_Authentication.feature",
+    "elements": [
+      {
+        "before": [],
+        "after": [],
+        "line": 2,
+        "name": "[m79.t1] Logout (李文胜 - 1)",
+        "description": "Logout",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@Authentication"
+          },
+          {
+            "name": "@Smoke"
+          },
+          {
+            "name": "@Authentication"
+          },
+          {
+            "name": "@Logout"
+          }
+        ],
+        "steps": [
+          {
+            "line": 3,
+            "result": {
+              "duration": 8439000000,
+              "status": "passed"
+            },
+            "name": "I am logged in",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m79/t1/2/"
+            },
+            "embeddings": [
+              {
+                "data": "PHByZSBzdHlsZT0nYmFja2dyb3VuZC1jb2xvcjojQ0NDO3BhZGRpbmc6MTBweDsnPjxiPkRhdGE6PC9iPiA8YnIvPjxici8+ewogICIkcGFyYW1ldGVyLnlvdXJfcGFzc3dvcmQiOiAiQEdydWJodWIiLAogICIkcGFyYW1ldGVyLnlvdXJzX2V4YW1wbGVfY29tIjogIm1hdHNAcGl2b2h1Yi5jb20iCn08L3ByZT4=",
+                "mime_type": "text/html"
+              }
+            ],
+            "keyword": "Given"
+          },
+          {
+            "line": 4,
+            "result": {
+              "duration": 9876000000,
+              "status": "passed"
+            },
+            "name": "I logout",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m79/t1/4/"
+            },
+            "keyword": "When"
+          },
+          {
+            "line": 5,
+            "result": {
+              "duration": 4024000000,
+              "status": "passed"
+            },
+            "name": "I should be logged out",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m79/t1/6/"
+            },
+            "keyword": "Then"
+          }
+        ],
+        "extraData": {
+          "id": "m79.t1",
+          "name": "Logout",
+          "worker": "李文胜 - 1",
+          "start": "06:34:12",
+          "end": "06:34:40"
+        }
+      }
+    ]
+  }
+]
