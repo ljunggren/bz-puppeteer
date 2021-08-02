@@ -615,10 +615,12 @@ const Service = {
           let w="+"
           if(Service.lastTime){
             w=w.repeat(n)
+            n=" ("+n+"s) "
           }else{
             w=""
+            n=""
           }
-          console.log("\n..........[ "+getCurrentTimeString()+" ("+n+"s) "+w+" ]..........\n")
+          console.log("\n..........[ "+getCurrentTimeString()+s+w+" ]..........\n")
           Service.lastTime=Date.now()
         }
         console.log(msg=Service.consoleNum+": "+msg)
