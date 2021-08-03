@@ -139,10 +139,33 @@ const Service = {
     Service.coopAnswerList=[]
     clearTimeout(Service.coopAnswerTimer)
     Service.addTask({
+      key:"Coop-Status:",
+      fun:function(v){
+        v=v.split(":")[1].trim()
+        if(v=="declare"){
+          Service.tryWakeup=0
+        }
+        
+        Service.curWorkerStatus=v
+        Service.consoleMsg("++++++++++++++++Status: "+v)
+      },
+      timeout:Service.stdTimeout
+    })
+    Service.addTask({
       key:"I-AM-OK",
       fun:function(){
         clearTimeout(Service.wakeupTimer)
         Service.tryWakeup++
+      },
+      timeout:Service.stdTimeout
+    })
+    Service.addTask({
+      key:"Reset-Sys-Timer:",
+      fun:function(v){
+        v=v.split("Reset-Sys-Timer:")[1].trim()
+        if(v){
+          eval(v)
+        }
       },
       timeout:Service.stdTimeout
     })
@@ -259,7 +282,12 @@ const Service = {
     if(!Service.keepalive){
       clearTimeout(Service.idlingTimer)
       Service.idlingTimer=setTimeout(()=>{
-        Service.shutdown("No task to run")
+        if(Service.curWorkerStatus=="declare"){
+          Service.insertHandleIdling();
+          Service.wakeupIDE()
+        }else{
+          Service.shutdown("Shutdown: No task to run")
+        }
       },120000)
     }
   },
@@ -328,7 +356,7 @@ const Service = {
   },
   /*old*/
   reset(forKeep){
-    //return
+    return
     Service.setNextResetTime()
     if(!forKeep){
       if(Service.lastHardResetTimer){
@@ -550,7 +578,7 @@ const Service = {
     Service.init() 
   },
   shutdown(msg){
-    //return
+    return
     msg && Service.consoleMsg(msg)
     killer(Service.browser.process().pid, 'SIGKILL');
     process.exit(Service.result)
