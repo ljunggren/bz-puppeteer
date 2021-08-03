@@ -278,6 +278,7 @@ const Service = {
       timeout:Service.stdTimeout
     })
   },
+  idlingTimerValue:300000,
   insertHandleIdling(){
     if(!Service.keepalive){
       clearTimeout(Service.idlingTimer)
@@ -288,7 +289,8 @@ const Service = {
         }else{
           Service.shutdown("Shutdown: No task to run")
         }
-      },120000)
+      },Service.idlingTimerValue)
+      Service.idlingTimerValue=120000
     }
   },
   init(){
