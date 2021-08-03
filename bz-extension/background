@@ -185,7 +185,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   //Set BZ code mapping data to unecrypt code from https://ai.boozang.com
   }else if(_req.ecMap){
     ecMap=_req.ecMap;
-    // _callback("background get ecMap")
+    _callback("background get ecMap")
   //Dynamic code from BZ master page
   }else if(_req.bzCode){
     if(_masterTabId&&_masterTabId!=_sender.tab.id){
@@ -701,9 +701,7 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
 },{urls: ["<all_urls>"]});
 function cleanMaster(){
   var tabId=_ctrlTabId
-  _isExistTab(tabId,function(){
-    _setCodeToContent("window.close();",_topFrameId,tabId);
-  })
+  _setCodeToContent("window.close();",_topFrameId,tabId);
   _status=""
   _masterTabId=0;
   _masterFrameId=0;
