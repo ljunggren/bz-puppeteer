@@ -608,6 +608,7 @@ const Service = {
   },
   lastMsg:{},
   lastTime:0,
+  startTime:Date.now(),
   consoleMsg:function(msg,type,scope){
     lastMsg=this.lastMsg
     if(lastMsg.msg==msg&&lastMsg.type==type&&lastMsg.scope==scope){
@@ -641,9 +642,10 @@ const Service = {
         if(Date.now()-Service.lastTime>1000){
           let n=parseInt((Date.now()-Service.lastTime)/1000)
           let w="+"
+          let s=formatPeriod(Date.now()-Service.startTime)
           if(Service.lastTime){
             w=w.repeat(n)
-            n=" ("+n+"s) "
+            n=" ("+s+", "+n+"s) "
           }else{
             w=""
             n=""
@@ -660,6 +662,18 @@ const Service = {
 Service.init()
 
 exports.Service = Service;
+function formatPeriod(v){
+  v=v/1000
+  let m=parseInt(v%3600/60),
+      s=parseInt(v%60),
+      h=parseInt(v/3600)
+  if(h){
+    h=_formatNumberLength(h)+":"
+  }else{
+    h=""
+  }
+  return h+_formatNumberLength(m)+":"+_formatNumberLength(s)
+}
 
 function getCurrentTimeString(){
   let d=new Date()

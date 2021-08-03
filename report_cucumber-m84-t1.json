@@ -1,0 +1,86 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "[m84] Health checker",
+    "line": 1,
+    "tags": [
+      {
+        "name": "@Health",
+        "type": "tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ],
+    "id": "m84",
+    "uri": "jira-features/2_Health.feature",
+    "elements": [
+      {
+        "before": [],
+        "after": [],
+        "line": 2,
+        "name": "[m84.t1(0)] Navigate main menu (李文胜 - 1)",
+        "description": "Navigate main menu",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "tags": [
+          {
+            "name": "@Health"
+          }
+        ],
+        "steps": [
+          {
+            "line": 3,
+            "result": {
+              "duration": 21015000000,
+              "status": "passed"
+            },
+            "name": "I am a brewer: boozang-brewer",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m84/t1/2/"
+            },
+            "keyword": "Given"
+          },
+          {
+            "line": 4,
+            "result": {
+              "duration": 1613000000,
+              "status": "passed"
+            },
+            "name": "I go to my product page",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m84/t1/4/"
+            },
+            "embeddings": [
+              {
+                "data": "PHByZSBzdHlsZT0nYmFja2dyb3VuZC1jb2xvcjojQ0NDO3BhZGRpbmc6MTBweDsnPjxiPkRhdGE6PC9iPiA8YnIvPjxici8+ewogICIkbG9vcC5icmV3ZXIiOiAiYm9vemFuZy1icmV3ZXIiCn08L3ByZT4=",
+                "mime_type": "text/html"
+              }
+            ],
+            "keyword": "When"
+          },
+          {
+            "line": 5,
+            "result": {
+              "duration": 5224000000,
+              "status": "passed"
+            },
+            "name": "The page should render correctly",
+            "match": {
+              "location": "610715c128b7fe36c877f1ba/master/m84/t1/6/"
+            },
+            "keyword": "Then"
+          }
+        ],
+        "extraData": {
+          "id": "m84.t1(0)",
+          "name": "Navigate main menu",
+          "worker": "李文胜 - 1",
+          "start": "22:57:01",
+          "end": "22:57:34"
+        }
+      }
+    ]
+  }
+]
