@@ -21,7 +21,8 @@ const opts = {
   "docker": false,
   "keepalive": false,
   "testreset":false,
-  "loglevel": "debug"
+  "loglevel": "debug",
+  "debugIDE":false
 }
 
 // Remove the first two arguments, which are the 'node' binary and the name
@@ -35,6 +36,7 @@ const width = opts.width;
 const height = opts.height;
 const listscenarios=opts.listscenarios;
 const listsuite=opts.listsuite;
+const debugIDE=opts.debugIDE;
 
 let keepalive=opts.keepalive;
 let testReset=opts.testreset;
@@ -68,6 +70,7 @@ let browser;
 Service.setResetButton(function(s){
   start(1)
 });
+Service.debugIDE=debugIDE;
 function start(reset){
   (async () => {
     
