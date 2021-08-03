@@ -356,7 +356,7 @@ const Service = {
   },
   /*old*/
   reset(forKeep){
-    return
+    //return
     Service.setNextResetTime()
     if(!forKeep){
       if(Service.lastHardResetTimer){
@@ -578,7 +578,7 @@ const Service = {
     Service.init() 
   },
   shutdown(msg){
-    return
+    //return
     msg && Service.consoleMsg(msg)
     killer(Service.browser.process().pid, 'SIGKILL');
     process.exit(Service.result)
