@@ -160,16 +160,6 @@ const Service = {
       timeout:Service.stdTimeout
     })
     Service.addTask({
-      key:"Reset-Sys-Timer:",
-      fun:function(v){
-        v=v.split("Reset-Sys-Timer:")[1].trim()
-        if(v){
-          eval(v)
-        }
-      },
-      timeout:Service.stdTimeout
-    })
-    Service.addTask({
       key:"NO-TASK!",
       fun:function(){
         Service.curProcess="init"
@@ -614,6 +604,7 @@ const Service = {
   },
   lastMsg:{},
   lastTime:0,
+  lanuchTest:0,
   startTime:Date.now(),
   consoleMsg:function(msg,type,scope){
     lastMsg=this.lastMsg
@@ -644,8 +635,14 @@ const Service = {
           + "\n################\n"
         )
       }else{
-        Service.consoleNum++
-        if(Date.now()-Service.lastTime>1000){
+        Service.consoleNum++;
+        if(msg.trim().match(/^<<<</)){
+          Service.lanuchTest--
+          msg=" ".repeat(Service.lanuchTest*2)+msg
+        }else if(msg.trim().match(/^>>>>/)){
+          msg=" ".repeat(Service.lanuchTest*2)+msg
+          Service.lanuchTest++
+        }else if(Date.now()-Service.lastTime>1000){
           let n=parseInt((Date.now()-Service.lastTime)/1000)
           let w="+"
           let s=formatPeriod(Date.now()-Service.startTime)
@@ -656,7 +653,7 @@ const Service = {
             w=""
             n=""
           }
-          console.log("\n..........[ "+getCurrentTimeString()+n+w+" ]..........\n")
+          console.log("\n     [ "+getCurrentTimeString()+n+w+" ]\n")
           Service.lastTime=Date.now()
         }
         console.log(msg=Service.consoleNum+": "+msg)
