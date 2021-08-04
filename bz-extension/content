@@ -19,7 +19,7 @@ function registerTab(){
   });
 }
 chrome.runtime.onMessage.addListener(handleMsg);
-
+let waitCodeTimer
 function handleMsg(_event, _, sendResponse, codeTime) {  
   //_console("content get message: ",_event)
   if(window.name!="bz-master"&&(!window.ecMap||!window[ecMap.i]||!window[ecMap.u])){
@@ -29,7 +29,10 @@ function handleMsg(_event, _, sendResponse, codeTime) {
       registerTab()
       codeTime=0
     }
-    return setTimeout(()=>{
+
+    clearTimeout(waitCodeTimer)
+
+    waitCodeTimer=setTimeout(()=>{
       handleMsg(_event,_,sendResponse,codeTime+1)
     },100)
   }
