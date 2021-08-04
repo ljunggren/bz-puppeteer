@@ -135,6 +135,7 @@ function start(reset){
     });
 
     const page = await browser.newPage();
+    await page.setDefaultNavigationTimeout(0);
     
     let url = result.args[0];
     if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run") && url.match(/\/m[0-9]+\/t[0-9]+/)) {
