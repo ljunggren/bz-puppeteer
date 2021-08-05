@@ -4,21 +4,38 @@ let curContentExeAction=0,bzIframeId=null,topFrame=0,initEnv=0;
 window.extensionContent=1;
 if(name!=="bz-master"){
   setTimeout(function(){
-    //_console("content register")
-    chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ),name:window.name},function(_msg){
-      if(_msg && _msg._ignore){
-        chrome.runtime.onMessage.removeListener()
-      }
-    });
+    registerTab()
   },0);
 }else{
   window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
 }
 
+function registerTab(){
+  //_console("content register")
+  chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ),name:window.name},function(_msg){
+    if(_msg && _msg._ignore){
+      chrome.runtime.onMessage.removeListener()
+    }
+  });
+}
 chrome.runtime.onMessage.addListener(handleMsg);
-
-function handleMsg(_event, _, sendResponse) {  
+let waitCodeTimer
+function handleMsg(_event, _, sendResponse, codeTime) {  
   //_console("content get message: ",_event)
+  if(window.name!="bz-master"&&(!window.ecMap||!window[ecMap.i]||!window[ecMap.u])){
+    console.log("BZ-LOG: waiting app code!")
+    codeTime=codeTime||0
+    if(codeTime>10){
+      registerTab()
+      codeTime=0
+    }
+
+    clearTimeout(waitCodeTimer)
+
+    waitCodeTimer=setTimeout(()=>{
+      handleMsg(_event,_,sendResponse,codeTime+1)
+    },100)
+  }
   if(_event.findFrameId){
     return responseIFrameId(_event.findFrameId,sendResponse,_event.element,_event.retry)
   }else if(_event.findOffset){
@@ -37,7 +54,7 @@ function handleMsg(_event, _, sendResponse) {
     _event.twPage2=1
     if(_event.tab=="master"){
       if(name=="bz-master"){
-        window.postMessage(_event);
+        window.postMessage(_event,"*");
       }else{
         try{
           chrome.runtime.sendMessage(_event)
@@ -164,10 +181,12 @@ function handleMsg(_event, _, sendResponse) {
     //_ideActionManagement._pickElement()
     window[ecMap.iam][ecMap.pe]()
   }else if(_event.updateExpection){
-  //_IDE._data._curAction=_event.updateExpection
-    window[ecMap.i][ecMap.d][ecMap.ca]=_event.updateExpection;
-//    _ideActionManagement._quickUpdateExpection(_event.updateExpection)
-    window[ecMap.iam][ecMap.que](_event.updateExpection)
+    if(_event.frameId.includes(bzIframeId)){
+    //_IDE._data._curAction=_event.updateExpection
+      window[ecMap.i][ecMap.d][ecMap.ca]=_event.updateExpection;
+  //    _ideActionManagement._quickUpdateExpection(_event.updateExpection)
+      window[ecMap.iam][ecMap.que](_event.updateExpection)
+    }
   }else if(_event.getFramePath){
     _doIt2();
     function _doIt2(){
