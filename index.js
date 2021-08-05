@@ -19,6 +19,7 @@ const opts = {
   "width":1280,
   "height":1024,
   "docker": false,
+  "sleep":0,
   "keepalive": false,
   "testreset":false,
   "loglevel": "debug",
@@ -37,6 +38,7 @@ const height = opts.height;
 const listscenarios=opts.listscenarios;
 const listsuite=opts.listsuite;
 const debugIDE=opts.debugIDE;
+const sleep=opts.sleep;
 
 let keepalive=opts.keepalive;
 let testReset=opts.testreset;
@@ -188,4 +190,6 @@ function start(reset){
   })()
 }
 
-start()
+setTimeout(()=>{
+  start()
+},sleep*1000)
