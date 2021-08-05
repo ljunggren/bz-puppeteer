@@ -193,4 +193,4 @@ console.log("Sleeping "+sleep+"s")
 setTimeout(()=>{
   console.log("Finished sleep!")
   start()
-},sleep*30000)
+},sleep*1000)
