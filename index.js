@@ -19,6 +19,7 @@ const opts = {
   "width":1280,
   "height":1024,
   "docker": false,
+  "sleep":0,
   "keepalive": false,
   "testreset":false,
   "loglevel": "debug",
@@ -37,6 +38,7 @@ const height = opts.height;
 const listscenarios=opts.listscenarios;
 const listsuite=opts.listsuite;
 const debugIDE=opts.debugIDE;
+const sleep=opts.sleep;
 
 let keepalive=opts.keepalive;
 let testReset=opts.testreset;
@@ -135,6 +137,7 @@ function start(reset){
     });
 
     const page = await browser.newPage();
+    await page.setDefaultNavigationTimeout(0);
     
     let url = result.args[0];
     if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run") && url.match(/\/m[0-9]+\/t[0-9]+/)) {
@@ -146,6 +149,10 @@ function start(reset){
     if(reset){
       url=url.replace(/\/run$/,"/")
     }
+    
+    url=url.replace("#","&docker=1#")
+    
+    console.log(url)
 
     let inService=0;
     console.log("Browser URL: "+url)
@@ -186,5 +193,8 @@ function start(reset){
 
   })()
 }
-
-start()
+console.log("Sleeping "+sleep+"s")
+setTimeout(()=>{
+  console.log("Finished sleep!")
+  start()
+},sleep*1000)
