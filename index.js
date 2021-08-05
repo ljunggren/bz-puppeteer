@@ -149,6 +149,10 @@ function start(reset){
     if(reset){
       url=url.replace(/\/run$/,"/")
     }
+    
+    url=url.replace("#","&docker=1#")
+    
+    console.log(url)
 
     let inService=0;
     console.log("Browser URL: "+url)
