@@ -25,7 +25,10 @@ const BZSocket={
     }
     return {ips:BZSocket.IP,port:PORT}
   },
-  startSocketServer(userList,fun){
+  getUserKey(code,token){
+    return code+"-"+(token||"")
+  },
+  startSocketServer(fun){
     // Listen to connections on port 3000;
     try {
       if(!BZSocket.socketStarted){
@@ -33,7 +36,7 @@ const BZSocket={
         
         const wss = new WS.Server({
           port: PORT
-        }, () => console.log(`ws server live on ${PORT}`))
+        }, () => console.log(`bz-ws server live on ${PORT}`))
 
         const errHandle = (err) => {
           if(err) throw err
@@ -43,29 +46,25 @@ const BZSocket={
           socket.on('message', (data) => {
             try{
               let d=JSON.parse(data)
-              if(d.method=="registor"){
-                BZSocket.registor(d.user,socket)
-              }else{
-                d.centerSocket=1
-                d.fromUser=socket.bzUser.code
-                d.fromToken=socket.bzUser.token
-                BZSocket.sendMsg(d,data);
-              }
+              BZSocket[d.method](d,socket);
             }catch(e){
               console.log(data)
             }
           })
 
           socket.on("close",()=>{
-            console.log("close ...")
+            console.log("close bz-ws ...")
             let u=socket.bzUser
+            
             if(u){
-              let s=BZSocket.userMap[u.code][u.token]
+              let k=BZSocket.getUserKey(u.code,u.token)
+              let s=BZSocket.userMap[k]
               if(s==socket){
-                delete BZSocket.userMap[u.code][u.token]
+                delete BZSocket.userMap[k]
               }
             }
           })
+
         })
         
       }
@@ -74,33 +73,34 @@ const BZSocket={
       console.log("Duplicate")
     }
   },
-  registor(u,socket){
-    let m=BZSocket.userMap[u.code]=BZSocket.userMap[u.code]||{}
+  registor(d,socket){
+    let u=d.user
     u.token=u.token||""
-    let s=m[u.token]
+    let k=u.code+"-"+u.token
+    let m=BZSocket.userMap
+    let s=m[k]
     if(s){
       s.send("duplicate-account")
       s.close()
     }
-    m[u.token]=socket
+    m[k]=socket
     socket.bzUser=u;
   },
+  registorOwner(u,socket){
+    BZSocket.registor(d,socket)
+    BZSocket.owner=socket
+  },
   sendMsg(d,msg){
-    
     if(d.to){
-      let m=BZSocket.userMap[d.to]
+      let k=BZSocket.getUserKey(d.to,d.token)
+      
+      let m=BZSocket.userMap[k]
       if(m){
-        m=m[d.token||""]
-        if(m){
-          m.send(msg)
-        }
+        m.send(msg)
       }
     }else{
       for(var k in BZSocket.userMap){
-        let o=BZSocket.userMap[k]
-        for(var kk in o){
-          o[kk].send(msg)
-        }
+        BZSocket.userMap[k].send(msg)
       }
     }
   }

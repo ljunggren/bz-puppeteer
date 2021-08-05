@@ -19,7 +19,10 @@ const opts = {
   "width":1280,
   "height":1024,
   "docker": false,
-  "keepalive": false
+  "keepalive": false,
+  "testreset":false,
+  "loglevel": "debug",
+  "debugIDE":false
 }
 
 // Remove the first two arguments, which are the 'node' binary and the name
@@ -33,12 +36,16 @@ const width = opts.width;
 const height = opts.height;
 const listscenarios=opts.listscenarios;
 const listsuite=opts.listsuite;
+const debugIDE=opts.debugIDE;
+
 let keepalive=opts.keepalive;
+let testReset=opts.testreset;
 let inService;
 const file = opts.file;
+const logLevel=opts.loglevel;
 
 if (result.errors || !result.args || result.args.length !== 1) {
-  console.log('USAGE: boozang [--token] [--docker] [--keepalive] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
+  console.log('USAGE: boozang [--token] [--docker] [--keepalive] [--testreset] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
   process.exit(2);
 }
 
@@ -46,125 +53,138 @@ console.log("Running with following args");
 console.log(opts);
 console.log("Example: Use --verbose for verbose logging (boolean example). Use --width=800 to override default width (value example.)");
 
-(async () => {
-  
-  let file = (docker ? "/var/boozang/" : "");
-  if (opts.file){
-    file += opts.file;
-  }
+let LogLevelArray = ["error","warning","info","debug","log"];
 
-  let userdatadir = "";
-  if (opts.userdatadir){
-    userdatadir = (docker ? "/var/boozang/userdatadir" : "") + (opts.userdatadir || "");
-    console.log("Setting userdatadir: " + userdatadir);
-  }
-  
-  const launchargs = [
-    '--disable-extensions-except=' + __dirname + '/bz-extension',
-    '--load-extension=' + __dirname + '/bz-extension',
-    '--ignore-certificate-errors',
-    '--no-sandbox',
-    `--window-size=${width},${height}`,
-    '--defaultViewport: null'
-    ];
+if (logLevel === "error"){
+  LogLevelArray = ["error"]
+} else if (logLevel === "warning"){
+  LogLevelArray = ["error","warning"]
+} else if (logLevel === "info"){
+  LogLevelArray = ["error","warning","info"]
+}
 
-  const browser = await puppeteer.launch({
-    headless: false,
-    userDataDir: userdatadir,
-    args: launchargs 
-  });
+console.log("Setting log levels: ", LogLevelArray);
 
-  function printStackTrace(app,err){
-    console.error(
-      "\n#######################################\n"
-    + app + " error: " + err.message
-    + "\n#######################################\n"
-    );
-  }
+let browser;
 
-  function appPrintStackTrace(err){
-    printStackTrace("app",err);
-  }
+Service.setResetButton(function(s){
+  start(1)
+});
+Service.debugIDE=debugIDE;
+function start(reset){
+  (async () => {
+    
+    let file = (docker ? "/var/boozang/" : "");
+    if (opts.file){
+      file += opts.file;
+    }
 
-  function idePrintStackTrace(err){
-    printStackTrace("ide",err);
-    Service.chkIDE()
-  }
+    let userdatadir = "";
+    if (opts.userdatadir){
+      userdatadir = (docker ? "/var/boozang/userdatadir" : "") + (opts.userdatadir || "");
+      console.log("Setting userdatadir: " + userdatadir);
+    }
+    
+    const launchargs = [
+      '--disable-extensions-except=' + __dirname + '/bz-extension',
+      '--load-extension=' + __dirname + '/bz-extension',
+      '--ignore-certificate-errors',
+      '--no-sandbox',
+      `--window-size=${width},${height}`,
+      '--defaultViewport: null'
+      ];
 
-  // Setup popup
-  let popup = null;
-  function setupPopup() {
-    popup = pages[pages.length-1]; 
-    popup.setViewport({
-      width: parseInt(width),
-      height: parseInt(height)
+    if(!browser||browser._closed){
+      browser = await puppeteer.launch({
+        headless: false,
+        userDataDir: userdatadir,
+        args: launchargs 
+      });
+    }
+
+    function appPrintStackTrace(err){
+      Service.consoleMsg(err.message,"error","app");
+    }
+
+    function idePrintStackTrace(err){
+      Service.consoleMsg(err.message,"error","ide");
+      Service.chkIDE()
+    }
+
+    // Setup popup
+    let popup = null;
+    function setupPopup() {
+      popup = pages[pages.length-1]; 
+      popup.setViewport({
+        width: parseInt(width),
+        height: parseInt(height)
+      });
+
+      popup.on("error", appPrintStackTrace);
+      popup.on("pageerror", appPrintStackTrace);
+      Service.setPopup(popup)
+    }
+
+    let pages = await browser.pages();
+    browser.on('targetcreated', async () => {
+          //console.log('New window/tab event created');
+          pages = await browser.pages();
+          //console.log("Pages length " + pages.length);
+          setupPopup(); 
+          Service.setPage(page,browser);  
     });
 
-    popup.on("error", appPrintStackTrace);
-    popup.on("pageerror", appPrintStackTrace);
-    Service.setPopup(popup)
-  }
-
-  let pages = await browser.pages();
-  browser.on('targetcreated', async () => {
-        //console.log('New window/tab event created');
-        pages = await browser.pages();
-        //console.log("Pages length " + pages.length);
-        setupPopup(); 
-        Service.setPage(page);  
-  });
-
-  const page = await browser.newPage();
-  //const { JSHeapUsedSize } = await page.metrics();
-  //console.log("Memory usage on start: " + (JSHeapUsedSize / (1024*1024)).toFixed(2) + " MB");
-
-  let url = result.args[0];
-  if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run") && url.match(/\/m[0-9]+\/t[0-9]+/)) {
-    if (!url.endsWith("/")) {
-        url += "/"
-    }
-    url += "run"
-  }
-
-  let inService=0;
-  console.log("Browser URL: "+url)
-  if(url.match(/(\?|\&)key=.+(\&|\#)/)){
-    console.log("Running in cooperation!")
-    inService=1
-  }else{
-    console.log("Running in stand alone!")
-  }
-
-  // Assign all log listeners
-  Service.logMonitor(page,keepalive,file,inService);
-
-  if(listsuite||listscenarios){
-    Service.setBeginningFun(function(){
-      Service.insertFileTask(function(){
-        Service.result = 0;
-        Service.shutdown()
-      })
-      if(listsuite){
-        page.evaluate((v)=>{
-          $util.getTestsBySuite(v)
-        }, listsuite);
-      }else if(listscenarios){
-        page.evaluate((v)=>{
-          $util.getScenariosByTag(v)
-        }, JSON.parse(listscenarios));
+    const page = await browser.newPage();
+    
+    let url = result.args[0];
+    if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run") && url.match(/\/m[0-9]+\/t[0-9]+/)) {
+      if (!url.endsWith("/")) {
+          url += "/"
       }
-    })
-  }
+      url += "run"
+    }
+    if(reset){
+      url=url.replace(/\/run$/,"/")
+    }
 
+    let inService=0;
+    console.log("Browser URL: "+url)
+    if(url.match(/(\?|\&)key=.+(\&|\#)/)){
+      console.log("Running in cooperation!")
+      inService=1
+    }else{
+      console.log("Running in stand alone!")
+    }
 
-  const response = await page.goto(url);
+    // Assign all log listeners
+    Service.logMonitor(page,testReset,keepalive,file,inService,LogLevelArray);
 
-  page.on("error", idePrintStackTrace);
-  page.on("pageerror", idePrintStackTrace);
+    if(listsuite||listscenarios){
+      Service.setBeginningFun(function(){
+        Service.insertFileTask(function(){
+          Service.result = 0;
+          Service.shutdown()
+        })
+        if(listsuite){
+          page.evaluate((v)=>{
+            $util.getTestsBySuite(v)
+          }, listsuite);
+        }else if(listscenarios){
+          page.evaluate((v)=>{
+            $util.getScenariosByTag(v)
+          }, JSON.parse(listscenarios));
+        }
+      })
+    }
 
-})()
+    const version = await page.browser().version();
+    console.log("Running Chrome version: " + version);
+    const response = await page.goto(url);
 
+    page.on("error", idePrintStackTrace);
+    page.on("pageerror", idePrintStackTrace);
 
+  })()
+}
 
-
-
+start()
