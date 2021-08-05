@@ -1,7 +1,7 @@
 const fs = require('fs');
 const killer = require('tree-kill');
 
-const Service = {
+const LogService = {
   stdTimeout:120000,
   issueResetCount:0,
   taskMap:{},
@@ -17,35 +17,48 @@ const Service = {
     this.restartFun=restartFun
   },
   setNextResetTime:function(){
-    if(Service.testReset){
-      Service.nextResetTime=Date.now()+((parseInt(Service.testReset)||1)*60000)
+    if(LogService.testReset){
+      LogService.nextResetTime=Date.now()+((parseInt(LogService.testReset)||1)*60000)
     }
   },
-  logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video, saveVideo){
-    this.inService=inService;
-    this.testReset=testReset;
-    Service.setNextResetTime()
+  setLogLevel(){
+    let LogLevelArray = ["error","warning","info","debug","log"];
+    let opts=LogService.opts
+    console.log("Setting log levels: ", opts.logLevel);
 
-    this.keepalive=keepalive;
-    this.video=video;
-    this.page=page;
-    this.saveVideo = saveVideo;
-
-    this.logLevel=logLevel;
+    if (opts.logLevel === "error"){
+      LogService.logLevel = ["error"]
+    } else if (opts.logLevel === "warning"){
+      LogService.logLevel = ["error","warning"]
+    } else if (opts.logLevel === "info"){
+      LogService.logLevel = ["error","warning","info"]
+    }
+  },
+  logOpts(page,opts,reportPrefix){
+    Object.assign(this,opts)
+    LogService.setNextResetTime()
+    LogService.setLogLevel()
 
     if (this.video && this.video != "none") {
-      Service.consoleMsg("Running in video mode");
+      LogService.consoleMsg("Running in video mode");
     }
 
-    Service.consoleMsg("Initializing logMonitor");
+    LogService.consoleMsg("Initializing logMonitor");
    
     if (reportPrefix) {
-      Service.consoleMsg("Override report prefix: " + reportPrefix);
-      Service.reportPrefix=reportPrefix + "_";
+      LogService.consoleMsg("Override report prefix: " + reportPrefix);
+      LogService.reportPrefix=reportPrefix + "_";
     } 
-
-   // page.on('console', (log) => console[log._type](log._text));
-
+  },
+  setBeginningFun(fun){
+    LogService.beginningFun=fun
+  },
+  setPopup(popup){
+    this.popup=popup
+  },
+  setPage(page,browser){
+    this.page=page
+    this.browser=browser
 
     page.on('console', msg => {
       let timeout,t;
@@ -57,50 +70,50 @@ const Service = {
         return
       }
       // Todo add noLog conditions
-      // Service.consoleMsg(msg);
+      // LogService.consoleMsg(msg);
       
-      if(Service.curTask){
-        t=Service.curTask
-        Service.curTask=0
+      if(LogService.curTask){
+        t=LogService.curTask
+        LogService.curTask=0
       }else{
-        for(let key in Service.taskMap){
+        for(let key in LogService.taskMap){
           if(msg.includes(key)){
             if(!key.startsWith("coop-")){
-              Service.reChkCoop(key)
+              LogService.reChkCoop(key)
             }
-            t=Service.taskMap[key]           
+            t=LogService.taskMap[key]           
             break
           }
         }
       }
-      //Service.consoleMsg("Type: " + msgType);
-      if ((!t || !t.noLog) && Service.logLevel.includes(msgType)){
-        Service.consoleMsg(msg)
+      //LogService.consoleMsg("Type: " + msgType);
+      if ((!t || !t.noLog) && LogService.logLevel.includes(msgType)){
+        LogService.consoleMsg(msg)
       }
       if(t){
         if(t.notimeout){
           return t.fun(msg)
         }
-        clearTimeout(Service.timer)
+        clearTimeout(LogService.timer)
         if(!t.timeout){
-          timeout=t.fun(msg)||Service.stdTimeout
-          //Service.consoleMsg("Get timeout: "+timeout);
+          timeout=t.fun(msg)||LogService.stdTimeout
+          //LogService.consoleMsg("Get timeout: "+timeout);
         }else{
           timeout=t.timeout
         }
-        //Service.consoleMsg("set timeout: "+t.key+":"+timeout)
-        Service.timer=setTimeout(()=>{
-          if(Service.curProcess!="init"){
-            Service.handleTimeout(timeout,"Timeout on: "+t.key+":"+timeout)
+        //LogService.consoleMsg("set timeout: "+t.key+":"+timeout)
+        LogService.timer=setTimeout(()=>{
+          if(LogService.curProcess!="init"){
+            LogService.handleTimeout(timeout,"Timeout on: "+t.key+":"+timeout)
           }
         },timeout)
-        let tryWakeup=Service.tryWakeup
-        t.timeout&&t.fun(msg,Service.timer)
-        if(tryWakeup==Service.tryWakeup){
-          Service.tryWakeup=0
+        let tryWakeup=LogService.tryWakeup
+        t.timeout&&t.fun(msg,LogService.timer)
+        if(tryWakeup==LogService.tryWakeup){
+          LogService.tryWakeup=0
         }
         if(t.oneTime){
-          Service.removeTask(t)
+          LogService.removeTask(t)
         }
       }
     })
@@ -114,16 +127,6 @@ const Service = {
       return msg
     }
   },
-  setBeginningFun(fun){
-    Service.beginningFun=fun
-  },
-  setPopup(popup){
-    this.popup=popup
-  },
-  setPage(page,browser){
-    this.page=page
-    this.browser=browser
-  },
   //task:{key,fun,onTime,timeout}
   addTask(task){
     this.taskMap[task.key]=task
@@ -132,363 +135,363 @@ const Service = {
     delete this.taskMap[task.key]
   },
   insertStdTask(p){
-    Service.consoleMsg("In "+p+" task processing")
-    Service.curProcess=p
-    Service.taskMap={}
-    Service.inChkCoop=0
-    Service.coopAnswerList=[]
-    clearTimeout(Service.coopAnswerTimer)
-    Service.addTask({
+    LogService.consoleMsg("In "+p+" task processing")
+    LogService.curProcess=p
+    LogService.taskMap={}
+    LogService.inChkCoop=0
+    LogService.coopAnswerList=[]
+    clearTimeout(LogService.coopAnswerTimer)
+    LogService.addTask({
       key:"Coop-Status:",
       fun:function(v){
         v=v.split(":")[1].trim()
         if(v=="declare"){
-          Service.tryWakeup=0
+          LogService.tryWakeup=0
         }
         
-        Service.curWorkerStatus=v
-        Service.consoleMsg("IDE Status: "+v)
+        LogService.curWorkerStatus=v
+        LogService.consoleMsg("IDE Status: "+v)
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
-    Service.addTask({
+    LogService.addTask({
       key:"I-AM-OK",
       fun:function(){
-        clearTimeout(Service.wakeupTimer)
-        Service.tryWakeup++
+        clearTimeout(LogService.wakeupTimer)
+        LogService.tryWakeup++
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
-    Service.addTask({
+    LogService.addTask({
       key:"NO-TASK!",
       fun:function(){
-        Service.curProcess="init"
+        LogService.curProcess="init"
       },
       notimeout:1
     })
-    Service.addTask({
+    LogService.addTask({
       key:"RUNNING!",
       fun:function(){
-        Service.setRunTasks()
+        LogService.setRunTasks()
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
-    Service.addTask({
+    LogService.addTask({
       key:"update-std-timeout:",
       fun(msg){
-        Service.stdTimeout = (parseInt(msg.split(this.key)[1].trim())||120000);
-        Service.consoleMsg("Setting std timeout to: " + Service.stdTimeout);
-        return Service.stdTimeout;
+        LogService.stdTimeout = (parseInt(msg.split(this.key)[1].trim())||120000);
+        LogService.consoleMsg("Setting std timeout to: " + LogService.stdTimeout);
+        return LogService.stdTimeout;
       },
       msg:"Standard timeout"
     })
 
-    Service.addTask({
+    LogService.addTask({
       key:"coop-shutdown",
       fun(msg){
-        Service.shutdown("As cooperator server request to shutdown!")
+        LogService.shutdown("As cooperator server request to shutdown!")
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
 
-    Service.addTask({
+    LogService.addTask({
       key:"task-done",
       fun(msg){
-        if(!Service.keepalive){
-          Service.shutdown("One-Task Completed!")
+        if(!LogService.keepalive){
+          LogService.shutdown("One-Task Completed!")
         }
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
     
-    Service.addTask({
+    LogService.addTask({
       key:"coop-reload",
       fun(msg){
-        Service.cancelChkCoop()
-        Service.reset(1)
+        LogService.cancelChkCoop()
+        LogService.reset(1)
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
 
-    Service.addTask({
+    LogService.addTask({
       key:"coop-issue-reset",
       fun(msg){
-        Service.issueResetCount++
-        if(Service.issueResetCount>2){
-          Service.shutdown(_formatTimestamp()+": Issue happened multiple times!")
+        LogService.issueResetCount++
+        if(LogService.issueResetCount>2){
+          LogService.shutdown(_formatTimestamp()+": Issue happened multiple times!")
         }else{
-          Service.cancelChkCoop()
-          Service.reset()
+          LogService.cancelChkCoop()
+          LogService.reset()
         }
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
 
-    Service.addTask({
+    LogService.addTask({
       key:"coop-answer:",
       fun(msg){
-        Service.coopAnswer&&Service.coopAnswer(msg.substring(12).trim())
+        LogService.coopAnswer&&LogService.coopAnswer(msg.substring(12).trim())
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
 
-    Service.addTask({
+    LogService.addTask({
       key:"center-exe:",
       fun(msg){
         msg=msg.substring(11)
-        Service.consoleMsg(msg)
+        LogService.consoleMsg(msg)
         try{
           eval(msg);
         }catch(e){}
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
 
-    Service.addTask({
+    LogService.addTask({
       key:"app-exe:",
       fun(msg){
         msg=msg.substring(8)
-        Service.consoleMsg(msg)
-        Service.popup.evaluate((msg)=>{ 
+        LogService.consoleMsg(msg)
+        LogService.popup.evaluate((msg)=>{ 
           eval(msg);  
         },msg);
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
 
-    Service.addTask({
+    LogService.addTask({
       key:"ide-exe:",
       fun(msg){
         msg=msg.substring(8)
-        Service.consoleMsg(msg)
-        Service.page.evaluate((msg)=>{
+        LogService.consoleMsg(msg)
+        LogService.page.evaluate((msg)=>{
           eval(msg);
         },msg);
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
   },
   idlingTimerValue:300000,
   insertHandleIdling(){
-    if(!Service.keepalive){
-      clearTimeout(Service.idlingTimer)
-      Service.idlingTimer=setTimeout(()=>{
-        if(Service.curWorkerStatus=="declare"){
-          Service.insertHandleIdling();
-          Service.wakeupIDE()
+    if(!LogService.keepalive){
+      clearTimeout(LogService.idlingTimer)
+      LogService.idlingTimer=setTimeout(()=>{
+        if(LogService.curWorkerStatus=="declare"){
+          LogService.insertHandleIdling();
+          LogService.wakeupIDE()
         }else{
-          Service.shutdown("Shutdown: No task to run")
+          LogService.shutdown("Shutdown: No task to run")
         }
-      },Service.idlingTimerValue)
-      Service.idlingTimerValue=120000
+      },LogService.idlingTimerValue)
+      LogService.idlingTimerValue=120000
     }
   },
   init(){
-    Service.insertStdTask("init")
-    Service.consoleMsg("init")
-    Service.setStatus(setTimeout(()=>{
-      Service.consoleMsg("checking status ready, status: "+Service.status)
-      if(!Number.isNaN(parseInt(Service.status))){
-        Service.reset()
+    LogService.insertStdTask("init")
+    LogService.consoleMsg("init")
+    LogService.setStatus(setTimeout(()=>{
+      LogService.consoleMsg("checking status ready, status: "+LogService.status)
+      if(!Number.isNaN(parseInt(LogService.status))){
+        LogService.reset()
       }
     },120000))
     
-    Service.addTask({
+    LogService.addTask({
       key:"ready",
       fun(){
-        Service.setStatus("ready")
-        Service.consoleMsg("Ready on logService")
-        if(Service.beginningFun){
-          Service.beginningFun()
+        LogService.setStatus("ready")
+        LogService.consoleMsg("Ready on logService")
+        if(LogService.beginningFun){
+          LogService.beginningFun()
         // }else{
-          // Service.setRunTasks()
+          // LogService.setRunTasks()
         }
         
-        Service.insertHandleIdling();
+        LogService.insertHandleIdling();
 
-        if(Service.video && Service.video != "none"){
-          Service.page.evaluate((v)=>{
-            Service.consoleMsg("Initializing video capture...");
+        if(LogService.video && LogService.video != "none"){
+          LogService.page.evaluate((v)=>{
+            LogService.consoleMsg("Initializing video capture...");
             BZ.requestVideo()
           });
         }
       },
       oneTime:1,
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
     
-    Service.addTask({
+    LogService.addTask({
       key:"Tasks are not completed",
       fun(){
-        Service.insertHandleIdling();
+        LogService.insertHandleIdling();
       },
       oneTime:1,
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
   },
   /*new*
   reset(forKeep){
-    Service.setNextResetTime()
+    LogService.setNextResetTime()
     if(!forKeep){
-      if(Service.lastHardResetTimer){
-        if(Date.now()-Service.lastHardResetTimer<600000){
-          return Service.shutdown("Failed to load IDE!")
+      if(LogService.lastHardResetTimer){
+        if(Date.now()-LogService.lastHardResetTimer<600000){
+          return LogService.shutdown("Failed to load IDE!")
         }
       }
-      Service.lastHardResetTimer=Date.now()
+      LogService.lastHardResetTimer=Date.now()
     }
-    Service.consoleMsg("reset ...")
-    Service.browser._closed=1
-    killer(Service.browser.process().pid, 'SIGKILL');
+    LogService.consoleMsg("reset ...")
+    LogService.browser._closed=1
+    killer(LogService.browser.process().pid, 'SIGKILL');
     setTimeout(()=>{
-      Service.consoleMsg("restart ...")
-      Service.restartFun(forKeep)
-      Service.init()
+      LogService.consoleMsg("restart ...")
+      LogService.restartFun(forKeep)
+      LogService.init()
     },forKeep?1000:15000)
   },
   /*old*/
   reset(forKeep){
-    if(Service.debugIDE){
+    if(LogService.debugIDE){
       return
     }
-    Service.setNextResetTime()
+    LogService.setNextResetTime()
     if(!forKeep){
-      if(Service.lastHardResetTimer){
-        if(Date.now()-Service.lastHardResetTimer<600000){
-          return Service.shutdown("Failed to load IDE!")
+      if(LogService.lastHardResetTimer){
+        if(Date.now()-LogService.lastHardResetTimer<600000){
+          return LogService.shutdown("Failed to load IDE!")
         }
       }
-      Service.lastHardResetTimer=Date.now()
+      LogService.lastHardResetTimer=Date.now()
     }
-    Service.consoleMsg("reset ...")
-//        Service.page.close()
+    LogService.consoleMsg("reset ...")
+//        LogService.page.close()
     if(forKeep){
-      Service.page.close()
+      LogService.page.close()
     }else{
-      Service.browser._closed=1
-      Service.browser.close()
+      LogService.browser._closed=1
+      LogService.browser.close()
     }
     setTimeout(()=>{
-      Service.consoleMsg("restart ...")
-      Service.restartFun(forKeep)
-      Service.init()
+      LogService.consoleMsg("restart ...")
+      LogService.restartFun(forKeep)
+      LogService.init()
     },forKeep?1000:15000)
   },
   /**/
   setStatus(v){
-    clearTimeout(Service.status)
-    Service.status=v
+    clearTimeout(LogService.status)
+    LogService.status=v
   },
   setRunTasks(){
-    Service.consoleMsg("Set run tasks")
-    clearTimeout(Service.idlingTimer)
-    if(Service.status=="run"){
+    LogService.consoleMsg("Set run tasks")
+    clearTimeout(LogService.idlingTimer)
+    if(LogService.status=="run"){
       return
     }
-    Service.insertStdTask("run")
-    Service.setStatus("run")
+    LogService.insertStdTask("run")
+    LogService.setStatus("run")
 
-    Service.addTask({
+    LogService.addTask({
       key:"timeout in ms:",
       fun(msg){
-        let v= (parseInt(msg.split(this.key)[1].trim())||0) + Service.stdTimeout;
+        let v= (parseInt(msg.split(this.key)[1].trim())||0) + LogService.stdTimeout;
         return v;
       },
       msg:"Action timeout"
     })
 
-    Service.addTask({
+    LogService.addTask({
       key:"videostart:",
       fun(msg){
         (async () => {
           let videoFile = msg.split("videostart:")[1].split(",")[0]+".mp4";
-           Service.consoleMsg("Start recording video: ", videoFile);
-           Service.capture = await Service.saveVideo(Service.popup||Service.page, Service.reportPrefix + videoFile, {followPopups:true, fps: 5});      
+           LogService.consoleMsg("Start recording video: ", videoFile);
+           LogService.capture = await LogService.saveVideo(LogService.popup||LogService.page, LogService.reportPrefix + videoFile, {followPopups:true, fps: 5});      
         })()
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
 
-    Service.addTask({
+    LogService.addTask({
       key:"videostop:",
       fun(msg){
         (async () => {
           let success = msg.includes(",success");
           let videoFile = msg.split("videostop:")[1].split(",")[0]+".mp4";
-          Service.consoleMsg("Stop recording video: ", videoFile);
-          await Service.capture.stop();
-          if (success && Service.video != "all"){
-            Service.consoleMsg("Test success. Deleting video: " + videoFile);
-            fs.unlinkSync(Service.reportPrefix + videoFile);
+          LogService.consoleMsg("Stop recording video: ", videoFile);
+          await LogService.capture.stop();
+          if (success && LogService.video != "all"){
+            LogService.consoleMsg("Test success. Deleting video: " + videoFile);
+            fs.unlinkSync(LogService.reportPrefix + videoFile);
           }
           await (()=>{
-            Service.page.evaluate((v)=>{
+            LogService.page.evaluate((v)=>{
               BZ.savedVideo()
             });
           })()
         })()
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
 
-    Service.addTask({
+    LogService.addTask({
       key:"screenshot:",
       fun(msg){
         let screenshotFile = msg.split("screenshot:")[1]+".png";
-        Service.popup.screenshot({path: screenshotFile});
+        LogService.popup.screenshot({path: screenshotFile});
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
 
-    Service.addTask({
+    LogService.addTask({
       key:"Stop task!",
       fun(msg){
-        Service.setEndTasks()
+        LogService.setEndTasks()
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
   },
   setEndTasks(){
-    Service.insertStdTask("end")
-    Service.setStatus("end")
-    Service.addTask({
+    LogService.insertStdTask("end")
+    LogService.setStatus("end")
+    LogService.addTask({
       key:"Result:",
       fun(msg){
         msg=msg.split("BZ-Result:")[1].trim()
-        Service.result = msg == "Success" ? 0:2;
-        Service.consoleMsg("Exit with status code: ", Service.result);
+        LogService.result = msg == "Success" ? 0:2;
+        LogService.consoleMsg("Exit with status code: ", LogService.result);
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
-    Service.addTask({
+    LogService.addTask({
       key:"The Task Completed!",
       fun(msg){
-        Service.lastHardResetTimer=0
-        if(Service.nextResetTime&&(Date.now()>=Service.nextResetTime)){
-          Service.consoleMsg("Reset in schedule")
-          Service.reset(1)
+        LogService.lastHardResetTimer=0
+        if(LogService.nextResetTime&&(Date.now()>=LogService.nextResetTime)){
+          LogService.consoleMsg("Reset in schedule")
+          LogService.reset(1)
         }else{
-          Service.setRunTasks()
+          LogService.setRunTasks()
         }
       },
-      timeout:Service.stdTimeout
+      timeout:LogService.stdTimeout
     })
     this.insertFileTask()
   },
   insertFileTask(exFun){
-    Service.addTask({
+    LogService.addTask({
       key:"BZ-File output:",
       fun(msg){
         msg=msg.substring(this.key.length).trim()
         if(!this.name){
-          this.name=Service.reportPrefix + msg.toLowerCase().replace(/\ /g,"_");
+          this.name=LogService.reportPrefix + msg.toLowerCase().replace(/\ /g,"_");
         }else if(msg=="end"){
           let name=this.name
           fs.writeFile(name, this.content, (err)=>{
             if (err) {
-              Service.shutdown("Error: on output file: "+name+", "+ err.message)
+              LogService.shutdown("Error: on output file: "+name+", "+ err.message)
             }
-            Service.consoleMsg("Report "+name+" saved.")
+            LogService.consoleMsg("Report "+name+" saved.")
             if(exFun){
               exFun()
             }
@@ -498,39 +501,39 @@ const Service = {
           this.content=msg
         }
       },
-      timeout:Service.stdTimeout,
+      timeout:LogService.stdTimeout,
       noLog:1
     })
   },
   chkIDE(){
-    if(Service.inService&&(Service.status=="run"||Service.status=="end")){
-      if(Service.inChkCoop){
-        Service.inChkCoop++
+    if(LogService.inService&&(LogService.status=="run"||LogService.status=="end")){
+      if(LogService.inChkCoop){
+        LogService.inChkCoop++
         return
       }
-      clearTimeout(Service.chkCoopTimer)
-      Service.chkCoopTimer=setTimeout(()=>{
-        Service.inChkCoop=1
-        Service.coopAnswerList=[]
-        Service.coopAnswer=function(v){
-          clearTimeout(Service.coopAnswerTimer)
+      clearTimeout(LogService.chkCoopTimer)
+      LogService.chkCoopTimer=setTimeout(()=>{
+        LogService.inChkCoop=1
+        LogService.coopAnswerList=[]
+        LogService.coopAnswer=function(v){
+          clearTimeout(LogService.coopAnswerTimer)
           v=JSON.parse(v)
-          Service.addCoopAnswer(v)
+          LogService.addCoopAnswer(v)
         }
-        Service.getCoopStatus()
+        LogService.getCoopStatus()
       },5000)
     }
   },
   addCoopAnswer(v){
-    Service.coopAnswerList.push(v)
-    if(Service.coopAnswerList.length<2){
-      Service.chkCoopTimer=setTimeout(()=>{
-        Service.getCoopStatus()
+    LogService.coopAnswerList.push(v)
+    if(LogService.coopAnswerList.length<2){
+      LogService.chkCoopTimer=setTimeout(()=>{
+        LogService.getCoopStatus()
       },60000)
     }else{
-      Service.consoleMsg("Checking coop status")
-      let v1=Service.coopAnswerList[0],
-          v2=Service.coopAnswerList[1]
+      LogService.consoleMsg("Checking coop status")
+      let v1=LogService.coopAnswerList[0],
+          v2=LogService.coopAnswerList[1]
 
       if(v1.status.type!=v2.status.type){
         return
@@ -540,65 +543,65 @@ const Service = {
     }
   },
   reChkCoop(v){
-    if(Service.inChkCoop){
-      Service.cancelChkCoop()
-      if(!Service.lastChkCoopTimer){
-        Service.lastChkCoopTimer=Date.now()
-        Service.chkIDE()
+    if(LogService.inChkCoop){
+      LogService.cancelChkCoop()
+      if(!LogService.lastChkCoopTimer){
+        LogService.lastChkCoopTimer=Date.now()
+        LogService.chkIDE()
       }
     }
   },
   cancelChkCoop(){
-    Service.inChkCoop=0
-    clearTimeout(Service.chkCoopTimer)
-    clearTimeout(Service.coopAnswerTimer)
-    Service.coopAnswerList=[]
+    LogService.inChkCoop=0
+    clearTimeout(LogService.chkCoopTimer)
+    clearTimeout(LogService.coopAnswerTimer)
+    LogService.coopAnswerList=[]
   },
   getCoopStatus(){
-    Service.coopAnswerTimer=setTimeout(()=>{
-      Service.reloadIDE("Coop Server stop work! reload IDE")
-    },Service.stdTimeout)
+    LogService.coopAnswerTimer=setTimeout(()=>{
+      LogService.reloadIDE("Coop Server stop work! reload IDE")
+    },LogService.stdTimeout)
     this.page.evaluate(()=>{
       $util.getCoopStatus()
     })
   },
   async reloadIDE(msg){
-    Service.consoleMsg("Reload IDE for "+msg)
-    Service.page.evaluate(()=>{  
+    LogService.consoleMsg("Reload IDE for "+msg)
+    LogService.page.evaluate(()=>{  
       localStorage.setItem("bz-reboot",1)
     });
     
-    await Service.page.reload();
-    Service.init() 
+    await LogService.page.reload();
+    LogService.init() 
   },
   shutdown(msg){
-    if(Service.debugIDE){
+    if(LogService.debugIDE){
       return
     }
-    msg && Service.consoleMsg(msg)
-    killer(Service.browser.process().pid, 'SIGKILL');
-    process.exit(Service.result)
+    msg && LogService.consoleMsg(msg)
+    killer(LogService.browser.process().pid, 'SIGKILL');
+    process.exit(LogService.result)
   },
   async handleTimeout(timeout,msg){
-    Service.consoleMsg(getCurrentTimeString()+": "+msg)
-    Service.consoleMsg("Try to wakeup IDE");
-    Service.wakeupIDE(timeout)
+    LogService.consoleMsg(getCurrentTimeString()+": "+msg)
+    LogService.consoleMsg("Try to wakeup IDE");
+    LogService.wakeupIDE(timeout)
   },
   wakeupIDE:function(timeout){
-    if(Service.tryWakeup>=1){
-      Service.page.evaluate(()=>{  
+    if(LogService.tryWakeup>=1){
+      LogService.page.evaluate(()=>{  
         BZ.e("BZ-LOG: Wake-up IDE failed. Test runner telling BZ to stop.");
       });
       setTimeout(()=>{
-        Service.shutdown("Shutdown on no reaction from IDE!")
+        LogService.shutdown("Shutdown on no reaction from IDE!")
       },120000)
     }else{
-      Service.page.evaluate((timeout)=>{
+      LogService.page.evaluate((timeout)=>{
         BZ.wakeup(timeout)
       },timeout)
-      Service.wakeupTimer=setTimeout(()=>{
-        Service.reloadIDE("No response from IDE! going to reset...")
-        Service.reset(Service.keepalive)
+      LogService.wakeupTimer=setTimeout(()=>{
+        LogService.reloadIDE("No response from IDE! going to reset...")
+        LogService.reset(LogService.keepalive)
       },10000)
     }
   },
@@ -635,18 +638,18 @@ const Service = {
           + "\n################\n"
         )
       }else{
-        Service.consoleNum++;
+        LogService.consoleNum++;
         if(msg.trim().match(/^<<<</)){
-          Service.lanuchTest--
-          msg=" ".repeat(Service.lanuchTest*2)+msg
+          LogService.lanuchTest--
+          msg=" ".repeat(LogService.lanuchTest*2)+msg
         }else if(msg.trim().match(/^>>>>/)){
-          msg=" ".repeat(Service.lanuchTest*2)+msg
-          Service.lanuchTest++
-        }else if(Date.now()-Service.lastTime>1000){
-          let n=parseInt((Date.now()-Service.lastTime)/1000)
+          msg=" ".repeat(LogService.lanuchTest*2)+msg
+          LogService.lanuchTest++
+        }else if(Date.now()-LogService.lastTime>1000){
+          let n=parseInt((Date.now()-LogService.lastTime)/1000)
           let w="+"
-          let s=formatPeriod(Date.now()-Service.startTime)
-          if(Service.lastTime){
+          let s=formatPeriod(Date.now()-LogService.startTime)
+          if(LogService.lastTime){
             w=w.repeat(n)
             n=" ("+s+", "+n+"s) "
           }else{
@@ -654,17 +657,17 @@ const Service = {
             n=""
           }
           console.log("\n     [ "+getCurrentTimeString()+n+w+" ]\n")
-          Service.lastTime=Date.now()
+          LogService.lastTime=Date.now()
         }
-        console.log(msg=Service.consoleNum+": "+msg)
+        console.log(msg=LogService.consoleNum+": "+msg)
       }
     }
   }
 }
 
-Service.init()
+LogService.init()
 
-exports.Service = Service;
+exports.LogService = LogService;
 function formatPeriod(v){
   v=v/1000
   let m=parseInt(v%3600/60),
@@ -697,8 +700,8 @@ function testReset(){
   setTimeout(()=>{
     try{
       console.log("Do reset ---------------------------------------------------------------------------")
-      if(Service.page){
-        Service.reset(1)
+      if(LogService.page){
+        LogService.reset(1)
       }else{
         console.log("wait to reset++++++++++++++++++")
       }
