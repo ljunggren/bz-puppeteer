@@ -23,7 +23,7 @@ let waitCodeTimer
 function handleMsg(_event, _, sendResponse, codeTime) {  
   //_console("content get message: ",_event)
   if(window.name!="bz-master"&&(!window.ecMap||!window[ecMap.i]||!window[ecMap.u])){
-    if(window.bzIframeId===null){
+    if(bzIframeId===null){
       return
     }
     console.log("BZ-LOG: waiting app code!")
