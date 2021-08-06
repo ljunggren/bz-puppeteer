@@ -2,14 +2,17 @@
 const BZIDEServer={
   scriptList:[],
   urlObj,
-  start(opts,BZSocket,browser){
+  start(opts,BZSocket){
     BZIDEServer.opts=opts
-    BZIDEServer.browser=browser
     BZIDEServer.mySocketAddress=BZSocket.IP+":"+BZSocket.PORT
     
     BZIDEServer.loadIDE(function(){
       
     })
+  },
+  setPage(page,browser){
+    this.page=page
+    this.browser=browser
   },
   loadIDE(fun){
     let url=BZIDEServer.opts.url
@@ -43,8 +46,21 @@ const BZIDEServer={
         
       },5000)
     }else{
-      BZIDEServer.lanuchPage(url)
+      BZIDEServer.lanuchPage(BZIDEServer.addRun(url))
     }
+    
+  },
+  addRun(url,reset){
+    if (!url.endsWith("/run") && BZIDEServer.urlObj.test) {
+      if (!url.endsWith("/")) {
+        url += "/"
+      }
+      url += "run"
+    }
+    if(reset){
+      url=url.replace(/\/run$/,"/")
+    }
+    return url
   },
   setTaskList(opts){
     if(opts.listsuite||opts.listscenarios){
@@ -158,20 +174,14 @@ const BZIDEServer={
     }
   },
   lanuchPage(url,page,idePrintStackTrace,reset){
-    
+    BrowserHandler.lanuchPage(url,function(page){
       logService.setPage(BrowserHandler.curPage,BrowserHandler.browser)
-      const response = await BrowserHandler.curPage.goto(url);
+    })
     
     
     let urlObj=BZIDEServer.urlObj
     let url=urlObj.url
     
-    if (!url.endsWith("/run") && urlObj.test) {
-      if (!url.endsWith("/")) {
-        url += "/"
-      }
-      url += "run"
-    }
     if(reset){
       url=url.replace(/\/run$/,"/")
     }

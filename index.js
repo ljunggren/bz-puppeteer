@@ -31,22 +31,7 @@ const opts = {
 // Remove the first two arguments, which are the 'node' binary and the name
 // of your script.
 const result = options.parse(process.argv.slice(2), opts);
-const verbose = opts.verbose;
-const token = opts.token;
-const docker = opts.docker;
-const userdatadir = opts.userdatadir;
-const width = opts.width;
-const height = opts.height;
-const listscenarios=opts.listscenarios;
-const listsuite=opts.listsuite;
-const debugIDE=opts.debugIDE;
-const sleep=opts.sleep;
 
-let keepalive=opts.keepalive;
-let testReset=opts.testreset;
-let inService;
-const file = opts.file;
-const logLevel=opts.loglevel;
 
 if (result.errors || !result.args || result.args.length !== 1) {
   console.log('USAGE: boozang [--token] [--docker] [--keepalive] [--testreset] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
@@ -58,22 +43,19 @@ console.log(opts);
 console.log("Example: Use --verbose for verbose logging (boolean example). Use --width=800 to override default width (value example.)");
 
 
-let browser;
-
-LogService.setResetButton(function(s){
-  start(1)
-});
-
-function preStart(){
-  BZSocket.start(function(ip){
-    BrowserHandler.start(opts,LogService,function(){
-      BZIDEServer.start(opts,BZSocket,BrowserHandler.browser)
-    })
+BZSocket.start(function(){
+  BrowserHandler.start(opts,BZIDEServer,logService,function(){
+    BZIDEServer.start(opts,BZSocket)
   })
-}
+})
 
-console.log("Sleeping "+sleep+"s")
-setTimeout(()=>{
-  console.log("Finished sleep!")
-  start()
-},sleep*1000)
+// LogService.setResetButton(function(s){
+  // start(1)
+// });
+
+
+// console.log("Sleeping "+sleep+"s")
+// setTimeout(()=>{
+  // console.log("Finished sleep!")
+  // start()
+// },sleep*1000)

@@ -2,7 +2,7 @@
 const puppeteer = require('puppeteer');
 const BrowserHandler={
   browser,
-  start(opts,logService){
+  start(opts,BZIDEServer,logService,fun){
     BrowserHandler.logService=logService
     (async () => {
       
@@ -50,25 +50,38 @@ const BrowserHandler={
 
       let pages = await BrowserHandler.browser.pages();
       BrowserHandler.browser.on('targetcreated', async () => {
-            //console.log('New window/tab event created');
-            pages = await BrowserHandler.browser.pages();
-            //console.log("Pages length " + pages.length);
-            setupPopup(); 
-            logService.setPage(BrowserHandler.curPage,BrowserHandler.browser);  
+        //console.log('New window/tab event created');
+        pages = await BrowserHandler.browser.pages();
+
+        setupPopup();
+
+        BZIDEServer.setPage(BrowserHandler.curPage,BrowserHandler.browser);
+        logService.setPage(BrowserHandler.curPage,BrowserHandler.browser);
+            
       });
-
-      BrowserHandler.curPage = await BrowserHandler.browser.newPage();
-      await BrowserHandler.curPage.setDefaultNavigationTimeout(0);
-
-      BrowserHandler.curPage.on("error", BrowserHandler.idePrintStackTrace);
-      BrowserHandler.curPage.on("pageerror", BrowserHandler.idePrintStackTrace);
+      
+      await BrowserHandler.lanuchPage()
 
       // Assign all log listeners
       logService.logOpts(opts,file);
-
-      const version = await BrowserHandler.curPage.browser().version();
-      console.log("Running Chrome version: " + version);
+      
+      fun()
     })()
+  },
+  async lanuchPage(url,fun){
+    BrowserHandler.curPage = await BrowserHandler.browser.newPage();
+
+    await BrowserHandler.curPage.setDefaultNavigationTimeout(0);
+    
+    const version = await BrowserHandler.curPage.browser().version();
+
+    console.log("Running Chrome version: " + version);
+    
+    BrowserHandler.curPage.on("error", BrowserHandler.idePrintStackTrace);
+    BrowserHandler.curPage.on("pageerror", BrowserHandler.idePrintStackTrace);
+    
+    await BrowserHandler.curPage.goto(url);
+    fun()
   },
   appPrintStackTrace(err){
     BrowserHandler.logService.consoleMsg(err.message,"error","app");
