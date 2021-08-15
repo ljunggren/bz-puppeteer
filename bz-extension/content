@@ -23,14 +23,17 @@ let waitCodeTimer
 function handleMsg(_event, _, sendResponse, codeTime) {  
   //_console("content get message: ",_event)
   if(window.name!="bz-master"&&(!window.ecMap||!window[ecMap.i]||!window[ecMap.u])){
-    if(bzIframeId===null){
+    if(window.bzIframeId===null){
       return
     }
     console.log("BZ-LOG: waiting app code!")
     codeTime=codeTime||0
     if(codeTime>10){
-      registerTab()
-      codeTime=0
+      if(codeTime==11){
+        registerTab()
+      }else if(codeTime>20){
+        return
+      }
     }
 
     clearTimeout(waitCodeTimer)
