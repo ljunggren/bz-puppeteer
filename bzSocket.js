@@ -1,6 +1,6 @@
 'use strict';
 const WS = require('ws');
-const io = require('socket.io-client');
+// const io = require('socket.io-client');
 
 const BZSocket={
   IP:0,
@@ -98,11 +98,15 @@ const BZSocket={
   },
   connectionServerByClient(v){
     console.log("Master socket server: "+v)
-    var socket = io.connect("http://"+v, {reconnect: true});
     let o=BZSocket.opts
+    
+    const ws = new WebSocket('ws://'+v);
 
+    ws.on('open', function open() {
+    });
+    
     // Add a connect listener
-    socket.on('connect', function (socket) {
+    ws.on('connect', function (socket) {
       console.log('Connected to: '+v);
       BZSocket.setSocketReaction(socket)
 
