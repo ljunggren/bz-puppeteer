@@ -38,13 +38,16 @@ if (result.errors || !result.args || result.args.length !== 1) {
   process.exit(2);
 }
 
+opts.url=result.args[0]
+console.log(result)
+
 console.log("Running with following args");
 console.log(opts);
 console.log("Example: Use --verbose for verbose logging (boolean example). Use --width=800 to override default width (value example.)");
 
 
 BZSocket.start(function(){
-  BrowserHandler.start(opts,BZIDEServer,logService,function(){
+  BrowserHandler.start(opts,BZIDEServer,LogService,function(){
     BZIDEServer.start(opts,BZSocket)
   })
 })

@@ -11,7 +11,7 @@ const BZSocket={
   },
   start(fun){
     // Listen to connections on port 3000;
-    try {
+    // try {
       if(!BZSocket.socketStarted){
         BZSocket.socketStarted=1
         
@@ -49,11 +49,12 @@ const BZSocket={
         })
         
       }
-      BZSocket.setIP()
+      setIP()
       fun()
-    }catch (e){
-      console.log("Duplicate")
-    }
+    // }catch (e){
+      // console.log("message: "+e.message)
+      // console.log(e.stock)
+    // }
     
     function setIP(){
       if(!BZSocket.IP){
@@ -79,7 +80,7 @@ const BZSocket={
   registor(d,socket){
     let u=d.user
     u.token=u.token||""
-    let k=u.code+"-"+u.token
+    let k=BZSocket.getUserKey(u.code,u.token)
     let m=BZSocket.userMap
     let s=m[k]
     if(s){

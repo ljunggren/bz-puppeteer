@@ -1,9 +1,9 @@
 'use strict';
 const puppeteer = require('puppeteer');
 const BrowserHandler={
-  browser,
-  start(opts,BZIDEServer,logService,fun){
-    BrowserHandler.logService=logService
+  browser:0,
+  start(opts,ideServer,logService,fun){
+    BrowserHandler.logService=logService;
     (async () => {
       
       let file = (opts.docker ? "/var/boozang/" : "");
@@ -39,8 +39,8 @@ const BrowserHandler={
       function setupPopup() {
         popup = pages[pages.length-1]; 
         popup.setViewport({
-          width: parseInt(width),
-          height: parseInt(height)
+          width: parseInt(opts.width),
+          height: parseInt(opts.height)
         });
 
         popup.on("error", BrowserHandler.appPrintStackTrace);
@@ -55,17 +55,15 @@ const BrowserHandler={
 
         setupPopup();
 
-        BZIDEServer.setPage(BrowserHandler.curPage,BrowserHandler.browser);
+        ideServer.setPage(BrowserHandler.curPage,BrowserHandler.browser);
         logService.setPage(BrowserHandler.curPage,BrowserHandler.browser);
             
       });
       
-      await BrowserHandler.lanuchPage()
-
       // Assign all log listeners
       logService.logOpts(opts,file);
-      
-      fun()
+
+      await BrowserHandler.lanuchPage(0,fun)
     })()
   },
   async lanuchPage(url,fun){
@@ -80,8 +78,10 @@ const BrowserHandler={
     BrowserHandler.curPage.on("error", BrowserHandler.idePrintStackTrace);
     BrowserHandler.curPage.on("pageerror", BrowserHandler.idePrintStackTrace);
     
-    await BrowserHandler.curPage.goto(url);
-    fun()
+    if(url){
+      await BrowserHandler.curPage.goto(url);
+    }
+    fun&&fun()
   },
   appPrintStackTrace(err){
     BrowserHandler.logService.consoleMsg(err.message,"error","app");

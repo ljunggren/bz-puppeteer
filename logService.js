@@ -35,7 +35,8 @@ const LogService = {
     }
   },
   logOpts(page,opts,reportPrefix){
-    Object.assign(this,opts)
+    LogService.opts=opts
+
     LogService.setNextResetTime()
     LogService.setLogLevel()
 

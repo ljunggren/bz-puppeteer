@@ -1,7 +1,7 @@
 'use strict';
 const BZIDEServer={
   scriptList:[],
-  urlObj,
+  urlObj:0,
   start(opts,BZSocket){
     BZIDEServer.opts=opts
     BZIDEServer.mySocketAddress=BZSocket.IP+":"+BZSocket.PORT
@@ -11,6 +11,7 @@ const BZIDEServer={
     })
   },
   setPage(page,browser){
+    console.log("set browser on ide")
     this.page=page
     this.browser=browser
   },
@@ -22,18 +23,18 @@ const BZIDEServer={
       url=url.replace(/\&master=([^&#]*)(&|#)/,"$1",BZIDEServer.mySocketAddress);
       console.log("master url: "+url)
 
-      BZIDEServer.loadFile(url,function(s){
+      BZIDEServer.loadPage(url,function(s){
         s=s.match(/\<script [^\<]+\<\/script\>/ig);
         
         BZIDEServer.syncLoadFile(s,function(){
-          BZIDEServer.lanuchPage(url)
+          BZIDEServer.lanuchIDE(url)
         })
       })
     }else if(o.group){
       setTimeout(()=>{
         url=dockerUrl;
         console.log("worker url: "+url)
-        BZIDEServer.loadFile(url,function(s){
+        BZIDEServer.loadPage(url,function(s){
           s=s.match(/\<body\>(.+)\<\/body\>/ig);
           if(s){
             BZIDEServer.getScriptAndDataFromMaster(s,function(){
@@ -46,7 +47,7 @@ const BZIDEServer={
         
       },5000)
     }else{
-      BZIDEServer.lanuchPage(BZIDEServer.addRun(url))
+      BZIDEServer.lanuchIDE()
     }
     
   },
@@ -83,7 +84,7 @@ const BZIDEServer={
   },
   loadData(o){
     let u=`${o.protocol}://${o.host}/api/projects/${o.project}/?token=${o.token}`
-    BZIDEServer.loadFile(u,function(x){
+    BZIDEServer.loadPage(u,function(x){
       console.log(x)
     })
   },
@@ -98,7 +99,7 @@ const BZIDEServer={
         x=x.match(/[\"\'](.+)[\"\']/)[1]
         x=BZIDEServer.urlObj.protocol+"://"+BZIDEServer.urlObj.host+"/"+x.replace(/^[\/]/,"")
 
-        BZIDEServer.loadFile(x,(v)=>{
+        BZIDEServer.loadPage(x,(v)=>{
           BZIDEServer.scriptList.push(v)
           BZIDEServer.syncLoadFile(fs,_fun)
         })
@@ -142,7 +143,7 @@ const BZIDEServer={
     
     return o
   },
-  loadFile(url,_fun){
+  loadPage(url,_fun){
     let httpTool;
     if(url.startsWith("http:")){
       httpTool=http
@@ -161,40 +162,33 @@ const BZIDEServer={
       });    
     });
   },
-  postScript(page,_fun,i){
-    i=i||0
-    let x=BZIDEServer.scriptList[i]
-    if(x){
-      setTimeout(()=>{
-        page.evaluate(x)
-        BZIDEServer.postScript(page,_fun,i+1)
-      },200)
-    }else{
-      _fun&&_fun()
+  async lanuchIDE(url,reset){
+    if(!url){
+      url=BZIDEServer.urlObj.url
+      
+      if(reset){
+        url=url.replace(/\/run$/,"/")
+      }
     }
-  },
-  lanuchPage(url,page,idePrintStackTrace,reset){
-    BrowserHandler.lanuchPage(url,function(page){
-      logService.setPage(BrowserHandler.curPage,BrowserHandler.browser)
-    })
-    
-    
-    let urlObj=BZIDEServer.urlObj
-    let url=urlObj.url
-    
-    if(reset){
-      url=url.replace(/\/run$/,"/")
-    }
-    
-    
-    
-    const response = await page.goto(url);
+    let page=BZIDEServer.page;
+    await page.goto(url)
 
-    page.on("error", idePrintStackTrace);
-    page.on("pageerror", idePrintStackTrace);
-    
     page.evaluate("preData="+JSON.stringify(BZIDEServer.projectData))
-    BZIDEServer.postScript(page)
+    
+    postScript(page)
+
+    function postScript(page,_fun,i){
+      i=i||0
+      let x=BZIDEServer.scriptList[i]
+      if(x){
+        setTimeout(()=>{
+          page.evaluate(x)
+          postScript(page,_fun,i+1)
+        },200)
+      }else{
+        _fun&&_fun()
+      }
+    }
   }
 }
 exports.BZIDEServer = BZIDEServer;
