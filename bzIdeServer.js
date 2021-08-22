@@ -40,7 +40,7 @@ const BZIDEServer={
           s=s.match(/\<body\>(.+)\<\/body\>/ig);
           if(s){
             console.log("Master socket server: "+s)
-            s=s[0].split(",")
+            s=s[1].split(",")
             BZIDEServer.opts.userId=s[0]
             BZIDEServer.opts.socketServer.connectionServerByClient(s[1])
           }else{
