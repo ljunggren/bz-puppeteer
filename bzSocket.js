@@ -37,7 +37,7 @@ const BZSocket={
         }
         BZSocket.IP=BZSocket.IP.join(".")
         if(!opts.master){
-          BZSocket.PORT+=opts.key
+          BZSocket.PORT+=parseInt(opts.key)||0
         }
       }
     }
