@@ -39,9 +39,10 @@ const BZIDEServer={
         BZIDEServer.loadPage(url,function(s){
           s=s.match(/\<body\>(.+)\<\/body\>/ig);
           if(s){
-            BZIDEServer.getScriptAndDataFromMaster(s,function(){
-              _fun()
-            })
+            console.log("Master socket server: "+s)
+            s=s.split(",")
+            BZIDEServer.opts.userId=s[0]
+            BZIDEServer.opts.socketServer.connectionServerByClient(s[1])
           }else{
             BZIDEServer.loadIDE(fun)
           }
@@ -107,7 +108,12 @@ const BZIDEServer={
           BZIDEServer.syncLoadFile(fs,_fun)
         })
       }else{
-        BZIDEServer.scriptList.unshift(x.substring(x.indexOf(">")+1))
+        x=x.substring(x.indexOf(">")+1)
+        let code=x.match(/"code":"([^"]+)"/)
+        if(code){
+          BZIDEServer.opts.userId=code[1]
+        }
+        BZIDEServer.scriptList.unshift(x)
         
         BZIDEServer.syncLoadFile(fs,_fun)
       }
@@ -192,6 +198,13 @@ const BZIDEServer={
       }else{
         _fun&&_fun()
       }
+    }
+  },
+  retrieveScriptAndData(socket){
+    if(!BZIDEServer.scriptList){
+      BZIDEServer.opts.socketServer.sendMsg(socket,{
+        method:"BZSocket.opts.ideServer.getScriptAndData"
+      })
     }
   },
   getScriptAndData(d,socket){

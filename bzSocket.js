@@ -1,6 +1,7 @@
 'use strict';
-// const io = require('socket.io')();
-const WS = require('ws')
+const WS = require('ws');
+const io = require('socket.io-client');
+
 const BZSocket={
   IP:0,
   PORT:6969,
@@ -12,54 +13,11 @@ const BZSocket={
   opts:0,
   start(opts,fun){
     BZSocket.opts=opts
-    // Listen to connections on port 3000;
-    try {
-      if(!BZSocket.socketStarted){
-        BZSocket.socketStarted=1
-        
-        const wss = new WS.Server({
-          port: BZSocket.PORT
-        }, () => console.log(`bz-ws server live on ${BZSocket.PORT}`))
-
-        const errHandle = (err) => {
-          if(err) throw err
-        }
-        
-        wss.on('connection', (socket) => {
-          console.log("----Socket----------------------------------")
-          console.log(socket.constructor)
-          console.log("--------------------------------------------")
-          socket.on('message', (data) => {
-            try{
-              let d=JSON.parse(data)
-              BZSocket[d.method](d,socket);
-            }catch(e){
-              console.log(data)
-            }
-          })
-
-          socket.on("close",()=>{
-            console.log("close bz-ws ...")
-            let u=socket.bzUser
-            
-            if(u){
-              let k=BZSocket.getUserKey(u.code,u.token)
-              let s=BZSocket.userMap[k]
-              if(s==socket){
-                delete BZSocket.userMap[k]
-              }
-            }
-          })
-
-        })
-        
-      }
-      setIP()
-      fun()
-    }catch (e){
-      console.log("message: "+e.message)
-      console.log(e.stock)
+    setIP()
+    if(opts.master){
+      BZSocket.buildServer()
     }
+    fun()
     
     function setIP(){
       if(!BZSocket.IP){
@@ -78,9 +36,33 @@ const BZSocket={
           }
         }
         BZSocket.IP=BZSocket.IP.join(".")
+        if(!opts.master){
+          BZSocket.PORT+=opts.key
+        }
       }
     }
     
+  },
+  buildServer(){
+    try{
+      BZSocket.socketStarted=1
+      
+      const wss = new WS.Server({
+        port: BZSocket.PORT
+      }, () => console.log(`bz-ws server live on ${BZSocket.PORT}`))
+
+      const errHandle = (err) => {
+        if(err) throw err
+      }
+      
+      wss.on('connection', (socket) => {
+        console.log("----Socket----------------------------------")
+        console.log(socket.constructor)
+        console.log("--------------------------------------------")
+        BZSocket.setSocketReaction(socket)
+
+      })
+    }catch(e){}
   },
   registor(d,socket){
     let u=d.user
@@ -94,10 +76,9 @@ const BZSocket={
     }
     m[k]=socket
     socket.bzUser=u;
-  },
-  registorOwner(u,socket){
-    BZSocket.registor(d,socket)
-    BZSocket.owner=socket
+    if(u.master){
+      BZSocket.opts.ideServer.retrieveScriptAndData(socket)
+    }
   },
   sendMsg(d,msg){
     if(d&&d.constructor==Socket){
@@ -114,6 +95,50 @@ const BZSocket={
         BZSocket.userMap[k].send(msg)
       }
     }
+  },
+  connectionServerByClient(v){
+    var socket = io.connect(v, {reconnect: true});
+    let o=BZSocket.opts
+
+    // Add a connect listener
+    socket.on('connect', function (socket) {
+      console.log('Connected to: '+v);
+      BZSocket.setSocketReaction(socket)
+
+      socket.emit("message",{
+        method:"registor",
+        user:{
+          code:o.userId,
+          token:o.key,
+          IP:BZSocket.IP,
+          PORT:BZSocket.PORT,
+          master:o.master
+        }
+      });
+    });
+  },
+  setSocketReaction(socket){
+    socket.on('message', (data) => {
+      try{
+        let d=JSON.parse(data)
+        BZSocket[d.method](d,socket);
+      }catch(e){
+        console.log(data)
+      }
+    })
+
+    socket.on("close",()=>{
+      console.log("close bz-ws ...")
+      let u=socket.bzUser
+      
+      if(u){
+        let k=BZSocket.getUserKey(u.code,u.token)
+        let s=BZSocket.userMap[k]
+        if(s==socket){
+          delete BZSocket.userMap[k]
+        }
+      }
+    })
   }
 }
 exports.BZSocket = BZSocket;
