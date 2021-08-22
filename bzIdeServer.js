@@ -6,7 +6,7 @@ const BZIDEServer={
   urlObj:0,
   start(opts){
     BZIDEServer.opts=opts
-    BZIDEServer.mySocketAddress=opts.BZSocket.IP+":"+opts.BZSocket.PORT
+    BZIDEServer.mySocketAddress=opts.socketServer.IP+":"+opts.socketServer.PORT
     
     BZIDEServer.loadIDE(function(){
       
