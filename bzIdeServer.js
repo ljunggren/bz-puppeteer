@@ -38,8 +38,8 @@ const BZIDEServer={
         url=dockerUrl;
         console.log("worker url: "+url)
         BZIDEServer.loadPage(url,function(s){
-          s=s.match(/\<body\>(.+)\<\/body\>/ig);
-          if(s){
+          s=s.match(/\<body\>(.+)\<\/body\>/i);
+          if(s&&s[0]){
             console.log("Master socket server: "+s)
             s=s[1].split(",")
             BZIDEServer.opts.userId=s[0]
