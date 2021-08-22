@@ -7,6 +7,7 @@ if(name!=="bz-master"){
     registerTab()
   },0);
 }else{
+  document.body.setAttribute("bz-id",chrome.runtime.id)
   window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
 }
 

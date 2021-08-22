@@ -9,9 +9,11 @@ const BZSocket={
   getUserKey(code,token){
     return code+"-"+(token||"")
   },
-  start(fun){
+  opts:0,
+  start(opts,fun){
+    BZSocket.opts=opts
     // Listen to connections on port 3000;
-    // try {
+    try {
       if(!BZSocket.socketStarted){
         BZSocket.socketStarted=1
         
@@ -22,8 +24,11 @@ const BZSocket={
         const errHandle = (err) => {
           if(err) throw err
         }
-
+        
         wss.on('connection', (socket) => {
+          console.log("----Socket----------------------------------")
+          console.log(socket.constructor)
+          console.log("--------------------------------------------")
           socket.on('message', (data) => {
             try{
               let d=JSON.parse(data)
@@ -51,10 +56,10 @@ const BZSocket={
       }
       setIP()
       fun()
-    // }catch (e){
-      // console.log("message: "+e.message)
-      // console.log(e.stock)
-    // }
+    }catch (e){
+      console.log("message: "+e.message)
+      console.log(e.stock)
+    }
     
     function setIP(){
       if(!BZSocket.IP){
@@ -95,7 +100,9 @@ const BZSocket={
     BZSocket.owner=socket
   },
   sendMsg(d,msg){
-    if(d.to){
+    if(d&&d.constructor==Socket){
+      d.send(msg)
+    }else if(d&&d.to){
       let k=BZSocket.getUserKey(d.to,d.token)
       
       let m=BZSocket.userMap[k]

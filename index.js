@@ -45,10 +45,12 @@ console.log("Running with following args");
 console.log(opts);
 console.log("Example: Use --verbose for verbose logging (boolean example). Use --width=800 to override default width (value example.)");
 
-
-BZSocket.start(function(){
-  BrowserHandler.start(opts,BZIDEServer,LogService,function(){
-    BZIDEServer.start(opts,BZSocket)
+opts.ideServer=BZIDEServer;
+opts.logService=LogService;
+opts.socketServer=BZSocket;
+BZSocket.start(opts,function(){
+  BrowserHandler.start(opts,function(){
+    BZIDEServer.start(opts)
   })
 })
 

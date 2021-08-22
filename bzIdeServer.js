@@ -1,10 +1,12 @@
 'use strict';
+const http = require('http');
+const https = require('https');
 const BZIDEServer={
   scriptList:[],
   urlObj:0,
-  start(opts,BZSocket){
+  start(opts){
     BZIDEServer.opts=opts
-    BZIDEServer.mySocketAddress=BZSocket.IP+":"+BZSocket.PORT
+    BZIDEServer.mySocketAddress=opts.BZSocket.IP+":"+opts.BZSocket.PORT
     
     BZIDEServer.loadIDE(function(){
       
@@ -20,14 +22,14 @@ const BZIDEServer={
     let o=BZIDEServer.urlObj=BZIDEServer.parseUrl(url)
     let dockerUrl=o.protocol+"://"+o.host+"/docker?"+o.query
     if(o.master){
-      url=url.replace(/\&master=([^&#]*)(&|#)/,"$1",BZIDEServer.mySocketAddress);
+      url=url.replace(/(\&master=)([^&#]*)(&|#)/,"$1"+BZIDEServer.mySocketAddress+"$3");
       console.log("master url: "+url)
 
       BZIDEServer.loadPage(url,function(s){
         s=s.match(/\<script [^\<]+\<\/script\>/ig);
-        
+
         BZIDEServer.syncLoadFile(s,function(){
-          BZIDEServer.lanuchIDE(url)
+          BZIDEServer.lanuchIDE(dockerUrl)
         })
       })
     }else if(o.group){
@@ -84,6 +86,7 @@ const BZIDEServer={
   },
   loadData(o){
     let u=`${o.protocol}://${o.host}/api/projects/${o.project}/?token=${o.token}`
+    console.log(u)
     BZIDEServer.loadPage(u,function(x){
       console.log(x)
     })
@@ -134,7 +137,7 @@ const BZIDEServer={
     console.log(o)
     
     
-    if(url.key){
+    if(o.key){
       console.log("Running in cooperation!")
     }else{
       console.log("Running in stand alone!")
@@ -172,15 +175,16 @@ const BZIDEServer={
     }
     let page=BZIDEServer.page;
     await page.goto(url)
-
-    page.evaluate("preData="+JSON.stringify(BZIDEServer.projectData))
-    
+    if(BZIDEServer.projectData){
+      page.evaluate("preData="+JSON.stringify(BZIDEServer.projectData))
+    }
     postScript(page)
 
     function postScript(page,_fun,i){
       i=i||0
       let x=BZIDEServer.scriptList[i]
       if(x){
+        console.log("script-"+i+": "+x.substring(0,50))
         setTimeout(()=>{
           page.evaluate(x)
           postScript(page,_fun,i+1)
@@ -189,6 +193,19 @@ const BZIDEServer={
         _fun&&_fun()
       }
     }
+  },
+  getScriptAndData(d,socket){
+    BZIDEServer.opts.socketServer.sendMsg(socket,{
+      method:"BZSocket.opts.ideServer.setScriptAndData",
+      data:{
+        script:BZIDEServer.scriptList,
+        data:BZIDEServer.projectData
+      }
+    })
+  },
+  setScriptAndData(d){
+    BZIDEServer.scriptList=d.data.script
+    BZIDEServer.projectData=d.data.data
   }
 }
 exports.BZIDEServer = BZIDEServer;

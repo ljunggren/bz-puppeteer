@@ -2,8 +2,8 @@
 const puppeteer = require('puppeteer');
 const BrowserHandler={
   browser:0,
-  start(opts,ideServer,logService,fun){
-    BrowserHandler.logService=logService;
+  start(opts,fun){
+    BrowserHandler.opts=opts;
     (async () => {
       
       let file = (opts.docker ? "/var/boozang/" : "");
@@ -45,7 +45,7 @@ const BrowserHandler={
 
         popup.on("error", BrowserHandler.appPrintStackTrace);
         popup.on("pageerror", BrowserHandler.appPrintStackTrace);
-        logService.setPopup(popup)
+        opts.logService.setPopup(popup)
       }
 
       let pages = await BrowserHandler.browser.pages();
@@ -55,13 +55,13 @@ const BrowserHandler={
 
         setupPopup();
 
-        ideServer.setPage(BrowserHandler.curPage,BrowserHandler.browser);
-        logService.setPage(BrowserHandler.curPage,BrowserHandler.browser);
+        opts.ideServer.setPage(BrowserHandler.curPage,BrowserHandler.browser);
+        opts.logService.setPage(BrowserHandler.curPage,BrowserHandler.browser);
             
       });
       
       // Assign all log listeners
-      logService.logOpts(opts,file);
+      opts.logService.logOpts(opts,file);
 
       await BrowserHandler.lanuchPage(0,fun)
     })()
@@ -84,11 +84,11 @@ const BrowserHandler={
     fun&&fun()
   },
   appPrintStackTrace(err){
-    BrowserHandler.logService.consoleMsg(err.message,"error","app");
+    BrowserHandler.opts.logService.consoleMsg(err.message,"error","app");
   },
   idePrintStackTrace(err){
-    BrowserHandler.logService.consoleMsg(err.message,"error","ide");
-    BrowserHandler.logService.chkIDE()
+    BrowserHandler.opts.logService.consoleMsg(err.message,"error","ide");
+    BrowserHandler.opts.logService.chkIDE()
   }
 }
 exports.BrowserHandler=BrowserHandler
