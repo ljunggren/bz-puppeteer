@@ -100,9 +100,10 @@ const BZSocket={
     console.log("Master socket server: "+v)
     let o=BZSocket.opts
     
-    const ws = new WebSocket('ws://'+v);
+    const ws = new WS.Client('ws://'+v);
 
     ws.on('open', function open() {
+      console.log("after open socket:"+v)
     });
     
     // Add a connect listener
