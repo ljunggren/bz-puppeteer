@@ -56,7 +56,7 @@ const BZSocket={
       }
       
       wss.on('connection', (socket) => {
-        console.log("----Socket----------------------------------")
+        console.log("--get Socket--------------------------------")
         console.log(socket.constructor)
         console.log("--------------------------------------------")
         BZSocket.setSocketReaction(socket)
@@ -98,7 +98,7 @@ const BZSocket={
   },
   connectionServerByClient(v){
     console.log("Master socket server: "+v)
-    var socket = io.connect(v, {reconnect: true});
+    var socket = io.connect("http://"+v, {reconnect: true});
     let o=BZSocket.opts
 
     // Add a connect listener
