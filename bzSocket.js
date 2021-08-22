@@ -97,6 +97,7 @@ const BZSocket={
     }
   },
   connectionServerByClient(v){
+    console.log("Master socket server: "+v)
     var socket = io.connect(v, {reconnect: true});
     let o=BZSocket.opts
 
