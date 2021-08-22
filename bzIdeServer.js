@@ -23,6 +23,7 @@ const BZIDEServer={
     let dockerUrl=o.protocol+"://"+o.host+"/docker?"+o.query
     if(o.master){
       url=url.replace(/(\&master=)([^&#]*)(&|#)/,"$1"+BZIDEServer.mySocketAddress+"$3");
+      dockerUrl.replace(/(\&master=)([^&#]*)(&|#)/,"$1"+BZIDEServer.mySocketAddress+"$3");
       console.log("master url: "+url)
 
       BZIDEServer.loadPage(url,function(s){
