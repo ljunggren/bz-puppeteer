@@ -1,6 +1,10 @@
 'use strict';
-const WS = require('ws');
-// const io = require('socket.io-client');
+//const WS = require('ws');
+const http = require('http')
+
+const WS = require("socket.io");
+const io = require('socket.io-client');
+
 
 const BZSocket={
   IP:0,
@@ -12,9 +16,12 @@ const BZSocket={
   },
   opts:0,
   start(opts,fun){
+    console.log("--Start Socket --------------------------------")
     BZSocket.opts=opts
     setIP()
-    if(opts.master){
+    console.log("--Option: "+opts.urlObj.master+" --------------------------------")
+    if(opts.urlObj.master){
+      console.log("--Start Socket 2--------------------------------")
       BZSocket.buildServer()
     }
     fun()
@@ -36,8 +43,8 @@ const BZSocket={
           }
         }
         BZSocket.IP=BZSocket.IP.join(".")
-        if(!opts.master){
-          BZSocket.PORT+=parseInt(opts.key)||0
+        if(!opts.urlObj.master){
+          BZSocket.PORT+=parseInt(opts.urlObj.key)||0
         }
       }
     }
@@ -45,24 +52,62 @@ const BZSocket={
   },
   buildServer(){
     try{
+      console.log("--Building Socket --------------------------------")
       BZSocket.socketStarted=1
-      
-      const wss = new WS.Server({
-        port: BZSocket.PORT
-      }, () => console.log(`bz-ws server live on ${BZSocket.PORT}`))
 
-      const errHandle = (err) => {
-        if(err) throw err
-      }
-      
-      wss.on('connection', (socket) => {
+      var server = http.createServer(function(req, res)
+      {
+        // Send HTML headers and message
+        res.writeHead(404, {'Content-Type': 'text/html'});
+        res.end('<h1>Aw, snap! 404</h1>');
+      });
+      server.listen(BZSocket.PORT);
+      const wss= WS.listen(server);
+
+      // Add a connect listener
+      wss.sockets.on('connection', function(socket)
+      {
         console.log("--get Socket--------------------------------")
         console.log(socket.constructor)
         console.log("--------------------------------------------")
         BZSocket.setSocketReaction(socket)
+      });
+      
+      // const wss = new WS.listen(BZSocket.PORT);
+      
+      // // const wss = new WS.Server({
+        // // port: BZSocket.PORT
+      // // }, () => console.log(`bz-ws server live on ${BZSocket.PORT}`))
 
-      })
-    }catch(e){}
+      // // const errHandle = (err) => {
+        // // if(err) throw err
+      // // }
+
+
+      // // var wss = new io.Socket(BZSocket.IP, {port: BZSocket.PORT});
+      // // wss.connect();
+
+      // wss.on("connect_error", (err) => {
+        // console.log(`connect_error due to ${err.message}`);
+      // });
+
+      // wss.on("error", (err) => {
+        // console.log(`connect_error due to ${err.message}`);
+      // });
+
+      // wss.on('connection', (socket) => {
+        // console.log("--get Socket--------------------------------")
+        // console.log(socket.constructor)
+        // console.log("--------------------------------------------")
+        // BZSocket.setSocketReaction(socket)
+      // })
+      
+      console.log("--Builded Socket Server --------------------------------")
+    }catch(e){
+      console.log("--Socket Server Error--------------------------------")
+      console.log(e.message)
+      console.log("--Socket Server Error--------------------------------")
+    }
   },
   registor(d,socket){
     let u=d.user
@@ -97,17 +142,27 @@ const BZSocket={
     }
   },
   connectionServerByClient(v){
-    console.log("Master socket server: "+v)
+    console.log("Connect Master socket server: "+v)
     let o=BZSocket.opts
+    let s=io.connect("ws://"+v, {transports: ["websocket"],allowEIO3: true});
     
-    const ws = new WS.Client('ws://'+v);
+    // const s= io("ws://192.168.1.7:6969", {
+      // reconnectionDelayMax: 10000,
+      // auth: {
+        // token: "123"
+      // },
+      // query: {
+        // "my-key": "my-value"
+      // }
+    // });
+//    const s = io.connect("http://"+v, {reconnect: true});
+//    const s = new io.Socket('localhost', {port: 6767});
 
-    ws.on('open', function open() {
-      console.log("after open socket:"+v)
+    s.on("connect_error", (err) => {
+      console.log(`connect_error due to ${err.message}`);
     });
-    
-    // Add a connect listener
-    ws.on('connect', function (socket) {
+
+    s.on('connect', function (socket) {
       console.log('Connected to: '+v);
       BZSocket.setSocketReaction(socket)
 
@@ -122,9 +177,15 @@ const BZSocket={
         }
       });
     });
+
+    console.log("complete connect Master")
   },
   setSocketReaction(socket){
+    socket.on("connect_error", (err) => {
+      console.log(`connect_error due to ${err.message}`);
+    });
     socket.on('message', (data) => {
+      console.log("Socket get message: "+data)
       try{
         let d=JSON.parse(data)
         BZSocket[d.method](d,socket);

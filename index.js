@@ -39,6 +39,7 @@ if (result.errors || !result.args || result.args.length !== 1) {
 }
 
 opts.url=result.args[0]
+opts.urlObj=parseUrl(opts.url)
 console.log(result)
 
 console.log("Running with following args");
@@ -54,13 +55,32 @@ BZSocket.start(opts,function(){
   })
 })
 
-// LogService.setResetButton(function(s){
-  // start(1)
-// });
+function parseUrl(url){
+  let s=url.split("/");
+  let o={
+    protocol:s[0].replace(":",""),
+    host:s[2],
+    hash:url.split("#")[1],
+    query:url.split("?")[1]
+  }
+  s=o.hash.split("/")
+  o.project=s[0]
+  o.version=s[1]
+  o.module=s[2]
+  o.test=s[3]
+  s=o.query.split("#")[0].split("&")
+  s.forEach(x=>{
+    x=x.split("=")
+    o[x[0]]=x[1]
+  })
+  console.log(o)
+  
+  
+  if(o.key){
+    console.log("Running in cooperation!")
+  }else{
+    console.log("Running in stand alone!")
+  }
 
-
-// console.log("Sleeping "+sleep+"s")
-// setTimeout(()=>{
-  // console.log("Finished sleep!")
-  // start()
-// },sleep*1000)
+  return o
+}

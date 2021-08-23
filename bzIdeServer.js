@@ -19,7 +19,8 @@ const BZIDEServer={
   },
   loadIDE(fun){
     let url=BZIDEServer.opts.url
-    let o=BZIDEServer.urlObj=BZIDEServer.parseUrl(url)
+    let o=BZIDEServer.opts.urlObj
+    
     let dockerUrl=o.protocol+"://"+o.host+"/docker?"+o.query
     if(o.master){
       url=url.replace(/(\&master=)([^&#]*)(&|#)/,"$1"+BZIDEServer.mySocketAddress+"$3");
@@ -48,14 +49,14 @@ const BZIDEServer={
           }
         })
         
-      },5000)
+      },3000)
     }else{
       BZIDEServer.lanuchIDE()
     }
     
   },
   addRun(url,reset){
-    if (!url.endsWith("/run") && BZIDEServer.urlObj.test) {
+    if (!url.endsWith("/run") && BZIDEServer.opts.urlObj.test) {
       if (!url.endsWith("/")) {
         url += "/"
       }
@@ -101,7 +102,7 @@ const BZIDEServer={
 
       if(x.startsWith("src=")){
         x=x.match(/[\"\'](.+)[\"\']/)[1]
-        x=BZIDEServer.urlObj.protocol+"://"+BZIDEServer.urlObj.host+"/"+x.replace(/^[\/]/,"")
+        x=BZIDEServer.opts.urlObj.protocol+"://"+BZIDEServer.opts.urlObj.host+"/"+x.replace(/^[\/]/,"")
 
         BZIDEServer.loadPage(x,(v)=>{
           BZIDEServer.scriptList.push(v)
@@ -121,37 +122,6 @@ const BZIDEServer={
       _fun()
     }
   },
-  parseUrl(url){
-    let s=url.split("/");
-    let o={
-      url:url,
-      protocol:s[0].replace(":",""),
-      host:s[2],
-      hash:url.split("#")[1],
-      query:url.split("?")[1]
-    }
-    s=o.hash.split("/")
-    o.project=s[0]
-    o.version=s[1]
-    o.module=s[2]
-    o.test=s[3]
-    s=o.query.split("#")[0].split("&")
-    s.forEach(x=>{
-      x=x.split("=")
-      o[x[0]]=x[1]
-    })
-    console.log(o)
-    
-    
-    if(o.key){
-      console.log("Running in cooperation!")
-    }else{
-      console.log("Running in stand alone!")
-    }
-    
-    
-    return o
-  },
   loadPage(url,_fun){
     let httpTool;
     if(url.startsWith("http:")){
@@ -159,7 +129,7 @@ const BZIDEServer={
     }else{
       httpTool=https
     }
-    
+    console.log(url);
     httpTool.get(url, function(res) {
       var s = '';
       res.on('data', function (chunk) {
@@ -173,7 +143,7 @@ const BZIDEServer={
   },
   async lanuchIDE(url,reset){
     if(!url){
-      url=BZIDEServer.urlObj.url
+      url=BZIDEServer.opts.urlObj.url
       
       if(reset){
         url=url.replace(/\/run$/,"/")
