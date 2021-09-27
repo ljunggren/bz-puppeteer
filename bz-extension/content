@@ -7,6 +7,7 @@ if(name!=="bz-master"){
     registerTab()
   },0);
 }else{
+  document.body.setAttribute("bz-id",chrome.runtime.id)
   window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
 }
 
@@ -23,7 +24,7 @@ let waitCodeTimer
 function handleMsg(_event, _, sendResponse, codeTime) {  
   //_console("content get message: ",_event)
   if(window.name!="bz-master"&&(!window.ecMap||!window[ecMap.i]||!window[ecMap.u])){
-    if(window.bzIframeId===null){
+    if(window.bzIframeId===null||window.bzIframeId===undefined||window.innerWidth<10||window.innerHeight<5){
       return
     }
     console.log("BZ-LOG: waiting app code!")
