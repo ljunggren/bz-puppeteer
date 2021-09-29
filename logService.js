@@ -144,8 +144,8 @@ const Service = {
         v=v.split(":")[1].trim()
         if(v=="declare"){
           Service.tryWakeup=0
-        }else{
-          Service.tryWakeup=1
+        }else if(Service.tryWakeup){
+          Service.tryWakeup++
         }
         
         Service.curWorkerStatus=v
