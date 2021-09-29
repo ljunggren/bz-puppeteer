@@ -96,7 +96,9 @@ const Service = {
         },timeout)
         let tryWakeup=Service.tryWakeup
         t.timeout&&t.fun(msg,Service.timer)
-        if(tryWakeup==Service.tryWakeup){
+        
+        if(t.fun&&tryWakeup==Service.tryWakeup){
+          Service.consoleMsg("Reset wakeup to 0 by "+t.key)
           Service.tryWakeup=0
         }
         if(t.oneTime){
@@ -143,13 +145,13 @@ const Service = {
       fun:function(v){
         v=v.split(":")[1].trim()
         if(v=="declare"){
+          Service.consoleMsg("Reset wakeup to 0 on declare")
           Service.tryWakeup=0
         }else if(Service.tryWakeup){
           Service.tryWakeup++
         }
         
         Service.curWorkerStatus=v
-        Service.consoleMsg("IDE Status: "+v)
       },
       timeout:Service.stdTimeout
     })
