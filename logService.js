@@ -97,7 +97,7 @@ const Service = {
         let tryWakeup=Service.tryWakeup
         t.timeout&&t.fun(msg,Service.timer)
         
-        if(t.fun&&tryWakeup==Service.tryWakeup){
+        if(Service.tryWakeup&&t.fun&&tryWakeup==Service.tryWakeup){
           Service.consoleMsg("Reset wakeup to 0 by "+t.key)
           Service.tryWakeup=0
         }
