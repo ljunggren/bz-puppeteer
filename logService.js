@@ -144,7 +144,7 @@ const Service = {
       key:"Coop-Status:",
       fun:function(v){
         v=v.split(":")[1].trim()
-        if(v=="declare"){
+        if(v=="declare"&&Service.tryWakeup){
           Service.consoleMsg("Reset wakeup to 0 on declare")
           Service.tryWakeup=0
         }else if(Service.tryWakeup){
