@@ -24,15 +24,18 @@ let waitCodeTimer
 function handleMsg(_event, _, sendResponse, codeTime) {  
   //_console("content get message: ",_event)
   if(window.name!="bz-master"&&(!window.ecMap||!window[ecMap.i]||!window[ecMap.u])){
-    if(window.bzIframeId===null||window.bzIframeId===undefined||window.innerWidth<10||window.innerHeight<5){
+    if(window.bzIframeId===null||window.bzIframeId===undefined){
       return
     }
-    console.log("BZ-LOG: waiting app code!")
     codeTime=codeTime||0
-    if(codeTime>10){
-      if(codeTime==11){
+    if(codeTime>100){
+    console.log("BZ-LOG: waiting app code!")
+      if(window.innerWidth<10||window.innerHeight<5){
+        return
+      }
+      if(codeTime==101){
         registerTab()
-      }else if(codeTime>20){
+      }else if(codeTime>200){
         return
       }
     }
