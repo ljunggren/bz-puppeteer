@@ -14,6 +14,7 @@ if(name!=="bz-master"){
 
 function registerTab(){
   //_console("content register")
+  console.log("Do register from:"+bzIframeId)
   chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ),name:window.name},function(_msg){
     if(_msg && _msg._ignore){
       chrome.runtime.onMessage.removeListener()
@@ -29,15 +30,15 @@ function handleMsg(_event, _, sendResponse, codeTime) {
       return
     }
     codeTime=codeTime||0
-    if(codeTime>100){
-    console.log("BZ-LOG: waiting app code!")
+    if(codeTime%20==19){
+    //console.log("Waiting app code: "+bzIframeId)
       if(window.innerWidth<10||window.innerHeight<5){
         return
       }
-      if(codeTime==101){
-        registerTab()
-      }else if(codeTime>200){
+      if(codeTime>100){
         return
+      }else{
+        registerTab()
       }
     }
 

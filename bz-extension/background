@@ -390,10 +390,10 @@ function _setCodeToContent(c,id,tabId){
         }
         // chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code 1 to client:"+c.length,twPage:1,tab:"master",bz:1});
         chrome.tabs.executeScript(tabId, {code: c,matchAboutBlank:true,frameId:id},_=>{
-          let e = chrome.runtime.lastError;
-          if(e !== undefined){
-            console.log(tabId, _, e);
-          }
+          //let e = chrome.runtime.lastError;
+          //if(e !== undefined){
+            //console.log(tabId, _, e);
+          //}
         });
       }else{
         // chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code 2 to client:"+c.length,twPage:1,tab:"master",bz:1});
@@ -406,6 +406,8 @@ function _setCodeToContent(c,id,tabId){
         });
       }
     }catch(e){
+      console.log(e.stock)
+      
       // chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code to client get error2:"+e.message,twPage:1,tab:"master",bz:1});
     }
   }
@@ -419,6 +421,7 @@ function isIgnoreFrame(v){
 }
 //get message from app extension content
 chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
+    _sendResponse("ok")
   if(_msg.keep){
     return;
   }
@@ -449,10 +452,12 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     }
     _topFrameId=_msg.name=="bz-client"||_msg.name=="bz-manager"?t.frameId:_topFrameId;
     _setCodeToContent("bzIframeId="+t.frameId+";topFrame="+(_msg.name=="bz-client"?1:0)+";",t.frameId)
+/*
     if(_topFrameId!=t.frameId&&_status=="play"){
       _uncodeFrames.push(t.frameId)
       return
     }
+*/
     _initFrame(t.frameId)
   //only work after master window is ready, and the requestion will send to master
   }else if(_masterTabId){
@@ -492,7 +497,8 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
 function _initFrame(frameId){
   //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
   if(!window.BZ){
-    _setCodeToContent(_plugInCode,frameId);
+    console.log("set plug ocde to: "+frameId)
+    _setCodeToContent("console.log('Set code on: '+bzIframeId);"+_plugInCode,frameId);
   }else{
     //for BZ developer debugging in BZ office
     if(_masterUrl.includes("boozang")){
