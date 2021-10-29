@@ -3,15 +3,22 @@ let curContentExeAction=0,topFrame=0,initEnv=0;
  
 //Register
 window.extensionContent=1;
-if(name!=="bz-master"){
-  setTimeout(function(){
-    registerTab()
-  },0);
-}else{
-  document.body.setAttribute("bz-id",chrome.runtime.id)
-  window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
-}
 
+function initCode(t,tt){
+  if(name!=="bz-master"){
+    if(parent==window||(window.innerWidth>10&&window.innerHeight>5)){
+      registerTab()
+    }else if(tt<10){
+      setTimeout(function(){
+        initCode(100,tt+1)
+      },t);
+    }
+  }else{
+    document.body.setAttribute("bz-id",chrome.runtime.id)
+    window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
+  }
+}
+initCode(10,0)
 function registerTab(){
   //_console("content register")
   console.log("Do register from:"+bzIframeId)
@@ -30,7 +37,7 @@ function handleMsg(_event, _, sendResponse, codeTime) {
       return
     }
     codeTime=codeTime||0
-    if(codeTime%20==9){
+    if(codeTime%20==19){
     //console.log("Waiting app code: "+bzIframeId)
       if(window.innerWidth<10||window.innerHeight<5){
         return
