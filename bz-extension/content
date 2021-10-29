@@ -30,7 +30,7 @@ function handleMsg(_event, _, sendResponse, codeTime) {
       return
     }
     codeTime=codeTime||0
-    if(codeTime%20==19){
+    if(codeTime%20==9){
     //console.log("Waiting app code: "+bzIframeId)
       if(window.innerWidth<10||window.innerHeight<5){
         return
