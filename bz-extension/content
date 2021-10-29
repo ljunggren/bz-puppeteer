@@ -6,8 +6,12 @@ window.extensionContent=1;
 
 function initCode(t,tt){
   if(name!=="bz-master"){
-    if(parent==window||(window.innerWidth>10&&window.innerHeight>5)){
+    if(parent==window){
       registerTab()
+    }else if(window.innerWidth>10&&window.innerHeight>5){
+      setTimeout(()=>{
+        registerTab()
+      },1)
     }else if(tt<10){
       setTimeout(function(){
         initCode(100,tt+1)
