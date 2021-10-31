@@ -497,8 +497,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
 function _initFrame(frameId){
   //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
   if(!window.BZ){
-    console.log("set plug ocde to: "+frameId)
-    _setCodeToContent("console.log('Set code on: '+bzIframeId);"+_plugInCode,frameId);
+    _setCodeToContent(_plugInCode,frameId);
   }else{
     //for BZ developer debugging in BZ office
     if(_masterUrl.includes("boozang")){
