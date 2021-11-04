@@ -174,7 +174,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
           _data=_req.data;
         }
         if(_newStatus=="record"){
-          funMap.enableAllIframe()
+          //funMap.enableAllIframe()
         }
         chrome.tabs.sendMessage(_ctrlTabId, {_newStatus:_newStatus,data:_req.data});
         _newStatus=0;
