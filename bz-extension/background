@@ -98,13 +98,13 @@ let funMap={
     }
     xhttp.send(data.data);
   },
-  getScreenshot:function(bkScope,bkFun,d,t){
+  getScreenshot:function(bkScope,bkFun,d,t,element){
     let offset={
       left:0,
       top:0
     }
     chrome.tabs.captureVisibleTab((t&&t.tab.windowId)||_ctrlWindowId,(img) => {
-      let vs=getIframePath(curElement)||[]
+      let vs=getIframePath(element||curElement)||[]
       findOffset(vs,img)
     })
     
@@ -430,7 +430,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
   //For REGISTER tab, it only work for new pop window. The new window must pop up from master window.
   *****************************************************************************************************/
   if(_msg.bg){
-    return funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data,t)
+    return funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data,t,_msg.element)
   }else if(_msg._registerTab && (_msg.name=="bz-client"||_ctrlTabId==t.tab.id)){
     if(_msg.name=="bz-client"){
       if(!_plugInCode){
