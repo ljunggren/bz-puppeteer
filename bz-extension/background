@@ -345,9 +345,17 @@ function _addFrameId(_req,_element,_fun,_retry){
 
 function getIframePath(_element){
   if(_element&&!_element[0].startsWith("$(BZ.TW.document.body)")&&_element[0][0]=="$"){
-    var v=_element[0].match(/\(([0-9\,]+)\)/)
+    var v=_element[0].match(/\((.+)\)/)
     if(v){
-      return v[1].split(",")
+      v=v[1].trim()
+      if(v.match(/^[0-9, ]+$/)){
+        return v.split(",")
+      }else{
+        v=v.split("(")
+        v=v[1]||v[0]
+        v=v.replace(/(^['"]|['"]$)/g,"")
+        return [v]
+      }
     }
   }
 }
