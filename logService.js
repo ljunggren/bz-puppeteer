@@ -364,19 +364,21 @@ const Service = {
       }
       Service.lastHardResetTimer=Date.now()
     }
-    Service.consoleMsg("reset ...")
-//        Service.page.close()
-    if(forKeep){
-      Service.page.close()
-    }else{
-      Service.browser._closed=1
-      Service.browser.close()
-    }
-    setTimeout(()=>{
-      Service.consoleMsg("restart ...")
-      Service.restartFun(forKeep)
-      Service.init()
-    },forKeep?1000:15000)
+    Service.consoleMsg("reset ...");
+    (async () => {
+      await Service.page.close()
+      if(forKeep){
+        
+      }else{
+        Service.browser._closed=1
+        await Service.browser.close()
+      }
+      setTimeout(()=>{
+        Service.consoleMsg("restart ...")
+        Service.restartFun(forKeep)
+        Service.init()
+      },forKeep?1000:15000)
+    })()
   },
   /**/
   setStatus(v){
@@ -579,9 +581,13 @@ const Service = {
     if(Service.debugIDE){
       return
     }
-    msg && Service.consoleMsg(msg)
-    killer(Service.browser.process().pid, 'SIGKILL');
-    process.exit(Service.result)
+    msg && Service.consoleMsg(msg);
+    (async () => {
+      await Service.page.close()
+      await Service.browser.close()
+      killer(Service.browser.process().pid, 'SIGKILL');
+      process.exit(Service.result)
+    })()
   },
   async handleTimeout(timeout,msg){
     Service.consoleMsg(getCurrentTimeString()+": "+msg)
