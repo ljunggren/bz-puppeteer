@@ -1,6 +1,6 @@
 let _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_ctrlWindowId,curElement,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
 let _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId,_uncodeFrames=[];
-let _ignoreList=["https://vars.hotjar.com"],_lastIframeRequest=0,_dblCheckTime=0;
+let _ignoreList=["https://vars.hotjar.com"],_lastIframeRequest=0,_dblCheckTime=0,extendTopScript="",extendEndScript="";
 let funMap={
   cleanMaster:function(){
     cleanMaster()
@@ -186,6 +186,12 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   }else if(_req.ecMap){
     ecMap=_req.ecMap;
     _callback("background get ecMap")
+  }else if(_req.extendTopScript){
+    extendTopScript=_req.extendTopScript
+    return
+  }else if(_req.extendEndScript){
+    extendEndScript=_req.extendEndScript
+    return
   //Dynamic code from BZ master page
   }else if(_req.bzCode){
     if(_masterTabId&&_masterTabId!=_sender.tab.id){
@@ -501,17 +507,19 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     chrome.tabs.sendMessage(_masterTabId, _msg);
   }
 });
-
+function getPlugCode(){
+  return (extendTopScript||"")+"\n"+_plugInCode+"\n"+(extendEndScript||"")
+}
 function _initFrame(frameId){
   //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
   if(!window.BZ){
-    _setCodeToContent(_plugInCode,frameId);
+    _setCodeToContent(getPlugCode(),frameId);
   }else{
     //for BZ developer debugging in BZ office
     if(_masterUrl.includes("boozang")){
       //alert("The extension is not for production")
       if(_plugInCode){
-        _setCodeToContent(_plugInCode,frameId);
+        _setCodeToContent(getPlugCode(),frameId);
       }else{
         _setCodeToContent("showCode('BZ Debugging');",frameId);
       }
