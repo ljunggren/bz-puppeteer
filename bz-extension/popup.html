@@ -1,0 +1,51 @@
+<html>
+<head>
+<style>
+label span{
+  position: relative;
+  top: -2px;
+}
+#formatPage{
+  border-radius: 10px;
+  background-color: blue;
+  color: #FFF;
+  border: 0;
+  padding: 3px 10px;
+}
+.row{
+  margin:5px 0;
+  display:flex;
+}
+.row span{
+  margin:0 5px;
+}
+</style>
+<script src="js/jquery.min.v1.12.4.js"></script>
+</head>
+<body style="width: 300px;">
+  <div style="line-height:30px;">
+    <label><input type="checkbox" id="groupModule"/><span style="margin-top:-2px;">Group by module</span></label>
+  </div>
+  <div style="line-height:30px;">
+    <label><input type="radio" class="order" name="order" value="process"/><span style="margin-top:-2px;">Order by process</span></label>
+    <label><input type="radio" class="order" name="order" value="id"/><span style="margin-top:-2px;">Order by process</span></label>
+  </div>
+  <fieldset style="border:1px solid #CCC">
+    <legend>Performance setting:</legend>
+    <div class="row">
+      <div style="flex:1;display:flex;"><label><input id="chkTest" type="checkbox"><span>Test</span></label><input type="number" style="flex:1;width:30px" id="testTime"/></div>
+      <div style="flex:1;display:flex;margin-left:10px"><label><input id="chkAction" type="checkbox"><span>Action</span></label><input type="number" style="flex:1;width:30px" id="actionTime"/></div>
+    </div>
+    <div style="font-style:italic;color:#666;margin-left:10px;">
+      Note: unit in second
+    </div>
+  </fieldset>
+  <div style="margin:10px 5px 5px 5px;text-align:right;">
+    <button id="formatPage">Format current page</button>
+  </div>
+  <div style="margin:15px 10px; 5px 10px">
+    <a href="#" id="home">Go to Boozang home page</a>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
