@@ -438,6 +438,9 @@ let pop={
   formatLog:function(tab) {
     chrome.tabs.executeScript(tab.id, {code: `window.formatter&&window.formatter.exeFormag(${JSON.stringify(tab.data)})`,matchAboutBlank:true,allFrames:true},_=>{})
   },
+  updateFormatLogSetting:function(tab){
+    chrome.tabs.executeScript(tab.id, {code: `window.formatter&&window.formatter.updateFormatLogSetting(${JSON.stringify(tab.data)})`,matchAboutBlank:true,allFrames:true},_=>{})
+  },
   getPageInfo:function(tab,_fun){
     chrome.tabs.sendMessage(tab, {scope:"formatter",fun:"getPageInfo"},d=>{
       _fun(d)
