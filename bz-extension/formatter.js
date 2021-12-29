@@ -37,21 +37,26 @@ var formatter={
 
 .bz-loading-info{
   position: fixed;
+/*
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+*/
+  bottom: 10px;
+  right: 10px;
+  z-index:100000;
   background-color: #FFF;
   border: 5px solid #00F;
   border-radius: 10px;
   padding: 20px 30px;
-  font-size: 30px;
+  font-size: 25px;
   display: flex;
 }
 
 .bz-loading-info .bz-running{
-  height: 50px;
-  width: 50px;
-  background-size: 50px;
+  height: 40px;
+  width: 40px;
+  background-size: 40px;
 }
 .bz-success-title{
   background-color:#EFE !important;
@@ -112,7 +117,6 @@ var formatter={
   border-radius: 5px;
   border: 1px solid #999;
   z-index: 10;
-  opacity: 0.1;
   box-shadow: 2px 2px 9px rgb(0 0 0 / 40%);
 }
 .bz-info-box>div{
@@ -129,9 +133,6 @@ var formatter={
   margin-left:10px;
 }
 
-.bz-info-box:hover{
-  opacity:1;
-}
 
 .bz-sum-link{
   cursor:pointer;
@@ -242,6 +243,9 @@ button,.bz-icon{
 }
     `
   },
+  updateFormatLogSetting:function(setting){
+    localStorage.setItem("bz-log-format",JSON.stringify(setting))
+  },
   exeFormag:function(setting,auto){
     if(!document.body.innerText.includes("Boozang runner")&&!document.getElementsByTagName("iframe")[0]&&parent==window){
       if(!auto){
@@ -264,7 +268,8 @@ button,.bz-icon{
         formatter.exeFormag(setting,auto)
       },1000)
     }
-    localStorage.setItem("bz-log-format",JSON.stringify(setting))
+    formatter.updateFormatLogSetting(setting)
+
     let o=$(".console-output")[0]||$(document.body).find("pre")[0]
     if(o){
       if(location.href.endsWith("/console")){
@@ -283,7 +288,7 @@ button,.bz-icon{
     if(!formatter.data){
       formatter.data={
         preSteps:[],
-        scenarioes:[],
+        scenarios:[],
         endSteps:[],
         setting:setting,
         curTests:[],
@@ -300,11 +305,12 @@ button,.bz-icon{
       $(o).hide()
       formatter.element=formatter.buildLayout(p)
       formatter.curPanel=formatter.element.init.panel
-      formatter.format(o)
+      formatter.format(o,0,function(){
+        formatter.formatWorkers()
+      })
       
     }else{
       formatter.data.setting=setting
-      formatter.reformat(setting)
     }
   },
   addGroupElement:function(p,name,type,result,close){
@@ -403,11 +409,12 @@ button,.bz-icon{
     let fd=formatter.data;
     let info=[
       ["Version","version"],
+      ["Root test","rootTest"],
       ["Start time","startTime"],
       ["Execute time","executeTime"],
-      ["Total scenarioes","totalScenarioes"],
-      ["Success scenarioes","successScenarioes"],
-      ["Failed scenarioes","failedScenarioes"],
+      ["Total scenarios","totalScenarios"],
+      ["Success scenarios","successScenarios"],
+      ["Failed scenarios","failedScenarios"],
       ["Total tests","totalTests"],
       ["Total actions","totalActions"],
       ["Wake up times","wakeUpTimes"],
@@ -421,7 +428,9 @@ button,.bz-icon{
         <a class='bz-sum-link'>Summary info</a>
         </div>`).appendTo(p),
       init:formatter.addGroupElement(p,"Initial","init"),
+      exePanel:$("<div></div>"),
       panel:$("<div></div>"),
+      waitingList:$("<div></div>"),
       end:$("<div></div>"),
       info:$(`<div class="bz-info-box"><button class="bz-closer bz-icon bz-cross"></button>${info.map(x=>`<div><label>${x[0]}: </label><span class="${x[1]}"></span></div>`).join("")}</div>`),
       modules:$("<div></div>"),
@@ -450,13 +459,15 @@ button,.bz-icon{
     })
     
     o.startUrl=o.search.find(".startUrl")
+    p.append(o.exePanel);
     p.append(o.panel);
+    p.append(o.waitingList);
     p.append(o.end);
     o.search.append(o.info);
     return o
   },
   search:function(v,scope){
-    $(".bz-search-highlight").removeClass("bz-search-highlight")
+    removeAllHighlight()
     if(!v){
       return formatter.closeAll()
     }
@@ -490,7 +501,7 @@ button,.bz-icon{
               if(!zi){
                 return
               }
-              let pos=y.innerText.toLowerCase().indexOf(zi)
+              let pos=y.innerHTML.toLowerCase().indexOf(zi)
               if(pos>=0){
                 fz.push({pos:pos,w:zi})
               }else{
@@ -510,10 +521,10 @@ button,.bz-icon{
             vs.push(y)
           }
         }else{
-          let w=y.innerText.match(v)
+          let w=y.innerHTML.match(v)
           if(w){
             w=w[0]
-            let pos=y.innerText.indexOf(w)
+            let pos=y.innerHTML.indexOf(w)
             highlight(y,w,pos)
             vs.push(y)
           }
@@ -541,6 +552,13 @@ button,.bz-icon{
       v=w.substring(pos,pos+v.length)
       w=w.replace(v,`<span class='bz-search-highlight'>${v}</span>`)
       $(o).html(w)
+    }
+    
+    function removeAllHighlight(){
+      let os=$(".bz-search-highlight").toArray()
+      os.forEach(x=>{
+        x.parentElement.innerHTML=x.parentElement.innerHTML.replace(x.outerHTML,x.innerHTML)
+      })
     }
   },
   closeAll:function(){
@@ -586,17 +604,18 @@ button,.bz-icon{
     }
     return `<div class="bz-icon">${icon}</div>`
   },
-  format:function(o,chkTime){
-    let fd=formatter.data,idx=0
+  format:function(o,chkTime,fun){
+    let idx=0
     while(o.childNodes.length){
       let v=o.childNodes[0]
       v.remove()
-      addText(v)
+      formatter.formatLog(v)
       if(idx<1000){
         return setTimeout(()=>{
-          formatter.format(o,chkTime)
+          formatter.format(o,chkTime,fun)
         })
       }
+      idx++
     }
     if(formatter.loadingInfo){
       formatter.loadingInfo.remove()
@@ -604,11 +623,73 @@ button,.bz-icon{
     }
     if(!chkTime){
       this.chkTime=setInterval(()=>{
+        debugger
         formatter.format(o,1)
       },1000)
     }
+    debugger
+    fun&&fun()
+  },
+  formatWorkers:function(){
+    if(!formatter.data.setting.retrieveWorkerLog){
+      return
+    }
+    let logMap={}
+    try{
+      let v;
+      eval("v="+formatter.data.setting.identifyWorker)
+      v=v()
+      doIt(v,0)
+    }catch(ex){}
     
-
+    function doIt(vs,i){
+      let s=vs[i]
+      if(s){
+        $.ajax({
+          url:s,
+          method:"GET",
+          complete:function(c){
+            c=c.responseText.split("\n")
+            if(c.length){
+              while(!c.pop()){}
+              if(logMap[i]){
+                c=c.splice(logMap[i])
+              }else{
+                logMap[i]=0
+                debugger
+                formatter.showDoing("Formatting worker("+(i+1)+") log")
+              }
+              logMap[i]+=c.length
+              formatWorkerLog(c,function(){
+                doIt(vs,i+1)
+              })
+            }
+          }
+        })
+      }else{
+        setTimeout(()=>{
+          doIt(vs,0)
+        },30000)
+      }
+    }
+    
+    function formatWorkerLog(ws,fun){
+      let j=0
+      while(ws.length){
+        if(j>1000){
+          return setTimeout(()=>{
+            formatWorkerLog(ws,fun)
+          })
+        }
+        formatter.formatLog(ws.shift())
+        j++
+      }
+      fun&&fun()
+    }
+  },
+  formatLog:function(v){
+    let fd=formatter.data
+    addText(v)
     function addText(v){
       let curPanel;
 
@@ -657,18 +738,18 @@ button,.bz-icon{
         }
         
         if(curPanel==formatter.element.end){
-          let testElement=retrieveTest(x,formatter.element.panel)
+          let testElement=retrieveStartTest(x,formatter.element.panel)
           if(testElement){
             formatter.element.end.children().appendTo(testElement.element.declare.panel)
             return
           }
         }else if(fd.curTest){
-//          if(retrieveTest(x,curPanel)){
-          if(retrieveTest(x,fd.curTest.element.panel)){
+//          if(retrieveStartTest(x,curPanel)){
+          if(retrieveStartTest(x,fd.curTest.element.panel)){
             return
           }
         }else{
-          if(retrieveTest(x,curPanel)){
+          if(retrieveStartTest(x,curPanel)){
             return
           }
         }
@@ -699,7 +780,7 @@ button,.bz-icon{
             return
           }
 
-          if(retrieveScenario(x,formatter.element.panel)){
+          if(retrieveScenario(x,formatter.element.waitingList)){
             return
           }
           
@@ -721,12 +802,14 @@ button,.bz-icon{
       }
       return formatter.element.panel
     }
-
+    //0:
     function retrieveStartURL(v,p){
       if(!formatter.element.startUrl.text()){
-        let x=v.match(/http.+[\/]m[0-9]+[\/]t[0-9]+[\/]run/)
+        let x=v.match(/http.+[\/](m[0-9]+[\/]t[0-9]+)[\/]run/)
         if(x){
+          setSumInfo("rootTest",0,x[1].replace("/","."))
           x=x[0]
+
           formatter.element.startUrl.text(x)
           $(formatter.element.startUrl[0].previousSibling).removeClass("bz-hide");
           setSumInfo("version",0,v.split(/[\/]m[0-9]+[\/]t[0-9]+[\/]run/)[0].split("/").pop())
@@ -750,7 +833,10 @@ button,.bz-icon{
             t.element.time.text(parseInt(t.element.time.text()||0)+time+"s")
             
           });
-          setSumInfo("executeTime",0,x[3])
+          if(!formatter.data.curExeTime||x[3]>formatter.data.curExeTime){
+            formatter.data.curExeTime=x[3]
+            setSumInfo("executeTime",0,x[3])
+          }
           if(fd.curAction){
             fd.curAction.element.time.text(time+"s")
           }else if(formatter.curDeclare){
@@ -765,7 +851,7 @@ button,.bz-icon{
             fd.curTest.element.init.time.html(s)
             fd.curTest.element.initBtn[0].innerHTML=s
           }
-          if(time>3){
+          if(time>3||!fd.curAction){
             p.append(`<div class='bz-line'>${v}</div>`)
           }
         }
@@ -773,6 +859,7 @@ button,.bz-icon{
       }
     }
 
+    //1:
     function retrieveScenario(v,p){
       if(!formatter.data.testing){
         let x=v.match(/^[0-9]+\:.+(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?$/)
@@ -792,6 +879,7 @@ button,.bz-icon{
       }
     }
 
+    //2:
     function retrieveDeclare(v,p){
       let x=v.match(/declare on \[(m[0-9]+\.t[0-9]+)( ?\(([0-9]+)\))?\] (.+)$/)
       if(x){
@@ -811,7 +899,8 @@ button,.bz-icon{
       }
     }
 
-    function retrieveTest(v,p){
+    //3:
+    function retrieveStartTest(v,p){
       let x=v.match(/^([0-9]+)\: +\>+ Loading (Scenario|.+ Test) \[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\] - (.+) \([0-9]+\) \>+$/);
       if(x){
         let d={
@@ -837,12 +926,57 @@ button,.bz-icon{
           d.element.declare.time.html(s)
           d.element.declareBtn.html(s)
           d.element.ctrl.show()
+          d.element.switcher.css({visibility:"unset"})
           formatter.curDeclare=0
+        }
+        if(d.type=="scenario"){
+          if(formatter.element.waitingList.find(d.element.group)[0]){
+            formatter.element.exePanel.append(d.element.group)
+          }
         }
         return d
       }
     }
     
+    //4:
+    function retrieveTestResult(v,p){
+      let x=v.match(/^[0-9]+\: +\<+ (Failed|Success) .+ (net\:\:ERR|\[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\]).+$/)
+      if(x){
+        let r=x[1].toLowerCase()
+        
+        if(fd.curAction){
+          fd.curAction.element.result.addClass("bz-"+r)
+          setSumInfo("totalActions",1)
+          if(r=="failed"){
+            fd.curAction.element.title.addClass("bz-failed-title")
+          }
+          fd.curAction=0
+        }
+        fd.curTest.element.result.addClass("bz-"+r);
+        fd.curTest.element.title.addClass("bz-"+r+"-title")
+
+        fd.curTest.element.result.removeClass("bz-running");
+        if(fd.curTest.result!=r){
+          fd.curTest.result=r
+          if(fd.curTest.type=="scenario"){
+            if(!fd.curTest.remote){
+              setSumInfo(r+"Scenarios",1)
+            }
+          }else{
+            setSumInfo("totalTests",1)
+          }
+        }
+        
+        if(fd.curTest.type=="scenario"&&formatter.element.exePanel.find(fd.curTest.element.group)[0]){
+          formatter.element.panel.append(fd.curTest.element.group)
+        }
+        fd.curTests.pop();
+        fd.curTest=fd.curTests[fd.curTests.length-1]
+        p.append(`<div class='bz-line'>${v}</div>`)
+        return 1
+      }
+    }
+
     function setSumInfo(k,d,v){
       if(d){
         formatter.element[k].text(parseInt(formatter.element[k].text()||0)+d)
@@ -862,11 +996,12 @@ button,.bz-icon{
           tt[""].element.group.remove()
           delete tt[""].element.group
           delete m.testMap[t]
-          setSumInfo("totalScenarioes",-1)
+          setSumInfo("totalScenarios",-1)
         }
       }
       
     }
+
     function addTest(p,d){
       let dd
       if(d.type=="scenario"){
@@ -894,7 +1029,12 @@ button,.bz-icon{
         }
         dd=map[t][d.dataIdx]
         if($.isEmptyObject(dd)){
-          setSumInfo("totalScenarioes",1)
+          setSumInfo("totalScenarios",1)
+        }else if(dd.remote){
+          return dd
+        }else if(d.remote&&["success","failed"].includes(dd.result)){
+          dd.element.name.text(getTestFullName(d))
+          return
         }
       }else{
         map[t]=map[t]||{list:[]}
@@ -905,6 +1045,7 @@ button,.bz-icon{
       if(!dd.element){
         dd.element=formatter.addGroupElement(p,d.name,d.type,d.result||"wait")
       }
+
       Object.assign(dd,d)
 
       dd.element.name.text(getTestFullName(d))
@@ -1031,44 +1172,16 @@ button,.bz-icon{
         }
         p.append(`<div class='bz-line'>${v}</div>`)
         p=addTest(formatter.element.panel,d)
-        
+        if(!p||formatter.element.panel.find(p.element.group)[0]){
+          return
+        }
+        formatter.element.panel.append(p.element.group)
         p.element.switcher.css({visibility:"hidden"})
-        p.element.ctrl.remove()
-        delete p.element.ctrl
+        p.element.ctrl.hide()
         p.element.title.addClass("bz-remote-title")
         p.element.title.addClass("bz-"+d.result+"-title")
         
-        setSumInfo(d.result+"Scenarioes",1)
-        return 1
-      }
-    }
-
-    function retrieveTestResult(v,p){
-      let x=v.match(/^[0-9]+\: +\<+ (Failed|Success) .+ \[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?].+$/)
-      if(x){
-        let r=x[1].toLowerCase()
-        
-        if(fd.curAction){
-          fd.curAction.element.result.addClass("bz-"+r)
-          setSumInfo("totalActions",1)
-          if(r=="failed"){
-            fd.curAction.element.title.addClass("bz-failed-title")
-          }
-          fd.curAction=0
-        }
-        fd.curTest.element.result.addClass("bz-"+r);
-        fd.curTest.element.result.removeClass("bz-running");
-        fd.curTest.result=r
-        if(fd.curTest.type=="scenario"){
-          setSumInfo(r+"Scenarioes",1)
-        }else{
-          setSumInfo("totalTests",1)
-        }
-        
-        fd.curTest.element.title.addClass("bz-"+r+"-title")
-        fd.curTests.pop();
-        fd.curTest=fd.curTests[fd.curTests.length-1]
-        p.append(`<div class='bz-line'>${v}</div>`)
+        setSumInfo(d.result+"Scenarios",1)
         return 1
       }
     }
@@ -1099,15 +1212,16 @@ button,.bz-icon{
     }
   },
   showDoing:function(v){
-    let o=document.getElementsByClassName("bz-loading-info")[0]
+    let o=document.getElementsByClassName("bz-doing-text")[0]
     if(o){
+      o.innerText=v
       return
     }
     o=document.createElement("div");
     o.className="bz-loading-info"
     o.innerHTML=`
         <div class="bz-icon bz-running"></div>
-        <div style="line-height:45px;">${v}</div>
+        <div class="bz-doing-text" style="line-height:45px;">${v}</div>
     `;
     formatter.loadingInfo=o
     document.body.append(o)
@@ -1118,7 +1232,19 @@ button,.bz-icon{
     let v=localStorage.getItem("bz-log-format");
     if(v){
       v=JSON.parse(v)
-      formatter.exeFormag(v,Date.now())
+      if(v.autoFormat){
+        if(v.identifyMaster){
+          try{
+            let f;
+            eval("f="+v.identifyMaster)
+            if(f()){
+              formatter.exeFormag(v,Date.now())
+            }
+          }catch(ex){
+            alert("Identify page script issue: "+ex.message)
+          }
+        }
+      }
     }
     
   }
