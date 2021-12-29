@@ -12,7 +12,7 @@ function initCode(t,tt){
       setTimeout(()=>{
         registerTab()
       },1)
-    }else if(tt<2){
+    }else if(tt<10){
       setTimeout(function(){
         initCode(100,tt+1)
       },t);
@@ -41,7 +41,7 @@ function handleMsg(_event, _, sendResponse, codeTime) {
       return
     }
     codeTime=codeTime||0
-    if(codeTime%20==19){
+    if(codeTime%20==9){
     //console.log("Waiting app code: "+bzIframeId)
       if(window.innerWidth<10||window.innerHeight<5){
         return
@@ -58,6 +58,9 @@ function handleMsg(_event, _, sendResponse, codeTime) {
     waitCodeTimer=setTimeout(()=>{
       handleMsg(_event,_,sendResponse,codeTime+1)
     },100)
+  }else if(_event.scope=="formatter"){
+    formatter[_event.fun](_event.data,sendResponse)
+    return
   }
   if(_event.findFrameId){
     return responseIFrameId(_event.findFrameId,sendResponse,_event.element,_event.retry)

@@ -3,7 +3,7 @@
   "name": "Boozang AI",
   "short_name": "Boozang AI",
   "description": "Boozang test automation is powered by AI. Tests can be recorded or written in clear text.",
-  "version": "3.7.33",
+  "version": "3.8.0",
   "permissions": ["webRequest", "tabs","management","*://*/*","<all_urls>"],
   "background": {
     "scripts": ["background"]
@@ -41,15 +41,25 @@
         "<all_urls>"
       ],
       "all_frames":true,
-      "js": ["first.js"],
+      "matchAboutBlank":true,
+      "js": ["first.js","formatter.js"],
       "run_at": "document_start"
     },
     {
       "matches": [
         "<all_urls>"
       ],
+      "matchAboutBlank":true,
       "all_frames":true,
       "js": ["content"]
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "matchAboutBlank":true,
+      "all_frames":true,
+      "js": ["js/jquery.min.v1.12.4.js"]
     }
   ],
   "icons": { 
@@ -59,6 +69,7 @@
   },
   "browser_action": {
     "default_icon": "img/boozang.png",
-    "default_title": "Launch Boozang"
+    "default_title": "Launch Boozang",
+    "default_popup": "popup.html"
   }
 }

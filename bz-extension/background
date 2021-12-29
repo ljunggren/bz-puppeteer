@@ -131,9 +131,9 @@ let _list={},_responseList={}
 
 chrome.browserAction.setBadgeText({text: chrome.runtime.getManifest().version=="1.2"?"TEST":"AI"});
 //open management page from extension icon!
-chrome.browserAction.onClicked.addListener(function() {
-  chrome.tabs.create({url: _appUrl}, function(tab) {});
-});
+// chrome.browserAction.onClicked.addListener(function() {
+  // chrome.tabs.create({url: _appUrl}, function(tab) {});
+// });
 
 
 /*Get Message from IDE*/
@@ -433,8 +433,26 @@ function isIgnoreFrame(v){
     }
   }
 }
+
+let pop={
+  formatLog:function(tab) {
+    chrome.tabs.executeScript(tab.id, {code: `window.formatter&&window.formatter.exeFormag(${JSON.stringify(tab.data)})`,matchAboutBlank:true,allFrames:true},_=>{})
+  },
+  getPageInfo:function(tab,_fun){
+    chrome.tabs.sendMessage(tab, {scope:"formatter",fun:"getPageInfo"},d=>{
+      _fun(d)
+    });
+  }
+}
+
 //get message from app extension content
 chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
+  if(_msg.pop){
+    _sendResponse("ok")
+    return pop[_msg.fun](_msg.data,function(d){
+      _sendResponse(d)
+    })
+  }
     _sendResponse("ok")
   if(_msg.keep){
     return;
