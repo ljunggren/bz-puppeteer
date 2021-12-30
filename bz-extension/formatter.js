@@ -660,7 +660,7 @@ button{
         tr.push(`
           <div class="bz-row">
             <div class='bz-title-text' style='margin-left:20px;'>[${x.list[0].code}] ${x.list[0].name}</div>
-            <span class='bz-icon bz-icon-txt bz-timer'>${time}</span>
+            <span class='bz-icon bz-icon-txt bz-timer'>${time}s</span>
             <span class='bz-icon bz-icon-txt bz-success'>${success}</span>
             <span class='bz-icon bz-icon-txt bz-failed'>${failed}</span>
           </div>
@@ -675,7 +675,7 @@ button{
             <button class='bz-small-icon bz-switch'></button>
             <div class="bz-title-text" style="display:flex;">
               <span style="flex:1">${m} (Tests: ${ts.length}, executed times: ${mTotal})</span>
-              <span class='bz-icon bz-icon-txt bz-timer'>${mTime}</span>
+              <span class='bz-icon bz-icon-txt bz-timer'>${mTime}s</span>
               <span class='bz-icon bz-icon-txt bz-success'>${mSuccess}</span>
               <span class='bz-icon bz-icon-txt bz-failed'>${mFailed}</span>
             </div>
