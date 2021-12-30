@@ -1,9 +1,15 @@
 var formatter={
+  chking:30,
+  startUrl:"",
+  logMap:{},
   insertCss:function(){
     let s=document.createElement("style")
     document.body.append(s)
     s.innerText=`
 .bz-search { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2022%2022%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%20%20stroke%3A%20rgba%2854%2C61%2C74%2C0.7%29%3B%20%20%20%20%20%20%20%20stroke-linejoin%3A%20round%3B%20%20%20%20%20%20%20%20stroke-miterlimit%3A%2010%3B%20%20%20%20%20%20%20%20stroke-width%3A%202px%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22search%22%20transform%3D%22translate%28-1.001%20-0.679%29%22%3E%20%20%20%20%3Ccircle%20id%3D%22Ellipse_17%22%20data-name%3D%22Ellipse%2017%22%20class%3D%22cls-1%22%20cx%3D%227.157%22%20cy%3D%227.157%22%20r%3D%227.157%22%20transform%3D%22translate%282.001%201.679%29%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_54%22%20data-name%3D%22Path%2054%22%20class%3D%22cls-1%22%20d%3D%22M15.07%2C13.046l7.947%2C7.946a1.071%2C1.071%2C0%2C0%2C1%2C0%2C1.515l-.189.188a1.07%2C1.07%2C0%2C0%2C1-1.514%2C0l-7.947-7.946%22%20transform%3D%22translate%28-1.33%20-1.33%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
+.bz-analyze { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2026%2026.132%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.5px%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%20%20stroke%3A%20rgba%28112%2C112%2C112%2C0%29%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22analyze%22%20transform%3D%22translate%28-627%20-350.747%29%22%3E%20%20%20%20%3Cg%20id%3D%22analyze-2%22%20data-name%3D%22analyze%22%20transform%3D%22translate%28624.688%20348.504%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Compound_Path%22%20data-name%3D%22Compound%20Path%22%20class%3D%22cls-1%22%20d%3D%22M19.906%2C4.375H17.844A2.5%2C2.5%2C0%2C0%2C0%2C15.281%2C2.5a2.562%2C2.562%2C0%2C0%2C0-2.562%2C1.875H10.688c-.187%2C0-.375%2C0-.375.188V5.938H7.625A2.344%2C2.344%2C0%2C0%2C0%2C5.313%2C8.156V26.063a2.182%2C2.182%2C0%2C0%2C0%2C2.313%2C2.063H23a2.182%2C2.182%2C0%2C0%2C0%2C2.313-2.062V8.156A2.344%2C2.344%2C0%2C0%2C0%2C23%2C5.938H20.313V4.563C20.313%2C4.375%2C20.094%2C4.375%2C19.906%2C4.375ZM10.938%2C5h2.031a.375.375%2C0%2C0%2C0%2C.313-.312%2C2.031%2C2.031%2C0%2C0%2C1%2C4%2C0A.375.375%2C0%2C0%2C0%2C17.594%2C5h2.094V8.125h-8.75ZM23%2C6.563a1.719%2C1.719%2C0%2C0%2C1%2C1.688%2C1.594V26.063A1.558%2C1.558%2C0%2C0%2C1%2C23%2C27.5H7.625a1.558%2C1.558%2C0%2C0%2C1-1.687-1.437V8.156A1.719%2C1.719%2C0%2C0%2C1%2C7.625%2C6.563h2.687V8.469c0%2C.156.188.281.375.281h9.219c.188%2C0%2C.406-.125.406-.281V6.563Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C16.375l-2.219%2C2.094L8.969%2C17.375a.31.31%2C0%2C1%2C0-.437.438l1.281%2C1.313a.281.281%2C0%2C0%2C0%2C.219.094.344.344%2C0%2C0%2C0%2C.219-.094l2.437-2.313a.312.312%2C0%2C1%2C0-.438-.437Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-2%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M21.875%2C18.125H14.688a.313.313%2C0%2C0%2C0%2C0%2C.625h7.188a.313.313%2C0%2C0%2C0%2C0-.625Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-3%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C11.375l-2.219%2C2.094L8.969%2C12.375a.31.31%2C0%2C1%2C0-.437.437l1.281%2C1.313a.281.281%2C0%2C0%2C0%2C.219.094.344.344%2C0%2C0%2C0%2C.219-.094l2.438-2.312a.313.313%2C0%2C1%2C0-.438-.438Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-4%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M14.375%2C13.438a.281.281%2C0%2C0%2C0%2C.313.313h7.188a.313.313%2C0%2C0%2C0%2C0-.625H14.688a.281.281%2C0%2C0%2C0-.312.313Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-5%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C21.375l-2.219%2C2.094L8.969%2C22.375a.31.31%2C0%2C1%2C0-.438.438l1.281%2C1.313a.281.281%2C0%2C0%2C0%2C.219.094.344.344%2C0%2C0%2C0%2C.219-.094l2.438-2.313a.312.312%2C0%2C1%2C0-.438-.437Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-6%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M21.875%2C23.125H14.688a.313.313%2C0%2C0%2C0%2C0%2C.625h7.188a.313.313%2C0%2C0%2C0%2C0-.625Z%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cline%20id%3D%22Line_143%22%20data-name%3D%22Line%20143%22%20class%3D%22cls-2%22%20y2%3D%2224%22%20transform%3D%22translate%28627.5%20352.5%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_144%22%20data-name%3D%22Line%20144%22%20class%3D%22cls-2%22%20y2%3D%2224%22%20transform%3D%22translate%28652.5%20352.5%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
+.bz-timer { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2022%2022%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%230069ff%3B%20%20%20%20%20%20%20%20stroke%3A%20%230069ff%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23fff%3B%20%20%20%20%20%20%20%20stroke%3A%20%23fff%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.6px%3B%20%20%20%20%20%20%20%20fill-rule%3A%20evenodd%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-3%20%7B%20%20%20%20%20%20%20%20stroke%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-4%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22timer-gray%22%20transform%3D%22translate%28-242%20-732%29%22%3E%20%20%20%20%3Cg%20id%3D%22Group_82%22%20data-name%3D%22Group%2082%22%20transform%3D%22translate%28-40%201%29%22%3E%20%20%20%20%20%20%3Cg%20id%3D%22Ellipse_39%22%20data-name%3D%22Ellipse%2039%22%20class%3D%22cls-1%22%20transform%3D%22translate%28282%20731%29%22%3E%20%20%20%20%20%20%20%20%3Ccircle%20class%3D%22cls-3%22%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%2211%22%2F%3E%20%20%20%20%20%20%20%20%3Ccircle%20class%3D%22cls-4%22%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%2210.5%22%2F%3E%20%20%20%20%20%20%3C%2Fg%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cg%20id%3D%22timer-gray-2%22%20data-name%3D%22timer-gray%22%20transform%3D%22translate%28243.042%20732.768%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_355%22%20data-name%3D%22Path%20355%22%20class%3D%22cls-2%22%20d%3D%22M10.369%2C1.243l-.411-.01V3.869h.823V2.1A8.167%2C8.167%2C0%2C1%2C1%2C4.172%2C4.447l-.579-.579a9%2C9%2C0%2C1%2C0%2C6.776-2.625Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_356%22%20data-name%3D%22Path%20356%22%20class%3D%22cls-2%22%20d%3D%22M10.73%2C12.6a1.591%2C1.591%2C0%2C0%2C0%2C1.591-1.591%2C1.37%2C1.37%2C0%2C0%2C0-.462-1.121c-1.126-.791-5.9-3.652-5.9-3.652s3.16%2C5.393%2C3.6%2C5.851A1.34%2C1.34%2C0%2C0%2C0%2C10.73%2C12.6Z%22%20transform%3D%22translate%28-0.734%20-0.734%29%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
+
 .bz-module { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2022.437%2022.412%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%2C%20.cls-3%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20opacity%3A%200.15%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%280%2C0%2C0%2C0%29%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%2C%20.cls-3%20%7B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-linecap%3A%20round%3B%20%20%20%20%20%20%20%20stroke-linejoin%3A%20round%3B%20%20%20%20%20%20%20%20stroke-miterlimit%3A%2010%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22hdr-module%22%20transform%3D%22translate%28-1.475%20-0.921%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_337%22%20data-name%3D%22Path%20337%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C1.75l11%2C5.01L13.188%2C11.792%2C2.438%2C6.562Z%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_338%22%20data-name%3D%22Path%20338%22%20class%3D%22cls-2%22%20d%3D%22M13.271%2C22.8l9.979-5V6.76l-9.979%2C5%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_339%22%20data-name%3D%22Path%20339%22%20class%3D%22cls-3%22%20d%3D%22M13.188%2C22.833l-11.042-5V6.792l11.042%2C5Z%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_82%22%20data-name%3D%22Line%2082%22%20class%3D%22cls-3%22%20x2%3D%225.063%22%20y2%3D%222.293%22%20transform%3D%22translate%285.125%2011.478%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_83%22%20data-name%3D%22Line%2083%22%20class%3D%22cls-3%22%20x1%3D%222.875%22%20y1%3D%221.293%22%20transform%3D%22translate%285.125%2014.062%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_84%22%20data-name%3D%22Line%2084%22%20class%3D%22cls-3%22%20x1%3D%2211.041%22%20y1%3D%225%22%20transform%3D%22translate%2812.209%201.583%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_85%22%20data-name%3D%22Line%2085%22%20class%3D%22cls-3%22%20x1%3D%2211.041%22%20y1%3D%225%22%20transform%3D%22translate%287.49%204.021%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_86%22%20data-name%3D%22Line%2086%22%20class%3D%22cls-3%22%20y1%3D%225%22%20x2%3D%229.979%22%20transform%3D%22translate%282.146%201.615%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-scenario { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024.057%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%2C%20.cls-3%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-1%2C%20.cls-2%20%7B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%2854%2C61%2C74%2C0.5%29%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-3%20%7B%20%20%20%20%20%20%20%20stroke%3A%20rgba%28112%2C112%2C112%2C0%29%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22hdr-scenario%22%20transform%3D%22translate%28-355%20-756.5%29%22%3E%20%20%20%20%3Cg%20id%3D%22hdr-scenario-2%22%20data-name%3D%22hdr-scenario%22%20transform%3D%22translate%28357%20757%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_416%22%20data-name%3D%22Path%20416%22%20class%3D%22cls-1%22%20d%3D%22M10.106%2C0A10.133%2C10.133%2C0%2C0%2C0%2C8.177%2C20.075v2.9c6.048-.914%2C11.4-5.729%2C11.8-12.049A10.5%2C10.5%2C0%2C0%2C0%2C15.14%2C1.354c-.183-.108-.368-.215-.559-.309s-.395-.19-.6-.271C13.918.747%2C13.855.722%2C13.79.7c-.177-.066-.357-.14-.54-.193A10%2C10%2C0%2C0%2C0%2C10.106%2C0Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_417%22%20data-name%3D%22Path%20417%22%20class%3D%22cls-2%22%20d%3D%22M12.2%2C3.745a1.1%2C1.1%2C0%2C0%2C0-.966.388%2C4.507%2C4.507%2C0%2C0%2C0-.425.736%2C2.384%2C2.384%2C0%2C0%2C0%2C.309%2C2.481%2C2.722%2C2.722%2C0%2C0%2C0%2C1.971-1.608%2C1.96%2C1.96%2C0%2C0%2C0%2C.193-.814A1.158%2C1.158%2C0%2C0%2C0%2C12.2%2C3.745ZM7.7%2C3.8A1.182%2C1.182%2C0%2C0%2C0%2C6.6%2C4.927a1.96%2C1.96%2C0%2C0%2C0%2C.193.814A2.812%2C2.812%2C0%2C0%2C0%2C8.818%2C7.349%2C2.577%2C2.577%2C0%2C0%2C0%2C8.644%2C4.19%2C1.085%2C1.085%2C0%2C0%2C0%2C7.7%2C3.8ZM4.663%2C6.787a1.068%2C1.068%2C0%2C0%2C0-.6%2C1.919%2C4.646%2C4.646%2C0%2C0%2C0%2C.734.446A2.778%2C2.778%2C0%2C0%2C0%2C7.407%2C8.9%2C2.866%2C2.866%2C0%2C0%2C0%2C5.726%2C6.981a2.207%2C2.207%2C0%2C0%2C0-.87-.194%2C1.123%2C1.123%2C0%2C0%2C0-.193%2C0Zm9.528%2C3.76a2.823%2C2.823%2C0%2C0%2C0-1.6.465%2C2.866%2C2.866%2C0%2C0%2C0%2C1.681%2C1.919%2C2.208%2C2.208%2C0%2C0%2C0%2C.87.194%2C1.091%2C1.091%2C0%2C0%2C0%2C.792-1.938%2C4.488%2C4.488%2C0%2C0%2C0-.734-.426%2C2.665%2C2.665%2C0%2C0%2C0-1-.213ZM5.745%2C10.6a2.665%2C2.665%2C0%2C0%2C0-1%2C.213%2C2.113%2C2.113%2C0%2C0%2C0-.734.446%2C1.1%2C1.1%2C0%2C0%2C0%2C.85%2C1.919%2C1.991%2C1.991%2C0%2C0%2C0%2C.87-.194%2C2.614%2C2.614%2C0%2C0%2C0%2C1.6-1.919A2.762%2C2.762%2C0%2C0%2C0%2C5.745%2C10.6Zm3.131%2C1.9A2.722%2C2.722%2C0%2C0%2C0%2C6.9%2C14.112a1.876%2C1.876%2C0%2C0%2C0-.193.795%2C1.15%2C1.15%2C0%2C0%2C0%2C1.991.814%2C4.507%2C4.507%2C0%2C0%2C0%2C.425-.736A2.551%2C2.551%2C0%2C0%2C0%2C8.876%2C12.5Zm2.3.058a2.577%2C2.577%2C0%2C0%2C0%2C.174%2C3.159%2C1.206%2C1.206%2C0%2C0%2C0%2C2.049-.736%2C1.96%2C1.96%2C0%2C0%2C0-.193-.814%2C2.812%2C2.812%2C0%2C0%2C0-2.029-1.608Z%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cline%20id%3D%22Line_112%22%20data-name%3D%22Line%20112%22%20class%3D%22cls-3%22%20y2%3D%2222%22%20transform%3D%22translate%28355.5%20757.5%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_113%22%20data-name%3D%22Line%20113%22%20class%3D%22cls-3%22%20y2%3D%2222%22%20transform%3D%22translate%28378.5%20757.5%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-test { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2022.2%2021.992%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%2C%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%2854%2C61%2C74%2C0%29%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-linejoin%3A%20round%3B%20%20%20%20%20%20%20%20stroke-miterlimit%3A%2010%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-1%2C%20.cls-2%2C%20.cls-3%20%7B%20%20%20%20%20%20%20%20stroke-width%3A%201.2px%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%2C%20.cls-3%20%7B%20%20%20%20%20%20%20%20stroke%3A%20rgba%28112%2C112%2C112%2C0%29%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-3%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22hdr-unit%22%20transform%3D%22translate%28-0.095%20-0.52%29%22%3E%20%20%20%20%3Cg%20id%3D%22Group_109%22%20data-name%3D%22Group%20109%22%20transform%3D%22translate%281.695%201.12%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_309%22%20data-name%3D%22Path%20309%22%20class%3D%22cls-1%22%20d%3D%22M9.307%2C4.187a3.3%2C3.3%2C0%2C0%2C0%2C1.052%2C2.34H4.2V21.912h17V16.335a4.027%2C4.027%2C0%2C0%2C1-2.583.95%2C3.238%2C3.238%2C0%2C0%2C1-3.387-3.067%2C3.239%2C3.239%2C0%2C0%2C1%2C3.388-3.067%2C4.038%2C4.038%2C0%2C0%2C1%2C2.584.953V6.528H15.032a3.3%2C3.3%2C0%2C0%2C0%2C1.053-2.341A3.24%2C3.24%2C0%2C0%2C0%2C12.7%2C1.12%2C3.238%2C3.238%2C0%2C0%2C0%2C9.307%2C4.187Z%22%20transform%3D%22translate%28-2.695%20-1.12%29%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_459%22%20data-name%3D%22Path%20459%22%20class%3D%22cls-2%22%20d%3D%22M0%2C0V20.277%22%20transform%3D%22translate%280%200.5%29%22%2F%3E%20%20%20%20%20%20%3Cline%20id%3D%22Line_111%22%20data-name%3D%22Line%20111%22%20class%3D%22cls-3%22%20y2%3D%2220.277%22%20transform%3D%22translate%2820%200.5%29%22%2F%3E%20%20%20%20%20%20%3Cline%20id%3D%22Line_140%22%20data-name%3D%22Line%20140%22%20class%3D%22cls-3%22%20y2%3D%2221%22%20transform%3D%22translate%28-1%20-0.5%29%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
@@ -34,6 +40,22 @@ var formatter={
 
 .bz-plus{ background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23363d4a%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23fff%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22plus-black%22%20transform%3D%22translate%28-140%20-278.057%29%22%3E%20%20%20%20%3Cg%20id%3D%22plus-blue%22%20transform%3D%22translate%28-23%20-63.387%29%22%3E%20%20%20%20%20%20%3Ccircle%20id%3D%22Ellipse_2%22%20data-name%3D%22Ellipse%202%22%20class%3D%22cls-1%22%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%2212%22%20transform%3D%22translate%28163%20341.443%29%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cg%20id%3D%22plus-gray%22%20transform%3D%22translate%28145%20283%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_102%22%20data-name%3D%22Path%20102%22%20class%3D%22cls-2%22%20d%3D%22M13.563%2C5.262H8.75V.439A.438.438%2C0%2C0%2C0%2C8.313%2C0H5.688A.438.438%2C0%2C0%2C0%2C5.25.439V5.262H.438A.438.438%2C0%2C0%2C0%2C0%2C5.7V8.332a.438.438%2C0%2C0%2C0%2C.438.439H5.25v4.824a.438.438%2C0%2C0%2C0%2C.438.439H8.313a.438.438%2C0%2C0%2C0%2C.437-.439V8.77h4.813A.438.438%2C0%2C0%2C0%2C14%2C8.332V5.7A.438.438%2C0%2C0%2C0%2C13.563%2C5.262Z%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-cross{ background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%3E%20%20%3Cpath%20id%3D%22close%22%20d%3D%22M44.8%2C42.022%2C37.617%2C34.8%2C44.8%2C27.578%2C42.022%2C24.8%2C34.8%2C31.983%2C27.578%2C24.8%2C24.8%2C27.578%2C31.983%2C34.8%2C24.8%2C42.022%2C27.578%2C44.8%2C34.8%2C37.617%2C42.022%2C44.8Z%22%20transform%3D%22translate%28-24.8%20-24.8%29%22%20fill%3D%22%23363d4a%22%2F%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
+
+.bz-scope:before{
+  content:attr(bz-name);
+  margin: 10px;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 30px;
+}
+button:disabled{
+  opacity:0.4;
+  cursor:not-allowed !important;
+}
+.bz-log-box{
+  background-color: #EEE;
+  padding: 2px;border-radius: 5px;
+}
 
 .bz-loading-info{
   position: fixed;
@@ -88,10 +110,10 @@ var formatter={
   background-color:#FFF;
 }
 .bz-panel{
-  margin:2px 0px 2px 2px;
-  border-radius: 5px;
-  background-color:#FFF;
-  padding:10px 0 10px 10px;
+  margin: 2px 0px 0px 2px;
+  background-color: #EEE;
+  padding: 10px 0 10px 10px;
+  width: calc(100% - 2px);
 }
 .bz-nowrap{
   overflow: hidden;
@@ -99,45 +121,32 @@ var formatter={
   text-overflow: ellipsis;
 }
 .bz-title-text{
+  cursor:pointer;
   flex:1;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-left: 10px;
+  margin-left: 5px;
 }
 .bz-remote-title{
-  color:#999;
+  color:#000;
 }
 .bz-info-box{
-  position: fixed;
-  margin-top: 30px;
-  right: 10px;
-  background-color: #FFF;
-  padding: 15px;
-  border-radius: 5px;
-  border: 1px solid #999;
-  z-index: 10;
-  box-shadow: 2px 2px 9px rgb(0 0 0 / 40%);
-}
-.bz-info-box>div{
   display:flex;
-  line-height:20px;
+  margin-left: 10px;
+  flex:1
+}
+.bz-search-bar .bz-info-box{
+  position: relative;
+  top: 8px;
 }
 .bz-info-box>div>*{
-  flex:1;
   white-space:nowrap;
 }
+
 .bz-info-box>div>span{
-  text-align:right;
   font-weight:bold;
-  margin-left:10px;
-}
-
-
-.bz-sum-link{
-  cursor:pointer;
-  margin:5px 10px;
-  text-decoration: underline;
+  margin:5px 15px 5px 0px;
 }
 
 .bz-time{
@@ -153,6 +162,7 @@ var formatter={
 .bz-wait{
   color:#999;
 }
+.bz-small-icon,
 .bz-icon{
   font-size: 15px;
   border: 0;
@@ -163,8 +173,22 @@ var formatter={
   background-repeat: no-repeat;
   background-size: 16px;
 }
+.bz-small-icon.bz-switch{
+  background-size: 7px !important;
+  position: relative;
+  top: 2px;
+  margin-right: 0 !important;
+  margin-left: 5px;  
+}
+
+.bz-icon-txt{
+  padding-left:30px;
+  background-size:12px;
+  margin-right:30px;
+}
 .bz-switch{
   background-size:unset;
+  margin-right:6px;
 }
 .bz-running{
   background-size: 20px
@@ -205,7 +229,7 @@ var formatter={
 .bz-test-ctrl button{
   text-align:right;
 }
-button,.bz-icon{
+button{
   cursor:pointer;
 }
 .bz-line{
@@ -213,9 +237,11 @@ button,.bz-icon{
   margin-left:10px;
 }
 .bz-search-bar{
-  right: 20px;
   border-radius: 5px;
   height: 35px;
+  z-index:200000000000;
+  background-color:#EEE;
+  top:0;
 }
 .bz-search-bar *{
   white-space:nowrap;
@@ -232,14 +258,59 @@ button,.bz-icon{
   background-color:yellow;
   font-weight:bold;
 }
-.startUrl{
-  flex:1;
-  direction: rtl;
-  margin-right:5px;
-  line-height: 32px;
-}
 #main-panel .bz-search-bar input{
   height:28px;
+}
+.bz-scope{
+  counter-reset: line;
+}
+.bz-log-box>div>.bz-content:before{
+  counter-increment: line;
+  content: counter(line);
+  position: absolute;
+  margin-top: 6px;
+  margin-left: 15px;
+}
+.bz-log-box>div>.bz-content>.bz-title{
+  padding-left:30px;
+}
+.bz-sort-bar{
+  margin-left: 20px;
+}
+.bz-sort-bar button{
+  margin: 8px 5px;
+  width: unset;
+}
+.bz-sort-bar span{
+  position: relative;
+  top: -1px;
+}
+.bz-pop-panel{
+  position: absolute;
+  margin-top: 30px;
+  right: 15px;
+  background-color: #FFF;
+  padding: 20px 5px 5px 5px;
+  border-radius: 5px;
+  border: 1px solid #999;
+  z-index: 10;
+  box-shadow: 2px 2px 9px rgb(0 0 0 / 40%);
+  background-position: top 5px right 5px;
+  background-size: 11px;
+}
+.bz-pop-panel .bz-content{
+  border-bottom: 1px solid #CCC;
+  margin-bottom: 8px;
+  padding-bottom:8px;
+}
+.bz-pop-panel .bz-panel{
+  padding-bottom:0;
+}
+.bz-top-bar{
+  position:fixed;
+}
+.bz-top-bar .bz-pop-panel{
+  right:0;
 }
     `
   },
@@ -297,20 +368,29 @@ button,.bz-icon{
         featureMap:{}
       }
       
-      let p=$("<div style='background-color: #EEE;padding: 2px;border-radius: 5px;'></div>")
-      
+      let p=$("<div class='bz-log-box'></div>")
+
       $(o.parentElement).append(p)
       
 
       $(o).hide()
       formatter.element=formatter.buildLayout(p)
       formatter.curPanel=formatter.element.init.panel
-      formatter.format(o,0,function(){
-        formatter.formatWorkers()
-      })
       
+      doIt(o)
     }else{
       formatter.data.setting=setting
+      location.reload()
+    }
+    
+    function doIt(o){
+      if(o.children.length){
+        formatter.format(o,0)
+      }else{
+        setTimeout(()=>{
+          doIt(o)
+        },5000)
+      }
     }
   },
   addGroupElement:function(p,name,type,result,close){
@@ -321,7 +401,7 @@ button,.bz-icon{
       <div class="bz-title">
         <button style="background-size:${close?12:8}px" class="bz-icon ${close?"bz-cross":"bz-switch"}"></button>
         ${icon}
-        <div class="bz-title-text">${name}</div>
+        <div class="bz-title-text"></div>
         <div class="bz-ctrl-box"></div>
         <div class="bz-time"></div>
         <div class="bz-result bz-icon"></div>
@@ -340,6 +420,7 @@ button,.bz-icon{
       details:$("<div></div>"),
       name:o.find(".bz-title-text")
     }
+    d.name.text(name)
     d.switcher[0].switcher=d.switcher
     d.switcher.click((e)=>{
       let o=d.switcher
@@ -365,7 +446,7 @@ button,.bz-icon{
       d.group.hide()
     }
     if(type=="scenario"){
-      d.declareBtn=$(`<button class="bz-icon bz-icon-txt">&#128226; (0)</button>`)
+      d.declareBtn=$(`<button class="bz-icon">&#128226; (0)</button>`)
       d.declare=formatter.addGroupElement(d.panel,"Declare","declare","",1)
 
       d.declareBtn.click(()=>{
@@ -374,7 +455,9 @@ button,.bz-icon{
         }
         if(d.declare.group.css("display")=="none"){
           d.declare.group.show()
+          d.declare.switcher.addClass("bz-open")
         }else{
+          d.declare.switcher.removeClass("bz-open")
           d.declare.group.hide()
         }
       })
@@ -385,7 +468,7 @@ button,.bz-icon{
     }
     if(type=="scenario"||type=="test"){
       d.init=formatter.addGroupElement(d.panel,"Initial","init","",1)
-      d.initBtn=$(`<button class="bz-icon bz-icon-txt">&#10144; (0)</button>`)
+      d.initBtn=$(`<button class="bz-icon">&#10144; (0)</button>`)
       d.initBtn.click(()=>{
         if(!d.switcher.hasClass("bz-open")){
           d.switcher.click()
@@ -408,35 +491,61 @@ button,.bz-icon{
   buildLayout:function(p,setting){
     let fd=formatter.data;
     let info=[
-      ["Version","version"],
-      ["Root test","rootTest"],
       ["Start time","startTime"],
       ["Execute time","executeTime"],
-      ["Total scenarios","totalScenarios"],
-      ["Success scenarios","successScenarios"],
-      ["Failed scenarios","failedScenarios"],
-      ["Total tests","totalTests"],
-      ["Total actions","totalActions"],
+      ["Scenarios","totalScenarios"],
+      ["Success","successScenarios"],
+      ["Failed","failedScenarios"],
+      ["Tests","totalTests"],
+      ["Actions","totalActions"],
+    ]
+    let info2=[
       ["Wake up times","wakeUpTimes"],
       ["Reload IDE times","reloadIDETime"],
     ]
     let o={
       search:$(`<div class="bz-row bz-search-bar">
-        <div class="bz-icon bz-play bz-hide" style="margin-left:12px;"></div><div class="startUrl bz-nowrap"></div>
+        <div class="bz-sort-bar bz-nowrap">
+          <button id="sort-time" class="bz-icon"><span>&#8595;</span> Process</button>
+          <button id="sort-id" class="bz-icon"><span></span> Id</button>
+          <button id="sort-name" class="bz-icon"><span></span> Name</button>
+          <button id="sort-result" class="bz-icon"><span></span> Result</button>
+        </div>
         <input/>
-        <div class="bz-icon bz-search"></div>
-        <a class='bz-sum-link'>Summary info</a>
+        <button class="bz-icon bz-search"></button>
+        <button class='bz-icon bz-analyze' title='Show test case execution summary' style='margin:5px 10px;' disabled='true'></button>
+        <button class='bz-icon bz-camera' title='Show screenshot list' style='margin:5px 10px;' disabled='true'></button>
         </div>`).appendTo(p),
       init:formatter.addGroupElement(p,"Initial","init"),
-      exePanel:$("<div></div>"),
-      panel:$("<div></div>"),
-      waitingList:$("<div></div>"),
+      exePanel:$("<div class='bz-scope' bz-name='Executing list'></div>"),
+      panel:$("<div class='bz-scope' bz-name='Completed list'></div>"),
+      waitingList:$("<div class='bz-scope' bz-name='Waiting list'></div>"),
       end:$("<div></div>"),
-      info:$(`<div class="bz-info-box"><button class="bz-closer bz-icon bz-cross"></button>${info.map(x=>`<div><label>${x[0]}: </label><span class="${x[1]}"></span></div>`).join("")}</div>`),
+      info:$(`<div class="bz-info-box">${info.map(x=>`<div><label>${x[0]}: </label><span class="${x[1]}"></span></div>`).join("")}</div>`),
+      info2:$(`<div class="bz-info-box">${info2.map(x=>`<div><label>${x[0]}: </label><span class="${x[1]}"></span></div>`).join("")}</div>`),
       modules:$("<div></div>"),
       modulePanel:$("<div></div>"),
-      featurePanel:$("<div></div>")
+      featurePanel:$("<div></div>"),
+      analyzePanel:$(`<div class='bz-pop-panel bz-hide bz-cross'></div>`),
+      cameraPanel:$("<div class='bz-pop-panel bz-hide bz-cross'></div>")
     };
+    o.sort=o.search.find(".bz-sort-bar button")
+    o.sort.click(function(){
+      let span=$(this).find("span")
+      if(span.text()=="↑"){
+        span.html("↓")
+      }else if(span.text()=="↓"){
+        span.html("↑")
+      }else{
+        o.sort.find("span").html("")
+        if(this.innerText.includes("Process")){
+          span.text("↓")
+        }else{
+          span.text("↑")
+        }
+      }
+      formatter.sort(this.id,span.text())
+    })
     o.search.find("input").keydown(function(e){
       if(e.keyCode==13){
         this.blur()
@@ -445,26 +554,184 @@ button,.bz-icon{
     o.search.find("input").blur(function(e){
       formatter.search(this.value)
     })
-    o.sum=o.search.find(".bz-sum-link")
+
+    o.analyzePanel.appendTo(o.search);
+    o.cameraPanel.appendTo(o.search);
+    o.camera=o.search.find(".bz-camera");
+    o.camera.click(()=>{
+      formatter.showCameraPanel(o.analyzePanel)
+    })
+
+    o.analyze=o.search.find(".bz-analyze");
+    o.analyze.click(()=>{
+      formatter.showAnalyzePanel(o.analyzePanel)
+    })
+    
+    $(p).find(".bz-pop-panel").click(function(e){
+      let pr=this.getBoundingClientRect()
+      if(pr.right-e.clientX<20&&e.clientY-pr.top<20){
+        $(this).hide()
+      }
+    })
+
+    $(p).find(".bz-pop-panel").mousemove(function(e){
+      let pr=this.getBoundingClientRect()
+      if(pr.right-e.clientX<20&&e.clientY-pr.top<20){
+        this.style.cursor="pointer"
+      }else{
+        this.style.cursor="default"
+      }
+    })
+
     info.forEach(x=>{
       o[x[1]]=o.info.find("."+x[1]);
     })
-    info.closer=o.info.find(".bz-closer")
-    info.closer.click(()=>{
-      o.info.hide()
+
+    info2.forEach(x=>{
+      o[x[1]]=o.info.find("."+x[1]);
     })
 
-    o.sum.click(()=>{
-      o.info.show()
-    })
+    $(document.body).on("click",".bz-title-text",function(e){
+      let w=formatter.data.startUrl
+      if(w){
+        let v=$(this).attr("bz")
+        if(!v){
+          t=this.innerText.trim()
+          v=t.match(/m[0-9]+([\.\/]t[0-9]+)?/)
+          if(v){
+            v=v[0]
+          }
+        }
+        doIt(v||"")
+      }
+      
+      function doIt(v){
+        window.open(w+v.replace(".","/"),"bz-master",`width=${screen.availWidth/2},height=${screen.availHeight}`)
+      }
+    });
     
-    o.startUrl=o.search.find(".startUrl")
+    o.sortBar=o.search.find(".bz-sort-bar")
     p.append(o.exePanel);
     p.append(o.panel);
     p.append(o.waitingList);
     p.append(o.end);
-    o.search.append(o.info);
+    o.info.insertBefore(o.sortBar)
+    
+    $(window).scroll(function(){
+      let r=p[0].getBoundingClientRect()
+      if(r.top<30){
+        o.search.addClass("bz-top-bar")
+        o.search.css({
+          left:r.left+"px",
+          right:window.innerWidth-17-r.right+"px"
+        })
+      }else{
+        o.search.removeClass("bz-top-bar")
+      }
+    })
+    
+    
     return o
+  },
+  showCameraPanel:function(o){
+    o.show()
+  },
+  showAnalyzePanel:function(o){
+    let w=""
+    for(let m in formatter.data.moduleMap){
+      let tm=formatter.data.moduleMap[m].testMap
+      let ts=Object.values(tm),
+          mSuccess=0,
+          mFailed=0,
+          mTotal=0,
+          mTime=0,
+          tr=[]
+      ts.forEach(x=>{
+        mTotal+=x.list.length
+        let success=0,failed=0,time=0
+        x.list.forEach(y=>{
+          if(y.result=="success"){
+            success++
+          }else{
+            failed++
+          }
+          time+=parseInt(y.element.time.text())
+        })
+        tr.push(`
+          <div class="bz-row">
+            <div class='bz-title-text' style='margin-left:20px;'>[${x.list[0].code}] ${x.list[0].name}</div>
+            <span class='bz-icon bz-icon-txt bz-timer'>${time}</span>
+            <span class='bz-icon bz-icon-txt bz-success'>${success}</span>
+            <span class='bz-icon bz-icon-txt bz-failed'>${failed}</span>
+          </div>
+        `)
+        mSuccess+=success
+        mFailed+=failed
+        mTime+=time
+      })
+      w+=`
+        <div>
+          <div class='bz-row'>
+            <button class='bz-small-icon bz-switch'></button>
+            <div class="bz-title-text" style="display:flex;">
+              <span style="flex:1">${m} (Tests: ${ts.length}, executed times: ${mTotal})</span>
+              <span class='bz-icon bz-icon-txt bz-timer'>${mTime}</span>
+              <span class='bz-icon bz-icon-txt bz-success'>${mSuccess}</span>
+              <span class='bz-icon bz-icon-txt bz-failed'>${mFailed}</span>
+            </div>
+          </div>
+          <div class='bz-panel bz-hide'>
+            ${tr.join("")}
+          </div>
+          <hr style='height:1px;border-width:0;background-color:#CCC'/>
+        </div>
+      `
+    }
+
+    o.html(`<div style='overflow:auto;max-height:${window.innerHeight-250}px;padding:5px;background-color:#EEE;'>${w}<div>`)
+    o.find(".bz-switch").click(function(e){
+      let pp=$(this.parentElement.nextElementSibling)
+      if($(this).hasClass("bz-open")){
+        $(this).removeClass("bz-open")
+        pp.hide()
+      }else{
+        $(this).addClass("bz-open")
+        pp.show()
+      }
+    })
+    o.show()
+  },
+  sort:function(id,w){
+    let os=formatter.element.panel.children().sort((a,b)=>{
+      a=a.data;
+      b=b.data
+      if(id=="sort-time"){
+        if(w=="↓"){
+          return a.idx-b.idx
+        }else{
+          return b.idx-a.idx
+        }
+      }else if(id=="sort-name"){
+        if(w=="↓"){
+          return a.name>b.name?1:-1
+        }else{
+          return a.name>b.name?-1:1
+        }
+      }else if(id=="sort-id"){
+        if(w=="↓"){
+          return a.code>b.code?1:-1
+        }else{
+          return a.code>b.code?-1:1
+        }
+      }else{
+        if(w=="↓"){
+          return a.result>b.result?1:-1
+        }else{
+          return a.result>b.result?-1:1
+        }
+      }
+    })
+    formatter.element.panel.append(os)
   },
   search:function(v,scope){
     removeAllHighlight()
@@ -557,7 +824,7 @@ button,.bz-icon{
     function removeAllHighlight(){
       let os=$(".bz-search-highlight").toArray()
       os.forEach(x=>{
-        x.parentElement.innerHTML=x.parentElement.innerHTML.replace(x.outerHTML,x.innerHTML)
+        x.parentElement.innerHTML=x.parentElement.innerHTML.replace(x.outerHTML,x.innerText)
       })
     }
   },
@@ -600,41 +867,79 @@ button,.bz-icon{
         icon="&#128681;"
         break
       default:
-        return `<div class="bz-icon bz-${type}"></div>`
+        return `<div class="bz-icon bz-${type.split(" ")[0]}"></div>`
     }
     return `<div class="bz-icon">${icon}</div>`
   },
-  format:function(o,chkTime,fun){
+  keepLogMap:function(k){
+    formatter.logMap[k]=formatter.logMap[k]||{}
+    formatter.logMap[k].curAction=formatter.data.curAction
+    formatter.logMap[k].curTest=formatter.data.curTest
+    formatter.logMap[k].curTests=formatter.data.curTests
+    formatter.logMap[k].curDeclare=formatter.curDeclare
+    if(!formatter.logMap[k].endPanel){
+      formatter.logMap[k].endPanel=$("<div></div>")
+    }
+    formatter.element.end.children().appendTo(formatter.logMap[k].endPanel)
+  },
+  takeLogMap:function(k){
+    formatter.logMap[k]=formatter.logMap[k]||{}
+    formatter.data.curAction=formatter.logMap[k].curAction
+    formatter.data.curTest=formatter.logMap[k].curTest
+    formatter.data.curTests=formatter.logMap[k].curTests||[]
+    formatter.curDeclare=formatter.logMap[k].curDeclare
+    if(!formatter.logMap[k].endPanel){
+      formatter.logMap[k].endPanel=$("<div></div>")
+    }
+    formatter.element.end.append(formatter.logMap[k].endPanel.children())
+  },
+  format:function(o,chkTime){
+    formatter.doingWorker="master"
     let idx=0
+    
     while(o.childNodes.length){
       let v=o.childNodes[0]
       v.remove()
       formatter.formatLog(v)
       if(idx<1000){
         return setTimeout(()=>{
-          formatter.format(o,chkTime,fun)
+          formatter.format(o,chkTime)
         })
       }
       idx++
     }
-    if(formatter.loadingInfo){
-      formatter.loadingInfo.remove()
-      delete formatter.loadingInfo
+    
+    formatter.keepLogMap("master")
+
+    if(formatter.chking>=30){
+      formatter.formatWorkers()
     }
     if(!chkTime){
-      this.chkTime=setInterval(()=>{
-        debugger
-        formatter.format(o,1)
+      formatter.chkTime=setInterval(()=>{
+        formatter.removeDoingInfo()
+        if(formatter.data.completed){
+          return clearInterval(formatter.chkTime)
+        }
+
+        if(!formatter.doingWorker){
+          if(formatter.chking>30){
+            formatter.chking=0
+          }else{
+            formatter.chking++
+          }
+          formatter.takeLogMap("master")
+          formatter.format(o,1)
+        }
       },1000)
     }
-    debugger
-    fun&&fun()
+    
   },
   formatWorkers:function(){
     if(!formatter.data.setting.retrieveWorkerLog){
       return
     }
-    let logMap={}
+    formatter.doingWorker="workers"
+
     try{
       let v;
       eval("v="+formatter.data.setting.identifyWorker)
@@ -645,6 +950,7 @@ button,.bz-icon{
     function doIt(vs,i){
       let s=vs[i]
       if(s){
+        
         $.ajax({
           url:s,
           method:"GET",
@@ -652,24 +958,23 @@ button,.bz-icon{
             c=c.responseText.split("\n")
             if(c.length){
               while(!c.pop()){}
-              if(logMap[i]){
-                c=c.splice(logMap[i])
-              }else{
-                logMap[i]=0
-                debugger
-                formatter.showDoing("Formatting worker("+(i+1)+") log")
+              if(c.length>3){
+                c.pop()
               }
-              logMap[i]+=c.length
+              formatter.takeLogMap(i)
+              formatter.logMap[i].size=formatter.logMap[i].size||0
+              c=c.splice(formatter.logMap[i].size)
+              formatter.logMap[i].size+=c.length
               formatWorkerLog(c,function(){
+                formatter.keepLogMap(i)
+
                 doIt(vs,i+1)
               })
             }
           }
         })
       }else{
-        setTimeout(()=>{
-          doIt(vs,0)
-        },30000)
+        formatter.doingWorker=0
       }
     }
     
@@ -688,7 +993,8 @@ button,.bz-icon{
     }
   },
   formatLog:function(v){
-    let fd=formatter.data
+    let fd=formatter.data,
+        fe=formatter.element
     addText(v)
     function addText(v){
       let curPanel;
@@ -804,15 +1110,24 @@ button,.bz-icon{
     }
     //0:
     function retrieveStartURL(v,p){
-      if(!formatter.element.startUrl.text()){
-        let x=v.match(/http.+[\/](m[0-9]+[\/]t[0-9]+)[\/]run/)
+      if(!fe.panel.children().length&&!fe.waitingList.children().length&&!fd.rootTest){
+        let x=v.match(/(http.+[\/].+\/extension\?)token\=.+#([^\/]+)[\/]([^\/]+)([\/](m[0-9]+[\/]t[0-9]+)[\/]run)?/);
         if(x){
-          setSumInfo("rootTest",0,x[1].replace("/","."))
-          x=x[0]
-
-          formatter.element.startUrl.text(x)
-          $(formatter.element.startUrl[0].previousSibling).removeClass("bz-hide");
-          setSumInfo("version",0,v.split(/[\/]m[0-9]+[\/]t[0-9]+[\/]run/)[0].split("/").pop())
+          
+          fd.startUrl=x[1]+"id="+x[2]+"#"+x[2]+"/"+x[3]+"/"
+          fd.project=v[2]
+          fd.version=x[3]
+          fd.rootTest=(x[5]||"").replace("/",".")
+          
+          fe.init.title.find(".bz-title-text").html(`
+            <span style='margin-right:20px;'>Initial: </span>
+            <div><label>Version: </label><span>${x[3]}</span></div>
+            <div><label>Root test: </label><span>${formatter.data.rootTest}</span></div>
+          `);
+          fe.init.title.find(".bz-title-text").addClass("bz-info-box")
+          fe.init.ctrl.remove()
+          fe.init.time.remove()
+          fe.init.result.remove()
 
           p.append(`<div class='bz-line'>${v}</div>`)
           return 1
@@ -843,7 +1158,7 @@ button,.bz-icon{
             formatter.curDeclare.time=(formatter.curDeclare.time||0)+time
           }else if(fd.curTest&&!fd.curTest.actions.length){
             let s=parseInt((fd.curTest.element.init.time.text().match(/[0-9]+/)||[0])[0])+time
-            if(s>2){
+            if(s>formatter.data.setting.initTime){
               s="&#10144; ("+s+"s) &#9888;"
             }else{
               s="&#10144; ("+s+"s)"
@@ -920,9 +1235,13 @@ button,.bz-icon{
         formatter.data.curTest=d
         formatter.data.curTests.push(d)
         if(formatter.curDeclare){
-          let s=formatter.curDeclare.time+"s"
-          d.element.time.text(s)
-          s="&#128226; ("+s+")"
+          let s=formatter.curDeclare.time
+          d.element.time.text(s+"s")
+          if(s>formatter.data.setting.declareTime){
+            s="&#128226; ("+s+"s) &#9888;"
+          }else{
+            s="&#128226; ("+s+"s)"
+          }
           d.element.declare.time.html(s)
           d.element.declareBtn.html(s)
           d.element.ctrl.show()
@@ -938,9 +1257,10 @@ button,.bz-icon{
       }
     }
     
-    //4:
+    //4: test result
     function retrieveTestResult(v,p){
       let x=v.match(/^[0-9]+\: +\<+ (Failed|Success) .+ (net\:\:ERR|\[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\]).+$/)
+      
       if(x){
         let r=x[1].toLowerCase()
         
@@ -971,8 +1291,77 @@ button,.bz-icon{
           formatter.element.panel.append(fd.curTest.element.group)
         }
         fd.curTests.pop();
+
         fd.curTest=fd.curTests[fd.curTests.length-1]
         p.append(`<div class='bz-line'>${v}</div>`)
+        fe.analyze.attr({disabled:false})
+        return 1
+      }
+    }
+    
+    //5: action
+    function retrieveAction(v,p){
+      let x=v.match(/^([0-9]+)\: \#\#Action.*\#\# \(([0-9\/mt]+)\)\, (.+)/)
+      if(x){
+        let name=x[3],type,flash,screenshot;
+        if(name.match(/^(Set |Typing )/)){
+          type="keyboard"
+        }else{
+          type=name.split(":")[0].toLowerCase()
+          if(type.match(/validate /)){
+            type="validate"
+          }else if(type=="group"){
+            if(v.includes("Auto-one-action-group")){
+              flash=1
+            }
+          }else if(type=="script"){
+            if(v.includes("attachScreenshotToReport")){
+              screenshot=1
+            }
+          }else if(type.match(/^(click|extract|refresh|call)( |$)/)){
+            
+          }else if(type.match(/execute api/)){
+            type="api"
+          }else if(type.match(/re-initialize data/)){
+            type="refresh"
+          }else{
+            type="call"
+          }
+          if(v.includes("in Single action group")){
+            flash=1
+          }
+        }
+
+        let d={
+          dataIdx:x[2].split("/").pop(),
+          name:name,
+          result:"wait",
+          flash:1,
+          type:type
+        }
+        // d.element=$(`<div class="bz-title">
+          // ${formatter.getIcon(d.type)}
+          // <div class="bz-title-text">(${d.dataIdx}) ${d.name}</div>
+          // <div class="bz-result bz-icon"></div>
+        // </div>`);
+        if(fd.curAction){
+          if(fd.curAction.dataIdx==d.dataIdx&&fd.curAction.name==d.name){
+            return
+          }
+          setSumInfo("totalActions",1)
+          formatter.data.curAction.element.result.addClass("bz-success")
+          if(!fd.curAction.element.panel.text()){
+            fd.curAction.element.panel.remove()
+            delete fd.curAction.element.panel
+            fd.curAction.element.switcher.css({visibility:"hidden"})
+          }
+        }
+        d.element=formatter.addGroupElement(p,"("+d.dataIdx+") "+d.name,d.type,"running")
+        d.element.title.addClass("bz-action")
+        d.element.title.find(".bz-title-text").attr("bz",fd.curTest.code.replace(".","/")+"/"+d.dataIdx)
+        formatter.data.curAction=d
+        formatter.data.testing=1
+        formatter.data.curTest.actions.push(d)
         return 1
       }
     }
@@ -1044,6 +1433,9 @@ button,.bz-icon{
       dd.actions=dd.actions||[]
       if(!dd.element){
         dd.element=formatter.addGroupElement(p,d.name,d.type,d.result||"wait")
+        if(d.type=="scenario"){
+          dd.element.group[0].data=dd
+        }
       }
 
       Object.assign(dd,d)
@@ -1070,71 +1462,6 @@ button,.bz-icon{
       return "["+n+"] "+(d.name||"")
     }
     
-    function retrieveAction(v,p){
-      let x=v.match(/^([0-9]+)\: \#\#Action.*\#\# \(([0-9\/mt]+)\)\, (.+)/)
-      if(x){
-        let name=x[3],type,flash,screenshot;
-        if(name.match(/^(Set |Typing )/)){
-          type="keyboard"
-        }else{
-          type=name.split(":")[0].toLowerCase()
-          if(type.match(/validate /)){
-            type="validate"
-          }else if(type=="group"){
-            if(v.includes("Auto-one-action-group")){
-              flash=1
-            }
-          }else if(type=="script"){
-            if(v.includes("attachScreenshotToReport")){
-              screenshot=1
-            }
-          }else if(type.match(/^(click|extract|refresh|call)( |$)/)){
-            
-          }else if(type.match(/execute api/)){
-            type="api"
-          }else if(type.match(/re-initialize data/)){
-            type="refresh"
-          }else{
-            type="call"
-          }
-          if(v.includes("in Single action group")){
-            flash=1
-          }
-        }
-
-        let d={
-          dataIdx:x[2].split("/").pop(),
-          name:name,
-          result:"wait",
-          flash:1,
-          type:type
-        }
-        // d.element=$(`<div class="bz-title">
-          // ${formatter.getIcon(d.type)}
-          // <div class="bz-title-text">(${d.dataIdx}) ${d.name}</div>
-          // <div class="bz-result bz-icon"></div>
-        // </div>`);
-        if(fd.curAction){
-          if(fd.curAction.dataIdx==d.dataIdx&&fd.curAction.name==d.name){
-            return
-          }
-          setSumInfo("totalActions",1)
-          formatter.data.curAction.element.result.addClass("bz-success")
-          if(!fd.curAction.element.panel.text()){
-            fd.curAction.element.panel.remove()
-            delete fd.curAction.element.panel
-            fd.curAction.element.switcher.css({visibility:"hidden"})
-          }
-        }
-        d.element=formatter.addGroupElement(p,"("+d.dataIdx+") "+d.name,d.type,"running")
-        d.element.title.addClass("bz-action")
-        formatter.data.curAction=d
-        formatter.data.testing=1
-        formatter.data.curTest.actions.push(d)
-        return 1
-      }
-    }
-    
     function retrieveJoinMember(v,p){
       let x=v.match(/[0-9]+: \<\-+ Join worker \((.+)\)$/);
       if(x){
@@ -1154,6 +1481,7 @@ button,.bz-icon{
     function retrieveScreenshot(v,p){
       if(v.match(/uploadScreenshotInString\/ \++\>$/)){
         p.append(`<div class="bz-row">${v} ${formatter.getIcon("camera")}</div>`)
+        fe.camera.attr({disabled:false})
         return 1
       }
     }
@@ -1191,6 +1519,9 @@ button,.bz-icon{
     function retrieveTaskDone(v,p){
       if(v.match(/^[0-9]+\: task-done$/)){
         p.append(`<div class='bz-line'>${formatter.getIcon("complete")} ${v}</div>`)
+        formatter.data.completed=1
+        formatter.element.waitingList.remove()
+        formatter.element.exePanel.remove()
         return 1
       }
     }

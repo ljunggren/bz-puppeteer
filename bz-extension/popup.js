@@ -10,7 +10,20 @@ $("#formatPage").click(()=>{
     }});
     
   });
+});
+$("#infoTab").click(function(){
+  $("#info-panel").show()
+  $("#log-panel").hide()
+  $("#logTab").removeClass("bz-active")
+  $(this).addClass("bz-active")
+});
+$("#logTab").click(function(){
+  $("#log-panel").show()
+  $("#info-panel").hide()
+  $("#infoTab").removeClass("bz-active")
+  $(this).addClass("bz-active")
 })
+
 function getPageInfo(){
   chrome.tabs.query({active: true, currentWindow: true}, function(v){
     chrome.runtime.sendMessage({ pop:1,fun:"getPageInfo",data:v[0].id},(v)=>{
@@ -41,6 +54,7 @@ function init(){
   if(bzFormat.constructor==String){
     bzFormat=JSON.parse(bzFormat)
   }
+  
   $("#autoFormat").attr("checked",bzFormat.autoFormat);
   $("#retrieveWorkerLog").attr("checked",bzFormat.retrieveWorkerLog);
   
@@ -64,11 +78,20 @@ function init(){
 
 function updateSetting(){
   bzFormat.autoFormat=$("#autoFormat")[0].checked
-  bzFormat.retrieveWorkerLog=$("#retrieveWorkerLog")[0].checked
   bzFormat.identifyMaster=$("#identifyMaster").val()
+  if(bzFormat.autoFormat){
+    $("#pageScriptPanel").show()
+  }else{
+    $("#pageScriptPanel").hide()
+  }
+
+  bzFormat.retrieveWorkerLog=$("#retrieveWorkerLog")[0].checked
   bzFormat.identifyWorker=$("#identifyWorker").val()
-  $("#identifyWorker").attr("disabled",!bzFormat.retrieveWorkerLog)
-  $("#identifyMaster").attr("disabled",!bzFormat.autoFormat)
+  if(bzFormat.retrieveWorkerLog){
+    $("#workerScriptPanel").show()
+  }else{
+    $("#workerScriptPanel").hide()
+  }
   bzFormat.testTime=$("#testTime").val()
   bzFormat.declareTime=$("#declareTime").val()
   bzFormat.initTime=$("#initTime").val()
