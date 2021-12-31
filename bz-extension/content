@@ -3,7 +3,7 @@ let curContentExeAction=0,topFrame=0,initEnv=0;
  
 //Register
 window.extensionContent=1;
-
+console.log("BZ-LOG: Extension version: "+chrome.runtime.getManifest().version)
 function initCode(t,tt){
   if(name!=="bz-master"){
     if(parent==window){

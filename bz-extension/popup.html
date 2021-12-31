@@ -10,14 +10,20 @@ label{
   top: 2px;
   margin-right:5px;
 }
-#formatPage{
+#formatPage,#orgPage{
   border-radius: 10px;
   background-color: blue;
   color: #FFF;
-  border: 0;
+  border:1px solid blue;
   padding: 2px 15px;
   line-height: 20px;
   cursor: pointer;
+}
+
+#orgPage{
+  background-color:#FFF;
+  color:blue;
+  float:right;
 }
 .row{
   margin:5px 0;
@@ -34,6 +40,7 @@ textarea{
   width:calc(100% - 10px);
   height:80px;
   margin:5px 0;
+  resize: none;
 }
 a{
   text-decoration:underline;
@@ -54,6 +61,7 @@ a{
     <a style="padding:5px 10px" id="logTab">Log formater</a>
   </div>
   <div id="info-panel" style="width:200px;">
+    <img src="img/boozang48.png" style="margin-left: auto;margin-right: auto;display: block;"/>
     <h3>Boozang AI</h3>
     <div>Version: 3.8.0</div>
     <div>Status: Active</div>
@@ -101,8 +109,9 @@ a{
         Note: units in second
       </div>
     </fieldset>
-    <div style="margin:10px 5px 5px 5px;text-align:right;">
+    <div style="margin:10px 5px 5px 5px;">
       <button id="formatPage">Format current page</button>
+      <button id="orgPage">Original Log</button>
     </div>
   </div>
   <script src="popup.js"></script>

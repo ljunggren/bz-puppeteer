@@ -1,4 +1,5 @@
 var formatter={
+  cameraList:[],
   chking:30,
   startUrl:"",
   logMap:{},
@@ -9,6 +10,7 @@ var formatter={
 .bz-search { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2022%2022%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%20%20stroke%3A%20rgba%2854%2C61%2C74%2C0.7%29%3B%20%20%20%20%20%20%20%20stroke-linejoin%3A%20round%3B%20%20%20%20%20%20%20%20stroke-miterlimit%3A%2010%3B%20%20%20%20%20%20%20%20stroke-width%3A%202px%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22search%22%20transform%3D%22translate%28-1.001%20-0.679%29%22%3E%20%20%20%20%3Ccircle%20id%3D%22Ellipse_17%22%20data-name%3D%22Ellipse%2017%22%20class%3D%22cls-1%22%20cx%3D%227.157%22%20cy%3D%227.157%22%20r%3D%227.157%22%20transform%3D%22translate%282.001%201.679%29%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_54%22%20data-name%3D%22Path%2054%22%20class%3D%22cls-1%22%20d%3D%22M15.07%2C13.046l7.947%2C7.946a1.071%2C1.071%2C0%2C0%2C1%2C0%2C1.515l-.189.188a1.07%2C1.07%2C0%2C0%2C1-1.514%2C0l-7.947-7.946%22%20transform%3D%22translate%28-1.33%20-1.33%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-analyze { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2026%2026.132%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.5px%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%20%20stroke%3A%20rgba%28112%2C112%2C112%2C0%29%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22analyze%22%20transform%3D%22translate%28-627%20-350.747%29%22%3E%20%20%20%20%3Cg%20id%3D%22analyze-2%22%20data-name%3D%22analyze%22%20transform%3D%22translate%28624.688%20348.504%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Compound_Path%22%20data-name%3D%22Compound%20Path%22%20class%3D%22cls-1%22%20d%3D%22M19.906%2C4.375H17.844A2.5%2C2.5%2C0%2C0%2C0%2C15.281%2C2.5a2.562%2C2.562%2C0%2C0%2C0-2.562%2C1.875H10.688c-.187%2C0-.375%2C0-.375.188V5.938H7.625A2.344%2C2.344%2C0%2C0%2C0%2C5.313%2C8.156V26.063a2.182%2C2.182%2C0%2C0%2C0%2C2.313%2C2.063H23a2.182%2C2.182%2C0%2C0%2C0%2C2.313-2.062V8.156A2.344%2C2.344%2C0%2C0%2C0%2C23%2C5.938H20.313V4.563C20.313%2C4.375%2C20.094%2C4.375%2C19.906%2C4.375ZM10.938%2C5h2.031a.375.375%2C0%2C0%2C0%2C.313-.312%2C2.031%2C2.031%2C0%2C0%2C1%2C4%2C0A.375.375%2C0%2C0%2C0%2C17.594%2C5h2.094V8.125h-8.75ZM23%2C6.563a1.719%2C1.719%2C0%2C0%2C1%2C1.688%2C1.594V26.063A1.558%2C1.558%2C0%2C0%2C1%2C23%2C27.5H7.625a1.558%2C1.558%2C0%2C0%2C1-1.687-1.437V8.156A1.719%2C1.719%2C0%2C0%2C1%2C7.625%2C6.563h2.687V8.469c0%2C.156.188.281.375.281h9.219c.188%2C0%2C.406-.125.406-.281V6.563Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C16.375l-2.219%2C2.094L8.969%2C17.375a.31.31%2C0%2C1%2C0-.437.438l1.281%2C1.313a.281.281%2C0%2C0%2C0%2C.219.094.344.344%2C0%2C0%2C0%2C.219-.094l2.437-2.313a.312.312%2C0%2C1%2C0-.438-.437Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-2%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M21.875%2C18.125H14.688a.313.313%2C0%2C0%2C0%2C0%2C.625h7.188a.313.313%2C0%2C0%2C0%2C0-.625Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-3%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C11.375l-2.219%2C2.094L8.969%2C12.375a.31.31%2C0%2C1%2C0-.437.437l1.281%2C1.313a.281.281%2C0%2C0%2C0%2C.219.094.344.344%2C0%2C0%2C0%2C.219-.094l2.438-2.312a.313.313%2C0%2C1%2C0-.438-.438Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-4%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M14.375%2C13.438a.281.281%2C0%2C0%2C0%2C.313.313h7.188a.313.313%2C0%2C0%2C0%2C0-.625H14.688a.281.281%2C0%2C0%2C0-.312.313Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-5%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C21.375l-2.219%2C2.094L8.969%2C22.375a.31.31%2C0%2C1%2C0-.438.438l1.281%2C1.313a.281.281%2C0%2C0%2C0%2C.219.094.344.344%2C0%2C0%2C0%2C.219-.094l2.438-2.313a.312.312%2C0%2C1%2C0-.438-.437Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-6%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M21.875%2C23.125H14.688a.313.313%2C0%2C0%2C0%2C0%2C.625h7.188a.313.313%2C0%2C0%2C0%2C0-.625Z%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cline%20id%3D%22Line_143%22%20data-name%3D%22Line%20143%22%20class%3D%22cls-2%22%20y2%3D%2224%22%20transform%3D%22translate%28627.5%20352.5%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_144%22%20data-name%3D%22Line%20144%22%20class%3D%22cls-2%22%20y2%3D%2224%22%20transform%3D%22translate%28652.5%20352.5%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-timer { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2022%2022%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%230069ff%3B%20%20%20%20%20%20%20%20stroke%3A%20%230069ff%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23fff%3B%20%20%20%20%20%20%20%20stroke%3A%20%23fff%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.6px%3B%20%20%20%20%20%20%20%20fill-rule%3A%20evenodd%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-3%20%7B%20%20%20%20%20%20%20%20stroke%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-4%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22timer-gray%22%20transform%3D%22translate%28-242%20-732%29%22%3E%20%20%20%20%3Cg%20id%3D%22Group_82%22%20data-name%3D%22Group%2082%22%20transform%3D%22translate%28-40%201%29%22%3E%20%20%20%20%20%20%3Cg%20id%3D%22Ellipse_39%22%20data-name%3D%22Ellipse%2039%22%20class%3D%22cls-1%22%20transform%3D%22translate%28282%20731%29%22%3E%20%20%20%20%20%20%20%20%3Ccircle%20class%3D%22cls-3%22%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%2211%22%2F%3E%20%20%20%20%20%20%20%20%3Ccircle%20class%3D%22cls-4%22%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%2210.5%22%2F%3E%20%20%20%20%20%20%3C%2Fg%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cg%20id%3D%22timer-gray-2%22%20data-name%3D%22timer-gray%22%20transform%3D%22translate%28243.042%20732.768%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_355%22%20data-name%3D%22Path%20355%22%20class%3D%22cls-2%22%20d%3D%22M10.369%2C1.243l-.411-.01V3.869h.823V2.1A8.167%2C8.167%2C0%2C1%2C1%2C4.172%2C4.447l-.579-.579a9%2C9%2C0%2C1%2C0%2C6.776-2.625Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_356%22%20data-name%3D%22Path%20356%22%20class%3D%22cls-2%22%20d%3D%22M10.73%2C12.6a1.591%2C1.591%2C0%2C0%2C0%2C1.591-1.591%2C1.37%2C1.37%2C0%2C0%2C0-.462-1.121c-1.126-.791-5.9-3.652-5.9-3.652s3.16%2C5.393%2C3.6%2C5.851A1.34%2C1.34%2C0%2C0%2C0%2C10.73%2C12.6Z%22%20transform%3D%22translate%28-0.734%20-0.734%29%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
+.bz-new-bug { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220.2%22%20height%3D%2220.003%22%20viewBox%3D%220%200%2020.2%2020.003%22%3E%20%20%3Cg%20id%3D%22root-cause%22%20transform%3D%22translate%28-4.916%20-5.373%29%22%3E%20%20%20%20%3Crect%20id%3D%22Rectangle_216%22%20data-name%3D%22Rectangle%20216%22%20width%3D%226.037%22%20height%3D%221.006%22%20transform%3D%22translate%2811.255%209.699%29%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_570%22%20data-name%3D%22Path%20570%22%20d%3D%22M8.276%2C11.507%2C9%2C10.785l.722.721.569-.569-.722-.721.722-.722L9.72%2C8.925%2C9%2C9.646l-.721-.721-.57.569.722.722-.722.722Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_571%22%20data-name%3D%22Path%20571%22%20d%3D%22M9.921%2C13.377%2C8.669%2C14.629l-.594-.593-.569.569%2C1.163%2C1.163%2C1.821-1.822Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_572%22%20data-name%3D%22Path%20572%22%20d%3D%22M8.075%2C18.467l-.569.569L8.669%2C20.2l1.821-1.822-.569-.569L8.669%2C19.061Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_573%22%20data-name%3D%22Path%20573%22%20d%3D%22M6.525%2C23.082V6.982H19.606v5.744a1.7%2C1.7%2C0%2C0%2C1%2C1.034-.35%2C1.722%2C1.722%2C0%2C0%2C1%2C.476.068V6.479A1.009%2C1.009%2C0%2C0%2C0%2C20.11%2C5.473H6.022A1.009%2C1.009%2C0%2C0%2C0%2C5.016%2C6.479V23.585a1.009%2C1.009%2C0%2C0%2C0%2C1.006%2C1.006h6.411a1.705%2C1.705%2C0%2C0%2C1%2C.384-1.509Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_574%22%20data-name%3D%22Path%20574%22%20d%3D%22M11.255%2C19.56h1.028a1.7%2C1.7%2C0%2C0%2C1%2C1.306-.615h.257c.007-.018.014-.036.02-.054l-.358-.337H11.255Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_575%22%20data-name%3D%22Path%20575%22%20d%3D%22M16.007%2C14.737a1.736%2C1.736%2C0%2C0%2C1-.121-.611H11.255v1.007h4.513A3.527%2C3.527%2C0%2C0%2C1%2C16.007%2C14.737Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_576%22%20data-name%3D%22Path%20576%22%20d%3D%22M14.492%2C16.608a.379.379%2C0%2C0%2C0-.533.539l.9.848c.071.071.167.055.267.055h.734a4.855%2C4.855%2C0%2C0%2C0-.993%2C2.229h-1.28a.394.394%2C0%2C0%2C0%2C0%2C.787h1.224a3.964%2C3.964%2C0%2C0%2C0%2C.462%2C1.836H15a.4.4%2C0%2C0%2C0-.267.129l-.9.913a.381.381%2C0%2C0%2C0%2C0%2C.537.377.377%2C0%2C0%2C0%2C.266.112.372.372%2C0%2C0%2C0%2C.266-.11l.792-.794h.608a4.355%2C4.355%2C0%2C0%2C0%2C3.085%2C1.581V17.394H15.283Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_577%22%20data-name%3D%22Path%20577%22%20d%3D%22M24.64%2C20.279H23.333a5.831%2C5.831%2C0%2C0%2C0-1.072-2.229h.84c.1%2C0%2C.2.017.267-.053l.9-.876a.359.359%2C0%2C0%2C0%2C0-.518.376.376%2C0%2C0%2C0-.533%2C0l-.791.793H19.377v7.874a4.914%2C4.914%2C0%2C0%2C0%2C3.064-1.579h.629l.792.8a.376.376%2C0%2C1%2C0%2C.533-.531l-.9-.922a.4.4%2C0%2C0%2C0-.267-.129h-.288a3.919%2C3.919%2C0%2C0%2C0%2C.468-1.836h1.233a.394.394%2C0%2C0%2C0%2C0-.787Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_578%22%20data-name%3D%22Path%20578%22%20d%3D%22M16.678%2C16.869h4.873a2.335%2C2.335%2C0%2C0%2C0-1.139-2.04l.492-.482a.371.371%2C0%2C0%2C0%2C0-.528.377.377%2C0%2C0%2C0-.533%2C0l-.711.713a2.375%2C2.375%2C0%2C0%2C0-1.091%2C0l-.711-.712a.377.377%2C0%2C0%2C0-.533.533l.492.472A2.336%2C2.336%2C0%2C0%2C0%2C16.678%2C16.869Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 
 .bz-module { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2022.437%2022.412%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%2C%20.cls-3%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20opacity%3A%200.15%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%280%2C0%2C0%2C0%29%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%2C%20.cls-3%20%7B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-linecap%3A%20round%3B%20%20%20%20%20%20%20%20stroke-linejoin%3A%20round%3B%20%20%20%20%20%20%20%20stroke-miterlimit%3A%2010%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22hdr-module%22%20transform%3D%22translate%28-1.475%20-0.921%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_337%22%20data-name%3D%22Path%20337%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C1.75l11%2C5.01L13.188%2C11.792%2C2.438%2C6.562Z%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_338%22%20data-name%3D%22Path%20338%22%20class%3D%22cls-2%22%20d%3D%22M13.271%2C22.8l9.979-5V6.76l-9.979%2C5%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_339%22%20data-name%3D%22Path%20339%22%20class%3D%22cls-3%22%20d%3D%22M13.188%2C22.833l-11.042-5V6.792l11.042%2C5Z%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_82%22%20data-name%3D%22Line%2082%22%20class%3D%22cls-3%22%20x2%3D%225.063%22%20y2%3D%222.293%22%20transform%3D%22translate%285.125%2011.478%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_83%22%20data-name%3D%22Line%2083%22%20class%3D%22cls-3%22%20x1%3D%222.875%22%20y1%3D%221.293%22%20transform%3D%22translate%285.125%2014.062%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_84%22%20data-name%3D%22Line%2084%22%20class%3D%22cls-3%22%20x1%3D%2211.041%22%20y1%3D%225%22%20transform%3D%22translate%2812.209%201.583%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_85%22%20data-name%3D%22Line%2085%22%20class%3D%22cls-3%22%20x1%3D%2211.041%22%20y1%3D%225%22%20transform%3D%22translate%287.49%204.021%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_86%22%20data-name%3D%22Line%2086%22%20class%3D%22cls-3%22%20y1%3D%225%22%20x2%3D%229.979%22%20transform%3D%22translate%282.146%201.615%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-scenario { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024.057%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%2C%20.cls-3%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-1%2C%20.cls-2%20%7B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%2854%2C61%2C74%2C0.5%29%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-3%20%7B%20%20%20%20%20%20%20%20stroke%3A%20rgba%28112%2C112%2C112%2C0%29%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22hdr-scenario%22%20transform%3D%22translate%28-355%20-756.5%29%22%3E%20%20%20%20%3Cg%20id%3D%22hdr-scenario-2%22%20data-name%3D%22hdr-scenario%22%20transform%3D%22translate%28357%20757%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_416%22%20data-name%3D%22Path%20416%22%20class%3D%22cls-1%22%20d%3D%22M10.106%2C0A10.133%2C10.133%2C0%2C0%2C0%2C8.177%2C20.075v2.9c6.048-.914%2C11.4-5.729%2C11.8-12.049A10.5%2C10.5%2C0%2C0%2C0%2C15.14%2C1.354c-.183-.108-.368-.215-.559-.309s-.395-.19-.6-.271C13.918.747%2C13.855.722%2C13.79.7c-.177-.066-.357-.14-.54-.193A10%2C10%2C0%2C0%2C0%2C10.106%2C0Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_417%22%20data-name%3D%22Path%20417%22%20class%3D%22cls-2%22%20d%3D%22M12.2%2C3.745a1.1%2C1.1%2C0%2C0%2C0-.966.388%2C4.507%2C4.507%2C0%2C0%2C0-.425.736%2C2.384%2C2.384%2C0%2C0%2C0%2C.309%2C2.481%2C2.722%2C2.722%2C0%2C0%2C0%2C1.971-1.608%2C1.96%2C1.96%2C0%2C0%2C0%2C.193-.814A1.158%2C1.158%2C0%2C0%2C0%2C12.2%2C3.745ZM7.7%2C3.8A1.182%2C1.182%2C0%2C0%2C0%2C6.6%2C4.927a1.96%2C1.96%2C0%2C0%2C0%2C.193.814A2.812%2C2.812%2C0%2C0%2C0%2C8.818%2C7.349%2C2.577%2C2.577%2C0%2C0%2C0%2C8.644%2C4.19%2C1.085%2C1.085%2C0%2C0%2C0%2C7.7%2C3.8ZM4.663%2C6.787a1.068%2C1.068%2C0%2C0%2C0-.6%2C1.919%2C4.646%2C4.646%2C0%2C0%2C0%2C.734.446A2.778%2C2.778%2C0%2C0%2C0%2C7.407%2C8.9%2C2.866%2C2.866%2C0%2C0%2C0%2C5.726%2C6.981a2.207%2C2.207%2C0%2C0%2C0-.87-.194%2C1.123%2C1.123%2C0%2C0%2C0-.193%2C0Zm9.528%2C3.76a2.823%2C2.823%2C0%2C0%2C0-1.6.465%2C2.866%2C2.866%2C0%2C0%2C0%2C1.681%2C1.919%2C2.208%2C2.208%2C0%2C0%2C0%2C.87.194%2C1.091%2C1.091%2C0%2C0%2C0%2C.792-1.938%2C4.488%2C4.488%2C0%2C0%2C0-.734-.426%2C2.665%2C2.665%2C0%2C0%2C0-1-.213ZM5.745%2C10.6a2.665%2C2.665%2C0%2C0%2C0-1%2C.213%2C2.113%2C2.113%2C0%2C0%2C0-.734.446%2C1.1%2C1.1%2C0%2C0%2C0%2C.85%2C1.919%2C1.991%2C1.991%2C0%2C0%2C0%2C.87-.194%2C2.614%2C2.614%2C0%2C0%2C0%2C1.6-1.919A2.762%2C2.762%2C0%2C0%2C0%2C5.745%2C10.6Zm3.131%2C1.9A2.722%2C2.722%2C0%2C0%2C0%2C6.9%2C14.112a1.876%2C1.876%2C0%2C0%2C0-.193.795%2C1.15%2C1.15%2C0%2C0%2C0%2C1.991.814%2C4.507%2C4.507%2C0%2C0%2C0%2C.425-.736A2.551%2C2.551%2C0%2C0%2C0%2C8.876%2C12.5Zm2.3.058a2.577%2C2.577%2C0%2C0%2C0%2C.174%2C3.159%2C1.206%2C1.206%2C0%2C0%2C0%2C2.049-.736%2C1.96%2C1.96%2C0%2C0%2C0-.193-.814%2C2.812%2C2.812%2C0%2C0%2C0-2.029-1.608Z%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cline%20id%3D%22Line_112%22%20data-name%3D%22Line%20112%22%20class%3D%22cls-3%22%20y2%3D%2222%22%20transform%3D%22translate%28355.5%20757.5%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_113%22%20data-name%3D%22Line%20113%22%20class%3D%22cls-3%22%20y2%3D%2222%22%20transform%3D%22translate%28378.5%20757.5%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
@@ -27,7 +29,6 @@ var formatter={
 .bz-success{ background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016.102%2016.37%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%2C%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20%235cb85c%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20stroke%3A%20%235cb85c%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.858px%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22success-strong%22%20transform%3D%22translate%28-1.718%20-4.418%29%22%3E%20%20%20%20%3Cg%20id%3D%22Group_18%22%20data-name%3D%22Group%2018%22%20transform%3D%22translate%282.269%205.103%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_46%22%20data-name%3D%22Path%2046%22%20class%3D%22cls-1%22%20d%3D%22M-.011%2C10.615%2C2.878%2C7.024l2.934%2C3.648L12.1%2C2.855l2.889%2C3.591L5.812%2C17.855Zm6.854%2C4.26Z%22%20transform%3D%22translate%280.011%20-2.855%29%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cpath%20id%3D%22Path_47%22%20data-name%3D%22Path%2047%22%20class%3D%22cls-2%22%20d%3D%22M13.822%2C6.811%22%20transform%3D%22translate%28-5.243%20-0.532%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-failed{ background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2015%2015%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%28230%2C46%2C64%2C0.99%29%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22failed-strong%22%20transform%3D%22translate%280%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_48%22%20data-name%3D%22Path%2048%22%20class%3D%22cls-1%22%20d%3D%22M14.863%2C12.05h0L10.312%2C7.5l4.55-4.55h0a.469.469%2C0%2C0%2C0%2C0-.663L12.713.137a.47.47%2C0%2C0%2C0-.663%2C0h0L7.5%2C4.687%2C2.949.136h0a.47.47%2C0%2C0%2C0-.663%2C0L.137%2C2.286a.469.469%2C0%2C0%2C0%2C0%2C.663h0L4.687%2C7.5.137%2C12.05h0a.475.475%2C0%2C0%2C0-.107.167.468.468%2C0%2C0%2C0%2C.107.5l2.15%2C2.15a.469.469%2C0%2C0%2C0%2C.663%2C0h0l4.55-4.55%2C4.55%2C4.55h0a.469.469%2C0%2C0%2C0%2C.663%2C0l2.15-2.15a.469.469%2C0%2C0%2C0%2C0-.663Z%22%20transform%3D%22translate%280%200%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-warning{ background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2015%2015%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23e6d42e%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22warning-strong%22%20transform%3D%22translate%28-0.742%20-0.48%29%22%3E%20%20%20%20%3Cpath%20id%3D%22path3356%22%20class%3D%22cls-1%22%20d%3D%22M2.226%2C15.461a1.465%2C1.465%2C0%2C0%2C1-1.1-.6%2C1.911%2C1.911%2C0%2C0%2C1-.3-1.7c.044-.143%2C1.293-2.609%2C3.071-6.067C7.209.649%2C7.054.924%2C7.525.671A1.432%2C1.432%2C0%2C0%2C1%2C8.966.679c.467.258.285-.065%2C3.619%2C6.417%2C1.669%2C3.246%2C3.052%2C5.962%2C3.073%2C6.035a1.953%2C1.953%2C0%2C0%2C1-.079%2C1.352%2C1.624%2C1.624%2C0%2C0%2C1-.974.916c-.23.077-.25.078-6.162.082-3.262%2C0-6.059-.006-6.217-.019ZM8.8%2C13.581a1.146%2C1.146%2C0%2C0%2C0%2C.3-1.727.9.9%2C0%2C0%2C0-.758-.374.985.985%2C0%2C0%2C0-.907.618%2C1.394%2C1.394%2C0%2C0%2C0-.007.975%2C1.1%2C1.1%2C0%2C0%2C0%2C.628.58%2C1.3%2C1.3%2C0%2C0%2C0%2C.744-.07Zm-.25-3.055c.2-.085.34-.3.433-.693.052-.219.337-3.587.375-4.429a2.831%2C2.831%2C0%2C0%2C0-.282-1.636A.961.961%2C0%2C0%2C0%2C8.03%2C3.533a1.08%2C1.08%2C0%2C0%2C0-.618.665%2C1.858%2C1.858%2C0%2C0%2C0-.072.733c0%2C.729.23%2C4.408.292%2C4.762.076.435.2.685.384.789a.642.642%2C0%2C0%2C0%2C.529.044Z%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
-.bz-camera { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020.1%2016.767%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%230c6%3B%20%20%20%20%20%20%20%20stroke%3A%20%230c6%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.1px%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22camera%22%20transform%3D%22translate%28-0.617%20-1.283%29%22%3E%20%20%20%20%3Cg%20id%3D%22Group_101%22%20data-name%3D%22Group%20101%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_433%22%20data-name%3D%22Path%20433%22%20class%3D%22cls-1%22%20d%3D%22M18.667%2C3.333H14.481l-.515-1.544a.666.666%2C0%2C0%2C0-.633-.456H8a.666.666%2C0%2C0%2C0-.633.456L6.853%2C3.333H2.667a2%2C2%2C0%2C0%2C0-2%2C2V16a2%2C2%2C0%2C0%2C0%2C2%2C2h16a2%2C2%2C0%2C0%2C0%2C2-2V5.333A2%2C2%2C0%2C0%2C0%2C18.667%2C3.333ZM8.481%2C2.667h4.373l.223.667H8.259ZM19.333%2C16a.667.667%2C0%2C0%2C1-.667.667h-16A.667.667%2C0%2C0%2C1%2C2%2C16V5.333a.667.667%2C0%2C0%2C1%2C.667-.667h16a.667.667%2C0%2C0%2C1%2C.667.667Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_434%22%20data-name%3D%22Path%20434%22%20class%3D%22cls-1%22%20d%3D%22M10.667%2C5.333A5.333%2C5.333%2C0%2C1%2C0%2C16%2C10.667%2C5.34%2C5.34%2C0%2C0%2C0%2C10.667%2C5.333Zm0%2C9.333a4%2C4%2C0%2C1%2C1%2C4-4A4%2C4%2C0%2C0%2C1%2C10.667%2C14.667Z%22%2F%3E%20%20%20%20%20%20%3Ccircle%20id%3D%22Ellipse_44%22%20data-name%3D%22Ellipse%2044%22%20class%3D%22cls-1%22%20cx%3D%221.333%22%20cy%3D%221.333%22%20r%3D%221.333%22%20transform%3D%22translate%283.333%205.333%29%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-reset { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016.6%2021.024%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%2854%2C61%2C74%2C0.99%29%3B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.6px%3B%20%20%20%20%20%20%20%20fill-rule%3A%20evenodd%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22reset%22%20transform%3D%22translate%28-3.7%20-3.7%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_456%22%20data-name%3D%22Path%20456%22%20class%3D%22cls-1%22%20d%3D%22M4%2C12v1H6V12a6%2C6%2C0%2C1%2C1%2C6%2C6H11V14L6%2C19l5%2C5V20h1a8%2C8%2C0%2C1%2C0-8-8Z%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-running {background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTIwcHgnIGhlaWdodD0nMTIwcHgnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiBjbGFzcz0idWlsLWRlZmF1bHQiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJub25lIiBjbGFzcz0iYmsiPjwvcmVjdD48cmVjdCAgeD0nNDYuNScgeT0nNDAnIHdpZHRoPSc3JyBoZWlnaHQ9JzIwJyByeD0nNScgcnk9JzUnIGZpbGw9JyMzRTY1RkYnIHRyYW5zZm9ybT0ncm90YXRlKDAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwcycgcmVwZWF0Q291bnQ9J2luZGVmaW5pdGUnLz48L3JlY3Q+PHJlY3QgIHg9JzQ2LjUnIHk9JzQwJyB3aWR0aD0nNycgaGVpZ2h0PScyMCcgcng9JzUnIHJ5PSc1JyBmaWxsPScjM0U2NUZGJyB0cmFuc2Zvcm09J3JvdGF0ZSgzMCA1MCA1MCkgdHJhbnNsYXRlKDAgLTMwKSc+ICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSdvcGFjaXR5JyBmcm9tPScxJyB0bz0nMCcgZHVyPScxcycgYmVnaW49JzAuMDgzMzMzMzMzMzMzMzMzMzNzJyByZXBlYXRDb3VudD0naW5kZWZpbml0ZScvPjwvcmVjdD48cmVjdCAgeD0nNDYuNScgeT0nNDAnIHdpZHRoPSc3JyBoZWlnaHQ9JzIwJyByeD0nNScgcnk9JzUnIGZpbGw9JyMzRTY1RkYnIHRyYW5zZm9ybT0ncm90YXRlKDYwIDUwIDUwKSB0cmFuc2xhdGUoMCAtMzApJz4gIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9J29wYWNpdHknIGZyb209JzEnIHRvPScwJyBkdXI9JzFzJyBiZWdpbj0nMC4xNjY2NjY2NjY2NjY2NjY2NnMnIHJlcGVhdENvdW50PSdpbmRlZmluaXRlJy8+PC9yZWN0PjxyZWN0ICB4PSc0Ni41JyB5PSc0MCcgd2lkdGg9JzcnIGhlaWdodD0nMjAnIHJ4PSc1JyByeT0nNScgZmlsbD0nIzNFNjVGRicgdHJhbnNmb3JtPSdyb3RhdGUoOTAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwLjI1cycgcmVwZWF0Q291bnQ9J2luZGVmaW5pdGUnLz48L3JlY3Q+PHJlY3QgIHg9JzQ2LjUnIHk9JzQwJyB3aWR0aD0nNycgaGVpZ2h0PScyMCcgcng9JzUnIHJ5PSc1JyBmaWxsPScjM0U2NUZGJyB0cmFuc2Zvcm09J3JvdGF0ZSgxMjAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwLjMzMzMzMzMzMzMzMzMzMzNzJyByZXBlYXRDb3VudD0naW5kZWZpbml0ZScvPjwvcmVjdD48cmVjdCAgeD0nNDYuNScgeT0nNDAnIHdpZHRoPSc3JyBoZWlnaHQ9JzIwJyByeD0nNScgcnk9JzUnIGZpbGw9JyMzRTY1RkYnIHRyYW5zZm9ybT0ncm90YXRlKDE1MCA1MCA1MCkgdHJhbnNsYXRlKDAgLTMwKSc+ICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSdvcGFjaXR5JyBmcm9tPScxJyB0bz0nMCcgZHVyPScxcycgYmVnaW49JzAuNDE2NjY2NjY2NjY2NjY2N3MnIHJlcGVhdENvdW50PSdpbmRlZmluaXRlJy8+PC9yZWN0PjxyZWN0ICB4PSc0Ni41JyB5PSc0MCcgd2lkdGg9JzcnIGhlaWdodD0nMjAnIHJ4PSc1JyByeT0nNScgZmlsbD0nIzNFNjVGRicgdHJhbnNmb3JtPSdyb3RhdGUoMTgwIDUwIDUwKSB0cmFuc2xhdGUoMCAtMzApJz4gIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9J29wYWNpdHknIGZyb209JzEnIHRvPScwJyBkdXI9JzFzJyBiZWdpbj0nMC41cycgcmVwZWF0Q291bnQ9J2luZGVmaW5pdGUnLz48L3JlY3Q+PHJlY3QgIHg9JzQ2LjUnIHk9JzQwJyB3aWR0aD0nNycgaGVpZ2h0PScyMCcgcng9JzUnIHJ5PSc1JyBmaWxsPScjM0U2NUZGJyB0cmFuc2Zvcm09J3JvdGF0ZSgyMTAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwLjU4MzMzMzMzMzMzMzMzMzRzJyByZXBlYXRDb3VudD0naW5kZWZpbml0ZScvPjwvcmVjdD48cmVjdCAgeD0nNDYuNScgeT0nNDAnIHdpZHRoPSc3JyBoZWlnaHQ9JzIwJyByeD0nNScgcnk9JzUnIGZpbGw9JyMzRTY1RkYnIHRyYW5zZm9ybT0ncm90YXRlKDI0MCA1MCA1MCkgdHJhbnNsYXRlKDAgLTMwKSc+ICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSdvcGFjaXR5JyBmcm9tPScxJyB0bz0nMCcgZHVyPScxcycgYmVnaW49JzAuNjY2NjY2NjY2NjY2NjY2NnMnIHJlcGVhdENvdW50PSdpbmRlZmluaXRlJy8+PC9yZWN0PjxyZWN0ICB4PSc0Ni41JyB5PSc0MCcgd2lkdGg9JzcnIGhlaWdodD0nMjAnIHJ4PSc1JyByeT0nNScgZmlsbD0nIzNFNjVGRicgdHJhbnNmb3JtPSdyb3RhdGUoMjcwIDUwIDUwKSB0cmFuc2xhdGUoMCAtMzApJz4gIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9J29wYWNpdHknIGZyb209JzEnIHRvPScwJyBkdXI9JzFzJyBiZWdpbj0nMC43NXMnIHJlcGVhdENvdW50PSdpbmRlZmluaXRlJy8+PC9yZWN0PjxyZWN0ICB4PSc0Ni41JyB5PSc0MCcgd2lkdGg9JzcnIGhlaWdodD0nMjAnIHJ4PSc1JyByeT0nNScgZmlsbD0nIzNFNjVGRicgdHJhbnNmb3JtPSdyb3RhdGUoMzAwIDUwIDUwKSB0cmFuc2xhdGUoMCAtMzApJz4gIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9J29wYWNpdHknIGZyb209JzEnIHRvPScwJyBkdXI9JzFzJyBiZWdpbj0nMC44MzMzMzMzMzMzMzMzMzM0cycgcmVwZWF0Q291bnQ9J2luZGVmaW5pdGUnLz48L3JlY3Q+PHJlY3QgIHg9JzQ2LjUnIHk9JzQwJyB3aWR0aD0nNycgaGVpZ2h0PScyMCcgcng9JzUnIHJ5PSc1JyBmaWxsPScjM0U2NUZGJyB0cmFuc2Zvcm09J3JvdGF0ZSgzMzAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwLjkxNjY2NjY2NjY2NjY2NjZzJyByZXBlYXRDb3VudD0naW5kZWZpbml0ZScvPjwvcmVjdD48L3N2Zz4=);}
 .bz-flash { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20id%3D%22flash%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214.61%22%20height%3D%2220%22%20viewBox%3D%220%200%2014.61%2020%22%3E%20%20%3Cpath%20id%3D%22Path_564%22%20data-name%3D%22Path%20564%22%20d%3D%22M2.979%2C9.078%2C14.61%2C0%2C8.794%2C8.369l3.262%2C2.837L0%2C20l6.383-8.369Z%22%20fill%3D%22%23363d4a%22%2F%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
@@ -121,12 +122,14 @@ button:disabled{
   text-overflow: ellipsis;
 }
 .bz-title-text{
-  cursor:pointer;
   flex:1;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   margin-left: 5px;
+}
+.bz-title .bz-title-text:hover{
+  text-decoration:underline;
 }
 .bz-remote-title{
   color:#000;
@@ -172,6 +175,13 @@ button:disabled{
   width: 16px;
   background-repeat: no-repeat;
   background-size: 16px;
+}
+button.bz-icon-txt{
+  width:unset;
+  white-space:nowrap;
+  background-size: 16px;
+  padding-left: 28px;
+  background-position: 5px;
 }
 .bz-small-icon.bz-switch{
   background-size: 7px !important;
@@ -233,9 +243,11 @@ button{
   cursor:pointer;
 }
 .bz-line{
-  lihe-height:25px;
+  line-height:25px;
   margin-left:10px;
+  width: calc(100% - 15px);
 }
+
 .bz-search-bar{
   border-radius: 5px;
   height: 35px;
@@ -275,10 +287,17 @@ button{
   padding-left:30px;
 }
 .bz-sort-bar{
-  margin-left: 20px;
+  margin: 0 10px;
+  border: 1px solid #999;
+  border-radius: 5px;
+  height: 28px;
+  position: relative;
+  top: 3px;
+  background-color:#FFF;
+  padding:0 5px;
 }
 .bz-sort-bar button{
-  margin: 8px 5px;
+  margin: 4px 2px;
   width: unset;
 }
 .bz-sort-bar span{
@@ -312,12 +331,44 @@ button{
 .bz-top-bar .bz-pop-panel{
   right:0;
 }
+
+.bz-input-cross{
+  position: absolute;
+  width: 15px;
+  margin-top: 9px;
+  background-size: 7px;
+  margin-left: -20px;
+  height: 15px;
+  background-color: transparent;
+  border-radius: 10px;
+  display:none;
+}
+.bz-input-cross-box:hover .bz-input-cross{
+  display:unset;
+}
+.bz-input-cross:hover{
+  background-color: #EEF;
+}
+.bz-icon.bz-letter{
+  width: 24px;
+  padding-left: 0;
+}
     `
   },
   updateFormatLogSetting:function(setting){
     localStorage.setItem("bz-log-format",JSON.stringify(setting))
   },
   exeFormag:function(setting,auto){
+    if(setting.gotoOrg){
+      setting.ignore=1
+      delete setting.gotoOrg
+      formatter.updateFormatLogSetting(setting)
+      location.reload()
+    }else if(setting.ignore){
+      delete setting.ignore
+      formatter.updateFormatLogSetting(setting)
+      return
+    }
     if(!document.body.innerText.includes("Boozang runner")&&!document.getElementsByTagName("iframe")[0]&&parent==window){
       if(!auto){
         alert("There is no boozang test log")
@@ -358,6 +409,11 @@ button{
 
     if(!formatter.data){
       formatter.data={
+        totalActions:0,
+        totalTests:0,
+        totalScenarios:0,
+        successScenarios:0,
+        failedScenarios:0,
         preSteps:[],
         scenarios:[],
         endSteps:[],
@@ -384,7 +440,7 @@ button{
     }
     
     function doIt(o){
-      if(o.children.length){
+      if(o.innerText){
         formatter.format(o,0)
       }else{
         setTimeout(()=>{
@@ -448,6 +504,9 @@ button{
     if(type=="scenario"){
       d.declareBtn=$(`<button class="bz-icon">&#128226; (0)</button>`)
       d.declare=formatter.addGroupElement(d.panel,"Declare","declare","",1)
+      
+      d.camera=$("<button class='bz-icon bz-hide bz-camera bz-letter'>&#128247;</button>").insertBefore(d.ctrl)
+      d.bug=$("<button class='bz-icon bz-hide bz-bug bz-letter'>&#128030;</button>").insertBefore(d.ctrl)
 
       d.declareBtn.click(()=>{
         if(!d.switcher.hasClass("bz-open")){
@@ -475,7 +534,9 @@ button{
         }
         if(d.init.group.css("display")=="none"){
           d.init.group.show()
+          d.init.switcher.addClass("bz-open")
         }else{
+          d.init.switcher.removeClass("bz-open")
           d.init.group.hide()
         }
       })
@@ -491,38 +552,33 @@ button{
   buildLayout:function(p,setting){
     let fd=formatter.data;
     let info=[
-      ["Start time","startTime"],
-      ["Execute time","executeTime"],
-      ["Scenarios","totalScenarios"],
-      ["Success","successScenarios"],
-      ["Failed","failedScenarios"],
-      ["Tests","totalTests"],
-      ["Actions","totalActions"],
+      ["Execute time","executeTime"]
     ]
-    let info2=[
-      ["Wake up times","wakeUpTimes"],
-      ["Reload IDE times","reloadIDETime"],
-    ]
+
     let o={
       search:$(`<div class="bz-row bz-search-bar">
         <div class="bz-sort-bar bz-nowrap">
-          <button id="sort-time" class="bz-icon"><span>&#8595;</span> Process</button>
+          <button id="sort-time" class="bz-icon"><span>&#8595;</span> Completion</button>
           <button id="sort-id" class="bz-icon"><span></span> Id</button>
           <button id="sort-name" class="bz-icon"><span></span> Name</button>
           <button id="sort-result" class="bz-icon"><span></span> Result</button>
+          <button id="sort-performance" class="bz-icon"><span></span> Performance</button>
+          <button id="sort-worker" class="bz-icon"><span></span> Worker</button>
         </div>
-        <input/>
+        <div class="bz-input-cross-box">
+          <input/>
+          <button class="bz-cross bz-icon bz-input-cross"></button>
+        </div>
         <button class="bz-icon bz-search"></button>
         <button class='bz-icon bz-analyze' title='Show test case execution summary' style='margin:5px 10px;' disabled='true'></button>
-        <button class='bz-icon bz-camera' title='Show screenshot list' style='margin:5px 10px;' disabled='true'></button>
+        <button class='bz-icon bz-camera bz-letter' title='Show screenshot list' style='margin:5px 10px;' disabled='true'>&#128247;</button>
         </div>`).appendTo(p),
       init:formatter.addGroupElement(p,"Initial","init"),
       exePanel:$("<div class='bz-scope' bz-name='Executing list'></div>"),
       panel:$("<div class='bz-scope' bz-name='Completed list'></div>"),
       waitingList:$("<div class='bz-scope' bz-name='Waiting list'></div>"),
       end:$("<div></div>"),
-      info:$(`<div class="bz-info-box">${info.map(x=>`<div><label>${x[0]}: </label><span class="${x[1]}"></span></div>`).join("")}</div>`),
-      info2:$(`<div class="bz-info-box">${info2.map(x=>`<div><label>${x[0]}: </label><span class="${x[1]}"></span></div>`).join("")}</div>`),
+      info:$(`<div class="bz-info-box bz-nowrap">${info.map(x=>`<div><label>${x[0]}: </label><span class="${x[1]}"></span></div>`).join("")}</div>`),
       modules:$("<div></div>"),
       modulePanel:$("<div></div>"),
       featurePanel:$("<div></div>"),
@@ -538,11 +594,7 @@ button{
         span.html("↑")
       }else{
         o.sort.find("span").html("")
-        if(this.innerText.includes("Process")){
-          span.text("↓")
-        }else{
-          span.text("↑")
-        }
+        span.text("↓")
       }
       formatter.sort(this.id,span.text())
     })
@@ -553,6 +605,10 @@ button{
     })
     o.search.find("input").blur(function(e){
       formatter.search(this.value)
+    })
+    o.search.find(".bz-input-cross").click(function(){
+      o.search.find("input").val("")
+      formatter.search()
     })
 
     o.analyzePanel.appendTo(o.search);
@@ -587,26 +643,58 @@ button{
       o[x[1]]=o.info.find("."+x[1]);
     })
 
-    info2.forEach(x=>{
-      o[x[1]]=o.info.find("."+x[1]);
-    })
-
+    $(document.body).on("mousemove",".bz-title-text",function(e){
+      if(!this.bzRight){
+        let o=this
+        let s=o.innerHTML
+        o.innerHTML=`<span>${s}</span>`
+        let r=o.children[0].getBoundingClientRect()
+        this.bzRight=r.right
+        o.innerHTML=s
+      }
+      if(e.clientX<this.bzRight){
+        this.style.cursor="pointer"
+      }else{
+        this.style.cursor="default"
+      }
+    });
+    
     $(document.body).on("click",".bz-title-text",function(e){
-      let w=formatter.data.startUrl
+      let w=formatter.data.startUrl,t=this
+      
       if(w){
-        let v=$(this).attr("bz")
+        if(e.target==t){
+          if(this.style.cursor!="pointer"){
+            return
+          }
+        }else{
+          t=e.target
+        }
+        let v=$(t).attr("bz")
         if(!v){
-          t=this.innerText.trim()
+          t=t.innerText.trim()
           v=t.match(/m[0-9]+([\.\/]t[0-9]+)?/)
           if(v){
             v=v[0]
           }
         }
-        doIt(v||"")
+        if(v){
+          formatter.openIDE(v)
+        }
       }
-      
-      function doIt(v){
-        window.open(w+v.replace(".","/"),"bz-master",`width=${screen.availWidth/2},height=${screen.availHeight}`)
+    });
+    
+    $(document.body).on("click",".bz-camera",function(){
+      if(this.path){
+        window.open(formatter.getCameraPath(this.path),"bz-image")
+      }
+    });
+
+    $(document.body).on("click",".bz-bug",function(){
+      if($(this).attr("path")){
+        window.open($(this).attr("path"),"bz-bug")
+      }else if($(this).attr("hash")){
+        formatter.openIDE("rootCause/"+$(this).attr("hash"))
       }
     });
     
@@ -629,11 +717,49 @@ button{
         o.search.removeClass("bz-top-bar")
       }
     })
+
+    $(document.body).on("mouseover",".bz-title .bz-result.bz-failed",function(){
+      if($(this.parentElement).find(".bz-switch")[0]){
+        this.style.cursor="pointer"
+      }
+    })
     
-    
+    $(document.body).on("click",".bz-title .bz-result.bz-failed",function(){
+      let o=this
+      while(o.parentElement&&!$(o.parentElement).hasClass("bz-scope")){
+        o=o.parentElement
+      }
+      let oo=$(o).find(".bz-action.bz-failed-title")[0]
+      
+      if(oo){
+        formatter.openItem(oo)
+        oo=$(oo).find(".bz-switch")
+        if(!oo.hasClass(".bz-open")){
+          oo.click()
+        }
+      }
+      oo=$(o).find("[hash]")[0]
+      if(oo){
+        formatter.openItem(oo)
+        oo.focus()
+      }
+    })
     return o
   },
+  getCameraPath:function(v){
+    let fd=formatter.data
+    return fd.host+"/screenshot/"+fd.project+"/"+fd.project+"."+fd.version+"."+v+".png"
+  },
   showCameraPanel:function(o){
+    let w=""
+    formatter.cameraList.forEach(x=>{
+      x=x.path
+      w+=`<div class='bz-row' style='margin:5px 0'><img style='margin:0 10px;width:100px' src='${formatter.getCameraPath(x)}'/> ${x}</div>`
+    })
+    o.html(`<div style='overflow:auto;max-height:${window.innerHeight-250}px;padding:5px;background-color:#EEE;'>${w}<div>`)
+    o.find("img").click(function(){
+      window.open(this.src,"bz-image")
+    })
     o.show()
   },
   showAnalyzePanel:function(o){
@@ -650,7 +776,7 @@ button{
         mTotal+=x.list.length
         let success=0,failed=0,time=0
         x.list.forEach(y=>{
-          if(y.result=="success"){
+          if(y.result!="failed"){
             success++
           }else{
             failed++
@@ -723,18 +849,34 @@ button{
         }else{
           return a.code>b.code?-1:1
         }
-      }else{
+      }else if(id=="sort-result"){
         if(w=="↓"){
           return a.result>b.result?1:-1
         }else{
           return a.result>b.result?-1:1
+        }
+      }else if(id=="sort-performance"){
+        a=parseInt(a.element.time.text()||0)
+        b=parseInt(b.element.time.text()||0)
+        if(w=="↓"){
+          return a-b
+        }else{
+          return b-a
+        }
+      }else if(id=="sort-worker"){
+        a=a.worker||""
+        b=b.worker||""
+        if(w=="↓"){
+          return a>b?1:-1
+        }else{
+          return a>b?-1:1
         }
       }
     })
     formatter.element.panel.append(os)
   },
   search:function(v,scope){
-    removeAllHighlight()
+    formatter.removeAllHighlight()
     if(!v){
       return formatter.closeAll()
     }
@@ -756,18 +898,52 @@ button{
     if(!scope){
       scope=[formatter.element.init.panel,formatter.element.panel,formatter.element.end]
     }
-    let vs=[]
+    let vs=[],inModuleFilter,mf=[];
+    
+    if(v.constructor==Array&&v[0].match(/^m[0-9]+([\.\/]t[0-9])?$/)){
+      scope.forEach(x=>{
+        x=$(x).find(".bz-line,.bz-title-text").toArray()
+        x.forEach(y=>{
+          let pos=y.innerHTML.indexOf(v[0])
+          if(pos>=0){
+            mf.push({pos:pos,w:v[0],element:y})
+            vs.push(y)
+          }
+        })
+      })
+      v.shift()
+      scope=[]
+      vs.forEach(x=>{
+        if($(x).hasClass("bz-title-text")){
+          scope.push(...$(x.parentElement.nextElementSibling).find(".bz-line,.bz-title-text,.bz-time,button").toArray())
+        }
+      })
+      inModuleFilter=1
+    }
+    
     scope.forEach(x=>{
-      x=$(x).find(".bz-line,.bz-title-text,.bz-time,button").toArray()
+      if(inModuleFilter){
+        x=[x]
+      }else{
+        x=$(x).find(".bz-line,.bz-title-text,.bz-time,button").toArray()
+      }
       x.forEach(y=>{
         if(v.constructor==Array){
           let fs=[]
-          v.forEach(z=>{
+          mf.find((q,qi)=>{
+            if(q.element==y){
+              fs.push(q)
+              mf.splice(qi,1)
+              return 1
+            }
+          })
+          v.forEach((z,j)=>{
             let zz=z.split(" "),fz=[]
             if(!zz.find(zi=>{
               if(!zi){
                 return
               }
+
               let pos=y.innerHTML.toLowerCase().indexOf(zi)
               if(pos>=0){
                 fz.push({pos:pos,w:zi})
@@ -783,7 +959,7 @@ button{
               return b.pos-a.pos
             })
             fs.forEach(z=>{
-              highlight(y,z.w,z.pos)
+              formatter.highlight(y,z.w,z.pos)
             })
             vs.push(y)
           }
@@ -792,11 +968,14 @@ button{
           if(w){
             w=w[0]
             let pos=y.innerHTML.indexOf(w)
-            highlight(y,w,pos)
+            formatter.highlight(y,w,pos)
             vs.push(y)
           }
         }
       })
+    })
+    mf.forEach(x=>{
+      formatter.highlight(x.element,x.w,x.pos)
     })
     formatter.closeAll()
     vs.forEach(x=>{
@@ -808,28 +987,29 @@ button{
         $(x).hide()
       }
     })
+
     formatter.element.panel.children().toArray().forEach(x=>{
       if(!$(x).find(".bz-search-highlight").length){
         $(x).hide()
       }
     })
-//    formatter.removeDoingInfo()
-    function highlight(o,v,pos){
-      let w=$(o).html()
-      v=w.substring(pos,pos+v.length)
-      w=w.replace(v,`<span class='bz-search-highlight'>${v}</span>`)
-      $(o).html(w)
-    }
-    
-    function removeAllHighlight(){
-      let os=$(".bz-search-highlight").toArray()
-      os.forEach(x=>{
-        x.parentElement.innerHTML=x.parentElement.innerHTML.replace(x.outerHTML,x.innerText)
-      })
-    }
+
+    formatter.removeDoingInfo()
+  },
+  removeAllHighlight:function(){
+    let os=$(".bz-search-highlight").toArray()
+    os.forEach(x=>{
+      x.parentElement.innerHTML=x.parentElement.innerHTML.replace(x.outerHTML,x.innerText)
+    })
+  },
+  highlight:function(o,v,pos){
+    let w=$(o).html()
+    v=w.substring(pos,pos+v.length)
+    w=w.replace(v,`<span class='bz-search-highlight'>${v}</span>`)
+    $(o).html(w)
   },
   closeAll:function(){
-    let vs=$(".bz-switch").toArray()
+    let vs=$(".bz-scope .bz-switch").toArray()
     vs.forEach(x=>{
       if($(x).hasClass("bz-open")){
         x.switcher.click()
@@ -874,6 +1054,7 @@ button{
   keepLogMap:function(k){
     formatter.logMap[k]=formatter.logMap[k]||{}
     formatter.logMap[k].curAction=formatter.data.curAction
+    formatter.logMap[k].curLastScenario=formatter.data.curLastScenario
     formatter.logMap[k].curTest=formatter.data.curTest
     formatter.logMap[k].curTests=formatter.data.curTests
     formatter.logMap[k].curDeclare=formatter.curDeclare
@@ -885,6 +1066,7 @@ button{
   takeLogMap:function(k){
     formatter.logMap[k]=formatter.logMap[k]||{}
     formatter.data.curAction=formatter.logMap[k].curAction
+    formatter.data.curLastScenario=formatter.logMap[k].curLastScenario
     formatter.data.curTest=formatter.logMap[k].curTest
     formatter.data.curTests=formatter.logMap[k].curTests||[]
     formatter.curDeclare=formatter.logMap[k].curDeclare
@@ -898,6 +1080,9 @@ button{
     let idx=0
     
     while(o.childNodes.length){
+      if(formatter.data.wrongLog){
+        return
+      }
       let v=o.childNodes[0]
       v.remove()
       formatter.formatLog(v)
@@ -913,6 +1098,8 @@ button{
 
     if(formatter.chking>=30){
       formatter.formatWorkers()
+    }else{
+      formatter.doingWorker=""
     }
     if(!chkTime){
       formatter.chkTime=setInterval(()=>{
@@ -981,6 +1168,9 @@ button{
     function formatWorkerLog(ws,fun){
       let j=0
       while(ws.length){
+        if(formatter.data.wrongLog){
+          return
+        }
         if(j>1000){
           return setTimeout(()=>{
             formatWorkerLog(ws,fun)
@@ -1063,6 +1253,7 @@ button{
         if(retrieveTaskDone(x,formatter.element.end)){
           formatter.curPanel=formatter.element.end
           formatter.data.curTests=[]
+          
           formatter.data.curTest=0
           return
         }
@@ -1086,7 +1277,19 @@ button{
             return
           }
 
+          if(retrieveVersion(x,curPanel)){
+            return
+          }
+
           if(retrieveScenario(x,formatter.element.waitingList)){
+            return
+          }
+
+          if(retrieveStartTestTime(x,curPanel)){
+            return
+          }
+          
+          if(retrieveHash(x,curPanel)){
             return
           }
           
@@ -1096,50 +1299,150 @@ button{
           }
           
         }
+        
+        if(retrieveModuleTestActionLink(x,curPanel)){
+          return
+        }
         curPanel.append(`<div class='bz-line'>${x}</div>`)
       })
     }
     
-    function getMainPanel(){
-      if(formatter.data.curTab=="module"){
-        return formatter.element.modulePanel
-      }else if(formatter.data.curTab=="feature"){
-        return formatter.element.featurePanel
-      }
-      return formatter.element.panel
+    function setInitInfo(){
+      fe.init.title.find(".bz-title-text").html(`
+        <span style='margin-right:20px;'>Initial: </span>
+        <div><label>Start time: </label><span>${fd.startTime}</span></div>
+        <div><label>Version: </label><span>${fd.version}</span></div>
+        <div><label>Root test: </label><span>${fd.rootTest}</span></div>
+        <div><label>Environment: </label><span>${fd.environment}</span></div>
+        <div><label>Container Version: </label><span>${fd.containerVersion}</span></div>
+        <div><label>IDE Version: </label><span>${fd.ideVersion}</span></div>
+        <div><label>Extension Version: </label><span>${fd.extensionVersion}</span></div>
+      `);
+      fe.init.title.find(".bz-title-text").addClass("bz-info-box")
+      fe.init.ctrl.remove()
+      fe.init.time.remove()
+      fe.init.result.remove()
     }
     //0:
+    function retrieveVersion(v,p){
+      let x=v.match(/[0-9]+\: IDE version\: ([0-9\.]+)$/)
+      if(x){
+        fd.ideVersion=x[1]
+        p.append(`<div class='bz-line'>${v}</div>`)
+        return 1
+      }
+
+      x=v.match(/Running Boozang runner version\: ([0-9\.]+)/);
+      if(x){
+        fd.containerVersion=x[1]
+        p.append(`<div class='bz-line'>${v}</div>`)
+        return 1
+      }
+
+      x=v.match(/Extension version\: ([0-9\.]+)/);
+      if(x){
+        fd.extensionVersion=x[1]
+        p.append(`<div class='bz-line'>${v}</div>`)
+        return 1
+      }
+    }
+    
+    function retrieveHash(v,p){
+      let x=v.match(/\[Error Hash\: ([0-9A-F]+)\] \((.+)\)/)
+      if(x){
+        let xx=$(`<button class='bz-line bz-failed-title bz-failed bz-icon-txt' style='margin:5px;;border:1px solid;border-radius:5px;' hash="${x[1]}">${v}</button>`)
+        xx.click(function(){
+          formatter.openIDE("rootCause/"+x[1])
+        })
+        p.append(xx)
+        let bug=fd.curLastScenario.element.bug
+        if(x[2]=="new"){
+          bug.html("")
+          bug.addClass("bz-new-bug")
+          bug.removeClass("bz-letter")
+        }
+        bug.show()
+        
+        bug.attr({
+          hash:x[1]
+        })
+        return 1
+      }
+      x=v.match(/(Root cause link: ?)(.+)?$/)
+      if(x){
+        if(x[2]){
+          fd.curLastScenario.element.bug.show()
+          fd.curLastScenario.element.bug.attr({
+            path:x[2]
+          })
+          x=$(`<div class="bz-title-text bz-line bz-bug">${x[1]}${x[2]}</div>`);
+        }else{
+          x=$(`<div>${v}</div>`)
+          formatter._tmpRootCause=1
+        }
+        p.append(x)
+        return 1
+      }else if(formatter._tmpRootCause){
+        formatter._tmpRootCause=0
+        fd.curLastScenario.element.bug.show()
+        fd.curLastScenario.element.bug.attr({
+          path:v
+        })
+        x=$(`<div class="bz-title-text bz-line bz-bug">${v}</div>`);
+        p.append(x)
+        return 1
+      }
+    }
+    
+    function retrieveModuleTestActionLink(v,p){
+      let x=v.match(/(^| |\/|\.|\:)(m[0-9]+[$| \/\.\-](t[0-9]+[$| \.\/-]([0-9]+)?)?)/);
+      if(x){
+        p.append(`<div class='bz-title-text bz-line'>${v}</div>`)
+        return 1
+      }
+    }
+
     function retrieveStartURL(v,p){
       if(!fe.panel.children().length&&!fe.waitingList.children().length&&!fd.rootTest){
-        let x=v.match(/(http.+[\/].+\/extension\?)token\=.+#([^\/]+)[\/]([^\/]+)([\/](m[0-9]+[\/]t[0-9]+)[\/]run)?/);
+        let x=v.match(/(http.+[\/].+)\/extension\?token\=.+#([^\/]+)[\/]([^\/]+)([\/](m[0-9]+[\/]t[0-9]+)[\/]run)?/);
         if(x){
           
-          fd.startUrl=x[1]+"id="+x[2]+"#"+x[2]+"/"+x[3]+"/"
-          fd.project=v[2]
+          fd.startUrl=x[1]+"/extension?id="+x[2]+"#"+x[2]+"/"+x[3]+"/"
+          fd.host=x[1]
+          fd.project=x[2]
           fd.version=x[3]
           fd.rootTest=(x[5]||"").replace("/",".")
-          
-          fe.init.title.find(".bz-title-text").html(`
-            <span style='margin-right:20px;'>Initial: </span>
-            <div><label>Version: </label><span>${x[3]}</span></div>
-            <div><label>Root test: </label><span>${formatter.data.rootTest}</span></div>
-          `);
-          fe.init.title.find(".bz-title-text").addClass("bz-info-box")
-          fe.init.ctrl.remove()
-          fe.init.time.remove()
-          fe.init.result.remove()
+          if(x[5]){
+            fd.environment=v.split("&env=")[1].split("&")[0]
+          }
 
           p.append(`<div class='bz-line'>${v}</div>`)
           return 1
         }
       }
     }
-
+    
+    function retrieveStartTestTime(v,p){
+      let x=v.match(/^[0-9]+\: Start time\: ([0-9\- \:]{19})$/)
+      if(x){
+        x=x[1]
+        if(fd.completed){
+          if(x>fd.completed){
+            fd.wrongLog=1
+            return alert("Worker logs are not for this time")
+          }
+        }else{
+          fd.lastStartDate=x.split(" ")[0]
+        }
+        p.append(`<div class='bz-line'>${v}</div>`)
+        return 1
+      }
+    }
     function retrieveTime(v,p){
       let x=v.match(/\[ ([0-9\:]+) (\(([0-9\:]+), ([0-9]+)s\) \++) *\]/)
       if(x){
-        if(!formatter.element.startTime.text()){
-          formatter.element.startTime.text(x[1])
+        if(!fd.startTime){
+          fd.startTime=x[1]
         }
 
         if(x[2]){
@@ -1150,7 +1453,7 @@ button{
           });
           if(!formatter.data.curExeTime||x[3]>formatter.data.curExeTime){
             formatter.data.curExeTime=x[3]
-            setSumInfo("executeTime",0,x[3])
+            fe.executeTime.text(x[3])
           }
           if(fd.curAction){
             fd.curAction.element.time.text(time+"s")
@@ -1198,18 +1501,25 @@ button{
     function retrieveDeclare(v,p){
       let x=v.match(/declare on \[(m[0-9]+\.t[0-9]+)( ?\(([0-9]+)\))?\] (.+)$/)
       if(x){
+        if(fd.curLastScenario){
+          fd.curLastScenario.element.panel.append(fe.end.children())
+          fd.curLastScenario=0
+        }else{
+          setInitInfo()
+        }
         let d={
           code:x[1],
           dataIdx:x[3]||"",
           name:x[4],
           result:"declare",
           type:"scenario"
-        }
+        };
         d=addTest(formatter.element.panel,d)
         d.time=0
         formatter.curDeclare=formatter.curDeclare||d
 
         p.append(`<div class='bz-line'>${v}</div>`)
+        
         return 1
       }
     }
@@ -1252,6 +1562,7 @@ button{
           if(formatter.element.waitingList.find(d.element.group)[0]){
             formatter.element.exePanel.append(d.element.group)
           }
+          formatter.data.curLastScenario=d
         }
         return d
       }
@@ -1259,13 +1570,16 @@ button{
     
     //4: test result
     function retrieveTestResult(v,p){
-      let x=v.match(/^[0-9]+\: +\<+ (Failed|Success) .+ (net\:\:ERR|\[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\]).+$/)
+      let x=v.match(/^[0-9]+\: +\<+ (Failed|Success|Warning) .+ (net\:\:ERR|\[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\]).+$/)
       
       if(x){
         let r=x[1].toLowerCase()
         
         if(fd.curAction){
           fd.curAction.element.result.addClass("bz-"+r)
+          if(r=="failed"){
+            fd.curAction.element.panel.addClass("bz-failed-title")
+          }
           setSumInfo("totalActions",1)
           if(r=="failed"){
             fd.curAction.element.title.addClass("bz-failed-title")
@@ -1367,11 +1681,8 @@ button{
     }
 
     function setSumInfo(k,d,v){
-      if(d){
-        formatter.element[k].text(parseInt(formatter.element[k].text()||0)+d)
-      }else{
-        formatter.element[k].text(v)
-      }
+      fd[k]+=d
+      fe.panel.attr({"bz-name":`Completed list (Scenarios: ${fd.totalScenarios}, Success: ${fd.successScenarios}, Failed: ${fd.failedScenarios}, Tests: ${fd.totalTests}, Actions: ${fd.totalActions})`})
     }
     
     function removeTest(d){
@@ -1421,8 +1732,9 @@ button{
           setSumInfo("totalScenarios",1)
         }else if(dd.remote){
           return dd
-        }else if(d.remote&&["success","failed"].includes(dd.result)){
+        }else if(d.remote&&["success","failed","warning"].includes(dd.result)){
           dd.element.name.text(getTestFullName(d))
+          dd.worker=d.worker
           return
         }
       }else{
@@ -1465,7 +1777,7 @@ button{
     function retrieveJoinMember(v,p){
       let x=v.match(/[0-9]+: \<\-+ Join worker \((.+)\)$/);
       if(x){
-        p.append(`<div class="bz-row">${v} ${formatter.getIcon("join")}</div>`);
+        p.append(`<div class="bz-row bz-line">${v} ${formatter.getIcon("join")}</div>`);
         return 1
       }
     }
@@ -1473,30 +1785,40 @@ button{
     function retrieveRemoveMember(v,p){
       let x=v.match(/[0-9]+: Remove worker \((.+)\) \-+\>$/);
       if(x){
-        p.append(`<div class="bz-row">${v} ${formatter.getIcon("leave")}</div>`);
+        p.append(`<div class="bz-row bz-line">${v} ${formatter.getIcon("leave")}</div>`);
         return 1
       }
     }
 
     function retrieveScreenshot(v,p){
-      if(v.match(/uploadScreenshotInString\/ \++\>$/)){
-        p.append(`<div class="bz-row">${v} ${formatter.getIcon("camera")}</div>`)
+      let x=v.match(/^[0-9]+\: Screenshot\:(m[0-9]+\.t[0-9]+[\.][0-9]+)$/);
+      if(x){
+        let t=formatter.data.curLastScenario
+        formatter.cameraList.push({
+          path:x[1],
+        })
+        t.element.camera[0].path=x[1]
+        t.element.camera.show()
+        p.append(`<div class="bz-row bz-line">${v} ${formatter.getIcon("camera")}</div>`)
+        let o=p.find(".bz-camera")
+        o[0].path=x[1];
         fe.camera.attr({disabled:false})
         return 1
       }
     }
     
     function retrieveRemoteScenarioResult(v,p){
-      let x=v.match(/^([0-9]+)\: [\.]+ (Success|Failed) Feature - Scenario Remote \[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\] [0-9\:]+ (.+) (Completed in .+)( Tasks\: [0-9]+ \/ [0-9]+ \.+)$/)
+      let x=v.match(/^([0-9]+)\: [\.]+ (Success|Failed|Warning) Feature - Scenario Remote \[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\] [0-9\:]+ (.+) (Completed in )(.+)( Tasks\: [0-9]+ \/ [0-9]+ \.+)$/)
       if(x){
         let d={
           idx:x[1],
           result:x[2].toLowerCase(),
           code:x[3],
           dataIdx:x[5]||"",
-          name:x[6]+" ("+x[7]+")",
+          name:x[6]+" ("+x[7]+x[8]+")",
           remote:1,
-          type:"scenario"
+          type:"scenario",
+          worker:x[8]
         }
         p.append(`<div class='bz-line'>${v}</div>`)
         p=addTest(formatter.element.panel,d)
@@ -1519,13 +1841,17 @@ button{
     function retrieveTaskDone(v,p){
       if(v.match(/^[0-9]+\: task-done$/)){
         p.append(`<div class='bz-line'>${formatter.getIcon("complete")} ${v}</div>`)
-        formatter.data.completed=1
+        fd.completed=fd.lastStartDate+" "+fd.curExeTime
         formatter.element.waitingList.remove()
         formatter.element.exePanel.remove()
         return 1
       }
     }
 
+  },
+  openIDE:function(v){
+    let fd=formatter.data
+    window.open(fd.host+"/extension?id="+fd.project+"#"+fd.project+"/"+fd.version+"/"+v.replace(".","/"),"bz-master",`width=${screen.availWidth/2},height=${screen.availHeight}`)
   },
   getPageInfo:function(x,sendResponse){
     let c=$("a[href=consoleFull]")[0]
