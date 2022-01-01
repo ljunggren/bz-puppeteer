@@ -134,10 +134,27 @@ button:disabled{
 .bz-remote-title{
   color:#000;
 }
+.bz-timer-box,
 .bz-info-box{
   display:flex;
   margin-left: 10px;
   flex:1
+}
+.bz-timer-box>div{
+  position: relative;
+  top: 7px;
+}
+.bz-timer-box label{
+  position: relative;
+  top: -3px;
+  margin-right: 8px;
+  font-size: 16px
+}
+.executeTime{
+  font-size: 25px;
+  font-weight: bold;
+  margin: 5px 15px 5px 0px;
+  white-space: nowrap;
 }
 .bz-search-bar .bz-info-box{
   position: relative;
@@ -283,11 +300,15 @@ button{
   margin-top: 6px;
   margin-left: 15px;
 }
-.bz-log-box>div>.bz-content>.bz-title{
+.bz-log-box>.bz-scope>.bz-content>.bz-title{
   padding-left:30px;
 }
+body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
+  width:calc(100% - 34px);
+}
+.bz-log-bar,
 .bz-sort-bar{
-  margin: 0 10px;
+  margin: 0 10px 0 2px;
   border: 1px solid #999;
   border-radius: 5px;
   height: 28px;
@@ -296,6 +317,31 @@ button{
   background-color:#FFF;
   padding:0 5px;
 }
+
+.bz-log-bar *{
+  color:#000;
+  margin:0 2px;
+  position:relative;
+  top:5px;
+}
+
+.bz-log-bar a{
+  cursor:pointer;
+  text-decoration:underline;
+}
+
+.bz-disable-worker-log a{
+  color:#999;
+  text-decoration:line-through;
+  cursor:not-allowed;
+}
+
+.bz-disable-worker-log .bz-master-log{
+  color:#000;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
 .bz-sort-bar button{
   margin: 4px 2px;
   width: unset;
@@ -549,15 +595,32 @@ button{
     d.panel[0].switcher=d.switcher
     return d
   },
+  getLogList:function(){
+    let v;
+    try{
+      eval("v="+formatter.data.setting.identifyWorker)
+      v= v()
+      if(!v||v.constructor!=Array){
+        v=[]
+      }
+    }catch(ex){}
+    return v||[]
+  },
   buildLayout:function(p,setting){
     let fd=formatter.data;
     let info=[
-      ["Execute time","executeTime"]
+      ["&#9201;","executeTime"]
     ]
 
     let o={
       search:$(`<div class="bz-row bz-search-bar">
+        <div class="bz-log-bar bz-nowrap">
+          <label style="margin-left:5px;color:#000;font-weight:bold;">Org-Log: </label>
+          <a class='bz-master-log'>master,</a>
+          ${formatter.getLogList().map((a,i)=>"<a>"+(i+2)+",</a>").join("").replace(/,<\/a>$/,"</a>")}
+        </div>
         <div class="bz-sort-bar bz-nowrap">
+          <label style="margin-left:5px;color:#000;font-weight:bold;">Sort: </label>
           <button id="sort-time" class="bz-icon"><span>&#8595;</span> Completion</button>
           <button id="sort-id" class="bz-icon"><span></span> Id</button>
           <button id="sort-name" class="bz-icon"><span></span> Name</button>
@@ -578,7 +641,7 @@ button{
       panel:$("<div class='bz-scope' bz-name='Completed list'></div>"),
       waitingList:$("<div class='bz-scope' bz-name='Waiting list'></div>"),
       end:$("<div></div>"),
-      info:$(`<div class="bz-info-box bz-nowrap">${info.map(x=>`<div><label>${x[0]}: </label><span class="${x[1]}"></span></div>`).join("")}</div>`),
+      info:$(`<div class="bz-timer-box bz-nowrap">${info.map(x=>`<div><label>${x[0]}</label><span class="${x[1]}"></span></div>`).join("")}</div>`),
       modules:$("<div></div>"),
       modulePanel:$("<div></div>"),
       featurePanel:$("<div></div>"),
@@ -609,6 +672,22 @@ button{
     o.search.find(".bz-input-cross").click(function(){
       o.search.find("input").val("")
       formatter.search()
+    })
+    
+    o.search.find(".bz-log-bar a").click(function(){
+      let t=$(this),n=t.text().match(/[0-9]+/)
+      if(n&&formatter.data.wrongLog){
+        return
+      }
+      if(n){
+        n=formatter.getLogList()[n[0]-2]
+      }else{
+        n=location.href
+        formatter.data.setting.gotoOrg=1
+        formatter.updateFormatLogSetting(formatter.data.setting)
+        formatter.data.setting.gotoOrg=0
+      }
+      window.open(n)
     })
 
     o.analyzePanel.appendTo(o.search);
@@ -698,12 +777,11 @@ button{
       }
     });
     
-    o.sortBar=o.search.find(".bz-sort-bar")
     p.append(o.exePanel);
     p.append(o.panel);
     p.append(o.waitingList);
     p.append(o.end);
-    o.info.insertBefore(o.sortBar)
+    o.info.insertBefore(".bz-log-bar")
     
     $(window).scroll(function(){
       let r=p[0].getBoundingClientRect()
@@ -744,6 +822,10 @@ button{
         oo.focus()
       }
     })
+    
+    if(!formatter.isMasterPage(formatter.data.setting)){
+      o.search.find(".bz-log-bar").hide()
+    }
     return o
   },
   getCameraPath:function(v){
@@ -1126,13 +1208,10 @@ button{
       return
     }
     formatter.doingWorker="workers"
+    
+    let v=formatter.getLogList()
+    doIt(v,0)
 
-    try{
-      let v;
-      eval("v="+formatter.data.setting.identifyWorker)
-      v=v()
-      doIt(v,0)
-    }catch(ex){}
     
     function doIt(vs,i){
       let s=vs[i]
@@ -1429,7 +1508,9 @@ button{
         if(fd.completed){
           if(x>fd.completed){
             fd.wrongLog=1
-            return alert("Worker logs are not for this time")
+            $(".bz-log-bar").addClass("bz-disable-worker-log")
+            $(".bz-log-bar").attr({title:"Did not find the same moment worker log"})
+            return
           }
         }else{
           fd.lastStartDate=x.split(" ")[0]
@@ -1890,20 +1971,22 @@ button{
     if(v){
       v=JSON.parse(v)
       if(v.autoFormat){
-        if(v.identifyMaster){
-          try{
-            let f;
-            eval("f="+v.identifyMaster)
-            if(f()){
-              formatter.exeFormag(v,Date.now())
-            }
-          }catch(ex){
-            alert("Identify page script issue: "+ex.message)
-          }
+        if(formatter.isMasterPage(v)){
+          formatter.exeFormag(v,Date.now())
         }
       }
     }
-    
+  },
+  isMasterPage:function(v){
+    if(v.identifyMaster){
+      try{
+        let f;
+        eval("f="+v.identifyMaster)
+        return f()
+      }catch(ex){
+        alert("Identify page script issue: "+ex.message)
+      }
+    }
   }
 }
 
