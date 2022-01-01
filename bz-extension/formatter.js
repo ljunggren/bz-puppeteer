@@ -7,6 +7,7 @@ var formatter={
     let s=document.createElement("style")
     document.body.append(s)
     s.innerText=`
+.bz-copy { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018.4%2018.4%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%230069ff%3B%20%20%20%20%20%20%20%20stroke%3A%20%230069ff%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.4px%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22copy-strong%22%20transform%3D%22translate%280.2%200.2%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_31%22%20data-name%3D%22Path%2031%22%20class%3D%22cls-1%22%20d%3D%22M11.25%2C4.5V0H3.375L0%2C3.375V13.5H6.75V18H18V4.5ZM3.375%2C1.591V3.375H1.591ZM1.125%2C12.375V4.5H4.5V1.125h5.625V4.5L6.75%2C7.875v4.5Zm9-6.284V7.875H8.341Zm6.75%2C10.784h-9V9H11.25V5.625h5.625Z%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-search { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2022%2022%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%20%20stroke%3A%20rgba%2854%2C61%2C74%2C0.7%29%3B%20%20%20%20%20%20%20%20stroke-linejoin%3A%20round%3B%20%20%20%20%20%20%20%20stroke-miterlimit%3A%2010%3B%20%20%20%20%20%20%20%20stroke-width%3A%202px%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22search%22%20transform%3D%22translate%28-1.001%20-0.679%29%22%3E%20%20%20%20%3Ccircle%20id%3D%22Ellipse_17%22%20data-name%3D%22Ellipse%2017%22%20class%3D%22cls-1%22%20cx%3D%227.157%22%20cy%3D%227.157%22%20r%3D%227.157%22%20transform%3D%22translate%282.001%201.679%29%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_54%22%20data-name%3D%22Path%2054%22%20class%3D%22cls-1%22%20d%3D%22M15.07%2C13.046l7.947%2C7.946a1.071%2C1.071%2C0%2C0%2C1%2C0%2C1.515l-.189.188a1.07%2C1.07%2C0%2C0%2C1-1.514%2C0l-7.947-7.946%22%20transform%3D%22translate%28-1.33%20-1.33%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-analyze { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2026%2026.132%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.5px%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%20%20stroke%3A%20rgba%28112%2C112%2C112%2C0%29%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22analyze%22%20transform%3D%22translate%28-627%20-350.747%29%22%3E%20%20%20%20%3Cg%20id%3D%22analyze-2%22%20data-name%3D%22analyze%22%20transform%3D%22translate%28624.688%20348.504%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Compound_Path%22%20data-name%3D%22Compound%20Path%22%20class%3D%22cls-1%22%20d%3D%22M19.906%2C4.375H17.844A2.5%2C2.5%2C0%2C0%2C0%2C15.281%2C2.5a2.562%2C2.562%2C0%2C0%2C0-2.562%2C1.875H10.688c-.187%2C0-.375%2C0-.375.188V5.938H7.625A2.344%2C2.344%2C0%2C0%2C0%2C5.313%2C8.156V26.063a2.182%2C2.182%2C0%2C0%2C0%2C2.313%2C2.063H23a2.182%2C2.182%2C0%2C0%2C0%2C2.313-2.062V8.156A2.344%2C2.344%2C0%2C0%2C0%2C23%2C5.938H20.313V4.563C20.313%2C4.375%2C20.094%2C4.375%2C19.906%2C4.375ZM10.938%2C5h2.031a.375.375%2C0%2C0%2C0%2C.313-.312%2C2.031%2C2.031%2C0%2C0%2C1%2C4%2C0A.375.375%2C0%2C0%2C0%2C17.594%2C5h2.094V8.125h-8.75ZM23%2C6.563a1.719%2C1.719%2C0%2C0%2C1%2C1.688%2C1.594V26.063A1.558%2C1.558%2C0%2C0%2C1%2C23%2C27.5H7.625a1.558%2C1.558%2C0%2C0%2C1-1.687-1.437V8.156A1.719%2C1.719%2C0%2C0%2C1%2C7.625%2C6.563h2.687V8.469c0%2C.156.188.281.375.281h9.219c.188%2C0%2C.406-.125.406-.281V6.563Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C16.375l-2.219%2C2.094L8.969%2C17.375a.31.31%2C0%2C1%2C0-.437.438l1.281%2C1.313a.281.281%2C0%2C0%2C0%2C.219.094.344.344%2C0%2C0%2C0%2C.219-.094l2.437-2.313a.312.312%2C0%2C1%2C0-.438-.437Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-2%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M21.875%2C18.125H14.688a.313.313%2C0%2C0%2C0%2C0%2C.625h7.188a.313.313%2C0%2C0%2C0%2C0-.625Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-3%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C11.375l-2.219%2C2.094L8.969%2C12.375a.31.31%2C0%2C1%2C0-.437.437l1.281%2C1.313a.281.281%2C0%2C0%2C0%2C.219.094.344.344%2C0%2C0%2C0%2C.219-.094l2.438-2.312a.313.313%2C0%2C1%2C0-.438-.438Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-4%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M14.375%2C13.438a.281.281%2C0%2C0%2C0%2C.313.313h7.188a.313.313%2C0%2C0%2C0%2C0-.625H14.688a.281.281%2C0%2C0%2C0-.312.313Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-5%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C21.375l-2.219%2C2.094L8.969%2C22.375a.31.31%2C0%2C1%2C0-.438.438l1.281%2C1.313a.281.281%2C0%2C0%2C0%2C.219.094.344.344%2C0%2C0%2C0%2C.219-.094l2.438-2.313a.312.312%2C0%2C1%2C0-.438-.437Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-6%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M21.875%2C23.125H14.688a.313.313%2C0%2C0%2C0%2C0%2C.625h7.188a.313.313%2C0%2C0%2C0%2C0-.625Z%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cline%20id%3D%22Line_143%22%20data-name%3D%22Line%20143%22%20class%3D%22cls-2%22%20y2%3D%2224%22%20transform%3D%22translate%28627.5%20352.5%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_144%22%20data-name%3D%22Line%20144%22%20class%3D%22cls-2%22%20y2%3D%2224%22%20transform%3D%22translate%28652.5%20352.5%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-timer { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2022%2022%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%230069ff%3B%20%20%20%20%20%20%20%20stroke%3A%20%230069ff%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23fff%3B%20%20%20%20%20%20%20%20stroke%3A%20%23fff%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.6px%3B%20%20%20%20%20%20%20%20fill-rule%3A%20evenodd%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-3%20%7B%20%20%20%20%20%20%20%20stroke%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-4%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22timer-gray%22%20transform%3D%22translate%28-242%20-732%29%22%3E%20%20%20%20%3Cg%20id%3D%22Group_82%22%20data-name%3D%22Group%2082%22%20transform%3D%22translate%28-40%201%29%22%3E%20%20%20%20%20%20%3Cg%20id%3D%22Ellipse_39%22%20data-name%3D%22Ellipse%2039%22%20class%3D%22cls-1%22%20transform%3D%22translate%28282%20731%29%22%3E%20%20%20%20%20%20%20%20%3Ccircle%20class%3D%22cls-3%22%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%2211%22%2F%3E%20%20%20%20%20%20%20%20%3Ccircle%20class%3D%22cls-4%22%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%2210.5%22%2F%3E%20%20%20%20%20%20%3C%2Fg%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cg%20id%3D%22timer-gray-2%22%20data-name%3D%22timer-gray%22%20transform%3D%22translate%28243.042%20732.768%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_355%22%20data-name%3D%22Path%20355%22%20class%3D%22cls-2%22%20d%3D%22M10.369%2C1.243l-.411-.01V3.869h.823V2.1A8.167%2C8.167%2C0%2C1%2C1%2C4.172%2C4.447l-.579-.579a9%2C9%2C0%2C1%2C0%2C6.776-2.625Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_356%22%20data-name%3D%22Path%20356%22%20class%3D%22cls-2%22%20d%3D%22M10.73%2C12.6a1.591%2C1.591%2C0%2C0%2C0%2C1.591-1.591%2C1.37%2C1.37%2C0%2C0%2C0-.462-1.121c-1.126-.791-5.9-3.652-5.9-3.652s3.16%2C5.393%2C3.6%2C5.851A1.34%2C1.34%2C0%2C0%2C0%2C10.73%2C12.6Z%22%20transform%3D%22translate%28-0.734%20-0.734%29%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
@@ -130,6 +131,7 @@ button:disabled{
   text-overflow: ellipsis;
   margin-left: 5px;
 }
+.bz-line.bz-title-text:hover,
 .bz-title .bz-title-text:hover{
   text-decoration:underline;
 }
@@ -401,6 +403,20 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
   width: 24px;
   padding-left: 0;
 }
+.bz-err-msg-box{
+  border-radius: 5px;
+  width: fit-content;
+  margin: 15px 25px;
+  background-color: #FDD;
+}
+.bz-err-msg-box legend{
+  font-weight: bold;
+}
+.bz-mini-icon{
+  height:12px;
+  width:12px;
+  background-size:12px;
+}
     `
   },
   updateFormatLogSetting:function(setting){
@@ -433,6 +449,7 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
       return
     }
     formatter.showDoing("Formatting Boozang Log ...")
+
     if(!window.$){
       return setTimeout(()=>{
         formatter.exeFormag(setting,auto)
@@ -723,6 +740,16 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
     info.forEach(x=>{
       o[x[1]]=o.info.find("."+x[1]);
     })
+    formatter.copyBtn=$("<button class='bz-copy bz-mini-icon bz-icon bz-hide'></button>").appendTo(document.body).click(function(){
+      formatter.copyText(this.parentElement)
+    })
+    $(document.body).on("mousemove",".bz-scope .bz-title-text,.bz-scope .bz-line,fieldset",function(e){
+      let _this=this
+      setTimeout(()=>{
+        $(_this).append(formatter.copyBtn)
+        formatter.copyBtn.show()
+      })
+    })
 
     $(document.body).on("mousemove",".bz-title-text",function(e){
       if(!this.bzRight){
@@ -767,7 +794,7 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
     
     $(document.body).on("click",".bz-camera",function(){
       if(this.path){
-        window.open(formatter.getCameraPath(this.path),"bz-image")
+        window.open(formatter.getCameraPath(this.path),"_blank")
       }
     });
 
@@ -830,6 +857,25 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
     }
     return o
   },
+  copyText:function(w){
+    let el =$("<textarea readonly style='position:absolute;left:-9999px'></textarea>").appendTo(document.body);
+    el.val(w.innerText)
+    el.select();
+    document.execCommand('copy');
+    el.remove();
+
+
+    let _range = new Range(),
+        _sel = w.ownerDocument.defaultView.getSelection();
+        _sel.removeAllRanges();
+        _range.collapse(true);
+    _range.setStart(w, 0);
+    _range.setEnd(w, 1);
+    _sel.addRange(_range);
+    setTimeout(()=>{
+      _sel.removeAllRanges();
+    },100)
+  },
   getCameraPath:function(v){
     let fd=formatter.data
     return fd.host+"/screenshot/"+fd.project+"/"+fd.project+"."+fd.version+"."+v+".png"
@@ -842,7 +888,7 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
     })
     o.html(`<div style='overflow:auto;max-height:${window.innerHeight-250}px;padding:5px;background-color:#EEE;'>${w}<div>`)
     o.find("img").click(function(){
-      window.open(this.src,"bz-image")
+      window.open(this.src,"_blank")
     })
     o.show()
   },
@@ -1161,51 +1207,47 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
   },
   format:function(o,chkTime){
     formatter.doingWorker="master"
-    let idx=0
-    formatter.formatLog(o.innerText)
+    let idx=0,ws=o.innerText.split("\n")
     $(o).children().remove()
     
-    formatter.keepLogMap("master")
+    formatter.formatLog(ws,0,function(){
+      formatter.keepLogMap("master")
 
-    if(formatter.chking>=30){
-      formatter.formatWorkers()
-    }else{
-      formatter.doingWorker=""
-    }
-    if(!chkTime){
-      formatter.chkTime=setInterval(()=>{
-        formatter.removeDoingInfo()
-        if(formatter.data.completed){
-          return clearInterval(formatter.chkTime)
-        }
-
-        if(!formatter.doingWorker){
-          if(formatter.chking>30){
-            formatter.chking=0
-          }else{
-            formatter.chking++
+      if(formatter.chking>=30){
+        formatter.formatWorkers()
+      }else{
+        formatter.doingWorker=""
+      }
+      if(!chkTime){
+        formatter.chkTime=setInterval(()=>{
+          if(formatter.data.completed){
+            return clearInterval(formatter.chkTime)
           }
-          formatter.takeLogMap("master")
-          formatter.format(o,1)
-        }
-      },1000)
-    }
+
+          if(!formatter.doingWorker){
+            if(formatter.chking>30){
+              formatter.chking=0
+            }else{
+              formatter.chking++
+            }
+            formatter.takeLogMap("master")
+            formatter.format(o,1)
+          }
+        },1000)
+      }
+    })
     
   },
   formatWorkers:function(){
-    if(!formatter.data.setting.retrieveWorkerLog){
-      return
-    }
     formatter.doingWorker="workers"
     
-    let v=formatter.getLogList()
+    let v=formatter.data.setting.retrieveWorkerLog?formatter.getLogList():[]
     doIt(v,0)
 
     
     function doIt(vs,i){
       let s=vs[i]
-      if(s){
-        
+      if(s&&!formatter.data.wrongLog){
         $.ajax({
           url:s,
           method:"GET",
@@ -1216,11 +1258,15 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
               if(c.length>3){
                 c.pop()
               }
+              if(c.length>3000){
+                formatter.showDoing("Formatting worker("+(i+2)+") Log ...")
+              }
               formatter.takeLogMap(i)
               formatter.logMap[i].size=formatter.logMap[i].size||0
               c=c.splice(formatter.logMap[i].size)
               formatter.logMap[i].size+=c.length
-              formatWorkerLog(c,function(){
+              
+              formatter.formatLog(c,1,function(){
                 formatter.keepLogMap(i)
 
                 doIt(vs,i+1)
@@ -1230,149 +1276,146 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
         })
       }else{
         formatter.doingWorker=0
+        formatter.removeDoingInfo()
       }
-    }
-    
-    function formatWorkerLog(ws,fun){
-      let j=0
-      while(ws.length){
-        if(formatter.data.wrongLog){
-          return
-        }
-        if(j>1000){
-          return setTimeout(()=>{
-            formatWorkerLog(ws,fun)
-          })
-        }
-        formatter.formatLog(ws.shift())
-        j++
-      }
-      fun&&fun()
     }
   },
-  formatLog:function(v){
+  formatLog:function(vs,chkWrong,bkFun){
     let fd=formatter.data,
-        fe=formatter.element
-    addText(v)
-    function addText(v){
+        fe=formatter.element,
+        lineIdx=0
+
+    while(vs.length){
+      if(chkWrong&&fd.wrongLog){
+        return bkFun()
+      }
+
+      if(lineIdx>3000){
+        return setTimeout(()=>{
+          formatter.formatLog(vs,chkWrong,bkFun)
+        })
+      }
+      addText(vs.shift())
+      lineIdx++
+    }
+    
+    bkFun()
+    
+    function addText(x){
       let curPanel;
 
-      if(v.nodeType==1){
-        v=v.innerText
-      }else if(v.nodeType==3){
-        v=v.textContent
+      if(x.match(/^[0-9]+\: +(\>|\<)+$/)||x.match(/^[0-9]+\: timeout in ms\:/)){
+        return 
       }
-      v=v.split("\n")
-
-      v.forEach(x=>{
-        if(x.match(/^[0-9]+\: +(\>|\<)+$/)||x.match(/^[0-9]+\: timeout in ms\:/)){
-          return 
-        }
-        
-        if(fd.curAction){
-          curPanel=fd.curAction.element.panel
-        }else if(fd.curTest){
-          if(fd.curTest.actions.length){
-            curPanel=fd.curTest.element.panel
-          }else{
-            curPanel=fd.curTest.element.init.panel
-          }
+      
+      if(fd.curAction){
+        curPanel=fd.curAction.element.panel
+      }else if(fd.curTest){
+        if(fd.curTest.actions.length){
+          curPanel=fd.curTest.element.panel
         }else{
-          curPanel=formatter.curPanel;
+          curPanel=fd.curTest.element.init.panel
         }
+      }else{
+        curPanel=formatter.curPanel;
+      }
 
-        if(retrieveTime(x,curPanel)){
+      if(retrieveTime(x,curPanel)){
+        return
+      }
+      
+      if(retrieveJoinMember(x,curPanel)){
+        return
+      }
+      
+      if(retrieveRemoveMember(x,curPanel)){
+        return
+      }
+      
+      if(retrieveRemoteScenarioResult(x,curPanel)){
+        return
+      }
+      
+      if(retrieveWarning(x,curPanel)){
+        return
+      }
+      
+      if(curPanel==fe.end){
+        let testElement=retrieveStartTest(x,fe.panel)
+        if(testElement){
+          fe.end.children().appendTo(testElement.element.declare.panel)
           return
         }
-        
-        if(retrieveJoinMember(x,curPanel)){
-          return
-        }
-        
-        if(retrieveRemoveMember(x,curPanel)){
-          return
-        }
-        
-        if(retrieveRemoteScenarioResult(x,curPanel)){
-          return
-        }
-        
-        if(retrieveWarning(x,curPanel)){
-          return
-        }
-        
-        if(curPanel==formatter.element.end){
-          let testElement=retrieveStartTest(x,formatter.element.panel)
-          if(testElement){
-            formatter.element.end.children().appendTo(testElement.element.declare.panel)
-            return
-          }
-        }else if(fd.curTest){
+      }else if(fd.curTest){
 //          if(retrieveStartTest(x,curPanel)){
-          if(retrieveStartTest(x,fd.curTest.element.panel)){
-            return
-          }
-        }else{
-          if(retrieveStartTest(x,curPanel)){
-            return
-          }
-        }
-
-        if(retrieveTaskDone(x,formatter.element.end)){
-          formatter.curPanel=formatter.element.end
-          formatter.data.curTests=[]
-          
-          formatter.data.curTest=0
+        if(retrieveStartTest(x,fd.curTest.element.panel)){
           return
         }
+      }else{
+        if(retrieveStartTest(x,curPanel)){
+          return
+        }
+      }
+
+      if(retrieveTaskDone(x,fe.end)){
+        formatter.curPanel=fe.end
+        fd.curTests=[]
+        
+        fd.curTest=0
+        return
+      }
 ///////////////////////////////////////////
-        if(fd.curTest){
-          if(retrieveAction(x,fd.curTest.element.panel)){
-            return
+      if(fd.curTest){
+        if(retrieveAction(x,fd.curTest.element.panel)){
+          return
+        }
+        if(retrieveScreenshot(x,curPanel)){
+          return
+        }
+        if(retrieveTestResult(x,curPanel)){
+          if(!fd.curTest){
+            formatter.curPanel=fe.end
           }
-          if(retrieveScreenshot(x,curPanel)){
-            return
-          }
-          if(retrieveTestResult(x,curPanel)){
-            if(!fd.curTest){
-              formatter.curPanel=formatter.element.end
-            }
-            return
-          }
+          return
+        }
 
-        }else{
-          if(retrieveStartURL(x,curPanel)){
-            return
-          }
+      }else{
+        if(retrieveStartURL(x,curPanel)){
+          return
+        }
 
-          if(retrieveVersion(x,curPanel)){
-            return
-          }
+        if(retrieveVersion(x,curPanel)){
+          return
+        }
 
-          if(retrieveScenario(x,formatter.element.waitingList)){
-            return
-          }
+        if(retrieveScenario(x,fe.waitingList)){
+          return
+        }
 
-          if(retrieveStartTestTime(x,curPanel)){
-            return
-          }
-          
-          if(retrieveHash(x,curPanel)){
-            return
-          }
-          
-          if(retrieveDeclare(x,formatter.element.end)){
-            formatter.curPanel=formatter.element.end
-            return
-          }
-          
+        if(retrieveStartTestTime(x,curPanel)){
+          return
         }
         
-        if(retrieveModuleTestActionLink(x,curPanel)){
+        if(retrieveDeclare(x,fe.end)){
+          formatter.curPanel=fe.end
+          formatter._tmpRootCause=formatter._tmpErrMsg=0
           return
         }
-        curPanel.append(`<div class='bz-line'>${x}</div>`)
-      })
+
+        if(retrieveHash(x,curPanel)){
+          return
+        }
+
+        if(retrieveErrorMessage(x,curPanel)){
+          return
+        }
+        
+      }
+      
+      if(retrieveModuleTestActionLink(x,curPanel)){
+        return
+      }
+      curPanel.append(`<div class='bz-line'>${x}</div>`)
     }
     
     function setInitInfo(){
@@ -1418,7 +1461,8 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
     function retrieveHash(v,p){
       let x=v.match(/\[Error Hash\: ([0-9A-F]+)\] \((.+)\)/)
       if(x){
-        let xx=$(`<button class='bz-line bz-failed-title bz-failed bz-icon-txt' style='margin:5px;;border:1px solid;border-radius:5px;' hash="${x[1]}">${v}</button>`)
+        formatter._tmpErrMsg=0
+        let xx=$(`<button class='bz-line bz-failed-title bz-failed bz-icon-txt' style='margin:15px 25px;;border:1px solid;border-radius:5px;' hash="${x[1]}">${v}</button>`)
         xx.click(function(){
           formatter.openIDE("rootCause/"+x[1])
         })
@@ -1462,6 +1506,26 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
       }
     }
     
+    function retrieveErrorMessage(v,p){
+      if(!formatter._tmpErrMsg){
+        let x=v.match(/^([0-9]+\: ERROR MESSAGE\: )(.+)/);
+        if(x){
+          formatter._tmpErrMsg=$(`<fieldset class="bz-err-msg-box"><legend>${x[1]}</legend></fieldset>`)
+          p.append(formatter._tmpErrMsg)
+          v=x[2]
+        }
+      }
+      if(formatter._tmpErrMsg){
+        let vv=$(`<div class='bz-line'>${v}</div>`)
+        formatter._tmpErrMsg.append(vv)
+        if(v.match(/^Failed on Action\:/)){
+          vv.addClass("bz-title-text")
+          formatter._tmpErrMsg=0
+        }
+        return 1
+      }
+    }
+
     function retrieveModuleTestActionLink(v,p){
       let x=v.match(/(^| |\/|\.|\:)(m[0-9]+[$| \/\.\-](t[0-9]+[$| \.\/-]([0-9]+)?)?)/);
       if(x){
@@ -1517,12 +1581,12 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
 
         if(x[2]){
           let time=parseInt(x[4]||0);
-          (formatter.data.curTests||[]).forEach(t=>{
+          (fd.curTests||[]).forEach(t=>{
             t.element.time.text(parseInt(t.element.time.text()||0)+time+"s")
             
           });
-          if(!formatter.data.curExeTime||x[3]>formatter.data.curExeTime){
-            formatter.data.curExeTime=x[3]
+          if(!fd.curExeTime||x[3]>fd.curExeTime){
+            fd.curExeTime=x[3]
             fe.executeTime.text(x[3])
           }
           if(fd.curAction){
@@ -1531,7 +1595,7 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
             formatter.curDeclare.time=(formatter.curDeclare.time||0)+time
           }else if(fd.curTest&&!fd.curTest.actions.length){
             let s=parseInt((fd.curTest.element.init.time.text().match(/[0-9]+/)||[0])[0])+time
-            if(s>formatter.data.setting.initTime){
+            if(s>fd.setting.initTime){
               s="&#10144; ("+s+"s) &#9888;"
             }else{
               s="&#10144; ("+s+"s)"
@@ -1549,7 +1613,7 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
 
     //1:
     function retrieveScenario(v,p){
-      if(!formatter.data.testing){
+      if(!fd.testing){
         let x=v.match(/^[0-9]+\:.+(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?$/)
         if(x){
           let d={
@@ -1584,7 +1648,7 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
           result:"declare",
           type:"scenario"
         };
-        d=addTest(formatter.element.panel,d)
+        d=addTest(fe.panel,d)
         d.time=0
         formatter.curDeclare=formatter.curDeclare||d
 
@@ -1612,12 +1676,12 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
         }
 
         d=addTest(p,d)
-        formatter.data.curTest=d
-        formatter.data.curTests.push(d)
+        fd.curTest=d
+        fd.curTests.push(d)
         if(formatter.curDeclare){
           let s=formatter.curDeclare.time
           d.element.time.text(s+"s")
-          if(s>formatter.data.setting.declareTime){
+          if(s>fd.setting.declareTime){
             s="&#128226; ("+s+"s) &#9888;"
           }else{
             s="&#128226; ("+s+"s)"
@@ -1629,10 +1693,10 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
           formatter.curDeclare=0
         }
         if(d.type=="scenario"){
-          if(formatter.element.waitingList.find(d.element.group)[0]){
-            formatter.element.exePanel.append(d.element.group)
+          if(fe.waitingList.find(d.element.group)[0]){
+            fe.exePanel.append(d.element.group)
           }
-          formatter.data.curLastScenario=d
+          fd.curLastScenario=d
         }
         return d
       }
@@ -1671,8 +1735,8 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
           }
         }
         
-        if(fd.curTest.type=="scenario"&&formatter.element.exePanel.find(fd.curTest.element.group)[0]){
-          formatter.element.panel.append(fd.curTest.element.group)
+        if(fd.curTest.type=="scenario"&&fe.exePanel.find(fd.curTest.element.group)[0]){
+          fe.panel.append(fd.curTest.element.group)
         }
         fd.curTests.pop();
 
@@ -1733,7 +1797,7 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
             return
           }
           setSumInfo("totalActions",1)
-          formatter.data.curAction.element.result.addClass("bz-success")
+          fd.curAction.element.result.addClass("bz-success")
           if(!fd.curAction.element.panel.text()){
             fd.curAction.element.panel.remove()
             delete fd.curAction.element.panel
@@ -1743,9 +1807,10 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
         d.element=formatter.addGroupElement(p,"("+d.dataIdx+") "+d.name,d.type,"running")
         d.element.title.addClass("bz-action")
         d.element.title.find(".bz-title-text").attr("bz",fd.curTest.code.replace(".","/")+"/"+d.dataIdx)
-        formatter.data.curAction=d
-        formatter.data.testing=1
-        formatter.data.curTest.actions.push(d)
+        fd.curAction=d
+        fd.curLastAction=d
+        fd.testing=1
+        fd.curTest.actions.push(d)
         return 1
       }
     }
@@ -1863,9 +1928,10 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
     function retrieveScreenshot(v,p){
       let x=v.match(/^[0-9]+\: Screenshot\:(m[0-9]+\.t[0-9]+[\.][0-9]+)$/);
       if(x){
-        let t=formatter.data.curLastScenario
+        let t=fd.curLastScenario
         formatter.cameraList.push({
           path:x[1],
+          desc:fd.curLastAction.element.title.text()
         })
         t.element.camera[0].path=x[1]
         t.element.camera.show()
@@ -1891,11 +1957,11 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
           worker:x[8]
         }
         p.append(`<div class='bz-line'>${v}</div>`)
-        p=addTest(formatter.element.panel,d)
-        if(!p||formatter.element.panel.find(p.element.group)[0]){
+        p=addTest(fe.panel,d)
+        if(!p||fe.panel.find(p.element.group)[0]){
           return
         }
-        formatter.element.panel.append(p.element.group)
+        fe.panel.append(p.element.group)
         p.element.switcher.css({visibility:"hidden"})
         p.element.ctrl.hide()
         p.element.title.addClass("bz-remote-title")
@@ -1912,8 +1978,8 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
       if(v.match(/^[0-9]+\: task-done$/)){
         p.append(`<div class='bz-line'>${formatter.getIcon("complete")} ${v}</div>`)
         fd.completed=fd.lastStartDate+" "+fd.curExeTime
-        formatter.element.waitingList.remove()
-        formatter.element.exePanel.remove()
+        fe.waitingList.remove()
+        fe.exePanel.remove()
         return 1
       }
     }
