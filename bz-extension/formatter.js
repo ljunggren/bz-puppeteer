@@ -1162,21 +1162,8 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
   format:function(o,chkTime){
     formatter.doingWorker="master"
     let idx=0
-    
-    while(o.childNodes.length){
-      if(formatter.data.wrongLog){
-        return
-      }
-      let v=o.childNodes[0]
-      v.remove()
-      formatter.formatLog(v)
-      if(idx<1000){
-        return setTimeout(()=>{
-          formatter.format(o,chkTime)
-        })
-      }
-      idx++
-    }
+    formatter.formatLog(o.innerText)
+    $(o).children().remove()
     
     formatter.keepLogMap("master")
 
