@@ -587,6 +587,7 @@ input[type=checkbox]{
     }
 
     if(!formatter.data){
+      formatter.insertCss()
       document.documentElement.scrollTop=0
       if(!document.title){
         let title=location.href.match(/\/([^\/]+\.log)$/)
@@ -1779,7 +1780,6 @@ input[type=checkbox]{
     return 1
   },
   autoLoading:function(){
-    formatter.insertCss()
     let v=localStorage.getItem("bz-log-format");
     if(v){
       v=JSON.parse(v)
