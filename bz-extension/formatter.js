@@ -1478,7 +1478,7 @@ input[type=checkbox]{
       v=v.replace(/([0-9]+: Screenshot:([mt\.0-9-]+))/,"$1 <button class='bz-icon-letter bz-camera' path='$2'></button>")
     }
 
-    v=v.replace(/(bz-line)(">[0-9]+: &lt;---- Join worker)/g,"$1 bz-join$2")
+    v=v.replace(/(bz-line)(">[0-9]+: <---- Join worker)/g,"$1 bz-join$2")
     v=v.replace(/(bz-line)(\">[0-9]+: Remove worker )/g,`$1 bz-leave$2`)
     if(mark=="failed"){
       v=v.replace(/<div class="bz-line">(\[Error Hash: ([A-F0-9]+)\][^<]*)<\/div>/,'<div><button class="bz-failed-title bz-failed-hash" hash="$2">$1</button></div>')
@@ -1952,6 +1952,7 @@ input[type=checkbox]{
       return formatter.closeAll()
     }
     formatter.showDoing("Searching ...")
+    document.documentElement.scrollTop=0
 
     return setTimeout(()=>{
       formatter.buildAllDetails()
@@ -2091,17 +2092,19 @@ input[type=checkbox]{
     $(".bz-scope .bz-switch.bz-open,.bz-scope .bz-cross.bz-open").click()
   },
   openItem:function(v){
-    while(!$(v).hasClass("bz-level-scenario")){
-      if($(v).hasClass("bz-hide")){
-        $(v).removeClass("bz-hide")
-      }else if($(v).css("display")=="none"){
-        $(v).show()
+    try{
+      while(!$(v).hasClass("bz-level-scenario")){
+        if($(v).hasClass("bz-hide")){
+          $(v).removeClass("bz-hide")
+        }else if($(v).css("display")=="none"){
+          $(v).show()
+        }
+        if($(v).hasClass("bz-panel")){
+          $(v.previousElementSibling).find(".bz-switch").addClass("bz-open")
+        }
+        v=v.parentElement
       }
-      if($(v).hasClass("bz-panel")){
-        $(v.previousElementSibling).find(".bz-switch").addClass("bz-open")
-      }
-      v=v.parentElement
-    }
+    }catch(e){}
   },
   keepLogMap:function(k){
     formatter.logMap[k]=formatter.logMap[k]||{}
