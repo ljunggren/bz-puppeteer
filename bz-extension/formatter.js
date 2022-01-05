@@ -646,7 +646,9 @@ input[type=checkbox]{
       delete x.element;
       formatter.initScenario(x.code)
       if(x.openning){
-        formatter.openItem(x.element.find(".bz-level:action").toArray().pop())
+        x=x.element.find(".bz-level:action").toArray()
+        x=x.pop()
+        formatter.openItem(x)
       }
     })
     if(ls.length){
@@ -1078,7 +1080,6 @@ input[type=checkbox]{
 
     
     function doIt(vs,i){
-      formatter.data.curWorker=i
       let s=vs[i]
       if(s&&!formatter.data.wrongLog){
         $.ajax({
@@ -1161,9 +1162,12 @@ input[type=checkbox]{
       }catch(ex){
         
       }
-      if(parsingScenario&&parsingScenario.code){
-        fd.runningTestMap[parsingScenario.code]=parsingScenario
-        formatter.buildRunningTests()
+      try{
+        if(parsingScenario&&parsingScenario.code){
+          fd.runningTestMap[parsingScenario.code]=parsingScenario
+          formatter.buildRunningTests()
+        }
+      }catch(e){
       }
     }
     
@@ -1688,7 +1692,12 @@ input[type=checkbox]{
   },
   splitByWord:function(v,k,keepKeyInFirst){
     if(k.constructor!=String){
-      k=v.match(k)[0]
+      k=v.match(k)
+      if(k){
+        k=k[0]
+      }else{
+        return
+      }
     }
     let s=k.length
     k=v.indexOf(k)
@@ -2089,6 +2098,7 @@ input[type=checkbox]{
     formatter.logMap[k]=formatter.logMap[k]||{}
     formatter.data.curLastScenario=formatter.logMap[k].curLastScenario
     formatter.data.curEnd=formatter.logMap[k].curEnd
+    formatter.data.curWorker=k
   },
   getIdx:function(){
     return formatter.idx++
