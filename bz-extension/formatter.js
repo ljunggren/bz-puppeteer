@@ -665,9 +665,11 @@ input[type=checkbox]{
   openLastAction:function(k){
     let o=formatter.data.scenarioMap[k]||formatter.data.runningTestMap[k]
     formatter.initScenario(k);
-    o=o.element.find(".bz-level-action").toArray().pop();
+    o=o.element.find(".bz-level-test").toArray().pop();
     if(o){
       formatter.openItem(o)
+      o=$(o).find(".bz-switch")[0]
+      $(o).click()
     }
   },
   cleanWaitingList:function(){
@@ -1663,9 +1665,6 @@ input[type=checkbox]{
       
       let idx=x[2].split("/").pop(),
           timeout=getTimeout(p)
-if(name.includes("div.ReactVirtualized__Table")){
-  debugger
-}
       return {
         code:"action-"+formatter.getIdx(),
         name:`(${idx}) ${name.replace(/</g,"&lg;").replace(/>/g,"&gt;")}`+timeout,
