@@ -59,7 +59,8 @@ function init(){
     if(!d||!Object.keys(d).length){
       bzFormat={
         defTab:"info",
-        testTime:180,
+        scenarioTime:180,
+        testTime:60,
         actionTime:3,
         declareTime:6,
         initTime:2,
@@ -78,18 +79,24 @@ function init(){
     if(d["bz-log-format"]){
       bzFormat=JSON.parse(d["bz-log-format"])
     }
-    
+    if(!bzFormat.scenarioTime){
+      bzFormat.scenarioTime=180
+      if(bzFormat.testTime==180){
+        bzFormat.testTime=60
+      }
+    }
     $("#autoFormat").attr("checked",bzFormat.autoFormat);
     $("#retrieveWorkerLog").attr("checked",bzFormat.retrieveWorkerLog);
     
     $("#identifyMaster").val(bzFormat.identifyMaster)
     $("#identifyWorker").val(bzFormat.identifyWorker)
+    $("#scenarioTime").val(bzFormat.scenarioTime);
     $("#testTime").val(bzFormat.testTime);
     $("#declareTime").val(bzFormat.declareTime);
     $("#initTime").val(bzFormat.initTime);
     $("#actionTime").val(bzFormat.actionTime)
     updateSetting()
-    $("#testTime,#declareTime,#initTime,#actionTime,#identifyMaster,#identifyWorker").blur(function(){
+    $("#scenarioTime,#testTime,#declareTime,#initTime,#actionTime,#identifyMaster,#identifyWorker").blur(function(){
       updateSetting()
     })
     $("#autoFormat,#retrieveWorkerLog").click(function(){
@@ -118,6 +125,7 @@ function updateSetting(){
   }else{
     $("#workerScriptPanel").hide()
   }
+  bzFormat.scenarioTime=$("#scenarioTime").val()
   bzFormat.testTime=$("#testTime").val()
   bzFormat.declareTime=$("#declareTime").val()
   bzFormat.initTime=$("#initTime").val()

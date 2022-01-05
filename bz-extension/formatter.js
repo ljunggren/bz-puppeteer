@@ -28,7 +28,8 @@ var formatter={
 .bz-declare:before{
   content:"📢";
 }
-.bz-timer:before{
+.bz-timer:before,
+.bz-timer2:before{
   content:"⏱";
 }
 .bz-flag:before{
@@ -70,8 +71,12 @@ var formatter={
 .bz-group { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2021%2019.8%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%2854%2C61%2C74%2C0.99%29%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cpath%20id%3D%22group%22%20class%3D%22cls-1%22%20d%3D%22M31%2C29.9l-4.778-3.465V28.25H25.75c-2.074%2C0-3.1-1.254-4.384-2.838-1.417-1.782-3.019-3.762-6.116-3.762h-.341A2.589%2C2.589%2C0%2C0%2C0%2C12.625%2C20C11.181%2C20%2C10%2C21.485%2C10%2C23.3s1.181%2C3.3%2C2.625%2C3.3a2.618%2C2.618%2C0%2C0%2C0%2C2.284-1.65h.341c2.021%2C0%2C3.019%2C1.254%2C4.279%2C2.805a16.434%2C16.434%2C0%2C0%2C0%2C1.995%2C2.178%2C18.62%2C18.62%2C0%2C0%2C0-1.89%2C2.079c-1.286%2C1.584-2.31%2C2.838-4.384%2C2.838h-.341a2.589%2C2.589%2C0%2C0%2C0-2.284-1.65C11.181%2C33.2%2C10%2C34.685%2C10%2C36.5s1.181%2C3.3%2C2.625%2C3.3a2.618%2C2.618%2C0%2C0%2C0%2C2.284-1.65h.341c3.15%2C0%2C4.856-2.112%2C6.221-3.8%2C1.26-1.551%2C2.257-2.8%2C4.279-2.8h.473s-1.194%2C2.228%2C0%2C1.815S31%2C29.9%2C31%2C29.9ZM12.625%2C25.28A1.818%2C1.818%2C0%2C0%2C1%2C11.05%2C23.3a1.818%2C1.818%2C0%2C0%2C1%2C1.575-1.98A1.818%2C1.818%2C0%2C0%2C1%2C14.2%2C23.3%2C1.818%2C1.818%2C0%2C0%2C1%2C12.625%2C25.28Zm0%2C13.2a2.032%2C2.032%2C0%2C0%2C1%2C0-3.96%2C2.032%2C2.032%2C0%2C0%2C1%2C0%2C3.96Z%22%20transform%3D%22translate%28-10%20-20%29%22%2F%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-api { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020.99%2019.761%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.7px%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22hdr-api%22%20transform%3D%22translate%28-19.505%20-21.409%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_449%22%20data-name%3D%22Path%20449%22%20class%3D%22cls-1%22%20d%3D%22M36.861%2C25.491l-1.566%2C1.567c-.786.786%2C0%2C2.352%2C0%2C2.352L40%2C24.709%2C35.295%2C20s-.783%2C1.566%2C0%2C2.353l1.566%2C1.566.108.108H20v1.356H36.969Z%22%20transform%3D%22translate%280%202%29%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_450%22%20data-name%3D%22Path%20450%22%20class%3D%22cls-1%22%20d%3D%22M23.139%2C35.091%2C24.7%2C33.525c.786-.786%2C0-2.352%2C0-2.352l-4.7%2C4.7%2C4.7%2C4.7s.783-1.566%2C0-2.352l-1.566-1.566-.108-.109H40V35.2H23.031Z%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 
-.bz-success{ background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016.102%2016.37%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%2C%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20%235cb85c%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20stroke%3A%20%235cb85c%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.858px%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22success-strong%22%20transform%3D%22translate%28-1.718%20-4.418%29%22%3E%20%20%20%20%3Cg%20id%3D%22Group_18%22%20data-name%3D%22Group%2018%22%20transform%3D%22translate%282.269%205.103%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_46%22%20data-name%3D%22Path%2046%22%20class%3D%22cls-1%22%20d%3D%22M-.011%2C10.615%2C2.878%2C7.024l2.934%2C3.648L12.1%2C2.855l2.889%2C3.591L5.812%2C17.855Zm6.854%2C4.26Z%22%20transform%3D%22translate%280.011%20-2.855%29%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cpath%20id%3D%22Path_47%22%20data-name%3D%22Path%2047%22%20class%3D%22cls-2%22%20d%3D%22M13.822%2C6.811%22%20transform%3D%22translate%28-5.243%20-0.532%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
-.bz-failed{ background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2015%2015%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%28230%2C46%2C64%2C0.99%29%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22failed-strong%22%20transform%3D%22translate%280%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_48%22%20data-name%3D%22Path%2048%22%20class%3D%22cls-1%22%20d%3D%22M14.863%2C12.05h0L10.312%2C7.5l4.55-4.55h0a.469.469%2C0%2C0%2C0%2C0-.663L12.713.137a.47.47%2C0%2C0%2C0-.663%2C0h0L7.5%2C4.687%2C2.949.136h0a.47.47%2C0%2C0%2C0-.663%2C0L.137%2C2.286a.469.469%2C0%2C0%2C0%2C0%2C.663h0L4.687%2C7.5.137%2C12.05h0a.475.475%2C0%2C0%2C0-.107.167.468.468%2C0%2C0%2C0%2C.107.5l2.15%2C2.15a.469.469%2C0%2C0%2C0%2C.663%2C0h0l4.55-4.55%2C4.55%2C4.55h0a.469.469%2C0%2C0%2C0%2C.663%2C0l2.15-2.15a.469.469%2C0%2C0%2C0%2C0-.663Z%22%20transform%3D%22translate%280%200%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
+.bz-success:before{
+  content:"✔️";
+}
+.bz-failed:before{
+  content:"❌";
+}
 .bz-reset { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016.6%2021.024%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%2854%2C61%2C74%2C0.99%29%3B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.6px%3B%20%20%20%20%20%20%20%20fill-rule%3A%20evenodd%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22reset%22%20transform%3D%22translate%28-3.7%20-3.7%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_456%22%20data-name%3D%22Path%20456%22%20class%3D%22cls-1%22%20d%3D%22M4%2C12v1H6V12a6%2C6%2C0%2C1%2C1%2C6%2C6H11V14L6%2C19l5%2C5V20h1a8%2C8%2C0%2C1%2C0-8-8Z%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-running {background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTIwcHgnIGhlaWdodD0nMTIwcHgnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiBjbGFzcz0idWlsLWRlZmF1bHQiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJub25lIiBjbGFzcz0iYmsiPjwvcmVjdD48cmVjdCAgeD0nNDYuNScgeT0nNDAnIHdpZHRoPSc3JyBoZWlnaHQ9JzIwJyByeD0nNScgcnk9JzUnIGZpbGw9JyMzRTY1RkYnIHRyYW5zZm9ybT0ncm90YXRlKDAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwcycgcmVwZWF0Q291bnQ9J2luZGVmaW5pdGUnLz48L3JlY3Q+PHJlY3QgIHg9JzQ2LjUnIHk9JzQwJyB3aWR0aD0nNycgaGVpZ2h0PScyMCcgcng9JzUnIHJ5PSc1JyBmaWxsPScjM0U2NUZGJyB0cmFuc2Zvcm09J3JvdGF0ZSgzMCA1MCA1MCkgdHJhbnNsYXRlKDAgLTMwKSc+ICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSdvcGFjaXR5JyBmcm9tPScxJyB0bz0nMCcgZHVyPScxcycgYmVnaW49JzAuMDgzMzMzMzMzMzMzMzMzMzNzJyByZXBlYXRDb3VudD0naW5kZWZpbml0ZScvPjwvcmVjdD48cmVjdCAgeD0nNDYuNScgeT0nNDAnIHdpZHRoPSc3JyBoZWlnaHQ9JzIwJyByeD0nNScgcnk9JzUnIGZpbGw9JyMzRTY1RkYnIHRyYW5zZm9ybT0ncm90YXRlKDYwIDUwIDUwKSB0cmFuc2xhdGUoMCAtMzApJz4gIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9J29wYWNpdHknIGZyb209JzEnIHRvPScwJyBkdXI9JzFzJyBiZWdpbj0nMC4xNjY2NjY2NjY2NjY2NjY2NnMnIHJlcGVhdENvdW50PSdpbmRlZmluaXRlJy8+PC9yZWN0PjxyZWN0ICB4PSc0Ni41JyB5PSc0MCcgd2lkdGg9JzcnIGhlaWdodD0nMjAnIHJ4PSc1JyByeT0nNScgZmlsbD0nIzNFNjVGRicgdHJhbnNmb3JtPSdyb3RhdGUoOTAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwLjI1cycgcmVwZWF0Q291bnQ9J2luZGVmaW5pdGUnLz48L3JlY3Q+PHJlY3QgIHg9JzQ2LjUnIHk9JzQwJyB3aWR0aD0nNycgaGVpZ2h0PScyMCcgcng9JzUnIHJ5PSc1JyBmaWxsPScjM0U2NUZGJyB0cmFuc2Zvcm09J3JvdGF0ZSgxMjAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwLjMzMzMzMzMzMzMzMzMzMzNzJyByZXBlYXRDb3VudD0naW5kZWZpbml0ZScvPjwvcmVjdD48cmVjdCAgeD0nNDYuNScgeT0nNDAnIHdpZHRoPSc3JyBoZWlnaHQ9JzIwJyByeD0nNScgcnk9JzUnIGZpbGw9JyMzRTY1RkYnIHRyYW5zZm9ybT0ncm90YXRlKDE1MCA1MCA1MCkgdHJhbnNsYXRlKDAgLTMwKSc+ICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSdvcGFjaXR5JyBmcm9tPScxJyB0bz0nMCcgZHVyPScxcycgYmVnaW49JzAuNDE2NjY2NjY2NjY2NjY2N3MnIHJlcGVhdENvdW50PSdpbmRlZmluaXRlJy8+PC9yZWN0PjxyZWN0ICB4PSc0Ni41JyB5PSc0MCcgd2lkdGg9JzcnIGhlaWdodD0nMjAnIHJ4PSc1JyByeT0nNScgZmlsbD0nIzNFNjVGRicgdHJhbnNmb3JtPSdyb3RhdGUoMTgwIDUwIDUwKSB0cmFuc2xhdGUoMCAtMzApJz4gIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9J29wYWNpdHknIGZyb209JzEnIHRvPScwJyBkdXI9JzFzJyBiZWdpbj0nMC41cycgcmVwZWF0Q291bnQ9J2luZGVmaW5pdGUnLz48L3JlY3Q+PHJlY3QgIHg9JzQ2LjUnIHk9JzQwJyB3aWR0aD0nNycgaGVpZ2h0PScyMCcgcng9JzUnIHJ5PSc1JyBmaWxsPScjM0U2NUZGJyB0cmFuc2Zvcm09J3JvdGF0ZSgyMTAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwLjU4MzMzMzMzMzMzMzMzMzRzJyByZXBlYXRDb3VudD0naW5kZWZpbml0ZScvPjwvcmVjdD48cmVjdCAgeD0nNDYuNScgeT0nNDAnIHdpZHRoPSc3JyBoZWlnaHQ9JzIwJyByeD0nNScgcnk9JzUnIGZpbGw9JyMzRTY1RkYnIHRyYW5zZm9ybT0ncm90YXRlKDI0MCA1MCA1MCkgdHJhbnNsYXRlKDAgLTMwKSc+ICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSdvcGFjaXR5JyBmcm9tPScxJyB0bz0nMCcgZHVyPScxcycgYmVnaW49JzAuNjY2NjY2NjY2NjY2NjY2NnMnIHJlcGVhdENvdW50PSdpbmRlZmluaXRlJy8+PC9yZWN0PjxyZWN0ICB4PSc0Ni41JyB5PSc0MCcgd2lkdGg9JzcnIGhlaWdodD0nMjAnIHJ4PSc1JyByeT0nNScgZmlsbD0nIzNFNjVGRicgdHJhbnNmb3JtPSdyb3RhdGUoMjcwIDUwIDUwKSB0cmFuc2xhdGUoMCAtMzApJz4gIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9J29wYWNpdHknIGZyb209JzEnIHRvPScwJyBkdXI9JzFzJyBiZWdpbj0nMC43NXMnIHJlcGVhdENvdW50PSdpbmRlZmluaXRlJy8+PC9yZWN0PjxyZWN0ICB4PSc0Ni41JyB5PSc0MCcgd2lkdGg9JzcnIGhlaWdodD0nMjAnIHJ4PSc1JyByeT0nNScgZmlsbD0nIzNFNjVGRicgdHJhbnNmb3JtPSdyb3RhdGUoMzAwIDUwIDUwKSB0cmFuc2xhdGUoMCAtMzApJz4gIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9J29wYWNpdHknIGZyb209JzEnIHRvPScwJyBkdXI9JzFzJyBiZWdpbj0nMC44MzMzMzMzMzMzMzMzMzM0cycgcmVwZWF0Q291bnQ9J2luZGVmaW5pdGUnLz48L3JlY3Q+PHJlY3QgIHg9JzQ2LjUnIHk9JzQwJyB3aWR0aD0nNycgaGVpZ2h0PScyMCcgcng9JzUnIHJ5PSc1JyBmaWxsPScjM0U2NUZGJyB0cmFuc2Zvcm09J3JvdGF0ZSgzMzAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwLjkxNjY2NjY2NjY2NjY2NjZzJyByZXBlYXRDb3VudD0naW5kZWZpbml0ZScvPjwvcmVjdD48L3N2Zz4=);}
 .bz-flash { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20id%3D%22flash%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214.61%22%20height%3D%2220%22%20viewBox%3D%220%200%2014.61%2020%22%3E%20%20%3Cpath%20id%3D%22Path_564%22%20data-name%3D%22Path%20564%22%20d%3D%22M2.979%2C9.078%2C14.61%2C0%2C8.794%2C8.369l3.262%2C2.837L0%2C20l6.383-8.369Z%22%20fill%3D%22%23363d4a%22%2F%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
@@ -102,24 +107,6 @@ button:disabled{
 .bz-log-box{
   background-color: #EEE;
   padding: 2px;border-radius: 5px;
-}
-
-.bz-loading-info{
-  position: fixed;
-/*
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-*/
-  top: 30px;
-  right: 15px;
-  z-index:100000;
-  background-color: #FFF;
-  border: 5px solid #00F;
-  border-radius: 10px;
-  padding: 20px 30px;
-  font-size: 25px;
-  display: flex;
 }
 
 .bz-loading-info .bz-running{
@@ -530,6 +517,25 @@ input[type=checkbox]{
   width: initial !important;
   margin-right: 5px;
 }
+.bz-pop-panel .bz-icon-col{
+  width:60px;
+  margin-left:8px;
+}
+.bz-icon-col:before{
+  margin-right:5px;
+}
+
+.bz-pop-panel .bz-mini-icon.bz-switch{
+  background-size: 5px;
+  position: relative;
+  background-position: center;
+  top:2px;
+  width: 15px !important;
+  height: 15px !important;
+}
+.bz-pop-panel .bz-panel .bz-row{
+  color:#000;
+}
     `
   },
   updateFormatLogSetting:function(setting){
@@ -711,6 +717,8 @@ input[type=checkbox]{
         setTimeout(()=>{
           formatter.showFailedOnlyResult()
         },10)
+      }else if(o.hasClass("bz-switch2")){
+        return
       }else if(o.hasClass("bz-switch")){
         switchPanel(o)
       }else if(o.hasClass("bz-input-cross")){
@@ -1214,7 +1222,7 @@ input[type=checkbox]{
       handleFailedScenario(s)
       handleEnd(s)
       if(fd.curLastScenario){
-        fd.curLastScenario.time=formatter.getSpendTime(fd.curLastScenario.start,s.start,"testTime")
+        fd.curLastScenario.time=formatter.getSpendTime(fd.curLastScenario.start,s.start,"scenarioTime")
         fd.curLastScenario.endTime=s.start
       }
       fd.curLastScenario=s
@@ -1245,7 +1253,7 @@ input[type=checkbox]{
 
       if(!fd.project.init.org){
         fd.project.init.org=w[0]
-        fd.project.init.time=formatter.getSpendTime(0,s.start)
+        fd.project.init.time=formatter.getSpendTime(0,s.start,"initTime")
         handleWaitingList(w[0])
         handleSetting(w[0])
       }
@@ -1544,7 +1552,7 @@ input[type=checkbox]{
           }
           tt=formatter.splitByWord(v,t,1)
           startTime=formatter.retrieveTimeFromLog(tt[1])||endTime
-          curTest.time=formatter.getSpendTime(curTest.start,startTime)
+          curTest.time=formatter.getSpendTime(curTest.start,startTime,"testTime")
           curTest.details=buildTests(tt[0],level+1,curTest.start,startTime,curTest)
           html+=formatter.getGroupElement(curTest)
           delete curTest.details
@@ -1594,7 +1602,7 @@ input[type=checkbox]{
           }else if(test){
             test.init.details=formatter.strToHtml(wa[0])
             startTime=formatter.retrieveTimeFromLog(v)
-            test.init.time=formatter.getSpendTime(test.start,startTime)
+            test.init.time=formatter.getSpendTime(test.start,startTime,"initTime")
           }
           lastAction=a
         })
@@ -1612,13 +1620,13 @@ input[type=checkbox]{
             a.details=formatter.strToHtml(a.details,inFailed&&i==as.length-1&&"screenshot")
           }
           if(i){
-            as[i-1].time=formatter.getSpendTime(as[i-1].start,a.start)
+            as[i-1].time=formatter.getSpendTime(as[i-1].start,a.start,"actionTime")
             a.start=a.start||as[i-1].start
           }else{
             a.start=startTime||a.start
           }
         })
-        as[as.length-1].time=formatter.getSpendTime(as[as.length-1].start,endTime)
+        as[as.length-1].time=formatter.getSpendTime(as[as.length-1].start,endTime,"actionTime")
         let r=as.map(a=>formatter.getGroupElement(a)).join("")
         as.forEach(a=>{
           delete a.details
@@ -1770,6 +1778,17 @@ input[type=checkbox]{
     }
     o=document.createElement("div");
     o.className="bz-loading-info"
+    o.style.position="fixed";
+    o.style.top="30px";
+    o.style.right="15px";
+    o.style.zIndex=100000;
+    o.style.backgroundColor="#FFF"
+    o.style.border="5px solid #00F"
+    o.style.borderRadius="10px";
+    o.style.padding="20px 30px";
+    o.style.fontSize="25px";
+    o.style.display="flex";
+
     o.innerHTML=`
         <div class="bz-icon bz-running"></div>
         <div class="bz-doing-text" style="line-height:45px;">${v}</div>
@@ -1859,6 +1878,7 @@ input[type=checkbox]{
   showAnalyzePanel:function(){
     let o=$(".bz-pop-panel")
     let w="",fd=formatter.data;
+    retrieveAnalyzeData()
     for(let m in fd.moduleMap){
       let tm=fd.moduleMap[m].testMap
       let ts=Object.values(tm),
@@ -1867,9 +1887,12 @@ input[type=checkbox]{
           mTotal=0,
           mTime=0,
           tr=[]
+          
       ts.forEach(x=>{
+        
         mTotal+=x.list.length
-        let success=0,failed=0,time=0
+        let success=0,failed=0,time=0,average=0,
+            warn="' style='margin-left:20px;"
         x.list.forEach(y=>{
           if(y.result!="failed"){
             success++
@@ -1878,12 +1901,16 @@ input[type=checkbox]{
           }
           time+=parseInt(y.time)
         })
+        average=parseInt(time/(success+failed))
+        if(average>fd.setting.testTime){
+          warn=" bz-warning' style='margin-left:0"
+        }
         tr.push(`
           <div class="bz-row">
-            <div class='bz-title-text' style='margin-left:20px;'>[${x.list[0].code}] ${x.list[0].name}</div>
-            <span class='bz-icon bz-icon-txt bz-timer'>${time}s</span>
-            <span class='bz-icon bz-icon-txt bz-success'>${success}</span>
-            <span class='bz-icon bz-icon-txt bz-failed'>${failed}</span>
+            <div class='bz-title-text${warn}'>[${x.list[0].code}] ${x.list[0].name}</div>
+            <span class='bz-icon bz-icon-col bz-timer2' style='width:80px;'>${time}/${average}s</span>
+            <span class='bz-icon bz-icon-col bz-success'>${success}</span>
+            <span class='bz-icon bz-icon-col bz-failed'>${failed}</span>
           </div>
         `)
         mSuccess+=success
@@ -1893,12 +1920,12 @@ input[type=checkbox]{
       w+=`
         <div>
           <div class='bz-row'>
-            <button class='bz-small-icon bz-switch'></button>
+            <button class='bz-mini-icon bz-switch bz-switch2'></button>
             <div class="bz-title-text" style="display:flex;">
               <span style="flex:1">${m} (Tests: ${ts.length}, executed times: ${mTotal})</span>
-              <span class='bz-icon bz-icon-txt bz-timer'>${mTime}s</span>
-              <span class='bz-icon bz-icon-txt bz-success'>${mSuccess}</span>
-              <span class='bz-icon bz-icon-txt bz-failed'>${mFailed}</span>
+              <span class='bz-icon bz-icon-col bz-timer2' style='width:80px;'>${mTime}s</span>
+              <span class='bz-icon bz-icon-col bz-success'>${mSuccess}</span>
+              <span class='bz-icon bz-icon-col bz-failed'>${mFailed}</span>
             </div>
           </div>
           <div class='bz-panel bz-hide'>
@@ -1909,8 +1936,8 @@ input[type=checkbox]{
       `
     }
 
-    o.html(`<div style='overflow:auto;max-height:${window.innerHeight-250}px;padding:5px;background-color:#EEE;'>${w}<div>`)
-    o.find(".bz-switch").click(function(e){
+    o.find("div.bz-box").html(`<div style='overflow:auto;max-height:${window.innerHeight-250}px;padding:5px;background-color:#EEE;'>${w}<div>`)
+    o.find(".bz-switch2").click(function(e){
       let pp=$(this.parentElement.nextElementSibling)
       if($(this).hasClass("bz-open")){
         $(this).removeClass("bz-open")
@@ -1927,9 +1954,9 @@ input[type=checkbox]{
       for(let k in fd.scenarioMap){
         if(!fd.analyzeDataMap[k]){
           fd.analyzeDataMap[k]=1
-          let s=fd.scenarioMap[k]
+          let s=fd.scenarioMap[k],level=1
           while(1){
-            let ts=formatter.getTestTreeByLevel(s.details.org,0),ct
+            let ts=formatter.getTestTreeByLevel(s.details.org,level++),ct
             if(!ts.length){
               break
             }
