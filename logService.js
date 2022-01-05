@@ -648,17 +648,16 @@ const Service = {
         Service.consoleNum++;
         if(msg.trim().match(/^<<<</)){
           Service.lanuchTest--
-          msg=" ".repeat(Service.lanuchTest*2)+msg
+          msg=" ".repeat(Service.lanuchTest*2)+msg.replace(/\] [0-9]+ /,"] "+getSpendTime()+" ")
         }else if(msg.trim().match(/^>>>>/)){
-          msg=" ".repeat(Service.lanuchTest*2)+msg
+          msg=" ".repeat(Service.lanuchTest*2)+msg.replace(/\([0-9]+\) >>>>$/,"("+getSpendTime()+") >>>>")
           Service.lanuchTest++
         }else if(Date.now()-Service.lastTime>1000){
           let n=parseInt((Date.now()-Service.lastTime)/1000)
           let w="+"
-          let s=formatPeriod(Date.now()-Service.startTime)
           if(Service.lastTime){
             w=w.repeat(n)
-            n=" ("+s+", "+n+"s) "
+            n=" ("+getSpendTime()+", "+n+"s) "
           }else{
             w=""
             n=""
@@ -670,6 +669,10 @@ const Service = {
       }
     }
   }
+}
+
+function getSpendTime(){
+  return formatPeriod(Date.now()-Service.startTime)
 }
 
 Service.init()

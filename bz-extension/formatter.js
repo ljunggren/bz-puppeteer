@@ -537,7 +537,7 @@ input[type=checkbox]{
   },
   exeFormag:function(setting,auto){
     if(setting.gotoOrg){
-      setting.ignore=1
+      setting.ignore= 1
       delete setting.gotoOrg
       formatter.updateFormatLogSetting(setting)
       location.reload()
@@ -595,6 +595,7 @@ input[type=checkbox]{
         }
       }
       formatter.data={
+        analyzeDataMap:{},
         setting:setting,
         totalActions:0,
         totalTests:0,
@@ -932,8 +933,7 @@ input[type=checkbox]{
       ctrl=`
         ${ctrl}
         <button key="${o.code}" class="bz-icon bz-declare-btn bz-declare">(${o.declare.time||""})</button>
-        <button title='Create New Root Cause' class="bz-icon bz-new-bug ${o.bug&&o.bug.hash?"":"bz-hide"}" hash="${o.bug&&o.bug.hash}"></button>
-        <button class="bz-icon bz-bug ${o.bug&&o.bug.path?"":"bz-hide"}" path="${o.bug&&o.bug.path}"></button>
+        <button title='${o.bug&&o.bug.msg}' class="bz-icon bz${o.bug?o.bug.type:""}-bug ${!o.bug&&'bz-hide'}" hash="${o.bug&&o.bug.hash}" path="${o.bug&&o.bug.path}"></button>
         <button class="bz-icon bz-camera ${o.camera?"":"bz-hide"}" path="${o.camera||""}"></button>
       `
     }
@@ -1014,7 +1014,7 @@ input[type=checkbox]{
         </div>
         <button class="bz-icon bz-search"></button>
         <button class='bz-icon bz-download' title='Download log'></button>
-        <button class='bz-icon bz-analyze bz-hide' title='Show test case execution summary' disabled='true'></button>
+        <button class='bz-icon bz-analyze' title='Show test case execution summary' disabled='true'></button>
         <button class='bz-camera bz-icon-letter bz-camera' title='Show screenshot list' disabled='true'></button>
         <div class='bz-pop-panel bz-close-panel bz-hide'><button class="bz-mini-icon bz-cross" style="position:absolute;"></button><div class='bz-box'></div></div>
       </div>`).appendTo(p),
@@ -1296,10 +1296,15 @@ input[type=checkbox]{
     
     function handleEnd(s){
       if(s.org){
-        let w=formatter.splitByWord(s.org,/\n[0-9]+\:   <+ .+Feature - Scenario \[m[0-9].+$/m);
+        let mk=/[0-9]+\:   <+ .+Feature - Scenario \[m[0-9][^\]]+\] ([0-9\:]+) .+$/m;
+        let w=formatter.splitByWord(s.org,mk);
         if(!w){
           s.details.org=s.org
         }else{
+          mk=w[1].match(mk)
+          if(mk){
+            s.endTime=mk[1]
+          }
           s.details.org=w[0]
           delete s.org
           s.end.org=w[1]
@@ -1358,7 +1363,7 @@ input[type=checkbox]{
     }
 
     function handleWaitingList(v){
-      v=v.match(/[0-9]+: Split task\([^\)]+\): [^\)]+\)/gm)
+      v=v.match(/[0-9]+: Split task\([^\)]+\): [^\n]+\n/gm)
       let map={}
       v.forEach(x=>{
         x=x.match(/(m[0-9]+.t[0-9])+\(?([0-9]+)?/)
@@ -1373,7 +1378,7 @@ input[type=checkbox]{
         }
         map[k]=1
       })
-      fd.waitingListSize=fd.totalScenarios=v.length
+      fd.waitingListSize=fd.totalScenarios=Object.keys(map).length
       fd.waitingListMap=map
     }
 
@@ -1398,13 +1403,19 @@ input[type=checkbox]{
     function handleBug(s){
       let w=s.org.match(/\[Error Hash\: ([0-9A-F]+)\] \((.+)\)/)
       if(w){
-        s.bug={}
+        s.bug={hash:"",path:"",type:""}
+        let msg=(s.org.match(/[0-9]+: ERROR MESSAGE: .*Failed on Action: m[0-9]+[^\n]+\n/ms)||[])[0]+"\n"+w[0]
         if(w[2]=="new"){
           s.bug.hash=w[1]
+          s.bug.type="-new"
         }else{
-          w=s.org.match(/Root cause link: ?([^\n]+)\n/)||w
-          s.bug.path=w[1]
+          let link=s.org.match(/Root cause link: ?([^\n]+)\n/)
+          msg+="\n\n"+link[0]
+          s.bug.path=(link||w)[1]
         }
+
+        s.bug.msg=msg
+        
       }
     }
     
@@ -1721,6 +1732,9 @@ input[type=checkbox]{
     return [v.substring(0,k).trim(),v.substring(k).trim()]
   },
   strToTime:function(s){
+    if(s&&s.match(/^[0-9]+$/)){
+      debugger
+    }
     s=s||"0"
     let v=0,p=[3600,60,1]
     s=s.split(":")
@@ -1845,7 +1859,7 @@ input[type=checkbox]{
   },
   showAnalyzePanel:function(){
     let o=$(".bz-pop-panel")
-    let w=""
+    let w="",fd=formatter.data;
     for(let m in formatter.data.moduleMap){
       let tm=formatter.data.moduleMap[m].testMap
       let ts=Object.values(tm),
@@ -1908,6 +1922,14 @@ input[type=checkbox]{
       }
     })
     o.show()
+    
+    function _retrieveAnalyzeData(){
+      for(let k in fd.scenarioMap){
+        if(!fd.analyzeDataMap[k]){
+          fd.analyzeDataMap[k]=1
+        }
+      }
+    }
   },
   sort:function(o){
     let k=o[0].id.split("-").pop(),w=1
