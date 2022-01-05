@@ -662,6 +662,14 @@ input[type=checkbox]{
       }
     }
   },
+  openLastAction:function(k){
+    let o=formatter.data.scenarioMap[k]||formatter.data.runningTestMap[k]
+    formatter.initScenario(k);
+    o=o.element.find(".bz-level-action").toArray().pop();
+    if(o){
+      formatter.openItem(o)
+    }
+  },
   cleanWaitingList:function(){
     let map=Object.keys(formatter.data.waitingListMap)
     
@@ -1628,7 +1636,7 @@ input[type=checkbox]{
       if(name.match(/^(Set |Typing )/)){
         type="keyboard"
       }else{
-        type=name.split(":")[0].toLowerCase()
+        type=name.split(/[ :]/)[0].toLowerCase()
         if(type.match(/validate /)){
           type="validate"
         }else if(type=="group"){
@@ -1655,10 +1663,12 @@ input[type=checkbox]{
       
       let idx=x[2].split("/").pop(),
           timeout=getTimeout(p)
-
+if(name.includes("div.ReactVirtualized__Table")){
+  debugger
+}
       return {
         code:"action-"+formatter.getIdx(),
-        name:`(${idx}) ${name}`+timeout,
+        name:`(${idx}) ${name.replace(/</g,"&lg;").replace(/>/g,"&gt;")}`+timeout,
         type:type,
         result:"success",
         start:formatter.retrieveTimeFromLog(p),
