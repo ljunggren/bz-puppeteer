@@ -596,6 +596,7 @@ input[type=checkbox]{
         }
       }
       formatter.data={
+        moduleMap:{},
         analyzeDataMap:{},
         setting:setting,
         totalActions:0,
@@ -1252,10 +1253,10 @@ input[type=checkbox]{
 
     function handleDeclare(s){
       let sv=s.org
-      let w=sv.match(/\n([0-9]+)\: +\>+ Loading Scenario \[((m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?)\] - (.+) \([0-9]+\) \>+$/m);
+      let w=sv.match(/\n([0-9]+)\: +\>+ Loading Scenario \[((m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?)\] - (.+) \([0-9:]+\) \>+$/m);
       if(!w){
         s.declare.org=sv
-        s.org=0
+        s.org=""
         return
       }
       let k=w[2].replace(/[^tm0-9]/g,"-").replace(/-$/,"")
@@ -1526,9 +1527,7 @@ input[type=checkbox]{
     
     function buildTests(v,level,startTime,endTime,test){
       let html=""
-      let r=`/[0-9]+: {${level*6+3}}(>+ Loading .+|<+ .+)Test \\[m[0-9]+\.t[0-9]+.+/gm`
-      r=eval(r)
-      let ts=v.match(r)||[],curTest,tt,lastTest;
+      let ts=formatter.getTestTreeByLevel(v,level),curTest,tt,lastTest;
       
       ts.forEach((t,i)=>{
         if(i%2==0){
@@ -1558,7 +1557,7 @@ input[type=checkbox]{
     }
     
     function retrieveTestData(v){
-      let x=v.match(/^([0-9]+)\: +\>+ Loading (.+ Test) \[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\] - (.+) \([0-9]+\) \>+$/);
+      let x=v.match(/^([0-9]+)\: +\>+ Loading (.+ Test) \[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\] - (.+) \([0-9:]+\) \>+$/);
       if(x){
         return {
           code:"test"+formatter.getIdx(),
@@ -1860,8 +1859,8 @@ input[type=checkbox]{
   showAnalyzePanel:function(){
     let o=$(".bz-pop-panel")
     let w="",fd=formatter.data;
-    for(let m in formatter.data.moduleMap){
-      let tm=formatter.data.moduleMap[m].testMap
+    for(let m in fd.moduleMap){
+      let tm=fd.moduleMap[m].testMap
       let ts=Object.values(tm),
           mSuccess=0,
           mFailed=0,
@@ -1877,7 +1876,7 @@ input[type=checkbox]{
           }else{
             failed++
           }
-          time+=parseInt(y.element.time.text())
+          time+=parseInt(y.time)
         })
         tr.push(`
           <div class="bz-row">
@@ -1923,13 +1922,49 @@ input[type=checkbox]{
     })
     o.show()
     
-    function _retrieveAnalyzeData(){
+    function retrieveAnalyzeData(){
+      let mp=fd.moduleMap
       for(let k in fd.scenarioMap){
         if(!fd.analyzeDataMap[k]){
           fd.analyzeDataMap[k]=1
+          let s=fd.scenarioMap[k]
+          while(1){
+            let ts=formatter.getTestTreeByLevel(s.details.org,0),ct
+            if(!ts.length){
+              break
+            }
+            ts.forEach((t,i)=>{
+              if(i%2==0){
+                let c=t.match(/\[(m[0-9]+)\.(t[0-9]+).*\] - (.+) \(([0-9:]+)\) >>>>$/)
+                ct={
+                  m:c[1],
+                  t:c[2],
+                  code:c[1]+"."+c[2],
+                  name:c[3],
+                  start:c[4]
+                }
+              }else{
+                let c=t.match(/<<<< ([^ ]+) [^\]]+\] ([0-9:]+) .+ <<<<$/),
+                    m=ct.m
+                ct.end=c[2]
+                ct.result=c[1].toLowerCase()
+                ct.time=formatter.getSpendTime(ct.start,ct.end)
+                
+                mp[m]=mp[m]||{testMap:{}}
+                
+                mp[m].testMap[ct.t]=mp[m].testMap[ct.t]||{list:[]}
+                mp[m].testMap[ct.t].list.push(ct);
+              }
+            })
+          }
         }
       }
     }
+  },
+  getTestTreeByLevel:function(v,level){
+    let r=`/[0-9]+: {${level*6+3}}(>+ Loading .+|<+ .+)Test \\[m[0-9]+\.t[0-9]+.+/gm`
+    r=eval(r)
+    return v.match(r)||[]
   },
   sort:function(o){
     let k=o[0].id.split("-").pop(),w=1
