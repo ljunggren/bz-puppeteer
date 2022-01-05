@@ -641,20 +641,25 @@ input[type=checkbox]{
   },
   buildRunningTests:function(){
     let ls=Object.values(formatter.data.runningTestMap)
-    formatter.element.exePanel.html(ls.map(x=>formatter.getGroupElement(x)).join(""));
-    ls.forEach(x=>{
-      delete x.element;
-      formatter.initScenario(x.code)
-      if(x.openning){
-        x=x.element.find(".bz-level:action").toArray()
-        x=x.pop()
-        formatter.openItem(x)
+    if(formatter.lastRunningList){
+      if(!formatter.lastRunningList.find(x=>{
+        if(!ls.find(y=>y.code==x.code)){
+          return 1
+        }
+      })){
+        return 
       }
-    })
-    if(ls.length){
-      formatter.element.exePanel.show()
-    }else{
-      formatter.element.exePanel.hide()
+    }
+    
+    doRefresh()
+    function doRefresh(){
+      formatter.lastRunningList=ls
+      formatter.element.exePanel.html(ls.map(x=>formatter.getGroupElement(x)).join(""));
+      if(ls.length){
+        formatter.element.exePanel.show()
+      }else{
+        formatter.element.exePanel.hide()
+      }
     }
   },
   cleanWaitingList:function(){
