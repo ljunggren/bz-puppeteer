@@ -92,7 +92,9 @@ function init(){
     $("#testTime,#declareTime,#initTime,#actionTime,#identifyMaster,#identifyWorker").blur(function(){
       updateSetting()
     })
-
+    $("#autoFormat,#retrieveWorkerLog").click(function(){
+      updateSetting()
+    })
     if(bzFormat.defTab=="log"){
       $("#logTab").click()
     }
