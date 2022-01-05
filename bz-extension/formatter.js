@@ -1667,7 +1667,7 @@ input[type=checkbox]{
           timeout=getTimeout(p)
       return {
         code:"action-"+formatter.getIdx(),
-        name:`(${idx}) ${name.replace(/</g,"&lg;").replace(/>/g,"&gt;")}`+timeout,
+        name:`(${idx}) ${name}`+timeout,
         type:type,
         result:"success",
         start:formatter.retrieveTimeFromLog(p),
