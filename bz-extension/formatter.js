@@ -1,4 +1,5 @@
 var formatter={
+  idx:0,
   cameraList:[],
   chking:30,
   startUrl:"",
@@ -7,13 +8,53 @@ var formatter={
     let s=document.createElement("style")
     document.body.append(s)
     s.innerText=`
+.bz-download { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2018.928%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23363d4a%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22download%22%20transform%3D%22translate%28-6.41%20-6.946%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_497%22%20data-name%3D%22Path%20497%22%20class%3D%22cls-1%22%20d%3D%22M12.692%2C18.139a.769.769%2C0%2C1%2C1%2C1.088-1.088l1.861%2C1.861V7.716a.769.769%2C0%2C1%2C1%2C1.538%2C0v11.2l1.861-1.861a.769.769%2C0%2C1%2C1%2C1.088%2C1.088l-3.174%2C3.174a.769.769%2C0%2C0%2C1-.252.167l-.012%2C0a.751.751%2C0%2C0%2C1-.561%2C0l-.012%2C0a.769.769%2C0%2C0%2C1-.252-.167ZM25.641%2C20a.769.769%2C0%2C0%2C0-.769.769v3.566H7.949V20.769a.769.769%2C0%2C1%2C0-1.538%2C0V25.1a.769.769%2C0%2C0%2C0%2C.769.769H25.641a.769.769%2C0%2C0%2C0%2C.769-.769V20.769A.769.769%2C0%2C0%2C0%2C25.641%2C20Z%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-copy { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018.4%2018.4%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%230069ff%3B%20%20%20%20%20%20%20%20stroke%3A%20%230069ff%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.4px%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22copy-strong%22%20transform%3D%22translate%280.2%200.2%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_31%22%20data-name%3D%22Path%2031%22%20class%3D%22cls-1%22%20d%3D%22M11.25%2C4.5V0H3.375L0%2C3.375V13.5H6.75V18H18V4.5ZM3.375%2C1.591V3.375H1.591ZM1.125%2C12.375V4.5H4.5V1.125h5.625V4.5L6.75%2C7.875v4.5Zm9-6.284V7.875H8.341Zm6.75%2C10.784h-9V9H11.25V5.625h5.625Z%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-search { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2022%2022%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%20%20stroke%3A%20rgba%2854%2C61%2C74%2C0.7%29%3B%20%20%20%20%20%20%20%20stroke-linejoin%3A%20round%3B%20%20%20%20%20%20%20%20stroke-miterlimit%3A%2010%3B%20%20%20%20%20%20%20%20stroke-width%3A%202px%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22search%22%20transform%3D%22translate%28-1.001%20-0.679%29%22%3E%20%20%20%20%3Ccircle%20id%3D%22Ellipse_17%22%20data-name%3D%22Ellipse%2017%22%20class%3D%22cls-1%22%20cx%3D%227.157%22%20cy%3D%227.157%22%20r%3D%227.157%22%20transform%3D%22translate%282.001%201.679%29%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_54%22%20data-name%3D%22Path%2054%22%20class%3D%22cls-1%22%20d%3D%22M15.07%2C13.046l7.947%2C7.946a1.071%2C1.071%2C0%2C0%2C1%2C0%2C1.515l-.189.188a1.07%2C1.07%2C0%2C0%2C1-1.514%2C0l-7.947-7.946%22%20transform%3D%22translate%28-1.33%20-1.33%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-analyze { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2026%2026.132%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.5px%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%20%20stroke%3A%20rgba%28112%2C112%2C112%2C0%29%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22analyze%22%20transform%3D%22translate%28-627%20-350.747%29%22%3E%20%20%20%20%3Cg%20id%3D%22analyze-2%22%20data-name%3D%22analyze%22%20transform%3D%22translate%28624.688%20348.504%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Compound_Path%22%20data-name%3D%22Compound%20Path%22%20class%3D%22cls-1%22%20d%3D%22M19.906%2C4.375H17.844A2.5%2C2.5%2C0%2C0%2C0%2C15.281%2C2.5a2.562%2C2.562%2C0%2C0%2C0-2.562%2C1.875H10.688c-.187%2C0-.375%2C0-.375.188V5.938H7.625A2.344%2C2.344%2C0%2C0%2C0%2C5.313%2C8.156V26.063a2.182%2C2.182%2C0%2C0%2C0%2C2.313%2C2.063H23a2.182%2C2.182%2C0%2C0%2C0%2C2.313-2.062V8.156A2.344%2C2.344%2C0%2C0%2C0%2C23%2C5.938H20.313V4.563C20.313%2C4.375%2C20.094%2C4.375%2C19.906%2C4.375ZM10.938%2C5h2.031a.375.375%2C0%2C0%2C0%2C.313-.312%2C2.031%2C2.031%2C0%2C0%2C1%2C4%2C0A.375.375%2C0%2C0%2C0%2C17.594%2C5h2.094V8.125h-8.75ZM23%2C6.563a1.719%2C1.719%2C0%2C0%2C1%2C1.688%2C1.594V26.063A1.558%2C1.558%2C0%2C0%2C1%2C23%2C27.5H7.625a1.558%2C1.558%2C0%2C0%2C1-1.687-1.437V8.156A1.719%2C1.719%2C0%2C0%2C1%2C7.625%2C6.563h2.687V8.469c0%2C.156.188.281.375.281h9.219c.188%2C0%2C.406-.125.406-.281V6.563Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C16.375l-2.219%2C2.094L8.969%2C17.375a.31.31%2C0%2C1%2C0-.437.438l1.281%2C1.313a.281.281%2C0%2C0%2C0%2C.219.094.344.344%2C0%2C0%2C0%2C.219-.094l2.437-2.313a.312.312%2C0%2C1%2C0-.438-.437Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-2%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M21.875%2C18.125H14.688a.313.313%2C0%2C0%2C0%2C0%2C.625h7.188a.313.313%2C0%2C0%2C0%2C0-.625Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-3%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C11.375l-2.219%2C2.094L8.969%2C12.375a.31.31%2C0%2C1%2C0-.437.437l1.281%2C1.313a.281.281%2C0%2C0%2C0%2C.219.094.344.344%2C0%2C0%2C0%2C.219-.094l2.438-2.312a.313.313%2C0%2C1%2C0-.438-.438Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-4%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M14.375%2C13.438a.281.281%2C0%2C0%2C0%2C.313.313h7.188a.313.313%2C0%2C0%2C0%2C0-.625H14.688a.281.281%2C0%2C0%2C0-.312.313Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-5%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C21.375l-2.219%2C2.094L8.969%2C22.375a.31.31%2C0%2C1%2C0-.438.438l1.281%2C1.313a.281.281%2C0%2C0%2C0%2C.219.094.344.344%2C0%2C0%2C0%2C.219-.094l2.438-2.313a.312.312%2C0%2C1%2C0-.438-.437Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path-6%22%20data-name%3D%22Path%22%20class%3D%22cls-1%22%20d%3D%22M21.875%2C23.125H14.688a.313.313%2C0%2C0%2C0%2C0%2C.625h7.188a.313.313%2C0%2C0%2C0%2C0-.625Z%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cline%20id%3D%22Line_143%22%20data-name%3D%22Line%20143%22%20class%3D%22cls-2%22%20y2%3D%2224%22%20transform%3D%22translate%28627.5%20352.5%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_144%22%20data-name%3D%22Line%20144%22%20class%3D%22cls-2%22%20y2%3D%2224%22%20transform%3D%22translate%28652.5%20352.5%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
-.bz-timer { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2022%2022%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%230069ff%3B%20%20%20%20%20%20%20%20stroke%3A%20%230069ff%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23fff%3B%20%20%20%20%20%20%20%20stroke%3A%20%23fff%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.6px%3B%20%20%20%20%20%20%20%20fill-rule%3A%20evenodd%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-3%20%7B%20%20%20%20%20%20%20%20stroke%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-4%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22timer-gray%22%20transform%3D%22translate%28-242%20-732%29%22%3E%20%20%20%20%3Cg%20id%3D%22Group_82%22%20data-name%3D%22Group%2082%22%20transform%3D%22translate%28-40%201%29%22%3E%20%20%20%20%20%20%3Cg%20id%3D%22Ellipse_39%22%20data-name%3D%22Ellipse%2039%22%20class%3D%22cls-1%22%20transform%3D%22translate%28282%20731%29%22%3E%20%20%20%20%20%20%20%20%3Ccircle%20class%3D%22cls-3%22%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%2211%22%2F%3E%20%20%20%20%20%20%20%20%3Ccircle%20class%3D%22cls-4%22%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%2210.5%22%2F%3E%20%20%20%20%20%20%3C%2Fg%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cg%20id%3D%22timer-gray-2%22%20data-name%3D%22timer-gray%22%20transform%3D%22translate%28243.042%20732.768%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_355%22%20data-name%3D%22Path%20355%22%20class%3D%22cls-2%22%20d%3D%22M10.369%2C1.243l-.411-.01V3.869h.823V2.1A8.167%2C8.167%2C0%2C1%2C1%2C4.172%2C4.447l-.579-.579a9%2C9%2C0%2C1%2C0%2C6.776-2.625Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_356%22%20data-name%3D%22Path%20356%22%20class%3D%22cls-2%22%20d%3D%22M10.73%2C12.6a1.591%2C1.591%2C0%2C0%2C0%2C1.591-1.591%2C1.37%2C1.37%2C0%2C0%2C0-.462-1.121c-1.126-.791-5.9-3.652-5.9-3.652s3.16%2C5.393%2C3.6%2C5.851A1.34%2C1.34%2C0%2C0%2C0%2C10.73%2C12.6Z%22%20transform%3D%22translate%28-0.734%20-0.734%29%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-new-bug { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220.2%22%20height%3D%2220.003%22%20viewBox%3D%220%200%2020.2%2020.003%22%3E%20%20%3Cg%20id%3D%22root-cause%22%20transform%3D%22translate%28-4.916%20-5.373%29%22%3E%20%20%20%20%3Crect%20id%3D%22Rectangle_216%22%20data-name%3D%22Rectangle%20216%22%20width%3D%226.037%22%20height%3D%221.006%22%20transform%3D%22translate%2811.255%209.699%29%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_570%22%20data-name%3D%22Path%20570%22%20d%3D%22M8.276%2C11.507%2C9%2C10.785l.722.721.569-.569-.722-.721.722-.722L9.72%2C8.925%2C9%2C9.646l-.721-.721-.57.569.722.722-.722.722Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_571%22%20data-name%3D%22Path%20571%22%20d%3D%22M9.921%2C13.377%2C8.669%2C14.629l-.594-.593-.569.569%2C1.163%2C1.163%2C1.821-1.822Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_572%22%20data-name%3D%22Path%20572%22%20d%3D%22M8.075%2C18.467l-.569.569L8.669%2C20.2l1.821-1.822-.569-.569L8.669%2C19.061Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_573%22%20data-name%3D%22Path%20573%22%20d%3D%22M6.525%2C23.082V6.982H19.606v5.744a1.7%2C1.7%2C0%2C0%2C1%2C1.034-.35%2C1.722%2C1.722%2C0%2C0%2C1%2C.476.068V6.479A1.009%2C1.009%2C0%2C0%2C0%2C20.11%2C5.473H6.022A1.009%2C1.009%2C0%2C0%2C0%2C5.016%2C6.479V23.585a1.009%2C1.009%2C0%2C0%2C0%2C1.006%2C1.006h6.411a1.705%2C1.705%2C0%2C0%2C1%2C.384-1.509Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_574%22%20data-name%3D%22Path%20574%22%20d%3D%22M11.255%2C19.56h1.028a1.7%2C1.7%2C0%2C0%2C1%2C1.306-.615h.257c.007-.018.014-.036.02-.054l-.358-.337H11.255Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_575%22%20data-name%3D%22Path%20575%22%20d%3D%22M16.007%2C14.737a1.736%2C1.736%2C0%2C0%2C1-.121-.611H11.255v1.007h4.513A3.527%2C3.527%2C0%2C0%2C1%2C16.007%2C14.737Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_576%22%20data-name%3D%22Path%20576%22%20d%3D%22M14.492%2C16.608a.379.379%2C0%2C0%2C0-.533.539l.9.848c.071.071.167.055.267.055h.734a4.855%2C4.855%2C0%2C0%2C0-.993%2C2.229h-1.28a.394.394%2C0%2C0%2C0%2C0%2C.787h1.224a3.964%2C3.964%2C0%2C0%2C0%2C.462%2C1.836H15a.4.4%2C0%2C0%2C0-.267.129l-.9.913a.381.381%2C0%2C0%2C0%2C0%2C.537.377.377%2C0%2C0%2C0%2C.266.112.372.372%2C0%2C0%2C0%2C.266-.11l.792-.794h.608a4.355%2C4.355%2C0%2C0%2C0%2C3.085%2C1.581V17.394H15.283Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_577%22%20data-name%3D%22Path%20577%22%20d%3D%22M24.64%2C20.279H23.333a5.831%2C5.831%2C0%2C0%2C0-1.072-2.229h.84c.1%2C0%2C.2.017.267-.053l.9-.876a.359.359%2C0%2C0%2C0%2C0-.518.376.376%2C0%2C0%2C0-.533%2C0l-.791.793H19.377v7.874a4.914%2C4.914%2C0%2C0%2C0%2C3.064-1.579h.629l.792.8a.376.376%2C0%2C1%2C0%2C.533-.531l-.9-.922a.4.4%2C0%2C0%2C0-.267-.129h-.288a3.919%2C3.919%2C0%2C0%2C0%2C.468-1.836h1.233a.394.394%2C0%2C0%2C0%2C0-.787Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_578%22%20data-name%3D%22Path%20578%22%20d%3D%22M16.678%2C16.869h4.873a2.335%2C2.335%2C0%2C0%2C0-1.139-2.04l.492-.482a.371.371%2C0%2C0%2C0%2C0-.528.377.377%2C0%2C0%2C0-.533%2C0l-.711.713a2.375%2C2.375%2C0%2C0%2C0-1.091%2C0l-.711-.712a.377.377%2C0%2C0%2C0-.533.533l.492.472A2.336%2C2.336%2C0%2C0%2C0%2C16.678%2C16.869Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
-.bz-new-bug{
-  margin:0 15px 0 13px !important;
+.bz-warning:before{
+  content:"⚠️"
+}
+.bz-bug:before{
+  content:"🐞";
+}
+.bz-camera:before{
+  content:"📷";
+}
+.bz-init:before{
+  content:"➠";
+}
+.bz-declare:before{
+  content:"📢";
+}
+.bz-timer:before{
+  content:"⏱";
+}
+.bz-flag:before{
+  content:"🚩";
+}
+.bz-join:before{
+  content:"👬🏻";
+}
+.bz-leave:before{
+  content:"🏃🏻"
+}
+.bz-a-z:before{
+  content:"↓";
+}
+.bz-z-a:before{
+  content:"↑"
+}
+.bz-failed-hash:before{
+  content:"❌";
+  margin-right: 5px;
+}
+.bz-failed-hash{
+  margin:15px 25px;
+  border:1px solid;
+  border-radius:5px;
+  padding:5px;
 }
 .bz-module { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2022.437%2022.412%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%2C%20.cls-3%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20opacity%3A%200.15%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%280%2C0%2C0%2C0%29%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%2C%20.cls-3%20%7B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-linecap%3A%20round%3B%20%20%20%20%20%20%20%20stroke-linejoin%3A%20round%3B%20%20%20%20%20%20%20%20stroke-miterlimit%3A%2010%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22hdr-module%22%20transform%3D%22translate%28-1.475%20-0.921%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_337%22%20data-name%3D%22Path%20337%22%20class%3D%22cls-1%22%20d%3D%22M12.25%2C1.75l11%2C5.01L13.188%2C11.792%2C2.438%2C6.562Z%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_338%22%20data-name%3D%22Path%20338%22%20class%3D%22cls-2%22%20d%3D%22M13.271%2C22.8l9.979-5V6.76l-9.979%2C5%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_339%22%20data-name%3D%22Path%20339%22%20class%3D%22cls-3%22%20d%3D%22M13.188%2C22.833l-11.042-5V6.792l11.042%2C5Z%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_82%22%20data-name%3D%22Line%2082%22%20class%3D%22cls-3%22%20x2%3D%225.063%22%20y2%3D%222.293%22%20transform%3D%22translate%285.125%2011.478%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_83%22%20data-name%3D%22Line%2083%22%20class%3D%22cls-3%22%20x1%3D%222.875%22%20y1%3D%221.293%22%20transform%3D%22translate%285.125%2014.062%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_84%22%20data-name%3D%22Line%2084%22%20class%3D%22cls-3%22%20x1%3D%2211.041%22%20y1%3D%225%22%20transform%3D%22translate%2812.209%201.583%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_85%22%20data-name%3D%22Line%2085%22%20class%3D%22cls-3%22%20x1%3D%2211.041%22%20y1%3D%225%22%20transform%3D%22translate%287.49%204.021%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_86%22%20data-name%3D%22Line%2086%22%20class%3D%22cls-3%22%20y1%3D%225%22%20x2%3D%229.979%22%20transform%3D%22translate%282.146%201.615%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-scenario { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024.057%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%2C%20.cls-3%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-1%2C%20.cls-2%20%7B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%2854%2C61%2C74%2C0.5%29%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-3%20%7B%20%20%20%20%20%20%20%20stroke%3A%20rgba%28112%2C112%2C112%2C0%29%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22hdr-scenario%22%20transform%3D%22translate%28-355%20-756.5%29%22%3E%20%20%20%20%3Cg%20id%3D%22hdr-scenario-2%22%20data-name%3D%22hdr-scenario%22%20transform%3D%22translate%28357%20757%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_416%22%20data-name%3D%22Path%20416%22%20class%3D%22cls-1%22%20d%3D%22M10.106%2C0A10.133%2C10.133%2C0%2C0%2C0%2C8.177%2C20.075v2.9c6.048-.914%2C11.4-5.729%2C11.8-12.049A10.5%2C10.5%2C0%2C0%2C0%2C15.14%2C1.354c-.183-.108-.368-.215-.559-.309s-.395-.19-.6-.271C13.918.747%2C13.855.722%2C13.79.7c-.177-.066-.357-.14-.54-.193A10%2C10%2C0%2C0%2C0%2C10.106%2C0Z%22%2F%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_417%22%20data-name%3D%22Path%20417%22%20class%3D%22cls-2%22%20d%3D%22M12.2%2C3.745a1.1%2C1.1%2C0%2C0%2C0-.966.388%2C4.507%2C4.507%2C0%2C0%2C0-.425.736%2C2.384%2C2.384%2C0%2C0%2C0%2C.309%2C2.481%2C2.722%2C2.722%2C0%2C0%2C0%2C1.971-1.608%2C1.96%2C1.96%2C0%2C0%2C0%2C.193-.814A1.158%2C1.158%2C0%2C0%2C0%2C12.2%2C3.745ZM7.7%2C3.8A1.182%2C1.182%2C0%2C0%2C0%2C6.6%2C4.927a1.96%2C1.96%2C0%2C0%2C0%2C.193.814A2.812%2C2.812%2C0%2C0%2C0%2C8.818%2C7.349%2C2.577%2C2.577%2C0%2C0%2C0%2C8.644%2C4.19%2C1.085%2C1.085%2C0%2C0%2C0%2C7.7%2C3.8ZM4.663%2C6.787a1.068%2C1.068%2C0%2C0%2C0-.6%2C1.919%2C4.646%2C4.646%2C0%2C0%2C0%2C.734.446A2.778%2C2.778%2C0%2C0%2C0%2C7.407%2C8.9%2C2.866%2C2.866%2C0%2C0%2C0%2C5.726%2C6.981a2.207%2C2.207%2C0%2C0%2C0-.87-.194%2C1.123%2C1.123%2C0%2C0%2C0-.193%2C0Zm9.528%2C3.76a2.823%2C2.823%2C0%2C0%2C0-1.6.465%2C2.866%2C2.866%2C0%2C0%2C0%2C1.681%2C1.919%2C2.208%2C2.208%2C0%2C0%2C0%2C.87.194%2C1.091%2C1.091%2C0%2C0%2C0%2C.792-1.938%2C4.488%2C4.488%2C0%2C0%2C0-.734-.426%2C2.665%2C2.665%2C0%2C0%2C0-1-.213ZM5.745%2C10.6a2.665%2C2.665%2C0%2C0%2C0-1%2C.213%2C2.113%2C2.113%2C0%2C0%2C0-.734.446%2C1.1%2C1.1%2C0%2C0%2C0%2C.85%2C1.919%2C1.991%2C1.991%2C0%2C0%2C0%2C.87-.194%2C2.614%2C2.614%2C0%2C0%2C0%2C1.6-1.919A2.762%2C2.762%2C0%2C0%2C0%2C5.745%2C10.6Zm3.131%2C1.9A2.722%2C2.722%2C0%2C0%2C0%2C6.9%2C14.112a1.876%2C1.876%2C0%2C0%2C0-.193.795%2C1.15%2C1.15%2C0%2C0%2C0%2C1.991.814%2C4.507%2C4.507%2C0%2C0%2C0%2C.425-.736A2.551%2C2.551%2C0%2C0%2C0%2C8.876%2C12.5Zm2.3.058a2.577%2C2.577%2C0%2C0%2C0%2C.174%2C3.159%2C1.206%2C1.206%2C0%2C0%2C0%2C2.049-.736%2C1.96%2C1.96%2C0%2C0%2C0-.193-.814%2C2.812%2C2.812%2C0%2C0%2C0-2.029-1.608Z%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cline%20id%3D%22Line_112%22%20data-name%3D%22Line%20112%22%20class%3D%22cls-3%22%20y2%3D%2222%22%20transform%3D%22translate%28355.5%20757.5%29%22%2F%3E%20%20%20%20%3Cline%20id%3D%22Line_113%22%20data-name%3D%22Line%20113%22%20class%3D%22cls-3%22%20y2%3D%2222%22%20transform%3D%22translate%28378.5%20757.5%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
@@ -31,7 +72,6 @@ var formatter={
 
 .bz-success{ background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016.102%2016.37%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%2C%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20%235cb85c%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20stroke%3A%20%235cb85c%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.858px%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22success-strong%22%20transform%3D%22translate%28-1.718%20-4.418%29%22%3E%20%20%20%20%3Cg%20id%3D%22Group_18%22%20data-name%3D%22Group%2018%22%20transform%3D%22translate%282.269%205.103%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_46%22%20data-name%3D%22Path%2046%22%20class%3D%22cls-1%22%20d%3D%22M-.011%2C10.615%2C2.878%2C7.024l2.934%2C3.648L12.1%2C2.855l2.889%2C3.591L5.812%2C17.855Zm6.854%2C4.26Z%22%20transform%3D%22translate%280.011%20-2.855%29%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cpath%20id%3D%22Path_47%22%20data-name%3D%22Path%2047%22%20class%3D%22cls-2%22%20d%3D%22M13.822%2C6.811%22%20transform%3D%22translate%28-5.243%20-0.532%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-failed{ background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2015%2015%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%28230%2C46%2C64%2C0.99%29%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22failed-strong%22%20transform%3D%22translate%280%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_48%22%20data-name%3D%22Path%2048%22%20class%3D%22cls-1%22%20d%3D%22M14.863%2C12.05h0L10.312%2C7.5l4.55-4.55h0a.469.469%2C0%2C0%2C0%2C0-.663L12.713.137a.47.47%2C0%2C0%2C0-.663%2C0h0L7.5%2C4.687%2C2.949.136h0a.47.47%2C0%2C0%2C0-.663%2C0L.137%2C2.286a.469.469%2C0%2C0%2C0%2C0%2C.663h0L4.687%2C7.5.137%2C12.05h0a.475.475%2C0%2C0%2C0-.107.167.468.468%2C0%2C0%2C0%2C.107.5l2.15%2C2.15a.469.469%2C0%2C0%2C0%2C.663%2C0h0l4.55-4.55%2C4.55%2C4.55h0a.469.469%2C0%2C0%2C0%2C.663%2C0l2.15-2.15a.469.469%2C0%2C0%2C0%2C0-.663Z%22%20transform%3D%22translate%280%200%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
-.bz-warning{ background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2015%2015%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23e6d42e%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22warning-strong%22%20transform%3D%22translate%28-0.742%20-0.48%29%22%3E%20%20%20%20%3Cpath%20id%3D%22path3356%22%20class%3D%22cls-1%22%20d%3D%22M2.226%2C15.461a1.465%2C1.465%2C0%2C0%2C1-1.1-.6%2C1.911%2C1.911%2C0%2C0%2C1-.3-1.7c.044-.143%2C1.293-2.609%2C3.071-6.067C7.209.649%2C7.054.924%2C7.525.671A1.432%2C1.432%2C0%2C0%2C1%2C8.966.679c.467.258.285-.065%2C3.619%2C6.417%2C1.669%2C3.246%2C3.052%2C5.962%2C3.073%2C6.035a1.953%2C1.953%2C0%2C0%2C1-.079%2C1.352%2C1.624%2C1.624%2C0%2C0%2C1-.974.916c-.23.077-.25.078-6.162.082-3.262%2C0-6.059-.006-6.217-.019ZM8.8%2C13.581a1.146%2C1.146%2C0%2C0%2C0%2C.3-1.727.9.9%2C0%2C0%2C0-.758-.374.985.985%2C0%2C0%2C0-.907.618%2C1.394%2C1.394%2C0%2C0%2C0-.007.975%2C1.1%2C1.1%2C0%2C0%2C0%2C.628.58%2C1.3%2C1.3%2C0%2C0%2C0%2C.744-.07Zm-.25-3.055c.2-.085.34-.3.433-.693.052-.219.337-3.587.375-4.429a2.831%2C2.831%2C0%2C0%2C0-.282-1.636A.961.961%2C0%2C0%2C0%2C8.03%2C3.533a1.08%2C1.08%2C0%2C0%2C0-.618.665%2C1.858%2C1.858%2C0%2C0%2C0-.072.733c0%2C.729.23%2C4.408.292%2C4.762.076.435.2.685.384.789a.642.642%2C0%2C0%2C0%2C.529.044Z%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-reset { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016.6%2021.024%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%2854%2C61%2C74%2C0.99%29%3B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.6px%3B%20%20%20%20%20%20%20%20fill-rule%3A%20evenodd%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22reset%22%20transform%3D%22translate%28-3.7%20-3.7%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_456%22%20data-name%3D%22Path%20456%22%20class%3D%22cls-1%22%20d%3D%22M4%2C12v1H6V12a6%2C6%2C0%2C1%2C1%2C6%2C6H11V14L6%2C19l5%2C5V20h1a8%2C8%2C0%2C1%2C0-8-8Z%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-running {background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTIwcHgnIGhlaWdodD0nMTIwcHgnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiBjbGFzcz0idWlsLWRlZmF1bHQiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJub25lIiBjbGFzcz0iYmsiPjwvcmVjdD48cmVjdCAgeD0nNDYuNScgeT0nNDAnIHdpZHRoPSc3JyBoZWlnaHQ9JzIwJyByeD0nNScgcnk9JzUnIGZpbGw9JyMzRTY1RkYnIHRyYW5zZm9ybT0ncm90YXRlKDAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwcycgcmVwZWF0Q291bnQ9J2luZGVmaW5pdGUnLz48L3JlY3Q+PHJlY3QgIHg9JzQ2LjUnIHk9JzQwJyB3aWR0aD0nNycgaGVpZ2h0PScyMCcgcng9JzUnIHJ5PSc1JyBmaWxsPScjM0U2NUZGJyB0cmFuc2Zvcm09J3JvdGF0ZSgzMCA1MCA1MCkgdHJhbnNsYXRlKDAgLTMwKSc+ICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSdvcGFjaXR5JyBmcm9tPScxJyB0bz0nMCcgZHVyPScxcycgYmVnaW49JzAuMDgzMzMzMzMzMzMzMzMzMzNzJyByZXBlYXRDb3VudD0naW5kZWZpbml0ZScvPjwvcmVjdD48cmVjdCAgeD0nNDYuNScgeT0nNDAnIHdpZHRoPSc3JyBoZWlnaHQ9JzIwJyByeD0nNScgcnk9JzUnIGZpbGw9JyMzRTY1RkYnIHRyYW5zZm9ybT0ncm90YXRlKDYwIDUwIDUwKSB0cmFuc2xhdGUoMCAtMzApJz4gIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9J29wYWNpdHknIGZyb209JzEnIHRvPScwJyBkdXI9JzFzJyBiZWdpbj0nMC4xNjY2NjY2NjY2NjY2NjY2NnMnIHJlcGVhdENvdW50PSdpbmRlZmluaXRlJy8+PC9yZWN0PjxyZWN0ICB4PSc0Ni41JyB5PSc0MCcgd2lkdGg9JzcnIGhlaWdodD0nMjAnIHJ4PSc1JyByeT0nNScgZmlsbD0nIzNFNjVGRicgdHJhbnNmb3JtPSdyb3RhdGUoOTAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwLjI1cycgcmVwZWF0Q291bnQ9J2luZGVmaW5pdGUnLz48L3JlY3Q+PHJlY3QgIHg9JzQ2LjUnIHk9JzQwJyB3aWR0aD0nNycgaGVpZ2h0PScyMCcgcng9JzUnIHJ5PSc1JyBmaWxsPScjM0U2NUZGJyB0cmFuc2Zvcm09J3JvdGF0ZSgxMjAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwLjMzMzMzMzMzMzMzMzMzMzNzJyByZXBlYXRDb3VudD0naW5kZWZpbml0ZScvPjwvcmVjdD48cmVjdCAgeD0nNDYuNScgeT0nNDAnIHdpZHRoPSc3JyBoZWlnaHQ9JzIwJyByeD0nNScgcnk9JzUnIGZpbGw9JyMzRTY1RkYnIHRyYW5zZm9ybT0ncm90YXRlKDE1MCA1MCA1MCkgdHJhbnNsYXRlKDAgLTMwKSc+ICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSdvcGFjaXR5JyBmcm9tPScxJyB0bz0nMCcgZHVyPScxcycgYmVnaW49JzAuNDE2NjY2NjY2NjY2NjY2N3MnIHJlcGVhdENvdW50PSdpbmRlZmluaXRlJy8+PC9yZWN0PjxyZWN0ICB4PSc0Ni41JyB5PSc0MCcgd2lkdGg9JzcnIGhlaWdodD0nMjAnIHJ4PSc1JyByeT0nNScgZmlsbD0nIzNFNjVGRicgdHJhbnNmb3JtPSdyb3RhdGUoMTgwIDUwIDUwKSB0cmFuc2xhdGUoMCAtMzApJz4gIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9J29wYWNpdHknIGZyb209JzEnIHRvPScwJyBkdXI9JzFzJyBiZWdpbj0nMC41cycgcmVwZWF0Q291bnQ9J2luZGVmaW5pdGUnLz48L3JlY3Q+PHJlY3QgIHg9JzQ2LjUnIHk9JzQwJyB3aWR0aD0nNycgaGVpZ2h0PScyMCcgcng9JzUnIHJ5PSc1JyBmaWxsPScjM0U2NUZGJyB0cmFuc2Zvcm09J3JvdGF0ZSgyMTAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwLjU4MzMzMzMzMzMzMzMzMzRzJyByZXBlYXRDb3VudD0naW5kZWZpbml0ZScvPjwvcmVjdD48cmVjdCAgeD0nNDYuNScgeT0nNDAnIHdpZHRoPSc3JyBoZWlnaHQ9JzIwJyByeD0nNScgcnk9JzUnIGZpbGw9JyMzRTY1RkYnIHRyYW5zZm9ybT0ncm90YXRlKDI0MCA1MCA1MCkgdHJhbnNsYXRlKDAgLTMwKSc+ICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSdvcGFjaXR5JyBmcm9tPScxJyB0bz0nMCcgZHVyPScxcycgYmVnaW49JzAuNjY2NjY2NjY2NjY2NjY2NnMnIHJlcGVhdENvdW50PSdpbmRlZmluaXRlJy8+PC9yZWN0PjxyZWN0ICB4PSc0Ni41JyB5PSc0MCcgd2lkdGg9JzcnIGhlaWdodD0nMjAnIHJ4PSc1JyByeT0nNScgZmlsbD0nIzNFNjVGRicgdHJhbnNmb3JtPSdyb3RhdGUoMjcwIDUwIDUwKSB0cmFuc2xhdGUoMCAtMzApJz4gIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9J29wYWNpdHknIGZyb209JzEnIHRvPScwJyBkdXI9JzFzJyBiZWdpbj0nMC43NXMnIHJlcGVhdENvdW50PSdpbmRlZmluaXRlJy8+PC9yZWN0PjxyZWN0ICB4PSc0Ni41JyB5PSc0MCcgd2lkdGg9JzcnIGhlaWdodD0nMjAnIHJ4PSc1JyByeT0nNScgZmlsbD0nIzNFNjVGRicgdHJhbnNmb3JtPSdyb3RhdGUoMzAwIDUwIDUwKSB0cmFuc2xhdGUoMCAtMzApJz4gIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9J29wYWNpdHknIGZyb209JzEnIHRvPScwJyBkdXI9JzFzJyBiZWdpbj0nMC44MzMzMzMzMzMzMzMzMzM0cycgcmVwZWF0Q291bnQ9J2luZGVmaW5pdGUnLz48L3JlY3Q+PHJlY3QgIHg9JzQ2LjUnIHk9JzQwJyB3aWR0aD0nNycgaGVpZ2h0PScyMCcgcng9JzUnIHJ5PSc1JyBmaWxsPScjM0U2NUZGJyB0cmFuc2Zvcm09J3JvdGF0ZSgzMzAgNTAgNTApIHRyYW5zbGF0ZSgwIC0zMCknPiAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgZnJvbT0nMScgdG89JzAnIGR1cj0nMXMnIGJlZ2luPScwLjkxNjY2NjY2NjY2NjY2NjZzJyByZXBlYXRDb3VudD0naW5kZWZpbml0ZScvPjwvcmVjdD48L3N2Zz4=);}
 .bz-flash { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20id%3D%22flash%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214.61%22%20height%3D%2220%22%20viewBox%3D%220%200%2014.61%2020%22%3E%20%20%3Cpath%20id%3D%22Path_564%22%20data-name%3D%22Path%20564%22%20d%3D%22M2.979%2C9.078%2C14.61%2C0%2C8.794%2C8.369l3.262%2C2.837L0%2C20l6.383-8.369Z%22%20fill%3D%22%23363d4a%22%2F%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
@@ -43,7 +83,7 @@ var formatter={
 .bz-switch{ background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%227.414%22%20height%3D%2212.828%22%20viewBox%3D%220%200%207.414%2012.828%22%3E%20%20%3Cpath%20id%3D%22caret-right%22%20d%3D%22M18.5%2C11.5l-5%2C5-5-5%22%20transform%3D%22translate%28-10.086%2019.914%29%20rotate%28-90%29%22%20fill%3D%22none%22%20stroke%3D%22%23363d4a%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-miterlimit%3D%2210%22%20stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 
 .bz-plus{ background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23363d4a%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23fff%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22plus-black%22%20transform%3D%22translate%28-140%20-278.057%29%22%3E%20%20%20%20%3Cg%20id%3D%22plus-blue%22%20transform%3D%22translate%28-23%20-63.387%29%22%3E%20%20%20%20%20%20%3Ccircle%20id%3D%22Ellipse_2%22%20data-name%3D%22Ellipse%202%22%20class%3D%22cls-1%22%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%2212%22%20transform%3D%22translate%28163%20341.443%29%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cg%20id%3D%22plus-gray%22%20transform%3D%22translate%28145%20283%29%22%3E%20%20%20%20%20%20%3Cpath%20id%3D%22Path_102%22%20data-name%3D%22Path%20102%22%20class%3D%22cls-2%22%20d%3D%22M13.563%2C5.262H8.75V.439A.438.438%2C0%2C0%2C0%2C8.313%2C0H5.688A.438.438%2C0%2C0%2C0%2C5.25.439V5.262H.438A.438.438%2C0%2C0%2C0%2C0%2C5.7V8.332a.438.438%2C0%2C0%2C0%2C.438.439H5.25v4.824a.438.438%2C0%2C0%2C0%2C.438.439H8.313a.438.438%2C0%2C0%2C0%2C.437-.439V8.77h4.813A.438.438%2C0%2C0%2C0%2C14%2C8.332V5.7A.438.438%2C0%2C0%2C0%2C13.563%2C5.262Z%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
-.bz-cross{ background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%3E%20%20%3Cpath%20id%3D%22close%22%20d%3D%22M44.8%2C42.022%2C37.617%2C34.8%2C44.8%2C27.578%2C42.022%2C24.8%2C34.8%2C31.983%2C27.578%2C24.8%2C24.8%2C27.578%2C31.983%2C34.8%2C24.8%2C42.022%2C27.578%2C44.8%2C34.8%2C37.617%2C42.022%2C44.8Z%22%20transform%3D%22translate%28-24.8%20-24.8%29%22%20fill%3D%22%23363d4a%22%2F%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
+.bz-cross,.bz-closer{ background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%3E%20%20%3Cpath%20id%3D%22close%22%20d%3D%22M44.8%2C42.022%2C37.617%2C34.8%2C44.8%2C27.578%2C42.022%2C24.8%2C34.8%2C31.983%2C27.578%2C24.8%2C24.8%2C27.578%2C31.983%2C34.8%2C24.8%2C42.022%2C27.578%2C44.8%2C34.8%2C37.617%2C42.022%2C44.8Z%22%20transform%3D%22translate%28-24.8%20-24.8%29%22%20fill%3D%22%23363d4a%22%2F%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 
 .bz-scope:before{
   content:attr(bz-name);
@@ -51,6 +91,9 @@ var formatter={
   font-weight: bold;
   font-size: 15px;
   line-height: 30px;
+}
+button:hover{
+  background-color:#DDD;
 }
 button:disabled{
   opacity:0.4;
@@ -68,8 +111,8 @@ button:disabled{
   left: 50%;
   transform: translate(-50%, -50%);
 */
-  bottom: 10px;
-  right: 10px;
+  top: 30px;
+  right: 15px;
   z-index:100000;
   background-color: #FFF;
   border: 5px solid #00F;
@@ -83,12 +126,6 @@ button:disabled{
   height: 40px;
   width: 40px;
   background-size: 40px;
-}
-.bz-success-title{
-  background-color:#EFE !important;
-}
-.bz-failed-title{
-  background-color:#FDD !important;
 }
 
 .bz-open.bz-switch{
@@ -113,7 +150,20 @@ button:disabled{
   margin:0 2px;
   background-color:#FFF;
 }
+.bz-success-title{
+  background-color:#EFE;
+}
+.bz-failed-title{
+  background-color:#FDD;
+}
+
+.bz-level-action .bz-success-title{
+  background-color:#FFF;
+}
+
 .bz-panel{
+  display: flex;
+  flex-direction: column;
   margin: 2px 0px 0px 2px;
   background-color: #EEE;
   padding: 10px 0 10px 10px;
@@ -138,29 +188,29 @@ button:disabled{
 .bz-remote-title{
   color:#000;
 }
-.bz-timer-box,
-.bz-info-box{
-  display:flex;
-  margin-left: 10px;
-  flex:1
-}
-.bz-timer-box>div{
+.bz-header .bz-timer:before{
   position: relative;
-  top: 7px;
+  margin-right:5px;
 }
-.bz-timer-box label{
+.bz-header .bz-timer{
+  flex: 1;
   position: relative;
-  top: -3px;
-  margin-right: 8px;
-  font-size: 16px
-}
-.executeTime{
   font-size: 25px;
   font-weight: bold;
-  margin: 5px 15px 5px 0px;
+  top: 6px;
+  margin: 2px 15px 5px 5px;
   white-space: nowrap;
 }
-.bz-search-bar .bz-info-box{
+.bz-details{
+  display: flex;
+  flex-direction: column;
+}
+body>.bz-log-box .bz-header .bz-timer{
+  top: -4px;
+}
+
+
+.bz-header .bz-info-box{
   position: relative;
   top: 8px;
 }
@@ -172,12 +222,14 @@ button:disabled{
   font-weight:bold;
   margin:5px 15px 5px 0px;
 }
+.bz-complete:after{
+  content:"🚩";
+  font-size:20px;
+  margin-left:20px;
+}
 
 .bz-time{
-  font-weight:bold;
-  color:blue;
   width: 50px;
-  text-align: right;
   white-space:nowrap;
 }
 .bz-hide{
@@ -196,6 +248,10 @@ button:disabled{
   width: 16px;
   background-repeat: no-repeat;
   background-size: 16px;
+}
+.bz-icon-letter{
+  border:0;
+  background-color: transparent;
 }
 button.bz-icon-txt{
   width:unset;
@@ -232,28 +288,26 @@ button.bz-icon-txt{
 .bz-panel>div:hover{
   background-color:#cce1ff;
 }
-.bz-closer{
-  position: absolute;
-  top: 2px;
-  right: -8px;
-  height: 16px;
-  background-size: 10px;
-}
 
 .bz-content:hover{
   background-color:#EEE;
 }
 
 .bz-ctrl-box{
-  width:150px;
+  width:300px;
   display:flex;
+  flex-flow: wrap-reverse;
 }
 .bz-ctrl-box button{
-  flex:1;
+  width:30px;
   white-space: nowrap;
-  text-align: left;
-  margin:0 5px;
+  text-align: center;
+  margin:0 10px;
 }
+.bz-ctrl-box .bz-declare,.bz-ctrl-box .bz-init{
+  width:80px;
+}
+
 .bz-test-ctrl{
   width:75px;
 }
@@ -269,17 +323,17 @@ button{
   width: calc(100% - 15px);
 }
 
-.bz-search-bar{
+.bz-header{
   border-radius: 5px;
   height: 35px;
   z-index:200000000000;
   background-color:#EEE;
   top:0;
 }
-.bz-search-bar *{
+.bz-header *{
   white-space:nowrap;
 }
-.bz-search-bar input{
+.bz-header input{
   border-radius: 5px;
   border: 1px solid #999;
   height: 20px;
@@ -291,7 +345,7 @@ button{
   background-color:yellow;
   font-weight:bold;
 }
-#main-panel .bz-search-bar input{
+#main-panel .bz-header input{
   height:28px;
 }
 .bz-scope{
@@ -306,6 +360,9 @@ button{
 }
 .bz-log-box>.bz-scope>.bz-content>.bz-title{
   padding-left:30px;
+}
+body>.bz-log-box>.bz-scope .bz-content>.bz-panel{
+  width:calc(100% - 12px);
 }
 body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
   width:calc(100% - 34px);
@@ -322,6 +379,10 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
   padding:0 5px;
 }
 
+body>.bz-log-box .bz-log-bar,
+body>.bz-log-box .bz-sort-bar{
+  height:26px;
+}
 .bz-log-bar *{
   color:#000;
   margin:0 2px;
@@ -382,26 +443,11 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
   right:0;
 }
 
-.bz-input-cross{
-  position: absolute;
-  width: 15px;
-  margin-top: 9px;
-  background-size: 7px;
-  margin-left: -20px;
-  height: 15px;
-  background-color: transparent;
-  border-radius: 10px;
-  display:none;
-}
 .bz-input-cross-box:hover .bz-input-cross{
   display:unset;
 }
 .bz-input-cross:hover{
-  background-color: #EEF;
-}
-.bz-icon.bz-letter{
-  width: 24px;
-  padding-left: 0;
+  background-color: #DDD;
 }
 .bz-err-msg-box{
   border-radius: 5px;
@@ -412,10 +458,77 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
 .bz-err-msg-box legend{
   font-weight: bold;
 }
+
+.bz-switch.bz-hide{
+  visibility:hidden;
+  display:unset;
+}
+.bz-title .bz-result.bz-failed{
+  cursor:pointer;
+}
+.bz-title .bz-result.bz-failed:hover{
+  background-color:#DDD;
+}
+.bz-switch{
+  width:30px;
+  margin:0 5px;
+}
+.bz-title .bz-result{
+  width:30px;
+  margin:0 5px;
+}
+
+.bz-info-box{
+  display:flex;
+  margin-left: 10px;
+  flex:1
+}
+
+.bz-header .bz-icon{
+  width:30px;
+  margin:0 5px;
+}
+
+.bz-switch,.bz-camera,.bz-new-bug,.bz-bug,.bz-cross,.bz-download,.bz-search,.bz-analyze,.bz-result.bz-failed{
+  border-radius: 20px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin: 0 5px;
+}
+.bz-input-cross{
+  position: absolute;
+  width: 15px !important;
+  margin-top: 9px !important;
+  background-size: 7px;
+  margin-left: -20px !important;
+  height: 15px;
+  background-color: transparent;
+  border-radius: 10px;
+  display: none;
+}
 .bz-mini-icon{
-  height:12px;
-  width:12px;
-  background-size:12px;
+  height: 12px !important;
+  width: 12px !important;
+  background-size: 12px;
+  border: 0;
+  top: 5px;
+  right: 1px;
+  background-color: transparent;  
+}
+
+.bz-mini-letter{
+  font-size:11px;
+}
+
+.bz-show-failed-only{
+  line-height: 34px;
+  margin-right: 10px;
+}
+input[type=checkbox]{
+  height: initial !important;
+  width: initial !important;
+  margin-right: 5px;
 }
     `
   },
@@ -470,23 +583,35 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
         }
       }
     }else{
+      return
     }
 
     if(!formatter.data){
+      document.documentElement.scrollTop=0
+      if(!document.title){
+        let title=location.href.match(/\/([^\/]+\.log)$/)
+        if(title){
+          document.title=title[1]
+        }
+      }
       formatter.data={
+        setting:setting,
         totalActions:0,
         totalTests:0,
         totalScenarios:0,
         successScenarios:0,
         failedScenarios:0,
-        preSteps:[],
-        scenarios:[],
-        endSteps:[],
-        setting:setting,
-        curTests:[],
-        testMap:{},
+        project:{
+          init:{},
+          end:{}
+        },
+        scenarioMap:{},
         moduleMap:{},
-        featureMap:{}
+        testMap:{},
+        workerMap:[],
+        waitingListMap:{},
+        runningTestMap:{},
+        curWorker:"master"
       }
       
       let p=$("<div class='bz-log-box'></div>")
@@ -496,8 +621,8 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
 
       $(o).hide()
       formatter.element=formatter.buildLayout(p)
-      formatter.curPanel=formatter.element.init.panel
-      
+      formatter.definitEvent()
+
       doIt(o)
     }else{
       formatter.data.setting=setting
@@ -514,105 +639,329 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
       }
     }
   },
-  addGroupElement:function(p,name,type,result,close){
-    let w="",icon=this.getIcon(type)
-    
-    let o=$(`
-    <div class="bz-content">
-      <div class="bz-title">
-        <button style="background-size:${close?12:8}px" class="bz-icon ${close?"bz-cross":"bz-switch"}"></button>
-        ${icon}
-        <div class="bz-title-text"></div>
-        <div class="bz-ctrl-box"></div>
-        <div class="bz-time"></div>
-        <div class="bz-result bz-icon"></div>
-      </div>
-      <pre class="bz-panel" ${close?'':'style="display:none;"'}></pre>
-    </div>`);
-    p&&p.append(o);
-    let d={
-      group:o,
-      ctrl:o.find(".bz-ctrl-box"),
-      switcher:o.find(".bz-cross,.bz-switch"),
-      result:o.find(".bz-result"),
-      panel:o.find(".bz-panel"),
-      time:o.find(".bz-time"),
-      title:o.find(".bz-title"),
-      details:$("<div></div>"),
-      name:o.find(".bz-title-text")
-    }
-    d.name.text(name)
-    d.switcher[0].switcher=d.switcher
-    d.switcher.click((e)=>{
-      let o=d.switcher
-      if(o.hasClass("bz-cross")){
-        if(o.hasClass("bz-open")){
-          o.removeClass("bz-open")
-          d.group.hide()
-        }else{
-          o.addClass("bz-open")
-          d.group.show()
-          $(d.panel).find(".bz-line,.bz-action").show()
-        }
-      }else if(o.hasClass("bz-open")){
-        o.removeClass("bz-open")
-        d.panel.hide()
-      }else{
-        o.addClass("bz-open")
-        d.panel.show()
-        $(d.panel).find(".bz-line,.bz-action").show()
+  buildRunningTests:function(){
+    let ls=Object.values(formatter.data.runningTestMap)
+    formatter.element.exePanel.html(ls.map(x=>formatter.getGroupElement(x)).join(""));
+    ls.forEach(x=>{
+      delete x.element;
+      formatter.initScenario(x.code)
+      if(x.openning){
+        formatter.openItem(x.element.find(".bz-level:action").toArray().pop())
       }
     })
-    if(close){
-      d.group.hide()
+    if(ls.length){
+      formatter.element.exePanel.show()
+    }else{
+      formatter.element.exePanel.hide()
     }
-    if(type=="scenario"){
-      d.declareBtn=$(`<button class="bz-icon">&#128226; (0)</button>`)
-      d.declare=formatter.addGroupElement(d.panel,"Declare","declare","",1)
-      
-      d.camera=$("<button class='bz-icon bz-hide bz-camera bz-letter'>&#128247;</button>").insertBefore(d.ctrl)
-      d.bug=$("<button class='bz-icon bz-hide bz-bug bz-letter'>&#128030;</button>").insertBefore(d.ctrl)
+  },
+  cleanWaitingList:function(){
+    let map=Object.keys(formatter.data.waitingListMap)
+    
+    formatter.element.waitingList.html(map.map(x=>{
+      return `<div class="bz-content"><div class="bz-title"><button class="bz-icon bz-switch bz-hide"></button><span class="bz-scenario bz-icon"></span><div class="bz-title-text">${x}</div></div></div>`
+    }).join(""))
+    if(map.length){
+      formatter.element.waitingList.show()
+    }else{
+      formatter.element.waitingList.hide()
+    }
+  },
+  definitEvent:function(){
+    let fa=formatter.data,fe=formatter.element;
+    
+    $(window).scroll(function(){
+      let r=$(".bz-log-box")[0].getBoundingClientRect(),
+          o=$(".bz-header");
+      if(r.top<30&&document.documentElement.scrollTop>50){
+        o.addClass("bz-top-bar")
+        o.css({
+          left:r.left+"px",
+          right:window.innerWidth-17-r.right+"px"
+        })
+      }else{
+        o.removeClass("bz-top-bar")
+      }
+    })
 
-      d.declareBtn.click(()=>{
-        if(!d.switcher.hasClass("bz-open")){
-          d.switcher.click()
+    $(document.body).click(function(e){
+      let o=$(e.target)
+      if(o[0].id=="failedOnly"){
+        formatter.data.failedOnly=o[0].checked
+        setTimeout(()=>{
+          formatter.showFailedOnlyResult()
+        },10)
+      }else if(o.hasClass("bz-switch")){
+        switchPanel(o)
+      }else if(o.hasClass("bz-input-cross")){
+        $(".bz-search-input").val("")
+        formatter.search()
+      }else if(o.hasClass("bz-cross")){ //close init,declare panel and pop-panel
+        let k=o.attr("key")
+        if(k){
+          o.removeClass("bz-open")
+          $("#"+k).addClass("bz-hide")
+        }else if(o.parent().hasClass("bz-pop-panel")){
+          o.parent().hide()
         }
-        if(d.declare.group.css("display")=="none"){
-          d.declare.group.show()
-          d.declare.switcher.addClass("bz-open")
+      }else if(o.hasClass("bz-init-btn")){
+        switchContent(o,"init")
+      }else if(o.hasClass("bz-declare-btn")){
+        switchContent(o,"declare")
+      }else if(o.hasClass("bz-camera")){
+        if(o.attr("path")){
+          window.open(formatter.getCameraPath(o.attr("path")),"_blank")
         }else{
-          d.declare.switcher.removeClass("bz-open")
-          d.declare.group.hide()
+          formatter.showCameraPanel()
         }
-      })
-      d.panel.append(d.details)
-    }else if(type=="test"){
-      d.panel.append(d.details)
-      d.ctrl.addClass("bz-test-ctrl")
-    }
-    if(type=="scenario"||type=="test"){
-      d.init=formatter.addGroupElement(d.panel,"Initial","init","",1)
-      d.initBtn=$(`<button class="bz-icon">&#10144; (0)</button>`)
-      d.initBtn.click(()=>{
-        if(!d.switcher.hasClass("bz-open")){
-          d.switcher.click()
-        }
-        if(d.init.group.css("display")=="none"){
-          d.init.group.show()
-          d.init.switcher.addClass("bz-open")
+      }else if(o.hasClass("bz-log-item")){
+        openLog(o)
+      }else if(o.hasClass("bz-search")){
+        formatter.search($(".bz-header input").val())
+      }else if(o.hasClass("bz-analyze")){
+        formatter.showAnalyzePanel()
+      }else if(o.hasClass("bz-download")){
+        formatter.download()
+      }else if(o.hasClass("bz-bug")||o.hasClass("bz-new-bug")||o.hasClass("bz-failed-hash")){ //bug button
+        let url=o.attr("path")||o.attr("hash")
+        if(url.match(/^[0-9A-F]+$/)){
+          formatter.openIDE("rootCause/"+url)
         }else{
-          d.init.switcher.removeClass("bz-open")
-          d.init.group.hide()
+          window.open(url,"bz-bug")
         }
+      }else if(o.hasClass("bz-failed")&&o.hasClass("bz-result")){
+        gotoHash(o)
+      }else if(o.css("cursor")=="pointer"&&(o.hasClass("bz-title-text")||o.hasClass("bz-line"))){
+        openTest(o)
+      }else if($(".bz-info-box").find(o)[0]){
+        openTest($(".bz-info-box"))
+      }else if(o.is(".bz-sort-bar button")){
+        formatter.sort(o)
+      }
+    });
+
+    //copy button
+    let copyBtn=$("<button class='bz-copy bz-mini-icon bz-icon'></button>")[0]
+    $(copyBtn).click(function(){
+      formatter.copyText(this.parentElement)
+    })[0];
+
+    $(document.body).on("mousemove",".bz-scope .bz-title-text,.bz-scope .bz-line,fieldset",function(e){
+      let _this=this
+      setTimeout(()=>{
+        $(_this).append(copyBtn)
       })
-      d.ctrl.append(d.declareBtn)
-      d.ctrl.append(d.initBtn)
-      if(type=="scenario"){
-        d.ctrl.hide()
+    })
+
+    $(document.body).on("mousemove",".bz-title-text,.bz-line",function(e){
+      let o=e.target
+      if(!$(o).hasClass("bz-title-text")){
+        if(!o.innerText.match(/m[0-9]+[\.\/\-]t[0-9]+/)){
+          return
+        }
+      }
+      if(!o.posRight){
+        let s=o.innerHTML
+        o.innerHTML=`<span>${s}</span>`
+        let r=o.children[0].getBoundingClientRect()
+        o.posRight=r.right
+        o.innerHTML=s
+      }
+      if(e.clientX<o.posRight){
+        o.style.cursor="pointer"
+      }else{
+        o.style.cursor="default"
+      }
+    });
+
+    function gotoHash(o){
+      o=o[0]
+      while(o.parentElement&&!$(o.parentElement).hasClass("bz-scope")){
+        o=o.parentElement
+      }
+      let switcher=$(o).find(".bz-switch")[0]
+      formatter.initScenario(switcher.attributes.key.value)
+      let oo=$(o).find(".bz-level-action .bz-failed-title")[0]
+      if(oo){
+        formatter.openItem(oo)
+        oo=$(oo).find(".bz-switch")
+        if(!oo.hasClass(".bz-open")){
+          oo.click()
+        }
+      }
+      oo=$(o).find(".bz-failed-hash")[0]
+      if(oo){
+        formatter.openItem(oo)
+        oo.focus()
       }
     }
-    d.panel[0].switcher=d.switcher
-    return d
+    
+    function openLog(o){
+      let n=o.text().match(/[0-9]+/)
+      if(n&&formatter.data.wrongLog){
+        return
+      }
+      if(n){
+        n=formatter.getLogList()[n[0]-2]
+      }else{
+        n=location.href
+      }
+
+      formatter.data.setting.gotoOrg=1
+      formatter.updateFormatLogSetting(formatter.data.setting)
+      formatter.data.setting.gotoOrg=0
+      window.open(n)
+    }
+    function openTest(o){
+      let v=o.attr("bz")
+      if(!v){
+        v=o.text().match(/(m[0-9]+)[\.\/-](t[0-9]+)([ \.\/\-]?\(?([0-9]+)\)?)?/)
+        if(v){
+          let vv=v[1]+"/"+v[2]
+          if(v[4]){
+            vv+="/"+v[4]
+          }
+          v=vv
+        }
+      }
+      if(v){
+        formatter.openIDE(v)
+      }
+    }
+    function getCloserElementInContent(o,c){
+      while(o[0]){
+        if(o.is(c)){
+          return o[0]
+        }
+        let v=o.find(c)
+        if(v[0]){
+          return v[0]
+        }
+        if(o.hasClass("bz-content")){
+          return 
+        }
+        o=o.parent()
+      }
+    }
+    
+    function switchPanel(o,force){
+      let k=o.attr("key"),c="bz-open",switcher,panel
+
+      panel=$(".bz-panel."+k)
+
+      switcher=o
+      if(k[0]=="m"){
+        let s=formatter.initScenario(k)
+        switcher=s.switcher
+      }else if(k[0]=="p"){
+        if(!formatter.data.project.init.element){
+          formatter.data.project.init.element=panel
+          panel.html(formatter.strToHtml(formatter.data.project.init.org))
+        }
+      }
+      if(switcher.hasClass(c)){
+        if(force=="open"){
+          return
+        }
+        switcher.removeClass(c)
+        panel.hide()
+        if(formatter.data.runningTestMap[k]){
+          formatter.cleanScenarioPanel(k)
+        }
+      }else{
+        if(force=="close"){
+          return
+        }
+        switcher.addClass(c)
+        panel.show()
+        panel.find(".bz-line,.bz-level-action").show()
+        if(formatter.data.runningTestMap[k]){
+          formatter.data.runningTestMap[k].openning=1
+        }
+      }
+    }
+    
+    function switchContent(o,k){
+      let id=o.attr("key"),e,closer;
+      if(id[0]=="t"){
+        e=$("#"+id+"-"+k)
+        closer=e.find(".bz-cross")
+      }else{
+        s=formatter.initScenario(id)
+        e=s[k].element
+        closer=s[k].closer
+      }
+      if(closer.hasClass("bz-open")){
+        closer.removeClass("bz-open")
+        e.addClass("bz-hide")
+      }else{
+        closer.addClass("bz-open")
+        e.removeClass("bz-hide")
+        switchPanel(o,"open")
+      }
+    }
+    
+  },
+  cleanScenarioPanel:function(k){
+    let s=formatter.data.scenarioMap[k]
+    delete s.element
+  },
+  getGroupElement:function(o){
+    let level=o.level,ctrl="",exPanel="",endPanel="";
+    if(level=="scenario"||level=="test"){
+      ctrl=`<button key="${o.code}" class="bz-icon bz-init-btn bz-init">(${o.init.time||"0s"})</button>`
+    }
+    if(level=="scenario"){
+      ctrl=`
+        ${ctrl}
+        <button key="${o.code}" class="bz-icon bz-declare-btn bz-declare">(${o.declare.time||""})</button>
+        <button title='Create New Root Cause' class="bz-icon bz-new-bug ${o.bug&&o.bug.hash?"":"bz-hide"}" hash="${o.bug&&o.bug.hash}"></button>
+        <button class="bz-icon bz-bug ${o.bug&&o.bug.path?"":"bz-hide"}" path="${o.bug&&o.bug.path}"></button>
+        <button class="bz-icon bz-camera ${o.camera?"":"bz-hide"}" path="${o.camera||""}"></button>
+      `
+    }
+    if(ctrl){
+      ctrl=`<div class="bz-ctrl-box">${ctrl}</div>`
+    }
+    
+    if(level=="scenario"){
+      exPanel = formatter.getGroupElement({name:"Declare",level:"declare",type:"declare",code:o.code+"-declare",close:"cross",css:"bz-hide"})
+              + formatter.getGroupElement({name:"Initial",level:"init",type:"init",code:o.code+"-init",close:"cross",css:"bz-hide"})
+      endPanel=`<div class='bz-end ${o.code}-end'></div>`
+    }else if(level=="test"){
+      exPanel = formatter.getGroupElement({name:"Initial",level:"init",type:"init",code:o.code+"-init",close:"cross",css:"bz-hide",details:o.init.details})
+      delete o.init.details
+    }
+    
+    let html= `
+    <div id="${o.code}" class="bz-content bz-close-panel bz-level-${level} ${o.ckey||""} ${o.css||""}">
+      <div class="bz-title bz-${o.result}-title">
+        <button key="${o.code}" style="background-size:${o.close?12:8}px;visibility:${o.details!==undefined&&!o.details?'hidden':'unset'}" class="bz-icon bz-${o.close||"switch"}"></button>
+        <div class="bz-icon bz-${o.type}"></div>
+        <div class="bz-title-text">${o.title||o.name}</div>
+        ${ctrl}
+        <div class="bz-time">${o.time||""}</div>
+        ${o.result?`<div class="bz-result bz-icon bz-${o.result}"></div>`:""}
+      </div>
+      <pre class="bz-panel ${o.code}" ${o.close?'':'style="display:none;"'}>
+        ${exPanel}
+        <div class='bz-details ${o.code}-details'>${o.details||""}</div>
+        ${endPanel}
+      </pre>
+    </div>`
+    return html
+  },
+  showFailedOnlyResult:function(){
+    for(let k in formatter.data.scenarioMap){
+      let o=formatter.data.scenarioMap[k]
+      if(o.result=="success"&&formatter.data.failedOnly){
+        $("#"+o.code).hide()
+        o.hidden=1
+      }else{
+        o.hidden=0
+        $("#"+o.code).show()
+      }
+    }
   },
   getLogList:function(){
     let v;
@@ -627,235 +976,793 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
   },
   buildLayout:function(p,setting){
     let fd=formatter.data;
-    let info=[
-      ["&#9201;","executeTime"]
-    ]
 
     let o={
-      search:$(`<div class="bz-row bz-search-bar">
+      header:$(`<div class="bz-row bz-header">
+        <div class='bz-icon-letter bz-timer'></div>
+        <label class='bz-show-failed-only'><input type="checkbox" id="failedOnly"/>Only show Failed</label>
         <div class="bz-log-bar bz-nowrap">
           <label style="margin-left:5px;color:#000;font-weight:bold;">Org-Log: </label>
-          <a class='bz-master-log'>master,</a>
-          ${formatter.getLogList().map((a,i)=>"<a>"+(i+2)+",</a>").join("").replace(/,<\/a>$/,"</a>")}
+          <a class='bz-master-log bz-log-item'>master,</a>
+          ${formatter.getLogList().map((a,i)=>"<a class='bz-log-item'>"+(i+2)+",</a>").join("").replace(/,<\/a>$/,"</a>")}
         </div>
         <div class="bz-sort-bar bz-nowrap">
           <label style="margin-left:5px;color:#000;font-weight:bold;">Sort: </label>
-          <button id="sort-time" class="bz-icon"><span>&#8595;</span> Completion</button>
-          <button id="sort-id" class="bz-icon"><span></span> Id</button>
-          <button id="sort-name" class="bz-icon"><span></span> Name</button>
-          <button id="sort-result" class="bz-icon"><span></span> Result</button>
-          <button id="sort-performance" class="bz-icon"><span></span> Performance</button>
-          <button id="sort-worker" class="bz-icon"><span></span> Worker</button>
+          ${[{n:"Completion",k:"idx",c:"bz-a-z"},{n:"Id",k:"code"},{n:"Name",k:"name"},{n:"Result",k:"result"},{n:"Performance",k:"time"},{n:"Worker",k:"worker"}]
+          .map(x=>`<button id="sort-${x.k}" class="bz-icon-letter ${x.c||""}">${x.n}</button>`).join("")}
         </div>
         <div class="bz-input-cross-box">
-          <input/>
+          <input class='bz-search-input'/>
           <button class="bz-cross bz-icon bz-input-cross"></button>
         </div>
         <button class="bz-icon bz-search"></button>
-        <button class='bz-icon bz-analyze' title='Show test case execution summary' style='margin:5px 10px;' disabled='true'></button>
-        <button class='bz-icon bz-camera bz-letter' title='Show screenshot list' style='margin:5px 10px;' disabled='true'>&#128247;</button>
-        </div>`).appendTo(p),
-      init:formatter.addGroupElement(p,"Initial","init"),
-      exePanel:$("<div class='bz-scope' bz-name='Executing list'></div>"),
-      panel:$("<div class='bz-scope' bz-name='Completed list'></div>"),
-      waitingList:$("<div class='bz-scope' bz-name='Waiting list'></div>"),
-      end:$("<div></div>"),
-      info:$(`<div class="bz-timer-box bz-nowrap">${info.map(x=>`<div><label>${x[0]}</label><span class="${x[1]}"></span></div>`).join("")}</div>`),
-      modules:$("<div></div>"),
-      modulePanel:$("<div></div>"),
-      featurePanel:$("<div></div>"),
-      analyzePanel:$(`<div class='bz-pop-panel bz-hide bz-cross'></div>`),
-      cameraPanel:$("<div class='bz-pop-panel bz-hide bz-cross'></div>")
+        <button class='bz-icon bz-download' title='Download log'></button>
+        <button class='bz-icon bz-analyze bz-hide' title='Show test case execution summary' disabled='true'></button>
+        <button class='bz-camera bz-icon-letter bz-camera' title='Show screenshot list' disabled='true'></button>
+        <div class='bz-pop-panel bz-close-panel bz-hide'><button class="bz-mini-icon bz-cross" style="position:absolute;"></button><div class='bz-box'></div></div>
+      </div>`).appendTo(p),
+      init:$(formatter.getGroupElement({name:"Initial",code:"project-init",level:"project",type:"init"})).appendTo(p),
+      exePanel:$("<div class='bz-scope bz-hide' bz-name='Executing list'></div>").appendTo(p),
+      panel:$("<div class='bz-scope' bz-name='Completed list'></div>").appendTo(p),
+      waitingList:$("<div class='bz-scope bz-hide' bz-name='Waiting list'></div>").appendTo(p),
+      end:$("<div class='bz-scope bz-end'></div>").appendTo(p)
     };
-    o.sort=o.search.find(".bz-sort-bar button")
-    o.sort.click(function(){
-      let span=$(this).find("span")
-      if(span.text()=="↑"){
-        span.html("↓")
-      }else if(span.text()=="↓"){
-        span.html("↑")
-      }else{
-        o.sort.find("span").html("")
-        span.text("↓")
-      }
-      formatter.sort(this.id,span.text())
-    })
-    o.search.find("input").keydown(function(e){
+
+    o.header.find("input.bz-search-input").keydown(function(e){
       if(e.keyCode==13){
         this.blur()
       }
     })
-    o.search.find("input").blur(function(e){
+    o.header.find("input.bz-search-input").blur(function(e){
       formatter.search(this.value)
     })
-    o.search.find(".bz-input-cross").click(function(){
-      o.search.find("input").val("")
-      formatter.search()
+
+    if(!formatter.isMasterPage(formatter.data.setting)){
+      $(".bz-log-bar").hide()
+    }
+    return o
+  },
+  format:function(o,chkTime){
+    formatter.doingWorker="master"
+    let idx=0,ws=o.innerText
+    o.innerHTML=""
+    if(!location.host&&!ws.length){
+      formatter.data.completed=1
+      formatter.element.waitingList.hide()
+    }
+    
+    formatter.buildScenarioList(ws,function(){
+      formatter.keepLogMap("master")
+
+      if(formatter.chking>=30){
+        formatter.chking=0
+        formatter.formatWorkers()
+      }else{
+        formatter.doingWorker=""
+      }
+      if(!chkTime){
+        formatter.chkTime=setInterval(()=>{
+          if(formatter.data.completed){
+            doEnd()
+            return clearInterval(formatter.chkTime)
+          }
+
+          if(!formatter.doingWorker){
+            formatter.chking++
+
+            formatter.takeLogMap("master")
+            formatter.format(o,1)
+          }
+        },1000)
+      }
     })
     
-    o.search.find(".bz-log-bar a").click(function(){
-      let t=$(this),n=t.text().match(/[0-9]+/)
-      if(n&&formatter.data.wrongLog){
+    function doEnd(){
+      if(!formatter.doingWorker){
+        formatter.takeLogMap("master")
+        formatter.data.project.end.org=formatter.data.curEnd
+        formatter.element.end.html(formatter.strToHtml(formatter.data.curEnd))
+        formatter.element.exePanel.hide()
+      }else{
+        setTimeout(()=>{
+          doEnd()
+        },1000)
+      }
+    }
+  },
+  formatWorkers:function(){
+    formatter.doingWorker="workers"
+    
+    let v=formatter.data.setting.retrieveWorkerLog&&formatter.isMasterPage(formatter.data.setting)?formatter.getLogList():[]
+    doIt(v,0)
+
+    
+    function doIt(vs,i){
+      formatter.data.curWorker=i
+      let s=vs[i]
+      if(s&&!formatter.data.wrongLog){
+        $.ajax({
+          url:s,
+          method:"GET",
+          complete:function(c){
+            c=c.responseText.split("\n")
+            if(c.length){
+              while(!c.pop()){}
+              if(c.length>3){
+                c.pop()
+              }
+              formatter.takeLogMap(i)
+              formatter.logMap[i].size=formatter.logMap[i].size||0
+              c=c.splice(formatter.logMap[i].size)
+              formatter.logMap[i].size+=c.length
+              if(c.length>3000){
+                formatter.showDoing("Formatting worker("+(i+2)+") Log ...")
+              }
+              
+              formatter.buildScenarioList(c.join("\n"),function(){
+                formatter.keepLogMap(i)
+
+                doIt(vs,i+1)
+              })
+            }
+          }
+        })
+      }else{
+        formatter.doingWorker=0
+        formatter.removeDoingInfo()
+      }
+    }
+  },
+  buildScenarioList:function(v,bkFun){
+    let fd=formatter.data,
+        fe=formatter.element,
+        parsingScenario;
+    if(!v){
+      return bkFun&&bkFun()
+    }
+    v=(fd.curEnd||"")+v
+
+    let ss=v.match(/\n[0-9]+\: BZ-Result\:(Success|Failed)$/gm)||[],
+        list=[],
+        remoteList=v.match(/\n[0-9]+\: \.{4} .+ Remote \[m[0-9].+\] .+Completed in (.+) Tasks:[ 0-9\/\.]+$/gm)||[]
+
+    ss.forEach(x=>{
+      let ei=v.indexOf(x)
+      let sv=v.substring(0,ei+x.length)
+      v=v.substring(sv.length).trim()
+      handleItem(sv,x)
+    })
+    
+    fd.curEnd=v
+
+    if(!fd.waitingListSize){
+      fd.totalScenarios+=ss.length
+    }
+
+    let ls=list=list.filter(x=>!fd.failedOnly||x.result=="failed")
+    if(ls.length){
+      fe.panel[0].innerHTML+=ls.map(x=>formatter.getGroupElement(x)).join("")
+      formatter.element.header.find(".bz-analyze").attr({disabled:false})
+      formatter.cleanWaitingList()
+    }
+
+    assignWoker()
+    handleRealTimeInfo()
+    if(!handleTaskEnd(v)){
+      handleRunningTest(fd.curEnd)
+    }
+
+    bkFun()
+    
+    function handleRunningTest(x){
+      v=x
+      try{
+        handleItem(x)
+      }catch(ex){
+        
+      }
+      if(parsingScenario&&parsingScenario.code){
+        fd.runningTestMap[parsingScenario.code]=parsingScenario
+        formatter.buildRunningTests()
+      }
+    }
+    
+    function handleItem(sv,x){
+      let s={
+        idx:x?x.match(/[0-9]+/)[0]:0,
+        result:x?x.includes("Success")?"success":"failed":"running",
+        org:sv,
+        type:"scenario",
+        level:"scenario",
+        declare:{},
+        init:{},
+        details:{
+          tests:[]
+        },
+        end:{}
+      }
+      parsingScenario=s
+      list.push(s)
+      if(x){
+        handleSummaryInfo(s)
+      }
+      handleStartTime(s)
+      handleDeclare(s)
+      handleInit(s)
+
+      handleFailedScenario(s)
+      handleEnd(s)
+      if(fd.curLastScenario){
+        fd.curLastScenario.time=formatter.getSpendTime(fd.curLastScenario.start,s.start,"testTime")
+        fd.curLastScenario.endTime=s.start
+      }
+      fd.curLastScenario=s
+    }
+    
+    function handleSummaryInfo(s){
+      if(s.result=="success"){
+        fd.successScenarios++
+      }else{
+        fd.failedScenarios++
+      }
+      fd.totalTests+=s.org.match(/\n[0-9]+: +>{4} Loading .+Test \[m[0-9].+$/gm).length
+      fd.totalActions+=s.org.match(/\n[0-9]+: ##Action.+$/gm).length
+    }
+    
+    function handleStartTime(s){
+      let sv=s.org,w
+      if(!fd.curLastScenario){
+        let declare=sv.match(/\n[0-9]+\: BZ-LOG: declare on \[m[0-9]+\.t[0-9]+[ \(\]][^\n]+\n/gm)
+        
+        if(declare){
+          w=formatter.splitByWord(sv,declare[1]||declare[0])
+          s.org=w[1]
+        }
+      }
+
+      s.start=formatter.retrieveTimeFromLog(s.org)
+
+      if(!fd.project.init.org){
+        fd.project.init.org=w[0]
+        fd.project.init.time=formatter.getSpendTime(0,s.start)
+        handleWaitingList(w[0])
+        handleSetting(w[0])
+      }
+    }
+
+    function handleDeclare(s){
+      let sv=s.org
+      let w=sv.match(/\n([0-9]+)\: +\>+ Loading Scenario \[((m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?)\] - (.+) \([0-9]+\) \>+$/m);
+      if(!w){
+        s.declare.org=sv
+        s.org=0
         return
       }
-      if(n){
-        n=formatter.getLogList()[n[0]-2]
-      }else{
-        n=location.href
-        formatter.data.setting.gotoOrg=1
-        formatter.updateFormatLogSetting(formatter.data.setting)
-        formatter.data.setting.gotoOrg=0
-      }
-      window.open(n)
-    })
-
-    o.analyzePanel.appendTo(o.search);
-    o.cameraPanel.appendTo(o.search);
-    o.camera=o.search.find(".bz-camera");
-    o.camera.click(()=>{
-      formatter.showCameraPanel(o.analyzePanel)
-    })
-
-    o.analyze=o.search.find(".bz-analyze");
-    o.analyze.click(()=>{
-      formatter.showAnalyzePanel(o.analyzePanel)
-    })
-    
-    $(p).find(".bz-pop-panel").click(function(e){
-      let pr=this.getBoundingClientRect()
-      if(pr.right-e.clientX<20&&e.clientY-pr.top<20){
-        $(this).hide()
-      }
-    })
-
-    $(p).find(".bz-pop-panel").mousemove(function(e){
-      let pr=this.getBoundingClientRect()
-      if(pr.right-e.clientX<20&&e.clientY-pr.top<20){
-        this.style.cursor="pointer"
-      }else{
-        this.style.cursor="default"
-      }
-    })
-
-    info.forEach(x=>{
-      o[x[1]]=o.info.find("."+x[1]);
-    })
-    formatter.copyBtn=$("<button class='bz-copy bz-mini-icon bz-icon bz-hide'></button>").appendTo(document.body).click(function(){
-      formatter.copyText(this.parentElement)
-    })
-    $(document.body).on("mousemove",".bz-scope .bz-title-text,.bz-scope .bz-line,fieldset",function(e){
-      let _this=this
-      setTimeout(()=>{
-        $(_this).append(formatter.copyBtn)
-        formatter.copyBtn.show()
-      })
-    })
-
-    $(document.body).on("mousemove",".bz-title-text",function(e){
-      if(!this.bzRight){
-        let o=this
-        let s=o.innerHTML
-        o.innerHTML=`<span>${s}</span>`
-        let r=o.children[0].getBoundingClientRect()
-        this.bzRight=r.right
-        o.innerHTML=s
-      }
-      if(e.clientX<this.bzRight){
-        this.style.cursor="pointer"
-      }else{
-        this.style.cursor="default"
-      }
-    });
-    
-    $(document.body).on("click",".bz-title-text",function(e){
-      let w=formatter.data.startUrl,t=this
+      let k=w[2].replace(/[^tm0-9]/g,"-").replace(/-$/,"")
       
-      if(w){
-        if(e.target==t){
-          if(this.style.cursor!="pointer"){
+
+      s.ckey="module-"+k,
+      s.code=k+"-"+fd.curWorker
+
+      s.name=w[6]
+      s.title="["+w[2]+"] "+w[6]
+      s.dataIdx=w[5]
+      fd.scenarioMap[s.code]=s
+      w=formatter.splitByWord(s.org,w[0]);
+      s.declare.org=w[0]
+      s.org=w[1]
+      s.init.start=formatter.retrieveTimeFromLog(w[1])||s.start
+      s.declare.time=formatter.getSpendTime(s.start,s.init.start,"declareTime")
+
+      delete fd.waitingListMap[k]
+      if(s.result!="running"){
+        delete fd.runningTestMap[s.code]
+      }
+    }
+    
+    function handleInit(s){
+      if(s.org){
+        let w=formatter.splitByWord(s.org,/\n[0-9]+\: ##Action.+/);
+        if(!w){
+          s.init.org=s.org
+          delete s.org
+          return
+        }
+        s.init.org=w[0]
+        s.org=w[1]
+        s.details.start=formatter.retrieveTimeFromLog(w[1])
+        s.init.time=formatter.getSpendTime(s.init.start,s.details.start,"initTime")||"0"
+      }
+    }
+    
+    function handleEnd(s){
+      if(s.org){
+        let w=formatter.splitByWord(s.org,/\n[0-9]+\:   <+ .+Feature - Scenario \[m[0-9].+$/m);
+        if(!w){
+          s.details.org=s.org
+        }else{
+          s.details.org=w[0]
+          delete s.org
+          s.end.org=w[1]
+        }
+      }
+    }
+
+    function handleSetting(v){
+      let x=v.match(/(http.+[\/].+)\/extension\?token\=.+#.+/gm);
+      
+      if(x){
+        x=x.find(y=>y.match(/\/run/))
+        
+        x=x.match(/(http.+[\/].+)\/extension\?token\=.+#([^\/]+)[\/]([^\/]+)([\/](m[0-9]+[\/]t[0-9]+)[\/]run)?/);
+        
+        fd.startUrl=x[1]+"/extension?id="+x[2]+"#"+x[2]+"/"+x[3]+"/"
+        fd.host=x[1]
+        fd.project.code=x[2]
+        fd.version=x[3]
+        fd.rootTest=(x[5]||"").replace("/",".")
+        if(x[5]){
+          fd.environment=v.split("&env=")[1].split("&")[0]
+        }
+      }
+      x=v.match(/[0-9]+\: IDE version\: ([0-9\.]+)/m);
+      if(x){
+        fd.ideVersion=x[1]
+      }
+      x=v.match(/Running Boozang runner version\: ([0-9\.]+)/m);
+      if(x){
+        fd.containerVersion=x[1]
+      }
+
+      x=v.match(/Extension version\: ([0-9\.]+)/);
+      if(x){
+        fd.extensionVersion=x[1]
+      }
+      
+      x=v.match(/\[ ([0-9\:]+) (\(([0-9\:]+), ([0-9]+)s\) \++) *\]/m)
+      if(x){
+        fd.startTime=x[1]
+      }
+
+      fe.init.find(".bz-title-text").html(`
+        <span style='margin-right:20px;'>Initial: </span>
+        <div><label>Start time: </label><span>${fd.startTime}</span></div>
+        <div><label>Version: </label><span>${fd.version}</span></div>
+        <div><label>Root test: </label><span>${fd.rootTest}</span></div>
+        <div><label>Environment: </label><span>${fd.environment}</span></div>
+        <div><label>Container Version: </label><span>${fd.containerVersion}</span></div>
+        <div><label>IDE Version: </label><span>${fd.ideVersion}</span></div>
+        <div><label>Extension Version: </label><span>${fd.extensionVersion}</span></div>
+      `);
+      fe.init.find(".bz-title-text").addClass("bz-info-box")
+      fe.init.find(".bz-time").text(fd.project.init.time)
+    }
+
+    function handleWaitingList(v){
+      v=v.match(/[0-9]+: Split task\([^\)]+\): [^\)]+\)/gm)
+      let map={}
+      v.forEach(x=>{
+        x=x.match(/(m[0-9]+.t[0-9])+\(?([0-9]+)?/)
+        let k=x[1].replace(".","-")
+        if(!x[2]){
+          if(map[k+"-0"]){
             return
           }
         }else{
-          t=e.target
+          delete map[k]
+          k+="-"+x[2]
         }
-        let v=$(t).attr("bz")
-        if(!v){
-          t=t.innerText.trim()
-          v=t.match(/m[0-9]+([\.\/]t[0-9]+)?/)
-          if(v){
-            v=v[0]
+        map[k]=1
+      })
+      fd.waitingListSize=fd.totalScenarios=v.length
+      fd.waitingListMap=map
+    }
+
+    function handleRealTimeInfo(){
+      fe.panel.attr({"bz-name":`Completed list (Scenarios: ${fd.totalScenarios}, Success: ${fd.successScenarios}, Failed: ${fd.failedScenarios}, Tests: ${fd.totalTests}, Actions: ${fd.totalActions})`})
+    }
+    function handleFailedScenario(s){
+      if(s.result=="failed"){
+        handleCamera(s)
+        handleBug(s)
+      }
+    }
+    function handleCamera(s){
+      let w=s.org.match(/\n[0-9]+\: Screenshot\:(m[0-9]+\.t[0-9]+[\.][0-9]+)/);
+      if(w){
+        s.camera=w[1]
+        formatter.cameraList.push(w[1])
+        formatter.element.header.find(".bz-camera").attr({disabled:false})
+      }
+    }
+
+    function handleBug(s){
+      let w=s.org.match(/\[Error Hash\: ([0-9A-F]+)\] \((.+)\)/)
+      if(w){
+        s.bug={}
+        if(w[2]=="new"){
+          s.bug.hash=w[1]
+        }else{
+          w=s.org.match(/Root cause link: ?([^\n]+)\n/)||w
+          s.bug.path=w[1]
+        }
+      }
+    }
+    
+    function handleTaskEnd(v){
+      let w=v.match(/\n[0-9]+\: (task-done|stopped by container)/)
+      if(w){
+        w=w[0]
+        if(w.includes("stopped")){
+          k="🛑"
+        }else{
+          k="🚩"
+        }
+        fd.curEnd=v.replace(w,w+k)
+        fd.completed=1
+        return 1
+      }
+    }
+    
+    function assignWoker(){
+      remoteList.forEach(x=>{
+        x=x.match(/\[(m[0-9]+\.t[0-9]+(\([0-9]+)?)\)?\] .+Completed in (.+) Tasks:[ 0-9\/\.]+$/)
+        if(x){
+          x={
+            k:"module-"+x[1].replace(/[\.\(]/g,"-"),
+            w:x[3]
+          }
+          let w=fd.workerMap[x.k]
+          if(!w){
+            fd.workerMap[x.k]=x
+          }else if(w.w!=x.w){
+            w.warning=1
+            w.w+=", "+x.w
+            w.done=0
           }
         }
-        if(v){
-          formatter.openIDE(v)
+      })
+      for(let k in fd.workerMap){
+        let w=fd.workerMap[k]
+
+        if(w.done){
+          continue
+        }
+        let os=$("."+w.k)
+        let t=os.find(".bz-title-text");
+        if(t.length){
+          w.n=w.n||t[0].innerText
+          let v=w.n+" ("+w.w+")"
+          if(w.warning){
+            v+=" ⚠️"
+            t.attr({title:"Duplicate execution"})
+          }
+          t.text(v)
+          os.toArray().forEach(x=>{
+            fd.scenarioMap[x.id].worker=w.w
+          })
+          w.done=1
         }
       }
-    });
-    
-    $(document.body).on("click",".bz-camera",function(){
-      if(this.path){
-        window.open(formatter.getCameraPath(this.path),"_blank")
-      }
-    });
-
-    $(document.body).on("click",".bz-bug",function(){
-      if($(this).attr("path")){
-        window.open($(this).attr("path"),"bz-bug")
-      }else if($(this).attr("hash")){
-        formatter.openIDE("rootCause/"+$(this).attr("hash"))
-      }
-    });
-    
-    p.append(o.exePanel);
-    p.append(o.panel);
-    p.append(o.waitingList);
-    p.append(o.end);
-    o.info.insertBefore(".bz-log-bar")
-    
-    $(window).scroll(function(){
-      let r=p[0].getBoundingClientRect()
-      if(r.top<30){
-        o.search.addClass("bz-top-bar")
-        o.search.css({
-          left:r.left+"px",
-          right:window.innerWidth-17-r.right+"px"
-        })
-      }else{
-        o.search.removeClass("bz-top-bar")
-      }
-    })
-
-    $(document.body).on("mouseover",".bz-title .bz-result.bz-failed",function(){
-      if($(this.parentElement).find(".bz-switch")[0]){
-        this.style.cursor="pointer"
-      }
-    })
-    
-    $(document.body).on("click",".bz-title .bz-result.bz-failed",function(){
-      let o=this
-      while(o.parentElement&&!$(o.parentElement).hasClass("bz-scope")){
-        o=o.parentElement
-      }
-      let oo=$(o).find(".bz-action.bz-failed-title")[0]
-      
-      if(oo){
-        formatter.openItem(oo)
-        oo=$(oo).find(".bz-switch")
-        if(!oo.hasClass(".bz-open")){
-          oo.click()
-        }
-      }
-      oo=$(o).find("[hash]")[0]
-      if(oo){
-        formatter.openItem(oo)
-        oo.focus()
-      }
-    })
-    
-    if(!formatter.isMasterPage(formatter.data.setting)){
-      o.search.find(".bz-log-bar").hide()
     }
-    return o
+  },
+  strToHtml:function(v,mark){
+    v=v||""
+    if(v.constructor==String){
+      if(mark=="declare"){
+        v=v.replace(/([0-9]+: BZ-LOG:)( declare on \[m[0-9])/,"$1 📢$2")
+      }
+      v=v.split("\n")
+    }
+    v=v.map(x=>`<div class="bz-line">${x}</div>`).join("")
+    if(mark=="screenshot"){
+      v=v.replace(/([0-9]+: Screenshot:([mt\.0-9-]+))/,"$1 <button class='bz-icon-letter bz-camera' path='$2'></button>")
+    }
+
+    v=v.replace(/(bz-line)(">[0-9]+: &lt;---- Join worker)/g,"$1 bz-join$2")
+    v=v.replace(/(bz-line)(\">[0-9]+: Remove worker )/g,`$1 bz-leave$2`)
+    if(mark=="failed"){
+      v=v.replace(/<div class="bz-line">(\[Error Hash: ([A-F0-9]+)\][^<]*)<\/div>/,'<div><button class="bz-failed-title bz-failed-hash" hash="$2">$1</button></div>')
+      v=v.replace(/<div class="bz-line">([0-9]+\: ERROR MESSAGE: )([^<]+<\/div>)/,"<fieldset class='bz-err-msg-box'><legend>$1</legend><div class='bz-line'>$2");
+      v=v.replace(/<\/div><div><button/,"</div></fieldset><div><button")
+    }
+    return v
+  },
+  buildAllDetails:function(){
+    Object.keys(formatter.data.scenarioMap).forEach(x=>formatter.initScenario(x))
+  },
+  initScenario:function(k){
+    let fd=formatter.data
+    let s=fd.scenarioMap[k]||fd.runningTestMap[k];
+    if(!s.element&&(!fd.failedOnly||s.result=="failed")){
+      s.element=$("#"+k)
+      s.switcher=$(s.element.find(".bz-switch")[0])
+      s.init.element=$("#"+k+"-init.bz-level-init")
+      s.init.closer=s.init.element.find(".bz-cross")
+      s.declare.element=$("#"+k+"-declare.bz-level-declare")
+      s.declare.closer=s.declare.element.find(".bz-cross")
+      s.details.element=s.element.find("."+k+"-details")
+      s.end.element=s.element.find("."+k+"-end")
+      
+      buildSimpleContent(s.init.element.find(".bz-panel"),s.init.org)
+      buildSimpleContent(s.declare.element.find(".bz-panel"),s.declare.org,"declare")
+      buildSimpleContent(s.end.element,s.end.org,s.result)
+      if(s.details.org){
+        s.details.element.html(buildTests(s.details.org,1,s.details.start,s.endTime))
+      }
+    }
+    return s
+    
+    function buildTests(v,level,startTime,endTime,test){
+      let html=""
+      let r=`/[0-9]+: {${level*6+3}}(>+ Loading .+|<+ .+)Test \\[m[0-9]+\.t[0-9]+.+/gm`
+      r=eval(r)
+      let ts=v.match(r)||[],curTest,tt,lastTest;
+      
+      ts.forEach((t,i)=>{
+        if(i%2==0){
+          tt=formatter.splitByWord(v,t)
+          v=tt[1]
+          curTest=retrieveTestData(t)
+          curTest.start=formatter.retrieveTimeFromLog(v)
+          html+=buildActions(tt[0],startTime,curTest.start,!i&&test)
+          
+          fd.testMap[curTest.code]=curTest
+        }else{
+          if(t.match(/\<+ Failed /)){
+            curTest.result="failed"
+          }
+          tt=formatter.splitByWord(v,t,1)
+          startTime=formatter.retrieveTimeFromLog(tt[1])||endTime
+          curTest.time=formatter.getSpendTime(curTest.start,startTime)
+          curTest.details=buildTests(tt[0],level+1,curTest.start,startTime,curTest)
+          html+=formatter.getGroupElement(curTest)
+          delete curTest.details
+          v=tt[1]
+          lastTest=curTest
+        }
+      })
+      return html+buildActions(v,startTime,endTime,!ts.length&&test,test&&test.result=="failed")
+      
+    }
+    
+    function retrieveTestData(v){
+      let x=v.match(/^([0-9]+)\: +\>+ Loading (.+ Test) \[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\] - (.+) \([0-9]+\) \>+$/);
+      if(x){
+        return {
+          code:"test"+formatter.getIdx(),
+          type:"test",
+          name:"["+x[3]+"] "+x[6],
+          idx:parseInt(x[1]),
+          result:"success",
+          tests:[],
+          level:"test",
+          init:{
+            time:"0s"
+          }
+        }
+      }
+    }
+    
+    function buildActions(v,startTime,endTime,test,inFailed){
+      let as=(v||"".trim()).match(/(\n|^)[0-9]+\: ##Action.+$/gm),lastAction;
+      if(as){
+        as=as.map((a,j)=>{
+          a=a.trim()
+          if(j){
+            if(a.replace(/^[0-9]+:/,"")==as[j-1].trim().replace(/^[0-9]+:/,"")){
+              return
+            }
+          }
+          return {k:a}
+        }).filter(x=>x)
+        as.forEach(a=>{
+          let wa=formatter.splitByWord(v,a.k)
+          v=a.c=wa[1].trim()
+          if(lastAction){
+            lastAction.c=wa[0].trim()
+          }else if(test){
+            test.init.details=formatter.strToHtml(wa[0])
+            startTime=formatter.retrieveTimeFromLog(v)
+            test.init.time=formatter.getSpendTime(test.start,startTime)
+          }
+          lastAction=a
+        })
+        as=as.map(a=>retrieveActionData(a.k,a.c))
+        as.forEach((a,i)=>{
+          a.details=a.details.split("\n").filter(x=>x&&!isIgnoreContent(x))
+          a.details.shift()
+          
+          if(a.details.length==1&&formatter.retrieveTimeFromLog(a.details[0])){
+            a.details=""
+          }else{
+            if(i==as.length-1&&inFailed){
+              a.result="failed"
+            }
+            a.details=formatter.strToHtml(a.details,inFailed&&i==as.length-1&&"screenshot")
+          }
+          if(i){
+            as[i-1].time=formatter.getSpendTime(as[i-1].start,a.start)
+            a.start=a.start||as[i-1].start
+          }else{
+            a.start=startTime||a.start
+          }
+        })
+        as[as.length-1].time=formatter.getSpendTime(as[as.length-1].start,endTime)
+        let r=as.map(a=>formatter.getGroupElement(a)).join("")
+        as.forEach(a=>{
+          delete a.details
+        })
+        return r
+      }
+      return ""
+    }
+    
+    function getTimeout(v){
+      v=v.match(/[0-9]+: (timeout in ms:([0-9]+))/)||""
+      if(v&&v[2]!="0"){
+        v=" (⏱ "+v[1]+")"
+      }else{
+        v=""
+      }
+      return v
+    }
+
+    function isIgnoreContent(x){
+      return x.match(/[0-9]+: (timeout in ms:[0-9]+| +>+| +<+|.+\/api\/coop\/.+|End time\:|Start time\: [0-9\:\- ]+)$/)
+    }
+
+    function retrieveActionData(v,p){
+      let x=v.match(/^([0-9]+)\: \#\#Action.*\#\# \(([0-9\/mt]+|tmp)\)\, (.+)/)
+
+      let name=x[3],type,flash,screenshot;
+      if(name.match(/^(Set |Typing )/)){
+        type="keyboard"
+      }else{
+        type=name.split(":")[0].toLowerCase()
+        if(type.match(/validate /)){
+          type="validate"
+        }else if(type=="group"){
+          if(v.includes("Auto-one-action-group")){
+            flash=1
+          }
+        }else if(type=="script"){
+          if(v.includes("attachScreenshotToReport")){
+            screenshot=1
+          }
+        }else if(type.match(/^(click|extract|refresh|call)( |$)/)){
+          
+        }else if(type.match(/execute api/)){
+          type="api"
+        }else if(type.match(/re-initialize data/)){
+          type="refresh"
+        }else{
+          type="call"
+        }
+        if(v.includes("in Single action group")){
+          flash=1
+        }
+      }
+      
+      let idx=x[2].split("/").pop(),
+          timeout=getTimeout(p)
+
+      return {
+        code:"action-"+formatter.getIdx(),
+        name:`(${idx}) ${name}`+timeout,
+        type:type,
+        result:"success",
+        start:formatter.retrieveTimeFromLog(p),
+        details:p,
+        level:"action"
+      }
+    }
+    
+    function buildSimpleContent(e,v,mark){
+      e.html(formatter.strToHtml(v,mark))
+    }
+  },
+  getSpendTime:function(st,et,ckKey){
+    if(!et){
+      return 0
+    }
+    et=formatter.strToTime(et)-formatter.strToTime(st)
+    if(et<0){
+      et= 0
+    }
+    if(ckKey&&et>formatter.data.setting[ckKey]){
+      et+="s <span class='bz-mini-letter'>⚠️</span>"
+    }else{
+      et+="s"
+    }
+      
+    return et
+  },
+  retrieveTimeFromLog:function(v){
+    v=v.match(/\[ ([0-9\:]+) (\(([0-9\:]+), ([0-9]+)s\) \++) *\]/)||[]
+    if(v[3]>(formatter.data.exeTime||"")){
+      formatter.data.exeTime=v[3]
+      formatter.element.header.find(".bz-timer").text(v[3])
+    }
+    return v[3]
+  },
+  splitByWord:function(v,k,keepKeyInFirst){
+    if(k.constructor!=String){
+      k=v.match(k)[0]
+    }
+    let s=k.length
+    k=v.indexOf(k)
+    if(keepKeyInFirst){
+      k+=s
+    }
+    return [v.substring(0,k).trim(),v.substring(k).trim()]
+  },
+  strToTime:function(s){
+    s=s||"0"
+    let v=0,p=[3600,60,1]
+    s=s.split(":")
+    while(s.length){
+      v+=s.pop()*p.pop()
+    }
+    return v
+  },
+  openIDE:function(v){
+    let fd=formatter.data
+    window.open(fd.host+"/extension?id="+fd.project.code+"#"+fd.project.code+"/"+fd.version+"/"+v.replace(".","/"),"bz-master",`width=${screen.availWidth/2},height=${screen.availHeight}`)
+  },
+  getPageInfo:function(x,sendResponse){
+    let c=$("a[href=consoleFull]")[0]
+    let o=$(".console-output")[0]
+    sendResponse({
+      full:c&&1,
+      log:o&&1,
+      pop:1
+    })
+  },
+  removeDoingInfo:function(){
+    let o=document.getElementsByClassName("bz-loading-info")[0]
+    if(o){
+      o.remove()
+    }
+  },
+  showDoing:function(v){
+    let o=document.getElementsByClassName("bz-doing-text")[0]
+    if(o){
+      o.innerText=v
+      return
+    }
+    o=document.createElement("div");
+    o.className="bz-loading-info"
+    o.innerHTML=`
+        <div class="bz-icon bz-running"></div>
+        <div class="bz-doing-text" style="line-height:45px;">${v}</div>
+    `;
+    formatter.loadingInfo=o
+    document.body.append(o)
+    return 1
+  },
+  autoLoading:function(){
+    formatter.insertCss()
+    let v=localStorage.getItem("bz-log-format");
+    if(v){
+      v=JSON.parse(v)
+      if(v.autoFormat){
+        if(formatter.isMasterPage(v)){
+          formatter.exeFormag(v,Date.now())
+        }
+      }
+    }
+  },
+  isMasterPage:function(v){
+    if(v.identifyMaster){
+      try{
+        let f;
+        eval("f="+v.identifyMaster)
+        return f()
+      }catch(ex){
+        alert("Identify page script issue: "+ex.message)
+      }
+    }
   },
   copyText:function(w){
     let el =$("<textarea readonly style='position:absolute;left:-9999px'></textarea>").appendTo(document.body);
@@ -876,23 +1783,45 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
       _sel.removeAllRanges();
     },100)
   },
+  download:function(){
+    let os=Object.values(formatter.data.scenarioMap)
+    os.sort((a,b)=>{
+      return a.idx-b.idx
+    })
+    let w=os.map(x=>{
+      return x.declare.org.trim()+"\n"+x.init.org.trim()+"\n"+x.details.org.trim()+"\n"+x.end.org.trim()
+    }).join("\n")
+    w=formatter.data.project.init.org.trim()+"\n"+w+formatter.data.project.end.org
+    w=`<!DOCTYPE html>
+       <html>
+       <head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8'></head>
+       <body>
+       <pre>${w}</pre>
+       </body>
+       </html>`;
+    var a=$("<a></a>");
+    $(document.body).append(a[0]);
+    a.attr("download","Boozang-log.html").attr("href","data:application/octet-stream," + encodeURIComponent(w))[0].click();
+    a.remove();
+  },
   getCameraPath:function(v){
     let fd=formatter.data
-    return fd.host+"/screenshot/"+fd.project+"/"+fd.project+"."+fd.version+"."+v+".png"
+    return fd.host+"/screenshot/"+fd.project.code+"/"+fd.project.code+"."+fd.version+"."+v+".png"
   },
-  showCameraPanel:function(o){
+  showCameraPanel:function(){
+    let o=$(".bz-pop-panel")
     let w=""
     formatter.cameraList.forEach(x=>{
-      x=x.path
-      w+=`<div class='bz-row' style='margin:5px 0'><img style='margin:0 10px;width:100px' src='${formatter.getCameraPath(x)}'/> ${x}</div>`
+      w+=`<div class='bz-row bz-title-text' style='margin:5px 0'><img style='margin:0 10px;width:100px' src='${formatter.getCameraPath(x)}'/> ${x}</div>`
     })
-    o.html(`<div style='overflow:auto;max-height:${window.innerHeight-250}px;padding:5px;background-color:#EEE;'>${w}<div>`)
+    o.find("div.bz-box").html(`<div style='overflow:auto;max-height:${window.innerHeight-250}px;padding:5px;background-color:#EEE;'>${w}<div>`)
     o.find("img").click(function(){
       window.open(this.src,"_blank")
     })
     o.show()
   },
-  showAnalyzePanel:function(o){
+  showAnalyzePanel:function(){
+    let o=$(".bz-pop-panel")
     let w=""
     for(let m in formatter.data.moduleMap){
       let tm=formatter.data.moduleMap[m].testMap
@@ -957,179 +1886,176 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
     })
     o.show()
   },
-  sort:function(id,w){
+  sort:function(o){
+    let k=o[0].id.split("-").pop(),w=1
+    if(o.hasClass("bz-z-a")){
+      o.removeClass("bz-z-a")
+      o.addClass("bz-a-z")
+    }else if(o.hasClass("bz-a-z")){
+      o.removeClass("bz-a-z")
+      o.addClass("bz-z-a")
+      w=-1
+    }else{
+      let os=$(".bz-sort-bar button")
+      os.removeClass("bz-a-z")
+      os.removeClass("bz-z-a")
+      o.addClass("bz-a-z")
+    }
+    
+
     let os=formatter.element.panel.children().sort((a,b)=>{
-      a=a.data;
-      b=b.data
-      if(id=="sort-time"){
-        if(w=="↓"){
-          return a.idx-b.idx
-        }else{
-          return b.idx-a.idx
-        }
-      }else if(id=="sort-name"){
-        if(w=="↓"){
-          return a.name>b.name?1:-1
-        }else{
-          return a.name>b.name?-1:1
-        }
-      }else if(id=="sort-id"){
-        if(w=="↓"){
-          return a.code>b.code?1:-1
-        }else{
-          return a.code>b.code?-1:1
-        }
-      }else if(id=="sort-result"){
-        if(w=="↓"){
-          return a.result>b.result?1:-1
-        }else{
-          return a.result>b.result?-1:1
-        }
-      }else if(id=="sort-performance"){
-        a=parseInt(a.element.time.text()||0)
-        b=parseInt(b.element.time.text()||0)
-        if(w=="↓"){
-          return a-b
-        }else{
-          return b-a
-        }
-      }else if(id=="sort-worker"){
-        a=a.worker||""
-        b=b.worker||""
-        if(w=="↓"){
-          return a>b?1:-1
-        }else{
-          return a>b?-1:1
-        }
+      a=formatter.data.scenarioMap[a.id]
+      b=formatter.data.scenarioMap[b.id]
+
+      if(k=="idx"||k=="time"){
+        return parseInt(a[k]||0)>parseInt(b[k]||0)?w:0-w
+      }else{
+        return a[k]>b[k]?w:0-w
       }
     })
     formatter.element.panel.append(os)
+    document.documentElement.scrollTop=0
   },
   search:function(v,scope){
+    let fd=formatter.data
+    if(formatter.searching){
+      return
+    }
+    formatter.searching=1
+    formatter.showFailedOnlyResult()
     formatter.removeAllHighlight()
     if(!v){
+      formatter.searching=0
       return formatter.closeAll()
     }
-    if(formatter.showDoing("Searching ...")){
-      return setTimeout(()=>{
-        formatter.search(v,scope)
-      })
-    }
-    try{
-      if(v.match(/^[\/].+[\/][i]?$/)){
-        v=eval(v)
-      }else{
-        v=v.toLowerCase().split(",")
-      }
-    }catch(ex){
-      v=v.toLowerCase().split(",")
-      alert("This is not a correct regular expression!")
-    }
-    if(!scope){
-      scope=[formatter.element.init.panel,formatter.element.panel,formatter.element.end]
-    }
-    let vs=[],inModuleFilter,mf=[];
+    formatter.showDoing("Searching ...")
+
+    return setTimeout(()=>{
+      formatter.buildAllDetails()
+      doSearch(v,scope)
+    })
     
-    if(v.constructor==Array&&v[0].match(/^m[0-9]+([\.\/]t[0-9])?$/)){
+    
+    function doSearch(){
+      try{
+        if(v.match(/^[\/].+[\/][i]?$/)){
+          v=eval(v)
+        }else{
+          v=v.toLowerCase().split(",")
+        }
+      }catch(ex){
+        v=v.toLowerCase().split(",")
+        alert("This is not a correct regular expression!")
+      }
+      if(!scope){
+        scope=[formatter.element.init,...formatter.element.panel.find(".bz-level-scenario").toArray().filter(x=>$(x).css("display")!="none"),formatter.element.end]
+      }
+      let vs=[],inModuleFilter,mf=[];
+      
+      if(v.constructor==Array&&v[0].match(/^m[0-9]+([\.\/]t[0-9])?$/)){
+        scope.forEach(x=>{
+          x=$(x).find(".bz-line,.bz-title-text").toArray()
+          x.forEach(y=>{
+            let pos=y.innerHTML.indexOf(v[0])
+            if(pos>=0){
+              mf.push({pos:pos,w:v[0],element:y})
+              vs.push(y)
+            }
+          })
+        })
+        v.shift()
+        scope=[]
+        vs.forEach(x=>{
+          if($(x).hasClass("bz-title-text")){
+            scope.push(...$(x.parentElement.nextElementSibling).find(".bz-line,.bz-title-text,.bz-time,button").toArray())
+          }
+        })
+        inModuleFilter=1
+      }
+      
       scope.forEach(x=>{
-        x=$(x).find(".bz-line,.bz-title-text").toArray()
+        if(inModuleFilter){
+          x=[x]
+        }else{
+          x=$(x).find(".bz-line,.bz-title-text,.bz-time,button").toArray()
+        }
         x.forEach(y=>{
-          let pos=y.innerHTML.indexOf(v[0])
-          if(pos>=0){
-            mf.push({pos:pos,w:v[0],element:y})
-            vs.push(y)
+          if(v.constructor==Array){
+            let fs=[]
+            mf.find((q,qi)=>{
+              if(q.element==y){
+                fs.push(q)
+                mf.splice(qi,1)
+                return 1
+              }
+            })
+            v.forEach((z,j)=>{
+              let zz=z.split(" "),fz=[]
+              if(!zz.find(zi=>{
+                if(!zi){
+                  return
+                }
+
+                let pos=y.innerHTML.toLowerCase().indexOf(zi)
+                if(pos>=0){
+                  fz.push({pos:pos,w:zi})
+                }else{
+                  return 1
+                }
+              })){
+                fs.push(...fz)
+              }
+            })
+            if(fs.length){
+              fs.sort((a,b)=>{
+                return b.pos-a.pos
+              })
+              fs.forEach(z=>{
+                formatter.highlight(y,z.w,z.pos)
+              })
+              vs.push(y)
+            }
+          }else{
+            let w=y.innerHTML.match(v)
+            if(w){
+              w=w[0]
+              let pos=y.innerHTML.indexOf(w)
+              formatter.highlight(y,w,pos)
+              vs.push(y)
+            }
           }
         })
       })
-      v.shift()
-      scope=[]
+      mf.forEach(x=>{
+        formatter.highlight(x.element,x.w,x.pos)
+      })
+      formatter.closeAll()
       vs.forEach(x=>{
-        if($(x).hasClass("bz-title-text")){
-          scope.push(...$(x.parentElement.nextElementSibling).find(".bz-line,.bz-title-text,.bz-time,button").toArray())
+        formatter.openItem(x)
+      })
+      vs=$(".bz-line,.bz-level-action").toArray()
+      vs.forEach(x=>{
+        if(!$(x).find(".bz-search-highlight")[0]){
+          $(x).hide()
         }
       })
-      inModuleFilter=1
+
+      formatter.element.panel.children().toArray().forEach(x=>{
+        if(!$(x).find(".bz-search-highlight").length){
+          $(x).hide()
+        }
+      })
+
+      formatter.removeDoingInfo()
+      formatter.searching=0
     }
-    
-    scope.forEach(x=>{
-      if(inModuleFilter){
-        x=[x]
-      }else{
-        x=$(x).find(".bz-line,.bz-title-text,.bz-time,button").toArray()
-      }
-      x.forEach(y=>{
-        if(v.constructor==Array){
-          let fs=[]
-          mf.find((q,qi)=>{
-            if(q.element==y){
-              fs.push(q)
-              mf.splice(qi,1)
-              return 1
-            }
-          })
-          v.forEach((z,j)=>{
-            let zz=z.split(" "),fz=[]
-            if(!zz.find(zi=>{
-              if(!zi){
-                return
-              }
-
-              let pos=y.innerHTML.toLowerCase().indexOf(zi)
-              if(pos>=0){
-                fz.push({pos:pos,w:zi})
-              }else{
-                return 1
-              }
-            })){
-              fs.push(...fz)
-            }
-          })
-          if(fs.length){
-            fs.sort((a,b)=>{
-              return b.pos-a.pos
-            })
-            fs.forEach(z=>{
-              formatter.highlight(y,z.w,z.pos)
-            })
-            vs.push(y)
-          }
-        }else{
-          let w=y.innerHTML.match(v)
-          if(w){
-            w=w[0]
-            let pos=y.innerHTML.indexOf(w)
-            formatter.highlight(y,w,pos)
-            vs.push(y)
-          }
-        }
-      })
-    })
-    mf.forEach(x=>{
-      formatter.highlight(x.element,x.w,x.pos)
-    })
-    formatter.closeAll()
-    vs.forEach(x=>{
-      formatter.openItem(x)
-    })
-    vs=$(".bz-line,.bz-action").toArray()
-    vs.forEach(x=>{
-      if(!$(x).find(".bz-search-highlight")[0]){
-        $(x).hide()
-      }
-    })
-
-    formatter.element.panel.children().toArray().forEach(x=>{
-      if(!$(x).find(".bz-search-highlight").length){
-        $(x).hide()
-      }
-    })
-
-    formatter.removeDoingInfo()
   },
   removeAllHighlight:function(){
     let os=$(".bz-search-highlight").toArray()
     os.forEach(x=>{
-      x.parentElement.innerHTML=x.parentElement.innerHTML.replace(x.outerHTML,x.innerText)
+      if(x.parentElement){
+        x.parentElement.innerHTML=x.parentElement.innerHTML=x.parentElement.innerText
+      }
     })
   },
   highlight:function(o,v,pos){
@@ -1139,909 +2065,33 @@ body>.bz-log-box>.bz-scope>.bz-content>.bz-title{
     $(o).html(w)
   },
   closeAll:function(){
-    let vs=$(".bz-scope .bz-switch").toArray()
-    vs.forEach(x=>{
-      if($(x).hasClass("bz-open")){
-        x.switcher.click()
-      }
-    })
-    formatter.element.panel.children().toArray().forEach(x=>$(x).show())
+    $(".bz-scope .bz-switch.bz-open,.bz-scope .bz-cross.bz-open").click()
   },
   openItem:function(v){
-    $(v).show()
-    while(!v.getBoundingClientRect().width){
-      let x=v.switcher
-      if(x){
-        if(!$(x).hasClass("bz-open")){
-          x.click()
-        }
+    while(!$(v).hasClass("bz-level-scenario")){
+      if($(v).hasClass("bz-hide")){
+        $(v).removeClass("bz-hide")
+      }else if($(v).css("display")=="none"){
+        $(v).show()
+      }
+      if($(v).hasClass("bz-panel")){
+        $(v.previousElementSibling).find(".bz-switch").addClass("bz-open")
       }
       v=v.parentElement
     }
   },
-  getIcon:function(type){
-    switch(type){
-      case "declare":
-        icon="&#128226;"
-        break
-      case "join":
-        icon="&#128108;&#127995;"
-        break
-      case "leave":
-        icon="&#127939;&#127995;"
-        break
-      case "init":
-        icon="&#10144;"
-        break
-      case "complete":
-        icon="&#128681;"
-        break
-      default:
-        return `<div class="bz-icon bz-${type.split(" ")[0]}"></div>`
-    }
-    return `<div class="bz-icon">${icon}</div>`
-  },
   keepLogMap:function(k){
     formatter.logMap[k]=formatter.logMap[k]||{}
-    formatter.logMap[k].curAction=formatter.data.curAction
     formatter.logMap[k].curLastScenario=formatter.data.curLastScenario
-    formatter.logMap[k].curTest=formatter.data.curTest
-    formatter.logMap[k].curTests=formatter.data.curTests
-    formatter.logMap[k].curDeclare=formatter.curDeclare
-    if(!formatter.logMap[k].endPanel){
-      formatter.logMap[k].endPanel=$("<div></div>")
-    }
-    formatter.element.end.children().appendTo(formatter.logMap[k].endPanel)
+    formatter.logMap[k].curEnd=formatter.data.curEnd
   },
   takeLogMap:function(k){
     formatter.logMap[k]=formatter.logMap[k]||{}
-    formatter.data.curAction=formatter.logMap[k].curAction
     formatter.data.curLastScenario=formatter.logMap[k].curLastScenario
-    formatter.data.curTest=formatter.logMap[k].curTest
-    formatter.data.curTests=formatter.logMap[k].curTests||[]
-    formatter.curDeclare=formatter.logMap[k].curDeclare
-    if(!formatter.logMap[k].endPanel){
-      formatter.logMap[k].endPanel=$("<div></div>")
-    }
-    formatter.element.end.append(formatter.logMap[k].endPanel.children())
+    formatter.data.curEnd=formatter.logMap[k].curEnd
   },
-  format:function(o,chkTime){
-    formatter.doingWorker="master"
-    let idx=0,ws=o.innerText.split("\n")
-    $(o).children().remove()
-    
-    formatter.formatLog(ws,0,function(){
-      formatter.keepLogMap("master")
-
-      if(formatter.chking>=30){
-        formatter.formatWorkers()
-      }else{
-        formatter.doingWorker=""
-      }
-      if(!chkTime){
-        formatter.chkTime=setInterval(()=>{
-          if(formatter.data.completed){
-            return clearInterval(formatter.chkTime)
-          }
-
-          if(!formatter.doingWorker){
-            if(formatter.chking>30){
-              formatter.chking=0
-            }else{
-              formatter.chking++
-            }
-            formatter.takeLogMap("master")
-            formatter.format(o,1)
-          }
-        },1000)
-      }
-    })
-    
-  },
-  formatWorkers:function(){
-    formatter.doingWorker="workers"
-    
-    let v=formatter.data.setting.retrieveWorkerLog?formatter.getLogList():[]
-    doIt(v,0)
-
-    
-    function doIt(vs,i){
-      let s=vs[i]
-      if(s&&!formatter.data.wrongLog){
-        $.ajax({
-          url:s,
-          method:"GET",
-          complete:function(c){
-            c=c.responseText.split("\n")
-            if(c.length){
-              while(!c.pop()){}
-              if(c.length>3){
-                c.pop()
-              }
-              if(c.length>3000){
-                formatter.showDoing("Formatting worker("+(i+2)+") Log ...")
-              }
-              formatter.takeLogMap(i)
-              formatter.logMap[i].size=formatter.logMap[i].size||0
-              c=c.splice(formatter.logMap[i].size)
-              formatter.logMap[i].size+=c.length
-              
-              formatter.formatLog(c,1,function(){
-                formatter.keepLogMap(i)
-
-                doIt(vs,i+1)
-              })
-            }
-          }
-        })
-      }else{
-        formatter.doingWorker=0
-        formatter.removeDoingInfo()
-      }
-    }
-  },
-  formatLog:function(vs,chkWrong,bkFun){
-    let fd=formatter.data,
-        fe=formatter.element,
-        lineIdx=0
-
-    while(vs.length){
-      if(chkWrong&&fd.wrongLog){
-        return bkFun()
-      }
-
-      if(lineIdx>3000){
-        return setTimeout(()=>{
-          formatter.formatLog(vs,chkWrong,bkFun)
-        })
-      }
-      addText(vs.shift())
-      lineIdx++
-    }
-    
-    bkFun()
-    
-    function addText(x){
-      let curPanel;
-
-      if(x.match(/^[0-9]+\: +(\>|\<)+$/)||x.match(/^[0-9]+\: timeout in ms\:/)){
-        return 
-      }
-      
-      if(fd.curAction){
-        curPanel=fd.curAction.element.panel
-      }else if(fd.curTest){
-        if(fd.curTest.actions.length){
-          curPanel=fd.curTest.element.panel
-        }else{
-          curPanel=fd.curTest.element.init.panel
-        }
-      }else{
-        curPanel=formatter.curPanel;
-      }
-
-      if(retrieveTime(x,curPanel)){
-        return
-      }
-      
-      if(retrieveJoinMember(x,curPanel)){
-        return
-      }
-      
-      if(retrieveRemoveMember(x,curPanel)){
-        return
-      }
-      
-      if(retrieveRemoteScenarioResult(x,curPanel)){
-        return
-      }
-      
-      if(retrieveWarning(x,curPanel)){
-        return
-      }
-      
-      if(curPanel==fe.end){
-        let testElement=retrieveStartTest(x,fe.panel)
-        if(testElement){
-          fe.end.children().appendTo(testElement.element.declare.panel)
-          return
-        }
-      }else if(fd.curTest){
-//          if(retrieveStartTest(x,curPanel)){
-        if(retrieveStartTest(x,fd.curTest.element.panel)){
-          return
-        }
-      }else{
-        if(retrieveStartTest(x,curPanel)){
-          return
-        }
-      }
-
-      if(retrieveTaskDone(x,fe.end)){
-        formatter.curPanel=fe.end
-        fd.curTests=[]
-        
-        fd.curTest=0
-        return
-      }
-///////////////////////////////////////////
-      if(fd.curTest){
-        if(retrieveAction(x,fd.curTest.element.panel)){
-          return
-        }
-        if(retrieveScreenshot(x,curPanel)){
-          return
-        }
-        if(retrieveTestResult(x,curPanel)){
-          if(!fd.curTest){
-            formatter.curPanel=fe.end
-          }
-          return
-        }
-
-      }else{
-        if(retrieveStartURL(x,curPanel)){
-          return
-        }
-
-        if(retrieveVersion(x,curPanel)){
-          return
-        }
-
-        if(retrieveScenario(x,fe.waitingList)){
-          return
-        }
-
-        if(retrieveStartTestTime(x,curPanel)){
-          return
-        }
-        
-        if(retrieveDeclare(x,fe.end)){
-          formatter.curPanel=fe.end
-          formatter._tmpRootCause=formatter._tmpErrMsg=0
-          return
-        }
-
-        if(retrieveHash(x,curPanel)){
-          return
-        }
-
-        if(retrieveErrorMessage(x,curPanel)){
-          return
-        }
-        
-      }
-      
-      if(retrieveModuleTestActionLink(x,curPanel)){
-        return
-      }
-      curPanel.append(`<div class='bz-line'>${x}</div>`)
-    }
-    
-    function setInitInfo(){
-      fe.init.title.find(".bz-title-text").html(`
-        <span style='margin-right:20px;'>Initial: </span>
-        <div><label>Start time: </label><span>${fd.startTime}</span></div>
-        <div><label>Version: </label><span>${fd.version}</span></div>
-        <div><label>Root test: </label><span>${fd.rootTest}</span></div>
-        <div><label>Environment: </label><span>${fd.environment}</span></div>
-        <div><label>Container Version: </label><span>${fd.containerVersion}</span></div>
-        <div><label>IDE Version: </label><span>${fd.ideVersion}</span></div>
-        <div><label>Extension Version: </label><span>${fd.extensionVersion}</span></div>
-      `);
-      fe.init.title.find(".bz-title-text").addClass("bz-info-box")
-      fe.init.ctrl.remove()
-      fe.init.time.remove()
-      fe.init.result.remove()
-    }
-    //0:
-    function retrieveVersion(v,p){
-      let x=v.match(/[0-9]+\: IDE version\: ([0-9\.]+)$/)
-      if(x){
-        fd.ideVersion=x[1]
-        p.append(`<div class='bz-line'>${v}</div>`)
-        return 1
-      }
-
-      x=v.match(/Running Boozang runner version\: ([0-9\.]+)/);
-      if(x){
-        fd.containerVersion=x[1]
-        p.append(`<div class='bz-line'>${v}</div>`)
-        return 1
-      }
-
-      x=v.match(/Extension version\: ([0-9\.]+)/);
-      if(x){
-        fd.extensionVersion=x[1]
-        p.append(`<div class='bz-line'>${v}</div>`)
-        return 1
-      }
-    }
-    
-    function retrieveHash(v,p){
-      let x=v.match(/\[Error Hash\: ([0-9A-F]+)\] \((.+)\)/)
-      if(x){
-        formatter._tmpErrMsg=0
-        let xx=$(`<button class='bz-line bz-failed-title bz-failed bz-icon-txt' style='margin:15px 25px;;border:1px solid;border-radius:5px;' hash="${x[1]}">${v}</button>`)
-        xx.click(function(){
-          formatter.openIDE("rootCause/"+x[1])
-        })
-        p.append(xx)
-        let bug=fd.curLastScenario.element.bug
-        if(x[2]=="new"){
-          bug.html("")
-          bug.addClass("bz-new-bug")
-          bug.removeClass("bz-letter")
-        }
-        bug.show()
-        
-        bug.attr({
-          hash:x[1]
-        })
-        return 1
-      }
-      x=v.match(/(Root cause link: ?)(.+)?$/)
-      if(x){
-        if(x[2]){
-          fd.curLastScenario.element.bug.show()
-          fd.curLastScenario.element.bug.attr({
-            path:x[2]
-          })
-          x=$(`<div class="bz-title-text bz-line bz-bug">${x[1]}${x[2]}</div>`);
-        }else{
-          x=$(`<div>${v}</div>`)
-          formatter._tmpRootCause=1
-        }
-        p.append(x)
-        return 1
-      }else if(formatter._tmpRootCause){
-        formatter._tmpRootCause=0
-        fd.curLastScenario.element.bug.show()
-        fd.curLastScenario.element.bug.attr({
-          path:v
-        })
-        x=$(`<div class="bz-title-text bz-line bz-bug">${v}</div>`);
-        p.append(x)
-        return 1
-      }
-    }
-    
-    function retrieveErrorMessage(v,p){
-      if(!formatter._tmpErrMsg){
-        let x=v.match(/^([0-9]+\: ERROR MESSAGE\: )(.+)/);
-        if(x){
-          formatter._tmpErrMsg=$(`<fieldset class="bz-err-msg-box"><legend>${x[1]}</legend></fieldset>`)
-          p.append(formatter._tmpErrMsg)
-          v=x[2]
-        }
-      }
-      if(formatter._tmpErrMsg){
-        let vv=$(`<div class='bz-line'>${v}</div>`)
-        formatter._tmpErrMsg.append(vv)
-        if(v.match(/^Failed on Action\:/)){
-          vv.addClass("bz-title-text")
-          formatter._tmpErrMsg=0
-        }
-        return 1
-      }
-    }
-
-    function retrieveModuleTestActionLink(v,p){
-      let x=v.match(/(^| |\/|\.|\:)(m[0-9]+[$| \/\.\-](t[0-9]+[$| \.\/-]([0-9]+)?)?)/);
-      if(x){
-        p.append(`<div class='bz-title-text bz-line'>${v}</div>`)
-        return 1
-      }
-    }
-
-    function retrieveStartURL(v,p){
-      if(!fe.panel.children().length&&!fe.waitingList.children().length&&!fd.rootTest){
-        let x=v.match(/(http.+[\/].+)\/extension\?token\=.+#([^\/]+)[\/]([^\/]+)([\/](m[0-9]+[\/]t[0-9]+)[\/]run)?/);
-        if(x){
-          
-          fd.startUrl=x[1]+"/extension?id="+x[2]+"#"+x[2]+"/"+x[3]+"/"
-          fd.host=x[1]
-          fd.project=x[2]
-          fd.version=x[3]
-          fd.rootTest=(x[5]||"").replace("/",".")
-          if(x[5]){
-            fd.environment=v.split("&env=")[1].split("&")[0]
-          }
-
-          p.append(`<div class='bz-line'>${v}</div>`)
-          return 1
-        }
-      }
-    }
-    
-    function retrieveStartTestTime(v,p){
-      let x=v.match(/^[0-9]+\: Start time\: ([0-9\- \:]{19})$/)
-      if(x){
-        x=x[1]
-        if(fd.completed){
-          if(x>fd.completed){
-            fd.wrongLog=1
-            $(".bz-log-bar").addClass("bz-disable-worker-log")
-            $(".bz-log-bar").attr({title:"Did not find the same moment worker log"})
-            return
-          }
-        }else{
-          fd.lastStartDate=x.split(" ")[0]
-        }
-        p.append(`<div class='bz-line'>${v}</div>`)
-        return 1
-      }
-    }
-    function retrieveTime(v,p){
-      let x=v.match(/\[ ([0-9\:]+) (\(([0-9\:]+), ([0-9]+)s\) \++) *\]/)
-      if(x){
-        if(!fd.startTime){
-          fd.startTime=x[1]
-        }
-
-        if(x[2]){
-          let time=parseInt(x[4]||0);
-          (fd.curTests||[]).forEach(t=>{
-            t.element.time.text(parseInt(t.element.time.text()||0)+time+"s")
-            
-          });
-          if(!fd.curExeTime||x[3]>fd.curExeTime){
-            fd.curExeTime=x[3]
-            fe.executeTime.text(x[3])
-          }
-          if(fd.curAction){
-            fd.curAction.element.time.text(time+"s")
-          }else if(formatter.curDeclare){
-            formatter.curDeclare.time=(formatter.curDeclare.time||0)+time
-          }else if(fd.curTest&&!fd.curTest.actions.length){
-            let s=parseInt((fd.curTest.element.init.time.text().match(/[0-9]+/)||[0])[0])+time
-            if(s>fd.setting.initTime){
-              s="&#10144; ("+s+"s) &#9888;"
-            }else{
-              s="&#10144; ("+s+"s)"
-            }
-            fd.curTest.element.init.time.html(s)
-            fd.curTest.element.initBtn[0].innerHTML=s
-          }
-          if(time>3||!fd.curAction){
-            p.append(`<div class='bz-line'>${v}</div>`)
-          }
-        }
-        return 1
-      }
-    }
-
-    //1:
-    function retrieveScenario(v,p){
-      if(!fd.testing){
-        let x=v.match(/^[0-9]+\:.+(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?$/)
-        if(x){
-          let d={
-            code:x[1],
-            dataIdx:x[3]||"",
-            result:"wait",
-            type:"scenario"
-          }
-          if(v.includes("analysis test in suite process")){
-            return removeTest(d)
-          }
-          addTest(p,d)
-          return 1
-        }
-      }
-    }
-
-    //2:
-    function retrieveDeclare(v,p){
-      let x=v.match(/declare on \[(m[0-9]+\.t[0-9]+)( ?\(([0-9]+)\))?\] (.+)$/)
-      if(x){
-        if(fd.curLastScenario){
-          fd.curLastScenario.element.panel.append(fe.end.children())
-          fd.curLastScenario=0
-        }else{
-          setInitInfo()
-        }
-        let d={
-          code:x[1],
-          dataIdx:x[3]||"",
-          name:x[4],
-          result:"declare",
-          type:"scenario"
-        };
-        d=addTest(fe.panel,d)
-        d.time=0
-        formatter.curDeclare=formatter.curDeclare||d
-
-        p.append(`<div class='bz-line'>${v}</div>`)
-        
-        return 1
-      }
-    }
-
-    //3:
-    function retrieveStartTest(v,p){
-      let x=v.match(/^([0-9]+)\: +\>+ Loading (Scenario|.+ Test) \[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\] - (.+) \([0-9]+\) \>+$/);
-      if(x){
-        let d={
-          type:x[2].toLowerCase(),
-          code:x[3],
-          dataIdx:x[5]||"",
-          name:x[6],
-          idx:parseInt(x[1]),
-          result:"running"
-        }
-        
-        if(d.type!="scenario"){
-          d.type="test"
-        }
-
-        d=addTest(p,d)
-        fd.curTest=d
-        fd.curTests.push(d)
-        if(formatter.curDeclare){
-          let s=formatter.curDeclare.time
-          d.element.time.text(s+"s")
-          if(s>fd.setting.declareTime){
-            s="&#128226; ("+s+"s) &#9888;"
-          }else{
-            s="&#128226; ("+s+"s)"
-          }
-          d.element.declare.time.html(s)
-          d.element.declareBtn.html(s)
-          d.element.ctrl.show()
-          d.element.switcher.css({visibility:"unset"})
-          formatter.curDeclare=0
-        }
-        if(d.type=="scenario"){
-          if(fe.waitingList.find(d.element.group)[0]){
-            fe.exePanel.append(d.element.group)
-          }
-          fd.curLastScenario=d
-        }
-        return d
-      }
-    }
-    
-    //4: test result
-    function retrieveTestResult(v,p){
-      let x=v.match(/^[0-9]+\: +\<+ (Failed|Success|Warning) .+ (net\:\:ERR|\[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\]).+$/)
-      
-      if(x){
-        let r=x[1].toLowerCase()
-        
-        if(fd.curAction){
-          fd.curAction.element.result.addClass("bz-"+r)
-          if(r=="failed"){
-            fd.curAction.element.panel.addClass("bz-failed-title")
-          }
-          setSumInfo("totalActions",1)
-          if(r=="failed"){
-            fd.curAction.element.title.addClass("bz-failed-title")
-          }
-          fd.curAction=0
-        }
-        fd.curTest.element.result.addClass("bz-"+r);
-        fd.curTest.element.title.addClass("bz-"+r+"-title")
-
-        fd.curTest.element.result.removeClass("bz-running");
-        if(fd.curTest.result!=r){
-          fd.curTest.result=r
-          if(fd.curTest.type=="scenario"){
-            if(!fd.curTest.remote){
-              setSumInfo(r+"Scenarios",1)
-            }
-          }else{
-            setSumInfo("totalTests",1)
-          }
-        }
-        
-        if(fd.curTest.type=="scenario"&&fe.exePanel.find(fd.curTest.element.group)[0]){
-          fe.panel.append(fd.curTest.element.group)
-        }
-        fd.curTests.pop();
-
-        fd.curTest=fd.curTests[fd.curTests.length-1]
-        p.append(`<div class='bz-line'>${v}</div>`)
-        fe.analyze.attr({disabled:false})
-        return 1
-      }
-    }
-    
-    //5: action
-    function retrieveAction(v,p){
-      let x=v.match(/^([0-9]+)\: \#\#Action.*\#\# \(([0-9\/mt]+)\)\, (.+)/)
-      if(x){
-        let name=x[3],type,flash,screenshot;
-        if(name.match(/^(Set |Typing )/)){
-          type="keyboard"
-        }else{
-          type=name.split(":")[0].toLowerCase()
-          if(type.match(/validate /)){
-            type="validate"
-          }else if(type=="group"){
-            if(v.includes("Auto-one-action-group")){
-              flash=1
-            }
-          }else if(type=="script"){
-            if(v.includes("attachScreenshotToReport")){
-              screenshot=1
-            }
-          }else if(type.match(/^(click|extract|refresh|call)( |$)/)){
-            
-          }else if(type.match(/execute api/)){
-            type="api"
-          }else if(type.match(/re-initialize data/)){
-            type="refresh"
-          }else{
-            type="call"
-          }
-          if(v.includes("in Single action group")){
-            flash=1
-          }
-        }
-
-        let d={
-          dataIdx:x[2].split("/").pop(),
-          name:name,
-          result:"wait",
-          flash:1,
-          type:type
-        }
-        // d.element=$(`<div class="bz-title">
-          // ${formatter.getIcon(d.type)}
-          // <div class="bz-title-text">(${d.dataIdx}) ${d.name}</div>
-          // <div class="bz-result bz-icon"></div>
-        // </div>`);
-        if(fd.curAction){
-          if(fd.curAction.dataIdx==d.dataIdx&&fd.curAction.name==d.name){
-            return
-          }
-          setSumInfo("totalActions",1)
-          fd.curAction.element.result.addClass("bz-success")
-          if(!fd.curAction.element.panel.text()){
-            fd.curAction.element.panel.remove()
-            delete fd.curAction.element.panel
-            fd.curAction.element.switcher.css({visibility:"hidden"})
-          }
-        }
-        d.element=formatter.addGroupElement(p,"("+d.dataIdx+") "+d.name,d.type,"running")
-        d.element.title.addClass("bz-action")
-        d.element.title.find(".bz-title-text").attr("bz",fd.curTest.code.replace(".","/")+"/"+d.dataIdx)
-        fd.curAction=d
-        fd.curLastAction=d
-        fd.testing=1
-        fd.curTest.actions.push(d)
-        return 1
-      }
-    }
-
-    function setSumInfo(k,d,v){
-      fd[k]+=d
-      fe.panel.attr({"bz-name":`Completed list (Scenarios: ${fd.totalScenarios}, Success: ${fd.successScenarios}, Failed: ${fd.failedScenarios}, Tests: ${fd.totalTests}, Actions: ${fd.totalActions})`})
-    }
-    
-    function removeTest(d){
-      let m=d.code.split(".")
-      let t=m[1]
-      m=m[0]
-      m=fd.featureMap[m]
-      if(m){
-        let tt=m.testMap[t]
-        if(tt&&tt[""]){
-          tt[""].element.group.remove()
-          delete tt[""].element.group
-          delete m.testMap[t]
-          setSumInfo("totalScenarios",-1)
-        }
-      }
-      
-    }
-
-    function addTest(p,d){
-      let dd
-      if(d.type=="scenario"){
-        map="featureMap"
-      }else{
-        map="moduleMap"
-      }
-      
-      let m=d.code.split(".")
-      let t=m[1]
-      m=m[0]
-
-      fd[map][m]=fd[map][m]||{testMap:{},runningTests:[]};
-      map=fd[map][m].testMap;
-      if(d.type=="scenario"){
-        map[t]=map[t]||{}
-        if(d.dataIdx==""&&map[t]["0"]){
-          d.dataIdx="0"
-        }
-        if(d.dataIdx=="0"){
-          map[t]["0"]=map[t][""]||map[t]["0"]||{}
-          delete map[t][""]
-        }else{
-          map[t][d.dataIdx]=map[t][d.dataIdx]||{}
-        }
-        dd=map[t][d.dataIdx]
-        if($.isEmptyObject(dd)){
-          setSumInfo("totalScenarios",1)
-        }else if(dd.remote){
-          return dd
-        }else if(d.remote&&["success","failed","warning"].includes(dd.result)){
-          dd.element.name.text(getTestFullName(d))
-          dd.worker=d.worker
-          return
-        }
-      }else{
-        map[t]=map[t]||{list:[]}
-        map[t].list.push(d)
-        dd=d
-      }
-      dd.actions=dd.actions||[]
-      if(!dd.element){
-        dd.element=formatter.addGroupElement(p,d.name,d.type,d.result||"wait")
-        if(d.type=="scenario"){
-          dd.element.group[0].data=dd
-        }
-      }
-
-      Object.assign(dd,d)
-
-      dd.element.name.text(getTestFullName(d))
-
-      dd.element.result.addClass("bz-"+d.result)
-      if(fd.curAction&&!d.remote){
-        let ae=fd.curAction.element
-        ae.panel.children().appendTo(dd.element.init.panel)
-        ae.panel.remove()
-        delete ae.panel
-        ae.switcher.css({visibility:"hidden"})
-        fd.curAction=0
-      }
-      return dd
-    }
-    
-    function getTestFullName(d){
-      let n=d.code
-      if(d.dataIdx){
-        n+="("+d.dataIdx+")"
-      }
-      return "["+n+"] "+(d.name||"")
-    }
-    
-    function retrieveJoinMember(v,p){
-      let x=v.match(/[0-9]+: \<\-+ Join worker \((.+)\)$/);
-      if(x){
-        p.append(`<div class="bz-row bz-line">${v} ${formatter.getIcon("join")}</div>`);
-        return 1
-      }
-    }
-
-    function retrieveRemoveMember(v,p){
-      let x=v.match(/[0-9]+: Remove worker \((.+)\) \-+\>$/);
-      if(x){
-        p.append(`<div class="bz-row bz-line">${v} ${formatter.getIcon("leave")}</div>`);
-        return 1
-      }
-    }
-
-    function retrieveScreenshot(v,p){
-      let x=v.match(/^[0-9]+\: Screenshot\:(m[0-9]+\.t[0-9]+[\.][0-9]+)$/);
-      if(x){
-        let t=fd.curLastScenario
-        formatter.cameraList.push({
-          path:x[1],
-          desc:fd.curLastAction.element.title.text()
-        })
-        t.element.camera[0].path=x[1]
-        t.element.camera.show()
-        p.append(`<div class="bz-row bz-line">${v} ${formatter.getIcon("camera")}</div>`)
-        let o=p.find(".bz-camera")
-        o[0].path=x[1];
-        fe.camera.attr({disabled:false})
-        return 1
-      }
-    }
-    
-    function retrieveRemoteScenarioResult(v,p){
-      let x=v.match(/^([0-9]+)\: [\.]+ (Success|Failed|Warning) Feature - Scenario Remote \[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\] [0-9\:]+ (.+) (Completed in )(.+)( Tasks\: [0-9]+ \/ [0-9]+ \.+)$/)
-      if(x){
-        let d={
-          idx:x[1],
-          result:x[2].toLowerCase(),
-          code:x[3],
-          dataIdx:x[5]||"",
-          name:x[6]+" ("+x[7]+x[8]+")",
-          remote:1,
-          type:"scenario",
-          worker:x[8]
-        }
-        p.append(`<div class='bz-line'>${v}</div>`)
-        p=addTest(fe.panel,d)
-        if(!p||fe.panel.find(p.element.group)[0]){
-          return
-        }
-        fe.panel.append(p.element.group)
-        p.element.switcher.css({visibility:"hidden"})
-        p.element.ctrl.hide()
-        p.element.title.addClass("bz-remote-title")
-        p.element.title.addClass("bz-"+d.result+"-title")
-        
-        setSumInfo(d.result+"Scenarios",1)
-        return 1
-      }
-    }
-
-    function retrieveWarning(v,p){}
-    
-    function retrieveTaskDone(v,p){
-      if(v.match(/^[0-9]+\: task-done$/)){
-        p.append(`<div class='bz-line'>${formatter.getIcon("complete")} ${v}</div>`)
-        fd.completed=fd.lastStartDate+" "+fd.curExeTime
-        fe.waitingList.remove()
-        fe.exePanel.remove()
-        return 1
-      }
-    }
-
-  },
-  openIDE:function(v){
-    let fd=formatter.data
-    window.open(fd.host+"/extension?id="+fd.project+"#"+fd.project+"/"+fd.version+"/"+v.replace(".","/"),"bz-master",`width=${screen.availWidth/2},height=${screen.availHeight}`)
-  },
-  getPageInfo:function(x,sendResponse){
-    let c=$("a[href=consoleFull]")[0]
-    let o=$(".console-output")[0]
-    sendResponse({
-      full:c&&1,
-      log:o&&1,
-      pop:1
-    })
-  },
-  removeDoingInfo:function(){
-    let o=document.getElementsByClassName("bz-loading-info")[0]
-    if(o){
-      o.remove()
-    }
-  },
-  showDoing:function(v){
-    let o=document.getElementsByClassName("bz-doing-text")[0]
-    if(o){
-      o.innerText=v
-      return
-    }
-    o=document.createElement("div");
-    o.className="bz-loading-info"
-    o.innerHTML=`
-        <div class="bz-icon bz-running"></div>
-        <div class="bz-doing-text" style="line-height:45px;">${v}</div>
-    `;
-    formatter.loadingInfo=o
-    document.body.append(o)
-    return 1
-  },
-  autoLoading:function(){
-    formatter.insertCss()
-    let v=localStorage.getItem("bz-log-format");
-    if(v){
-      v=JSON.parse(v)
-      if(v.autoFormat){
-        if(formatter.isMasterPage(v)){
-          formatter.exeFormag(v,Date.now())
-        }
-      }
-    }
-  },
-  isMasterPage:function(v){
-    if(v.identifyMaster){
-      try{
-        let f;
-        eval("f="+v.identifyMaster)
-        return f()
-      }catch(ex){
-        alert("Identify page script issue: "+ex.message)
-      }
-    }
+  getIdx:function(){
+    return formatter.idx++
   }
 }
 

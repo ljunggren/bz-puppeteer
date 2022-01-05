@@ -9,7 +9,7 @@ $("#formatPage").click(()=>{
       id:v[0].id,
       data:bzFormat
     }});
-    
+    window.close();
   });
 });
 $("#orgPage").click(()=>{
@@ -19,6 +19,7 @@ $("#orgPage").click(()=>{
       id:v[0].id,
       data:bzFormat
     }});
+    window.close();
   });
 })
 $("#infoTab").click(function(){
@@ -26,12 +27,16 @@ $("#infoTab").click(function(){
   $("#log-panel").hide()
   $("#logTab").removeClass("bz-active")
   $(this).addClass("bz-active")
+  bzFormat.defTab="info"
+  updateSetting()
 });
 $("#logTab").click(function(){
   $("#log-panel").show()
   $("#info-panel").hide()
   $("#infoTab").removeClass("bz-active")
   $(this).addClass("bz-active")
+  bzFormat.defTab="log"
+  updateSetting()
 })
 
 function getPageInfo(){
@@ -53,6 +58,7 @@ function init(){
     console.log(JSON.stringify(d))
     if(!d||!Object.keys(d).length){
       bzFormat={
+        defTab:"info",
         testTime:180,
         actionTime:3,
         declareTime:6,
@@ -86,12 +92,10 @@ function init(){
     $("#testTime,#declareTime,#initTime,#actionTime,#identifyMaster,#identifyWorker").blur(function(){
       updateSetting()
     })
-    $("#autoFormat").click(function(){
-      updateSetting()
-    })
-    $("#retrieveWorkerLog").click(function(){
-      updateSetting()
-    })
+
+    if(bzFormat.defTab=="log"){
+      $("#logTab").click()
+    }
   })
 
 }
