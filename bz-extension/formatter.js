@@ -804,6 +804,7 @@ input[type=checkbox]{
         if(!path){
           return
         }
+        path=path[0]
       }
       path=path.replace(/\./g,"/")
       if(!o.posRight){
