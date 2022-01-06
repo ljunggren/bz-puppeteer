@@ -754,6 +754,8 @@ input[type=checkbox]{
         return
       }else if(o.hasClass("bz-switch")){
         switchPanel(o)
+      }else if(o.hasClass("bz-tmp-screenshot")){
+        o.parent().click()
       }else if(o.hasClass("bz-input-cross")){
         $(".bz-search-input").val("")
         formatter.search()
