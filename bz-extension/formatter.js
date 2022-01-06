@@ -390,6 +390,10 @@ body>.bz-log-box .bz-sort-bar{
   text-decoration:underline;
 }
 
+.bz-disable-icon{
+  cursor:not-allowed;
+  opacity:0.5;
+}
 .bz-disable-worker-log a{
   color:#999;
   text-decoration:line-through;
@@ -546,6 +550,19 @@ input[type=checkbox]{
 }
 .bz-pop-panel .bz-panel .bz-row{
   color:#000;
+}
+.bz-camera:hover .bz-tmp-screenshot{
+  display:block;
+}
+.bz-tmp-screenshot{
+  display: none;
+  right: 100px;
+  position: absolute;
+  margin-top: -30px;
+  width: 400px;
+}
+.bz-tmp-screenshot:hover{
+  display:block;
 }
     `
   },
@@ -797,8 +814,13 @@ input[type=checkbox]{
       })
     })
 
-    $(document.body).on("mousemove",".bz-title-text,.bz-line",function(e){
+    $(document.body).on("mousemove",".bz-title-text,.bz-line,.bz-camera",function(e){
       let o=e.target,path=$(o).attr("bz")
+      if($(o).hasClass("bz-camera")){
+        insertScreenshot(o)
+        return
+      }
+      
       if(!path&&!$(o).hasClass("bz-title-text")){
         path=o.innerText.match(/m[0-9]+[\.\/\-]t[0-9]+([\.\/][0-9]+)?/)
         if(!path){
@@ -823,6 +845,13 @@ input[type=checkbox]{
         o.style.cursor="default"
       }
     });
+
+    function insertScreenshot(o){
+      let path=$(o).attr("path")
+      if(path&&!$(o).find("img")[0]){
+        $(o).append("<img src='"+formatter.getCameraPath(path)+"' class='bz-tmp-screenshot'>")
+      }
+    }
 
     function gotoHash(o){
       o=o[0]
@@ -966,7 +995,7 @@ input[type=checkbox]{
         ${ctrl}
         <button key="${o.code}" class="bz-icon bz-declare-btn bz-declare">(${o.declare.time||""})</button>
         <button title='${o.bug&&o.bug.msg}' class="bz-icon bz${o.bug?o.bug.type:""}-bug ${!o.bug&&'bz-hide'}" hash="${o.bug&&o.bug.hash}" path="${o.bug&&o.bug.path}"></button>
-        <button class="bz-icon bz-camera ${o.camera?"":"bz-hide"}" path="${o.camera||""}"></button>
+        <button class="bz-icon bz-camera ${o.bug?o.camera?"":"bz-disable-icon":"bz-hide"}" title="${o.cameraMsg||""}" path="${o.camera||""}"></button>
       `
     }
     if(ctrl){
@@ -1431,6 +1460,8 @@ input[type=checkbox]{
         s.camera=w[1]
         formatter.cameraList.push(w[1])
         formatter.element.header.find(".bz-camera").attr({disabled:false})
+      }else{
+        s.cameraMsg="There is no screenshot for API test case. Or got an error on loading page."
       }
     }
 
@@ -1526,7 +1557,7 @@ input[type=checkbox]{
     v=v.replace(/(bz-line)(">[0-9]+: <---- Join worker)/g,"$1 bz-join$2")
     v=v.replace(/(bz-line)(\">[0-9]+: Remove worker )/g,`$1 bz-leave$2`)
     if(mark=="failed"){
-      v=v.replace(/<div class="bz-line">(\[Error Hash: ([A-F0-9]+)\][^<]*)<\/div>/,'<div><button class="bz-failed-title bz-failed-hash" hash="$2">$1</button></div>')
+      v=v.replace(/<div class="bz-line">(\[Error Hash: ([A-F0-9]+)\][^<]*)<\/div>/,'<div><button title="Open the Root Cause in IDE" class="bz-failed-title bz-failed-hash" hash="$2">$1</button></div>')
       v=v.replace(/<div class="bz-line">([0-9]+\: ERROR MESSAGE: )([^<]+<\/div>)/,"<fieldset class='bz-err-msg-box'><legend>$1</legend><div class='bz-line'>$2");
       v=v.replace(/<\/div><div><button/,"</div></fieldset><div><button")
     }
