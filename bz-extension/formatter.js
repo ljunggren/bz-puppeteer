@@ -1338,8 +1338,7 @@ input[type=checkbox]{
       let x=v.match(/(http.+[\/].+)\/extension\?token\=.+#.+/gm);
       
       if(x){
-        x=x.find(y=>y.match(/\/run/))
-        
+        x=x.find(y=>y.match(/\/run/))||x[0]
         x=x.match(/(http.+[\/].+)\/extension\?token\=.+#([^\/]+)[\/]([^\/]+)([\/](m[0-9]+[\/]t[0-9]+)[\/]run)?/);
         
         fd.startUrl=x[1]+"/extension?id="+x[2]+"#"+x[2]+"/"+x[3]+"/"
@@ -1386,22 +1385,24 @@ input[type=checkbox]{
 
     function handleWaitingList(v){
       v=v.match(/[0-9]+: Split task\([^\)]+\): [^\n]+\n/gm)
-      let map={}
-      v.forEach(x=>{
-        x=x.match(/(m[0-9]+.t[0-9])+\(?([0-9]+)?/)
-        let k=x[1].replace(".","-")
-        if(!x[2]){
-          if(map[k+"-0"]){
-            return
+      if(v){
+        let map={}
+        v.forEach(x=>{
+          x=x.match(/(m[0-9]+.t[0-9])+\(?([0-9]+)?/)
+          let k=x[1].replace(".","-")
+          if(!x[2]){
+            if(map[k+"-0"]){
+              return
+            }
+          }else{
+            delete map[k]
+            k+="-"+x[2]
           }
-        }else{
-          delete map[k]
-          k+="-"+x[2]
-        }
-        map[k]=1
-      })
-      fd.waitingListSize=fd.totalScenarios=Object.keys(map).length
-      fd.waitingListMap=map
+          map[k]=1
+        })
+        fd.waitingListSize=fd.totalScenarios=Object.keys(map).length
+        fd.waitingListMap=map
+      }
     }
 
     function handleRealTimeInfo(){
