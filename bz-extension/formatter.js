@@ -977,7 +977,7 @@ input[type=checkbox]{
       <div class="bz-title bz-${o.result}-title">
         <button key="${o.code}" style="background-size:${o.close?12:8}px;visibility:${o.details!==undefined&&!o.details?'hidden':'unset'}" class="bz-icon bz-${o.close||"switch"}"></button>
         <div class="bz-icon bz-${o.type}"></div>
-        <div class="bz-title-text">${o.title||o.name}</div>
+        <div class="bz-title-text" bz="${o.bz}">${o.title||o.name}</div>
         ${ctrl}
         <div class="bz-time">${o.time||""}</div>
         ${o.result?`<div class="bz-result bz-icon bz-${o.result}"></div>`:""}
@@ -1286,6 +1286,7 @@ input[type=checkbox]{
       s.code=k+"-"+fd.curWorker
 
       s.name=w[6]
+      s.bz=w[3]
       s.title="["+w[2]+"] "+w[6]
       s.dataIdx=w[5]
       fd.scenarioMap[s.code]=s
@@ -1541,12 +1542,12 @@ input[type=checkbox]{
       buildSimpleContent(s.declare.element.find(".bz-panel"),s.declare.org,"declare")
       buildSimpleContent(s.end.element,s.end.org,s.result)
       if(s.details.org){
-        s.details.element.html(buildTests(s.details.org,1,s.details.start,s.endTime))
+        s.details.element.html(buildTests(s.details.org,1,s.details.start,s.endTime,s.bz))
       }
     }
     return s
     
-    function buildTests(v,level,startTime,endTime,test){
+    function buildTests(v,level,startTime,endTime,bz,test){
       let html=""
       let ts=formatter.getTestTreeByLevel(v,level),curTest,tt,lastTest;
       
@@ -1556,7 +1557,7 @@ input[type=checkbox]{
           v=tt[1]
           curTest=retrieveTestData(t)
           curTest.start=formatter.retrieveTimeFromLog(v)
-          html+=buildActions(tt[0],startTime,curTest.start,!i&&test)
+          html+=buildActions(tt[0],startTime,curTest.start,bz,!i&&test)
           
           fd.testMap[curTest.code]=curTest
         }else{
@@ -1566,14 +1567,14 @@ input[type=checkbox]{
           tt=formatter.splitByWord(v,t,1)
           startTime=formatter.retrieveTimeFromLog(tt[1])||endTime
           curTest.time=formatter.getSpendTime(curTest.start,startTime,"testTime")
-          curTest.details=buildTests(tt[0],level+1,curTest.start,startTime,curTest)
+          curTest.details=buildTests(tt[0],level+1,curTest.start,startTime,curTest.bz,curTest)
           html+=formatter.getGroupElement(curTest)
           delete curTest.details
           v=tt[1]
           lastTest=curTest
         }
       })
-      return html+buildActions(v,startTime,endTime,!ts.length&&test,test&&test.result=="failed")
+      return html+buildActions(v,startTime,endTime,bz,!ts.length&&test,test&&test.result=="failed")
       
     }
     
@@ -1588,6 +1589,7 @@ input[type=checkbox]{
           result:"success",
           tests:[],
           level:"test",
+          bz:x[3],
           init:{
             time:"0s"
           }
@@ -1595,7 +1597,7 @@ input[type=checkbox]{
       }
     }
     
-    function buildActions(v,startTime,endTime,test,inFailed){
+    function buildActions(v,startTime,endTime,bz,test,inFailed){
       let as=(v||"".trim()).match(/(\n|^)[0-9]+\: ##Action.+$/gm),lastAction;
       if(as){
         as=as.map((a,j)=>{
@@ -1619,7 +1621,7 @@ input[type=checkbox]{
           }
           lastAction=a
         })
-        as=as.map(a=>retrieveActionData(a.k,a.c))
+        as=as.map(a=>retrieveActionData(a.k,a.c,bz))
         as.forEach((a,i)=>{
           a.details=a.details.split("\n").filter(x=>x&&!isIgnoreContent(x))
           a.details.shift()
@@ -1663,7 +1665,7 @@ input[type=checkbox]{
       return x.match(/[0-9]+: (timeout in ms:[0-9]+| +>+| +<+|.+\/api\/coop\/.+|End time\:|Start time\: [0-9\:\- ]+)$/)
     }
 
-    function retrieveActionData(v,p){
+    function retrieveActionData(v,p,testbz){
       let x=v.match(/^([0-9]+)\: \#\#Action.*\#\# \(([0-9\/mt]+|tmp)\)\, (.+)/)
 
       let name=x[3],type,flash,screenshot;
@@ -1671,7 +1673,7 @@ input[type=checkbox]{
         type="keyboard"
       }else{
         type=name.split(/[ :]/)[0].toLowerCase()
-        if(type.match(/validate /)){
+        if(type.match(/validate/)){
           type="validate"
         }else if(type=="group"){
           if(v.includes("Auto-one-action-group")){
@@ -1704,7 +1706,8 @@ input[type=checkbox]{
         result:"success",
         start:formatter.retrieveTimeFromLog(p),
         details:p,
-        level:"action"
+        level:"action",
+        bz:testbz+"/"+idx
       }
     }
     
