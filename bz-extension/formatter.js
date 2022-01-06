@@ -75,6 +75,10 @@ var formatter={
 .bz-group { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2021%2019.8%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%2854%2C61%2C74%2C0.99%29%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cpath%20id%3D%22group%22%20class%3D%22cls-1%22%20d%3D%22M31%2C29.9l-4.778-3.465V28.25H25.75c-2.074%2C0-3.1-1.254-4.384-2.838-1.417-1.782-3.019-3.762-6.116-3.762h-.341A2.589%2C2.589%2C0%2C0%2C0%2C12.625%2C20C11.181%2C20%2C10%2C21.485%2C10%2C23.3s1.181%2C3.3%2C2.625%2C3.3a2.618%2C2.618%2C0%2C0%2C0%2C2.284-1.65h.341c2.021%2C0%2C3.019%2C1.254%2C4.279%2C2.805a16.434%2C16.434%2C0%2C0%2C0%2C1.995%2C2.178%2C18.62%2C18.62%2C0%2C0%2C0-1.89%2C2.079c-1.286%2C1.584-2.31%2C2.838-4.384%2C2.838h-.341a2.589%2C2.589%2C0%2C0%2C0-2.284-1.65C11.181%2C33.2%2C10%2C34.685%2C10%2C36.5s1.181%2C3.3%2C2.625%2C3.3a2.618%2C2.618%2C0%2C0%2C0%2C2.284-1.65h.341c3.15%2C0%2C4.856-2.112%2C6.221-3.8%2C1.26-1.551%2C2.257-2.8%2C4.279-2.8h.473s-1.194%2C2.228%2C0%2C1.815S31%2C29.9%2C31%2C29.9ZM12.625%2C25.28A1.818%2C1.818%2C0%2C0%2C1%2C11.05%2C23.3a1.818%2C1.818%2C0%2C0%2C1%2C1.575-1.98A1.818%2C1.818%2C0%2C0%2C1%2C14.2%2C23.3%2C1.818%2C1.818%2C0%2C0%2C1%2C12.625%2C25.28Zm0%2C13.2a2.032%2C2.032%2C0%2C0%2C1%2C0-3.96%2C2.032%2C2.032%2C0%2C0%2C1%2C0%2C3.96Z%22%20transform%3D%22translate%28-10%20-20%29%22%2F%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-api { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020.99%2019.761%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.7px%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22hdr-api%22%20transform%3D%22translate%28-19.505%20-21.409%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_449%22%20data-name%3D%22Path%20449%22%20class%3D%22cls-1%22%20d%3D%22M36.861%2C25.491l-1.566%2C1.567c-.786.786%2C0%2C2.352%2C0%2C2.352L40%2C24.709%2C35.295%2C20s-.783%2C1.566%2C0%2C2.353l1.566%2C1.566.108.108H20v1.356H36.969Z%22%20transform%3D%22translate%280%202%29%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_450%22%20data-name%3D%22Path%20450%22%20class%3D%22cls-1%22%20d%3D%22M23.139%2C35.091%2C24.7%2C33.525c.786-.786%2C0-2.352%2C0-2.352l-4.7%2C4.7%2C4.7%2C4.7s.783-1.566%2C0-2.352l-1.566-1.566-.108-.109H40V35.2H23.031Z%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 
+.bz-clickable:hover{
+  cursor:pointer;
+  text-decoration:underline;
+}
 .bz-success:before{
   content:"✔️";
 }
@@ -794,12 +798,14 @@ input[type=checkbox]{
     })
 
     $(document.body).on("mousemove",".bz-title-text,.bz-line",function(e){
-      let o=e.target
-      if(!$(o).hasClass("bz-title-text")){
-        if(!o.innerText.match(/m[0-9]+[\.\/\-]t[0-9]+/)){
+      let o=e.target,path=$(o).attr("bz")
+      if(!path&&!$(o).hasClass("bz-title-text")){
+        path=o.innerText.match(/m[0-9]+[\.\/\-]t[0-9]+([\.\/][0-9]+)?/)
+        if(!path){
           return
         }
       }
+      path=path.replace(/\./g,"/")
       if(!o.posRight){
         let s=o.innerHTML
         o.innerHTML=`<span>${s}</span>`
@@ -809,7 +815,10 @@ input[type=checkbox]{
       }
       if(e.clientX<o.posRight){
         o.style.cursor="pointer"
+        $(o).addClass("bz-clickable")
+        o.title="Click to open test case("+path+") in IDE"
       }else{
+        $(o).removeClass("bz-clickable")
         o.style.cursor="default"
       }
     });
