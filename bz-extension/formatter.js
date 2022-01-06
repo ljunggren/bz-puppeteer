@@ -780,7 +780,7 @@ input[type=checkbox]{
       }else if(o.hasClass("bz-log-item")){
         openLog(o)
       }else if(o.hasClass("bz-search")){
-        formatter.search($(".bz-header input").val())
+        formatter.search($(".bz-header input.bz-search-input").val())
       }else if(o.hasClass("bz-analyze")){
         formatter.showAnalyzePanel()
       }else if(o.hasClass("bz-download")){
@@ -823,14 +823,14 @@ input[type=checkbox]{
         return
       }
       
-      if(!path&&!$(o).hasClass("bz-title-text")){
+      if(!path){
         path=o.innerText.match(/m[0-9]+[\.\/\-]t[0-9]+([\.\/][0-9]+)?/)
         if(!path){
           return
         }
         path=path[0]
       }
-      path=path.replace(/\./g,"/")
+
       if(!o.posRight){
         let s=o.innerHTML
         o.innerHTML=`<span>${s}</span>`
@@ -1088,12 +1088,7 @@ input[type=checkbox]{
       end:$("<div class='bz-scope bz-end'></div>").appendTo(p)
     };
 
-    o.header.find("input.bz-search-input").keydown(function(e){
-      if(e.keyCode==13){
-        this.blur()
-      }
-    })
-    o.header.find("input.bz-search-input").blur(function(e){
+    o.header.find("input.bz-search-input").change(function(e){
       formatter.search(this.value)
     })
 
@@ -2133,7 +2128,9 @@ input[type=checkbox]{
 
     return setTimeout(()=>{
       formatter.buildAllDetails()
+      let ttt=Date.now()
       doSearch(v,scope)
+      console.log(Date.now()-ttt)
     })
     
     
@@ -2148,6 +2145,7 @@ input[type=checkbox]{
         v=v.toLowerCase().split(",")
         alert("This is not a correct regular expression!")
       }
+      preFilter(v)
       if(!scope){
         scope=[formatter.element.init,...formatter.element.panel.find(".bz-level-scenario").toArray().filter(x=>$(x).css("display")!="none"),formatter.element.end]
       }
@@ -2249,6 +2247,24 @@ input[type=checkbox]{
 
       formatter.removeDoingInfo()
       formatter.searching=0
+    }
+    
+    function preFilter(v){
+      if(v.constructor==Array){
+        v=v.map(x=>{
+          x=x.split(" ")
+          x.sort((a,b)=>b.length-a.length)
+          return x[0].replace(/([^a-z0-9])/gi,"\\$1")
+        }).join("|")
+        eval("v=/"+v+"/")
+      }
+      Object.values(fd.scenarioMap).forEach(x=>{
+        if(x.result=="failed"||!fd.failedOnly){
+          if(!x.details.org.match(v)&&!x.init.org.match(v)&&!x.declare.org.match(v)){
+            $("#"+x.code).hide()
+          }
+        }
+      })
     }
   },
   removeAllHighlight:function(){
