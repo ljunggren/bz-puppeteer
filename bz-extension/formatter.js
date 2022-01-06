@@ -14,6 +14,9 @@ var formatter={
   content:"📋";
 }
 .bz-new-bug { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220.2%22%20height%3D%2220.003%22%20viewBox%3D%220%200%2020.2%2020.003%22%3E%20%20%3Cg%20id%3D%22root-cause%22%20transform%3D%22translate%28-4.916%20-5.373%29%22%3E%20%20%20%20%3Crect%20id%3D%22Rectangle_216%22%20data-name%3D%22Rectangle%20216%22%20width%3D%226.037%22%20height%3D%221.006%22%20transform%3D%22translate%2811.255%209.699%29%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_570%22%20data-name%3D%22Path%20570%22%20d%3D%22M8.276%2C11.507%2C9%2C10.785l.722.721.569-.569-.722-.721.722-.722L9.72%2C8.925%2C9%2C9.646l-.721-.721-.57.569.722.722-.722.722Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_571%22%20data-name%3D%22Path%20571%22%20d%3D%22M9.921%2C13.377%2C8.669%2C14.629l-.594-.593-.569.569%2C1.163%2C1.163%2C1.821-1.822Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_572%22%20data-name%3D%22Path%20572%22%20d%3D%22M8.075%2C18.467l-.569.569L8.669%2C20.2l1.821-1.822-.569-.569L8.669%2C19.061Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_573%22%20data-name%3D%22Path%20573%22%20d%3D%22M6.525%2C23.082V6.982H19.606v5.744a1.7%2C1.7%2C0%2C0%2C1%2C1.034-.35%2C1.722%2C1.722%2C0%2C0%2C1%2C.476.068V6.479A1.009%2C1.009%2C0%2C0%2C0%2C20.11%2C5.473H6.022A1.009%2C1.009%2C0%2C0%2C0%2C5.016%2C6.479V23.585a1.009%2C1.009%2C0%2C0%2C0%2C1.006%2C1.006h6.411a1.705%2C1.705%2C0%2C0%2C1%2C.384-1.509Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_574%22%20data-name%3D%22Path%20574%22%20d%3D%22M11.255%2C19.56h1.028a1.7%2C1.7%2C0%2C0%2C1%2C1.306-.615h.257c.007-.018.014-.036.02-.054l-.358-.337H11.255Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_575%22%20data-name%3D%22Path%20575%22%20d%3D%22M16.007%2C14.737a1.736%2C1.736%2C0%2C0%2C1-.121-.611H11.255v1.007h4.513A3.527%2C3.527%2C0%2C0%2C1%2C16.007%2C14.737Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_576%22%20data-name%3D%22Path%20576%22%20d%3D%22M14.492%2C16.608a.379.379%2C0%2C0%2C0-.533.539l.9.848c.071.071.167.055.267.055h.734a4.855%2C4.855%2C0%2C0%2C0-.993%2C2.229h-1.28a.394.394%2C0%2C0%2C0%2C0%2C.787h1.224a3.964%2C3.964%2C0%2C0%2C0%2C.462%2C1.836H15a.4.4%2C0%2C0%2C0-.267.129l-.9.913a.381.381%2C0%2C0%2C0%2C0%2C.537.377.377%2C0%2C0%2C0%2C.266.112.372.372%2C0%2C0%2C0%2C.266-.11l.792-.794h.608a4.355%2C4.355%2C0%2C0%2C0%2C3.085%2C1.581V17.394H15.283Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_577%22%20data-name%3D%22Path%20577%22%20d%3D%22M24.64%2C20.279H23.333a5.831%2C5.831%2C0%2C0%2C0-1.072-2.229h.84c.1%2C0%2C.2.017.267-.053l.9-.876a.359.359%2C0%2C0%2C0%2C0-.518.376.376%2C0%2C0%2C0-.533%2C0l-.791.793H19.377v7.874a4.914%2C4.914%2C0%2C0%2C0%2C3.064-1.579h.629l.792.8a.376.376%2C0%2C1%2C0%2C.533-.531l-.9-.922a.4.4%2C0%2C0%2C0-.267-.129h-.288a3.919%2C3.919%2C0%2C0%2C0%2C.468-1.836h1.233a.394.394%2C0%2C0%2C0%2C0-.787Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_578%22%20data-name%3D%22Path%20578%22%20d%3D%22M16.678%2C16.869h4.873a2.335%2C2.335%2C0%2C0%2C0-1.139-2.04l.492-.482a.371.371%2C0%2C0%2C0%2C0-.528.377.377%2C0%2C0%2C0-.533%2C0l-.711.713a2.375%2C2.375%2C0%2C0%2C0-1.091%2C0l-.711-.712a.377.377%2C0%2C0%2C0-.533.533l.492.472A2.336%2C2.336%2C0%2C0%2C0%2C16.678%2C16.869Z%22%20fill%3D%22%23363d4a%22%20stroke%3D%22%23363d4a%22%20stroke-width%3D%220.2%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
+.bz-ab:before{
+  content:"🆎";
+}
 .bz-search:before{
   content:"🔎";
 }
@@ -785,6 +788,8 @@ input[type=checkbox]{
         formatter.showAnalyzePanel()
       }else if(o.hasClass("bz-download")){
         formatter.download()
+      }else if(o.hasClass("bz-ab")){
+        formatter.showCompare()
       }else if(o.hasClass("bz-bug")||o.hasClass("bz-new-bug")||o.hasClass("bz-failed-hash")){ //bug button
         let url=o.attr("path")||o.attr("hash")
         if(url.match(/^[0-9A-F]+$/)){
@@ -1076,6 +1081,7 @@ input[type=checkbox]{
           <button class="bz-cross bz-icon bz-input-cross"></button>
         </div>
         <button class="bz-icon bz-search"></button>
+        <button class='bz-icon bz-ab' title='Compare with other log to see the diffences'></button>
         <button class='bz-icon bz-download' title='Download log'></button>
         <button class='bz-icon bz-analyze' title='Show test case execution summary' disabled='true'></button>
         <button class='bz-camera bz-icon-letter bz-camera' title='Show screenshot list' disabled='true'></button>
@@ -1892,9 +1898,12 @@ input[type=checkbox]{
       _sel.removeAllRanges();
     },100)
   },
+  showCompare:function(){
+    
+  },
   download:function(){
     let os=Object.values(formatter.data.scenarioMap)
-    os.sort((a,b)=>{
+    os=os.filter(x=>$("#"+x.code).css("display")!="none").sort((a,b)=>{
       return a.idx-b.idx
     })
     let w=os.map(x=>{
