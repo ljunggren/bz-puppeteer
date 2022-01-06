@@ -574,7 +574,7 @@ input[type=checkbox]{
       formatter.removeDoingInfo()
       return
     }
-    formatter.showDoing("Formatting Boozang Log ...")
+    formatter.showDoing("Loading log ...")
 
     if(!window.$){
       return setTimeout(()=>{
@@ -647,11 +647,14 @@ input[type=checkbox]{
     
     function doIt(o){
       if(o.innerText){
-        formatter.format(o,0)
+        formatter.showDoing("Formatting Boozang Log ...")
+        setTimeout(()=>{
+          formatter.format(o,0)
+        })
       }else{
         setTimeout(()=>{
           doIt(o)
-        },5000)
+        },500)
       }
     }
   },
