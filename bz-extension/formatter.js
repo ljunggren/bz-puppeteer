@@ -139,6 +139,14 @@ button:disabled{
   display:flex;
   color: blue;
 }
+
+.bz-highlight-row{
+  color:#009;
+}
+.bz-light-row{
+  color:#333;
+}
+
 .bz-title{
   display: flex;
   color:#00F;
@@ -331,21 +339,22 @@ button{
 .bz-header *{
   white-space:nowrap;
 }
-.bz-header input{
+.bz-header input[type=text]{
   border-radius: 5px;
   border: 1px solid #999;
-  height: 20px;
+  height:28px;
   width: 300px;
   padding: 3px 6px;
   margin: 3px 0 0 2px;
+}
+body>.bz-log-box .bz-header input[type=text]{
+  height:20px;
 }
 .bz-search-highlight{
   background-color:yellow;
   font-weight:bold;
 }
-#main-panel .bz-header input{
-  height:28px;
-}
+
 .bz-scope{
   counter-reset: line;
 }
@@ -491,10 +500,10 @@ body>.bz-log-box .bz-sort-bar{
 
 .bz-header .bz-icon{
   width:30px;
-  margin:0 5px;
+  margin:2px 5px;
 }
 
-.bz-switch,.bz-camera,.bz-new-bug,.bz-bug,.bz-cross,.bz-download,.bz-search,.bz-analyze,.bz-result.bz-failed{
+.bz-switch,.bz-camera,.bz-new-bug,.bz-bug,.bz-cross,.bz-download,.bz-search,.bz-ab,.bz-analyze,.bz-result.bz-failed{
   border-radius: 20px;
   width: 30px;
   height: 30px;
@@ -519,20 +528,21 @@ body>.bz-log-box .bz-sort-bar{
   border: 0;
   top: 5px;
   right: 1px;
-  background-color: transparent;  
+  background-color: transparent;
+  display: inline-block;
 }
 
 .bz-mini-letter{
   font-size:11px;
 }
-
+.bz-mini-icon-letter:before{
+  font-size:11px !important;
+}
 .bz-show-failed-only{
   line-height: 34px;
   margin-right: 10px;
 }
-input[type=checkbox]{
-  height: initial !important;
-  width: initial !important;
+.bz-header input[type=checkbox]{
   margin-right: 5px;
 }
 .bz-pop-panel .bz-icon-col{
@@ -551,9 +561,6 @@ input[type=checkbox]{
   width: 15px !important;
   height: 15px !important;
 }
-.bz-pop-panel .bz-panel .bz-row{
-  color:#000;
-}
 .bz-camera:hover .bz-tmp-screenshot{
   display:block;
 }
@@ -566,6 +573,18 @@ input[type=checkbox]{
 }
 .bz-tmp-screenshot:hover{
   display:block;
+}
+.bz-row-high{
+  line-height:30px;
+}
+.std{
+  border-radius: 10px;
+  background-color: blue;
+  color: #FFF;
+  border: 1px solid blue;
+  padding: 2px 15px;
+  line-height: 20px;
+  cursor: pointer;
 }
     `
   },
@@ -646,7 +665,6 @@ input[type=checkbox]{
           end:{}
         },
         scenarioMap:{},
-        moduleMap:{},
         testMap:{},
         workerMap:[],
         waitingListMap:{},
@@ -1048,11 +1066,11 @@ input[type=checkbox]{
       }
     }
   },
-  getLogList:function(){
+  getLogList:function(masterUrl){
     let v;
     try{
       eval("v="+formatter.data.setting.identifyWorker)
-      v= v()
+      v= v(masterUrl)
       if(!v||v.constructor!=Array){
         v=[]
       }
@@ -1077,7 +1095,7 @@ input[type=checkbox]{
           .map(x=>`<button id="sort-${x.k}" class="bz-icon-letter ${x.c||""}">${x.n}</button>`).join("")}
         </div>
         <div class="bz-input-cross-box">
-          <input class='bz-search-input'/>
+          <input class='bz-search-input' type="text"/>
           <button class="bz-cross bz-icon bz-input-cross"></button>
         </div>
         <button class="bz-icon bz-search"></button>
@@ -1361,7 +1379,7 @@ input[type=checkbox]{
     
     function handleEnd(s){
       if(s.org){
-        let mk=/[0-9]+\:   <+ .+Feature - Scenario \[m[0-9][^\]]+\] ([0-9\:]+) .+$/m;
+        let mk=/[0-9]+\:   <+ [^\[]+Feature - Scenario \[m[0-9][^\]]+\] ([0-9\:]+) [^<]+<<<</ms;
         let w=formatter.splitByWord(s.org,mk);
         if(!w){
           s.details.org=s.org
@@ -1543,6 +1561,19 @@ input[type=checkbox]{
         }
       }
     }
+  },
+  loadModuleInfo:function(v){
+    let ms=v.match(/[0-9]+: Module info: \[m[0-9]+\] .+/gm)||[]
+    ms.forEach(x=>{
+      x=x.split(/\[|\] /);
+      let c=x[1],n=x[2]
+      let m=formatter.data.moduleMap[c]
+      if(!m){
+        m=formatter.data.moduleMap[c]={testMap:{}}
+      }
+      m.code=c
+      m.name=n
+    })
   },
   strToHtml:function(v,mark){
     v=v||""
@@ -1861,6 +1892,10 @@ input[type=checkbox]{
     let v=localStorage.getItem("bz-log-format");
     if(v){
       v=JSON.parse(v)
+      if(!v.scenarioTime){
+        v.scenarioTime=180
+        v.testTime=60
+      }
       if(v.autoFormat){
         if(formatter.isMasterPage(v)){
           formatter.exeFormag(v,Date.now())
@@ -1898,9 +1933,6 @@ input[type=checkbox]{
       _sel.removeAllRanges();
     },100)
   },
-  showCompare:function(){
-    
-  },
   download:function(){
     let os=Object.values(formatter.data.scenarioMap)
     os=os.filter(x=>$("#"+x.code).css("display")!="none").sort((a,b)=>{
@@ -1926,6 +1958,108 @@ input[type=checkbox]{
     let fd=formatter.data
     return fd.host+"/screenshot/"+fd.project.code+"/"+fd.project.code+"."+fd.version+"."+v+".png"
   },
+  showCompare:function(){
+    let o=$(".bz-pop-panel");
+    o.find("div.bz-box").html(`
+      <div class="bz-row-high">
+        <label><input checked type="radio" value="net-scope" name="load"/>Load log files from network</label>
+      </div>
+      <div class="bz-row-high load-option" id="net-scope">
+        <label>log No.<input type="text" id="net-log" placeholder="Support split by comma for compare multiple log"/></label>
+      </div>
+      <div class="bz-row-high">
+        <label><input type="radio" name="load" value="file-scope"/>Load log files from loacl</label>
+      </div>
+      <div class="bz-row-high load-option" id="file-scope" style="display:none">
+        <input type="file" id="file-log" multiple/>
+      </div>
+      <div class="bz-row-high" style="margin-top:10px;text-align:center;">
+        <button id="compare-btn" class="std">Compare</button>
+      </div>`)
+    $("#compare-btn").click(()=>{
+      doCompare()
+    })
+    $("[name=load]").click(function(){
+      $(".load-option").hide()
+      $("#"+this.value).show()
+    })
+    o.show()
+    function doCompare(){
+      if($("[name=load]:checked").val()=="net-scope"){
+        loadFromNet()
+      }else{
+        loadFromLocal()
+      }
+    }
+    
+    function loadFromNet(){
+      let vs=$("#net-log").val().split(",").map(x=>{
+        return {
+          key:x,
+          list:[]
+        }
+      })
+      loadLogs(vs,0,function(){
+        analyzeLogs(vs)
+        compare(vs)
+      })
+    }
+    
+    function loadLogs(vs,i,fun){
+      let v=vs[i]
+      if(v){
+        let masterUrl=location.href.replace(/\/[0-9]+[\/]/,"/"+v.key+"/")
+        loadLogByUrl(masterUrl,function(vv){
+          v.list.push(vv)
+          vv=formatter.getLogList(masterUrl)
+          loadPages(vv,0,function(vvv){
+            v.list.push(...vvv)
+            loadLogs(vs,i+1,fun)
+          })
+        })
+      }else{
+        fun(vs)
+      }
+    }
+    
+    function loadPages(vs,i,fun){
+      let v=vs[i]
+      if(v){
+        loadLogByUrl(v,function(r){
+          vs[i]=r;
+          loadPages(vs,i+1,fun)
+        })
+      }else{
+        fun(vs)
+      }
+    }
+    
+    function loadLogByUrl(v,fun){
+      $.ajax({
+        method:"GET",
+        url:v,
+        success:function(r){
+          fun(r.responseText)
+        }
+      })
+    }
+    
+    function analyzeLogs(vs){
+      vs.forEach(x=>{
+        let v=x.list.join("\n")
+        x.list={}
+        formatter.analyzeDataMap(x.list,v,0)
+      })
+    }
+    
+    function loadFile(v){
+      
+    }
+    
+    function loadFromLocal(){
+      
+    }
+  },
   showCameraPanel:function(){
     let o=$(".bz-pop-panel")
     let w=""
@@ -1942,8 +2076,10 @@ input[type=checkbox]{
     let o=$(".bz-pop-panel")
     let w="",fd=formatter.data;
     retrieveAnalyzeData()
+    
     for(let m in fd.moduleMap){
-      let tm=fd.moduleMap[m].testMap
+      let mm=fd.moduleMap[m]
+      let tm=mm.testMap
       let ts=Object.values(tm),
           mSuccess=0,
           mFailed=0,
@@ -1953,10 +2089,9 @@ input[type=checkbox]{
           mWarn=""
           
       ts.forEach(x=>{
-        
         mTotal+=x.list.length
         let success=0,failed=0,time=0,average=0,
-            warn="' style='margin-left:20px;",
+            warn="",
             slow=new Set(),repeat=new Set()
         x.list.forEach(y=>{
           if(y.result!="failed"){
@@ -1976,23 +2111,25 @@ input[type=checkbox]{
         slow=[...slow]
         repeat=[...repeat]
         if(slow.length){
+          slow=slow.map(x=>fd.scenarioMap[x].title)
           slow="Slow in scenarios:\n"+slow.join("\n")
         }
         if(repeat.length){
+          repeat=repeat.map(x=>fd.scenarioMap[x].title)
           repeat="Too many repeat in scenarios:\n"+repeat.join("\n")
         }
         let msg=slow+"\n\n"+repeat
         msg=msg.trim()
         if(msg){
-          warn=` bz-warning' style='margin-left:0' title='${msg}`
-          mWarn="⚠️"
+          warn=`<span class='bz-mini-letter' title='${msg}'>⚠️</span>`
+          mWarn="<span class='bz-mini-letter'>⚠️</span>"
         }
         tr.push(`
-          <div class="bz-row">
-            <div class='bz-title-text${warn}'>[${x.list[0].code}] ${x.list[0].name}</div>
-            <span class='bz-icon bz-icon-col bz-timer2' style='width:80px;'>${time}/${average}s</span>
-            <span class='bz-icon bz-icon-col bz-success'>${success}</span>
-            <span class='bz-icon bz-icon-col bz-failed'>${failed}</span>
+          <div class="bz-row ${x.list[0].scenario?'bz-highlight-row':'bz-light-row'}">
+            <div class='bz-title-text' style='margin-left:20px;'><div class="bz-mini-icon bz-${x.list[0].scenario?'scenario':'test'}"></div> [${x.list[0].code}] ${x.list[0].name} ${warn}</div>
+            <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2' style='width:80px;'>${time}/${average}s</span>
+            <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-success'>${success}</span>
+            <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-failed'>${failed}</span>
           </div>
         `)
         mSuccess+=success
@@ -2004,10 +2141,10 @@ input[type=checkbox]{
           <div class='bz-row'>
             <button class='bz-mini-icon bz-switch bz-switch2'></button>
             <div class="bz-title-text" style="display:flex;">
-              <span style="flex:1">${m}${mWarn} (Tests: ${ts.length}, executed times: ${mTotal})</span>
-              <span class='bz-icon bz-icon-col bz-timer2' style='width:80px;'>${mTime}s</span>
-              <span class='bz-icon bz-icon-col bz-success'>${mSuccess}</span>
-              <span class='bz-icon bz-icon-col bz-failed'>${mFailed}</span>
+              <span style="flex:1">[${m}] ${mm.name} (Tests: ${ts.length}) ${mWarn}</span>
+              <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2' style='width:70px;'>${mTime}s</span>
+              <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-success'>${mSuccess}</span>
+              <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-failed'>${mFailed}</span>
             </div>
           </div>
           <div class='bz-panel bz-hide'>
@@ -2036,57 +2173,84 @@ input[type=checkbox]{
       for(let k in fd.scenarioMap){
         if(!fd.analyzeDataMap[k]){
           fd.analyzeDataMap[k]=1
-          let s=fd.scenarioMap[k],level=1
-          while(1){
-            let ts=formatter.getTestTreeByLevel(s.details.org,level++),ct,lt,lts=0
-            if(!ts.length){
-              break
-            }
-            ts.forEach((t,i)=>{
-              if(i%2==0){
-                let c=t.match(/\[(m[0-9]+)\.(t[0-9]+).*\] - (.+) \(([0-9:]+)\) >>>>$/)
-                ct={
-                  m:c[1],
-                  t:c[2],
-                  code:c[1]+"."+c[2],
-                  name:c[3],
-                  start:c[4],
-                  from:k
-                }
-              }else{
-                let c=t.match(/<<<< ([^ ]+) [^\]]+\] ([0-9:]+) .+ <<<<$/),
-                    m=ct.m
-                ct.end=c[2]
-                ct.result=c[1].toLowerCase()
-                
-                ct.time=parseInt(formatter.getSpendTime(ct.start,ct.end))
-                
-                if(ct.time>fd.setting.testTime){
-                  ct.slow=k
-                }
-                
-                mp[m]=mp[m]||{testMap:{}}
-                
-                mp[m].testMap[ct.t]=mp[m].testMap[ct.t]||{list:[]}
-                mp[m].testMap[ct.t].list.push(ct);
-                if(lt&&lt.code==ct.code&&lt.from==ct.from){
-                  lts++
-                  if(lts>5){
-                    ct.repeat=k
-                  }
-                }else{
-                  lts=0
-                  lt=ct
-                }
-              }
-            })
+          let s=fd.scenarioMap[k]
+          let sc=s.code.split("-")
+          let cs={
+            m:sc[0],
+            t:sc[1],
+            code:sc[0]+"."+sc[1],
+            name:s.name,
+            time:parseInt(s.time),
+            slow:parseInt(s.time)>fd.setting.scenarioTime?s.code:0,
+            scenario:1
           }
+          formatter.addAnalyzeData(mp,cs)
+          formatter.loadModuleInfo(s.init.org);
+          formatter.loadModuleInfo(s.details.org);
+          formatter.retrieveAnalyzeData(mp,k,s.details.org,1)
         }
       }
     }
   },
+  addAnalyzeData:function(mp,ct){
+    let m=ct.m,t=ct.t;
+    mp[m]=mp[m]||{testMap:{}}
+              
+    mp[m].testMap[t]=mp[m].testMap[t]||{list:[]}
+    if(ct.scenario){
+      mp[m].testMap[t].list.unshift(ct);
+    }else{
+      mp[m].testMap[t].list.push(ct);
+    }
+  },
+  retrieveAnalyzeData:function(mp,scenarioKey,log,level){
+    while(1){
+      let ts=formatter.getTestTreeByLevel(log,level++),ct,lt,lts=0
+      if(!ts.length){
+        break
+      }
+      ts.forEach((t,i)=>{
+        if(i%2==0){
+          let c=t.match(/\[(m[0-9]+)\.(t[0-9]+).*\] - (.+) \(([0-9:]+)\) >>>>$/)
+          ct={
+            m:c[1],
+            t:c[2],
+            code:c[1]+"."+c[2],
+            name:c[3],
+            start:c[4],
+            from:scenarioKey
+          }
+        }else{
+          let c=t.match(/<<<< ([^ ]+) [^\]]+\] ([0-9:]+) [^<]+ <<<</s),
+              m=ct.m
+          if(!c){
+            return
+          }
+          ct.end=c[2]
+          ct.result=c[1].toLowerCase()
+          
+          ct.time=parseInt(formatter.getSpendTime(ct.start,ct.end))
+          
+          if(ct.time>formatter.data.setting.testTime){
+            ct.slow=scenarioKey
+          }
+          
+          formatter.addAnalyzeData(mp,ct)
+          if(lt&&lt.code==ct.code&&lt.from==ct.from){
+            lts++
+            if(lts>5){
+              ct.repeat=scenarioKey
+            }
+          }else{
+            lts=0
+            lt=ct
+          }
+        }
+      })
+    }
+  },
   getTestTreeByLevel:function(v,level){
-    let r=`/[0-9]+: {${level*6+3}}(>+ Loading .+|<+ .+)Test \\[m[0-9]+\.t[0-9]+.+/gm`
+    let r=`/[0-9]+: {${level*6+3}}(>+ Loading [^\[]+|<+ [^\[]+)Test \\[m[0-9]+\\.t[0-9]+[^><]+(>|<)+/gms`
     r=eval(r)
     return v.match(r)||[]
   },
@@ -2259,21 +2423,65 @@ input[type=checkbox]{
     }
     
     function preFilter(v){
+      let os=Object.values(fd.scenarioMap).filter(x=>x.result=="failed"||!fd.failedOnly)
+
       if(v.constructor==Array){
-        v=v.map(x=>{
-          x=x.split(" ")
-          x.sort((a,b)=>b.length-a.length)
-          return x[0].replace(/([^a-z0-9])/gi,"\\$1")
-        }).join("|")
-        eval("v=/"+v+"/")
+        v=v.map((x,i)=>{
+          let xx;
+          if(!i){
+            xx=x.match(/(scenario|test) (.+)/)
+            if(xx){
+              v[i]=xx[1]
+              xx="Loading .+ ("+xx[1].replace(/ /g,"|")+")"
+            }else{
+              xx=x.match(/m[0-9]+[\.\/]t[0-9]+/)
+              if(xx){
+                xx="Loading .+ \\["+xx[0]
+              }
+            }
+            if(xx){
+              eval("xx=/"+xx+"/i")
+              os=os.filter(x=>{
+                if(!x.title.match(xx)&&!x.init.org.match(xx)&&!x.details.org.match(xx)){
+                  $("#"+x.code).hide()
+                }else{
+                  return 1
+                }
+              })
+            }else{
+              xx=x.match(/action[: ](.+)/)
+              if(xx){
+                v[i]=xx[1]
+                xx=xx[1].split(" ").sort((a,b)=>a.length-b.length).pop()
+                xx="##Action[^#]*## .*"+xx
+              }
+              eval("xx=/"+xx+"/i")
+              os=os.filter(x=>{
+                if(!x.details.org.match(xx)){
+                  $("#"+x.code).hide()
+                }else{
+                  return 1
+                }
+              })
+            }
+          }
+          if(!xx){
+            x=x.split(" ")
+            x.sort((a,b)=>b.length-a.length)
+            return x[0].replace(/([^a-z0-9])/gi,"\\$1")
+          }
+        }).filter(x=>x).join("|")
+        if(v){
+          eval("v=/"+v+"/")
+        }
       }
-      Object.values(fd.scenarioMap).forEach(x=>{
-        if(x.result=="failed"||!fd.failedOnly){
-          if(!x.details.org.match(v)&&!x.init.org.match(v)&&!x.declare.org.match(v)){
+      if(v){
+        os.forEach(x=>{
+          if(!x.title.match(v)&&!x.details.org.match(v)&&!x.init.org.match(v)&&!x.declare.org.match(v)){
             $("#"+x.code).hide()
           }
-        }
-      })
+        })
+      }
     }
   },
   removeAllHighlight:function(){
