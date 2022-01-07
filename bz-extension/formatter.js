@@ -995,7 +995,7 @@ body>.bz-log-box .bz-sort-bar{
         e=s[k].element
         closer=s[k].closer
       }
-      if(closer.hasClass("bz-open")){
+      if(closer[0].getBoundingClientRect().width){
         closer.removeClass("bz-open")
         e.addClass("bz-hide")
       }else{
@@ -1048,7 +1048,7 @@ body>.bz-log-box .bz-sort-bar{
       </div>
       <pre class="bz-panel ${o.code}" ${o.close?'':'style="display:none;"'}>
         ${exPanel}
-        <div class='bz-details ${o.code}-details'>${o.details||""}</div>
+        <div class='bz-details ${o.code}-details'>${o.details&&o.details.constructor==String?o.details:""}</div>
         ${endPanel}
       </pre>
     </div>`
@@ -1058,10 +1058,8 @@ body>.bz-log-box .bz-sort-bar{
     for(let k in formatter.data.scenarioMap){
       let o=formatter.data.scenarioMap[k]
       if(o.result=="success"&&formatter.data.failedOnly){
-        $("#"+o.code).hide()
-        o.hidden=1
+        formatter.hideScenario(o)
       }else{
-        o.hidden=0
         $("#"+o.code).show()
       }
     }
@@ -1597,8 +1595,8 @@ body>.bz-log-box .bz-sort-bar{
     }
     return v
   },
-  buildAllDetails:function(){
-    Object.keys(formatter.data.scenarioMap).forEach(x=>formatter.initScenario(x))
+  buildAllDetails:function(os){
+    (os||Object.keys(formatter.data.scenarioMap)).forEach(x=>formatter.initScenario(x))
   },
   initScenario:function(k){
     let fd=formatter.data
@@ -1607,10 +1605,15 @@ body>.bz-log-box .bz-sort-bar{
       s.element=$("#"+k)
       s.switcher=$(s.element.find(".bz-switch")[0])
       s.init.element=$("#"+k+"-init.bz-level-init")
+      s.init.panel=s.init.element.find(".bz-panel>div")[0]
       s.init.closer=s.init.element.find(".bz-cross")
+
       s.declare.element=$("#"+k+"-declare.bz-level-declare")
+      s.declare.panel=s.declare.element.find(".bz-panel>div")[0]
       s.declare.closer=s.declare.element.find(".bz-cross")
+      
       s.details.element=s.element.find("."+k+"-details")
+      
       s.end.element=s.element.find("."+k+"-end")
       
       buildSimpleContent(s.init.element.find(".bz-panel"),s.init.org)
@@ -2285,22 +2288,22 @@ body>.bz-log-box .bz-sort-bar{
     document.documentElement.scrollTop=0
   },
   search:function(v,scope){
+    formatter.tmpTime=Date.now()
     let fd=formatter.data
     if(formatter.searching){
       return
     }
     formatter.searching=1
     formatter.showFailedOnlyResult()
-    formatter.removeAllHighlight()
     if(!v){
       formatter.searching=0
+      formatter.removeAllHighlight()
       return formatter.closeAll()
     }
     formatter.showDoing("Searching ...")
     document.documentElement.scrollTop=0
 
     return setTimeout(()=>{
-      formatter.buildAllDetails()
       let ttt=Date.now()
       doSearch(v,scope)
       console.log(Date.now()-ttt)
@@ -2308,6 +2311,7 @@ body>.bz-log-box .bz-sort-bar{
     
     
     function doSearch(){
+      console.log(Date.now()-formatter.tmpTime)
       try{
         if(v.match(/^[\/].+[\/][i]?$/)){
           v=eval(v)
@@ -2319,6 +2323,7 @@ body>.bz-log-box .bz-sort-bar{
         alert("This is not a correct regular expression!")
       }
       preFilter(v)
+      formatter.removeAllHighlight()
       if(!scope){
         scope=[formatter.element.init,...formatter.element.panel.find(".bz-level-scenario").toArray().filter(x=>$(x).css("display")!="none"),formatter.element.end]
       }
@@ -2443,7 +2448,7 @@ body>.bz-log-box .bz-sort-bar{
               eval("xx=/"+xx+"/i")
               os=os.filter(x=>{
                 if(!x.title.match(xx)&&!x.init.org.match(xx)&&!x.details.org.match(xx)){
-                  $("#"+x.code).hide()
+                  formatter.hideScenario(x)
                 }else{
                   return 1
                 }
@@ -2454,15 +2459,16 @@ body>.bz-log-box .bz-sort-bar{
                 v[i]=xx[1]
                 xx=xx[1].split(" ").sort((a,b)=>a.length-b.length).pop()
                 xx="##Action[^#]*## .*"+xx
+
+                eval("xx=/"+xx+"/i")
+                os=os.filter(x=>{
+                  if(!x.details.org.match(xx)){
+                    formatter.hideScenario(x)
+                  }else{
+                    return 1
+                  }
+                })
               }
-              eval("xx=/"+xx+"/i")
-              os=os.filter(x=>{
-                if(!x.details.org.match(xx)){
-                  $("#"+x.code).hide()
-                }else{
-                  return 1
-                }
-              })
             }
           }
           if(!xx){
@@ -2472,17 +2478,33 @@ body>.bz-log-box .bz-sort-bar{
           }
         }).filter(x=>x).join("|")
         if(v){
-          eval("v=/"+v+"/")
+          eval("v=/"+v+"/i")
         }
       }
       if(v){
-        os.forEach(x=>{
+        os=os.filter(x=>{
           if(!x.title.match(v)&&!x.details.org.match(v)&&!x.init.org.match(v)&&!x.declare.org.match(v)){
-            $("#"+x.code).hide()
+            formatter.hideScenario(x)
+          }else{
+            return 1
           }
         })
       }
+      formatter.buildAllDetails(os.map(x=>x.code))
     }
+  },
+  hideScenario:function(o){
+    if(o.element){
+      o.details.element.html("");
+      o.init.panel.innerHTML=""
+      o.declare.panel.innerHTML=""
+      o.end.element.html("")
+      o.switcher.removeClass("bz-open")
+      $(o.element.find(".bz-panel")[0]).hide()
+      o.element.find(".bz-level-init,.bz-level-declare").addClass("bz-hide")
+      o.element=0
+    }
+    $("#"+o.code).hide()
   },
   removeAllHighlight:function(){
     let os=$(".bz-search-highlight").toArray()
