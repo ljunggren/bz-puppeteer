@@ -586,6 +586,9 @@ body>.bz-log-box .bz-sort-bar{
   line-height: 20px;
   cursor: pointer;
 }
+.bz-level-scenario{
+  border-top:1px solid #CCC;
+}
     `
   },
   updateFormatLogSetting:function(setting){
@@ -2435,9 +2438,14 @@ body>.bz-log-box .bz-sort-bar{
               v[i]=xx[1]
               xx="Loading .+ ("+xx[1].replace(/ /g,"|")+")"
             }else{
-              xx=x.match(/m[0-9]+[\.\/]t[0-9]+/)
+              xx=x.match(/(m[0-9]+[\.\/]t[0-9]+)(.*)/)
               if(xx){
-                xx="Loading .+ \\["+xx[0]
+                v[i]=xx[1]
+                let xxx=(xx[2]||"").trim()
+                xx="Loading .+ \\["+xx[1]
+                if(xxx){
+                  v.splice(i+1,0,xxx)
+                }
               }
             }
             if(xx){
