@@ -1110,7 +1110,7 @@ body>.bz-log-box .bz-sort-bar{
       exePanel:$("<div class='bz-scope bz-hide' bz-name='Executing list'></div>").appendTo(p),
       panel:$("<div class='bz-scope' bz-name='Completed list'></div>").appendTo(p),
       waitingList:$("<div class='bz-scope bz-hide' bz-name='Waiting list'></div>").appendTo(p),
-      end:$("<div class='bz-scope bz-end'></div>").appendTo(p)
+      end:$("<pre class='bz-scope bz-end'></pre>").appendTo(p)
     };
 
     o.header.find("input.bz-search-input").change(function(e){
@@ -1947,7 +1947,7 @@ body>.bz-log-box .bz-sort-bar{
     let w=os.map(x=>{
       return x.declare.org.trim()+"\n"+x.init.org.trim()+"\n"+x.details.org.trim()+"\n"+x.end.org.trim()
     }).join("\n")
-    w=formatter.data.project.init.org.trim()+"\n"+w+formatter.data.project.end.org
+    w=formatter.data.project.init.org.trim()+"\n"+w+"\n"+formatter.data.project.end.org
     w=`<!DOCTYPE html>
        <html>
        <head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8'></head>
