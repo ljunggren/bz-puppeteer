@@ -2288,7 +2288,6 @@ body>.bz-log-box .bz-sort-bar{
     document.documentElement.scrollTop=0
   },
   search:function(v,scope){
-    formatter.tmpTime=Date.now()
     let fd=formatter.data
     if(formatter.searching){
       return
@@ -2304,14 +2303,11 @@ body>.bz-log-box .bz-sort-bar{
     document.documentElement.scrollTop=0
 
     return setTimeout(()=>{
-      let ttt=Date.now()
       doSearch(v,scope)
-      console.log(Date.now()-ttt)
     })
     
     
     function doSearch(){
-      console.log(Date.now()-formatter.tmpTime)
       try{
         if(v.match(/^[\/].+[\/][i]?$/)){
           v=eval(v)
