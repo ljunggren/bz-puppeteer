@@ -18,6 +18,9 @@ var formatter={
 .bz-ab:before{
   content:"🆎";
 }
+.bz-setting:before{
+  content:"🛠"
+}
 .bz-search:before{
   content:"🔎";
 }
@@ -501,7 +504,7 @@ body>.bz-log-box .bz-sort-bar{
   margin:2px 5px;
 }
 
-.bz-switch,.bz-camera,.bz-new-bug,.bz-bug,.bz-cross,.bz-download,.bz-search,.bz-ab,.bz-analyze,.bz-result.bz-failed{
+.bz-switch,.bz-camera,.bz-new-bug,.bz-bug,.bz-cross,.bz-download,.bz-setting,.bz-search,.bz-ab,.bz-analyze,.bz-result.bz-failed{
   border-radius: 20px;
   width: 30px;
   height: 30px;
@@ -550,9 +553,14 @@ body>.bz-log-box .bz-sort-bar{
   width:50px;
   padding-left:5px;
   margin-left:8px;
+  margin-top:0;
+  margin-bottom:0;
+  padding-top:2px;
 }
 .bz-icon-col:before{
   margin-right:5px;
+  position: relative;
+  top: -1px;
 }
 .bz-none{
   visibility:hidden;
@@ -580,15 +588,6 @@ body>.bz-log-box .bz-sort-bar{
 }
 .bz-row-high{
   line-height:30px;
-}
-.std{
-  border-radius: 10px;
-  background-color: blue;
-  color: #FFF;
-  border: 1px solid blue;
-  padding: 2px 15px;
-  line-height: 20px;
-  cursor: pointer;
 }
 .bz-level-scenario{
   border-top:1px solid #CCC;
@@ -652,6 +651,34 @@ body>.bz-log-box .bz-sort-bar{
 .bz-term-title{
   width:235px;
   text-align:center;
+}
+.bz-icon-col.bz-timer2{
+  border-left:1px solid #CCC;
+}
+.bz-diff-item{
+  background-color: #F99;
+}
+.bz-diff-item2{
+  background-color: #FCC;
+}
+.bz-same-item{
+  display:none;
+}
+.std{
+  border-radius: 10px;
+  background-color: #00F;
+  color: #FFF;
+  border: 1px solid blue;
+  padding: 2px 15px;
+  line-height: 20px;
+  cursor: pointer;
+}
+.std:hover{
+  background-color: #009;
+  color: #FFF;
+}
+input[type=number]{
+  width:50px;
 }
     `
   },
@@ -875,7 +902,7 @@ body>.bz-log-box .bz-sort-bar{
       }else if(o.hasClass("bz-search")){
         formatter.search($(".bz-header input.bz-search-input").val())
       }else if(o.hasClass("bz-analyze")){
-        analyzer.showAnalyzePanel()
+        analyzer.doAnalysis()
       }else if(o.hasClass("bz-download")){
         formatter.download()
       }else if(o.hasClass("bz-ab")){
@@ -2078,7 +2105,7 @@ body>.bz-log-box .bz-sort-bar{
         <label><input checked type="radio" value="net-scope" name="load"/>Load log files from network</label>
       </div>
       <div class="bz-row-high load-option" id="net-scope">
-        <label>log No.<input type="text" id="net-log" placeholder="Support split by comma for compare multiple log"/></label>
+        <label style="margin-left:20px;">Log No.<input type="text" id="net-log" placeholder="Support split by comma for compare multiple log"/></label>
       </div>
       <div class="bz-row-high">
         <label><input type="radio" name="load" value="file-scope"/>Load log files from loacl</label>
@@ -2116,7 +2143,7 @@ body>.bz-log-box .bz-sort-bar{
     }
     
     function compare(vs){
-      analyzer.showAnalyzePanel(vs)
+      analyzer.doAnalysis(vs)
     }
     
     function mergeModuledata(vs){
@@ -2210,6 +2237,7 @@ body>.bz-log-box .bz-sort-bar{
         })
         compare(vs)
       }catch(ex){
+        console.log(ex.stack)
         alert(ex.message)
       }
     }
@@ -2530,6 +2558,11 @@ body>.bz-log-box .bz-sort-bar{
 };
 
 var analyzer={
+  setting:{
+    percentage:0.1,
+    second:5,
+    diffResult:1
+  },
   //mp: module map, ap: analysis map, ct: scenario/test
   addAnalyzeData:function(mp,ct,ap,key){
     let d=createNode(mp,ct.m,{testMap:{}})
@@ -2660,11 +2693,9 @@ var analyzer={
     }
     return 1
   },
-  showAnalyzePanel:function(compare){
+  doAnalysis:function(compare){
     let fd=formatter.data,
-        o=$(".bz-pop-panel"), 
-        compareScope="",
-        compareTerm=""
+        o=$(".bz-pop-panel")
         
     if(o.attr("type")=="analyze"){
       if(compare){
@@ -2685,12 +2716,233 @@ var analyzer={
       compare.forEach(x=>{
         analyzer.buildModuleData(x.key,x.list)
       })
-      let ks=compare.map(x=>x.key)
-      ks.unshift("master")
+      analyzer.curCompareTabs=compare.map(x=>x.key)
+      analyzer.curCompareTabs.unshift("master")
+      
+      
+    }else{
+      analyzer.curCompareTabs=0
+    }
+    
+    analyzer.showAnalyzePanel(compare&&"diff")
+  },
+  identifyDiffData:function(compare){
+    let tabs=[],as=analyzer.setting
+    tabs.push(...analyzer.curCompareTabs)
+    tabs.shift()
+    clearDiff(analyzer.moduleData);
+    clearDiff(formatter.data.scenarioAnaMap)
+
+    for(let k in analyzer.moduleData){
+      let m=analyzer.moduleData[k]
+      isDiffOnMissing(m)
+      m.ts.forEach(x=>{
+        isDiffOnMissing(x)
+        if(!x.diff){
+          isDiffItem(x,m)
+        }
+      })
+    }
+
+    for(let k in formatter.data.scenarioAnaMap){
+      let m=formatter.data.scenarioAnaMap[k]
+      setDiffInNodes(m)
+    }
+    
+    function setDiffInNodes(m,p){
+      if(m.nodes&&m.nodes.length){
+        m.nodes.forEach(x=>{
+          setDiffInNodes(x,m)
+          if(m.diff&&m.diff.constructor==Array){
+            if(m.term){
+              m.diff.forEach(y=>{
+                if(p){
+                  p.diff=m.diff
+                }
+              })
+            }
+          }else if(p){
+            if(p.term){
+              for(let k in m.term){
+                if(m.term[k].diff){
+                  p.term[k].diff=p.term[k].diff||new Set()
+                  let xx=[]
+                  xx.push(...m.term[k].diff)
+                  xx.forEach(y=>p.term[k].diff.add(y))
+                }
+              }
+            }else if(m.diff){
+            }
+          }
+        })
+        return
+      }
+      
+      if(m.term){
+        let master=m.term.master
+        if(!master){
+          for(let k in m.term){
+            m.diff=1
+            m.term[k].diff=1
+          }
+          if(p){
+            p.diff=Object.keys(m.term)
+          }
+        }else{
+          if(!tabs.find(x=>{
+            if(!m.term[x]){
+              master.diff=1
+              if(p){
+                p.diff=["master"]
+              }
+              return 1
+            }
+          })){
+            isDiffItem(m,p)
+          }
+        }
+      }
+    }
+    
+    function clearDiff(d){
+      for(let k in d){
+        let m=d[k]
+        m.diff=0
+        clearTerm(m)
+
+        if(m.ts){
+          m.ts.forEach(x=>{
+            clearTerm(x)
+          })
+        }
+      }
+      function clearTerm(m){
+        for(let k in m.term){
+          m.term[k].diff=0
+        }
+        if(m.nodes){
+          m.nodes.forEach(x=>{
+            clearTerm(x)
+          })
+        }
+      }
+    }
+    
+    function isDiffItem(m,p){
+      let mm=m.term.master;
+      tabs.forEach(x=>{
+        let t=m.term[x]
+        if(as.diffResult){
+          if(t.success!=mm.success){
+            setDiff(t,"success")
+          }
+          if(t.failed!=mm.failed){
+            setDiff(t,"failed")
+          }
+          if(t.result!=mm.result){
+            setDiff(t,t.result)
+          }
+        }
+        if(t.average){
+          if(isDiffTime(t.average,mm.average)){
+            setDiff(t,"time")
+          }
+        }else{
+          if(isDiffTime(t.time,mm.time)){
+            setDiff(t,"time")
+          }
+        }
+        if(t.diff&&p&&p.term){
+          if(!p.term[x].diff||p.term[x].diff.constructor!=Set){
+            p.term[x].diff=new Set();
+          }
+          t=[...t.diff]
+
+          t.forEach(y=>p.term[x].diff.add(y))
+        }
+      })
+    }
+    
+    function setDiff(x,v){
+      x.diff=x.diff||new Set()
+      x.diff.add(v)
+    }
+
+    function isDiffOnMissing(m){
+      if(!m.term.master){
+        m.diff=1
+        for(let k in m.term){
+          m.term[k].diff=1
+        }
+      }else{
+        tabs.forEach(x=>{
+          if(!m.term[x]){
+            m.diff=1
+            m.term.master.diff=1
+          }
+        })
+      }
+    }
+    function isDiffTime(a,b){
+      let v=Math.abs(a-b)
+      let p=Math.max(v/a,v/b)
+      if(v>as.second&&p>as.percentage){
+        return 1
+      }
+    }
+  },
+  showDiffSetting:function(){
+    let as=analyzer.setting,
+        o=$(".bz-pop-panel")
+    o.attr({type:""})
+    o.find("div.bz-box").html(`
+      <div>
+        <label><input type="checkbox" id="diffResult">Show diff on different result</label>
+        <div>Different time:</div>
+        <label>Minimum diff percentage(%)<input type="number" id="percentage"></label>
+        and
+        <label>Minimum diff seconds<input type="number" id="second"></label>
+      </div>
+      <div><button class="std">Reset</button></div>
+    `)
+    
+    $("#diffResult").attr({checked:!!as.diffResult})
+    $("#second").val(as.second)
+    $("#percentage").val(as.percentage*100)
+    $("#diffResult").click(function(){
+      as.diffResult=this.checked
+    })
+    $("#second").change(function(){
+      as.second=this.value
+    })
+    $("#percentage").change(function(){
+      as.percentage=this.value/100
+    })
+    $(".std").click(function(){
+      analyzer.showAnalyzePanel("diff")
+    })
+  },
+  showAnalyzePanel:function(compare){
+    let fd=formatter.data,
+        o=$(".bz-pop-panel"), 
+        compareScope="",
+        compareTerm="",
+        tabs=[...(analyzer.curCompareTabs||["master"])]
+
+    for(let k in fd.scenarioAnaMap){
+      let m=fd.scenarioAnaMap[k]
+      m.term={}
+      tabs.forEach(x=>{
+        m.term[x]={success:0,failed:0,time:0}
+      })
+    }
+
+    if(compare){
+      analyzer.identifyDiffData(compare)
+      let ks=analyzer.curCompareTabs
       compareScope=`
-        <div style="margin:14px 10px;">
-          <label style="margin-right:10px;"><input value="diff" name="anaScope" type="radio">Diff</label>
-          <label><input type="radio" name="anaScope" value="same">Samilar</label>
+        <div style="margin:8px ​10p;">
+          <button class="bz-icon bz-setting"></button>
         </div>`;
       compareTerm=`
         <div class="bz-term-bar">
@@ -2735,12 +2987,16 @@ var analyzer={
       $(".bz-panel-"+this.id).show()
     })
     o.show()
+
+    $(".bz-setting").click(function(){
+      analyzer.showDiffSetting()
+    })
     
     function getModuleResult(md,type){
       let vs=Object.values(md)
       let w=vs.filter(x=>x.ts.find(y=>y.type==type)).map(x=>{
         return `
-          <div>
+          <div class="${getSameClass(x)}">
             <div class='bz-row'>
               <button class='bz-mini-icon bz-switch bz-switch2'></button>
               <div class="bz-title-text" style="line-height:25px;">
@@ -2748,9 +3004,9 @@ var analyzer={
               </div>
               ${sortTerm(x).map(z=>{
                 return `
-                  <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2' style='width:100px;'>${z.time}s</span>
-                  <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.success?"bz-success":""}'>${z.success||""}</span>
-                  <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.failed?"bz-failed":""}'>${z.failed||""}${z.warn}</span>
+                  <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2 ${getDiffClass(z,"time")}' style='width:100px;'>${z.time}s</span>
+                  <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.success?"bz-success":""} ${getDiffClass(z,"success")}'>${z.success||""}</span>
+                  <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.failed?"bz-failed":""} ${getDiffClass(z,"failed")}'>${z.failed||""}${z.warn}</span>
                 `
               }).join("")}
             </div>
@@ -2763,22 +3019,49 @@ var analyzer={
       }).join("")
       return w
     }
+    
+    function getSameClass(x){
+      if(compare){
+        for(let k in x.term){
+          if(x.term[k].diff){
+            return ""
+          }
+        }
+        return "bz-same-item"
+      }
+      return ""
+    }
 
     function getTestResult(x){
       return `
-        <div class="bz-row">
+        <div class="bz-row ${getSameClass(x)}">
           <div class='bz-title-text' style='margin-left:20px;'>
-            <div class="bz-mini-icon bz-${x.type}"></div> [${x.code}] ${x.name} ${x.warn}
+            <div class="bz-mini-icon bz-${x.type}"></div> [${x.code}] ${x.name}
           </div>
           ${sortTerm(x).map(z=>{
             return `
-              <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2' style='width:100px;'>${z.time}/${z.average}s</span>
-              <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.success?"bz-success":""}'>${z.success||""}</span>
-              <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.failed?"bz-failed":""}'>${z.failed||""}${z.warn}</span>
+              <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2 ${getDiffClass(z,"time")}2' style='width:100px;'>${z.time}/${z.average}s</span>
+              <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.success?"bz-success":""} ${getDiffClass(z,"success")}2'>${z.success||""}</span>
+              <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.failed?"bz-failed":""} ${getDiffClass(z,"failed")}2'>${z.failed||""}${z.warn}</span>
             `
           }).join("")}
         </div>
       `
+    }
+    
+    function getDiffClass(z,k){
+      if(compare){
+        if(z.diff){
+          if(z.diff.constructor==Set){
+            if(z.diff.has(k)){
+              return "bz-diff-item"
+            }
+          }else{
+            return "bz-diff-item"
+          }
+        }
+      }
+      return ""
     }
     
     function sortTerm(o){
@@ -2795,10 +3078,9 @@ var analyzer={
     
     function getScenarioResult(){
       return Object.values(fd.scenarioAnaMap).map(x=>{
-        x.term={}
+        // x.term={}
         x.nodes.forEach(y=>{
           for(let k in y.term){
-            x.term[k]=x.term[k]||{success:0,failed:0,time:0}
             if(y.term[k].result=="success"){
               x.term[k].success++
             }else{
@@ -2810,26 +3092,36 @@ var analyzer={
         for(let k in x.term){
           x.term[k].average=parseInt(x.term[k].time/(x.term[k].success+x.term[k].failed))
         }
+        // if(x.diff){
+          // debugger
+          // if(x.diff.constructor==Array){
+            // x.diff.forEach(y=>{
+              // x.term[y].diff=1
+            // })
+          // }else{
+            // debugger
+          // }
+        // }
         return x
       }).map(x=>getNodeView(x,compare?0:"master")+"<hr/>").join("")
     }
     
     function getNodeView(s,k){
       return `
-        <div class='bz-node'>
+        <div class='bz-node ${getSameClass(s)}'>
           <div class="bz-row bz-node-title-bar">
             <button class="bz-mini-icon bz-switch bz-switch2 ${s.nodes.length?'':'bz-none'}"></button>
             <div class="bz-mini-icon bz-${s.name?s.type||"test":"hide"}"></div>
-            <div class="bz-title-text">${s.name||s.code}</div>
+            <div class="bz-title-text">${s.name?"["+s.code+"] ":""}${s.name||s.code}</div>
             ${sortTerm(s).map(x=>{
               if(s.type=="scenario"){
-                return `<div style="width:100px;" class="bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time}/${x.average}s</div>
-                        <div class="bz-mini-icon-letter bz-icon-col bz-${x.success?'success':''}">${x.success||""}</div>
-                        <div class="bz-mini-icon-letter bz-icon-col bz-${x.failed?'failed':''}">${x.failed||""}</div>`
+                return `<div style="width:100px;" class="${getDiffClass(x,"time")}2 bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time}/${x.average}s</div>
+                        <div class="${getDiffClass(x,"success")}2 bz-mini-icon-letter bz-icon-col bz-${x.success?'success':''}">${x.success||""}</div>
+                        <div class="${getDiffClass(x,"failed")}2 bz-mini-icon-letter bz-icon-col bz-${x.failed?'failed':''}">${x.failed||""}</div>`
               }else{
-                return `<div style="width:100px;" class="bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time}s</div>
-                        <div class="bz-mini-icon-letter bz-icon-col bz-success ${x.result=="success"?'':'bz-none'}"></div>
-                        <div class="bz-mini-icon-letter bz-icon-col bz-failed ${x.result=="success"?'bz-none':''}"></div>`
+                return `<div style="width:100px;" class="${getDiffClass(x,"time")}2 bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time}s</div>
+                        <div class="${getDiffClass(x,"success")}2 bz-mini-icon-letter bz-icon-col bz-success ${x.result=="success"?'':'bz-none'}"></div>
+                        <div class="${getDiffClass(x,"failed")}2 bz-mini-icon-letter bz-icon-col bz-failed ${x.result=="success"?'bz-none':''}"></div>`
               }
             }).join("")}
           </div>
@@ -2951,7 +3243,7 @@ var analyzer={
     let mp=fd.moduleMap
     for(let k in fd.scenarioMap){
       let s=fd.scenarioMap[k]
-      //if(!s.analyzed){
+      if(!s.analyzed){
         if(!s.time){
           s.time=formatter.getSpendTime(s.start,s.endTime)
         }
@@ -2973,9 +3265,9 @@ var analyzer={
         analyzer.addAnalyzeData(mp,cs,fd.scenarioAnaMap,"master")
         formatter.loadModuleInfo(s.init.org);
         formatter.loadModuleInfo(s.details.org);
-        analyzer.retrieveAnalyzeData("master",mp,s.details.org,1,cs)
-        // s.analyzed=analyzer.retrieveAnalyzeData("master",mp,s.details.org,1,cs)
-      // }
+        // analyzer.retrieveAnalyzeData("master",mp,s.details.org,1,cs)
+        s.analyzed=analyzer.retrieveAnalyzeData("master",mp,s.details.org,1,cs)
+      }
     }
   },
   getTestTreeByLevel:function(v,level){
