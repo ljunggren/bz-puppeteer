@@ -2730,8 +2730,6 @@ var analyzer={
     let tabs=[],as=analyzer.setting
     tabs.push(...analyzer.curCompareTabs)
     tabs.shift()
-    clearDiff(analyzer.moduleData);
-    clearDiff(formatter.data.scenarioAnaMap)
 
     for(let k in analyzer.moduleData){
       let m=analyzer.moduleData[k]
@@ -2804,29 +2802,6 @@ var analyzer={
       }
     }
     
-    function clearDiff(d){
-      for(let k in d){
-        let m=d[k]
-        m.diff=0
-        clearTerm(m)
-
-        if(m.ts){
-          m.ts.forEach(x=>{
-            clearTerm(x)
-          })
-        }
-      }
-      function clearTerm(m){
-        for(let k in m.term){
-          m.term[k].diff=0
-        }
-        if(m.nodes){
-          m.nodes.forEach(x=>{
-            clearTerm(x)
-          })
-        }
-      }
-    }
     
     function isDiffItem(m,p){
       let mm=m.term.master;
@@ -2898,12 +2873,12 @@ var analyzer={
     o.find("div.bz-box").html(`
       <div>
         <label><input type="checkbox" id="diffResult">Show diff on different result</label>
-        <div>Different time:</div>
-        <label>Minimum diff percentage(%)<input type="number" id="percentage"></label>
+        <h3 style="margin-left:5px;">Different time:</h3>
+        <label style="margin-left:5px;">Minimum diff percentage(%)<input type="number" id="percentage"></label>
         and
         <label>Minimum diff seconds<input type="number" id="second"></label>
       </div>
-      <div><button class="std">Reset</button></div>
+      <div style="text-align: center;margin: 10px;"><button class="std">Reset</button></div>
     `)
     
     $("#diffResult").attr({checked:!!as.diffResult})
@@ -2922,13 +2897,44 @@ var analyzer={
       analyzer.showAnalyzePanel("diff")
     })
   },
+  clearDiff:function(d){
+    for(let k in d){
+      let m=d[k]
+      m.diff=0
+      clearTerm(m)
+
+      if(m.ts){
+        m.ts.forEach(x=>{
+          clearTerm(x)
+        })
+      }
+    }
+    function clearTerm(m){
+      for(let k in m.term){
+        m.term[k].diff=0
+      }
+      if(m.nodes){
+        m.nodes.forEach(x=>{
+          clearTerm(x)
+        })
+      }
+    }
+    for(let k in formatter.data.scenarioMap){
+      let s=formatter.data.scenarioMap[k]
+      s.analyzed=0
+    }
+  },
   showAnalyzePanel:function(compare){
     let fd=formatter.data,
         o=$(".bz-pop-panel"), 
         compareScope="",
         compareTerm="",
-        tabs=[...(analyzer.curCompareTabs||["master"])]
-
+        tabs=["master"]
+    if(compare){
+      tabs=[...analyzer.curCompareTabs]
+    }
+    analyzer.clearDiff(analyzer.moduleData);
+    analyzer.clearDiff(formatter.data.scenarioAnaMap)
     for(let k in fd.scenarioAnaMap){
       let m=fd.scenarioAnaMap[k]
       m.term={}
