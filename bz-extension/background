@@ -21,6 +21,9 @@ let funMap={
       }))
     })
   },
+  openWindow:function(s,f,d){
+    window.open(d.url,d.name,d.size)
+  },
   isRequestCompleted:function(bkScope,bkFun,_rList){
     _rList.forEach((r,i)=>{
       var v=_responseList[r]

@@ -1,4 +1,5 @@
 var formatter={
+  compareFileIdx:1,
   idx:0,
   cameraList:[],
   chking:30,
@@ -172,7 +173,7 @@ button:disabled{
   flex-direction: column;
   margin: 2px 0px 0px 2px;
   background-color: #EEE;
-  padding: 10px 0 10px 10px;
+  padding: 0px 0 10px 10px;
   width: calc(100% - 2px);
 }
 .bz-nowrap{
@@ -237,9 +238,6 @@ body>.bz-log-box .bz-header .bz-timer{
 .bz-time{
   width: 50px;
   white-space:nowrap;
-}
-.bz-hide{
-  display:none;
 }
 .bz-wait{
   color:#999;
@@ -545,19 +543,25 @@ body>.bz-log-box .bz-sort-bar{
 .bz-header input[type=checkbox]{
   margin-right: 5px;
 }
+.bz-pop-panel .bz-icon-col:firstChild{
+  border:1px solid #CCC;
+}
 .bz-pop-panel .bz-icon-col{
-  width:60px;
+  width:50px;
+  padding-left:5px;
   margin-left:8px;
 }
 .bz-icon-col:before{
   margin-right:5px;
 }
-
+.bz-none{
+  visibility:hidden;
+}
 .bz-pop-panel .bz-mini-icon.bz-switch{
   background-size: 5px;
   position: relative;
   background-position: center;
-  top:2px;
+  top:6px;
   width: 15px !important;
   height: 15px !important;
 }
@@ -589,10 +593,72 @@ body>.bz-log-box .bz-sort-bar{
 .bz-level-scenario{
   border-top:1px solid #CCC;
 }
+.bz-tab-panel{
+  overflow:auto;
+  padding:5px;
+  background-color:#EEE;
+}
+.bz-tab-bar{
+  border-bottom:1px solid #CCC;
+  display:flex;
+}
+.bz-tab{
+  cursor:pointer;
+  margin:10px;
+  padding:5px 10px;
+}
+.bz-tab.bz-active{
+  border-bottom:1px solid #009;
+}
+.bz-close{
+  position: relative;
+  top: 3px;
+  padding: 5px;
+  border: 1px solid;
+  transform: rotate(-90deg);
+}
+.bz-node-title{
+  flex:1;
+}
+.bz-pop-panel hr{
+  height:1px;
+  border-width:0;
+  background-color:#CCC;
+  margin: 0;
+}
+.bz-pop-panel .bz-mini-icon.bz-scenario,
+.bz-pop-panel .bz-mini-icon.bz-test{
+  position:relative;
+  top:2px;
+}
+.bz-node-title-bar .bz-mini-icon.bz-scenario,
+.bz-node-title-bar .bz-mini-icon.bz-test{
+  position:relative;
+  top:8px;
+}
+.bz-hide{
+  display:none;
+}
+.bz-node .bz-node{
+  padding-left:20px;
+}
+.bz-node .bz-title-text{
+  line-height:25px;
+}
+.bz-term-bar{
+  display:flex;
+  margin-right:17px;
+}
+.bz-term-title{
+  width:235px;
+  text-align:center;
+}
     `
   },
   updateFormatLogSetting:function(setting){
-    localStorage.setItem("bz-log-format",JSON.stringify(setting))
+    try{
+      localStorage.setItem("bz-log-format",JSON.stringify(setting))
+    }catch(e){}
   },
   exeFormag:function(setting,auto){
     if(setting.gotoOrg){
@@ -642,6 +708,7 @@ body>.bz-log-box .bz-sort-bar{
         }
       }
     }else{
+      formatter.removeDoingInfo()
       return
     }
 
@@ -656,7 +723,6 @@ body>.bz-log-box .bz-sort-bar{
       }
       formatter.data={
         moduleMap:{},
-        analyzeDataMap:{},
         setting:setting,
         totalActions:0,
         totalTests:0,
@@ -668,6 +734,7 @@ body>.bz-log-box .bz-sort-bar{
           end:{}
         },
         scenarioMap:{},
+        scenarioAnaMap:{},
         testMap:{},
         workerMap:[],
         waitingListMap:{},
@@ -776,6 +843,8 @@ body>.bz-log-box .bz-sort-bar{
         },10)
       }else if(o.hasClass("bz-switch2")){
         return
+      }else if(o.hasClass("bz-close")){
+        formatter.closeScenario(o)
       }else if(o.hasClass("bz-switch")){
         switchPanel(o)
       }else if(o.hasClass("bz-tmp-screenshot")){
@@ -797,7 +866,7 @@ body>.bz-log-box .bz-sort-bar{
         switchContent(o,"declare")
       }else if(o.hasClass("bz-camera")){
         if(o.attr("path")){
-          window.open(formatter.getCameraPath(o.attr("path")),"_blank")
+          formatter.openWindow(formatter.getCameraPath(o.attr("path")),"_blank")
         }else{
           formatter.showCameraPanel()
         }
@@ -806,7 +875,7 @@ body>.bz-log-box .bz-sort-bar{
       }else if(o.hasClass("bz-search")){
         formatter.search($(".bz-header input.bz-search-input").val())
       }else if(o.hasClass("bz-analyze")){
-        formatter.showAnalyzePanel()
+        analyzer.showAnalyzePanel()
       }else if(o.hasClass("bz-download")){
         formatter.download()
       }else if(o.hasClass("bz-ab")){
@@ -816,7 +885,7 @@ body>.bz-log-box .bz-sort-bar{
         if(url.match(/^[0-9A-F]+$/)){
           formatter.openIDE("rootCause/"+url)
         }else{
-          window.open(url,"bz-bug")
+          formatter.openWindow(url,"bz-bug")
         }
       }else if(o.hasClass("bz-failed")&&o.hasClass("bz-result")){
         gotoHash(o)
@@ -917,7 +986,7 @@ body>.bz-log-box .bz-sort-bar{
       formatter.data.setting.gotoOrg=1
       formatter.updateFormatLogSetting(formatter.data.setting)
       formatter.data.setting.gotoOrg=0
-      window.open(n)
+      formatter.openWindow(n)
     }
     function openTest(o){
       let v=o.attr("bz")
@@ -1008,6 +1077,17 @@ body>.bz-log-box .bz-sort-bar{
       }
     }
     
+  },
+  closeScenario:function(o){
+    while(!o.hasClass("bz-level-scenario")){
+      o=o.parent()
+    }
+    o=o.find(".bz-switch.bz-open")
+    o.click()
+    o.focus()
+  },
+  openWindow:function(url,name,size){
+    chrome.runtime.sendMessage({bz:1,bg:1,fun:"openWindow",data:{url:url,size:size,name:name}});
   },
   cleanScenarioPanel:function(k){
     let s=formatter.data.scenarioMap[k]
@@ -1100,9 +1180,9 @@ body>.bz-log-box .bz-sort-bar{
           <button class="bz-cross bz-icon bz-input-cross"></button>
         </div>
         <button class="bz-icon bz-search"></button>
-        <button class='bz-icon bz-ab' title='Compare with other log to see the diffences'></button>
         <button class='bz-icon bz-download' title='Download log'></button>
         <button class='bz-icon bz-analyze' title='Show test case execution summary' disabled='true'></button>
+        <button class='bz-icon bz-ab' title='Compare with other log to see the diffences'></button>
         <button class='bz-camera bz-icon-letter bz-camera' title='Show screenshot list' disabled='true'></button>
         <div class='bz-pop-panel bz-close-panel bz-hide'><button class="bz-mini-icon bz-cross" style="position:absolute;"></button><div class='bz-box'></div></div>
       </div>`).appendTo(p),
@@ -1186,7 +1266,7 @@ body>.bz-log-box .bz-sort-bar{
           complete:function(c){
             c=c.responseText.split("\n")
             if(c.length){
-              while(!c.pop()){}
+              while(c.length&&!c.pop()){}
               if(c.length>3){
                 c.pop()
               }
@@ -1271,7 +1351,7 @@ body>.bz-log-box .bz-sort-bar{
     
     function handleItem(sv,x){
       let s={
-        idx:x?x.match(/[0-9]+/)[0]:0,
+        idx:parseInt(x?x.match(/[0-9]+/)[0]:0),
         result:x?x.includes("Success")?"success":"failed":"running",
         org:sv,
         type:"scenario",
@@ -1592,7 +1672,7 @@ body>.bz-log-box .bz-sort-bar{
     v=v.replace(/(bz-line)(">[0-9]+: <---- Join worker)/g,"$1 bz-join$2")
     v=v.replace(/(bz-line)(\">[0-9]+: Remove worker )/g,`$1 bz-leave$2`)
     if(mark=="failed"){
-      v=v.replace(/<div class="bz-line">(\[Error Hash: ([A-F0-9]+)\][^<]*)<\/div>/,'<div><button title="Open the Root Cause in IDE" class="bz-failed-title bz-failed-hash" hash="$2">$1</button></div>')
+      v=v.replace(/<div class="bz-line">(\[Error Hash: ([A-F0-9]+)\][^<]*)<\/div>/,'<div><button title="Open the Root Cause in IDE" class="bz-failed-title bz-failed-hash" hash="$2">$1</button><button class="bz-icon bz-close bz-switch"></button></div>')
       v=v.replace(/<div class="bz-line">([0-9]+\: ERROR MESSAGE: )([^<]+<\/div>)/,"<fieldset class='bz-err-msg-box'><legend>$1</legend><div class='bz-line'>$2");
       v=v.replace(/<\/div><div><button/,"</div></fieldset><div><button")
     }
@@ -1630,7 +1710,7 @@ body>.bz-log-box .bz-sort-bar{
     
     function buildTests(v,level,startTime,endTime,bz,test){
       let html=""
-      let ts=formatter.getTestTreeByLevel(v,level),curTest,tt,lastTest;
+      let ts=analyzer.getTestTreeByLevel(v,level),curTest,tt,lastTest;
       
       ts.forEach((t,i)=>{
         if(i%2==0){
@@ -1814,10 +1894,11 @@ body>.bz-log-box .bz-sort-bar{
   },
   retrieveTimeFromLog:function(v){
     v=v.match(/\[ ([0-9\:]+) (\(([0-9\:]+), ([0-9]+)s\) \++) *\]/)||[]
+    let fd=formatter.data
     if(v[3]>(formatter.data.exeTime||"")){
-      formatter.data.exeTime=v[3]
-      formatter.element.header.find(".bz-timer").text(v[3])
+      fd.exeTime=v[3]
     }
+    formatter.element.header.find(".bz-timer").text(fd.exeTime+` (${parseInt((fd.successScenarios+fd.failedScenarios)/fd.totalScenarios*100)}%)`)
     return v[3]
   },
   splitByWord:function(v,k,keepKeyInFirst){
@@ -1837,9 +1918,6 @@ body>.bz-log-box .bz-sort-bar{
     return [v.substring(0,k).trim(),v.substring(k).trim()]
   },
   strToTime:function(s){
-    if(s&&s.match(/^[0-9]+$/)){
-      debugger
-    }
     s=s||"0"
     let v=0,p=[3600,60,1]
     s=s.split(":")
@@ -1850,7 +1928,7 @@ body>.bz-log-box .bz-sort-bar{
   },
   openIDE:function(v){
     let fd=formatter.data
-    window.open(fd.host+"/extension?id="+fd.project.code+"#"+fd.project.code+"/"+fd.version+"/"+v.replace(".","/"),"bz-master",`width=${screen.availWidth/2},height=${screen.availHeight}`)
+    formatter.openWindow(fd.host+"/extension?id="+fd.project.code+"#"+fd.project.code+"/"+fd.version+"/"+v.replace(".","/"),"bz-master",`width=${screen.availWidth/2},height=${screen.availHeight}`)
   },
   getPageInfo:function(x,sendResponse){
     let c=$("a[href=consoleFull]")[0]
@@ -1895,19 +1973,21 @@ body>.bz-log-box .bz-sort-bar{
     return 1
   },
   autoLoading:function(){
-    let v=localStorage.getItem("bz-log-format");
-    if(v){
-      v=JSON.parse(v)
-      if(!v.scenarioTime){
-        v.scenarioTime=180
-        v.testTime=60
-      }
-      if(v.autoFormat){
-        if(formatter.isMasterPage(v)){
-          formatter.exeFormag(v,Date.now())
+    try{
+      let v=localStorage.getItem("bz-log-format");
+      if(v){
+        v=JSON.parse(v)
+        if(!v.scenarioTime){
+          v.scenarioTime=180
+          v.testTime=60
+        }
+        if(v.autoFormat){
+          if(formatter.isMasterPage(v)){
+            formatter.exeFormag(v,Date.now())
+          }
         }
       }
-    }
+    }catch(e){}
   },
   isMasterPage:function(v){
     if(v.identifyMaster){
@@ -1960,12 +2040,39 @@ body>.bz-log-box .bz-sort-bar{
     a.attr("download","Boozang-log.html").attr("href","data:application/octet-stream," + encodeURIComponent(w))[0].click();
     a.remove();
   },
+  loadTextFromFiles:function(_files,_fun){
+    let _reader = new FileReader(),
+        rs=[];
+    
+
+    function _readFile(i) {
+      if( i >= _files.length ) {
+        return _fun(rs);
+      }
+      var _file = _files[i];
+      _reader.onload = function(e) {  
+        rs.push(e.target.result);
+        _readFile(i+1)
+      }
+      _reader.readAsText(_file);
+    }
+    _readFile(0);
+
+    _reader.onerror = function() {
+      alert(_bzMessage._system._error._importFileError,_reader.error);
+    };
+  },
   getCameraPath:function(v){
     let fd=formatter.data
     return fd.host+"/screenshot/"+fd.project.code+"/"+fd.project.code+"."+fd.version+"."+v+".png"
   },
   showCompare:function(){
     let o=$(".bz-pop-panel");
+    if(o.attr("type")=="compare"){
+      return o.show()
+    }else{
+      o.attr({type:"compare"})
+    }
     o.find("div.bz-box").html(`
       <div class="bz-row-high">
         <label><input checked type="radio" value="net-scope" name="load"/>Load log files from network</label>
@@ -1982,6 +2089,16 @@ body>.bz-log-box .bz-sort-bar{
       <div class="bz-row-high" style="margin-top:10px;text-align:center;">
         <button id="compare-btn" class="std">Compare</button>
       </div>`)
+    $("input[type=file]").change(function(){
+      formatter.loadTextFromFiles(this.files,function(fs){
+        if(fs){
+          analyzeLogs([{
+            key:formatter.compareFileIdx++,
+            list:fs
+          }])
+        }
+      })
+    })
     $("#compare-btn").click(()=>{
       doCompare()
     })
@@ -1994,10 +2111,18 @@ body>.bz-log-box .bz-sort-bar{
       if($("[name=load]:checked").val()=="net-scope"){
         loadFromNet()
       }else{
-        loadFromLocal()
+        compare()
       }
     }
     
+    function compare(vs){
+      analyzer.showAnalyzePanel(vs)
+    }
+    
+    function mergeModuledata(vs){
+      
+    }
+
     function loadFromNet(){
       let vs=$("#net-log").val().split(",").map(x=>{
         return {
@@ -2007,7 +2132,6 @@ body>.bz-log-box .bz-sort-bar{
       })
       loadLogs(vs,0,function(){
         analyzeLogs(vs)
-        compare(vs)
       })
     }
     
@@ -2051,214 +2175,61 @@ body>.bz-log-box .bz-sort-bar{
     }
     
     function analyzeLogs(vs){
-      vs.forEach(x=>{
-        let v=x.list.join("\n")
-        x.list={}
-        formatter.analyzeDataMap(x.list,v,0)
-      })
-    }
-    
-    function loadFile(v){
-      
-    }
-    
-    function loadFromLocal(){
-      
+      try{
+        formatter.data.scenarioAnaMap={}
+        vs.forEach(x=>{
+          let v=x.list.join("\n")
+          x.list={}
+          
+          let ts=analyzer.getTestTreeByLevel(v,0)
+          ts=ts.map((y,i)=>{
+            if(i%2){
+              return {start:ts[i-1],end:ts[i]}
+            }
+          }).filter(x=>x).forEach(y=>{
+            let s=y.end.match(/<+ ([^ ]+) [^\[]+(\[((m[0-9]+).(t[0-9]+))\(?([0-9]+)?\)?\] )([0-9:]+) ([^<]+) Tasks:/)
+            s={
+              result:s[1].toLowerCase(),
+              title:s[2]+" "+s[8],
+              code:s[3],
+              m:s[4],
+              t:s[5],
+              idx:parseInt(s[6]||0),
+              name:s[8],
+              start:y.start.match(/\(([0-9:]+)\) >>>>$/)[1],
+              end:s[7]
+            }
+            s.time=parseInt(formatter.getSpendTime(s.start,s.end))
+            y=v.split(y.end)
+            v=y[1]
+            analyzer.addAnalyzeData(x.list,s,formatter.data.scenarioAnaMap,x.key);
+            // formatter.data.scenarioAnaMap[s.code].nodes[s.idx].term[x.key]=s
+            
+            analyzer.retrieveAnalyzeData(x.key,x.list,y[0],1,s)
+          })
+        })
+        compare(vs)
+      }catch(ex){
+        alert(ex.message)
+      }
     }
   },
   showCameraPanel:function(){
     let o=$(".bz-pop-panel")
+    if(o.attr("type")=="camera"){
+      return o.show()
+    }else{
+      o.attr({type:"camera"})
+    }
     let w=""
     formatter.cameraList.forEach(x=>{
       w+=`<div class='bz-row bz-title-text' style='margin:5px 0'><img style='margin:0 10px;width:100px' src='${formatter.getCameraPath(x)}'/> ${x}</div>`
     })
     o.find("div.bz-box").html(`<div style='overflow:auto;max-height:${window.innerHeight-250}px;padding:5px;background-color:#EEE;'>${w}<div>`)
     o.find("img").click(function(){
-      window.open(this.src,"_blank")
+      formatter.openWindow(this.src,"_blank")
     })
     o.show()
-  },
-  showAnalyzePanel:function(){
-    let o=$(".bz-pop-panel")
-    let w="",fd=formatter.data;
-    retrieveAnalyzeData()
-    
-    for(let m in fd.moduleMap){
-      let mm=fd.moduleMap[m]
-      let tm=mm.testMap
-      let ts=Object.values(tm),
-          mSuccess=0,
-          mFailed=0,
-          mTotal=0,
-          mTime=0,
-          tr=[],
-          mWarn=""
-          
-      ts.forEach(x=>{
-        mTotal+=x.list.length
-        let success=0,failed=0,time=0,average=0,
-            warn="",
-            slow=new Set(),repeat=new Set()
-        x.list.forEach(y=>{
-          if(y.result!="failed"){
-            success++
-          }else{
-            failed++
-          }
-          time+=parseInt(y.time)
-          if(y.slow){
-            slow.add(y.slow)
-          }
-          if(y.repeat){
-            repeat.push(y.repeat)
-          }
-        })
-        average=parseInt(time/(success+failed))
-        slow=[...slow]
-        repeat=[...repeat]
-        if(slow.length){
-          slow=slow.map(x=>fd.scenarioMap[x].title)
-          slow="Slow in scenarios:\n"+slow.join("\n")
-        }
-        if(repeat.length){
-          repeat=repeat.map(x=>fd.scenarioMap[x].title)
-          repeat="Too many repeat in scenarios:\n"+repeat.join("\n")
-        }
-        let msg=slow+"\n\n"+repeat
-        msg=msg.trim()
-        if(msg){
-          warn=`<span class='bz-mini-letter' title='${msg}'>⚠️</span>`
-          mWarn="<span class='bz-mini-letter'>⚠️</span>"
-        }
-        tr.push(`
-          <div class="bz-row ${x.list[0].scenario?'bz-highlight-row':'bz-light-row'}">
-            <div class='bz-title-text' style='margin-left:20px;'><div class="bz-mini-icon bz-${x.list[0].scenario?'scenario':'test'}"></div> [${x.list[0].code}] ${x.list[0].name} ${warn}</div>
-            <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2' style='width:80px;'>${time}/${average}s</span>
-            <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-success'>${success}</span>
-            <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-failed'>${failed}</span>
-          </div>
-        `)
-        mSuccess+=success
-        mFailed+=failed
-        mTime+=time
-      })
-      w+=`
-        <div>
-          <div class='bz-row'>
-            <button class='bz-mini-icon bz-switch bz-switch2'></button>
-            <div class="bz-title-text" style="display:flex;">
-              <span style="flex:1">[${m}] ${mm.name} (Tests: ${ts.length}) ${mWarn}</span>
-              <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2' style='width:70px;'>${mTime}s</span>
-              <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-success'>${mSuccess}</span>
-              <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-failed'>${mFailed}</span>
-            </div>
-          </div>
-          <div class='bz-panel bz-hide'>
-            ${tr.join("")}
-          </div>
-          <hr style='height:1px;border-width:0;background-color:#CCC'/>
-        </div>
-      `
-    }
-
-    o.find("div.bz-box").html(`<div style='overflow:auto;max-height:${window.innerHeight-250}px;padding:5px;background-color:#EEE;'>${w}<div>`)
-    o.find(".bz-switch2").click(function(e){
-      let pp=$(this.parentElement.nextElementSibling)
-      if($(this).hasClass("bz-open")){
-        $(this).removeClass("bz-open")
-        pp.hide()
-      }else{
-        $(this).addClass("bz-open")
-        pp.show()
-      }
-    })
-    o.show()
-    
-    function retrieveAnalyzeData(){
-      let mp=fd.moduleMap
-      for(let k in fd.scenarioMap){
-        if(!fd.analyzeDataMap[k]){
-          fd.analyzeDataMap[k]=1
-          let s=fd.scenarioMap[k]
-          let sc=s.code.split("-")
-          let cs={
-            m:sc[0],
-            t:sc[1],
-            code:sc[0]+"."+sc[1],
-            name:s.name,
-            time:parseInt(s.time),
-            slow:parseInt(s.time)>fd.setting.scenarioTime?s.code:0,
-            scenario:1
-          }
-          formatter.addAnalyzeData(mp,cs)
-          formatter.loadModuleInfo(s.init.org);
-          formatter.loadModuleInfo(s.details.org);
-          formatter.retrieveAnalyzeData(mp,k,s.details.org,1)
-        }
-      }
-    }
-  },
-  addAnalyzeData:function(mp,ct){
-    let m=ct.m,t=ct.t;
-    mp[m]=mp[m]||{testMap:{}}
-              
-    mp[m].testMap[t]=mp[m].testMap[t]||{list:[]}
-    if(ct.scenario){
-      mp[m].testMap[t].list.unshift(ct);
-    }else{
-      mp[m].testMap[t].list.push(ct);
-    }
-  },
-  retrieveAnalyzeData:function(mp,scenarioKey,log,level){
-    while(1){
-      let ts=formatter.getTestTreeByLevel(log,level++),ct,lt,lts=0
-      if(!ts.length){
-        break
-      }
-      ts.forEach((t,i)=>{
-        if(i%2==0){
-          let c=t.match(/\[(m[0-9]+)\.(t[0-9]+).*\] - (.+) \(([0-9:]+)\) >>>>$/)
-          ct={
-            m:c[1],
-            t:c[2],
-            code:c[1]+"."+c[2],
-            name:c[3],
-            start:c[4],
-            from:scenarioKey
-          }
-        }else{
-          let c=t.match(/<<<< ([^ ]+) [^\]]+\] ([0-9:]+) [^<]+ <<<</s),
-              m=ct.m
-          if(!c){
-            return
-          }
-          ct.end=c[2]
-          ct.result=c[1].toLowerCase()
-          
-          ct.time=parseInt(formatter.getSpendTime(ct.start,ct.end))
-          
-          if(ct.time>formatter.data.setting.testTime){
-            ct.slow=scenarioKey
-          }
-          
-          formatter.addAnalyzeData(mp,ct)
-          if(lt&&lt.code==ct.code&&lt.from==ct.from){
-            lts++
-            if(lts>5){
-              ct.repeat=scenarioKey
-            }
-          }else{
-            lts=0
-            lt=ct
-          }
-        }
-      })
-    }
-  },
-  getTestTreeByLevel:function(v,level){
-    let r=`/[0-9]+: {${level*6+3}}(>+ Loading [^\[]+|<+ [^\[]+)Test \\[m[0-9]+\\.t[0-9]+[^><]+(>|<)+/gms`
-    r=eval(r)
-    return v.match(r)||[]
   },
   sort:function(o){
     let k=o[0].id.split("-").pop(),w=1
@@ -2556,6 +2527,467 @@ body>.bz-log-box .bz-sort-bar{
   getIdx:function(){
     return formatter.idx++
   }
+};
+
+var analyzer={
+  //mp: module map, ap: analysis map, ct: scenario/test
+  addAnalyzeData:function(mp,ct,ap,key){
+    let d=createNode(mp,ct.m,{testMap:{}})
+    d=createNode(d.testMap,ct.t,{list:[]})
+    if(ct.scenario){
+      d.list.unshift(ct)
+    }else{
+      d.list.push(ct)
+    }
+
+    if(ap){
+      let d=createNode(ap,ct.code,{
+        name:"["+ct.code+"] "+ct.name,
+        code:ct.code,
+        type:"scenario",
+        nodes:[]
+      })
+      d=createNode(d.nodes,ct.idx,{code:ct.idx,term:{},nodes:[]})
+      d.term[key]={
+        result:ct.result,
+        time:parseInt(ct.time)
+      }
+    }
+    
+    function createNode(p,k,o){
+      p[k]=p[k]||o
+      return p[k]
+    }
+  },
+  retrieveAnalyzeData:function(term,mp,log,level,scenario){
+    //last level list
+    let lls,cls
+    while(1){
+      let ts=analyzer.getTestTreeByLevel(log,level++),ct,lt,lts=0
+      if(!ts.length){
+        break
+      }
+      lls=cls
+      cls=[]
+      for(let i=0;i<ts.length;i++){
+        let t=ts[i]
+        if(!ct){
+          let c=t.match(/([0-9]+)[^\[]+\[(m[0-9]+)\.(t[0-9]+).*\] - (.+) \(([0-9:]+)\) >>>>$/)
+          if(!c){
+            return alert("Analyze data failed! Please report the issue to Boozang customer support. Thanks!")
+          }
+          ct={
+            startLine:parseInt(c[1]),
+            m:c[2],
+            t:c[3],
+            code:c[2]+"."+c[3],
+            name:c[4],
+            start:c[5],
+            from:scenario.code,
+            scenario:!level
+          }
+        }else{
+          let c=t.match(/([0-9]+): +<<<< ([^ ]+) [^\]]+\] ([0-9:]+) [^<]+ <<<</s),
+              m=ct.m
+          if(!c){
+            i--
+            ct.stop=1
+            ct=0
+            continue
+          }
+          ct.endLine=parseInt(c[1]),
+          ct.end=c[3]
+          ct.result=c[2].toLowerCase()
+          
+          ct.time=parseInt(formatter.getSpendTime(ct.start,ct.end))
+          
+          if(ct.time>formatter.data.setting.testTime){
+            ct.slow=scenario.key
+          }
+          //check repeat
+          if(lt&&lt.code==ct.code&&lt.from==ct.from){
+            lts++
+            if(lts>5){
+              ct.repeat=scenario.key
+            }
+          }else{
+            lts=0
+            lt=ct
+          }
+          
+          let ns
+
+          if(lls){
+            while(lls[0].endLine<ct.startLine){
+              lls.shift()
+            }
+            if(lls[0].startLine<ct.startLine){
+              ns=lls[0].nodes
+            }
+          }else{
+            ns=formatter.data.scenarioAnaMap[scenario.code].nodes[scenario.idx].nodes
+          }
+          let d={code:ct.code,name:ct.name,nodes:[],term:{}};
+          d.term[term]={
+            result:ct.result,
+            time:parseInt(ct.time)
+          }
+
+          if(!ns.find(x=>{
+            if(!x.term[term]&&x.code==ct.code){
+              x.term[term]=d.term[term]
+              ct.nodes=x.nodes
+              return 1
+            }
+          })){
+            if(!ns.find((x,j)=>{
+              if(!x.term[term]){
+                ns.splice(j,0,d)
+                return 1
+              }
+            })){
+              ns.push(d)
+            }
+            ct.nodes=d.nodes
+          }
+
+          cls.push(ct)
+          analyzer.addAnalyzeData(mp,ct)
+
+          ct=0
+        }
+      }
+    }
+    return 1
+  },
+  showAnalyzePanel:function(compare){
+    let fd=formatter.data,
+        o=$(".bz-pop-panel"), 
+        compareScope="",
+        compareTerm=""
+        
+    if(o.attr("type")=="analyze"){
+      if(compare){
+        o.attr({type:"compare"})
+      }else{
+        return o.show()
+      }
+    }else if(!compare){
+      o.attr({type:"analyze"})
+    }
+    if(!compare){
+      fd.scenarioAnaMap={}
+    }
+    analyzer.moduleData={}
+    analyzer.buildMasterAnalysisData()
+    analyzer.buildModuleData("master",fd.moduleMap);
+    if(compare){
+      compare.forEach(x=>{
+        analyzer.buildModuleData(x.key,x.list)
+      })
+      let ks=compare.map(x=>x.key)
+      ks.unshift("master")
+      compareScope=`
+        <div style="margin:14px 10px;">
+          <label style="margin-right:10px;"><input value="diff" name="anaScope" type="radio">Diff</label>
+          <label><input type="radio" name="anaScope" value="same">Samilar</label>
+        </div>`;
+      compareTerm=`
+        <div class="bz-term-bar">
+          <div style="flex:1;"></div>
+          ${ks.map(x=>`<div class="bz-term-title">${x}</div>`).join("")}
+        </div>
+      `
+    }
+    let md=analyzer.moduleData
+    o.find("div.bz-box").html(`
+      <div class="bz-tab-bar">
+        <a class="bz-tab bz-active" id="tab-module">Modules</a>
+        <a class="bz-tab" id="tab-feature">Features</a>
+        <a class="bz-tab" id="tab-scenario">Scenarios</a>
+        <div style="flex:1;"></div>
+        ${compareScope}
+      </div>
+      ${compareTerm}
+      <div class="bz-tab-panel bz-panel-tab-module" style='max-height:${window.innerHeight-250}px;'>
+        ${getModuleResult(md,"test")}
+      </div>
+      <div class="bz-tab-panel bz-panel-tab-feature" style='display:none;max-height:${window.innerHeight-250}px;'>
+        ${getModuleResult(md,"scenario")}
+      </div>
+      <div class="bz-tab-panel bz-panel-tab-scenario" style='display:none;max-height:${window.innerHeight-250}px;'>
+        ${getScenarioResult()}
+      </div>`)
+    o.find(".bz-switch2").click(function(e){
+      let pp=$(this.parentElement.nextElementSibling)
+      if($(this).hasClass("bz-open")){
+        $(this).removeClass("bz-open")
+        pp.hide()
+      }else{
+        $(this).addClass("bz-open")
+        pp.show()
+      }
+    })
+    $(".bz-tab").click(function(){
+      $(".bz-tab").removeClass("bz-active")
+      $(this).addClass("bz-active")
+      $(".bz-tab-panel").hide()
+      $(".bz-panel-"+this.id).show()
+    })
+    o.show()
+    
+    function getModuleResult(md,type){
+      let vs=Object.values(md)
+      let w=vs.filter(x=>x.ts.find(y=>y.type==type)).map(x=>{
+        return `
+          <div>
+            <div class='bz-row'>
+              <button class='bz-mini-icon bz-switch bz-switch2'></button>
+              <div class="bz-title-text" style="line-height:25px;">
+                [${x.code}] ${x.name} (Tests: ${x.ts.length})
+              </div>
+              ${sortTerm(x).map(z=>{
+                return `
+                  <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2' style='width:100px;'>${z.time}s</span>
+                  <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.success?"bz-success":""}'>${z.success||""}</span>
+                  <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.failed?"bz-failed":""}'>${z.failed||""}${z.warn}</span>
+                `
+              }).join("")}
+            </div>
+            <div class='bz-panel bz-hide'>
+              ${x.ts.map(x=>getTestResult(x)).join("")}
+            </div>
+            <hr/>
+          </div>
+        `
+      }).join("")
+      return w
+    }
+
+    function getTestResult(x){
+      return `
+        <div class="bz-row">
+          <div class='bz-title-text' style='margin-left:20px;'>
+            <div class="bz-mini-icon bz-${x.type}"></div> [${x.code}] ${x.name} ${x.warn}
+          </div>
+          ${sortTerm(x).map(z=>{
+            return `
+              <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2' style='width:100px;'>${z.time}/${z.average}s</span>
+              <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.success?"bz-success":""}'>${z.success||""}</span>
+              <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.failed?"bz-failed":""}'>${z.failed||""}${z.warn}</span>
+            `
+          }).join("")}
+        </div>
+      `
+    }
+    
+    function sortTerm(o){
+      return Object.keys(o.term).sort((a,b)=>{
+        if(a=="master"){
+          return -1
+        }else if(b=="master"){
+          return 1
+        }else{
+          return a>b?1:-1
+        }
+      }).map(x=>o.term[x])
+    }
+    
+    function getScenarioResult(){
+      return Object.values(fd.scenarioAnaMap).map(x=>{
+        x.term={}
+        x.nodes.forEach(y=>{
+          for(let k in y.term){
+            x.term[k]=x.term[k]||{success:0,failed:0,time:0}
+            if(y.term[k].result=="success"){
+              x.term[k].success++
+            }else{
+              x.term[k].failed++
+            }
+            x.term[k].time+=y.term[k].time
+          }
+        })
+        for(let k in x.term){
+          x.term[k].average=parseInt(x.term[k].time/(x.term[k].success+x.term[k].failed))
+        }
+        return x
+      }).map(x=>getNodeView(x,compare?0:"master")+"<hr/>").join("")
+    }
+    
+    function getNodeView(s,k){
+      return `
+        <div class='bz-node'>
+          <div class="bz-row bz-node-title-bar">
+            <button class="bz-mini-icon bz-switch bz-switch2 ${s.nodes.length?'':'bz-none'}"></button>
+            <div class="bz-mini-icon bz-${s.name?s.type||"test":"hide"}"></div>
+            <div class="bz-title-text">${s.name||s.code}</div>
+            ${sortTerm(s).map(x=>{
+              if(s.type=="scenario"){
+                return `<div style="width:100px;" class="bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time}/${x.average}s</div>
+                        <div class="bz-mini-icon-letter bz-icon-col bz-${x.success?'success':''}">${x.success||""}</div>
+                        <div class="bz-mini-icon-letter bz-icon-col bz-${x.failed?'failed':''}">${x.failed||""}</div>`
+              }else{
+                return `<div style="width:100px;" class="bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time}s</div>
+                        <div class="bz-mini-icon-letter bz-icon-col bz-success ${x.result=="success"?'':'bz-none'}"></div>
+                        <div class="bz-mini-icon-letter bz-icon-col bz-failed ${x.result=="success"?'bz-none':''}"></div>`
+              }
+            }).join("")}
+          </div>
+          <div class="bz-node-panel bz-hide">
+            ${s.nodes.map(x=>getNodeView(x,k)).join("")}
+          </div>
+        </div>${!s.name?"<hr/>":""}`
+        
+    }
+  },
+  buildModuleData:function(key,map){
+    analyzer.moduleData=analyzer.moduleData||{}
+    let fd=formatter.data,ad=analyzer.moduleData;
+    for(let m in map){
+      let mm=map[m]
+      let tm=mm.testMap
+      let ts=Object.values(tm)
+      
+      ad[m]=ad[m]||{
+        code:m,
+        name:mm.name,
+        ts:[],
+        term:{}
+      }
+      let rm=ad[m]
+      let tts=rm.ts
+      
+      rm=rm.term[key]=rm.term[key]||{
+        success:0,
+        failed:0,
+        total:0,
+        time:0,
+        warn:""
+      }
+      
+
+      ts.forEach(x=>{
+        rm.total+=x.list.length
+        let t={
+          term:{}
+        },slow=new Set(),repeat=new Set()
+        
+        t.term[key]={
+          success:0,
+          failed:0,
+          time:0,
+          average:0,
+          warn:"",
+          slow:"",
+          repeat:""
+        }
+        let tt=t.term[key]
+        x.list.forEach(y=>{
+          if(!t.type){
+            if(y.scenario){
+              t.type="scenario"
+            }else{
+              t.type="test"
+            }
+            t.name=y.name
+            t.code=y.code
+          }
+          if(y.result!="failed"){
+            tt.success++
+          }else{
+            tt.failed++
+          }
+          tt.time+=parseInt(y.time)
+          if(y.slow){
+            slow.add(y.slow)
+          }
+          if(y.repeat){
+            repeat.push(y.repeat)
+          }
+        })
+        tt.average=parseInt(tt.time/(tt.success+tt.failed))
+        slow=[...slow]
+        repeat=[...repeat]
+        if(slow.length){
+          slow=slow.map(x=>getScenarioTitle(x))
+          tt.slow="Slow in scenarios:\n"+slow.join("\n")
+        }
+        if(repeat.length){
+          repeat=repeat.map(x=>getScenarioTitle(x))
+          tt.repeat="Too many repeat in scenarios:\n"+repeat.join("\n")
+        }
+        tt.msg=(tt.slow+"\n\n"+tt.repeat).trim()
+
+        if(tt.msg){
+          tt.warn=`<span class='bz-mini-letter' title='${tt.msg}'>⚠️</span>`
+          rm.warn="<span class='bz-mini-letter'>⚠️</span>"
+        }
+        
+        if(!tts.find(y=>{
+          if(y.code==x.list[0].code){
+            y.term[key]=t.term[key]
+            return 1
+          }
+        })){
+          tts.push(t)
+        }
+        rm.success+=tt.success
+        rm.failed+=tt.failed
+        rm.time+=tt.time
+      })
+    }
+    
+    function getScenarioTitle(x){
+      let o=fd.scenarioMap[x]
+      if(o){
+        return o.title
+      }else{
+        return x
+      }
+    }
+  },
+  buildMasterAnalysisData:function(){
+    let fd=formatter.data;
+    let mp=fd.moduleMap
+    for(let k in fd.scenarioMap){
+      let s=fd.scenarioMap[k]
+      //if(!s.analyzed){
+        if(!s.time){
+          s.time=formatter.getSpendTime(s.start,s.endTime)
+        }
+        let sc=s.code.split("-")
+        let cs={
+          m:sc[0],
+          t:sc[1],
+          w:sc.pop(),
+          code:`${sc[0]}.${sc[1]}`,
+          name:s.name,
+          idx:parseInt(sc[2]||0),
+          title:s.title,
+          time:parseInt(s.time),
+          slow:parseInt(s.time)>parseInt(fd.setting.scenarioTime)?s.code:0,
+          scenario:1,
+          result:s.result
+        }
+        
+        analyzer.addAnalyzeData(mp,cs,fd.scenarioAnaMap,"master")
+        formatter.loadModuleInfo(s.init.org);
+        formatter.loadModuleInfo(s.details.org);
+        analyzer.retrieveAnalyzeData("master",mp,s.details.org,1,cs)
+        // s.analyzed=analyzer.retrieveAnalyzeData("master",mp,s.details.org,1,cs)
+      // }
+    }
+  },
+  getTestTreeByLevel:function(v,level){
+    let r;
+    if(level){
+      r=`/[0-9]+: {${level*6+3}}(>+ Loading [^\[]+|<+ [^\[]+)Test \\[m[0-9]+\\.t[0-9]+[^><]+(>|<)+/gms`
+    }else{
+      r=`/[0-9]+:   (>+ Loading |<+ [^\[]+ Feature - )Scenario \\[m[0-9]+\\.t[0-9]+[^><]+(>|<)+/gms`
+    }
+    r=eval(r)
+    return v.match(r)||[]
+  },
 }
 
 setTimeout(()=>{
