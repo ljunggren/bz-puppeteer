@@ -1114,7 +1114,10 @@ input[type=number]{
     o.focus()
   },
   openWindow:function(url,name,size){
-    chrome.runtime.sendMessage({bz:1,bg:1,fun:"openWindow",data:{url:url,size:size,name:name}});
+    let w=window.open(url,name,size)
+    if(!w){
+      chrome.runtime.sendMessage({bz:1,bg:1,fun:"openWindow",data:{url:url,name:name}});
+    }
   },
   cleanScenarioPanel:function(k){
     let s=formatter.data.scenarioMap[k]

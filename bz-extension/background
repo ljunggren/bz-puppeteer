@@ -21,6 +21,27 @@ let funMap={
       }))
     })
   },
+  loadImg:function(s,f,v,t,e,bkFun){
+    let img=document.createElement("img")
+//    document.body.append(img)
+    img.src=v
+
+    let c=document.createElement("canvas")
+//    document.body.append(c)
+    c.width=img.width
+    c.height=img.height
+    let cc=c.getContext("2d")
+    cc.drawImage(img,0,0)
+
+    img.onload=function(x){
+      x=c.toDataURL()
+      console.log(x)
+      bkFun(x)
+//      chrome.tabs.sendMessage(t.id, {scope:s,fun:f,data:{url:c.toDataURL()}});
+      c.remove()
+      img.remove()
+    }
+  },
   openWindow:function(s,f,d){
     window.open(d.url,d.name,d.size)
   },
@@ -468,7 +489,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
   //For REGISTER tab, it only work for new pop window. The new window must pop up from master window.
   *****************************************************************************************************/
   if(_msg.bg){
-    return funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data,t,_msg.element)
+    return funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data,t,_msg.element,_sendResponse)
   }else if(_msg._registerTab && (_msg.name=="bz-client"||_ctrlTabId==t.tab.id)){
     if(_msg.name=="bz-client"){
       if(!_plugInCode){
