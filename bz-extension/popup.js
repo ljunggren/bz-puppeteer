@@ -52,6 +52,8 @@ function init(){
   // var image = document.createElement("img");
   // image.src = chrome.runtime.getURL("img/boozang128.png");
   // document.getElementsByTagName("body")[0].appendChild(image);
+  var version = chrome.app.getDetails().version;
+  $("#version").text("Version: "+ version);
 
   chrome.storage.sync.get("bz-log-format",function(d){
     console.log("data:")

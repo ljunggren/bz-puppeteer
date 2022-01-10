@@ -2136,10 +2136,10 @@ input[type=number]{
         <label><input checked type="radio" value="net-scope" name="load"/>Load log files from network</label>
       </div>
       <div class="bz-row-high load-option" id="net-scope">
-        <label style="margin-left:20px;">Log No.<input type="text" id="net-log" placeholder="Support split by comma for compare multiple log"/></label>
+        <label style="margin-left:20px;">Log No.<input type="text" id="net-log" placeholder="Split by comma to compare multiple logs"/></label>
       </div>
       <div class="bz-row-high">
-        <label><input type="radio" name="load" value="file-scope"/>Load log files from loacl</label>
+        <label><input type="radio" name="load" value="file-scope"/>Load log files from local</label>
       </div>
       <div class="bz-row-high load-option" id="file-scope" style="display:none">
         <input type="file" id="file-log" multiple/>
