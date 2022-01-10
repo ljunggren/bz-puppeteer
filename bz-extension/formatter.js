@@ -2136,7 +2136,7 @@ input[type=number]{
         <label><input checked type="radio" value="net-scope" name="load"/>Load log files from network</label>
       </div>
       <div class="bz-row-high load-option" id="net-scope">
-        <label style="margin-left:20px;">Log No.<input type="text" id="net-log" placeholder="Split by comma to compare multiple logs"/></label>
+        <label style="margin-left:20px;">Log URL/No.<input type="text" id="net-log" placeholder="Split by comma to compare multiple logs"/></label>
       </div>
       <div class="bz-row-high">
         <label><input type="radio" name="load" value="file-scope"/>Load log files from local</label>
@@ -2182,10 +2182,19 @@ input[type=number]{
     }
 
     function loadFromNet(){
-      let vs=$("#net-log").val().split(",").map(x=>{
-        return {
-          key:x,
-          list:[]
+      let vs=$("#net-log").val().split(",")
+      vs=vs.map(x=>{
+        if($.isNumeric(x)){
+          return {
+            key:x,
+            list:[]
+          }
+        }else{
+          return {
+            key:1,
+            url:x,
+            list:[]
+          }
         }
       })
       loadLogs(vs,0,function(){
@@ -2196,8 +2205,11 @@ input[type=number]{
     function loadLogs(vs,i,fun){
       let v=vs[i]
       if(v){
-        let masterUrl=location.href.replace(/\/[0-9]+[\/]/,"/"+v.key+"/")
+        let masterUrl=v.url||location.href.replace(/\/[0-9]+[\/]/,"/"+v.key+"/")
         loadLogByUrl(masterUrl,function(vv){
+          if(!vv){
+            return alert("Load log failed! Please be sure the url/no. is correct.")
+          }
           v.list.push(vv)
           vv=formatter.getLogList(masterUrl)
           loadPages(vv,0,function(vvv){
@@ -2227,7 +2239,7 @@ input[type=number]{
         method:"GET",
         url:v,
         success:function(r){
-          fun(r.responseText)
+          fun(r)
         }
       })
     }
