@@ -2147,6 +2147,11 @@ input[type=number]{
       <div class="bz-row-high" style="margin-top:10px;text-align:center;">
         <button id="compare-btn" class="std">Compare</button>
       </div>`)
+    $("#net-log").keydown(function(e){
+      if(e.keyCode==13){
+        doCompare()
+      }
+    })
     $("input[type=file]").change(function(){
       formatter.loadTextFromFiles(this.files,function(fs){
         if(fs){
@@ -2604,7 +2609,8 @@ var analyzer={
   setting:{
     percentage:0.1,
     second:5,
-    diffResult:1
+    diffResult:1,
+    tab:"scenario"
   },
   //mp: module map, ap: analysis map, ct: scenario/test
   addAnalyzeData:function(mp,ct,ap,key){
@@ -2991,7 +2997,7 @@ var analyzer={
       let ks=analyzer.curCompareTabs
       compareScope=`
         <div>
-          <label style='line-height: 40px;margin-right: 20px'><input type="checkbox" id="showAll"/> Show all</label>
+          <label style='line-height: 40px;margin-right: 20px'><input type="checkbox" id="showAll" ${analyzer.setting.showAll&&"checked"}/> Show all</label>
         </div>
         <div style="margin:8px ​10p;">
           <button class="bz-icon bz-setting"></button>
@@ -3006,20 +3012,20 @@ var analyzer={
     let md=analyzer.moduleData
     o.find("div.bz-box").html(`
       <div class="bz-tab-bar">
-        <a class="bz-tab bz-active" id="tab-module">Modules</a>
-        <a class="bz-tab" id="tab-feature">Features</a>
-        <a class="bz-tab" id="tab-scenario">Scenarios</a>
+        <a class="bz-tab ${analyzer.setting.tab=='scenario'&&'bz-active'}" id="tab-scenario">Scenarios</a>
+        <a class="bz-tab ${analyzer.setting.tab=='feature'&&'bz-active'}" id="tab-feature">Features</a>
+        <a class="bz-tab ${analyzer.setting.tab=='module'&&'bz-active'}" id="tab-module">Modules</a>
         <div style="flex:1;"></div>
         ${compareScope}
       </div>
       ${compareTerm}
-      <div class="bz-tab-panel bz-panel-tab-module" style='max-height:${window.innerHeight-250}px;'>
+      <div class="bz-tab-panel bz-panel-tab-module" style='max-height:${window.innerHeight-250}px;${analyzer.setting.tab!='module'&&'display:none;'}'>
         ${getModuleResult(md,"test")}
       </div>
-      <div class="bz-tab-panel bz-panel-tab-feature" style='display:none;max-height:${window.innerHeight-250}px;'>
+      <div class="bz-tab-panel bz-panel-tab-feature" style='max-height:${window.innerHeight-250}px;${analyzer.setting.tab!='feature'&&'display:none;'}'>
         ${getModuleResult(md,"scenario")}
       </div>
-      <div class="bz-tab-panel bz-panel-tab-scenario" style='display:none;max-height:${window.innerHeight-250}px;'>
+      <div class="bz-tab-panel bz-panel-tab-scenario" style='max-height:${window.innerHeight-250}px;${analyzer.setting.tab!='scenario'&&'display:none;'}'>
         ${getScenarioResult()}
       </div>`)
     o.find(".bz-switch2").click(function(e){
@@ -3041,6 +3047,7 @@ var analyzer={
       $(this).addClass("bz-active")
       $(".bz-tab-panel").hide()
       $(".bz-panel-"+this.id).show()
+      analyzer.setting.tab=this.id.split("-").pop()
     })
     o.show()
 
@@ -3067,7 +3074,7 @@ var analyzer={
               }).join("")}
             </div>
             <div class='bz-panel bz-hide'>
-              ${x.ts.map(x=>getTestResult(x)).join("")}
+              ${x.ts.map(x=>getTestResult(x,type)).join("")}
             </div>
             <hr class="${getSameClass(x)}"/>
           </div>
@@ -3088,11 +3095,11 @@ var analyzer={
       return ""
     }
 
-    function getTestResult(x){
+    function getTestResult(x,type){
       return `
         <div class="bz-row ${getSameClass(x)}">
           <div class='bz-title-text' style='margin-left:20px;'>
-            <div class="bz-mini-icon bz-${x.type}"></div> [${x.code}] ${x.name}
+            <div class="bz-mini-icon bz-${type}"></div> [${x.code}] ${x.name}
           </div>
           ${sortTerm(x).map((z,i)=>{
             return `
@@ -3201,7 +3208,7 @@ var analyzer={
             <div class="bz-title-text">${s.name?"["+s.code+"] ":""}${s.name||s.code}</div>
             ${sortTerm(s).map((x,i)=>{
               if(s.type=="scenario"){
-                return `<div style="width:100px;" class="${getDiffClass(s,x,i,"time")}2 bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time}/${x.average}s</div>
+                return `<div style="width:100px;" class="${getDiffClass(s,x,i,"time")}2 bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time?x.time+"/"+x.average+"s":""}</div>
                         <div class="${getDiffClass(s,x,i,"success")}2 bz-mini-icon-letter bz-icon-col bz-${x.success?'success':''}">${x.success||""}</div>
                         <div class="${getDiffClass(s,x,i,"failed")}2 bz-mini-icon-letter bz-icon-col bz-${x.failed?'failed':''}">${x.failed||""}</div>`
               }else{
