@@ -2618,7 +2618,7 @@ var analyzer={
 
     if(ap){
       let d=createNode(ap,ct.code,{
-        name:"["+ct.code+"] "+ct.name,
+        name:ct.name,
         code:ct.code,
         type:"scenario",
         nodes:[]
@@ -2990,6 +2990,9 @@ var analyzer={
       analyzer.identifyDiffData(compare)
       let ks=analyzer.curCompareTabs
       compareScope=`
+        <div>
+          <label style='line-height: 40px;margin-right: 20px'><input type="checkbox" id="showAll"/> Show all</label>
+        </div>
         <div style="margin:8px ​10p;">
           <button class="bz-icon bz-setting"></button>
         </div>`;
@@ -3029,6 +3032,10 @@ var analyzer={
         pp.show()
       }
     })
+    $("#showAll").click(function(){
+      analyzer.setting.showAll=this.checked
+      analyzer.showAnalyzePanel("diff")
+    })
     $(".bz-tab").click(function(){
       $(".bz-tab").removeClass("bz-active")
       $(this).addClass("bz-active")
@@ -3049,7 +3056,7 @@ var analyzer={
             <div class='bz-row'>
               <button class='bz-mini-icon bz-switch bz-switch2'></button>
               <div class="bz-title-text" style="line-height:25px;">
-                [${x.code}] ${x.name} (Tests: ${x.ts.length})
+                [${x.code}] ${x.name||""} (Tests: ${x.ts.length})
               </div>
               ${sortTerm(x).map((z,i)=>{
                 return `
@@ -3070,7 +3077,7 @@ var analyzer={
     }
     
     function getSameClass(x){
-      if(compare){
+      if(compare&&!analyzer.setting.showAll){
         for(let k in x.term){
           if(x.term[k].diff){
             return ""
