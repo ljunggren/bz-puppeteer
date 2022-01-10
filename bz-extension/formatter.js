@@ -292,10 +292,16 @@ button.bz-icon-txt{
   white-space: pre-wrap;
   word-break: break-word;
 }
+/*
 .bz-panel>div:hover{
   background-color:#cce1ff;
 }
-
+*/
+.bz-line:hover,
+.bz-row:hover,
+.bz-title:hover{
+  background-color:#cce1ff;
+}
 .bz-content:hover{
   background-color:#EEE;
 }
@@ -658,8 +664,14 @@ body>.bz-log-box .bz-sort-bar{
 .bz-diff-item{
   background-color: #F99;
 }
+.bz-diff-item1{
+  background-color: #9F9;
+}
 .bz-diff-item2{
   background-color: #FCC;
+}
+.bz-diff-item12{
+  background-color: #CFC;
 }
 .bz-same-item{
   display:none;
@@ -3011,18 +3023,18 @@ var analyzer={
               <div class="bz-title-text" style="line-height:25px;">
                 [${x.code}] ${x.name} (Tests: ${x.ts.length})
               </div>
-              ${sortTerm(x).map(z=>{
+              ${sortTerm(x).map((z,i)=>{
                 return `
-                  <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2 ${getDiffClass(z,"time")}' style='width:100px;'>${z.time}s</span>
-                  <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.success?"bz-success":""} ${getDiffClass(z,"success")}'>${z.success||""}</span>
-                  <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.failed?"bz-failed":""} ${getDiffClass(z,"failed")}'>${z.failed||""}${z.warn}</span>
+                  <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2 ${getDiffClass(x,i,"time")}' style='width:100px;'>${z.time}s</span>
+                  <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.success?"bz-success":""} ${getDiffClass(x,i,"success")}'>${z.success||""}</span>
+                  <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.failed?"bz-failed":""} ${getDiffClass(x,i,"failed")}'>${z.failed||""}${z.warn}</span>
                 `
               }).join("")}
             </div>
             <div class='bz-panel bz-hide'>
               ${x.ts.map(x=>getTestResult(x)).join("")}
             </div>
-            <hr/>
+            <hr class="${getSameClass(x)}"/>
           </div>
         `
       }).join("")
@@ -3047,26 +3059,56 @@ var analyzer={
           <div class='bz-title-text' style='margin-left:20px;'>
             <div class="bz-mini-icon bz-${x.type}"></div> [${x.code}] ${x.name}
           </div>
-          ${sortTerm(x).map(z=>{
+          ${sortTerm(x).map((z,i)=>{
             return `
-              <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2 ${getDiffClass(z,"time")}2' style='width:100px;'>${z.time}/${z.average}s</span>
-              <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.success?"bz-success":""} ${getDiffClass(z,"success")}2'>${z.success||""}</span>
-              <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.failed?"bz-failed":""} ${getDiffClass(z,"failed")}2'>${z.failed||""}${z.warn}</span>
+              <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2 ${getDiffClass(x,i,"time")}2' style='width:100px;'>${z.time}/${z.average}s</span>
+              <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.success?"bz-success":""} ${getDiffClass(x,i,"success")}2'>${z.success||""}</span>
+              <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.failed?"bz-failed":""} ${getDiffClass(x,i,"failed")}2'>${z.failed||""}${z.warn}</span>
             `
           }).join("")}
         </div>
       `
     }
     
-    function getDiffClass(z,k){
-      if(compare){
-        if(z.diff){
-          if(z.diff.constructor==Set){
-            if(z.diff.has(k)){
-              return "bz-diff-item"
+    function getDiffClass(s,i,kk){
+      if(compare&&!i){
+        let c="bz-diff-item",
+            c1="bz-diff-item1",
+            m=s.term.master
+        for(let k in s.term){
+          let x=s.term[k]
+          if(x.diff){
+            if(x.diff.constructor==Set){
+              if(x.diff.has(kk)){
+                if(kk=="success"){
+                  if(x[kk]>m[kk]){
+                    return c
+                  }else{
+                    return c1
+                  }
+                }else if(kk=="failed"){
+                  if(x[kk]>m[kk]){
+                    return c1
+                  }else{
+                    return c
+                  }
+                }else if(kk=="result"){
+                  if(x[kk]=="failed"){
+                    return c1
+                  }else{
+                    return c
+                  }
+                }else if(kk=="time"){
+                  if(x[kk]>m[kk]){
+                    return c1
+                  }else{
+                    return c
+                  }
+                }
+              }
+            }else{
+              return c
             }
-          }else{
-            return "bz-diff-item"
           }
         }
       }
@@ -3112,7 +3154,7 @@ var analyzer={
           // }
         // }
         return x
-      }).map(x=>getNodeView(x,compare?0:"master")+"<hr/>").join("")
+      }).map(x=>getNodeView(x,compare?0:"master")+`<hr class="${getSameClass(x)}"/>`).join("")
     }
     
     function getNodeView(s,k){
@@ -3122,22 +3164,22 @@ var analyzer={
             <button class="bz-mini-icon bz-switch bz-switch2 ${s.nodes.length?'':'bz-none'}"></button>
             <div class="bz-mini-icon bz-${s.name?s.type||"test":"hide"}"></div>
             <div class="bz-title-text">${s.name?"["+s.code+"] ":""}${s.name||s.code}</div>
-            ${sortTerm(s).map(x=>{
+            ${sortTerm(s).map((x,i)=>{
               if(s.type=="scenario"){
-                return `<div style="width:100px;" class="${getDiffClass(x,"time")}2 bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time}/${x.average}s</div>
-                        <div class="${getDiffClass(x,"success")}2 bz-mini-icon-letter bz-icon-col bz-${x.success?'success':''}">${x.success||""}</div>
-                        <div class="${getDiffClass(x,"failed")}2 bz-mini-icon-letter bz-icon-col bz-${x.failed?'failed':''}">${x.failed||""}</div>`
+                return `<div style="width:100px;" class="${getDiffClass(s,i,"time")}2 bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time}/${x.average}s</div>
+                        <div class="${getDiffClass(s,i,"success")}2 bz-mini-icon-letter bz-icon-col bz-${x.success?'success':''}">${x.success||""}</div>
+                        <div class="${getDiffClass(s,i,"failed")}2 bz-mini-icon-letter bz-icon-col bz-${x.failed?'failed':''}">${x.failed||""}</div>`
               }else{
-                return `<div style="width:100px;" class="${getDiffClass(x,"time")}2 bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time}s</div>
-                        <div class="${getDiffClass(x,"success")}2 bz-mini-icon-letter bz-icon-col bz-success ${x.result=="success"?'':'bz-none'}"></div>
-                        <div class="${getDiffClass(x,"failed")}2 bz-mini-icon-letter bz-icon-col bz-failed ${x.result=="success"?'bz-none':''}"></div>`
+                return `<div style="width:100px;" class="${getDiffClass(s,i,"time")}2 bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time}s</div>
+                        <div class="${getDiffClass(s,i,"success")}2 bz-mini-icon-letter bz-icon-col bz-success ${x.result=="success"?'':'bz-none'}"></div>
+                        <div class="${getDiffClass(s,i,"failed")}2 bz-mini-icon-letter bz-icon-col bz-failed ${x.result=="success"?'bz-none':''}"></div>`
               }
             }).join("")}
           </div>
           <div class="bz-node-panel bz-hide">
             ${s.nodes.map(x=>getNodeView(x,k)).join("")}
           </div>
-        </div>${!s.name?"<hr/>":""}`
+        </div>${!s.name?`<hr class="${getSameClass(s)}"/>`:""}`
         
     }
   },
