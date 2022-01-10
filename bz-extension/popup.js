@@ -66,12 +66,12 @@ function init(){
         initTime:2,
         autoFormat:false,
         retrieveWorkerLog:false,
-        identifyMaster:`function(){
-  return location.href.match(/[\/]console(Full)?$/)
+        identifyMaster:`function(url){
+  return (url||location.href).match(/[\/]console(Full)?$/)
 }`,
-      identifyWorker:`function(){
+      identifyWorker:`function(url){
   return [2,3].map(x=>{
-    return location.href.replace(/[\\/][0-9]+[\\/]console(Full)?/,"/ws/out_"+x+".log")
+    return (url||location.href).replace(/[\\/][0-9]+[\\/]console(Full)?/,"/ws/out_"+x+".log")
   })
 }`
       }
