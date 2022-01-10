@@ -2146,6 +2146,9 @@ input[type=number]{
       <div class="bz-row-high" style="margin-top:10px;text-align:center;">
         <button id="compare-btn" class="std">Compare</button>
       </div>`)
+    setTimeout(()=>{
+      $("input#net-log").focus()
+    },100)
     $("#net-log").keydown(function(e){
       if(e.keyCode==13){
         doCompare()
