@@ -621,7 +621,6 @@ body>.bz-log-box .bz-sort-bar{
 .bz-tab{
   cursor:pointer;
   margin:10px;
-  padding:5px 10px;
 }
 .bz-tab.bz-active{
   border-bottom:1px solid #009;
