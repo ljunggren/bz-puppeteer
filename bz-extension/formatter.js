@@ -2613,6 +2613,7 @@ var analyzer={
     percentage:0.1,
     second:5,
     diffResult:1,
+    diffScenario:1,
     tab:"scenario"
   },
   //mp: module map, ap: analysis map, ct: scenario/test
@@ -2841,7 +2842,7 @@ var analyzer={
           }
         })
       }
-      
+      m.hide=0
       if(m.term){
         let master=m.term.master
         if(!master){
@@ -2862,7 +2863,13 @@ var analyzer={
               return 1
             }
           })){
-            isDiffItem(m,p)
+            if(!isDiffItem(m,p)&&p&&p.type=="scenario"&&analyzer.setting.diffScenario){
+              if(!analyzer.setting.showAll){
+                m.hide=1
+              }else{
+                m.hide=0
+              }
+            }
           }
         }
       }
@@ -2870,27 +2877,32 @@ var analyzer={
     
     
     function isDiffItem(m,p){
-      let mm=m.term.master;
+      let mm=m.term.master,hasDiff;
       tabs.forEach(x=>{
         let t=m.term[x]
         if(as.diffResult){
           if(t.success!=mm.success){
             setDiff(t,"success")
+            hasDiff=1
           }
           if(t.failed!=mm.failed){
             setDiff(t,"failed")
+            hasDiff=1
           }
           if(t.result!=mm.result){
             setDiff(t,t.result)
+            hasDiff=1
           }
         }
         if(t.average){
           if(isDiffTime(t.average,mm.average)){
             setDiff(t,"time")
+            hasDiff=1
           }
         }else{
           if(isDiffTime(t.time,mm.time)){
             setDiff(t,"time")
+            hasDiff=1
           }
         }
         if(t.diff&&p&&p.term){
@@ -2900,8 +2912,10 @@ var analyzer={
           t=[...t.diff]
 
           t.forEach(y=>p.term[x].diff.add(y))
+          hasDiff=1
         }
       })
+      return hasDiff
     }
     
     function setDiff(x,v){
@@ -2946,15 +2960,22 @@ var analyzer={
         <label style="margin-left:5px;">Execution time % changes larger than <input type="number" id="percentage"> percent (%)</label>
         <br/><br/>
         <label style="margin-left:5px;">Ignore execution time changes up to <input type="number" id="second"> seconds (s)</label>
+        <br/><br/>
+        <label><input type="checkbox" id="diffScenario">Show diff on scenario only</label>
       </div>
       <div style="text-align: center;margin: 15px 0 10px 0;"><button class="std">Run diff</button></div>
     `)
     
     $("#diffResult").attr({checked:!!as.diffResult})
+    $("#diffScenario").attr({checked:!!as.diffScenario})
     $("#second").val(as.second)
     $("#percentage").val(as.percentage*100)
+
     $("#diffResult").click(function(){
       as.diffResult=this.checked
+    })
+    $("#diffScenario").click(function(){
+      as.diffScenario=this.checked
     })
     $("#second").change(function(){
       as.second=this.value
@@ -3198,33 +3219,14 @@ var analyzer={
     }
     
     function getScenarioResult(){
-      return Object.values(fd.scenarioAnaMap).map(x=>{
-        // x.term={}
-        // x.nodes.forEach(y=>{
-          // for(let k in y.term){
-            // if(y.term[k].result=="success"){
-              // x.term[k].success++
-            // }else{
-              // x.term[k].failed++
-            // }
-            // x.term[k].time+=y.term[k].time
-          // }
-        // })
-        // for(let k in x.term){
-          // x.term[k].average=parseInt(x.term[k].time/(x.term[k].success+x.term[k].failed))
-        // }
-        // if(x.diff){
-          // debugger
-          // if(x.diff.constructor==Array){
-            // x.diff.forEach(y=>{
-              // x.term[y].diff=1
-            // })
-          // }else{
-            // debugger
-          // }
-        // }
-        return x
-      }).map(x=>getNodeView(x,compare?0:"master")+`<hr class="${getSameClass(x)}"/>`).join("")
+      return Object.values(fd.scenarioAnaMap).filter(x=>x).map(x=>{
+        let ns=x.nodes.filter(u=>!u.hide)
+        if(ns.length){
+          let xx=Object.assign({},x)
+          xx.nodes=ns
+          return xx
+        }
+      }).filter(x=>x).map(x=>getNodeView(x,compare?0:"master")+`<hr class="${getSameClass(x)}"/>`).join("")
     }
     
     function getNodeView(s,k){
