@@ -650,6 +650,9 @@ const Service = {
           Service.lanuchTest--
           msg=" ".repeat(Service.lanuchTest*2)+msg.replace(/\] [0-9:]+ /,"] "+getSpendTime()+" ")
         }else if(msg.trim().match(/^>>>>/)){
+          if(msg.includes(">>>> Loading Scenario")){
+            Service.lanuchTest=1
+          }
           msg=" ".repeat(Service.lanuchTest*2)+msg.replace(/\([0-9:]+\) >>>>$/,"("+getSpendTime()+") >>>>")
           Service.lanuchTest++
         }else if(Date.now()-Service.lastTime>1000){
