@@ -2795,6 +2795,21 @@ var analyzer={
 
     for(let k in formatter.data.scenarioAnaMap){
       let m=formatter.data.scenarioAnaMap[k]
+      
+      m.nodes.forEach(y=>{
+        for(let k in y.term){
+          if(y.term[k].result=="success"){
+            m.term[k].success++
+          }else{
+            m.term[k].failed++
+          }
+          m.term[k].time+=y.term[k].time
+        }
+      })
+      for(let k in m.term){
+        m.term[k].average=parseInt(m.term[k].time/(m.term[k].success+m.term[k].failed))
+      }
+      
       setDiffInNodes(m)
     }
     
@@ -2824,7 +2839,6 @@ var analyzer={
             }
           }
         })
-        return
       }
       
       if(m.term){
@@ -3105,7 +3119,7 @@ var analyzer={
           </div>
           ${sortTerm(x).map((z,i)=>{
             return `
-              <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2 ${getDiffClass(x,z,i,"time")}2' style='width:100px;'>${z.time}/${z.average}s</span>
+              <span class='bz-icon bz-icon-col bz-mini-icon-letter bz-timer2 ${getDiffClass(x,z,i,"time")}2' style='width:100px;'>${z.time}s / ${z.average}s</span>
               <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.success?"bz-success":""} ${getDiffClass(x,z,i,"success")}2'>${z.success||""}</span>
               <span class='bz-icon bz-icon-col bz-mini-icon-letter ${z.failed?"bz-failed":""} ${getDiffClass(x,z,i,"failed")}2'>${z.failed||""}${z.warn}</span>
             `
@@ -3128,7 +3142,13 @@ var analyzer={
                 for(let j in s.term){
                   vs.push(s.term[j][kk])
                 }
-                vs.sort()
+                vs.sort((a,b)=>{
+                  if(a>b){
+                    return 1
+                  }else{
+                    return -1
+                  }
+                })
 
                 if(kk=="success"){
                   vs.reverse()
@@ -3146,6 +3166,8 @@ var analyzer={
                 }else if(kk=="time"){
                   if(vs[0]==m[kk]){
                     return c1
+                  }else{
+                    m.persentage=parseInt((m[kk]-vs[0])/vs[0]*100)+"%"
                   }
                 }
               }
@@ -3174,19 +3196,19 @@ var analyzer={
     function getScenarioResult(){
       return Object.values(fd.scenarioAnaMap).map(x=>{
         // x.term={}
-        x.nodes.forEach(y=>{
-          for(let k in y.term){
-            if(y.term[k].result=="success"){
-              x.term[k].success++
-            }else{
-              x.term[k].failed++
-            }
-            x.term[k].time+=y.term[k].time
-          }
-        })
-        for(let k in x.term){
-          x.term[k].average=parseInt(x.term[k].time/(x.term[k].success+x.term[k].failed))
-        }
+        // x.nodes.forEach(y=>{
+          // for(let k in y.term){
+            // if(y.term[k].result=="success"){
+              // x.term[k].success++
+            // }else{
+              // x.term[k].failed++
+            // }
+            // x.term[k].time+=y.term[k].time
+          // }
+        // })
+        // for(let k in x.term){
+          // x.term[k].average=parseInt(x.term[k].time/(x.term[k].success+x.term[k].failed))
+        // }
         // if(x.diff){
           // debugger
           // if(x.diff.constructor==Array){
@@ -3210,11 +3232,11 @@ var analyzer={
             <div class="bz-title-text">${s.name?"["+s.code+"] ":""}${s.name||s.code}</div>
             ${sortTerm(s).map((x,i)=>{
               if(s.type=="scenario"){
-                return `<div style="width:100px;" class="${getDiffClass(s,x,i,"time")}2 bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time?x.time+"/"+x.average+"s":""}</div>
+                return `<div style="width:100px;" class="${getDiffClass(s,x,i,"time")}2 bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time?x.time+"s / "+x.average+"s":""}</div>
                         <div class="${getDiffClass(s,x,i,"success")}2 bz-mini-icon-letter bz-icon-col bz-${x.success?'success':''}">${x.success||""}</div>
                         <div class="${getDiffClass(s,x,i,"failed")}2 bz-mini-icon-letter bz-icon-col bz-${x.failed?'failed':''}">${x.failed||""}</div>`
               }else{
-                return `<div style="width:100px;" class="${getDiffClass(s,x,i,"time")}2 bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time}s</div>
+                return `<div style="width:100px;" class="${getDiffClass(s,x,i,"time")}2 bz-icon bz-icon-col bz-mini-icon-letter bz-icon-col bz-timer2">${x.time}s${x.persentage?' ('+x.persentage+')':''}</div>
                         <div class="${getDiffClass(s,x,i,"success")}2 bz-mini-icon-letter bz-icon-col bz-success ${x.result=="success"?'':'bz-none'}"></div>
                         <div class="${getDiffClass(s,x,i,"failed")}2 bz-mini-icon-letter bz-icon-col bz-failed ${x.result=="success"?'bz-none':''}"></div>`
               }
