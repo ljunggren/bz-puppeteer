@@ -2937,13 +2937,16 @@ var analyzer={
     o.attr({type:""})
     o.find("div.bz-box").html(`
       <div>
-        <label><input type="checkbox" id="diffResult">Show diff on different result</label>
-        <h3 style="margin-left:5px;">Different time:</h3>
-        <label style="margin-left:5px;">Minimum diff percentage(%)<input type="number" id="percentage"></label>
-        and
-        <label>Minimum diff seconds<input type="number" id="second"></label>
+        <h3 style="margin-left:5px;">Diff tool config</h3>
+        <label style="margin-left:5px;">Show differences when</label> 
+        <br/><br/>
+        <label><input type="checkbox" id="diffResult">Test result changes (Pass -> Fail)</label>
+        <br/>
+        <label style="margin-left:5px;">Execution time % changes larger than <input type="number" id="percentage"> percent (%)</label>
+        <br/>
+        <label style="margin-left:5px;">Ignore execution time changes up to <input type="number" id="second"> seconds (s)</label>
       </div>
-      <div style="text-align: center;margin: 10px;"><button class="std">Reset</button></div>
+      <div style="text-align: center;margin: 10px;"><button class="std">Run diff</button></div>
     `)
     
     $("#diffResult").attr({checked:!!as.diffResult})
