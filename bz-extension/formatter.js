@@ -1217,7 +1217,7 @@ input[type=number]{
     try{
       eval("v="+formatter.data.setting.identifyWorker)
       v= v(masterUrl)
-      if(!v||v.constructor!=Array){
+      if(!v||v.constructor!=Array||v.includes(masterUrl)){
         v=[]
       }
     }catch(ex){}
@@ -1269,10 +1269,12 @@ input[type=number]{
         y:e.clientY
       }
       popPanel.css({
+        position:"fixed",
         "margin-top":0,
         top:this.org.top+"px",
         left:this.org.left+"px",
-        right:"unset"
+        right:"unset",
+        "z-index":2000000000000000000
       })
       $(document.body).addClass("disable-select")
     });
@@ -1405,14 +1407,18 @@ input[type=number]{
     }
     v=(fd.curEnd||"")+v
 
-    let ss=v.match(/\n[0-9]+\: BZ-Result\:(Success|Failed)$/gm)||[],
+    let ss=v.match(/\n[0-9]+\: BZ-Result\:(Success|Failed|Stop)$/gm)||[],
         list=[],
         remoteList=v.match(/\n[0-9]+\: \.{4} .+ Remote \[m[0-9].+\] .+Completed in (.+) Tasks:[ 0-9\/\.]+$/gm)||[]
 
     ss.forEach(x=>{
       let ei=v.indexOf(x)
+      
       let sv=v.substring(0,ei+x.length)
       v=v.substring(sv.length).trim()
+      if(x.includes("BZ-Result:Stop")){
+        return
+      }
       handleItem(sv,x)
     })
     
@@ -1478,10 +1484,10 @@ input[type=number]{
 
       handleFailedScenario(s)
       handleEnd(s)
-      if(fd.curLastScenario){
-        fd.curLastScenario.time=formatter.getSpendTime(fd.curLastScenario.start,s.start,"scenarioTime")
-        fd.curLastScenario.endTime=s.start
-      }
+      // if(fd.curLastScenario){
+        // fd.curLastScenario.time=formatter.getSpendTime(fd.curLastScenario.start,s.start,"scenarioTime")
+        // fd.curLastScenario.endTime=s.start
+      // }
       fd.curLastScenario=s
     }
     
@@ -1518,7 +1524,7 @@ input[type=number]{
 
     function handleDeclare(s){
       let sv=s.org
-      let w=sv.match(/\n([0-9]+)\: +\>+ Loading Scenario \[((m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?)\] - (.+) \([0-9:]+\) \>+$/m);
+      let w=sv.match(/\n([0-9]+)\: +\>+ Loading Scenario \[((m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?)\] - (.+) \(([0-9:]+)\) \>+$/m);
       if(!w){
         s.declare.org=sv
         s.org=""
@@ -1526,19 +1532,20 @@ input[type=number]{
       }
       let k=w[2].replace(/[^tm0-9]/g,"-").replace(/-$/,"")
       
-
       s.ckey="module-"+k,
       s.code=k+"-"+fd.curWorker
 
       s.name=w[6]
       s.bz=w[3]
+      s.start=w[7]
       s.title="["+w[2]+"] "+w[6]
       s.dataIdx=w[5]
       fd.scenarioMap[s.code]=s
       w=formatter.splitByWord(s.org,w[0]);
       s.declare.org=w[0]
       s.org=w[1]
-      s.init.start=formatter.retrieveTimeFromLog(w[1])||s.start
+      s.init.start=s.start
+//      s.init.start=formatter.retrieveTimeFromLog(w[1])||s.start
       s.declare.time=formatter.getSpendTime(s.start,s.init.start,"declareTime")
 
       delete fd.waitingListMap[k]
@@ -1572,6 +1579,7 @@ input[type=number]{
           mk=w[1].match(mk)
           if(mk){
             s.endTime=mk[1]
+            s.time=formatter.getSpendTime(s.start,s.endTime)
           }
           s.details.org=w[0]
           delete s.org
@@ -2326,10 +2334,12 @@ input[type=number]{
             s.time=parseInt(formatter.getSpendTime(s.start,s.end))
             y=v.split(y.end)
             v=y[1]
-            analyzer.addAnalyzeData(x.list,s,formatter.data.scenarioAnaMap,x.key);
-            // formatter.data.scenarioAnaMap[s.code].nodes[s.idx].term[x.key]=s
-            
-            analyzer.retrieveAnalyzeData(x.key,x.list,y[0],1,s)
+            if(s.result!="stopped"){
+              analyzer.addAnalyzeData(x.list,s,formatter.data.scenarioAnaMap,x.key);
+              // formatter.data.scenarioAnaMap[s.code].nodes[s.idx].term[x.key]=s
+              
+              analyzer.retrieveAnalyzeData(x.key,x.list,y[0],1,s)
+            }
           })
         })
         compare(vs)
@@ -2658,6 +2668,7 @@ var analyzer={
   setting:{
     percentage:0.1,
     second:5,
+    missTest:1,
     diffResult:1,
     diffScenario:1,
     tab:"scenario"
@@ -2877,21 +2888,25 @@ var analyzer={
       if(m.term){
         let master=m.term.master
         if(!master){
-          for(let k in m.term){
-            m.diff=1
-            m.term[k].diff=1
-          }
-          if(p){
-            p.diff=Object.keys(m.term)
+          if(analyzer.setting.missTest){
+            for(let k in m.term){
+              m.diff=1
+              m.term[k].diff=1
+            }
+            if(p){
+              p.diff=Object.keys(m.term)
+            }
           }
         }else{
           if(!tabs.find(x=>{
             if(!m.term[x]){
-              master.diff=1
-              if(p){
-                p.diff=["master"]
+              if(analyzer.setting.missTest){
+                master.diff=1
+                if(p){
+                  p.diff=["master"]
+                }
+                return 1
               }
-              return 1
             }
           })){
             if(!isDiffItem(m,p)&&p&&p.type=="scenario"&&analyzer.setting.diffScenario){
@@ -2986,24 +3001,30 @@ var analyzer={
         <h3 style="margin-left:5px;">Diff tool config</h3>
         <label style="margin-left:5px;">Show differences when</label> 
         <br/><br/>
-        <label><input type="checkbox" id="diffResult">Test result changes (Pass -> Fail)</label>
-        <br/><br/>
         <label style="margin-left:5px;">Execution time % changes larger than <input type="number" id="percentage"> percent (%)</label>
         <br/><br/>
         <label style="margin-left:5px;">Ignore execution time changes up to <input type="number" id="second"> seconds (s)</label>
         <br/><br/>
         <label><input type="checkbox" id="diffScenario">Show diff on scenario only</label>
+        <br/><br/>
+        <label><input type="checkbox" id="diffResult">Test result changes (Pass -> Fail)</label>
+        <br/><br/>
+        <label><input type="checkbox" id="missTest">Missing test case</label>
       </div>
       <div style="text-align: center;margin: 15px 0 10px 0;"><button class="std">Run diff</button></div>
     `)
     
     $("#diffResult").attr({checked:!!as.diffResult})
+    $("#missTest").attr({checked:!!as.missTest})
     $("#diffScenario").attr({checked:!!as.diffScenario})
     $("#second").val(as.second)
     $("#percentage").val(as.percentage*100)
 
     $("#diffResult").click(function(){
       as.diffResult=this.checked
+    })
+    $("#missTest").click(function(){
+      as.missTest=this.checked
     })
     $("#diffScenario").click(function(){
       as.diffScenario=this.checked
