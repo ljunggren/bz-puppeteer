@@ -14,7 +14,14 @@ var formatter={
   color: #363D4A;
   font-size: 13px;
 }
-
+.disable-select{
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 .bz-download { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2018.928%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%23363d4a%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22download%22%20transform%3D%22translate%28-6.41%20-6.946%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_497%22%20data-name%3D%22Path%20497%22%20class%3D%22cls-1%22%20d%3D%22M12.692%2C18.139a.769.769%2C0%2C1%2C1%2C1.088-1.088l1.861%2C1.861V7.716a.769.769%2C0%2C1%2C1%2C1.538%2C0v11.2l1.861-1.861a.769.769%2C0%2C1%2C1%2C1.088%2C1.088l-3.174%2C3.174a.769.769%2C0%2C0%2C1-.252.167l-.012%2C0a.751.751%2C0%2C0%2C1-.561%2C0l-.012%2C0a.769.769%2C0%2C0%2C1-.252-.167ZM25.641%2C20a.769.769%2C0%2C0%2C0-.769.769v3.566H7.949V20.769a.769.769%2C0%2C1%2C0-1.538%2C0V25.1a.769.769%2C0%2C0%2C0%2C.769.769H25.641a.769.769%2C0%2C0%2C0%2C.769-.769V20.769A.769.769%2C0%2C0%2C0%2C25.641%2C20Z%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-copy { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2018.4%2018.4%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20%230069ff%3B%20%20%20%20%20%20%20%20stroke%3A%20%230069ff%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.4px%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22copy-strong%22%20transform%3D%22translate%280.2%200.2%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_31%22%20data-name%3D%22Path%2031%22%20class%3D%22cls-1%22%20d%3D%22M11.25%2C4.5V0H3.375L0%2C3.375V13.5H6.75V18H18V4.5ZM3.375%2C1.591V3.375H1.591ZM1.125%2C12.375V4.5H4.5V1.125h5.625V4.5L6.75%2C7.875v4.5Zm9-6.284V7.875H8.341Zm6.75%2C10.784h-9V9H11.25V5.625h5.625Z%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-analyze:before {
@@ -1250,6 +1257,45 @@ input[type=number]{
       waitingList:$("<div class='bz-scope bz-hide' bz-name='Waiting list'></div>").appendTo(p),
       end:$("<pre class='bz-scope bz-end'></pre>").appendTo(p)
     };
+    
+    let popPanel=$(".bz-pop-panel");
+    popPanel.mousedown(function(e) {
+      this.isDown = true;
+      let r=this.getBoundingClientRect()
+      this.org={
+        left:r.left,
+        top:r.top,
+        x:e.clientX,
+        y:e.clientY
+      }
+      popPanel.css({
+        "margin-top":0,
+        top:this.org.top+"px",
+        left:this.org.left+"px",
+        right:"unset"
+      })
+      $(document.body).addClass("disable-select")
+    });
+
+    popPanel.mouseup(function() {
+      this.isDown = false;
+      $(document.body).removeClass("disable-select")
+    });
+
+    popPanel.mousemove(function(e) {
+      if (this.isDown) {
+        e.preventDefault();
+        popPanel.css({
+          top:this.org.top+(e.clientY - this.org.y)+"px",
+          left:this.org.left+(e.clientX - this.org.x)+"px",
+          right:"unset"
+        })
+      }
+    });
+    popPanel.mouseout(function(){
+      this.isDown=0
+      $(document.body).removeClass("disable-select")
+    })
 
     o.header.find("input.bz-search-input").change(function(e){
       formatter.search(this.value)
@@ -3049,6 +3095,24 @@ var analyzer={
           ${ks.map(x=>`<div class="bz-term-title">${x}</div>`).join("")}
         </div>
       `
+    }else{
+      for(let k in formatter.data.scenarioAnaMap){
+        let m=formatter.data.scenarioAnaMap[k]
+        
+        m.nodes.forEach(y=>{
+          for(let k in y.term){
+            if(y.term[k].result=="success"){
+              m.term[k].success++
+            }else{
+              m.term[k].failed++
+            }
+            m.term[k].time+=y.term[k].time
+          }
+        })
+        for(let k in m.term){
+          m.term[k].average=parseInt(m.term[k].time/(m.term[k].success+m.term[k].failed))
+        }
+      }
     }
     let md=analyzer.moduleData
     o.find("div.bz-box").html(`
