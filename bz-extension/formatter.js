@@ -2840,25 +2840,10 @@ var analyzer={
         }
       })
     }
+    analyzer.initAnaTopData()
 
     for(let k in formatter.data.scenarioAnaMap){
-      let m=formatter.data.scenarioAnaMap[k]
-      
-      m.nodes.forEach(y=>{
-        for(let k in y.term){
-          if(y.term[k].result=="success"){
-            m.term[k].success++
-          }else{
-            m.term[k].failed++
-          }
-          m.term[k].time+=y.term[k].time
-        }
-      })
-      for(let k in m.term){
-        m.term[k].average=parseInt(m.term[k].time/(m.term[k].success+m.term[k].failed))
-      }
-      
-      setDiffInNodes(m)
+      setDiffInNodes(formatter.data.scenarioAnaMap[k])
     }
     
     function setDiffInNodes(m,p){
@@ -3060,6 +3045,25 @@ var analyzer={
       s.analyzed=0
     }
   },
+  initAnaTopData:function(){
+    for(let k in formatter.data.scenarioAnaMap){
+      let m=formatter.data.scenarioAnaMap[k]
+      
+      m.nodes.forEach(y=>{
+        for(let k in y.term){
+          if(y.term[k].result=="success"){
+            m.term[k].success++
+          }else{
+            m.term[k].failed++
+          }
+          m.term[k].time+=y.term[k].time
+        }
+      })
+      for(let k in m.term){
+        m.term[k].average=parseInt(m.term[k].time/(m.term[k].success+m.term[k].failed))
+      }
+    }
+  },
   showAnalyzePanel:function(compare){
     let fd=formatter.data,
         o=$(".bz-pop-panel"), 
@@ -3096,23 +3100,7 @@ var analyzer={
         </div>
       `
     }else{
-      for(let k in formatter.data.scenarioAnaMap){
-        let m=formatter.data.scenarioAnaMap[k]
-        
-        m.nodes.forEach(y=>{
-          for(let k in y.term){
-            if(y.term[k].result=="success"){
-              m.term[k].success++
-            }else{
-              m.term[k].failed++
-            }
-            m.term[k].time+=y.term[k].time
-          }
-        })
-        for(let k in m.term){
-          m.term[k].average=parseInt(m.term[k].time/(m.term[k].success+m.term[k].failed))
-        }
-      }
+      analyzer.initAnaTopData()
     }
     let md=analyzer.moduleData
     o.find("div.bz-box").html(`
