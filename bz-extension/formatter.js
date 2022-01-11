@@ -1730,7 +1730,7 @@ input[type=number]{
     v=v.replace(/(bz-line)(">[0-9]+: <---- Join worker)/g,"$1 bz-join$2")
     v=v.replace(/(bz-line)(\">[0-9]+: Remove worker )/g,`$1 bz-leave$2`)
     if(mark=="failed"){
-      v=v.replace(/<div class="bz-line">(\[Error Hash: ([A-F0-9]+)\][^<]*)<\/div>/,'<div><button title="Open the Root Cause in IDE" class="bz-failed-title bz-failed-hash" hash="$2">$1</button><button class="bz-icon bz-close bz-switch"></button></div>')
+      v=v.replace(/<div class="bz-line">(\[Error Hash: ([A-F0-9]+)\][^<]*)<\/div>/,'<div><button title="Open the Root Cause in IDE" class="bz-failed-title bz-failed-hash" hash="$2">$1</button><button class="bz-icon bz-close bz-switch" title="Close current scenario"></button></div>')
       v=v.replace(/<div class="bz-line">([0-9]+\: ERROR MESSAGE: )([^<]+<\/div>)/,"<fieldset class='bz-err-msg-box'><legend>$1</legend><div class='bz-line'>$2");
       v=v.replace(/<\/div><div><button/,"</div></fieldset><div><button")
     }
