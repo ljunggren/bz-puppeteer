@@ -2986,13 +2986,13 @@ var analyzer={
         <h3 style="margin-left:5px;">Diff tool config</h3>
         <label style="margin-left:5px;">Show differences when</label> 
         <br/><br/>
-        <label><input type="checkbox" id="diffResult">Test result changes (Pass -> Fail)</label>
+        <label><input type="checkbox" id="diffResult">Test result changes (Pass <-> Fail)</label>
         <br/><br/>
-        <label style="margin-left:5px;">Execution time % changes larger than <input type="number" id="percentage"> percent (%)</label>
+        <label style="margin-left:5px;">Execution time differs more than <input type="number" id="percentage"> percent (%)</label>
         <br/><br/>
-        <label style="margin-left:5px;">Ignore execution time changes up to <input type="number" id="second"> seconds (s)</label>
+        <label style="margin-left:5px;">Ignore execution time differences up to <input type="number" id="second"> seconds (s)</label>
         <br/><br/>
-        <label><input type="checkbox" id="diffScenario">Show diff on scenario only</label>
+        <label><input type="checkbox" id="diffScenario">Compare on scenario-level only</label>
       </div>
       <div style="text-align: center;margin: 15px 0 10px 0;"><button class="std">Run diff</button></div>
     `)
