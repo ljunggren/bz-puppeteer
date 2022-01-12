@@ -2907,8 +2907,8 @@ var analyzer={
                 if(p){
                   p.diff=["master"]
                 }
-                return 1
               }
+              return 1
             }
           })){
             if(!isDiffItem(m,p)&&p&&p.type=="scenario"&&analyzer.setting.diffScenario){
@@ -2954,13 +2954,16 @@ var analyzer={
           }
         }
         if(t.diff&&p&&p.term){
-          if(!p.term[x].diff||p.term[x].diff.constructor!=Set){
-            p.term[x].diff=new Set();
-          }
-          t=[...t.diff]
+          if(!hasDiff&&p&&p.type=="scenario"&&analyzer.setting.diffScenario){
+            delete t.diff
+          }else{
+            if(!p.term[x].diff||p.term[x].diff.constructor!=Set){
+              p.term[x].diff=new Set();
+            }
+            t=[...t.diff]
 
-          t.forEach(y=>p.term[x].diff.add(y))
-          hasDiff=1
+            t.forEach(y=>p.term[x].diff.add(y))
+          }
         }
       })
       return hasDiff
