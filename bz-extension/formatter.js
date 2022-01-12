@@ -2273,11 +2273,15 @@ input[type=number]{
             return alert("Load log failed! Please be sure the url/no. is correct.")
           }
           v.list.push(vv)
-          vv=formatter.getLogList(masterUrl)
-          loadPages(vv,0,function(vvv){
-            v.list.push(...vvv)
-            loadLogs(vs,i+1,fun)
-          })
+          if(!v.url){
+            vv=formatter.getLogList(masterUrl)
+            loadPages(vv,0,function(vvv){
+              v.list.push(...vvv)
+              loadLogs(vs,i+1,fun)
+            })
+          }else{
+            fun(vs)
+          }
         })
       }else{
         fun(vs)
