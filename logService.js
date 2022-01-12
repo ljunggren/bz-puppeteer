@@ -651,7 +651,11 @@ const Service = {
           msg=" ".repeat(Service.lanuchTest*2)+msg.replace(/\] [0-9:]+ /,"] "+getSpendTime()+" ")
         }else if(msg.trim().match(/^>>>>/)){
           if(msg.includes(">>>> Loading Scenario")){
-            Service.lanuchTest=1
+            if(Service.lanuchTest>1){
+              Service.lanuchTest=1
+              console.log(`${Service.consoleNum++}:   <<<< Stopped Feature - Scenario [${Service.lastScenario}] ${getSpendTime()} XXXX Task: 0 / 0 <<<<`)
+            }
+            Service.lastScenario=(msg.match(/\[([^\]]+)\]/)||[])[1]
           }
           msg=" ".repeat(Service.lanuchTest*2)+msg.replace(/\([0-9:]+\) >>>>$/,"("+getSpendTime()+") >>>>")
           Service.lanuchTest++
