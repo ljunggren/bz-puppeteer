@@ -1642,7 +1642,7 @@ input[type=number]{
       if(v){
         let map={}
         v.forEach(x=>{
-          x=x.match(/(m[0-9]+.t[0-9])+\(?([0-9]+)?/)
+          x=x.match(/(m[0-9]+.t[0-9]+)+\(?([0-9]+)?/)
           let k=x[1].replace(".","-")
           if(!x[2]){
             if(map[k+"-0"]){
@@ -1689,7 +1689,9 @@ input[type=number]{
           s.bug.type="-new"
         }else{
           let link=s.org.match(/Root cause link: ?([^\n]+)\n/)
-          msg+="\n\n"+link[0]
+          if(link){
+            msg+="\n\n"+link[0]
+          }
           s.bug.path=(link||w)[1]
         }
 
