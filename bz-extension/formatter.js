@@ -2405,7 +2405,6 @@ input[type=number]{
     document.documentElement.scrollTop=0
   },
   search:function(v,scope){
-    debugger
     let fd=formatter.data
     if(formatter.searching){
       return
@@ -2566,7 +2565,7 @@ input[type=number]{
             if(xx){
               eval("xx=/"+xx+"/i")
               os=os.filter(x=>{
-                if(!x.title.match(xx)&&!x.init.org.match(xx)&&!x.details.org.match(xx)&&!x.end.org.match(xx)){
+                if(!foundTxt(x,xx)){
                   formatter.hideScenario(x)
                 }else{
                   return 1
@@ -2602,7 +2601,7 @@ input[type=number]{
       }
       if(v){
         os=os.filter(x=>{
-          if(!x.title.match(v)&&!x.details.org.match(v)&&!x.init.org.match(v)&&!x.declare.org.match(v)&&!x.end.org.match(v)){
+          if(!foundTxt(x,v)){
             formatter.hideScenario(x)
           }else{
             return 1
@@ -2610,6 +2609,34 @@ input[type=number]{
         })
       }
       formatter.buildAllDetails(os.map(x=>x.code))
+    }
+    
+    function foundTxt(x,f){
+      if(x.title.match(f)){
+        return 1
+      }
+      if(x.init.org){
+        if(x.init.org.match(f)){
+          return 1
+        }
+      }
+      if(x.declare.org){
+        if(x.declare.org.match(f)){
+          return 1
+        }
+      }
+      if(x.details.org){
+        if(x.details.org.match(f)){
+          return 1
+        }
+      }
+      if(x.end.org){
+        if(x.end.org.match(f)){
+          return 1
+        }
+      }else if(x.org){
+        return x.org.match(f)
+      }
     }
   },
   hideScenario:function(o){
