@@ -2405,6 +2405,7 @@ input[type=number]{
     document.documentElement.scrollTop=0
   },
   search:function(v,scope){
+    debugger
     let fd=formatter.data
     if(formatter.searching){
       return
@@ -2565,7 +2566,7 @@ input[type=number]{
             if(xx){
               eval("xx=/"+xx+"/i")
               os=os.filter(x=>{
-                if(!x.title.match(xx)&&!x.init.org.match(xx)&&!x.details.org.match(xx)){
+                if(!x.title.match(xx)&&!x.init.org.match(xx)&&!x.details.org.match(xx)&&!x.end.org.match(xx)){
                   formatter.hideScenario(x)
                 }else{
                   return 1
@@ -2601,7 +2602,7 @@ input[type=number]{
       }
       if(v){
         os=os.filter(x=>{
-          if(!x.title.match(v)&&!x.details.org.match(v)&&!x.init.org.match(v)&&!x.declare.org.match(v)){
+          if(!x.title.match(v)&&!x.details.org.match(v)&&!x.init.org.match(v)&&!x.declare.org.match(v)&&!x.end.org.match(v)){
             formatter.hideScenario(x)
           }else{
             return 1
