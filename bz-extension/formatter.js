@@ -1593,7 +1593,7 @@ input[type=number]{
       
       if(x){
         x=x.find(y=>y.match(/\/run/))||x[0]
-        x=x.match(/(http.+[\/].+)\/extension\?token\=.+#([^\/]+)[\/]([^\/]+)([\/](m[0-9]+[\/]t[0-9]+)[\/]run)?/);
+        x=x.match(/(http.+[\/].+)\/extension.*[?&]token\=.+#([^\/]+)[\/]([^\/]+)([\/](m[0-9]+[\/]t[0-9]+)[\/]run)?/);
         
         fd.startUrl=x[1]+"/extension?id="+x[2]+"#"+x[2]+"/"+x[3]+"/"
         fd.host=x[1]
