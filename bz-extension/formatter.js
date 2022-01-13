@@ -1589,7 +1589,7 @@ input[type=number]{
     }
 
     function handleSetting(v){
-      let x=v.match(/(http.+[\/].+)\/extension\?token\=.+#.+/gm);
+      let x=v.match(/(http.+[\/].+)\/extension.*[?&]token\=.+#.+/gm);
       
       if(x){
         x=x.find(y=>y.match(/\/run/))||x[0]
