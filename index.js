@@ -119,7 +119,7 @@ function start(reset){
       popup = pages[pages.length-1]; 
       popup.setViewport({
         width: parseInt(width),
-        height: parseInt(height)
+        height: parseInt(height)-100
       });
 
       popup.on("error", appPrintStackTrace);
