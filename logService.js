@@ -648,6 +648,9 @@ const Service = {
         Service.consoleNum++;
         if(msg.trim().match(/^<<<</)){
           Service.lanuchTest--
+          if(Service.lanuchTest<0){
+            Service.lanuchTest=0
+          }
           msg=" ".repeat(Service.lanuchTest*2)+msg.replace(/\] [0-9:]+ /,"] "+getSpendTime()+" ")
         }else if(msg.trim().match(/^>>>>/)){
           if(msg.includes(">>>> Loading Scenario")){
