@@ -1189,7 +1189,7 @@ input[type=number]{
       <div class="bz-title bz-${o.result}-title">
         <button key="${o.code}" style="background-size:${o.close?12:8}px;visibility:${o.details!==undefined&&!o.details?'hidden':'unset'}" class="bz-icon bz-${o.close||"switch"}"></button>
         <div class="bz-icon bz-${o.type}"></div>
-        <div class="bz-title-text" bz="${o.bz}">${o.title||o.name}</div>
+        <div class="bz-title-text" bz="${o.bz||""}">${o.title||o.name}</div>
         ${ctrl}
         <div class="bz-time">${o.time||""}</div>
         ${o.result?`<div class="bz-result bz-icon bz-${o.result}"></div>`:""}
