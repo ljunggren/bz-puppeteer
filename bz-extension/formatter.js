@@ -129,6 +129,9 @@ var formatter={
   font-size: 15px;
   line-height: 30px;
 }
+.bz-highlight-scope:before{
+  color:#00C;
+}
 button:hover{
   background-color:#DDD;
 }
@@ -1220,7 +1223,9 @@ input[type=number]{
       if(!v||v.constructor!=Array||v.includes(masterUrl)){
         v=[]
       }
-    }catch(ex){}
+    }catch(ex){
+      v=0
+    }
     return v||[]
   },
   buildLayout:function(p,setting){
@@ -1253,7 +1258,7 @@ input[type=number]{
       </div>`).appendTo(p),
       init:$(formatter.getGroupElement({name:"Initial",code:"project-init",level:"project",type:"init"})).appendTo(p),
       exePanel:$("<div class='bz-scope bz-hide' bz-name='Executing list'></div>").appendTo(p),
-      panel:$("<div class='bz-scope' bz-name='Completed list'></div>").appendTo(p),
+      panel:$("<div class='bz-scope bz-highlight-scope' bz-name='Completed list'></div>").appendTo(p),
       waitingList:$("<div class='bz-scope bz-hide' bz-name='Waiting list'></div>").appendTo(p),
       end:$("<pre class='bz-scope bz-end'></pre>").appendTo(p)
     };
@@ -1545,8 +1550,8 @@ input[type=number]{
       s.declare.org=w[0]
       s.org=w[1]
       s.init.start=s.start
-//      s.init.start=formatter.retrieveTimeFromLog(w[1])||s.start
-      s.declare.time=formatter.getSpendTime(s.start,s.init.start,"declareTime")
+      s.declare.start=formatter.retrieveTimeFromLog(s.declare.org)
+      s.declare.time=formatter.getSpendTime(s.declare.start,s.init.start,"declareTime")
 
       delete fd.waitingListMap[k]
       if(s.result!="running"){
