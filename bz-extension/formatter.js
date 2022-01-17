@@ -726,6 +726,8 @@ input[type=number]{
     }catch(e){}
   },
   exeFormag:function(setting,auto){
+    formatter.startTime=formatter.startTime||Date.now()
+    console.log("start:"+formatter.startTime)
     if(setting.gotoOrg){
       setting.ignore= 1
       delete setting.gotoOrg
@@ -736,7 +738,7 @@ input[type=number]{
       formatter.updateFormatLogSetting(setting)
       return
     }
-    if(!document.body.innerText.includes("Boozang runner")&&!document.getElementsByTagName("iframe")[0]&&parent==window){
+    if(!document.body.innerHTML.includes("Boozang runner")&&!document.getElementsByTagName("iframe")[0]&&parent==window){
       if(!auto){
         alert("There is no boozang test log")
       }else{
@@ -752,6 +754,10 @@ input[type=number]{
       return
     }
     formatter.showDoing("Loading log ...")
+    let ps=document.getElementsByTagName("pre")
+    for(let p of ps){
+      p.style.display="none"
+    }
 
     if(!window.$){
       return setTimeout(()=>{
@@ -813,6 +819,7 @@ input[type=number]{
       
 
       $(o).hide()
+
       formatter.element=formatter.buildLayout(p)
       formatter.definitEvent()
 
@@ -1323,6 +1330,10 @@ input[type=number]{
     }
     
     formatter.buildScenarioList(ws,function(){
+      if(!formatter.endTime){
+        formatter.endTime=Date.now()
+        console.log("End: "+(formatter.endTime-formatter.startTime))
+      }
       formatter.keepLogMap("master")
 
       if(formatter.chking>=30){
