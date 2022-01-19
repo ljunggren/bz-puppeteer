@@ -585,8 +585,12 @@ const Service = {
     (async () => {
       await Service.page.close()
       await Service.browser.close()
-      killer(Service.browser.process().pid, 'SIGKILL');
-      process.exit(Service.result)
+      setTimeout(()=>{
+        killer(Service.browser.process().pid, 'SIGKILL');
+        setTimeout(()=>{
+          process.exit(Service.result)
+        },1000)
+      },1000)
     })()
   },
   async handleTimeout(timeout,msg){
