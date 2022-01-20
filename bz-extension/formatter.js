@@ -1,5 +1,4 @@
 var formatter={
-  compareFileIdx:1,
   idx:0,
   cameraList:[],
   chking:30,
@@ -96,7 +95,19 @@ var formatter={
 .bz-refresh { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024.297%2019.416%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-1%2C%20.cls-2%20%7B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-linecap%3A%20round%3B%20%20%20%20%20%20%20%20stroke-linejoin%3A%20round%3B%20%20%20%20%20%20%20%20stroke-miterlimit%3A%2010%3B%20%20%20%20%20%20%20%20stroke-width%3A%201.5px%3B%20%20%20%20%20%20%7D%20%20%20%20%20%20.cls-2%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%28161%2C168%2C171%2C0.51%29%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22refresh%22%20transform%3D%22translate%28-0.25%20-2.75%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_493%22%20data-name%3D%22Path%20493%22%20class%3D%22cls-1%22%20d%3D%22M3.5%2C12.458a8.96%2C8.96%2C0%2C0%2C1%2C17.074-3.8%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_494%22%20data-name%3D%22Path%20494%22%20class%3D%22cls-1%22%20d%3D%22M21.416%2C12.458A8.959%2C8.959%2C0%2C0%2C1%2C4.278%2C16.113%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_495%22%20data-name%3D%22Path%20495%22%20class%3D%22cls-1%22%20d%3D%22M18.782%2C14l2.508-2.507L23.8%2C14%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_496%22%20data-name%3D%22Path%20496%22%20class%3D%22cls-1%22%20d%3D%22M6.015%2C11%2C3.507%2C13.507%2C1%2C11%22%2F%3E%20%20%20%20%3Ccircle%20id%3D%22Ellipse_60%22%20data-name%3D%22Ellipse%2060%22%20class%3D%22cls-2%22%20cx%3D%222.083%22%20cy%3D%222.083%22%20r%3D%222.083%22%20transform%3D%22translate%2810.417%2010.334%29%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-group { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2021%2019.8%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20rgba%2854%2C61%2C74%2C0.99%29%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cpath%20id%3D%22group%22%20class%3D%22cls-1%22%20d%3D%22M31%2C29.9l-4.778-3.465V28.25H25.75c-2.074%2C0-3.1-1.254-4.384-2.838-1.417-1.782-3.019-3.762-6.116-3.762h-.341A2.589%2C2.589%2C0%2C0%2C0%2C12.625%2C20C11.181%2C20%2C10%2C21.485%2C10%2C23.3s1.181%2C3.3%2C2.625%2C3.3a2.618%2C2.618%2C0%2C0%2C0%2C2.284-1.65h.341c2.021%2C0%2C3.019%2C1.254%2C4.279%2C2.805a16.434%2C16.434%2C0%2C0%2C0%2C1.995%2C2.178%2C18.62%2C18.62%2C0%2C0%2C0-1.89%2C2.079c-1.286%2C1.584-2.31%2C2.838-4.384%2C2.838h-.341a2.589%2C2.589%2C0%2C0%2C0-2.284-1.65C11.181%2C33.2%2C10%2C34.685%2C10%2C36.5s1.181%2C3.3%2C2.625%2C3.3a2.618%2C2.618%2C0%2C0%2C0%2C2.284-1.65h.341c3.15%2C0%2C4.856-2.112%2C6.221-3.8%2C1.26-1.551%2C2.257-2.8%2C4.279-2.8h.473s-1.194%2C2.228%2C0%2C1.815S31%2C29.9%2C31%2C29.9ZM12.625%2C25.28A1.818%2C1.818%2C0%2C0%2C1%2C11.05%2C23.3a1.818%2C1.818%2C0%2C0%2C1%2C1.575-1.98A1.818%2C1.818%2C0%2C0%2C1%2C14.2%2C23.3%2C1.818%2C1.818%2C0%2C0%2C1%2C12.625%2C25.28Zm0%2C13.2a2.032%2C2.032%2C0%2C0%2C1%2C0-3.96%2C2.032%2C2.032%2C0%2C0%2C1%2C0%2C3.96Z%22%20transform%3D%22translate%28-10%20-20%29%22%2F%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
 .bz-api { background-image: url('data:image/svg+xml;charset%3DUS-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020.99%2019.761%22%3E%20%20%3Cdefs%3E%20%20%20%20%3Cstyle%3E%20%20%20%20%20%20.cls-1%20%7B%20%20%20%20%20%20%20%20fill%3A%20none%3B%20%20%20%20%20%20%20%20stroke%3A%20%23363d4a%3B%20%20%20%20%20%20%20%20stroke-width%3A%200.7px%3B%20%20%20%20%20%20%7D%20%20%20%20%3C%2Fstyle%3E%20%20%3C%2Fdefs%3E%20%20%3Cg%20id%3D%22hdr-api%22%20transform%3D%22translate%28-19.505%20-21.409%29%22%3E%20%20%20%20%3Cpath%20id%3D%22Path_449%22%20data-name%3D%22Path%20449%22%20class%3D%22cls-1%22%20d%3D%22M36.861%2C25.491l-1.566%2C1.567c-.786.786%2C0%2C2.352%2C0%2C2.352L40%2C24.709%2C35.295%2C20s-.783%2C1.566%2C0%2C2.353l1.566%2C1.566.108.108H20v1.356H36.969Z%22%20transform%3D%22translate%280%202%29%22%2F%3E%20%20%20%20%3Cpath%20id%3D%22Path_450%22%20data-name%3D%22Path%20450%22%20class%3D%22cls-1%22%20d%3D%22M23.139%2C35.091%2C24.7%2C33.525c.786-.786%2C0-2.352%2C0-2.352l-4.7%2C4.7%2C4.7%2C4.7s.783-1.566%2C0-2.352l-1.566-1.566-.108-.109H40V35.2H23.031Z%22%2F%3E%20%20%3C%2Fg%3E%3C%2Fsvg%3E')!important; background-repeat: no-repeat; }
-
+.bz-hash-title{
+  font-weight:bold;
+}
+.bz-hash-msg{
+  font-size:13px;
+}
+.bz-hash-val{
+  line-height:40px;
+  width:50px;
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
+}
 .bz-clickable:hover{
   cursor:pointer;
   text-decoration:underline;
@@ -700,7 +711,9 @@ body>.bz-log-box .bz-sort-bar{
   width:235px;
   text-align:center;
 }
-
+.bz-in-hash .bz-term-title{
+  width:50px;
+}
 @media (min-width: 1600px)
 body {
   font-size: 13px;
@@ -814,6 +827,7 @@ input[type=number]{
         }
       }
       formatter.data={
+        errHashMap:{},
         moduleMap:{},
         setting:setting,
         totalActions:0,
@@ -2252,10 +2266,11 @@ input[type=number]{
       }
     })
     $("input[type=file]").change(function(){
+      let idx=1
       formatter.loadTextFromFiles(this.files,function(fs){
         if(fs){
           analyzeLogs([{
-            key:formatter.compareFileIdx++,
+            key:idx++,
             list:fs
           }])
         }
@@ -2360,6 +2375,9 @@ input[type=number]{
         vs.forEach(x=>{
           let v=x.list.join("\n")
           x.list={}
+          Object.values(formatter.data.errHashMap).forEach(y=>{
+            delete y[x.key]
+          })
           
           let ts=analyzer.getTestTreeByLevel(v,0)
           ts=ts.map((y,i)=>{
@@ -2387,6 +2405,9 @@ input[type=number]{
               // formatter.data.scenarioAnaMap[s.code].nodes[s.idx].term[x.key]=s
               
               analyzer.retrieveAnalyzeData(x.key,x.list,y[0],1,s)
+              if(s.result=="failed"){
+                analyzer.retrieveErrHash(x.key,y[1])
+              }
             }
           })
         })
@@ -3235,7 +3256,7 @@ var analyzer={
           <button class="bz-icon bz-setting"></button>
         </div>`;
       compareTerm=`
-        <div class="bz-term-bar">
+        <div class="bz-term-bar ${analyzer.setting.tab!='hash'?'':'bz-in-hash'}">
           <div style="flex:1;"></div>
           ${ks.map(x=>`<div class="bz-term-title">${x}</div>`).join("")}
         </div>
@@ -3286,6 +3307,11 @@ var analyzer={
       $(".bz-tab-panel").hide()
       $(".bz-panel-"+this.id).show()
       analyzer.setting.tab=this.id.split("-").pop()
+      if(this.id=="tab-hash"){
+        $(".bz-term-bar").addClass("bz-in-hash")
+      }else{
+        $(".bz-term-bar").removeClass("bz-in-hash")
+      }
     })
     o.show()
 
@@ -3294,7 +3320,36 @@ var analyzer={
     })
     
     function getHashList(){
+      let headers=[]
+      if(!compare){
+        Object.keys(formatter.data.errHashMap).filter(x=>formatter.data.errHashMap[x].master).forEach(x=>{
+          let d=formatter.data.errHashMap[x]
+          formatter.data.errHashMap[x]={
+            master:d.master,
+            msg:d.msg
+          }
+        })
+      }else{
+        headers=new Set()
+        Object.values(formatter.data.errHashMap).forEach(x=>Object.keys(x).filter(x=>$.isNumeric(x)).forEach(y=>headers.add(parseInt(y))))
+        headers=[...headers]
+        headers.sort()
+      }
       
+      let os= Object.keys(formatter.data.errHashMap);
+      os.sort((a,b)=>{
+        return formatter.data.errHashMap[a].msg>formatter.data.errHashMap[b].msg?1:-1
+      })
+      return os.map(k=>{
+        let d=formatter.data.errHashMap[k]
+        let ds=headers.map(x=>`<div class="bz-hash-val">${d[x]||""}</div>`).join("")
+        return `
+          <div class="bz-row" style="border-bottom:1px solid #CCC;padding:2px;">
+            <div style="flex:1;"><span class="bz-hash-title">${k}</span><br/><span class="bz-hash-msg bz-line">${d.msg}</span></div>
+            <div class="bz-hash-val">${d.master||""}</div>
+            ${ds}
+          </div>`
+      }).join("")
     }
     
     function getModuleResult(md,type){
@@ -3589,8 +3644,11 @@ var analyzer={
         analyzer.addAnalyzeData(mp,cs,fd.scenarioAnaMap,"master")
         formatter.loadModuleInfo(s.init.org);
         formatter.loadModuleInfo(s.details.org);
-        // analyzer.retrieveAnalyzeData("master",mp,s.details.org,1,cs)
+
         s.analyzed=analyzer.retrieveAnalyzeData("master",mp,s.details.org,1,cs)
+        if(s.result=="failed"){
+          analyzer.retrieveErrHash("master",s.bug)
+        }
       }
     }
   },
@@ -3604,6 +3662,25 @@ var analyzer={
     r=eval(r)
     return v.match(r)||[]
   },
+  retrieveErrHash:function(k,v){
+    let h,msg;
+    if(v.constructor==Object){
+      h=v.hash
+      msg=v.msg.match(/Failed on Action: m[0-9]+.+$/m)||[""]
+    }else{
+      h=v.match(/\[Error Hash\: ([0-9A-F]+)\] \((.+)\)/)
+      if(h){
+        h=h[1]
+      }
+      msg=v.match(/Failed on Action: m[0-9]+.+$/m)||[""]
+    }
+
+    msg=msg[0]
+
+    formatter.data.errHashMap[h]=formatter.data.errHashMap[h]||{msg:msg}
+    formatter.data.errHashMap[h][k]=formatter.data.errHashMap[h][k]||0
+    formatter.data.errHashMap[h][k]+=1
+  }
 }
 
 setTimeout(()=>{
