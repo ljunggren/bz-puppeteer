@@ -104,6 +104,7 @@ var formatter={
 }
 .bz-hash-msg.bz-line{
   margin-left:0 !important;
+  margin-right:5px;
 }
 .bz-hash-val{
   line-height:40px;
