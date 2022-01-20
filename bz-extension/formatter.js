@@ -100,6 +100,10 @@ var formatter={
 }
 .bz-hash-msg{
   font-size:13px;
+  display:unset !important;
+}
+.bz-hash-msg.bz-line{
+  margin-left:0 !important;
 }
 .bz-hash-val{
   line-height:40px;
@@ -107,6 +111,13 @@ var formatter={
   text-align:center;
   font-size:20px;
   font-weight:bold;
+  border-left:1px solid #CCC;
+}
+.bz-search-content{
+  cursor:pointer;
+}
+.bz-search-content:hover{
+  text-decoration:underline;
 }
 .bz-clickable:hover{
   cursor:pointer;
@@ -948,6 +959,8 @@ input[type=number]{
         setTimeout(()=>{
           formatter.showFailedOnlyResult()
         },10)
+      }else if(o.hasClass("bz-search-content")){
+        formatter.search(o.text())
       }else if(o.hasClass("bz-switch2")){
         return
       }else if(o.hasClass("bz-close")){
@@ -1824,14 +1837,15 @@ input[type=number]{
   strToHtml:function(v,mark){
     v=v||""
     if(v.constructor==String){
-      if(mark=="declare"){
-        v=v.replace(/([0-9]+: BZ-LOG:)( declare on \[m[0-9])/,"$1 📢$2")
-      }
       v=v.split("\n")
     }
     v=v.map(x=>`<div class="bz-line">${x}</div>`).join("")
     if(mark=="screenshot"){
       v=v.replace(/([0-9]+: Screenshot:([mt\.0-9-]+))/,"$1 <button class='bz-icon-letter bz-camera' path='$2'></button>")
+    }
+
+    if(mark=="declare"){
+      v=v.replace(/(bz-line)(">[0-9]+: BZ-LOG: declare on \[m[0-9])/g,"$1 bz-declare$2")
     }
 
     v=v.replace(/(bz-line)(">[0-9]+: <---- Join worker)/g,"$1 bz-join$2")
@@ -3345,7 +3359,7 @@ var analyzer={
         let ds=headers.map(x=>`<div class="bz-hash-val">${d[x]||""}</div>`).join("")
         return `
           <div class="bz-row" style="border-bottom:1px solid #CCC;padding:2px;">
-            <div style="flex:1;"><span class="bz-hash-title">${k}</span><br/><span class="bz-hash-msg bz-line">${d.msg}</span></div>
+            <div style="flex:1;"><span class="bz-hash-title bz-search-content">${k}</span><br/><span class="bz-hash-msg bz-line">${d.msg}</span></div>
             <div class="bz-hash-val">${d.master||""}</div>
             ${ds}
           </div>`
