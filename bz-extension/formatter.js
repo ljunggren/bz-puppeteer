@@ -2916,6 +2916,9 @@ var analyzer={
           if(lls){
             while(lls[0].endLine<ct.startLine){
               lls.shift()
+              if(!lls.length){
+                return
+              }
             }
             if(lls[0].startLine<ct.startLine){
               ns=lls[0].nodes
@@ -3221,6 +3224,7 @@ var analyzer={
       let s=formatter.data.scenarioMap[k]
       s.analyzed=0
     }
+    formatter.data.errHashMap={}
   },
   initAnaTopData:function(){
     for(let k in formatter.data.scenarioAnaMap){
@@ -3661,9 +3665,8 @@ var analyzer={
         formatter.loadModuleInfo(s.details.org);
 
         s.analyzed=analyzer.retrieveAnalyzeData("master",mp,s.details.org,1,cs)
-        if(s.result=="failed"){
-          analyzer.retrieveErrHash("master",s.bug)
-        }
+        
+        s.bug&&analyzer.retrieveErrHash("master",s.bug)
       }
     }
   },
