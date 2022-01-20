@@ -2282,6 +2282,7 @@ input[type=number]{
     })
     $("input[type=file]").change(function(){
       let idx=1
+      formatter.data.errHashMap={}
       formatter.loadTextFromFiles(this.files,function(fs){
         if(fs){
           analyzeLogs([{
@@ -2332,6 +2333,7 @@ input[type=number]{
         }
       })
       loadLogs(vs,0,function(){
+        formatter.data.errHashMap={}
         analyzeLogs(vs)
       })
     }
@@ -2386,7 +2388,6 @@ input[type=number]{
     
     function analyzeLogs(vs){
       try{
-        formatter.data.scenarioAnaMap={}
         vs.forEach(x=>{
           let v=x.list.join("\n")
           x.list={}
@@ -3224,7 +3225,6 @@ var analyzer={
       let s=formatter.data.scenarioMap[k]
       s.analyzed=0
     }
-    formatter.data.errHashMap={}
   },
   initAnaTopData:function(){
     for(let k in formatter.data.scenarioAnaMap){
@@ -3639,6 +3639,7 @@ var analyzer={
   buildMasterAnalysisData:function(){
     let fd=formatter.data;
     let mp=fd.moduleMap
+
     for(let k in fd.scenarioMap){
       let s=fd.scenarioMap[k]
       if(!s.analyzed){
