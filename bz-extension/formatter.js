@@ -62,9 +62,11 @@ var formatter={
 }
 .bz-join:before{
   content:"👬🏻";
+  margin:5px;
 }
 .bz-leave:before{
-  content:"🏃🏻"
+  content:"🏃🏻";
+  margin:5px;
 }
 .bz-a-z:before{
   content:"↓";
