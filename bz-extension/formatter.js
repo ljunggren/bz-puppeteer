@@ -160,6 +160,10 @@ var formatter={
   font-size: 15px;
   line-height: 30px;
 }
+.bz-highlight-msg{
+  color:#009;
+  font-weight:bold;
+}
 .bz-highlight-scope:before{
   color:#00C;
   position: sticky;
@@ -1064,6 +1068,17 @@ input[type=number]{
       }
     });
 
+
+    $(document.body).on("mouseover",".bz-hash-msg",function(e){
+      let t=e.target.innerText.trim()
+      $(".bz-hash-msg").removeClass("bz-highlight-msg")
+      $(".bz-hash-msg").toArray().forEach(x=>{
+        if(x.innerText==t){
+          $(x).addClass("bz-highlight-msg")
+        }
+      })
+    })
+    
     function insertScreenshot(o){
       let path=$(o).attr("path")
       if(path&&!$(o).find("img")[0]){
@@ -2517,6 +2532,20 @@ input[type=number]{
         alert("This is not a correct regular expression!")
       }
       preFilter(v)
+
+      if(v&&v.constructor==Array&&v.length==1&&v[0].constructor==String){
+        if(v[0].match(/^[a-f0-9]{32}$/)){
+          formatter.removeDoingInfo()
+          formatter.searching=0
+          $(".bz-result.bz-failed").toArray().find(x=>{
+            if(x.getBoundingClientRect().width){
+              $(x).click()
+              return 1
+            }
+          })
+          return
+        }
+      }
       formatter.removeAllHighlight()
       if(!scope){
         scope=[formatter.element.init,...formatter.element.panel.find(".bz-level-scenario").toArray().filter(x=>$(x).css("display")!="none"),formatter.element.end]
