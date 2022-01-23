@@ -130,7 +130,15 @@ var formatter={
   content:"✔️";
   font-size: 10px;
 }
-
+.bz-play:before{
+  content:"▶";
+  font-size:20px;
+  color:red;
+}
+.bz-play:disabled:before{
+  content:"▷";
+  color:#999;
+}
 .bz-failed:before{
   content:"❌";
   font-size: 10px;
@@ -182,7 +190,7 @@ var formatter={
   z-index: 1;
 }
 button:hover{
-  background-color:#DDD;
+  background-color:#CCC;
 }
 button:disabled{
   opacity:0.4;
@@ -245,7 +253,7 @@ button:disabled{
   flex-direction: column;
   margin: 2px 0px 0px 2px;
   background-color: #f3f7f9;
-  padding: 0px 0 10px 10px;
+  padding: 0px 0 10px 28px;
   width: calc(100% - 2px);
 }
 .bz-nowrap{
@@ -476,6 +484,10 @@ body>.bz-log-box .bz-sort-bar{
   top:5px;
 }
 
+.bz-chk-replay{
+  margin:9px 10px 0 0 !important;
+}
+
 .bz-log-bar a{
   cursor:pointer;
   text-decoration:underline;
@@ -582,7 +594,7 @@ body>.bz-log-box .bz-sort-bar{
   margin:2px 5px;
 }
 
-.bz-switch,.bz-camera,.bz-new-bug,.bz-bug,.bz-cross,.bz-download,.bz-setting,.bz-search,.bz-ab,.bz-analyze,.bz-result.bz-failed{
+.bz-switch,.bz-camera,.bz-play,.bz-new-bug,.bz-bug,.bz-cross,.bz-download,.bz-setting,.bz-search,.bz-ab,.bz-analyze,.bz-result.bz-failed{
   border-radius: 20px;
   width: 30px;
   height: 30px;
@@ -591,14 +603,15 @@ body>.bz-log-box .bz-sort-bar{
 }
 .bz-input-cross{
   position: absolute;
-  width: 15px !important;
+  width: 16px !important;
   margin-top: 9px !important;
   background-size: 7px;
   margin-left: -20px !important;
-  height: 15px;
-  background-color: transparent;
+  height: 16px;
+  background-color: #FFF;
   border-radius: 10px;
   display: none;
+  padding-top: 2px;
 }
 .bz-mini-icon{
   height: 12px !important;
@@ -1022,20 +1035,27 @@ input[type=number]{
         openTest($(".bz-info-box"))
       }else if(o.is(".bz-sort-bar button")){
         formatter.sort(o)
+      }else if(o.is(".bz-copy")){
+        formatter.copyText(o.parent().parent()[0])
+      }else if(o.is(".bz-chk-replay")){
+        setTimeout(()=>{
+          if($(".bz-chk-replay").toArray().find(x=>x.checked)){
+            $(".bz-play").attr({disabled:false})
+          }else{
+            $(".bz-play").attr({disabled:true})
+          }
+        },10)
+      }else if(o.is(".bz-play")){
+        formatter.doPlay()
       }
     });
 
-    //copy button
-    let copyBtn=$("<button class='bz-copy bz-mini-icon bz-icon'></button>")[0]
-    $(copyBtn).click(function(){
-      formatter.copyText(this.parentElement)
-    })[0];
-
     $(document.body).on("mousemove",".bz-scope .bz-title-text,.bz-scope .bz-line,fieldset",function(e){
       let _this=this
-      setTimeout(()=>{
-        $(_this).append(copyBtn)
-      })
+      if(!$(this).find(".bz-copy")[0]){
+        $(".bz-copy").remove()
+        $("<span style='position:absolute;'><button class='bz-copy bz-mini-icon bz-icon'></button></span>").appendTo(this)
+      }
     })
 
     $(document.body).on("mousemove",".bz-title-text,.bz-line,.bz-camera",function(e){
@@ -1269,6 +1289,7 @@ input[type=number]{
         ${ctrl}
         <div class="bz-time">${o.time||""}</div>
         ${o.result?`<div class="bz-result bz-icon bz-${o.result}"></div>`:""}
+        ${o.type=='scenario'?'<input class="bz-chk-replay" type="checkbox"/>':''}
       </div>
       <pre class="bz-panel ${o.code}" ${o.close?'':'style="display:none;"'}>
         ${exPanel}
@@ -1326,7 +1347,8 @@ input[type=number]{
         <button class='bz-icon bz-download' title='Download log'></button>
         <button class='bz-icon bz-analyze' title='Show test case execution summary' disabled='true'></button>
         <button class='bz-icon bz-ab' title='Compare with other log to see the diffences'></button>
-        <button class='bz-camera bz-icon-letter bz-camera' title='Show screenshot list' disabled='true'></button>
+        <button class='bz-icon bz-camera' title='Show screenshot list' disabled='true'></button>
+        <button class='bz-icon bz-play' title='Re-Play checked scenarios' disabled='true'></button>
         <div class='bz-pop-panel bz-close-panel bz-hide'><button class="bz-mini-icon bz-cross" style="position:absolute;"></button><div class='bz-box'></div></div>
       </div>`).appendTo(p),
       init:$(formatter.getGroupElement({name:"Initial",code:"project-init",level:"project",type:"init"})).appendTo(p),
@@ -1736,6 +1758,7 @@ input[type=number]{
           }
           map[k]=1
         })
+
         fd.waitingListSize=fd.totalScenarios=Object.keys(map).length
         fd.waitingListMap=map
       }
@@ -2498,7 +2521,23 @@ input[type=number]{
     formatter.element.panel.append(os)
     document.documentElement.scrollTop=0
   },
+  doPlay:function(){
+    let os=[];
+    $(".bz-chk-replay:checked").toArray().forEach(x=>{
+      while(!$(x).hasClass("bz-level-scenario")&&x.tagName!="BODY"){
+        x=x.parentElement
+      }
+      x=formatter.data.scenarioMap[x.id]
+      os.push(x)
+    })
+    if(confirm(`Do you want to play the below selected scenarios?\n\n${os.map(x=>x.title).join("\n")}`)){
+      alert("ok")
+    }else{
+      alert("no")
+    }
+  },
   search:function(v,scope){
+    $(".bz-search-input").val(v)
     let fd=formatter.data
     if(formatter.searching){
       return
