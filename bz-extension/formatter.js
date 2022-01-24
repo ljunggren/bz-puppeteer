@@ -1289,7 +1289,7 @@ input[type=number]{
         ${ctrl}
         <div class="bz-time">${o.time||""}</div>
         ${o.result?`<div class="bz-result bz-icon bz-${o.result}"></div>`:""}
-        ${o.type=='scenario'?'<input class="bz-chk-replay" type="checkbox"/>':''}
+        ${o.type=='scenario'?'<!--input class="bz-chk-replay" type="checkbox"/-->':''}
       </div>
       <pre class="bz-panel ${o.code}" ${o.close?'':'style="display:none;"'}>
         ${exPanel}
@@ -1348,7 +1348,7 @@ input[type=number]{
         <button class='bz-icon bz-analyze' title='Show test case execution summary' disabled='true'></button>
         <button class='bz-icon bz-ab' title='Compare with other log to see the diffences'></button>
         <button class='bz-icon bz-camera' title='Show screenshot list' disabled='true'></button>
-        <button class='bz-icon bz-play' title='Re-Play checked scenarios' disabled='true'></button>
+        <!--button class='bz-icon bz-play' title='Re-Play checked scenarios' disabled='true'></button-->
         <div class='bz-pop-panel bz-close-panel bz-hide'><button class="bz-mini-icon bz-cross" style="position:absolute;"></button><div class='bz-box'></div></div>
       </div>`).appendTo(p),
       init:$(formatter.getGroupElement({name:"Initial",code:"project-init",level:"project",type:"init"})).appendTo(p),
