@@ -84,7 +84,7 @@ let funMap={
     _initFrame(0)
     _uncodeFrames.forEach(f=>{_initFrame(f)})
   },
-  ajax:function(scope,fun,data,_callback){
+  ajax:function(scope,fun,data,_callback,element,responseFun){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4) {
@@ -107,7 +107,12 @@ let funMap={
         if(data.responseType&&this.response){
           d.data.data=String.fromCharCode.apply(null, new Uint8Array(this.response));
         }
-        _callback(d.data)
+        
+        if(_callback&&_callback.constructor==Function){
+          _callback(d.data)
+        }else if(responseFun){
+          responseFun(d.data)
+        }
       }
     };
     xhttp.open(data.method, data.url, true);
@@ -479,8 +484,11 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     return pop[_msg.fun](_msg.data,function(d){
       _sendResponse(d)
     })
-  }
+  }else if(!_msg.requestSendResponse){
     _sendResponse("ok")
+  }else{
+    _msg.requestSendResponse=_sendResponse
+  }
   if(_msg.keep){
     return;
   }
@@ -489,7 +497,8 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
   //For REGISTER tab, it only work for new pop window. The new window must pop up from master window.
   *****************************************************************************************************/
   if(_msg.bg){
-    return funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data,t,_msg.element,_sendResponse)
+    funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data,t,_msg.element,_msg.requestSendResponse)
+    return !!_msg.requestSendResponse
   }else if(_msg._registerTab && (_msg.name=="bz-client"||_ctrlTabId==t.tab.id)){
     if(_msg.name=="bz-client"){
       if(!_plugInCode){

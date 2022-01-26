@@ -138,21 +138,29 @@ function start(reset){
 
     const page = await browser.newPage();
     await page.setDefaultNavigationTimeout(0);
+    let url = result.args[0],tests;
     
-    let url = result.args[0];
     if ((!opts.screenshot) && (!opts.listscenarios) && typeof (url) == 'string' && !url.endsWith("/run") && url.match(/\/m[0-9]+\/t[0-9]+/)) {
       if (!url.endsWith("/")) {
           url += "/"
       }
       url += "run"
     }
+    
     if(reset){
       url=url.replace(/\/run$/,"/")
+    }else if(url.endsWith("/run")){
+      tests=url.match(/\/(m[mt0-9\.,]+)\/run/)
+      if(tests){
+        tests=tests[1]
+        console.log("tests: "+tests)
+        url=url.replace(/\/(m[mt0-9\.,]+)\/run/,"")
+      }
     }
     
     url=url.replace("#","&docker=1#")
     
-    console.log(url)
+    console.log("url: "+url)
 
     let inService=0;
     console.log("Browser URL: "+url)
@@ -162,11 +170,20 @@ function start(reset){
     }else{
       console.log("Running in stand alone!")
     }
+    console.log(1)
 
     // Assign all log listeners
     Service.logMonitor(page,testReset,keepalive,file,inService,LogLevelArray);
-
-    if(listsuite||listscenarios){
+    console.log(2+": "+tests)
+    if(tests){
+      console.log("Going to post tmp tasks .....")
+      setTimeout(()=>{
+        console.log("post task:"+tests)
+        page.evaluate((v)=>{
+          $util.exeTests(v)
+        }, tests);
+      },5000)
+    }else if(listsuite||listscenarios){
       Service.setBeginningFun(function(){
         Service.insertFileTask(function(){
           Service.result = 0;

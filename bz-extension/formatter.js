@@ -116,6 +116,10 @@ var formatter={
   font-weight:bold;
   border-left:1px solid #CCC;
 }
+fieldset{
+  border:1px solid rgb(118,118,118);
+  border-radius:5px;
+}
 .bz-search-content{
   cursor:pointer;
 }
@@ -130,8 +134,16 @@ var formatter={
   content:"✔️";
   font-size: 10px;
 }
+
+.bz-play-btn:before,
 .bz-play:before{
   content:"▶";
+}
+.bz-play-btn:before{
+  margin-right:5px;
+  color:#FFF;
+}
+.bz-play:before{
   font-size:20px;
   color:red;
 }
@@ -174,15 +186,7 @@ var formatter={
   color:#009;
   font-weight:bold;
 }
-.bz-highlight-scope:before{
-  color:#00C;
-  position: sticky;
-  top: 67px;
-  background: #f3f7f9;
-  padding: 7px;
-  margin-left: 0px;
-  z-index: 1;
-}
+
 #project-init{
   position: sticky;
   top: 35px;
@@ -485,6 +489,7 @@ body>.bz-log-box .bz-sort-bar{
 }
 
 .bz-chk-replay{
+  display:none;
   margin:9px 10px 0 0 !important;
 }
 
@@ -769,9 +774,9 @@ body {
 }
 .std{
   border-radius: 10px;
-  background-color: #00F;
+  background-color: #33F;
   color: #FFF;
-  border: 1px solid blue;
+  border: 1px solid #33F;
   padding: 2px 15px;
   line-height: 20px;
   cursor: pointer;
@@ -782,6 +787,55 @@ body {
 }
 input[type=number]{
   width:50px;
+}
+#bz-chk-replay-all{
+  display:none;
+  float:right;
+  margin-right:5px;
+}
+.bz-result-header{
+  color:#00C;
+  position: sticky;
+  top: 67px;
+  background: #f3f7f9;
+  padding: 7px;
+  margin-left: 0px;
+  z-index: 1;
+}
+#bz-result-content{
+  font-weight:bold;
+  white-space:pre;
+}
+.bz-hide-scope-header:before{
+  display:none;
+}
+.bz-failed{
+  color:red;
+}
+
+#bz-result-content .bz-failed:before,
+#bz-result-content .bz-success:before{
+  position: relative;
+  top: -1px;
+}
+.bz-play-list{
+  max-height:300px;
+  overflow:auto;
+}
+.bz-form{
+  margin:5px;
+}
+.bz-form>div{
+  margin:5px;
+}
+.bz-form label{
+  display:flex;
+}
+.bz-form label>span{
+  flex:1;
+}
+.bz-form label>input{
+  flex:3;
 }
     `
   },
@@ -978,6 +1032,7 @@ input[type=number]{
         formatter.data.failedOnly=o[0].checked
         setTimeout(()=>{
           formatter.showFailedOnlyResult()
+          formatter.chkReplay()
         },10)
       }else if(o.hasClass("bz-search-content")){
         formatter.search(o.text())
@@ -1037,14 +1092,10 @@ input[type=number]{
         formatter.sort(o)
       }else if(o.is(".bz-copy")){
         formatter.copyText(o.parent().parent()[0])
+      }else if(o.is("#bz-chk-replay-all")){
+        formatter.chkReplay(o)
       }else if(o.is(".bz-chk-replay")){
-        setTimeout(()=>{
-          if($(".bz-chk-replay").toArray().find(x=>x.checked)){
-            $(".bz-play").attr({disabled:false})
-          }else{
-            $(".bz-play").attr({disabled:true})
-          }
-        },10)
+        formatter.chkReplay(o)
       }else if(o.is(".bz-play")){
         formatter.doPlay()
       }
@@ -1054,7 +1105,9 @@ input[type=number]{
       let _this=this
       if(!$(this).find(".bz-copy")[0]){
         $(".bz-copy").remove()
-        $("<span style='position:absolute;'><button class='bz-copy bz-mini-icon bz-icon'></button></span>").appendTo(this)
+        if(this.tagName!="FIELDSET"||!$(this).is(".bz-pop-panel *")){
+          $("<span style='position:absolute;'><button class='bz-copy bz-mini-icon bz-icon'></button></span>").appendTo(this)
+        }
       }
     })
 
@@ -1236,6 +1289,17 @@ input[type=number]{
     }
     
   },
+  chkReplay:function(o){
+    setTimeout(()=>{
+      if(o&&o.is("#bz-chk-replay-all")){
+        $(".bz-chk-replay").toArray().filter(x=>x.getBoundingClientRect().width).forEach(x=>x.checked=o[0].checked)
+      }else{
+        $("#bz-chk-replay-all")[0].checked=!$(".bz-chk-replay").toArray().filter(x=>x.getBoundingClientRect().width).find(x=>!x.checked)
+      }
+
+      $(".bz-play").attr({disabled:!$(".bz-chk-replay").toArray().find(x=>x.getBoundingClientRect().width&&x.checked)})
+    },10)
+  },
   closeScenario:function(o){
     while(!o.hasClass("bz-level-scenario")){
       o=o.parent()
@@ -1289,7 +1353,7 @@ input[type=number]{
         ${ctrl}
         <div class="bz-time">${o.time||""}</div>
         ${o.result?`<div class="bz-result bz-icon bz-${o.result}"></div>`:""}
-        ${o.type=='scenario'?'<!--input class="bz-chk-replay" type="checkbox"/-->':''}
+        ${o.type=='scenario'?'<input class="bz-chk-replay" type="checkbox"/>':''}
       </div>
       <pre class="bz-panel ${o.code}" ${o.close?'':'style="display:none;"'}>
         ${exPanel}
@@ -1348,12 +1412,13 @@ input[type=number]{
         <button class='bz-icon bz-analyze' title='Show test case execution summary' disabled='true'></button>
         <button class='bz-icon bz-ab' title='Compare with other log to see the diffences'></button>
         <button class='bz-icon bz-camera' title='Show screenshot list' disabled='true'></button>
-        <!--button class='bz-icon bz-play' title='Re-Play checked scenarios' disabled='true'></button-->
+        <button class='bz-icon bz-play' title='Re-Play checked scenarios' disabled='true'></button>
         <div class='bz-pop-panel bz-close-panel bz-hide'><button class="bz-mini-icon bz-cross" style="position:absolute;"></button><div class='bz-box'></div></div>
       </div>`).appendTo(p),
       init:$(formatter.getGroupElement({name:"Initial",code:"project-init",level:"project",type:"init"})).appendTo(p),
-      exePanel:$("<div class='bz-scope bz-hide' bz-name='Executing list'></div>").appendTo(p),
-      panel:$("<div class='bz-scope bz-highlight-scope' bz-name='Completed list'></div>").appendTo(p),
+      exePanel:$("<div class='bz-scope' bz-name='Executing list'></div>").appendTo(p),
+      resultPanel:$("<div class='bz-result-header'><span id='bz-result-content'></span><input type='checkbox' id='bz-chk-replay-all'/></div>").appendTo(p),
+      panel:$("<div class='bz-scope bz-hide-scope-header'></div>").appendTo(p),
       waitingList:$("<div class='bz-scope bz-hide' bz-name='Waiting list'></div>").appendTo(p),
       end:$("<pre class='bz-scope bz-end'></pre>").appendTo(p)
     };
@@ -1453,6 +1518,7 @@ input[type=number]{
         formatter.data.project.end.org=formatter.data.curEnd
         formatter.element.end.html(formatter.strToHtml(formatter.data.curEnd))
         formatter.element.exePanel.hide()
+        $(".bz-chk-replay,#bz-chk-replay-all").show()
       }else{
         setTimeout(()=>{
           doEnd()
@@ -1726,6 +1792,7 @@ input[type=number]{
       if(x){
         fd.startTime=x[1]+x[2].replace(/-/g,":")
       }
+      formatter.data.testreset=(v.match(/testreset\: ([0-9]+)/)||[])[1]
 
       fe.init.find(".bz-title-text").html(`
         <span style='margin-right:20px;'>Initial: </span>
@@ -1765,7 +1832,7 @@ input[type=number]{
     }
 
     function handleRealTimeInfo(){
-      fe.panel.attr({"bz-name":`Completed list (Scenarios: ${fd.totalScenarios}, Success: ${fd.successScenarios}, Failed: ${fd.failedScenarios}, Tests: ${fd.totalTests}, Actions: ${fd.totalActions})`})
+      $(".bz-result-header span").html(`<span>Completed list [Scenarios: ${fd.totalScenarios} </span>( <span class='bz-success'> ${fd.successScenarios}</span><span class='${fd.failedScenarios?'':'bz-hide'}'>,</span> <span class='bz-failed ${fd.failedScenarios?'':'bz-hide'}'> ${fd.failedScenarios}</span> )  Tests: ${fd.totalTests}  Actions: ${fd.totalActions}]`)
     }
     function handleFailedScenario(s){
       if(s.result=="failed"){
@@ -1806,17 +1873,19 @@ input[type=number]{
     }
     
     function handleTaskEnd(v){
-      let w=v.match(/\n[0-9]+\: (task-done|stopped by container)/)
-      if(w){
-        w=w[0]
-        if(w.includes("stopped")){
-          k="🛑"
-        }else{
-          k="🚩"
+      if(fd.curWorker=="master"){
+        let w=v.match(/\n[0-9]+\: (task-done|stopped by container)/)
+        if(w){
+          w=w[0]
+          if(w.includes("stopped")){
+            k="🛑"
+          }else{
+            k="🚩"
+          }
+          fd.curEnd=v.replace(w,w+k)
+          fd.completed=1
+          return 1
         }
-        fd.curEnd=v.replace(w,w+k)
-        fd.completed=1
-        return 1
       }
     }
     
@@ -2521,19 +2590,95 @@ input[type=number]{
     formatter.element.panel.append(os)
     document.documentElement.scrollTop=0
   },
+  getWorkerSize:function(os){
+    let ws=new Set(os.map(x=>{
+      return x.code.split("-").pop()
+    }))
+    return [...ws].length
+  },
   doPlay:function(){
     let os=[];
-    $(".bz-chk-replay:checked").toArray().forEach(x=>{
+    $(".bz-chk-replay:checked").toArray().filter(x=>x.getBoundingClientRect().width).forEach(x=>{
       while(!$(x).hasClass("bz-level-scenario")&&x.tagName!="BODY"){
         x=x.parentElement
       }
       x=formatter.data.scenarioMap[x.id]
       os.push(x)
     })
-    if(confirm(`Do you want to play the below selected scenarios?\n\n${os.map(x=>x.title).join("\n")}`)){
-      alert("ok")
-    }else{
-      alert("no")
+    
+    let o=$(".bz-pop-panel"),
+        tn=decodeURI(location.pathname.split("/")[2]),
+        ws=formatter.getWorkerSize(os)
+    o.attr({type:"play"})
+    
+    o.find(".bz-box").html(`
+      <div style="padding:0 10px">Do you want to play the below selected scenarios?</div>
+      <fieldset style="margin:5px 5px 10px 5px;">
+        <legend>Scenario list</legend>
+        <div class='bz-play-list'>
+          <div>${os.map(x=>x.title).join("</div><div>")}</div>
+        </div>
+      </fieldset>
+      <div class="bz-form">
+        <div><label><span>Task</span><input id="task" value="${tn}"/></label></div>
+        <div><label><span>Branch</span><input id="branch" value="${formatter.data.version}"/></label></div>
+        <div><label><span>Workers</span><input id="workers" value="${ws}"/></label></div>
+      </div>
+      <div style="text-align: center;margin: 15px 0 10px 0;"><button class='bz-play-btn std'>Start</button></div>
+    `)
+    o.show()
+    
+    $(".bz-play-btn").click(function(){
+      let d={
+        parameter:[
+          {
+            name:"workers",
+            value:$("#workers").val(),
+          },
+          {
+            "name": "test", 
+            "value": os.map(x=>{
+                      x=x.code.split("-")
+                      while(x.length>2){
+                        x.pop()
+                      }
+                      return x.join(".")
+                    }).join(",")
+          }, 
+          {
+            "name": "loglevel", 
+            "value": "debug"
+          }, 
+          {
+            "name": "testreset", 
+            "value": formatter.data.testreset
+          }, 
+          {
+            "name": "branch", 
+            "value": $("#branch").val()
+          }
+        ],
+        statusCode: "303", 
+        redirectTo: "."
+      }
+      startWorks(d,encodeURI($("#task").val()))
+    })
+    function startWorks(d,pn){
+      let host=formatter.data.host;
+
+      o.find(".bz-box").html(`<form method="post" target="_blank" name="parameters" action='${host}/job/${pn}/build?delay=0sec'>
+      ${d.parameter.map(x=>`<div name="parameter"><input name='name' type='hidden' value="${x.name}"/><input name='value' type='hidden' value="${x.value}"/></div>`)}
+      <input name='statusCode' type='hidden' value="303"/>
+      <input name='redirectTo' type='hidden' value="."/>
+      <input type="hidden" name="json" value="init"/>
+      <span name="name">
+        <button type="button">Build</button>
+      </span>
+      </form>`)
+      $(".bz-box input[name=json]").val(JSON.stringify(d))
+      $(".bz-box form").submit()
+      o.find(".bz-box").html("")
+      o.hide()
     }
   },
   search:function(v,scope){
@@ -2584,6 +2729,7 @@ input[type=number]{
               return 1
             }
           })
+          formatter.chkReplay()
           return
         }
       }
@@ -2695,6 +2841,7 @@ input[type=number]{
 
       formatter.removeDoingInfo()
       formatter.searching=0
+      formatter.chkReplay()
     }
     
     function preFilter(v){
@@ -2984,7 +3131,7 @@ var analyzer={
           
           let ns
 
-          if(lls){
+          if(lls&&lls.length){
             while(lls[0].endLine<ct.startLine){
               lls.shift()
               if(!lls.length){
