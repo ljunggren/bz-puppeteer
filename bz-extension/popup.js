@@ -1,6 +1,12 @@
 var bzFormat;
 $("#home").click(()=>{
-  chrome.tabs.create({url: "https://ai.boozang.com"});
+  chrome.tabs.create({url: "https://www.boozang.com"});
+})
+$("#ide").click(()=>{
+  let p=bzFormat.account.project,
+      v=bzFormat.account.version;
+  
+  chrome.tabs.create({url: getServerUrl()+`/extension?id=${p}#${p}/${v}/`})
 })
 $("#formatPage").click(()=>{
   chrome.tabs.query({active: true, currentWindow: true}, function(v){
@@ -22,22 +28,21 @@ $("#orgPage").click(()=>{
     window.close();
   });
 })
-$("#infoTab").click(function(){
-  $("#info-panel").show()
-  $("#log-panel").hide()
-  $("#logTab").removeClass("bz-active")
+$(".bz-tab").click(function(){
+  $(".bz-panel").hide()
+  if(this.id=="infoTab"){
+    $("#info-panel").show()
+  }else if(this.id=="logTab"){
+    $("#log-panel").show()
+  }else if(this.id=="ciTab"){
+    $("#ci-panel").show()
+  }
+  $(".bz-tab").removeClass("bz-active")
   $(this).addClass("bz-active")
+  
   bzFormat.defTab="info"
   updateSetting()
 });
-$("#logTab").click(function(){
-  $("#log-panel").show()
-  $("#info-panel").hide()
-  $("#infoTab").removeClass("bz-active")
-  $(this).addClass("bz-active")
-  bzFormat.defTab="log"
-  updateSetting()
-})
 
 function getPageInfo(){
   chrome.tabs.query({active: true, currentWindow: true}, function(v){
@@ -60,6 +65,7 @@ function init(){
     console.log(JSON.stringify(d))
     if(!d||!Object.keys(d).length){
       bzFormat={
+        account:{},
         defTab:"info",
         scenarioTime:180,
         testTime:60,
@@ -104,11 +110,135 @@ function init(){
     $("#autoFormat,#retrieveWorkerLog").click(function(){
       updateSetting()
     })
+    $("#login").click(function(){
+      let v=bzFormat.account.server
+      if(v=="oth"){
+        v=bzFormat.account.othServer
+      }
+      chrome.tabs.create({url: (v.replace(/[\/]$/,"")+"/?force=1")});
+    })
     if(bzFormat.defTab=="log"){
       $("#logTab").click()
     }
+
+    if(!bzFormat.account){
+      bzFormat.account={}
+    }
+    initAccount()
   })
 
+
+  $("#server").change(function(){
+    $("#oth-server").hide()
+    $("#oth-server").val("")
+
+    if(!this.selectedIndex){
+      $("#login").hide()
+      $("#projects-box").hide()
+      $("#versions-box").hide()
+    }else if(this.value=="oth"){
+      $("#oth-server").show()
+    }
+    bzFormat.account.server=this.value
+    initAccount()
+  })
+
+  $("#oth-server").change(function(){
+    bzFormat.account.othServer=this.value
+    initAccount()
+  })
+
+  $("#projects").change(function(){
+    bzFormat.account.project=this.value
+    if(this.value){
+      $("#versions-box")[0].style.display="flex"
+      loadBranch()
+    }else{
+      $("#versions-box").hide()
+    }
+    bzFormat.account.version=""
+    updateSetting()
+  })
+  
+  $("#versions").change(function(){
+    bzFormat.account.version=this.value
+    updateSetting()
+  })
+
+}
+
+function getServerUrl(){
+  let url=bzFormat.account.server
+  if(url=="oth"){
+    url=bzFormat.account.othServer
+    $("#oth-server").show()
+  }
+  if(url){
+    url=url.replace(/[\/]$/,"")
+  }
+  return url
+}
+
+function initAccount(){
+  let url=getServerUrl()
+  $("#server").val(bzFormat.account.server)
+  $("#oth-server").val(bzFormat.account.othServer)
+  $("#projects").val(bzFormat.account.project)
+  $("#versions").val(bzFormat.account.version)
+  if(url){
+    url+="/api/projects"
+    $.ajax({
+      url:url,
+      method:"GET",
+      success:function(ps){
+        if(!ps||ps.constructor!=Array){
+          return this.error()
+        }
+        $("#login").hide()
+        $("#projects").html(`<option value="" class='bz-empty-option'>[select ...]</option>${ps.map(x=>`<option value='${x.code}' ${x.code==bzFormat.account.project?'selected':''}>${x.name}</option>`).join("")}`)
+        $("#projects-box")[0].style.display="flex"
+        $("#projects").val(bzFormat.account.project)
+        if(bzFormat.account.project){
+          loadBranch()
+        }
+      },
+      error:function(){
+        bzFormat.account.projects=0
+        $("#login").show()
+        $("#projects-box").hide()
+        $("#versions-box").hide()
+      }
+    });
+  }else{
+    $("#login").hide()
+    $("#projects-box").hide()
+    $("#versions-box").hide()
+  }
+  
+  if(bzFormat.account.version){
+    $("#ide").show()
+  }else{
+    $("#ide").hide()
+  }
+
+  updateSetting()
+}
+
+function loadBranch(){
+  let url=getServerUrl()+"/api/projects/"+bzFormat.account.project+"/versions"
+  $.ajax({
+    url:url,
+    method:"GET",
+    success:function(vs){
+      vs=vs.filter(x=>!x.code.match(/-auto-[0-9]+$/));
+      $("#versions").html(`<option value="" class='bz-empty-option'>[select ...]</option>${vs.map(x=>`<option value='${x.code}' ${x.code==bzFormat.account.version?'selected':''}>${x.code}</option>`).join("")}`);
+      $("#versions-box")[0].style.display="flex"
+    },
+    error:function(){
+      $("#versions-box").hide()
+      alert("Retrive branch failed!")
+    }
+  })
 }
 
 function updateSetting(){
@@ -142,6 +272,11 @@ function updateSetting(){
     }});
     
   });  
+  if(bzFormat.account.version){
+    $("#ide").show()
+  }else{
+    $("#ide").hide()
+  }
 }
 init();
 getPageInfo();
