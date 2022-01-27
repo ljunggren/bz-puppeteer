@@ -1741,7 +1741,7 @@ input[type=number]{
     
     function handleEnd(s){
       if(s.org){
-        let mk=/[0-9]+\:   <+ [^\[]+Feature - Scenario \[m[0-9][^\]]+\] ([0-9\:]+) [^<]+<<<</ms;
+        let mk=/[0-9]+\: +<+ [^\[]+Feature - Scenario \[m[0-9][^\]]+\] ([0-9\:]+) [^<]+<<<</ms;
         let w=formatter.splitByWord(s.org,mk);
         if(!w){
           s.details.org=s.org
@@ -2050,6 +2050,9 @@ input[type=number]{
     function buildActions(v,startTime,endTime,bz,test,inFailed){
       v=(v||"").replace(/</g,"&lt;").replace(/>/g,"&gt;")
       let as=(v||"".trim()).match(/(\n|^)[0-9]+\: ##Action.+$/gm),lastAction;
+      if(!inFailed&&v.match(/[0-9]+: (failed test|Load page error): /)){
+        inFailed=1
+      }
       if(as){
         as=as.map((a,j)=>{
           a=a.trim()
@@ -3893,7 +3896,7 @@ var analyzer={
     if(level){
       r=`/[0-9]+: {${level*6+3}}(>+ Loading [^\[]+|<+ [^\[]+)Test \\[m[0-9]+\\.t[0-9]+[^><]+(>|<)+/gms`
     }else{
-      r=`/[0-9]+:   (>+ Loading |<+ [^\[]+ Feature - )Scenario \\[m[0-9]+\\.t[0-9]+[^><]+(>|<)+/gms`
+      r=`/[0-9]+: +(>+ Loading |<+ [^\[]+ Feature - )Scenario \\[m[0-9]+\\.t[0-9]+[^><]+(>|<)+/gms`
     }
     r=eval(r)
     return v.match(r)||[]
