@@ -165,6 +165,11 @@ function init(){
     updateSetting()
   })
 
+  $("#xray").change(function(){
+    bzFormat.account.xray=this.value
+    updateSetting()
+  })
+
 }
 
 function getServerUrl(){
@@ -185,6 +190,7 @@ function initAccount(){
   $("#oth-server").val(bzFormat.account.othServer)
   $("#projects").val(bzFormat.account.project)
   $("#versions").val(bzFormat.account.version)
+  $("#xray").val(bzFormat.account.xray)
   if(url){
     url+="/api/projects"
     $.ajax({

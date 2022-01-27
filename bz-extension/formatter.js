@@ -2268,8 +2268,9 @@ input[type=number]{
     return 1
   },
   autoLoading:function(){
+    let v;
     try{
-      let v=localStorage.getItem("bz-log-format");
+      v=localStorage.getItem("bz-log-format");
       if(v){
         v=JSON.parse(v)
         if(!v.scenarioTime){
@@ -2278,11 +2279,32 @@ input[type=number]{
         }
         if(v.autoFormat){
           if(formatter.isMasterPage(v)){
-            formatter.exeFormag(v,Date.now())
+            return formatter.exeFormag(v,Date.now())
           }
         }
       }
     }catch(e){}
+    if(v&&v.account&&v.account.xray&&location.href.includes(v.account.xray)){
+      if(location.href.match(/\/browse[\/]/)){
+        formatter.formatXray()
+      }
+    }
+  },
+  formatXray:function(){
+    setTimeout(()=>{
+      let o=document.getElementsByTagName("h1")
+      if(o&&o.length&&window.$){
+        o=o[0]
+        $(`
+        <span style="position: absolute;right: 0;margin-top: -75px;z-index: 100000000000;">
+          <button id='bz-plsy' style='height: 20px;width: 20px;background-size: 15px;border: 0;background-repeat: no-repeat;background-position: center;background-color: transparent;float: right;margin: 3px;color:red;font-size:15px;padding-top:0;'>▶</button>
+          <button id='bz-ide' style='background-image: url(//staging-be.boozang.com/favicon.ico);height: 20px;width: 20px;background-size: 15px;border: 0;background-repeat: no-repeat;background-position: center;background-color: transparent;float: right;margin: 5px;'></button>
+        </span>`).insertAfter(o.parentElement)
+        
+      }else{
+        formatter.formatXray()
+      }
+    },1000)
   },
   isMasterPage:function(v){
     if(v.identifyMaster){
