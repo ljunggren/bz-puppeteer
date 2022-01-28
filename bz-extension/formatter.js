@@ -2267,44 +2267,76 @@ input[type=number]{
     document.body.append(o)
     return 1
   },
-  autoLoading:function(){
+  getSetting:function(){
     let v;
     try{
       v=localStorage.getItem("bz-log-format");
       if(v){
         v=JSON.parse(v)
-        if(!v.scenarioTime){
-          v.scenarioTime=180
-          v.testTime=60
-        }
-        if(v.autoFormat){
-          if(formatter.isMasterPage(v)){
-            return formatter.exeFormag(v,Date.now())
-          }
-        }
       }
     }catch(e){}
+    v=v||{}
+    if(!v.scenarioTime){
+      v.scenarioTime=180
+      v.testTime=60
+    }
+    if(v.autoFormat){
+      if(formatter.isMasterPage(v)){
+        return formatter.exeFormag(v,Date.now())
+      }
+    }
+    v.account=v.account||{}
+    return v
+  },
+  autoLoading:function(){
+    let v=formatter.getSetting();
+
     if(v&&v.account&&v.account.xray&&location.href.includes(v.account.xray)){
-      if(location.href.match(/\/browse[\/]/)){
-        formatter.formatXray()
+      let vv=location.href.match(/\/browse[\/](.+)/)
+      if(vv){
+        vv=vv[1]
+        vv=vv.replace("/","")
+        if((v.account.tags||{})[vv]){
+          formatter.formatXray(v.account.tags[vv])
+        }
       }
     }
   },
-  formatXray:function(){
+  formatXray:function(k){
     setTimeout(()=>{
       let o=document.getElementsByTagName("h1")
+      let d=formatter.getSetting().account;
+      let host=d.server
+      if(host=="oth"){
+        host=d.othServer
+      }
       if(o&&o.length&&window.$){
         o=o[0]
-        $(`
+        o=$(`
         <span style="position: absolute;right: 0;margin-top: -75px;z-index: 100000000000;">
-          <button id='bz-plsy' style='height: 20px;width: 20px;background-size: 15px;border: 0;background-repeat: no-repeat;background-position: center;background-color: transparent;float: right;margin: 3px;color:red;font-size:15px;padding-top:0;'>▶</button>
-          <button id='bz-ide' style='background-image: url(//staging-be.boozang.com/favicon.ico);height: 20px;width: 20px;background-size: 15px;border: 0;background-repeat: no-repeat;background-position: center;background-color: transparent;float: right;margin: 5px;'></button>
-        </span>`).insertAfter(o.parentElement)
-        
+          <button id='bz-play' title='Execute the scenario in Jenkins' style='${d.jk?'':'display:none;'}background-image: url(${host}/ci/jk.ico);height: 20px;width: 20px;background-size: 15px;border: 0;background-repeat: no-repeat;background-position: center;background-color: transparent;float: right;margin: 3px;color:red;font-size: 10px;padding-top: 5px;padding-left: 23px;'>▶</button>
+          <button id='bz-ide' title='Open the scenario in Boozang IDE' style='background-image: url(${host}/favicon.ico);height: 20px;width: 20px;background-size: 15px;border: 0;background-repeat: no-repeat;background-position: center;background-color: transparent;float: right;margin: 5px;'></button>
+        </span><div class='bz-pop-panel' style='display:none;position: absolute;margin-top: 110px;right: 0;background-color: rgb(255, 255, 255);padding: 20px 5px 5px;border-radius: 5px;border: 1px solid rgb(153, 153, 153);z-index: 10;box-shadow: rgb(0 0 0 / 40%) 2px 2px 9px;background-position: right 5px top 5px;background-size: 11px;z-index: 1111111111;'><div class='bz-box'></div></div>`).insertAfter(o.parentElement)
+        let url=formatter.joinUrl(host,"extension?id="+d.project+"#"+d.project,d.version,k)
+        o.find("#bz-play").mousedown(function(e){
+          e.stopPropagation()
+          
+          formatter.doJKPlay([k],d.version,d.jk,d.jkJob,60)
+        })
+        o.find("#bz-ide").mousedown(function(e){
+          e.stopPropagation()
+          formatter.openWindow(url)
+        })
+        o.find("#bz-ide,#bz-play").focus(function(){
+          $(this).blur()
+        })
       }else{
-        formatter.formatXray()
+        formatter.formatXray(k)
       }
     },1000)
+  },
+  joinUrl:function(){
+    return Object.values(arguments).map(x=>x.replace(/\/$/,"")).join("/")
   },
   isMasterPage:function(v){
     if(v.identifyMaster){
@@ -2616,10 +2648,14 @@ input[type=number]{
     document.documentElement.scrollTop=0
   },
   getWorkerSize:function(os){
-    let ws=new Set(os.map(x=>{
-      return x.code.split("-").pop()
-    }))
-    return [...ws].length
+    try{
+      let ws=new Set(os.map(x=>{
+        return x.code.split("-").pop()
+      }))
+      return [...ws].length
+    }catch(ex){
+    }
+    return 1
   },
   doPlay:function(){
     let os=[];
@@ -2630,28 +2666,33 @@ input[type=number]{
       x=formatter.data.scenarioMap[x.id]
       os.push(x)
     })
-    
+    formatter.doJKPlay(os,formatter.data.version,"//"+location.host,location.pathname.split("/")[2],formatter.data.testreset)
+  },
+  doJKPlay:function(os,version,host,p,testreset){
     let o=$(".bz-pop-panel"),
-        tn=decodeURI(location.pathname.split("/")[2]),
+        tn=decodeURI(p),
         ws=formatter.getWorkerSize(os)
     o.attr({type:"play"})
     
     o.find(".bz-box").html(`
-      <div style="padding:0 10px">Do you want to play the below selected scenarios?</div>
-      <fieldset style="margin:5px 5px 10px 5px;">
+      <div style="padding:0 10px;${os[0].constructor==String?'display:none':''}">Do you want to play the below selected scenarios?</div>
+      <fieldset style="margin:5px 5px 10px 5px;${os[0].constructor==String?'display:none':''}">
         <legend>Scenario list</legend>
         <div class='bz-play-list'>
           <div>${os.map(x=>x.title).join("</div><div>")}</div>
         </div>
       </fieldset>
-      <div class="bz-form">
-        <div><label><span>Task</span><input id="task" value="${tn}"/></label></div>
-        <div><label><span>Branch</span><input id="branch" value="${formatter.data.version}"/></label></div>
-        <div><label><span>Workers</span><input id="workers" value="${ws}"/></label></div>
+      <div class="bz-form" style='margin:5px'>
+        <div style="margin:5px;"><label style="display:flex;"><span style="flex:1;margin-right:5px;">Job</span><input style="flex:3;border:1px solid #CCC;padding:5px;" id="task" value="${tn}"/></label></div>
+        <div style="margin:5px;"><label style="display:flex;"><span style="flex:1;margin-right:5px;">Branch</span><input style="flex:3;border:1px solid #CCC;padding:5px;" id="branch" value="${version}"/></label></div>
+        <div style="margin:5px;"><label style="display:flex;"><span style="flex:1;margin-right:5px;">Workers</span><input style="flex:3;border:1px solid #CCC;padding:5px;" id="workers" value="${ws}"/></label></div>
       </div>
       <div style="text-align: center;margin: 15px 0 10px 0;"><button class='bz-play-btn std'>Start</button></div>
     `)
     o.show()
+    o.mousedown(function(e){
+      e.stopPropagation()
+    })
     
     $(".bz-play-btn").click(function(){
       let d={
@@ -2663,7 +2704,7 @@ input[type=number]{
           {
             "name": "test", 
             "value": os.map(x=>{
-                      x=x.code.split("-")
+                      x=(x.code||x).split("-")
                       while(x.length>2){
                         x.pop()
                       }
@@ -2676,7 +2717,7 @@ input[type=number]{
           }, 
           {
             "name": "testreset", 
-            "value": formatter.data.testreset
+            "value": testreset
           }, 
           {
             "name": "branch", 
@@ -2689,8 +2730,6 @@ input[type=number]{
       startWorks(d,encodeURI($("#task").val()))
     })
     function startWorks(d,pn){
-      let host=formatter.data.host;
-
       o.find(".bz-box").html(`<form method="post" target="_blank" name="parameters" action='${host}/job/${pn}/build?delay=0sec'>
       ${d.parameter.map(x=>`<div name="parameter"><input name='name' type='hidden' value="${x.name}"/><input name='value' type='hidden' value="${x.value}"/></div>`)}
       <input name='statusCode' type='hidden' value="303"/>

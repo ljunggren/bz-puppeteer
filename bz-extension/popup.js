@@ -40,7 +40,7 @@ $(".bz-tab").click(function(){
   $(".bz-tab").removeClass("bz-active")
   $(this).addClass("bz-active")
   
-  bzFormat.defTab="info"
+  bzFormat.defTab=this.id.replace("Tab","")
   updateSetting()
 });
 
@@ -119,6 +119,10 @@ function init(){
     })
     if(bzFormat.defTab=="log"){
       $("#logTab").click()
+    }else if(bzFormat.defTab=="ci"){
+      $("#ciTab").click()
+    }else{
+      $("#infoTab").click()
     }
 
     if(!bzFormat.account){
@@ -162,6 +166,7 @@ function init(){
   
   $("#versions").change(function(){
     bzFormat.account.version=this.value
+    refreshTags()
     updateSetting()
   })
 
@@ -170,8 +175,49 @@ function init(){
     updateSetting()
   })
 
+  $("#jk").change(function(){
+    bzFormat.account.jk=this.value
+    updateSetting()
+  })
+  $("#jkJob").change(function(){
+    bzFormat.account.jkJob=this.value
+    updateSetting()
+  })
+
 }
 
+function joinUrl(){
+  let vs=Object.values(arguments)
+  if(vs.find(x=>!x)===undefined){
+    return vs.map(x=>x.replace(/\/$/,"")).join("/")
+  }
+}
+
+function refreshTags(){
+  let url=joinUrl(getServerUrl(),"api/projects",bzFormat.account.project,"versions",bzFormat.account.version,"tags")
+  if(!url){
+    return
+  }
+  $.ajax({
+    url:url,
+    method:"GET",
+    success:function(vs){
+      bzFormat.account.tags=vs
+      updateSetting()
+      showTags()
+    },
+    error:function(){
+      bzFormat.account.tags=[]
+      updateSetting()
+      $("#tags").hide()
+    }
+  })
+}
+function showTags(){
+  let vs=bzFormat.account.tags||{}
+  $("#tags").text(Object.keys(vs).length+" tags")
+  $("#tags").show()
+}
 function getServerUrl(){
   let url=bzFormat.account.server
   if(url=="oth"){
@@ -191,6 +237,8 @@ function initAccount(){
   $("#projects").val(bzFormat.account.project)
   $("#versions").val(bzFormat.account.version)
   $("#xray").val(bzFormat.account.xray)
+  $("#jk").val(bzFormat.account.jk)
+  $("#jkJob").val(bzFormat.account.jkJob)
   if(url){
     url+="/api/projects"
     $.ajax({
@@ -223,8 +271,10 @@ function initAccount(){
   
   if(bzFormat.account.version){
     $("#ide").show()
+    showTags()
   }else{
     $("#ide").hide()
+    $("#tags").hide()
   }
 
   updateSetting()

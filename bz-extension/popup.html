@@ -71,7 +71,7 @@ a{
 }
 .bz-form label>input,
 .bz-form label>select{
-  flex:4;
+  flex:3;
   width:10px;
   height:18px;
 }
@@ -107,7 +107,7 @@ a{
   <div id="ci-panel" class='bz-panel' style="width:280px;display:none;">
     <div class="bz-form">
       <label>
-        <span>Server</span>
+        <span>Boozang Host</span>
         <select id="server">
           <option value="" class='bz-empty-option'>[select ...]</option>
           <option value='https://ai.boozang.com'>Region North America Server</option>
@@ -131,9 +131,18 @@ a{
         <span>Xray host</span>
         <input id="xray"/>
       </label>
+      <label id="jk-box">
+        <span>Jenkins host</span>
+        <input id="jk"/>
+      </label>
+      <label id="jk-box">
+        <span>Jenkins Job</span>
+        <input id="jkJob"/>
+      </label>
     </div>
     <a id="login" style="margin-left:7px;">Login</a>
     <a id="ide" style="margin-left:7px;display:none">Open IDE</a>
+    <a id="tags" style="margin-left:7px;display:none"></a>
   </div>
   <div id="log-panel" style="display:none;width:600px;" class='bz-panel'>
     <div style="margin-bottom:5px;">
