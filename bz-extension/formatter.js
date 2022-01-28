@@ -2292,9 +2292,9 @@ input[type=number]{
     let v=formatter.getSetting();
 
     if(v&&v.account&&v.account.xray&&location.href.includes(v.account.xray)){
-      let vv=location.href.match(/\/browse[\/](.+)/)
+      let vv=location.href.match(/(\/browse[\/]|\&selectedIssue=)([^&\/]+)/)
       if(vv){
-        vv=vv[1]
+        vv=vv[2]
         vv=vv.replace("/","")
         if((v.account.tags||{})[vv]){
           formatter.formatXray(v.account.tags[vv])
@@ -2302,7 +2302,7 @@ input[type=number]{
       }
     }
   },
-  formatXray:function(k){
+  formatXray:function(k,ok){
     setTimeout(()=>{
       let o=document.getElementsByTagName("h1")
       let d=formatter.getSetting().account;
@@ -2311,12 +2311,15 @@ input[type=number]{
         host=d.othServer
       }
       if(o&&o.length&&window.$){
-        o=o[0]
+        if(!ok){
+          return formatter.formatXray(k,1)
+        }
+        o=o[o.length-1]
         o=$(`
-        <span style="position: absolute;right: 0;margin-top: -75px;z-index: 100000000000;">
+        <span style="position: absolute;right: 0;z-index: 100000000000;">
           <button id='bz-play' title='Execute the scenario in Jenkins' style='${d.jk?'':'display:none;'}background-image: url(${host}/ci/jk.ico);height: 20px;width: 20px;background-size: 15px;border: 0;background-repeat: no-repeat;background-position: center;background-color: transparent;float: right;margin: 3px;color:red;font-size: 10px;padding-top: 5px;padding-left: 23px;'>▶</button>
           <button id='bz-ide' title='Open the scenario in Boozang IDE' style='background-image: url(${host}/favicon.ico);height: 20px;width: 20px;background-size: 15px;border: 0;background-repeat: no-repeat;background-position: center;background-color: transparent;float: right;margin: 5px;'></button>
-        </span><div class='bz-pop-panel' style='display:none;position: absolute;margin-top: 110px;right: 0;background-color: rgb(255, 255, 255);padding: 20px 5px 5px;border-radius: 5px;border: 1px solid rgb(153, 153, 153);z-index: 10;box-shadow: rgb(0 0 0 / 40%) 2px 2px 9px;background-position: right 5px top 5px;background-size: 11px;z-index: 1111111111;'><div class='bz-box'></div></div>`).insertAfter(o.parentElement)
+        </span><div class='bz-pop-panel' style='display:none;position: absolute;margin-top: 200px;right: 0;background-color: rgb(255, 255, 255);padding: 20px 5px 5px;border-radius: 5px;border: 1px solid rgb(153, 153, 153);z-index: 10;box-shadow: rgb(0 0 0 / 40%) 2px 2px 9px;background-position: right 5px top 5px;background-size: 11px;z-index: 1111111111;'><div class='bz-box'></div></div>`).insertAfter(o.parentElement)
         let url=formatter.joinUrl(host,"extension?id="+d.project+"#"+d.project,d.version,k)
         o.find("#bz-play").mousedown(function(e){
           e.stopPropagation()
@@ -2331,7 +2334,7 @@ input[type=number]{
           $(this).blur()
         })
       }else{
-        formatter.formatXray(k)
+        formatter.formatXray(k,ok)
       }
     },1000)
   },
@@ -2687,11 +2690,18 @@ input[type=number]{
         <div style="margin:5px;"><label style="display:flex;"><span style="flex:1;margin-right:5px;">Branch</span><input style="flex:3;border:1px solid #CCC;padding:5px;" id="branch" value="${version}"/></label></div>
         <div style="margin:5px;"><label style="display:flex;"><span style="flex:1;margin-right:5px;">Workers</span><input style="flex:3;border:1px solid #CCC;padding:5px;" id="workers" value="${ws}"/></label></div>
       </div>
-      <div style="text-align: center;margin: 15px 0 10px 0;"><button class='bz-play-btn std'>Start</button></div>
+      <div style="text-align: center;margin: 15px 0 10px 0;">
+        <button class='bz-play-btn std' style='border-radius: 10px;background-color: #33F;color: #FFF;border: 1px solid #33F;padding: 2px 15px;line-height: 20px;cursor: pointer;'>Start</button>
+        <button class='bz-cancel' style='border-radius: 10px;background-color: #FFF;border: 1px solid #33F;padding: 2px 15px;line-height: 20px;cursor: pointer;'>Cancel</button>
+      </div>
     `)
     o.show()
     o.mousedown(function(e){
       e.stopPropagation()
+    })
+    
+    $(".bz-cancel").click(function(){
+      $(".bz-pop-panel").hide()
     })
     
     $(".bz-play-btn").click(function(){
@@ -3986,3 +3996,12 @@ var analyzer={
 setTimeout(()=>{
   formatter.autoLoading()
 },100)
+
+let lastUrl = location.href; 
+new MutationObserver(() => {
+  const url = location.href;
+  if (url !== lastUrl) {
+    lastUrl = url;
+    formatter.autoLoading()
+  }
+}).observe(document, {subtree: true, childList: true});

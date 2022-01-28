@@ -183,6 +183,10 @@ function init(){
     bzFormat.account.jkJob=this.value
     updateSetting()
   })
+  
+  $("#tags").click(function(){
+    refreshTags()
+  })
 
 }
 
