@@ -144,16 +144,17 @@ fieldset{
   color:#FFF;
 }
 .bz-play:before{
-  font-size:20px;
-  color:red;
+  font-size:18px;
+  color:#18cd61;
 }
 .bz-play:disabled:before{
-  content:"▷";
+  /** content:"▷"; **/
   color:#999;
 }
 .bz-failed:before{
   content:"❌";
   font-size: 10px;
+  color: green;
 }
 
 .bz-cross:before{
