@@ -84,6 +84,7 @@ function init(){
 }`
       }
     }
+    bzFormat.account=bzFormat.account||{}
     if(d["bz-log-format"]){
       bzFormat=JSON.parse(d["bz-log-format"])
     }
