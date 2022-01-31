@@ -84,7 +84,6 @@ function init(){
 }`
       }
     }
-    bzFormat.account=bzFormat.account||{}
     if(d["bz-log-format"]){
       bzFormat=JSON.parse(d["bz-log-format"])
     }
@@ -104,6 +103,7 @@ function init(){
     $("#declareTime").val(bzFormat.declareTime);
     $("#initTime").val(bzFormat.initTime);
     $("#actionTime").val(bzFormat.actionTime)
+    bzFormat.account=bzFormat.account||{}
     updateSetting()
     $("#scenarioTime,#testTime,#declareTime,#initTime,#actionTime,#identifyMaster,#identifyWorker").blur(function(){
       updateSetting()
