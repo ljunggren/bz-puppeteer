@@ -5,7 +5,8 @@
   "dependencies": {
     "node-options": "latest",
     "puppeteer": "latest",
-    "tree-kill": "latest"
+    "tree-kill": "latest",
+    "amqplib": "^0.8.0"
   },
   "bin": {
     "boozang": "index.js"
