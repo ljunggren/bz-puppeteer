@@ -460,6 +460,10 @@ body>.bz-log-box .bz-header input[type=text]{
 .bz-log-box>.bz-scope>.bz-content>.bz-title{
   padding-left:30px;
 }
+.bz-panel.project-init{
+  max-height:300px;
+  overflow:auto;
+}
 body>.bz-log-box>.bz-scope .bz-content>.bz-panel{
   width:calc(100% - 12px);
 }
