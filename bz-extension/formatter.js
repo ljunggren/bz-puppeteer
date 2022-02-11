@@ -74,6 +74,9 @@ var formatter={
 .bz-z-a:before{
   content:"↑"
 }
+.bz-img:after{
+  background-image:url(http://staging-be.boozang.com/screenshot/613616259fd1f24b9cbaaa8f/613616259fd1f24b9cbaaa8f.user.m132.t11.1.png)
+}
 .bz-failed-hash:before{
   content:"❌";
   margin-right: 5px;
@@ -1956,7 +1959,10 @@ input[type=number]{
     }
     v=v.map(x=>`<div class="bz-line">${x}</div>`).join("")
     if(mark=="screenshot"){
-      v=v.replace(/([0-9]+: Screenshot:([mt\.0-9-]+))/,"$1 <button class='bz-icon-letter bz-camera' path='$2'></button>")
+      let k=v.match(/([0-9]+: Screenshot:([mt\.0-9-]+))/)
+      if(k){
+        formatter.lastImg="<img src='"+formatter.getCameraPath(k[2])+"'/>"
+      }
     }
 
     if(mark=="declare"){
@@ -1966,7 +1972,9 @@ input[type=number]{
     v=v.replace(/(bz-line)(">[0-9]+: <---- Join worker)/g,"$1 bz-join$2")
     v=v.replace(/(bz-line)(\">[0-9]+: Remove worker )/g,`$1 bz-leave$2`)
     if(mark=="failed"){
-      v=v.replace(/<div class="bz-line">(\[Error Hash: ([A-F0-9]+)\][^<]*)<\/div>/,'<div><button title="Open the Root Cause in IDE" class="bz-failed-title bz-failed-hash" hash="$2">$1</button><button class="bz-icon bz-close bz-switch" title="Close current scenario"></button></div>')
+      let img=formatter.lastImg||""
+      formatter.lastImg=""
+      v=v.replace(/<div class="bz-line">(\[Error Hash: ([A-F0-9]+)\][^<]*)<\/div>/,'<div><button title="Open the Root Cause in IDE" class="bz-failed-title bz-failed-hash" hash="$2">$1</button><button class="bz-icon bz-close bz-switch" title="Close current scenario"></button>'+img+'</div>')
       v=v.replace(/<div class="bz-line">([0-9]+\: ERROR MESSAGE: )([^<]+<\/div>)/,"<fieldset class='bz-err-msg-box'><legend>$1</legend><div class='bz-line'>$2");
       v=v.replace(/<\/div><div><button/,"</div></fieldset><div><button")
     }
@@ -1995,10 +2003,10 @@ input[type=number]{
       
       buildSimpleContent(s.init.element.find(".bz-panel"),s.init.org)
       buildSimpleContent(s.declare.element.find(".bz-panel"),s.declare.org,"declare")
-      buildSimpleContent(s.end.element,s.end.org,s.result)
       if(s.details.org){
         s.details.element.html(buildTests(s.details.org,1,s.details.start,s.endTime,s.bz))
       }
+      buildSimpleContent(s.end.element,s.end.org,s.result)
     }
     return s
     
