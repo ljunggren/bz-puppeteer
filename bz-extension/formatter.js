@@ -714,11 +714,13 @@ body>.bz-log-box .bz-sort-bar{
 }
 .bz-close{
   position: relative;
-  top: 3px;
-  padding: 5px;
+  padding: 4px 10px;
   border: 1px solid;
-  transform: rotate(-90deg);
+  width: 68px;
+  background-position-x: 10px;
+  border-radius: 25px;
 }
+
 .bz-node-title{
   flex:1;
 }
@@ -1974,7 +1976,7 @@ input[type=number]{
     if(mark=="failed"){
       let img=formatter.lastImg||""
       formatter.lastImg=""
-      v=v.replace(/<div class="bz-line">(\[Error Hash: ([A-F0-9]+)\][^<]*)<\/div>/,'<div><button title="Open the Root Cause in IDE" class="bz-failed-title bz-failed-hash" hash="$2">$1</button><button class="bz-icon bz-close bz-switch" title="Close current scenario"></button>'+img+'</div>')
+      v=v.replace(/<div class="bz-line">(\[Error Hash: ([A-F0-9]+)\][^<]*)<\/div>/,'<div><button title="Open the Root Cause in IDE" class="bz-failed-title bz-failed-hash" hash="$2">$1</button><button class="bz-icon bz-close" title="Close current scenario">✖ close</button>'+img+'</div>')
       v=v.replace(/<div class="bz-line">([0-9]+\: ERROR MESSAGE: )([^<]+<\/div>)/,"<fieldset class='bz-err-msg-box'><legend>$1</legend><div class='bz-line'>$2");
       v=v.replace(/<\/div><div><button/,"</div></fieldset><div><button")
     }
