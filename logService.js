@@ -440,8 +440,19 @@ const Service = {
     Service.addTask({
       key:"screenshot:",
       fun(msg){
-        let screenshotFile = msg.split("screenshot:")[1]+".png";
-        Service.popup.screenshot({path: screenshotFile});
+        msg=msg.split("screenshot:")[1]
+        msg=msg.split("\n")
+        console.log(msg[0])
+        let screenshotFile = msg[0]+".png";
+
+        let _base64Data = msg[1].replace(/^data:image\/([^;]+);base64,/, "");
+
+        fs.writeFile(screenshotFile,_base64Data,'base64', (err)=>{
+          if (err) {
+            Service.shutdown("Error: on output file: "+screenshotFile+", "+ err.message)
+          }
+          Service.consoleMsg("Report "+screenshotFile+" saved.")
+        })
       },
       timeout:Service.stdTimeout
     })
