@@ -440,7 +440,7 @@ const Service = {
     Service.addTask({
       key:"screenshot:",
       fun(msg){
-        msg=msg.split("screenshot:")[1]
+        msg=msg.split("screenshot: ")[1]
         msg=msg.split("\n")
         console.log(msg[0])
         let screenshotFile = "/var/boozang/" + msg[0]+".png";
