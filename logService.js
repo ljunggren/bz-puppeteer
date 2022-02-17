@@ -440,10 +440,10 @@ const Service = {
     Service.addTask({
       key:"screenshot:",
       fun(msg){
-        msg=msg.split("screenshot:")[1]
+        msg=msg.split("screenshot: ")[1]
         msg=msg.split("\n")
         console.log(msg[0])
-        let screenshotFile = msg[0]+".png";
+        let screenshotFile = "/var/boozang/" + msg[0]+".png";
 
         let _base64Data = msg[1].replace(/^data:image\/([^;]+);base64,/, "");
 
