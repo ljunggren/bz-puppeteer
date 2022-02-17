@@ -2138,7 +2138,7 @@ input[type=number]{
       let x=v.match(/^([0-9]+)\: \#\#Action.*\#\# \(([0-9\/mt]+|tmp)\)\, (.+)/)
 
       let name=x[3],type,flash,screenshot;
-      if(name.match(/^(Set |Typing )/)){
+      if(name.match(/^(Set |Typing |Check )/)){
         type="keyboard"
       }else{
         type=name.split(/[ :]/)[0].toLowerCase()
@@ -2156,7 +2156,7 @@ input[type=number]{
           
         }else if(type.match(/execute api/)){
           type="api"
-        }else if(type.match(/re-initialize data/)){
+        }else if(type.match(/Re-Initialize/i)){
           type="refresh"
         }else{
           type="call"
