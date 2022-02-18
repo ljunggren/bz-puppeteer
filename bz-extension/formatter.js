@@ -1129,7 +1129,7 @@ input[type=number]{
       }
       
       if(!path){
-        path=o.innerText.match(/m[0-9]+[\.\/\-]t[0-9]+([\.\/][0-9]+)?/)
+        path=o.innerText.match(/m[0-9]+[\.\/\-]t[0-9]+([\.\/][0-9]+)?/)||o.innerText.match(/https?:\/\/.+/)
         if(!path){
           return
         }
@@ -1146,7 +1146,11 @@ input[type=number]{
       if(e.clientX<o.posRight){
         o.style.cursor="pointer"
         $(o).addClass("bz-clickable")
-        o.title="Click to open test case("+path+") in IDE"
+        if(path.includes("http")){
+          o.title="Click to open page("+path+")"
+        }else{
+          o.title="Click to open test case("+path+") in IDE"
+        }
       }else{
         $(o).removeClass("bz-clickable")
         o.style.cursor="default"
@@ -1219,6 +1223,11 @@ input[type=number]{
             vv+="/"+v[4]
           }
           v=vv
+        }else{
+          v=o.text().match(/https?:\/\/[^ ]+$/)
+          if(v){
+            formatter.openWindow(v[0])
+          }
         }
       }
       if(v){
@@ -2307,7 +2316,7 @@ input[type=number]{
     let v=formatter.getSetting();
 
     if(v&&v.account&&v.account.xray&&location.href.includes(v.account.xray)){
-      let vv=location.href.match(/(\/browse[\/]|\&selectedIssue=)([^&\/]+)/)
+      let vv=location.href.match(/(\/browse[\/]|\&selectedIssue=|\&issueKey=)([^&\/]+)/)
       if(vv){
         vv=vv[2]
         vv=vv.replace("/","")
@@ -2319,29 +2328,35 @@ input[type=number]{
   },
   formatXray:function(k,ok){
     setTimeout(()=>{
-      let o=document.getElementsByTagName("h1")
+      if($("#bz-play")[0]){
+        return
+      }
       let d=formatter.getSetting().account;
       let host=d.server
       if(host=="oth"){
         host=d.othServer
       }
-      if(o&&o.length&&window.$){
+      if(window.$){
         if(!ok){
           return formatter.formatXray(k,1)
         }
-        o=o[o.length-1]
+        let o=$("[data-testid=xray-test-type-select]")[0]
+        if(!o){
+          return
+        }
+        o=o.parentElement.parentElement.parentElement
         o=$(`
-        <span style="position: absolute;right: 0;z-index: 100000000000;">
+        <span style="position: absolute;right: 0;z-index: 100000000000;margin-top:25px;">
           <button id='bz-play' title='Execute the scenario in Jenkins' style='${d.jk?'':'display:none;'}background-image: url(${host}/ci/jk.ico);height: 20px;width: 20px;background-size: 15px;border: 0;background-repeat: no-repeat;background-position: center;background-color: transparent;float: right;margin: 3px;color:red;font-size: 10px;padding-top: 5px;padding-left: 23px;'>▶</button>
           <button id='bz-ide' title='Open the scenario in Boozang IDE' style='background-image: url(${host}/favicon.ico);height: 20px;width: 20px;background-size: 15px;border: 0;background-repeat: no-repeat;background-position: center;background-color: transparent;float: right;margin: 5px;'></button>
-        </span><div class='bz-pop-panel' style='display:none;position: absolute;margin-top: 200px;right: 0;background-color: rgb(255, 255, 255);padding: 20px 5px 5px;border-radius: 5px;border: 1px solid rgb(153, 153, 153);z-index: 10;box-shadow: rgb(0 0 0 / 40%) 2px 2px 9px;background-position: right 5px top 5px;background-size: 11px;z-index: 1111111111;'><div class='bz-box'></div></div>`).insertAfter(o.parentElement)
+        </span><div class='bz-pop-panel' style='display:none;position: absolute;margin-top: 50px;right: 0;background-color: rgb(255, 255, 255);padding: 20px 5px 5px;border-radius: 5px;border: 1px solid rgb(153, 153, 153);z-index: 10;box-shadow: rgb(0 0 0 / 40%) 2px 2px 9px;background-position: right 5px top 5px;background-size: 11px;z-index: 1111111111;'><div class='bz-box'></div></div>`).insertAfter(o.parentElement)
         let url=formatter.joinUrl(host,"extension?id="+d.project+"#"+d.project,d.version,k)
-        o.find("#bz-play").mousedown(function(e){
+        o.find("#bz-play").click(function(e){
           e.stopPropagation()
           
           formatter.doJKPlay([k],d.version,d.jk,d.jkJob,60)
         })
-        o.find("#bz-ide").mousedown(function(e){
+        o.find("#bz-ide").click(function(e){
           e.stopPropagation()
           formatter.openWindow(url)
         })
@@ -2369,7 +2384,10 @@ input[type=number]{
   },
   copyText:function(w){
     let el =$("<textarea readonly style='position:absolute;left:-9999px'></textarea>").appendTo(document.body);
-    el.val(w.innerText)
+    let v=w.innerText
+    let vv=v.match(/https?:\/\/.+/)
+    v=vv?vv[0]:v
+    el.val(v)
     el.select();
     document.execCommand('copy');
     el.remove();
@@ -4009,7 +4027,9 @@ var analyzer={
 }
 
 setTimeout(()=>{
-  formatter.autoLoading()
+  window.onresize=function(){
+    formatter.autoLoading()
+  }
 },100)
 
 let lastUrl = location.href; 
