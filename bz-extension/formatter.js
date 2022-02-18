@@ -4027,6 +4027,7 @@ var analyzer={
 }
 
 setTimeout(()=>{
+  formatter.autoLoading()
   window.onresize=function(){
     formatter.autoLoading()
   }
