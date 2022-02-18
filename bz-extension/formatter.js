@@ -2304,17 +2304,21 @@ input[type=number]{
       v.scenarioTime=180
       v.testTime=60
     }
-    if(v.autoFormat){
-      if(formatter.isMasterPage(v)){
-        return formatter.exeFormag(v,Date.now())
-      }
-    }
+    
     v.account=v.account||{}
     return v
   },
   autoLoading:function(){
     let v=formatter.getSetting();
-
+    if(v.autoFormat){
+      if(formatter.isMasterPage(v)){
+        return formatter.exeFormag(v,Date.now())
+      }
+    }
+    formatter.chkXray(v)
+  },
+  chkXray:function(v){
+    v=v||formatter.getSetting();
     if(v&&v.account&&v.account.xray&&location.href.includes(v.account.xray)){
       let vv=location.href.match(/(\/browse[\/]|\&selectedIssue=|\&issueKey=)([^&\/]+)/)
       if(vv){
@@ -4029,7 +4033,7 @@ var analyzer={
 setTimeout(()=>{
   formatter.autoLoading()
   window.onresize=function(){
-    formatter.autoLoading()
+    formatter.chkXray()
   }
 },100)
 
