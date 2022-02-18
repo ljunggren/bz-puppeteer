@@ -1860,7 +1860,7 @@ input[type=number]{
       }
     }
     function handleCamera(s){
-      let w=s.org.match(/\n[0-9]+\: Screenshot\:(m[0-9]+\.t[0-9]+[\.][0-9]+)/);
+      let w=s.org.match(/\n[0-9]+\: Screenshot\:([0-9a-f]{32})/i);
       if(w){
         s.camera=w[1]
         formatter.cameraList.push(w[1])
@@ -1970,7 +1970,7 @@ input[type=number]{
     }
     v=v.map(x=>`<div class="bz-line">${x}</div>`).join("")
     if(mark=="screenshot"){
-      let k=v.match(/([0-9]+: Screenshot:([mt\.0-9-]+))/)
+      let k=v.match(/([0-9]+: Screenshot:([0-9a-f]{32}))/i)
       if(k){
         formatter.lastImg="<img src='"+formatter.getCameraPath(k[2])+"'/>"
       }
@@ -2453,7 +2453,7 @@ input[type=number]{
   },
   getCameraPath:function(v){
     let fd=formatter.data
-    return fd.host+"/screenshot/"+fd.project.code+"/"+fd.project.code+"."+fd.version+"."+v+".png"
+    return fd.host+"/screenshot/"+fd.project.code+"/"+v+".png"
   },
   showCompare:function(){
     let o=$(".bz-pop-panel");
