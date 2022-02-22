@@ -682,13 +682,24 @@ body>.bz-log-box .bz-sort-bar{
 }
 .bz-tmp-screenshot{
   display: none;
-  right: 140px;
+  right: 160px;
   position: absolute;
   margin-top: -30px;
-  width: 400px;
+  min-width: 400px;
 }
 .bz-tmp-screenshot:hover{
   display:block;
+}
+.bz-mini-img{
+  margin:0 10px;
+  width:200px
+}
+.bz-mini-img:hover{
+  margin-right:300px;
+  width:unset;
+  position:fixed;
+  top:50px;
+  right:0px;
 }
 .bz-row-high{
   line-height:30px;
@@ -2649,7 +2660,7 @@ input[type=number]{
     }
     let w=""
     formatter.cameraList.forEach(x=>{
-      w+=`<div class='bz-row bz-title-text' style='margin:5px 0'><img style='margin:0 10px;width:100px' src='${formatter.getCameraPath(x)}'/> ${x}</div>`
+      w+=`<div class='bz-row bz-title-text' style='margin:5px 0'><img class='bz-mini-img' src='${formatter.getCameraPath(x)}'/> ${x}</div>`
     })
     o.find("div.bz-box").html(`<div style='overflow:auto;max-height:${window.innerHeight-250}px;padding:5px;background-color:#EEE;'>${w}<div>`)
     o.find("img").click(function(){
