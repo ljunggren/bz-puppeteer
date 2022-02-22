@@ -682,7 +682,7 @@ body>.bz-log-box .bz-sort-bar{
 }
 .bz-tmp-screenshot{
   display: none;
-  right: 100px;
+  right: 140px;
   position: absolute;
   margin-top: -30px;
   width: 400px;
