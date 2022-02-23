@@ -58,7 +58,9 @@ const Service = {
       }
       // Todo add noLog conditions
       // Service.consoleMsg(msg);
-      
+      if(msg.includes("##Action")){
+        Service.tryWakeup=0
+      }
       if(Service.curTask){
         t=Service.curTask
         Service.curTask=0
