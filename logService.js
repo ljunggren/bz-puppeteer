@@ -613,6 +613,7 @@ const Service = {
   },
   wakeupIDE:function(timeout){
     if(Service.tryWakeup>=1){
+      Service.consoleMsg("Going to stop test");
       Service.page.evaluate(()=>{  
         BZ.e("BZ-LOG: Wake-up IDE failed. Test runner telling BZ to stop.");
       });
