@@ -1698,8 +1698,14 @@ input[type=number]{
       }else{
         fd.failedScenarios++
       }
-      fd.totalTests+=s.org.match(/\n[0-9]+: +>{4} Loading .+Test \[m[0-9].+$/gm).length
-      fd.totalActions+=s.org.match(/\n[0-9]+: ##Action.+$/gm).length
+      let ts=s.org.match(/\n[0-9]+: +>{4} Loading .+Test \[m[0-9].+$/gm)
+      if(ts){
+        fd.totalTests+=ts.length
+        ts=s.org.match(/\n[0-9]+: ##Action.+$/gm)
+        if(ts){
+          fd.totalActions+=ts.length
+        }
+      }
     }
     
     function handleStartTime(s){
