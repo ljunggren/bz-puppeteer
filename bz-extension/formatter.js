@@ -683,9 +683,10 @@ body>.bz-log-box .bz-sort-bar{
 .bz-tmp-screenshot{
   display: none;
   right: 160px;
-  position: absolute;
-  margin-top: -30px;
+  position: fixed;
   min-width: 400px;
+  top: 10px;
+  z-index: 11111111111111111111111111;
 }
 .bz-tmp-screenshot:hover{
   display:block;
