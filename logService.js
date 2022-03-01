@@ -34,62 +34,7 @@ const Service = {
     this.saveVideo = saveVideo;
     this.localized = localized;
 
-    if (this.localized){
-      Service.consoleMsg("Running with local RabbitMQ instance");
-      // Check availability of RabbitMQ on 127.0.0.1:5672
-      // If not available exit       
-      // Assign queue
-    
-      amqp.connect('amqp://localhost', function(error0, connection) {
-          if (error0) {
-              throw error0;
-          }
-          connection.createChannel(function(error1, channel) {
-              if (error1) {
-                  throw error1;
-              }
-              var queue = 'task_queue';
-              var msg = process.argv.slice(2).join(' ') || "Hello World!";
-
-              channel.assertQueue(queue, {
-                  durable: true
-              });
-              channel.sendToQueue(queue, Buffer.from(msg), {
-                  persistent: true
-              });
-              console.log(" [x] Sent '%s'", msg);
-          });
-          setTimeout(function() {
-              connection.close();
-              process.exit(0);
-          }, 500);
-      });
-
-      // Process queue
-      amqp.connect('amqp://localhost', function(error, connection) {
-        connection.createChannel(function(error, channel) {
-            var queue = 'task_queue';
-
-            channel.assertQueue(queue, {
-                durable: true
-            });
-            channel.prefetch(1);
-            console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
-            channel.consume(queue, function(msg) {
-                var secs = msg.content.toString().split('.').length - 1;
-
-                console.log(" [x] Received %s", msg.content.toString());
-                setTimeout(function() {
-                    console.log(" [x] Done");
-                    channel.ack(msg);
-                }, secs * 1000);
-            }, {
-                noAck: false
-            });
-        });  
-      })
-
-    }
+    this.buildRabbit()
 
     this.logLevel=logLevel;
 
@@ -175,6 +120,42 @@ const Service = {
       }
       return msg
     }
+  },
+  buildRabbit(){
+    if (Service.localized){
+      Service.consoleMsg("Running with local RabbitMQ instance");
+      // Check availability of RabbitMQ on 127.0.0.1:5672
+      // If not available exit       
+      // Assign queue
+    
+      amqp.connect('amqp://'+Service.localized, function(error0, connection) {
+        if (error0) {
+          throw error0;
+        }
+        Service.connection=connection;
+        connection.createChannel(function(error1, channel) {
+          if (error1) {
+            throw error1;
+          }
+          Service.channel=channel
+        });
+      });
+    }
+  },
+  sendMsgToRabbitQueue(name,msg){
+    Service.channel.sendToQueue(name, Buffer.from(msg), {
+      persistent: true
+    });
+  },
+  consumeMsg:function(name,fun){
+    Service.channel.consume(name, function(msg) {
+      fun(msg)
+    }, {
+      noAck: false
+    });
+  },
+  closeRabbitQueue(){
+    Service.connection&&Service.connection.close()
   },
   setBeginningFun(fun){
     Service.beginningFun=fun
@@ -645,9 +626,11 @@ const Service = {
     (async () => {
       await Service.page.close()
       await Service.browser.close()
+      Service.closeRabbitQueue()
       setTimeout(()=>{
         killer(Service.browser.process().pid, 'SIGKILL');
         setTimeout(()=>{
+          
           process.exit(Service.result)
         },1000)
       },1000)
