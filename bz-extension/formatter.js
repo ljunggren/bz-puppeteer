@@ -1358,7 +1358,7 @@ input[type=number]{
       ctrl=`
         ${ctrl}
         <button key="${o.code}" class="bz-icon bz-declare-btn bz-declare">(${o.declare.time||""})</button>
-        <button title='${o.bug&&o.bug.msg}' class="bz-icon bz${o.bug?o.bug.type:""}-bug ${!o.bug&&'bz-hide'}" hash="${o.bug&&o.bug.hash}" path="${o.bug&&o.bug.path}"></button>
+        <button title='${o.bug&&o.bug.msg&&o.bug.msg.replace(/[<]/g,"&lt;").replace(/[>]/g,"&gt;")}' class="bz-icon bz${o.bug?o.bug.type:""}-bug ${!o.bug&&'bz-hide'}" hash="${o.bug&&o.bug.hash}" path="${o.bug&&o.bug.path}"></button>
         <button class="bz-icon bz-camera ${o.bug?o.camera?"":"bz-disable-icon":"bz-hide"}" title="${o.cameraMsg||""}" path="${o.camera||""}"></button>
       `
     }
