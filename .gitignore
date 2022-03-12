@@ -1,5 +1,3 @@
 node_modules/
-*.html
 results.json
 report_cucumber-*.*
-!bz-extension/popup.html
