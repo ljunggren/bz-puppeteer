@@ -5,7 +5,9 @@
   "dependencies": {
     "node-options": "latest",
     "puppeteer": "latest",
-    "tree-kill": "latest"
+    "tree-kill": "latest",
+    "express": "latest",
+    "socket.io": "^4.1.2"
   },
   "bin": {
     "boozang": "index.js"
