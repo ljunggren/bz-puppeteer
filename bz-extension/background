@@ -120,7 +120,7 @@ let funMap={
           }else if(responseFun){
             responseFun(d.data)
           }
-          }
+        }
       }
     };
     xhttp.open(data.method, data.url, true);
@@ -151,7 +151,7 @@ let funMap={
       }else{
         t="application/"+t;
       }
-      o=[{
+      return [{
         size:str.length,
         name:n,
         base64Link:"data:"+t+";base64,"+_b64EncodeUnicode(str),
