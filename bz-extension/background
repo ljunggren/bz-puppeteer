@@ -88,30 +88,38 @@ let funMap={
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4) {
-        let hs={}
-        this.getAllResponseHeaders().split("\n").forEach(x=>{
-          if(x){
-            let k=x.indexOf(":")
-            let v=x.substring(k+1)
-            hs[x.substring(0,k).trim()]=v.trim()
+        if(data.responseType=="arraybuffer"){
+          let o=_handleBold(this.response,data.url)
+          if(_callback&&_callback.constructor==Function){
+            _callback(o)
+          }else if(responseFun){
+            responseFun(o)
           }
-        })
-        
-        var d={
-          tab:"master",
-          scope:scope,
-          fun:fun,
-          data:{status:this.status,data:this.response,headers:hs},
+        }else{
+          let hs={}
+          this.getAllResponseHeaders().split("\n").forEach(x=>{
+            if(x){
+              let k=x.indexOf(":")
+              let v=x.substring(k+1)
+              hs[x.substring(0,k).trim()]=v.trim()
+            }
+          })
           
-        }
-        if(data.responseType&&this.response){
-          d.data.data=String.fromCharCode.apply(null, new Uint8Array(this.response));
-        }
-        
-        if(_callback&&_callback.constructor==Function){
-          _callback(d.data)
-        }else if(responseFun){
-          responseFun(d.data)
+          var d={
+            tab:"master",
+            scope:scope,
+            fun:fun,
+            data:{status:this.status,data:this.response,headers:hs},
+            
+          }
+          if(data.responseType&&this.response){
+            d.data.data=String.fromCharCode.apply(null, new Uint8Array(this.response));
+          }
+          if(_callback&&_callback.constructor==Function){
+            _callback(d.data)
+          }else if(responseFun){
+            responseFun(d.data)
+          }
         }
       }
     };
@@ -126,6 +134,57 @@ let funMap={
       xhttp.setRequestHeader("Content-Type",data.contentType)
     }
     xhttp.send(data.data);
+
+    function _handleBold(blob,_url){
+      var str=_handleCodePoints(new Uint8Array(blob));
+      
+      //var str = String.fromCharCode.apply(null, new Uint8Array(blob));
+      //var str=new TextDecoder("utf-8").decode(new Uint8Array(blob));
+      var v=_url.split("/");
+      var n=v.pop()||v.pop()
+
+      var t=n.split(".")[1]||"";
+      if(["jpg","png","svg","bmp","gif","jpeg","ico"].includes(t)){
+        t="image/"+t;
+      }else if("txt"==t){
+        t="plant/text"
+      }else{
+        t="application/"+t;
+      }
+      return [{
+        size:str.length,
+        name:n,
+        base64Link:"data:"+t+";base64,"+_b64EncodeUnicode(str),
+        lastModified:Date.now(),
+        lastModifiedDate:new Date(),
+        webkitRelativePath:"",
+        type:t
+      }];
+    }
+    function _handleCodePoints(array) {
+      var CHUNK_SIZE = 0x8000; // arbitrary number here, not too small, not too big
+      var index = 0;
+      var length = array.length;
+      var result = '';
+      var slice;
+      while (index < length) {
+        slice = array.slice(index, Math.min(index + CHUNK_SIZE, length)); // `Math.min` is not really necessary here I think
+        result += String.fromCharCode.apply(null, slice);
+        index += CHUNK_SIZE;
+      }
+      return result;
+    }
+
+    function _b64EncodeUnicode(str) {
+      try{
+        return btoa(str)
+      }catch(e){
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+            function toSolidBytes(match, p1) {
+                return String.fromCharCode('0x' + p1);
+        }));
+      }
+    }
   },
   getScreenshot:function(bkScope,bkFun,d,t,element){
     let offset={
@@ -426,7 +485,7 @@ function _setCodeToContent(c,id,tabId){
   //for set dynamic code to current controled client tab, 
   if(tabId && !_lastErrPage){
     try{
-      
+      chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code to client:"+c.length,twPage:1,tab:"master",bz:1});
       if(id!==undefined){
         if(!id&&_topFrameId){
           id=_topFrameId
@@ -439,7 +498,6 @@ function _setCodeToContent(c,id,tabId){
           //}
         });
       }else{
-        // chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code 2 to client:"+c.length,twPage:1,tab:"master",bz:1});
         chrome.tabs.executeScript(tabId, {code: c,matchAboutBlank:true,allFrames:true},_=>{
           let e = chrome.runtime.lastError;
           if(e !== undefined){
@@ -449,6 +507,7 @@ function _setCodeToContent(c,id,tabId){
         });
       }
     }catch(e){
+      chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG: Set code to extension failed: "+e.message+"\n"+e.stock,twPage:1,tab:"master",bz:1});
       console.log(e.stock)
       
       // chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code to client get error2:"+e.message,twPage:1,tab:"master",bz:1});
