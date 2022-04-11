@@ -86,9 +86,11 @@ let funMap={
   },
   ajax:function(scope,fun,data,_callback,element,responseFun){
     var xhttp = new XMLHttpRequest();
+    let asFile=data.notDownloadAsFile
+    delete data.notDownloadAsFile
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4) {
-        if(data.responseType=="arraybuffer"){
+        if(data.responseType=="arraybuffer"&&!asFile){
           let o=_handleBold(this.response,data.url)
           if(_callback&&_callback.constructor==Function){
             _callback(o)
