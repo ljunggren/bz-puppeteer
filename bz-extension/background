@@ -246,7 +246,14 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     }
   //Master tab send dynamic code to background to forward to content
   }else if(_req.bzExeCode){
-    _setCodeToContent(_req.bzExeCode,_req.id);
+    if(_req.element){
+      let v=getIframePath(_req.element)
+      return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v,element:_req.element,retry:0},function(r){
+        _setCodeToContent(_req.bzExeCode,r);
+      })
+    }else{
+      _setCodeToContent(_req.bzExeCode,_req.id);
+    }
   //Master send current status
   }else if(_req.status!==undefined){
     //master tab set status before start pop client win
@@ -438,7 +445,7 @@ function _addFrameId(_req,_element,_fun,_retry){
 }
 
 function getIframePath(_element){
-  if(_element&&!_element[0].startsWith("$(BZ.TW.document.body)")&&_element[0][0]=="$"){
+  if(_element&&_element[0]&&!_element[0].startsWith("$(BZ.TW.document.body)")&&_element[0][0]=="$"){
     var v=_element[0].match(/\((.+)\)/)
     if(v){
       v=v[1].trim()
@@ -480,7 +487,7 @@ function _isExistTab(id,_fun){
   });
 }
 //set code to chrome extension content
-function _setCodeToContent(c,id,tabId){
+function _setCodeToContent(c,id,tabId,chkFrameId){
   tabId=tabId||_ctrlTabId
   //for set dynamic code to current controled client tab, 
   if(tabId && !_lastErrPage){
