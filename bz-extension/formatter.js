@@ -1800,6 +1800,11 @@ input[type=number]{
       
       if(x){
         x=x.find(y=>y.match(/\/run/))||x[0]
+        fd.center=x.split("localized=")[1]
+        if(fd.center){
+          fd.center=fd.center.split(/[\&\#]/)[0]
+        }
+        fd.center=fd.center||"Boozang"
         x=x.match(/(http.+[\/].+)\/extension.*[?&]token\=.+#([^\/]+)[\/]([^\/]+)([\/](m[0-9]+[\/]t[0-9]+)[\/]run)?/);
         
         fd.startUrl=x[1]+"/extension?id="+x[2]+"#"+x[2]+"/"+x[3]+"/"
@@ -1807,6 +1812,7 @@ input[type=number]{
         fd.project.code=x[2]
         fd.version=x[3]
         fd.rootTest=(x[5]||"").replace("/",".")
+
         if(x[5]){
           fd.environment=v.split("&env=")[1].split("&")[0]
         }
@@ -1817,6 +1823,9 @@ input[type=number]{
       }
       x=v.match(/Running Boozang runner version\: ([0-9\.]+)/m);
       if(x){
+        if(x[1]=="."){
+          x[1]="Beta"
+        }
         fd.containerVersion=x[1]
       }
 
@@ -1837,9 +1846,10 @@ input[type=number]{
         <div><label>Version: </label><span>${fd.version}</span></div>
         <div><label>Root test: </label><span>${fd.rootTest}</span></div>
         <div><label>Environment: </label><span>${fd.environment}</span></div>
-        <div><label>Container Version: </label><span>${fd.containerVersion}</span></div>
-        <div><label>IDE Version: </label><span>${fd.ideVersion}</span></div>
-        <div><label>Extension Version: </label><span>${fd.extensionVersion}</span></div>
+        <div><label>Container: </label><span>${fd.containerVersion}</span></div>
+        <div><label>IDE: </label><span>${fd.ideVersion}</span></div>
+        <div><label>Extension: </label><span>${fd.extensionVersion}</span></div>
+        <div><label>Communication center: </label><span>${fd.center}</span></div>
       `);
       fe.init.find(".bz-title-text").addClass("bz-info-box")
       fe.init.find(".bz-time").text(fd.project.init.time)
