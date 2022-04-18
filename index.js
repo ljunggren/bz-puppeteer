@@ -23,7 +23,11 @@ const opts = {
   "keepalive": false,
   "testreset":false,
   "loglevel": "debug",
-  "debugIDE":false
+  "debugIDE":false,
+  "uploadtp":200,
+  "downloadtp":200,
+  "latency":20,
+  "throttling":false
 }
 
 // Remove the first two arguments, which are the 'node' binary and the name
@@ -39,6 +43,11 @@ const listscenarios=opts.listscenarios;
 const listsuite=opts.listsuite;
 const debugIDE=opts.debugIDE;
 const sleep=opts.sleep;
+
+const uploadtp=opts.uploadtp;
+const downloadtp=opts.downloadtp;
+const latency=opts.latency;
+const throttling=opts.throttling;
 
 let keepalive=opts.keepalive;
 let testReset=opts.testreset;
@@ -116,6 +125,8 @@ function start(reset){
     // Setup popup
     let popup = null;
     function setupPopup() {
+      Service.consoleMsg("##### Setup popup #####");
+
       popup = pages[pages.length-1]; 
       popup.setViewport({
         width: parseInt(width),
@@ -124,7 +135,26 @@ function start(reset){
 
       popup.on("error", appPrintStackTrace);
       popup.on("pageerror", appPrintStackTrace);
-      Service.setPopup(popup)
+      Service.setPopup(popup);
+      if (throttling && pages.length>2){
+        (async()=>{
+          const client = await popup.target().createCDPSession();
+          Service.consoleMsg("### Throttling the connection ###");
+          Service.consoleMsg("Latency: " + latency);
+          Service.consoleMsg("Upload speed (kb/s): " + uploadtp);
+          Service.consoleMsg("Download speed (kb/s): " + downloadtp);
+
+  
+          await client.send('Network.emulateNetworkConditions', {
+            'offline': false,
+            'downloadThroughput': downloadtp * 1024 / 8,
+            'uploadThroughput': uploadtp * 1024 / 8,
+            'latency': latency
+          });
+  
+        })()
+
+      } 
     }
 
     let pages = await browser.pages();
@@ -137,6 +167,9 @@ function start(reset){
     });
 
     const page = await browser.newPage();
+
+   
+
     await page.setDefaultNavigationTimeout(0);
     let url = result.args[0],tests;
     
