@@ -56,7 +56,7 @@ const file = opts.file;
 const logLevel=opts.loglevel;
 
 if (result.errors || !result.args || result.args.length !== 1) {
-  console.log('USAGE: boozang [--token] [--docker] [--keepalive] [--testreset] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
+  console.log('USAGE: boozang [--token] [--docker] [--keepalive] [--verbose] [--width] [--height] [--throttling][--file=report] [url]');
   process.exit(2);
 }
 
