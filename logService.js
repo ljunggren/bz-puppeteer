@@ -12,6 +12,7 @@ const Service = {
   lastHardResetTimer:0,
   result: 2,
   consoleNum:0,
+  throttle: "",
   logLevel: ["info","warn","error"],
   setResetButton(restartFun){
     this.restartFun=restartFun
@@ -179,6 +180,19 @@ const Service = {
       },
       timeout:Service.stdTimeout
     })
+
+    Service.addTask({
+      key:"throttle:",
+      fun(msg){
+        Service.throttle = (msg.split(this.key)[1].trim());
+        Service.consoleMsg("Throttling to: " + Service.throttle);
+        //this.client.throttle.
+      
+        return Service.stdTimeout;
+      },
+      msg:"throttle"
+    })
+
     Service.addTask({
       key:"update-std-timeout:",
       fun(msg){
