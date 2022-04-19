@@ -2423,6 +2423,7 @@ input[type=number]{
     }
   },
   copyText:function(w){
+    w=w.replace(/^[0-9]+\: /,"")
     let el =$("<textarea readonly style='position:absolute;left:-9999px'></textarea>").appendTo(document.body);
     let v=w.innerText
     let vv=v.match(/https?:\/\/.+/)
