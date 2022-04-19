@@ -1179,7 +1179,15 @@ input[type=number]{
         }
       })
     })
-    
+    document.body.onkeydown=function(e){
+      if(e.keyCode==27){
+        e=$(":focus")[0]
+        if(!e||!["INPUT","TEXTAREA"].includes(e.tagName)){
+          $(".bz-esc-click").click()
+          return false
+        }
+      }
+    }
     function insertScreenshot(o){
       let path=$(o).attr("path")
       if(path&&!$(o).find("img")[0]){
@@ -2013,7 +2021,7 @@ input[type=number]{
     if(mark=="failed"){
       let img=formatter.lastImg||""
       formatter.lastImg=""
-      v=v.replace(/<div class="bz-line">(\[Error Hash: ([A-F0-9]+)\][^<]*)<\/div>/,'<div><button title="Open the Root Cause in IDE" class="bz-failed-title bz-failed-hash" hash="$2">$1</button><button class="bz-icon bz-close" title="Close current scenario">✖ close</button>'+img+'</div>')
+      v=v.replace(/<div class="bz-line">(\[Error Hash: ([A-F0-9]+)\][^<]*)<\/div>/,'<div><button title="Open the Root Cause in IDE" class="bz-failed-title bz-failed-hash" hash="$2">$1</button><button class="bz-icon bz-close bz-esc-click" title="Close current scenario">✖ close</button>'+img+'</div>')
       v=v.replace(/<div class="bz-line">([0-9]+\: ERROR MESSAGE: )([^<]+<\/div>)/,"<fieldset class='bz-err-msg-box'><legend>$1</legend><div class='bz-line'>$2");
       v=v.replace(/<\/div><div><button/,"</div></fieldset><div><button")
     }
