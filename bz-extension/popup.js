@@ -78,8 +78,10 @@ function init(){
   return (url||location.href).match(/[\/]console(Full)?$/)
 }`,
       identifyWorker:`function(url){
+  url=url||location.href;
+  let k=url.match(/\/([0-9]+)\//)[1];
   return [2,3].map(x=>{
-    return (url||location.href).replace(/[\\/][0-9]+[\\/]console(Full)?/,"/ws/out_"+x+".log")
+    return url.replace(k+"/consoleFull","ws/out_"+k+"_"+x+".log")
   })
 }`
       }

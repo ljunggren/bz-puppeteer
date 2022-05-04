@@ -243,6 +243,8 @@ function _insertCssAndClientCode(_msg,_time){
   _time=_time||Date.now()
   if(document && document.body && document.body.innerHTML && (["complete","interactive"].includes(document.readyState) || Date.now()-_time>100000)){
     var o=document.createElement("style");
+    o.id="bz-css"
+
     o.innerHTML=_msg._css;
     document.body.parentNode.append(o);
     
