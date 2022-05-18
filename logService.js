@@ -22,20 +22,18 @@ const Service = {
       Service.nextResetTime=Date.now()+((parseInt(Service.testReset)||1)*60000)
     }
   },
-  logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video, saveVideo){
+  logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video, recorder){
     this.inService=inService;
     this.testReset=testReset;
     Service.setNextResetTime()
-
     this.keepalive=keepalive;
     this.video=video;
     this.page=page;
-    this.saveVideo = saveVideo;
-
+    this.recorder = recorder;
     this.logLevel=logLevel;
 
     if (this.video && this.video != "none") {
-      Service.consoleMsg("Running in video mode");
+      Service.consoleMsg("##### Running in video mode ######");
     }
 
     Service.consoleMsg("Initializing logMonitor");
@@ -127,7 +125,9 @@ const Service = {
   },
   setPage(page,browser){
     this.page=page
-    this.browser=browser
+    if (browser){
+      this.browser=browser
+    }
   },
   //task:{key,fun,onTime,timeout}
   addTask(task){
@@ -328,7 +328,6 @@ const Service = {
 
         if(Service.video && Service.video != "none"){
           Service.page.evaluate((v)=>{
-            Service.consoleMsg("Initializing video capture...");
             BZ.requestVideo()
           });
         }
@@ -423,9 +422,11 @@ const Service = {
       key:"videostart:",
       fun(msg){
         (async () => {
-          let videoFile = msg.split("videostart:")[1].split(",")[0]+".mp4";
+          let videoFile = msg.split("videostart:")[1].split(",")[0];
            Service.consoleMsg("Start recording video: ", videoFile);
-           Service.capture = await Service.saveVideo(Service.popup||Service.page, Service.reportPrefix + videoFile, {followPopups:true, fps: 5});      
+           await Service.recorder.init(Service.popup,__dirname+"/"+videoFile);
+           await Service.recorder.start();
+           //Service.capture = await Service.saveVideo(Service.popup||Service.page, Service.reportPrefix + videoFile, {followPopups:true, fps: 5});      
         })()
       },
       timeout:Service.stdTimeout
@@ -436,12 +437,18 @@ const Service = {
       fun(msg){
         (async () => {
           let success = msg.includes(",success");
-          let videoFile = msg.split("videostop:")[1].split(",")[0]+".mp4";
+          let videoFile = msg.split("videostop:")[1].split(",")[0];
           Service.consoleMsg("Stop recording video: ", videoFile);
-          await Service.capture.stop();
+          try {
+            await Service.recorder.stop();
+          } catch {
+            
+          }
+          //await Service.capture.stop();
           if (success && Service.video != "all"){
             Service.consoleMsg("Test success. Deleting video: " + videoFile);
-            fs.unlinkSync(Service.reportPrefix + videoFile);
+            //fs.unlinkSync(videoFile);
+            fs.rmSync(videoFile, { recursive: true, force: true });
           }
           await (()=>{
             Service.page.evaluate((v)=>{

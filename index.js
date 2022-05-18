@@ -6,6 +6,9 @@ const puppeteer = require('puppeteer');
 const options = require('node-options');
 const Service = require('./logService').Service;
 
+const PuppeteerVideoRecorder = require('puppeteer-video-recorder');
+
+
 // Command defaults
 const opts = {
   "verbose" : false,
@@ -27,7 +30,8 @@ const opts = {
   "uploadtp":200,
   "downloadtp":200,
   "latency":20,
-  "throttling":false
+  "throttling":false,
+  "video":false
 }
 
 // Remove the first two arguments, which are the 'node' binary and the name
@@ -54,6 +58,10 @@ let testReset=opts.testreset;
 let inService;
 const file = opts.file;
 const logLevel=opts.loglevel;
+
+const video = opts.video;
+const recorder = new PuppeteerVideoRecorder();
+
 
 if (result.errors || !result.args || result.args.length !== 1) {
   console.log('USAGE: boozang [--token] [--docker] [--keepalive] [--verbose] [--width] [--height] [--throttling][--file=report] [url]');
@@ -205,8 +213,9 @@ function start(reset){
     }
     console.log(1)
 
+
     // Assign all log listeners
-    Service.logMonitor(page,testReset,keepalive,file,inService,LogLevelArray);
+    Service.logMonitor(page,testReset,keepalive,file,inService,LogLevelArray,null,video,recorder);
     console.log(2+": "+tests)
     if(tests){
       console.log("Going to post tmp tasks .....")
