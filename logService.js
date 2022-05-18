@@ -22,7 +22,7 @@ const Service = {
       Service.nextResetTime=Date.now()+((parseInt(Service.testReset)||1)*60000)
     }
   },
-  logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video, recorder){
+  logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video, recorder,docker){
     this.inService=inService;
     this.testReset=testReset;
     Service.setNextResetTime()
@@ -31,7 +31,9 @@ const Service = {
     this.page=page;
     this.recorder = recorder;
     this.logLevel=logLevel;
+    this.path = (docker ? "/var/boozang" : __dirname);
 
+    
     if (this.video && this.video != "none") {
       Service.consoleMsg("##### Running in video mode ######");
     }
@@ -423,8 +425,10 @@ const Service = {
       fun(msg){
         (async () => {
           let videoFile = msg.split("videostart:")[1].split(",")[0];
-           Service.consoleMsg("Start recording video: ", videoFile);
-           await Service.recorder.init(Service.popup,__dirname+"/"+videoFile);
+           
+           Service.consoleMsg("Start recording video: ", Service.path + videoFile);
+           //await Service.recorder.init(Service.popup,__dirname+"/"+videoFile);
+           await Service.recorder.init(Service.popup,Service.path + "/" + videoFile);
            await Service.recorder.start();
            //Service.capture = await Service.saveVideo(Service.popup||Service.page, Service.reportPrefix + videoFile, {followPopups:true, fps: 5});      
         })()
@@ -438,7 +442,7 @@ const Service = {
         (async () => {
           let success = msg.includes(",success");
           let videoFile = msg.split("videostop:")[1].split(",")[0];
-          Service.consoleMsg("Stop recording video: ", videoFile);
+          Service.consoleMsg("Stop recording video: ",Service.path + "/" + videoFile);
           try {
             await Service.recorder.stop();
           } catch {
