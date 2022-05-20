@@ -21,7 +21,7 @@ const opts = {
   "docker": false,
   "sleep":0,
   "keepalive": false,
-  "video": false,
+  "video": "all",
   "testreset":false,
   "loglevel": "debug",
   "debugIDE":false
@@ -46,7 +46,7 @@ let testReset=opts.testreset;
 let inService;
 const file = opts.file;
 const logLevel=opts.loglevel;
-const video = opts.video||1;
+const video = opts.video||"all";
 
 if (result.errors || !result.args || result.args.length !== 1) {
   console.log('USAGE: boozang [--token] [--docker] [--keepalive] [--testreset] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
