@@ -7,6 +7,8 @@ const options = require('node-options');
 const Service = require('./logService').Service;
 
 const PuppeteerVideoRecorder = require('puppeteer-video-recorder');
+const PuppeteerMassScreenshots = require('puppeteer-mass-screenshots');
+
 
 
 // Command defaults
@@ -61,6 +63,8 @@ const logLevel=opts.loglevel;
 
 const video = opts.video;
 const recorder = new PuppeteerVideoRecorder();
+
+const screenshots = new PuppeteerMassScreenshots();
 
 
 if (result.errors || !result.args || result.args.length !== 1) {
@@ -144,6 +148,8 @@ function start(reset){
       popup.on("error", appPrintStackTrace);
       popup.on("pageerror", appPrintStackTrace);
       Service.setPopup(popup);
+
+      screenshots.refresh(popup);
       if (throttling && pages.length>2){
         (async()=>{
           const client = await popup.target().createCDPSession();
@@ -214,8 +220,10 @@ function start(reset){
     console.log(1)
 
 
+
+
     // Assign all log listeners
-    Service.logMonitor(page,testReset,keepalive,file,inService,LogLevelArray,null,video,recorder,docker);
+    Service.logMonitor(page,testReset,keepalive,file,inService,LogLevelArray,null,video,screenshots,docker);
     console.log(2+": "+tests)
     if(tests){
       console.log("Going to post tmp tasks .....")

@@ -426,9 +426,13 @@ const Service = {
         (async () => {
           let videoFile = msg.split("videostart:")[1].split(",")[0];
            
-           Service.consoleMsg("Start recording video: ", Service.path + videoFile);
+           Service.consoleMsg("Start recording screenshots: ", Service.path + videoFile);
            //await Service.recorder.init(Service.popup,__dirname+"/"+videoFile);
-           await Service.recorder.init(Service.popup,Service.path + "/" + videoFile);
+           let dir = Service.path + "/" + videoFile;
+           if (!fs.existsSync(dir)){
+            fs.mkdirSync(dir);
+           }
+           await Service.recorder.init(Service.popup,dir);
            await Service.recorder.start();
            //Service.capture = await Service.saveVideo(Service.popup||Service.page, Service.reportPrefix + videoFile, {followPopups:true, fps: 5});      
         })()

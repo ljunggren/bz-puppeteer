@@ -1,0 +1,1174 @@
+
+     [ 11:50:49 ]
+
+1: In init task processing
+2: init
+Running with following args
+{
+  verbose: false,
+  file: 'report',
+  listscenarios: '',
+  listsuite: '',
+  device: '',
+  screenshot: false,
+  token: '',
+  userdatadir: '',
+  width: 1280,
+  height: 1024,
+  docker: false,
+  sleep: 0,
+  keepalive: false,
+  testreset: false,
+  loglevel: 'debug',
+  debugIDE: false,
+  uploadtp: 200,
+  downloadtp: 200,
+  latency: 20,
+  throttling: false,
+  video: 'all'
+}
+Example: Use --verbose for verbose logging (boolean example). Use --width=800 to override default width (value example.)
+Setting log levels:  [ 'error', 'warning', 'info', 'debug', 'log' ]
+Sleeping 0s
+Finished sleep!
+url: http://staging-be.boozang.com/extension?token=bf86db2b5f7f2b85b18b2e69861f2e62613616259fd1f24b9cbaaa8f&env=4&docker=1#613616259fd1f24b9cbaaa8f/user/m82/t2/run
+Browser URL: http://staging-be.boozang.com/extension?token=bf86db2b5f7f2b85b18b2e69861f2e62613616259fd1f24b9cbaaa8f&env=4&docker=1#613616259fd1f24b9cbaaa8f/user/m82/t2/run
+Running in stand alone!
+1
+
+     [ 11:50:51 (00:01, 1s) + ]
+
+3: ##### Running in video mode ######
+4: Initializing logMonitor
+5: Override report prefix: report
+2: null
+6: ##### Setup popup #####
+Refreshing orson ###...
+Running Chrome version: Chrome/100.0.4889.0
+7: IDE version: 7.9.40
+
+     [ 11:50:52 (00:02, 1s) + ]
+
+8: +++> /api/projects/613616259fd1f24b9cbaaa8f/loadAllTestPerformances +++>
+9: Extension version: 3.8.19
+10: 2022-05-19 11-50-52
+11: chrome extension is illfabobgplbbjcpkpgemdaphbbjaphj
+12: Socket was connected
+13: <--- /api/projects/613616259fd1f24b9cbaaa8f/loadAllTestPerformances <--- time: 280
+14: +++> /api/projects/613616259fd1f24b9cbaaa8f?simple=user +++>
+15: <--- /api/projects/613616259fd1f24b9cbaaa8f?simple=user <--- time: 67
+16: Load project ......
+17: +++> /api/projects/613616259fd1f24b9cbaaa8f/users/ +++>
+18: <--- /api/projects/613616259fd1f24b9cbaaa8f/users/ <--- time: 162
+19: +++> /api/onlineUsers +++>
+20: <--- /api/onlineUsers <--- time: 29
+21: Load version data
+22: +++> /api/projects/613616259fd1f24b9cbaaa8f/versions/user/ +++>
+
+     [ 11:50:54 (00:04, 1s) + ]
+
+23: <--- /api/projects/613616259fd1f24b9cbaaa8f/versions/user/ <--- time: 1035
+24: +++> /api/projects/613616259fd1f24b9cbaaa8f/root-causes/ +++>
+25: schedule init ...
+26: next schedule at: 2022-05-19 11:50:54
+27: +++> /api/projects/613616259fd1f24b9cbaaa8f/docs/?list=61f31d677680fd7561170811,6259ec9d18ad303af044e9ec, ... +++>
+28: waiting loading
+29: <--- /api/projects/613616259fd1f24b9cbaaa8f/root-causes/ <--- time: 296
+30: ready
+31: Ready on logService
+32: Received video request .....
+33: <--- /api/projects/613616259fd1f24b9cbaaa8f/docs/?list=61f31d677680fd7561170811,6259ec9d18ad303af044e9ec, ... <--- time: 768
+34: Get all test doc data
+35: doc:788
+36: modules:141
+
+     [ 11:50:55 (00:05, 1s) + ]
+
+37: loaded all module data
+38: init auth data
+39: aiAuthHandler.data: 6
+40: post data from 599
+41: +++> /api/coop/ +++> without response
+42: register data ...
+43: product,order,retailer,group,inventory,shipment,ordersApproved,ordersCanceled,ordersShipped,ordersDelivered,ordersList,stock,oldStock,price,retailer_list,unprocessed_retailers,availability,navPage,api,currUser,oath,company,current,invoice,toCurrency,toSpaces,subtractCurrency,fromCurrency,defaultUserId,constants,formatToDetails,addWorkerIndex,addWorker,campaign,distributor,externalToken,getExternalToken,_02b:[object Object]
+44: Wait background info 2
+45: post to pop ecMap
+46: get plug-in: //staging-be.boozang.com/ide/js/std/plug_en
+47: after post ecMap and get:background get ecMap
+48: <--- /api/coop/ <---
+repeat: ..
+
+     [ 11:50:56 (00:06, 1s) + ]
+
+49: Wait data inital
+50: init AI data
+51: complete ai data init
+52: Start time: 2022-05-19 11:50:56
+53: RUNNING!
+54: Set run tasks
+55: In run task processing
+56: update-std-timeout:120000
+57: Setting std timeout to: 120000
+58: prepare monitor
+59: ########################################
+60: #### Using environment Id: 4 - Test ####
+61: ########################################
+62: init project data
+63: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+64:   >>>> Loading Scenario [m82.t2(0)] - Order product with different discounts (00:07) >>>>
+65:     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+66: Module info: [m82] Discount Management
+67: open url - https://test.pivohub.com/app
+
+     [ 11:50:57 (00:07, 1s) + ]
+
+68: ##### Setup popup #####
+Refreshing orson ###...
+69: set code to client:93
+repeat: ....
+70: set code to client:24
+71: set code to client:1488638
+72: set code to client:60934
+73: set code to client:63
+74: set code to client:93
+repeat: ..
+75: set code to client:139
+76: set code to client:76
+77: timeout in ms:0
+78: videostart:m82.t2-2022-05-19-11-50-58
+79: Start recording screenshots: 
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975458683.jpg was written
+
+     [ 11:50:58 (00:08, 1s) + ]
+
+80: vvvvv New Data vvvvv
+81: $project.$flag =
+82: $project.$groupType = given
+83: [m82.t2(0)] $loop.brewer = boozang-brewer-worker
+84: [m82.t2(0)] $loop.price = 20.00
+85: [m82.t2(0)] $loop.order_quantity = 1
+86: [m82.t2(0)] $loop.discount_dollars = 5.99
+87: [m82.t2(0)] $loop.discount_percentage = bz-skip
+88: [m82.t2(0)] $loop.special_price = bz-skip
+89: [m82.t2(0)] $loop.subtotal = 14.01
+90: ^^^^^ New Data ^^^^^
+91: ##Action## (1), Group: "Given"
+92: Get action result
+93: set code to client:104
+94: timeout in ms:0
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975458849.jpg was written
+95: ##Action## (2), I am a brewer - API
+96: Get action result
+97: set code to client:118
+
+     [ 11:50:59 (00:09, 1s) + ]
+
+98: End time:
+99: set code to client:77
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460132.jpg was written
+100:       >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+101:         >>>> Loading API Test [m30.t43] - Generic seed - API (00:10) >>>>
+102:           >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+103: Module info: [m30] Seed
+104: set code to client:24
+105: set code to client:1488638
+106: set code to client:60934
+107: set code to client:63
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460203.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460207.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460212.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460221.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460228.jpg was written
+108: timeout in ms:0
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460245.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460262.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460279.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460297.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460313.jpg was written
+109: vvvvv New Data vvvvv
+110: [m30] $module.testproduct.name = Aardvark_beer
+111: [m30] $module.testproduct.alcohol_percentage = 4.9
+112: [m30] $module.testproduct.description = I am desc
+113: [m30] $module.testproduct.format = can 355mL x 24
+114: [m30] $module.testproduct.type = Altbier
+115: [m30] $module.testproduct.product = beer
+116: [m30] $module.testinventory.sku = 1234
+117: [m30] $module.testinventory.initial_stock = 1000
+118: [m30] $module.testinventory.retailer = Boozang Retailer
+119: [m30] $module.testinventory.maximum_quantity_per_order = 10
+120: [m30] $module.brewer.name = Boozang Brewer
+121: [m30] $module.brewer.tagline = Something is brewing at Boozang
+122: [m30] $module.retailer.name = Boozang Retailer
+123: [m30] $module.distributor.name = Boozang Distributor
+124: [m30] $module.brewerModules[0] = Inventory
+125: [m30] $module.brewerModules[1] = Clients
+126: [m30] $module.brewerModules[2] = Orders (Sales)
+127: [m30] $module.brewerModules[3] = Groups
+128: [m30] $module.brewerModules[4] = Inventory Pricing
+129: [m30] $module.brewerModules[5] = Availability
+130: [m30] $module.retailerModules.modules[0].name = profile
+131: [m30] $module.retailerModules.modules[1].name = admin
+132: [m30] $module.retailerModules.modules[2].name = inventory
+133: [m30] $module.retailerModules.modules[3].name = clients
+134: [m30] $module.retailerModules.modules[4].name = brewerOrders
+135: [m30] $module.retailerModules.modules[5].name = availability
+136: [m30] $module.retailerModules.modules[6].name = groups
+137: [m30] $module.retailerModules.modules[7].name = inventoryPricing
+138: [m30] $module.retailerModules.modules[8].name = deposit
+139: [m30] $module.distributorModules.modules[0].name = profile
+140: ...
+141: ^^^^^ New Data ^^^^^
+142: ##Action## (1), Re-Initialize data: $project, $module, $test
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460330.jpg was written
+143: init project data
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460347.jpg was written
+144: Get action result
+145: set code to client:109
+146: timeout in ms:0
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460367.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460379.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460397.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460416.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460432.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460634.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460636.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460649.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460665.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460682.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460698.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460715.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460731.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460749.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460775.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460783.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460801.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460819.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460834.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460852.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460868.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460884.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460900.jpg was written
+
+     [ 11:51:00 (00:10, 1s) + ]
+
+147: vvvvv New Data vvvvv
+148: $project.$flag = undefined
+149: $project.$groupType = undefined
+150: ^^^^^ New Data ^^^^^
+151: ##Action## (2), Script:   {{$project.currUser=$module.addWorkerIndex($parameter.role);}}
+152: Get action result
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460916.jpg was written
+153: set code to client:137
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460932.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460949.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460966.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460982.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975460998.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461018.jpg was written
+154: timeout in ms:0
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461033.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461050.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461067.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461084.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461101.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461143.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461146.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461152.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461169.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461185.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461202.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461227.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461236.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461250.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461272.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461285.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461344.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461346.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461350.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461369.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461384.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461402.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461419.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461438.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461460.jpg was written
+155: ##Action## (3), Call: [m1.t13] Authenticate • Login if needed
+156: [m30.t43]Generic seed - API, $action = 1
+157: Get action result
+158: set code to client:110
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461475.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461490.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461505.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461517.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461535.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461551.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461570.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461584.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461602.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461618.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461636.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461653.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461669.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461688.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461703.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461721.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461735.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461752.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461770.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461784.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461802.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461819.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461837.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461853.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461868.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461885.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461903.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461918.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461936.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461951.jpg was written
+
+     [ 11:51:01 (00:12, 1s) + ]
+
+159: End time:
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461971.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975461988.jpg was written
+160: set code to client:77
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975462004.jpg was written
+161:             >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+162:               >>>> Loading Functional Test [m1.t13] - Login if needed (00:12) >>>>
+163:                 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+164: Module info: [m1] Authenticate
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975462022.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975462035.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975462052.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975462067.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975462084.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975462102.jpg was written
+165: timeout in ms:0
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975462125.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975462314.jpg was written
+166: vvvvv New Data vvvvv
+167: [m1.t13] $test.userInfo.yours_example_com = mats@pivohub.com
+168: [m1.t13] $test.userInfo.your_password = ******
+169: [m1.t13] $parameter.yours_example_com = mats@pivohub.com
+170: [m1.t13] $parameter.your_password = ******
+171: ^^^^^ New Data ^^^^^
+172: ##Action## (1), Script:   {{...}}
+173: I am worker number 0
+174: Get action result
+175: set code to client:86
+176: timeout in ms:0
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975462818.jpg was written
+
+     [ 11:51:03 (00:13, 1s) + ]
+
+177: ##Action## (2), Validate :  {{$project.appUser}}
+178: Get action result
+179: The actual result does not match the expected result.
+
+$project.appUser = undefined
+180: set code to client:101
+181: timeout in ms:2000
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975463319.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975463829.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975464330.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975464832.jpg was written
+
+     [ 11:51:05 (00:15, 2s) ++ ]
+
+182: ##Action## (4), Validate :  {{...}}
+183: set code to client:88
+184: Exe Action ...
+185: href=https://pivohub-dev.auth0.com/login?state=hKFo2SBYd2VsN2JLblNHMnBWWGdJRGdWa2pNQmFHeVdoazV4M6FupWxvZ2luo3RpZNkgWHlZNDNwdk5RU0RtTmlUWV9jeFhpbHBDay1sZmZFeHOjY2lk2SBkUkJNTERSTHNLcnBWMzRUNzVRMHY4MDZraFYzanFCYg&client=dRBMLDRLsKrpV34T75Q0v806khV3jqBb&protocol=oauth2&response_type=token%20id_token&redirect_uri=https%3A%2F%2Ftest.pivohub.com%2Fcallback&scope=openid%20profile%20email&audience=https%3A%2F%2Fapi.pivohub.com&lang=en-US&initial_screen=login&nonce=nuARUPQkhsFbyLzVy2oj8Xy4bl.hnUnS&auth0Client=eyJuYW1lIjoiYXV0aDAuanMiLCJ2ZXJzaW9uIjoiOS4xMy40In0%3D
+186: Send back result
+187: Send result 2
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975465309.jpg was written
+188: Get action result
+189: timeout in ms:5764
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975465824.jpg was written
+190: vvvvv New Data vvvvv
+191: $project.appUser = false
+192: ^^^^^ New Data ^^^^^
+193: ##Action## (6), Set "yours@example.com" = ({{$parameter.yours_example_com}})
+194: set code to client:131
+195: Exe Action ...
+196: Send back result
+197: Send result 2
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975465966.jpg was written
+198: Get action result
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466038.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466040.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466055.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466072.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466090.jpg was written
+199: timeout in ms:0
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466106.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466122.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466139.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466157.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466173.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466190.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466205.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466222.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466241.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466255.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466272.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466288.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466306.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466322.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466339.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466357.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466373.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466391.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466408.jpg was written
+
+     [ 11:51:06 (00:16, 1s) + ]
+
+200: ##Action## (7), Group: "Auto-one-action-group, from 7 to 8"
+201: set code to client:103
+202: Exe Action ...
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466423.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466439.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466456.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466472.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466490.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466509.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466522.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466538.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466556.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466573.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466589.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466624.jpg was written
+203: ##Action (in Single action group)## (7), Set "your password" = ({{$parameter.your_password}})
+204: Exe Action ...
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466661.jpg was written
+205: Send back result
+206: Send result 2
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466697.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466711.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466725.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466764.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466766.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466781.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466790.jpg was written
+207: ##Action (in Single action group)## (8), Click "Log In"
+208: Exe Action ...
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466823.jpg was written
+209: Send back result
+210: Send result 2
+211: Get action result
+212: timeout in ms:100000
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466870.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466873.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466888.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466907.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466923.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466938.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466956.jpg was written
+213: ##Action## (9), Validate [exist]: "Admin" button
+214: set code to client:103
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975466975.jpg was written
+215: Exe Action ...
+216: Send back result
+217: Send result 2
+218: set code to client:23
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467003.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467009.jpg was written
+219: Get action result
+220: Element is not found or syntax error exists in the code
+[
+  "BZ.TW.document",
+  "BUTTON:Contains(Admin)",
+  0
+]
+221: timeout in ms:100000 -- re-trying
+222: reset error time
+223: miss-element-screenshot-md5: 0
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467040.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467056.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467072.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467089.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467106.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467123.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467149.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467167.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467188.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467205.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467221.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467240.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467255.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467272.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467289.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467306.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467323.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467339.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467374.jpg was written
+
+     [ 11:51:07 (00:17, 1s) + ]
+
+224: set code to client:103
+225: Exe Action ...
+226: Send back result
+227: Send result 2
+228: set code to client:23
+229: Get action result
+230: Element is not found or syntax error exists in the code
+[
+  "BZ.TW.document",
+  "BUTTON:Contains(Admin)",
+  0
+]
+231: timeout in ms:100000 -- re-trying
+232: miss-element-screenshot-md5: 0
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467658.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467674.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467690.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467707.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467724.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467739.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467756.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467771.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467789.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975467806.jpg was written
+233: set code to client:103
+234: set code to client:24
+235: set code to client:1488638
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975468384.jpg was written
+236: set code to client:60934
+237: set code to client:63
+238: Exe Action ...
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975468563.jpg was written
+239: ##### Setup popup #####
+Refreshing orson ###...
+Refreshing page ###...1652975468564
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975468586.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975468628.jpg was written
+
+     [ 11:51:08 (00:18, 1s) + ]
+
+240: Exe Action ...
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975469560.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975469589.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975469880.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470162.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470174.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470183.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470191.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470221.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470238.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470289.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470322.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470341.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470356.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470639.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470653.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470671.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470688.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470707.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470721.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470738.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470754.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470771.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470788.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975470805.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975471099.jpg was written
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975471107.jpg was written
+repeat: ..............
+
+     [ 11:51:11 (00:21, 2s) ++ ]
+
+241: Send back result
+242: Send result 2
+243: Get action result
+244: timeout in ms:0
+245: vvvvv New Data vvvvv
+246: $project.appUser = true
+247: ^^^^^ New Data ^^^^^
+248: Get action result
+249: set code to client:71
+250: timeout in ms:0
+251: End time:
+252:                 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+253:               <<<< Success Module - Functional Test [m1.t13] 00:21 Login if needed <<<<
+254:             <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+255: ##Action## (5), Script:   {{...}}
+256: set code to client:82
+
+     [ 11:51:12 (00:22, 1s) + ]
+
+257: API status: 200
+repeat: .................................
+
+     [ 11:51:14 (00:24, 1s) + ]
+
+258: Get action result
+259: API status: 200
+260: timeout in ms:0
+261: vvvvv New Data vvvvv
+262: $project.$curtUser.id = auth0|5e27237cafd0f10d9084aeec
+263: $project.$curtUser.emailVerified = true
+264: $project.$curtUser.role = admin
+265: $project.$curtUser.companies[0].role = admin
+266: $project.$curtUser.companies[0].companyId = 5bbe5e8973204f01bc209fc5
+267: $project.$curtUser.companies[1].companyId = 5ff727869432bd001b323781
+268: $project.$curtUser.companies[1].role = admin
+269: $project.$curtUser.companies[2].companyId = 5ff729259432bd001b32379b
+270: $project.$curtUser.companies[2].role = admin
+271: $project.$curtUser.companies[3].companyId = 5ff72b079432bd001b3237a8
+272: $project.$curtUser.companies[3].role = admin
+273: $project.$curtUser.companies[4].companyId = 6023208d418cda001953e6a8
+274: $project.$curtUser.companies[4].role = admin
+275: $project.$curtUser.companies[5].companyId = 620c15ff7795af001b69ebd4
+276: $project.$curtUser.companies[5].role = admin
+277: $project.$curtUser.companies[6].companyId = 620c160f7795af001b69ebd6
+278: $project.$curtUser.companies[6].role = admin
+279: $project.$curtUser.companies[7].companyId = 620c161a7795af001b69ebd7
+280: $project.$curtUser.companies[7].role = admin
+281: $project.$curtUser.companies[8].companyId = 620c16757795af001b69ebe7
+282: $project.$curtUser.companies[8].role = admin
+283: $project.$curtUser.companies[9].companyId = 620c16847795af001b69ebe9
+284: $project.$curtUser.companies[9].role = admin
+285: $project.$curtUser.companies[10].companyId = 620c168f7795af001b69ebea
+286: $project.$curtUser.companies[10].role = admin
+287: $project.$curtUser.companies[11].companyId = 620c16e27795af001b69ebfa
+288: $project.$curtUser.companies[11].role = admin
+289: $project.$curtUser.companies[12].companyId = 620c16f17795af001b69ebfc
+290: $project.$curtUser.companies[12].role = admin
+291: $project.$curtUser.companies[13].companyId = 620c16fc7795af001b69ebfd
+292: ...
+293: ^^^^^ New Data ^^^^^
+294: Get action result
+295: set code to client:67
+296: End time:
+297:           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+298:         <<<< Success Module - API Test [m30.t43] 00:25 Generic seed - API <<<<
+299:       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+300: ##Action## (3), I add a product - API
+301: Start time: 2022-05-19 11:51:15
+302: ##Action## (3), I add a product - API
+303: Get action result
+304: set code to client:120
+
+     [ 11:51:15 (00:25, 1s) + ]
+
+305: End time:
+306: set code to client:98
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975475741.jpg was written
+307: set code to client:52
+308: set code to client:98
+309: set code to client:52
+310: set code to client:98
+311: set code to client:52
+312: set code to client:98
+313: set code to client:52
+314: set code to client:98
+315: set code to client:52
+316: set code to client:77
+317:       >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+318:         >>>> Loading Functional Test [m5.t78] - Add Product - API (00:26) >>>>
+319:           >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+320: Module info: [m5] Products
+/Users/matsljunggren/Workspace/bz-puppeteer/m82.t2-2022-05-19-11-50-58/1652975476247.jpg was written
+
+     [ 11:51:16 (00:26, 1s) + ]
+
+321: vvvvv New Data vvvvv
+322: [m5] $module.products.default.beer_name = Boozang_xlff
+323: [m5] $module.products.default.alcohol_percentage = 6.8
+324: [m5] $module.products.default.description = I am desc
+325: [m5] $module.products.default.format = bottle 750mL x 12
+326: [m5] $module.products.default.type = Black IPA
+327: [m5.t78] $test.beersPayload[0].brewerId = Not set
+328: [m5.t78] $test.beersPayload[0].active = true
+329: [m5.t78] $test.beersPayload[0].name = Boozang_osto
+330: [m5.t78] $test.beersPayload[0].style = blackIpa
+331: [m5.t78] $test.beersPayload[0].percentage = 8.2
+332: [m5.t78] $test.beersPayload[0].description.fr = I am desc
+333: [m5.t78] $test.beersPayload[0].imageUrl.fileName = bz-logo-small.png
+334: [m5.t78] $test.beersPayload[0].imageUrl.data = aaa
+335: [m5.t78] $test.apiHeaders.authorization = Not set
+336: [m5.t78] $test.apiHeaders.accept = application/json, text/plain, */*
+337: [m5.t78] $test.beerLabel = https://www.dropbox.com/s/p7splux5pbxy1j8/boozang_logo.jpg?dl=0
+338: [m5.t78] $test.containerId = Not set
+339: [m5.t78] $test.beerId = Not set
+340: [m5.t78] $test.brewerId = 5e2b34ef3c28fa00178afc44
+341: [m5.t78] $test.beerContainersPayload[0].brewerId = Not set
+342: [m5.t78] $test.beerContainersPayload[0].beerId = Not set
+343: [m5.t78] $test.beerContainersPayload[0].containerId = Not set
+344: [m5.t78] $test.beerContainersPayload[0].imageUrl.fileName = bz-logo-small.png
+345: [m5.t78] $test.beerContainersPayload[0].imageUrl.data = aaa
+346: [m5.t78] $test.beerContainersPayload[0].renderedLabelImageUrl.fileName = bz-logo-small.png
+347: [m5.t78] $test.beerContainersPayload[0].renderedLabelImageUrl.data = aaa
+348: [m5.t78] $test.beerContainersPayload[0].label.angle = 10.0
+349: [m5.t78] $test.beerContainersPayload[0].label.center = 0.5
+350: [m5.t78] $test.beerContainersPayload[0].label.yCenter = 0.5
+351: [m5.t78] $test.beerFormatsPayload[0].brewerId = Not set
+352: ...
+353: ^^^^^ New Data ^^^^^
+354: ##Action## (1), Call: [m140.t3] API - Product • Create a new Product
+355: Get action result
+356: set code to client:119
+357: End time:
+358: set code to client:77
+359: {exist:company.id:type=producer}
+360: {exist:style.id}
+361:             >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+362:               >>>> Loading API Test [m140.t3] - Create a new Product (00:27) >>>>
+363:                 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+364: Module info: [m140] API - Product
+365: Missing standard inital data api function in module, [m135] Style
+366: timeout in ms:0
+367: vvvvv New Data vvvvv
+368: [m140.t3] $parameter.companyId = 620c15ff7795af001b69ebd4
+369: [m140.t3] $parameter.details.organic = bz-skip
+370: [m140.t3] $parameter.details.label.center = 1736657123
+371: [m140.t3] $parameter.details.label.angle = 10
+372: [m140.t3] $parameter.details.label.yCenter = 1714462799
+373: [m140.t3] $parameter.details.containerId = bz-skip
+374: [m140.t3] $parameter.details.percentage = 76
+375: [m140.t3] $parameter.details.styleId = null
+376: [m140.t3] $parameter.details.origin = bz-skip
+377: [m140.t3] $parameter.isDraft = false
+378: [m140.t3] $parameter.name = Boozang_oabr
+379: [m140.t3] $parameter.productCategory = beer
+380: [m140.t3] $parameter.description['en-CA'] = 3wd61p2dswj5ufzow1z13
+381: [m140.t3] $parameter.imageUrl = https://cdn.pivohub.com/dev/images/beers/307346e2f4937f9c5726a03db73908a7.png
+382: [m140.t3] $parameter.labelUrl = bz-skip
+383: [m140.t3] $parameter.producerId = bz-skip
+384: [m140.t3] $parameter.tags = bz-skip
+385: [m140.t3] $parameter.formatString = bottle 750mL x 12
+386: ^^^^^ New Data ^^^^^
+387: ##Action## (1), Script:   {{...}}
+388: Get action result
+389: set code to client:101
+390: timeout in ms:0
+
+     [ 11:51:18 (00:28, 1s) + ]
+
+391: vvvvv New Data vvvvv
+392: [m140.t3] $parameter.isDraft = false
+393: ^^^^^ New Data ^^^^^
+394: ##Action## (2), POST: /user/products
+395: set code to client:96
+396: API status: 201
+397: Get action result
+398: {
+  "api": "on",
+  "autoToken": "on",
+  "contentType": "application/json",
+  "method": "POST",
+  "url": "https://api.test.pivohub.com/user/products",
+  "query": {},
+  "joins": [
+    {
+      "test": "m141.t3",
+      "parameter": "{\n  \"companyId\": \"{{$project.$curtProduct.companyId}}\",\n  \"isDraft\": \"{{$project.$curtProduct.isDraft}}\",\n  \"isUsedAsProductImage\": true,\n  \"productCategory\": \"{{$project.$curtProduct.productCategory}}\",\n  \"productId\": \"{{$project.$curtProduct.id}}\",\n  \"imageUrl\": \"{{$project.$curtProduct.imageUrl}}\",\n  \"labelUrl\": \"{{$project.$curtProduct.labelUrl}}\",\n  \"formatString\":\"{{$parameter.formatString}}\"\n}"
+    }
+  ],
+  "path": [],
+  "data": "[{\"companyId\":\"620c15ff7795af001b69ebd4\",\"details\":{\"label\":{\"center\":1736657123,\"angle\":10,\"yCenter\":1714462799},\"percentage\":76},\"isDraft\":false,\"name\":\"Boozang_oabr\",\"productCategory\":\"beer\",\"description\":{\"en-CA\":\"3wd61p2dswj5ufzow1z13\"},\"imageUrl\":\"https://cdn.pivohub.com/dev/images/beers/307346e2f4937f9c5726a03db73908a7.png\"}]",
+  "headers": {
+    "Accept": "application/json",
+    "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9ESTRPRVkyTkRFek9UWTBRa0l6TjBZek5VWkJOVGt6TWpoRFFqQXlNakl4TnpFNFF6RTFSZyJ9.eyJpc3MiOiJodHRwczovL3Bpdm9odWItZGV2LmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZTI3MjM3Y2FmZDBmMTBkOTA4NGFlZWMiLCJhdWQiOlsiaHR0cHM6Ly9hcGkucGl2b2h1Yi5jb20iLCJodHRwczovL3Bpdm9odWItZGV2LmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2NTI5NzU0NjcsImV4cCI6MTY1MzA2MTg2NywiYXpwIjoiZFJCTUxEUkxzS3JwVjM0VDc1UTB2ODA2a2hWM2pxQmIiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIn0.VQRUX_EwawHZGVdnn8yqBlrBSR4uNAMho72hz4r5JlQZHR2Hrmmw50Z0d-K5dUnzlA_9j8W24QmBTs5TFmsqsd5kQWGN5VNesYYmcJa9WgpuIN4kN5X40rea6LNWN4MUSHccUyhX57QBJmAWnU5QRWI_522dfr3i6RHfSyOckKRtKx_vSC84ImWQrdbs_3VjzSiABmnysNchu0FTknLN5tpV1wnMn20e3ZhCyXDkaUGJS6xn7oICxq5UlXNfBoSudZSnVLARFDSeSCmesovwcKpCvz-1exkrrcwmJdN7hiLqAE8x11mkXfV3U9VElgzmhDe7oiMJKXfaxSMBD1GC9A"
+  },
+  "level": "module",
+  "type": "add",
+  "asStdFun": "on",
+  "testCode": "t3",
+  "responseScript": "(function(){\n  let success = $result.status < 400;\n  if(success){\n    let v = $result.responseText;\n    try{\n      v=JSON.parse(v);\n      $aiAPI.addData(v,\"product\", \"id\");\n    }catch(e){}\n  }\n  return success;\n})()",
+  "cache": false,
+  "async": false
+}
+399: url: https://api.test.pivohub.com/user/products
+Status: 201
+Time: 109
+Response size: 600
+Message: {"data":[{"id":"62866776d1022b00194f0fcd","companyId":"620c15ff7795af001b69ebd4","productCategory":"beer","name":"Boozang_oabr","description":{"en-CA":"3wd61p2dswj5ufzow1z13"},"isArchived":false,"imageUrl":"https://cdn.pivohub.com/dev/images/beers/307346e2f4937f9c5726a03db73908a7.png","details":{"la ...
+400: timeout in ms:0
+401: vvvvv New Data vvvvv
+402: [m140.t3] $parameter.details.organic = undefined
+403: [m140.t3] $parameter.details.containerId = undefined
+404: [m140.t3] $parameter.details.origin = undefined
+405: $project.$curtProduct.id = 62866776d1022b00194f0fcd
+406: $project.$curtProduct.companyId = 620c15ff7795af001b69ebd4
+407: $project.$curtProduct.productCategory = beer
+408: $project.$curtProduct.name = Boozang_oabr
+409: $project.$curtProduct.description['en-CA'] = 3wd61p2dswj5ufzow1z13
+410: $project.$curtProduct.isArchived = false
+411: $project.$curtProduct.imageUrl = https://cdn.pivohub.com/dev/images/beers/307346e2f4937f9c5726a03db73908a7.png
+412: $project.$curtProduct.details.label.center = 1736657123
+413: $project.$curtProduct.details.label.angle = 10
+414: $project.$curtProduct.details.label.yCenter = 1714462799
+415: $project.$curtProduct.details.percentage = 76
+416: $project.$curtProduct.isDraft = false
+417: $project.$curtProduct.createdById = auth0|5e27237cafd0f10d9084aeec
+418: $project.$curtProduct.createdAt = 1652975478381
+419: $project.$curtProduct.updatedById = auth0|5e27237cafd0f10d9084aeec
+420: $project.$curtProduct.updatedAt = 1652975478381
+421: $project.$curtProduct.isCreatedRecently = true
+422: $project.$curtProduct.isUpdatedRecently = true
+423: $project.$curtProduct.$bzId = 1652975452748
+424: $project.$curtProduct.$status = Created
+425: ^^^^^ New Data ^^^^^
+426: ##Action## (tmp), Call: [m141.t3] API - Sub product • Create a new SubProduct
+427: Get action result
+428: set code to client:125
+
+     [ 11:51:19 (00:29, 1s) + ]
+
+429: End time:
+430: set code to client:77
+431:                   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+432:                     >>>> Loading API Test [m141.t3] - Create a new SubProduct (00:29) >>>>
+433:                       >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+434: Module info: [m141] API - Sub product
+435: timeout in ms:0
+436: vvvvv New Data vvvvv
+437: [m141] $module.subProductDetails.formatId = bz-skip
+438: [m141] $module.subProductDetails.containerId = bz-skip
+439: [m141] $module.subProductDetails.weight = bz-skip
+440: [m141] $module.subProductDetails.displayWeightUnit = bz-skip
+441: [m141] $module.subProductDetails.number = bz-skip
+442: [m141] $module.subProductDetails.quantity = bz-skip
+443: [m141] $module.subProductDetails.unit = bz-skip
+444: [m141] $module.ids.companyId.id = 620c15ff7795af001b69ebd4
+445: [m141] $module.ids.companyId.address.street = 3733 St Hubert
+446: [m141] $module.ids.companyId.address.city = Montreal
+447: [m141] $module.ids.companyId.address.postalCode = H2L3Z9
+448: [m141] $module.ids.companyId.address.countryCode = CA
+449: [m141] $module.ids.companyId.address.stateCode = QC
+450: [m141] $module.ids.companyId.name = Boozang Brewer 1
+451: [m141] $module.ids.companyId.onSite = false
+452: [m141] $module.ids.companyId.public = true
+453: [m141] $module.ids.companyId.type[0] = producer
+454: [m141] $module.ids.companyId.type[1] = supplier
+455: [m141] $module.ids.companyId.users[0].userId = auth0|5e27237cafd0f10d9084aeec
+456: [m141] $module.ids.companyId.users[0].role = admin
+457: [m141] $module.ids.companyId.hasActiveUsers = true
+458: [m141] $module.ids.companyId.createdById = auth0|5e27237cafd0f10d9084aeec
+459: [m141] $module.ids.companyId.createdAt = 1644959231512
+460: [m141] $module.ids.companyId.updatedAt = 1651690914295
+461: [m141] $module.ids.companyId.administrativeAreaId = 5dedc648aef655073a020599
+462: [m141] $module.ids.companyId.modules[0].name = profile
+463: [m141] $module.ids.companyId.modules[1].name = companySettings
+464: [m141] $module.ids.companyId.modules[2].name = inventory
+465: [m141] $module.ids.companyId.modules[3].name = clients
+466: [m141] $module.ids.companyId.modules[4].name = saleOrders
+467: ...
+468: ^^^^^ New Data ^^^^^
+469: ##Action## (1), Script:   {{...}}
+470: exe-sub-details-fun ...
+471: exe-sub-details-fun on format
+472: set code to client:108
+473: API status: 200
+474: Get action result
+475: timeout in ms:0
+476: vvvvv New Data vvvvv
+477: [m141.t3] $parameter.details.formatId = e5a07c2e28eadd16179e09b3
+478: [m141.t3] $parameter.details.containerId = e5a07c2e28eadd16179e09b3
+479: $project.$curtFormat.name['en-CA'] = bottle 750mL x 12
+480: $project.$curtFormat.name['en-US'] = bottle 25.4oz x 12
+481: $project.$curtFormat.name['fr-CA'] = bouteille 750mL x 12
+482: $project.$curtFormat.containerName['en-CA'] = bottle 750mL
+483: $project.$curtFormat.containerName['en-US'] = bottle 25.4oz
+484: $project.$curtFormat.containerName['fr-CA'] = bouteille 750mL
+485: $project.$curtFormat.capacity = 9000
+486: $project.$curtFormat.weight = 7.800000000000001
+487: $project.$curtFormat.containerDeposit[0].administrativeAreaId = 5dedc648aef655073a020599
+488: $project.$curtFormat.containerDeposit[0].unitaryPrice = 3000
+489: $project.$curtFormat.containerDeposit[1].administrativeAreaId = 5f29a482a4112a0017dd602e
+490: $project.$curtFormat.containerDeposit[1].unitaryPrice = 3000
+491: $project.$curtFormat.type = bottle
+492: $project.$curtFormat.onSite = true
+493: $project.$curtFormat.unitaryCapacity = 750
+494: $project.$curtFormat.unitaryWeight = 0.65
+495: $project.$curtFormat.imageUrl = https://cdn.pivohub.com/prod/images/formats/bottle-750ml@2x.png
+496: $project.$curtFormat.lightImageUrl = https://cdn.pivohub.com/prod/images/formats/bottle-750ml-light@2x.png
+497: $project.$curtFormat.labelConfig.x = 0.377
+498: $project.$curtFormat.labelConfig.yCenter = 0.67
+499: $project.$curtFormat.labelConfig.width = 0.243
+500: $project.$curtFormat.labelConfig.skew = 0.1
+501: $project.$curtFormat.labelConfig.animable = true
+502: $project.$curtFormat.labelConfig.clipPath[0][0] = 421
+503: $project.$curtFormat.labelConfig.clipPath[0][1] = 383
+504: $project.$curtFormat.labelConfig.clipPath[1][0] = 439
+505: $project.$curtFormat.labelConfig.clipPath[1][1] = 384
+506: $project.$curtFormat.labelConfig.clipPath[2][0] = 439
+507: ...
+508: ^^^^^ New Data ^^^^^
+509: ##Action## (2), POST: /user/subProducts
+510: [m141.t3]Create a new SubProduct, $action = undefined
+511: set code to client:106
+
+     [ 11:51:20 (00:30, 1s) + ]
+
+512: API status: 201
+513: ### SubProductId ###: 62866778d1022b00194f0fce
+514: Get action result
+515: {
+  "api": "on",
+  "autoToken": "on",
+  "contentType": "application/json",
+  "method": "POST",
+  "url": "https://api.test.pivohub.com/user/subProducts",
+  "query": {},
+  "joins": [],
+  "path": [],
+  "data": "[{\"companyId\":\"620c15ff7795af001b69ebd4\",\"details\":{\"formatId\":\"e5a07c2e28eadd16179e09b3\",\"containerId\":\"e5a07c2e28eadd16179e09b3\",\"label\":{\"center\":496403147,\"angle\":7,\"yCenter\":145151168}},\"isDraft\":false,\"isUsedAsProductImage\":true,\"productCategory\":\"beer\",\"productId\":\"62866776d1022b00194f0fcd\",\"imageUrl\":\"https://cdn.pivohub.com/dev/images/beers/307346e2f4937f9c5726a03db73908a7.png\"}]",
+  "headers": {
+    "Accept": "application/json",
+    "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9ESTRPRVkyTkRFek9UWTBRa0l6TjBZek5VWkJOVGt6TWpoRFFqQXlNakl4TnpFNFF6RTFSZyJ9.eyJpc3MiOiJodHRwczovL3Bpdm9odWItZGV2LmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZTI3MjM3Y2FmZDBmMTBkOTA4NGFlZWMiLCJhdWQiOlsiaHR0cHM6Ly9hcGkucGl2b2h1Yi5jb20iLCJodHRwczovL3Bpdm9odWItZGV2LmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2NTI5NzU0NjcsImV4cCI6MTY1MzA2MTg2NywiYXpwIjoiZFJCTUxEUkxzS3JwVjM0VDc1UTB2ODA2a2hWM2pxQmIiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIn0.VQRUX_EwawHZGVdnn8yqBlrBSR4uNAMho72hz4r5JlQZHR2Hrmmw50Z0d-K5dUnzlA_9j8W24QmBTs5TFmsqsd5kQWGN5VNesYYmcJa9WgpuIN4kN5X40rea6LNWN4MUSHccUyhX57QBJmAWnU5QRWI_522dfr3i6RHfSyOckKRtKx_vSC84ImWQrdbs_3VjzSiABmnysNchu0FTknLN5tpV1wnMn20e3ZhCyXDkaUGJS6xn7oICxq5UlXNfBoSudZSnVLARFDSeSCmesovwcKpCvz-1exkrrcwmJdN7hiLqAE8x11mkXfV3U9VElgzmhDe7oiMJKXfaxSMBD1GC9A"
+  },
+  "level": "module",
+  "type": "add",
+  "asStdFun": "on",
+  "testCode": "t3",
+  "responseScript": "(function(){\n  let success = $result.status < 400;\n  if(success){\n    let v = $result.responseText;\n    try{\n      v=JSON.parse(v);\n      $aiAPI.addData(v,\"subProduct\", \"id\");\n      \n      let subProductId = $result.responseJSON.data[0].id;\n      let companyId = $result.responseJSON.data[0].companyId;\n      \n      $util.log(\"### SubProductId ###: \" + subProductId)\n      \n      $aiAPI.searchData(\"inventoryLine:subProductId=\"+subProductId+\"&companyId=\"+companyId)\n      $aiAPI.searchData(\"sellable:subProductId=\"+subProductId+\"&companyId=\"+companyId)\n\n    }catch(e){}\n  }\n  return success;\n})()",
+  "preScript": "(()=>{\n  debugger\n  if(!$parameter.details||$parameter.details==\"bz-skip\"){\n    $parameter.details={}\n  }\n})()",
+  "cache": false,
+  "async": false
+}
+516: url: https://api.test.pivohub.com/user/subProducts
+Status: 201
+Time: 171
+Response size: 607
+Message: {"data":[{"id":"62866778d1022b00194f0fce","companyId":"620c15ff7795af001b69ebd4","productCategory":"beer","productId":"62866776d1022b00194f0fcd","isArchived":false,"imageUrl":"https://cdn.pivohub.com/dev/images/beers/307346e2f4937f9c5726a03db73908a7.png","isUsedAsProductImage":true,"details":{"forma ...
+517: API status: 200
+repeat: .
+518: timeout in ms:0
+519: vvvvv New Data vvvvv
+520: [m141.t3] $parameter.details.weight = undefined
+521: [m141.t3] $parameter.details.displayWeightUnit = undefined
+522: [m141.t3] $parameter.details.number = undefined
+523: [m141.t3] $parameter.details.quantity = undefined
+524: [m141.t3] $parameter.details.unit = undefined
+525: $project.$curtSubProduct.id = 62866778d1022b00194f0fce
+526: $project.$curtSubProduct.companyId = 620c15ff7795af001b69ebd4
+527: $project.$curtSubProduct.productCategory = beer
+528: $project.$curtSubProduct.productId = 62866776d1022b00194f0fcd
+529: $project.$curtSubProduct.isArchived = false
+530: $project.$curtSubProduct.imageUrl = https://cdn.pivohub.com/dev/images/beers/307346e2f4937f9c5726a03db73908a7.png
+531: $project.$curtSubProduct.isUsedAsProductImage = true
+532: $project.$curtSubProduct.details.formatId = e5a07c2e28eadd16179e09b3
+533: $project.$curtSubProduct.details.containerId = e5a07c2e28eadd16179e09b3
+534: $project.$curtSubProduct.details.label.center = 496403147
+535: $project.$curtSubProduct.details.label.angle = 7
+536: $project.$curtSubProduct.details.label.yCenter = 145151168
+537: $project.$curtSubProduct.isDraft = false
+538: $project.$curtSubProduct.createdById = auth0|5e27237cafd0f10d9084aeec
+539: $project.$curtSubProduct.createdAt = 1652975480370
+540: $project.$curtSubProduct.updatedById = auth0|5e27237cafd0f10d9084aeec
+541: $project.$curtSubProduct.updatedAt = 1652975480370
+542: $project.$curtSubProduct.$bzId = 1652975452861
+543: $project.$curtSubProduct.$status = Created
+544: $project.$curtInventoryLine.id = 62866778d1022b00194f0fcf
+545: $project.$curtInventoryLine.subProductId = 62866778d1022b00194f0fce
+546: $project.$curtInventoryLine.companyId = 620c15ff7795af001b69ebd4
+547: $project.$curtInventoryLine.supplierId = 620c15ff7795af001b69ebd4
+548: $project.$curtInventoryLine.count = 0
+549: $project.$curtInventoryLine.isArchived = false
+550: ...
+551: ^^^^^ New Data ^^^^^
+552: Get action result
+553: set code to client:85
+554: timeout in ms:0
+555: End time:
+556:                       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+557:                     <<<< Success data - API Test [m141.t3] 00:31 Create a new SubProduct <<<<
+558:                   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+559: ##Action## (1), Call: [m140.t3] API - Product • Create a new Product
+
+     [ 11:51:21 (00:31, 1s) + ]
+
+560: Get action result
+561: set code to client:78
+562: timeout in ms:0
+563: End time:
+564:                 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+565:               <<<< Success data - API Test [m140.t3] 00:32 Create a new Product <<<<
+566:             <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+567: ##Action## (2), Script:   {{...}}
+568: Get action result
+569: set code to client:84
+570: timeout in ms:0
+
+     [ 11:51:22 (00:32, 1s) + ]
+
+571: vvvvv New Data vvvvv
+572: $project.product.id = 62866776d1022b00194f0fcd
+573: $project.product.companyId = 620c15ff7795af001b69ebd4
+574: $project.product.productCategory = beer
+575: $project.product.name = Boozang_oabr
+576: $project.product.description['en-CA'] = 3wd61p2dswj5ufzow1z13
+577: $project.product.isArchived = false
+578: $project.product.imageUrl = https://cdn.pivohub.com/dev/images/beers/307346e2f4937f9c5726a03db73908a7.png
+579: $project.product.details.label.center = 1736657123
+580: $project.product.details.label.angle = 10
+581: $project.product.details.label.yCenter = 1714462799
+582: $project.product.details.percentage = 76
+583: $project.product.isDraft = false
+584: $project.product.createdById = auth0|5e27237cafd0f10d9084aeec
+585: $project.product.createdAt = 1652975478381
+586: $project.product.updatedById = auth0|5e27237cafd0f10d9084aeec
+587: $project.product.updatedAt = 1652975478381
+588: $project.product.isCreatedRecently = true
+589: $project.product.isUpdatedRecently = true
+590: $project.product.$bzId = 1652975452748
+591: $project.product.$status = Created
+592: $project.product.format = bottle 750mL x 12
+593: $project.$curtProduct.format = bottle 750mL x 12
+594: ^^^^^ New Data ^^^^^
+595: Get action result
+596: set code to client:69
+597: End time:
+598:           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+599:         <<<< Success Module - Functional Test [m5.t78] 00:33 Add Product - API <<<<
+600:       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+601: ##Action## (4), I set the inventory - API
+602: Start time: 2022-05-19 11:51:23
+603: ##Action## (4), I set the inventory - API
+604: Get action result
+605: set code to client:124
+
+     [ 11:51:23 (00:33, 1s) + ]
+
+606: End time:
+607: set code to client:77
+608:       >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+609:         >>>> Loading Functional Test [m7.t71] - Add Stock - API (00:33) >>>>
+610:           >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+611: Module info: [m7] Inventory
+612: vvvvv New Data vvvvv
+613: [m7] $module.inventories.default.price = 0.13
+614: [m7] $module.inventories.default.deposit = 0.0
+615: [m7] $module.inventories.default.maximum_quantity_per_order = 10
+616: [m7] $module.inventories.default.sku = 3957
+617: [m7] $module.inventories.default.initial_stock = 50
+618: [m7] $module.inventories.default.retailer = Boozang Retailer
+619: [m7.t71] $parameter.sku = /BZ-sku/
+620: [m7.t71] $parameter.initial_stock = /BZ-stock/
+621: [m7.t71] $parameter.discount_group = All
+622: ^^^^^ New Data ^^^^^
+623: ##Action## (1), Call: [m148.t3] API - Inventory line operation • Create a new InventoryLineOperation
+624: Get action result
+625: set code to client:150
+
+     [ 11:51:25 (00:35, 1s) + ]
+
+626: End time:
+627: set code to client:77
+628: {exist:inventoryLine.companyId}
+629: {exist:inventoryLine.id}
+630: {exist:inventoryLine.subProductId}
+631:             >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+632:               >>>> Loading API Test [m148.t3] - Create a new InventoryLineOperation (00:35) >>>>
+633:                 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+634: Module info: [m148] API - Inventory line operation
+635: timeout in ms:0
+636: vvvvv New Data vvvvv
+637: [m148.t3] $parameter.companyId = 620c15ff7795af001b69ebd4
+638: [m148.t3] $parameter.count = 50
+639: [m148.t3] $parameter.inventoryLineId = 62866778d1022b00194f0fcf
+640: [m148.t3] $parameter.isApplied = true
+641: [m148.t3] $parameter.reason = purchase
+642: [m148.t3] $parameter.subProductId = 62866778d1022b00194f0fce
+643: [m148.t3] $parameter.inventoryTransferId = bz-skip
+644: [m148.t3] $parameter.invoiceNumber = bz-skip
+645: [m148.t3] $parameter.lotNumber = bz-skip
+646: [m148.t3] $parameter.lotProducedAt = bz-skip
+647: [m148.t3] $parameter.nextStock = bz-skip
+648: [m148.t3] $parameter.shipmentDetailId = bz-skip
+649: [m148.t3] $parameter.shipmentId = bz-skip
+650: ^^^^^ New Data ^^^^^
+651: ##Action## (1), Script:   {{...}}
+652: Get action result
+653: set code to client:133
+654: timeout in ms:0
+655: vvvvv New Data vvvvv
+656: [m148.t3] $parameter.isApplied = true
+657: ^^^^^ New Data ^^^^^
+658: ##Action## (2), POST: /user/inventoryLineOperations
+659: set code to client:143
+
+     [ 11:51:26 (00:36, 1s) + ]
+
+660: API status: 201
+661: Get action result
+662: {
+  "api": "on",
+  "autoToken": "on",
+  "contentType": "application/json",
+  "method": "POST",
+  "url": "https://api.test.pivohub.com/user/inventoryLineOperations",
+  "query": {},
+  "joins": [],
+  "path": [],
+  "data": "[{\"companyId\":\"620c15ff7795af001b69ebd4\",\"count\":50,\"inventoryLineId\":\"62866778d1022b00194f0fcf\",\"isApplied\":true,\"reason\":\"purchase\",\"subProductId\":\"62866778d1022b00194f0fce\"}]",
+  "headers": {
+    "Accept": "application/json",
+    "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9ESTRPRVkyTkRFek9UWTBRa0l6TjBZek5VWkJOVGt6TWpoRFFqQXlNakl4TnpFNFF6RTFSZyJ9.eyJpc3MiOiJodHRwczovL3Bpdm9odWItZGV2LmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZTI3MjM3Y2FmZDBmMTBkOTA4NGFlZWMiLCJhdWQiOlsiaHR0cHM6Ly9hcGkucGl2b2h1Yi5jb20iLCJodHRwczovL3Bpdm9odWItZGV2LmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2NTI5NzU0NjcsImV4cCI6MTY1MzA2MTg2NywiYXpwIjoiZFJCTUxEUkxzS3JwVjM0VDc1UTB2ODA2a2hWM2pxQmIiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIn0.VQRUX_EwawHZGVdnn8yqBlrBSR4uNAMho72hz4r5JlQZHR2Hrmmw50Z0d-K5dUnzlA_9j8W24QmBTs5TFmsqsd5kQWGN5VNesYYmcJa9WgpuIN4kN5X40rea6LNWN4MUSHccUyhX57QBJmAWnU5QRWI_522dfr3i6RHfSyOckKRtKx_vSC84ImWQrdbs_3VjzSiABmnysNchu0FTknLN5tpV1wnMn20e3ZhCyXDkaUGJS6xn7oICxq5UlXNfBoSudZSnVLARFDSeSCmesovwcKpCvz-1exkrrcwmJdN7hiLqAE8x11mkXfV3U9VElgzmhDe7oiMJKXfaxSMBD1GC9A"
+  },
+  "level": "module",
+  "type": "add",
+  "asStdFun": "on",
+  "testCode": "t3",
+  "responseScript": "(function(){\n  let success = $result.status < 400;\n  if(success){\n    let v = $result.responseText;\n    try{\n      v=JSON.parse(v);\n      $aiAPI.addData(v,\"inventoryLineOperation\", \"id\");\n    }catch(e){}\n  }\n  return success;\n})()",
+  "cache": false,
+  "async": false
+}
+663: url: https://api.test.pivohub.com/user/inventoryLineOperations
+Status: 201
+Time: 107
+Response size: 389
+Message: {"data":[{"id":"6286677ed1022b00194f0fd2","reason":"purchase","count":50,"isApplied":true,"subProductId":"62866778d1022b00194f0fce","inventoryLineId":"62866778d1022b00194f0fcf","companyId":"620c15ff7795af001b69ebd4","nextStock":50,"createdById":"auth0|5e27237cafd0f10d9084aeec","createdAt":1652975486 ...
+664: timeout in ms:0
+665: vvvvv New Data vvvvv
+666: $project.$curtInventoryLineOperation.id = 6286677ed1022b00194f0fd2
+667: $project.$curtInventoryLineOperation.reason = purchase
+668: $project.$curtInventoryLineOperation.count = 50
+669: $project.$curtInventoryLineOperation.isApplied = true
+670: $project.$curtInventoryLineOperation.subProductId = 62866778d1022b00194f0fce
+671: $project.$curtInventoryLineOperation.inventoryLineId = 62866778d1022b00194f0fcf
+672: $project.$curtInventoryLineOperation.companyId = 620c15ff7795af001b69ebd4
+673: $project.$curtInventoryLineOperation.nextStock = 50
+674: $project.$curtInventoryLineOperation.createdById = auth0|5e27237cafd0f10d9084aeec
+675: $project.$curtInventoryLineOperation.createdAt = 1652975486103
+676: $project.$curtInventoryLineOperation.updatedById = auth0|5e27237cafd0f10d9084aeec
+677: $project.$curtInventoryLineOperation.updatedAt = 1652975486103
+678: $project.$curtInventoryLineOperation.$bzId = 1652975452868
+679: $project.$curtInventoryLineOperation.$status = Created
+680: ^^^^^ New Data ^^^^^
+681: Get action result
+682: set code to client:110
+683: timeout in ms:0
+
+     [ 11:51:27 (00:37, 1s) + ]
+
+684: End time:
+685:                 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+686:               <<<< Success data - API Test [m148.t3] 00:37 Create a new InventoryLineOperation <<<<
+687:             <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+688: ##Action## (1), Call: [m148.t3] API - Inventory line operation • Create a new InventoryLineOperation
+689: Get action result
+690: set code to client:68
+691: End time:
+692:           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+693:         <<<< Success Module - Functional Test [m7.t71] 00:37 Add Stock - API <<<<
+694:       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+695: ##Action## (5), I set the price to <price>, discount dollars <discount_dollars>, percentage <discount_percentage>, and special price <special_price>
+696: Start time: 2022-05-19 11:51:27
+697: ##Action## (5), I set the price to <price>, discount dollars <discount_dollars>, percentage <discount_percentage>, and special price <special_price>
+698: Get action result
+699: set code to client:231
+
+     [ 11:51:28 (00:38, 1s) + ]
+
+700: End time:
+701: set code to client:77
+702:       >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+703:         >>>> Loading Functional Test [m99.t1] - Add Price (00:38) >>>>
+704:           >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+705: Module info: [m99] Pricing
+706: open url - https://test.pivohub.com/app/boozang-brewer-1/pricing
+707: ##### Setup popup #####
+Refreshing orson ###...
+Refreshing page ###...1652975489256
