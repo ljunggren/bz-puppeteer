@@ -74,9 +74,6 @@ var formatter={
 .bz-z-a:before{
   content:"↑"
 }
-.bz-img:after{
-  background-image:url(http://staging-be.boozang.com/screenshot/613616259fd1f24b9cbaaa8f/613616259fd1f24b9cbaaa8f.user.m132.t11.1.png)
-}
 .bz-failed-hash:before{
   content:"❌";
   margin-right: 5px;
@@ -2489,7 +2486,7 @@ input[type=number]{
   },
   getCameraPath:function(v){
     let fd=formatter.data
-    return fd.host+"/screenshot/"+fd.project.code+"/"+v+".png"
+    return fd.host+"/screenshot/"+fd.project.code+"/"+v+".jpg"
   },
   showCompare:function(){
     let o=$(".bz-pop-panel");

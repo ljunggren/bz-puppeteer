@@ -434,7 +434,7 @@ const Service = {
   },
   buildVideoImg:function(msg){
     msg=msg.split("video-img: ")[1]
-    let screenshotFile = Service.curVideoFolder+"/" + Date.now()+".png";
+    let screenshotFile = Service.curVideoFolder+"/" + Date.now()+".jpg";
 
     let _base64Data = msg.replace(/^data:image\/([^;]+);base64,/, "");
 
@@ -475,7 +475,7 @@ const Service = {
         msg=msg.split("screenshot: ")[1]
         msg=msg.split("\n")
         console.log(msg[0])
-        let screenshotFile = "/var/boozang/" + msg[0]+".png";
+        let screenshotFile = "/var/boozang/" + msg[0]+".jpg";
 
         let _base64Data = msg[1].replace(/^data:image\/([^;]+);base64,/, "");
 
