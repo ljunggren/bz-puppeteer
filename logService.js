@@ -13,6 +13,7 @@ const Service = {
   result: 2,
   consoleNum:0,
   logLevel: ["info","warn","error"],
+  videoFolder:"video-"+formatTimestamp(Date.now()),
   setResetButton(restartFun){
     this.restartFun=restartFun
   },
@@ -21,7 +22,7 @@ const Service = {
       Service.nextResetTime=Date.now()+((parseInt(Service.testReset)||1)*60000)
     }
   },
-  logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video, saveVideo){
+  logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video){
     this.inService=inService;
     this.testReset=testReset;
     Service.setNextResetTime()
@@ -29,12 +30,14 @@ const Service = {
     this.keepalive=keepalive;
     this.video=video;
     this.page=page;
-    this.saveVideo = saveVideo;
 
     this.logLevel=logLevel;
 
     if (this.video && this.video != "none") {
       Service.consoleMsg("Running in video mode");
+      if(!fs.existsSync(Service.videoFolder)){
+        fs.mkdirSync(Service.videoFolder);
+      }  
     }
 
     Service.consoleMsg("Initializing logMonitor");
@@ -42,7 +45,7 @@ const Service = {
     if (reportPrefix) {
       Service.consoleMsg("Override report prefix: " + reportPrefix);
       Service.reportPrefix=reportPrefix + "_";
-    } 
+    }
 
    // page.on('console', (log) => console[log._type](log._text));
 
@@ -183,6 +186,20 @@ const Service = {
       timeout:Service.stdTimeout
     })
     Service.addTask({
+      key:"newVideo",
+      fun:function(msg){
+        Service.buildVideoFolder(msg)
+      },
+      timeout:Service.stdTimeout
+    })
+    Service.addTask({
+      key:"video-img",
+      fun:function(msg){
+        Service.buildVideoImg(msg)
+      },
+      timeout:Service.stdTimeout
+    })
+    Service.addTask({
       key:"update-std-timeout:",
       fun(msg){
         Service.stdTimeout = (parseInt(msg.split(this.key)[1].trim())||120000);
@@ -232,7 +249,7 @@ const Service = {
       fun(msg){
         Service.issueResetCount++
         if(Service.issueResetCount>2){
-          Service.shutdown(_formatTimestamp()+": Issue happened multiple times!")
+          Service.shutdown("Issue happened multiple times!")
         }else{
           Service.cancelChkCoop()
           Service.reset()
@@ -325,7 +342,6 @@ const Service = {
 
         if(Service.video && Service.video != "none"){
           Service.page.evaluate((v)=>{
-            Service.consoleMsg("Initializing video capture...");
             BZ.requestVideo()
           });
         }
@@ -399,6 +415,26 @@ const Service = {
     clearTimeout(Service.status)
     Service.status=v
   },
+  buildVideoFolder:function(msg){
+    msg=msg.split("newVideo: ")[1]
+    Service.curVideoFolder=Service.videoFolder+"/"+msg
+    if(!fs.existsSync(Service.curVideoFolder)){
+      fs.mkdirSync(Service.curVideoFolder)
+    }
+  },
+  buildVideoImg:function(msg){
+    msg=msg.split("video-img: ")[1]
+    let screenshotFile = Service.curVideoFolder+"/" + Date.now()+".png";
+
+    let _base64Data = msg.replace(/^data:image\/([^;]+);base64,/, "");
+
+    fs.writeFile(screenshotFile,_base64Data,'base64', (err)=>{
+      if (err) {
+        Service.shutdown("Error: on output file: "+screenshotFile+", "+ err.message)
+      }
+      Service.consoleMsg("Report "+screenshotFile+" saved.")
+    })
+  },
   setRunTasks(){
     Service.consoleMsg("Set run tasks")
     clearTimeout(Service.idlingTimer)
@@ -415,40 +451,6 @@ const Service = {
         return v;
       },
       msg:"Action timeout"
-    })
-
-    Service.addTask({
-      key:"videostart:",
-      fun(msg){
-        (async () => {
-          let videoFile = msg.split("videostart:")[1].split(",")[0]+".mp4";
-           Service.consoleMsg("Start recording video: ", videoFile);
-           Service.capture = await Service.saveVideo(Service.popup||Service.page, Service.reportPrefix + videoFile, {followPopups:true, fps: 5});      
-        })()
-      },
-      timeout:Service.stdTimeout
-    })
-
-    Service.addTask({
-      key:"videostop:",
-      fun(msg){
-        (async () => {
-          let success = msg.includes(",success");
-          let videoFile = msg.split("videostop:")[1].split(",")[0]+".mp4";
-          Service.consoleMsg("Stop recording video: ", videoFile);
-          await Service.capture.stop();
-          if (success && Service.video != "all"){
-            Service.consoleMsg("Test success. Deleting video: " + videoFile);
-            fs.unlinkSync(Service.reportPrefix + videoFile);
-          }
-          await (()=>{
-            Service.page.evaluate((v)=>{
-              BZ.savedVideo()
-            });
-          })()
-        })()
-      },
-      timeout:Service.stdTimeout
     })
 
     Service.addTask({
@@ -764,4 +766,9 @@ function testReset(){
     }catch(ex){}
     testReset()
   },30000)
+}
+
+function formatTimestamp(){
+  let d=new Date()
+  return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDay()+"-"+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds()
 }
