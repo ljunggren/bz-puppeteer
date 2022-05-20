@@ -13,7 +13,7 @@ const Service = {
   result: 2,
   consoleNum:0,
   logLevel: ["info","warn","error"],
-  videoFolder:"video-"+formatTimestamp(Date.now()),
+  videoFolder:formatTimestamp(Date.now()),
   setResetButton(restartFun){
     this.restartFun=restartFun
   },
@@ -22,7 +22,7 @@ const Service = {
       Service.nextResetTime=Date.now()+((parseInt(Service.testReset)||1)*60000)
     }
   },
-  logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video){
+  logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video,folder){
     this.inService=inService;
     this.testReset=testReset;
     Service.setNextResetTime()
@@ -35,6 +35,11 @@ const Service = {
 
     if (this.video && this.video != "none") {
       Service.consoleMsg("Running in video mode");
+      folder+="/video"
+      if(!fs.existsSync(folder)){
+        fs.mkdirSync(folder);
+      }
+      Service.videoFolder=folder+"/"+Service.videoFolder
       if(!fs.existsSync(Service.videoFolder)){
         fs.mkdirSync(Service.videoFolder);
       }  
@@ -197,6 +202,7 @@ const Service = {
       fun:function(msg){
         Service.buildVideoImg(msg)
       },
+      noLog:1,
       timeout:Service.stdTimeout
     })
     Service.addTask({
@@ -418,7 +424,11 @@ const Service = {
   buildVideoFolder:function(msg){
     msg=msg.split("newVideo: ")[1]
     Service.curVideoFolder=Service.videoFolder+"/"+msg
+
     if(!fs.existsSync(Service.curVideoFolder)){
+      console.log("/////////////////////////////////////////////////////////////////")
+      console.log("* Create video folder: "+Service.curVideoFolder)
+      console.log("/////////////////////////////////////////////////////////////////")
       fs.mkdirSync(Service.curVideoFolder)
     }
   },
@@ -431,8 +441,14 @@ const Service = {
     fs.writeFile(screenshotFile,_base64Data,'base64', (err)=>{
       if (err) {
         Service.shutdown("Error: on output file: "+screenshotFile+", "+ err.message)
+      }else{
+        Service.consoleMsg("Report "+screenshotFile+" saved.")
+        Service.curImageTxt=Service.curImageTxt||""
+        Service.curImageTxt+=`file '${screenshotFile}'\n`
+        fs.writeFile(Service.curVideoFolder+"/images.txt",Service.curImageTxt,(err)=>{
+    
+        })
       }
-      Service.consoleMsg("Report "+screenshotFile+" saved.")
     })
   },
   setRunTasks(){
@@ -490,6 +506,12 @@ const Service = {
       fun(msg){
         msg=msg.split("BZ-Result:")[1].trim()
         Service.result = msg == "Success" ? 0:2;
+        if(!Service.result&&(Service.video=="error")){
+          console.log("*****************************************************************")
+          console.log("* Delete video folder: "+Service.curVideoFolder)
+          console.log("*****************************************************************")
+          fs.rmSync(Service.curVideoFolder, { recursive: true, force: true });
+        }
         Service.consoleMsg("Exit with status code: ", Service.result);
       },
       timeout:Service.stdTimeout
@@ -770,5 +792,5 @@ function testReset(){
 
 function formatTimestamp(){
   let d=new Date()
-  return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDay()+"-"+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds()
+  return d.getFullYear()+"-"+_formatNumberLength(d.getMonth()+1)+"-"+_formatNumberLength(d.getDay())+"-"+_formatNumberLength(d.getHours())+"-"+_formatNumberLength(d.getMinutes())+"-"+_formatNumberLength(d.getSeconds())
 }
