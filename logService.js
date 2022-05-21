@@ -433,6 +433,7 @@ const Service = {
   },
   buildVideoImg:function(msg){
     msg=msg.split("video-img: ")[1]
+    let time=Date.now()
     let screenshotFile = Service.curVideoFolder+"/" + Date.now()+".jpg";
 
     let _base64Data = msg.replace(/^data:image\/([^;]+);base64,/, "");
@@ -445,7 +446,7 @@ const Service = {
         Service.curImageTxt=Service.curImageTxt||""
         Service.curImageTxt+=`file '${screenshotFile}'\n`
         fs.writeFile(Service.curVideoFolder+"/images.txt",Service.curImageTxt,(err)=>{
-    
+          console.log("Store screenshot time: "+(Date.now()-time))
         })
       }
     })
