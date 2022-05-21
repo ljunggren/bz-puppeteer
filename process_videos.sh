@@ -3,7 +3,7 @@ inputfiles=$(find /var/boozang/video/. -name "images.txt" | xargs -0 -I % echo %
 for input in $inputfiles
 do
   last="${input%/*}"
-  output="${last##*/}".webm
+  output=/var/boozang/"${last##*/}".webm
 
   echo $input
   echo $output
