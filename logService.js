@@ -13,7 +13,6 @@ const Service = {
   result: 2,
   consoleNum:0,
   logLevel: ["info","warn","error"],
-  videoFolder:formatTimestamp(Date.now()),
   setResetButton(restartFun){
     this.restartFun=restartFun
   },
@@ -39,7 +38,7 @@ const Service = {
       if(!fs.existsSync(folder)){
         fs.mkdirSync(folder);
       }
-      Service.videoFolder=folder+"/"+Service.videoFolder
+      Service.videoFolder=folder+"/"+formatTimestamp(Date.now())
       if(!fs.existsSync(Service.videoFolder)){
         fs.mkdirSync(Service.videoFolder);
       }  
