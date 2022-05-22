@@ -39,6 +39,10 @@ const Service = {
         fs.mkdirSync(folder);
       }
       Service.videoFolder=folder+"/"+formatTimestamp(Date.now())
+      if(fs.existsSync(Service.videoFolder)){
+        fs.rmSync(Service.videoFolder, { recursive: true, force: true });
+      }
+  
       if(!fs.existsSync(Service.videoFolder)){
         fs.mkdirSync(Service.videoFolder);
       }  
@@ -423,7 +427,6 @@ const Service = {
   buildVideoFolder:function(msg){
     msg=msg.split("newVideo: ")[1]
     Service.curVideoFolder=Service.videoFolder+"/"+msg
-
     if(!fs.existsSync(Service.curVideoFolder)){
       console.log("/////////////////////////////////////////////////////////////////")
       console.log("* Create video folder: "+Service.curVideoFolder)
