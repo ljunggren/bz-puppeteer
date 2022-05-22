@@ -2,3 +2,4 @@ node_modules/
 results.json
 report_cucumber-*.*
 video/
+*.log
