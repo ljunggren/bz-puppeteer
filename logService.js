@@ -435,12 +435,14 @@ const Service = {
     }
   },
   buildVideoImg:function(msg){
+    console.log("Skipping video...");
+    /*
     msg=msg.split("video-img: ")[1]
     let time=Date.now()
     let screenshotFile = Service.curVideoFolder+"/" + Date.now()+".jpg";
 
     let _base64Data = msg.replace(/^data:image\/([^;]+);base64,/, "");
-
+    
     fs.writeFile(screenshotFile,_base64Data,'base64', (err)=>{
       if (err) {
         // Service.shutdown("Error: on output file: "+screenshotFile+", "+ err.message)
@@ -453,6 +455,7 @@ const Service = {
         })
       }
     })
+    */
   },
   setRunTasks(){
     Service.consoleMsg("Set run tasks")
