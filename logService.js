@@ -440,7 +440,7 @@ const Service = {
 
     fs.writeFile(screenshotFile,_base64Data,'base64', (err)=>{
       if (err) {
-        Service.shutdown("Error: on output file: "+screenshotFile+", "+ err.message)
+        // Service.shutdown("Error: on output file: "+screenshotFile+", "+ err.message)
       }else{
         Service.consoleMsg("Report "+screenshotFile+" saved.")
         Service.curImageTxt=Service.curImageTxt||""
