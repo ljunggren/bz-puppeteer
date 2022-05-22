@@ -21,7 +21,7 @@ const opts = {
   "docker": false,
   "sleep":0,
   "keepalive": false,
-  "video": "all",
+  "video": "none",
   "testreset":false,
   "loglevel": "debug",
   "debugIDE":false
