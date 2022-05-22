@@ -792,5 +792,5 @@ function testReset(){
 
 function formatTimestamp(){
   let d=new Date()
-  return d.getFullYear()+"-"+_formatNumberLength(d.getMonth()+1)+"-"+_formatNumberLength(d.getDay())+"-"+_formatNumberLength(d.getHours())+"-"+_formatNumberLength(d.getMinutes())+"-"+_formatNumberLength(d.getSeconds())
+  return d.getFullYear()+"-"+_formatNumberLength(d.getMonth()+1)+"-"+_formatNumberLength(d.getDate())+"-"+_formatNumberLength(d.getHours())+"-"+_formatNumberLength(d.getMinutes())+"-"+_formatNumberLength(d.getSeconds())
 }
