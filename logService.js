@@ -35,13 +35,13 @@ const Service = {
     if (this.video && this.video != "none") {
       Service.consoleMsg("Running in video mode");
       folder+="/video"
+      if(fs.existsSync(folder)){
+        fs.rmSync(folder, { recursive: true, force: true });
+      }
       if(!fs.existsSync(folder)){
         fs.mkdirSync(folder);
       }
       Service.videoFolder=folder+"/"+formatTimestamp(Date.now())
-      if(fs.existsSync(Service.videoFolder)){
-        fs.rmSync(Service.videoFolder, { recursive: true, force: true });
-      }
   
       if(!fs.existsSync(Service.videoFolder)){
         fs.mkdirSync(Service.videoFolder);
