@@ -118,6 +118,7 @@ function start(reset){
     // Setup popup
     let popup = null;
     function setupPopup() {
+      console.log("Goto set pop window size")
       setTimeout(()=>{
         try{
           popup = pages[pages.length-1];
@@ -130,6 +131,7 @@ function start(reset){
           popup.on("error", appPrintStackTrace);
           popup.on("pageerror", appPrintStackTrace);
           Service.setPopup(popup)
+          console.log("Set pop window size done!")
         }catch(e){
           console.log(e.stack)
         }
