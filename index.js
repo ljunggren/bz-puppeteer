@@ -122,16 +122,19 @@ function start(reset){
       setTimeout(()=>{
         try{
           popup = pages[pages.length-1];
-        
-          popup.setViewport({
-            width: parseInt(width),
-            height: parseInt(height)-100
-          });
-    
-          popup.on("error", appPrintStackTrace);
-          popup.on("pageerror", appPrintStackTrace);
-          Service.setPopup(popup)
-          console.log("Set pop window size done!")
+          if(!popup.closed){
+            popup.setViewport({
+              width: parseInt(width),
+              height: parseInt(height)-100
+            });
+      
+            popup.on("error", appPrintStackTrace);
+            popup.on("pageerror", appPrintStackTrace);
+            Service.setPopup(popup)
+            console.log("Set pop window size done!")
+          }else{
+            console.log("Avoid error on pop closed")
+          }
         }catch(e){
           console.log(e.stack)
         }
