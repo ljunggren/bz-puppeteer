@@ -118,6 +118,7 @@ function start(reset){
     // Setup popup
     let popup = null;
     function setupPopup() {
+      /** 
       try{
         popup = pages[pages.length-1];
       
@@ -131,7 +132,7 @@ function start(reset){
         Service.setPopup(popup)
       }catch(e){
         console.log(e.stack)
-      }
+      }*/
     }
 
     let pages = await browser.pages();
