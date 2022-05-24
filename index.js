@@ -171,6 +171,10 @@ function start(reset){
     if(group){
       group=group[1]
     }
+    let userKey=url.match(/key=([0-9]+)/)
+    if(userKey){
+      userKey=userKey[1]
+    }
     console.log("url: "+url)
 
     let inService=0;
@@ -184,7 +188,7 @@ function start(reset){
     console.log(1)
 
     // Assign all log listeners
-    Service.logMonitor(page,testReset,keepalive,file,inService,LogLevelArray,browser,video,docker ? "/var/boozang/":__dirname,group);
+    Service.logMonitor(page,testReset,keepalive,file,inService,LogLevelArray,browser,video,docker ? "/var/boozang/":__dirname,group,userKey);
     console.log(2+": "+tests)
     if(tests){
       console.log("Going to post tmp tasks .....")

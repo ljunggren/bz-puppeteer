@@ -21,7 +21,7 @@ const Service = {
       Service.nextResetTime=Date.now()+((parseInt(Service.testReset)||1)*60000)
     }
   },
-  logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video,folder,group){
+  logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video,folder,group,userKey){
     this.inService=inService;
     this.testReset=testReset;
     Service.setNextResetTime()
@@ -47,11 +47,13 @@ const Service = {
           fs.mkdirSync(folder);
         }
       }
-      Service.videoFolder=folder+"/"+formatTimestamp(Date.now())
-  
-      if(!fs.existsSync(Service.videoFolder)){
-        fs.mkdirSync(Service.videoFolder);
-      }  
+      if(userKey){
+        folder+="/"+userKey
+        if(!fs.existsSync(folder)){
+          fs.mkdirSync(folder);
+        }
+      }
+      Service.videoFolder=folder
     }
 
     Service.consoleMsg("Initializing logMonitor");
