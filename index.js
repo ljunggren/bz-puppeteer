@@ -118,21 +118,22 @@ function start(reset){
     // Setup popup
     let popup = null;
     function setupPopup() {
-      /** 
-      try{
-        popup = pages[pages.length-1];
-      
-        popup.setViewport({
-          width: parseInt(width),
-          height: parseInt(height)-100
-        });
-  
-        popup.on("error", appPrintStackTrace);
-        popup.on("pageerror", appPrintStackTrace);
-        Service.setPopup(popup)
-      }catch(e){
-        console.log(e.stack)
-      }*/
+      setTimeout(()=>{
+        try{
+          popup = pages[pages.length-1];
+        
+          popup.setViewport({
+            width: parseInt(width),
+            height: parseInt(height)-100
+          });
+    
+          popup.on("error", appPrintStackTrace);
+          popup.on("pageerror", appPrintStackTrace);
+          Service.setPopup(popup)
+        }catch(e){
+          console.log(e.stack)
+        }
+      },2000)
     }
 
     let pages = await browser.pages();
