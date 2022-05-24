@@ -214,15 +214,13 @@ class CDPSession extends EventEmitter_js_1.EventEmitter {
         return this._connection;
     }
     send(method, ...paramArgs) {
-        //if (!this._connection)
-        //    return Promise.reject(new Error(`Protocol error (${method}): Session closed. Most likely the ${this._targetType} has been closed.`));
         if (!this._connection){
-            let _this=this
-            return setTimeout(()=>{
-                console.log("Try reconnection")
-                _this.send(method,...paramArgs)
-            },1000)
-        }  
+            console.log("For ignore connection closed error")
+            return new Promise((resolve, reject) => {
+            });
+        }
+        // if (!this._connection)
+            //return Promise.reject(new Error(`Protocol error (${method}): Session closed. Most likely the ${this._targetType} has been closed.`));
         // See the comment in Connection#send explaining why we do this.
         const params = paramArgs.length ? paramArgs[0] : undefined;
         const id = this._connection._rawSend({
