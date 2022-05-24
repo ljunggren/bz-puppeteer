@@ -138,7 +138,7 @@ function start(reset){
         }catch(e){
           console.log(e.stack)
         }
-      },2000)
+      })
     }
 
     let pages = await browser.pages();
