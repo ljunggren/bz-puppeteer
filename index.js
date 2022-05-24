@@ -167,7 +167,10 @@ function start(reset){
     }
     
     url=url.replace("#","&docker=1#")
-    
+    let group=url.match(/group=([0-9]+)/);
+    if(group){
+      group=group[1]
+    }
     console.log("url: "+url)
 
     let inService=0;
@@ -181,7 +184,7 @@ function start(reset){
     console.log(1)
 
     // Assign all log listeners
-    Service.logMonitor(page,testReset,keepalive,file,inService,LogLevelArray,browser,video,docker ? "/var/boozang/":__dirname);
+    Service.logMonitor(page,testReset,keepalive,file,inService,LogLevelArray,browser,video,docker ? "/var/boozang/":__dirname,group);
     console.log(2+": "+tests)
     if(tests){
       console.log("Going to post tmp tasks .....")

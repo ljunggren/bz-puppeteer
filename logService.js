@@ -21,7 +21,7 @@ const Service = {
       Service.nextResetTime=Date.now()+((parseInt(Service.testReset)||1)*60000)
     }
   },
-  logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video,folder){
+  logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video,folder,group){
     this.inService=inService;
     this.testReset=testReset;
     Service.setNextResetTime()
@@ -40,6 +40,12 @@ const Service = {
       // }
       if(!fs.existsSync(folder)){
         fs.mkdirSync(folder);
+      }
+      if(group){
+        folder+="/"+group
+        if(!fs.existsSync(folder)){
+          fs.mkdirSync(folder);
+        }
       }
       Service.videoFolder=folder+"/"+formatTimestamp(Date.now())
   
