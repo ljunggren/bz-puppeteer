@@ -1,5 +1,6 @@
 const fs = require('fs');
 const killer = require('tree-kill');
+const { exec } = require('child_process');
 
 const Service = {
   stdTimeout:120000,
@@ -24,6 +25,10 @@ const Service = {
   logMonitor(page,testReset,keepalive,reportPrefix,inService, logLevel, browser, video,folder,group,userKey){
     this.inService=inService;
     this.testReset=testReset;
+
+    this.group=group;
+    this.userKey=userKey;
+
     Service.setNextResetTime()
 
     this.keepalive=keepalive;
@@ -47,6 +52,7 @@ const Service = {
           fs.mkdirSync(folder);
         }
       }
+      this.folder=folder;
       if(userKey){
         folder+="/"+userKey
         if(!fs.existsSync(folder)){
@@ -435,16 +441,35 @@ const Service = {
   buildVideoFolder:function(msg){
     msg=msg.split("newVideo: ")[1]
     Service.curVideoFolder=Service.videoFolder+"/"+msg
+    Service.currTest=msg
     if(!fs.existsSync(Service.curVideoFolder)){
       console.log("/////////////////////////////////////////////////////////////////")
       console.log("* Create video folder: "+Service.curVideoFolder)
       console.log("/////////////////////////////////////////////////////////////////")
       fs.mkdirSync(Service.curVideoFolder)
     }
+  }, 
+  createVideo(imagesFilename,videoFilename) {
+    console.log("Building video:",imagesFilename,"#",videoFilename);
+      const _ffmpegCommand = [
+        'ffmpeg',
+        '-loglevel panic',
+        '-hide_banner',
+        '-y -r 1/2',
+        '-f concat',
+        '-safe 0',
+        `-i ${imagesFilename}`,
+        '-r 1',
+        videoFilename
+    ].join(' ');
+      exec(_ffmpegCommand, (error, stdout, stderr) => {
+          if (error) throw new Error(error);
+          console.log(stdout);
+          console.log(stderr);
+      });
   },
   buildVideoImg:function(msg){
-    console.log("Skipping video...");
-    /*
+    console.log("Skipping video...");  
     msg=msg.split("video-img: ")[1]
     let time=Date.now()
     let screenshotFile = Service.curVideoFolder+"/" + Date.now()+".jpg";
@@ -463,7 +488,7 @@ const Service = {
         })
       }
     })
-    */
+
   },
   setRunTasks(){
     Service.consoleMsg("Set run tasks")
@@ -525,6 +550,8 @@ const Service = {
           console.log("* Delete video folder: "+Service.curVideoFolder)
           console.log("*****************************************************************")
           fs.rmSync(Service.curVideoFolder, { recursive: true, force: true });
+        }else if (Service.video!="none") {
+          Service.createVideo(Service.curVideoFolder+"/images.txt",Service.folder + "/" + Service.currTest+".webm")
         }
         Service.consoleMsg("Exit with status code: ", Service.result);
       },
