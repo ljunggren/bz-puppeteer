@@ -118,22 +118,27 @@ function start(reset){
     // Setup popup
     let popup = null;
     function setupPopup() {
-      popup = pages[pages.length-1]; 
-      popup.setViewport({
-        width: parseInt(width),
-        height: parseInt(height)-100
-      });
-
-      popup.on("error", appPrintStackTrace);
-      popup.on("pageerror", appPrintStackTrace);
-      Service.setPopup(popup)
+      try{
+        popup = pages[pages.length-1];
+      
+        popup.setViewport({
+          width: parseInt(width),
+          height: parseInt(height)-100
+        });
+  
+        popup.on("error", appPrintStackTrace);
+        popup.on("pageerror", appPrintStackTrace);
+        Service.setPopup(popup)
+      }catch(e){
+        console.log(e.stack)
+      }
     }
 
     let pages = await browser.pages();
     browser.on('targetcreated', async () => {
           //console.log('New window/tab event created');
           pages = await browser.pages();
-          //console.log("Pages length " + pages.length);
+          console.log("Pages length " + pages.length);
           setupPopup(); 
           Service.setPage(page,browser);  
     });
