@@ -7,6 +7,7 @@
     "puppeteer": "latest",
     "tree-kill": "latest",
     "express": "latest",
+    "child_process": "latest",
     "socket.io": "^4.1.2"
   },
   "bin": {
