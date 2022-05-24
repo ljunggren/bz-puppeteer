@@ -550,9 +550,8 @@ const Service = {
           console.log("* Delete video folder: "+Service.curVideoFolder)
           console.log("*****************************************************************")
           fs.rmSync(Service.curVideoFolder, { recursive: true, force: true });
-        }else{
+        }else if (Service.video!="none") {
           Service.createVideo(Service.curVideoFolder+"/images.txt",Service.folder + "/" + Service.currTest+".webm")
-
         }
         Service.consoleMsg("Exit with status code: ", Service.result);
       },
