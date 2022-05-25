@@ -120,8 +120,9 @@ function start(reset){
     function setupPopup() {
       console.log("Goto set pop window size")
       popup = pages[pages.length-1];
-      if(!popup._emulationManager._client._connection.closed){
-      //  console.log(popup)
+      let o=popup._emulationManager._client._connection
+      if(o&&!o.closed){
+        console.log(o)
         doIt()
       }else{
         console.log("Avoid error on pop closed")
