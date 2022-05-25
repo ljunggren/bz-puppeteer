@@ -121,7 +121,7 @@ function start(reset){
       console.log("Goto set pop window size")
       popup = pages[pages.length-1];
       let o=popup._emulationManager._client._connection
-      if(o&&!o.closed){
+      if(o&&!o._closed&&pages.length==o._sessions.size){
         console.log(o)
         doIt()
       }else{
