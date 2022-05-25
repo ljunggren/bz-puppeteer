@@ -125,7 +125,7 @@ function start(reset){
         console.log(o)
         doIt()
       }else{
-        console.log("Avoid error on pop closed")
+        console.log("Avoid error on pop closed: "+pages.length)
         console.log(o)
         setTimeout(()=>{
           setupPopup()
