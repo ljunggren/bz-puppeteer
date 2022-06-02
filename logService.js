@@ -469,7 +469,6 @@ const Service = {
       });
   },
   buildVideoImg:function(msg){
-    console.log("Skipping video...");  
     msg=msg.split("video-img: ")[1]
     let time=Date.now()
     let screenshotFile = Service.curVideoFolder+"/" + Date.now()+".jpg";
