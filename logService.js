@@ -463,7 +463,7 @@ const Service = {
         videoFilename
     ].join(' ');
       exec(_ffmpegCommand, (error, stdout, stderr) => {
-          if (error) throw new Error(error);
+          // if (error) throw new Error(error);
           console.log(stdout);
           console.log(stderr);
       });
