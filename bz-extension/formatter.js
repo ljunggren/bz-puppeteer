@@ -1706,7 +1706,7 @@ input[type=number]{
       }else{
         fd.failedScenarios++
       }
-      let ts=s.org.match(/\n[0-9]+: +>{4} Loading .+Test \[m[0-9].+$/gm)
+      let ts=s.org.match(/\n[0-9]+: +>{4} Loading .*Test \[m[0-9].+$/gm)
       if(ts){
         fd.totalTests+=ts.length
         ts=s.org.match(/\n[0-9]+: ##Action.+$/gm)
@@ -2089,7 +2089,7 @@ input[type=number]{
     }
     
     function retrieveTestData(v){
-      let x=v.match(/^([0-9]+)\: +\>+ Loading (.+ Test) \[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\] - (.+) \([0-9:]+\) \>+$/);
+      let x=v.match(/^([0-9]+)\: +\>+ Loading (.*Test) \[(m[0-9]+\.t[0-9]+)(\(([0-9]+)\))?\] - (.+) \([0-9:]+\) \>+$/);
       if(x){
         return {
           code:"test"+formatter.getIdx(),
@@ -4038,7 +4038,7 @@ var analyzer={
   getTestTreeByLevel:function(v,level){
     let r;
     if(level){
-      r=`/[0-9]+: {${level*6+3}}(>+ Loading [^\[]+|<+ [^\[]+)Test \\[m[0-9]+\\.t[0-9]+[^><]+(>|<)+/gms`
+      r=`/[0-9]+: {${level*6+3}}(>+ Loading |<+ )[^\[]*Test \\[m[0-9]+\\.t[0-9]+[^><]+(>|<)+/gms`
     }else{
       r=`/[0-9]+: +(>+ Loading |<+ [^\[]+ Feature - )Scenario \\[m[0-9]+\\.t[0-9]+[^><]+(>|<)+/gms`
     }
