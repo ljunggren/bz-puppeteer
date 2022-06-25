@@ -43,7 +43,7 @@ let funMap={
     }
   },
   openWindow:function(s,f,d){
-    window.open(d.url,d.name,d.size)
+    chrome.windows.create(d)
   },
   isRequestCompleted:function(bkScope,bkFun,_rList){
     _rList.forEach((r,i)=>{
@@ -85,57 +85,103 @@ let funMap={
     _uncodeFrames.forEach(f=>{_initFrame(f)})
   },
   ajax:function(scope,fun,data,_callback,element,responseFun){
-    var xhttp = new XMLHttpRequest();
     let asFile=data.notDownloadAsFile
     delete data.notDownloadAsFile
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4) {
-        if(data.responseType=="arraybuffer"&&!asFile){
-          let o=_handleBold(this.response,data.url)
-          if(_callback&&_callback.constructor==Function){
-            _callback(o)
-          }else if(responseFun){
-            responseFun(o)
-          }
-        }else{
-          let hs={}
-          this.getAllResponseHeaders().split("\n").forEach(x=>{
-            if(x){
-              let k=x.indexOf(":")
-              let v=x.substring(k+1)
-              hs[x.substring(0,k).trim()]=v.trim()
-            }
-          })
-          
-          var d={
-            tab:"master",
-            scope:scope,
-            fun:fun,
-            data:{status:this.status,data:this.response,headers:hs},
-            
-          }
-          if(data.responseType&&this.response){
-            d.data.data=String.fromCharCode.apply(null, new Uint8Array(this.response));
-          }
-          if(_callback&&_callback.constructor==Function){
-            _callback(d.data)
-          }else if(responseFun){
-            responseFun(d.data)
-          }
-        }
-      }
-    };
-    xhttp.open(data.method, data.url, true);
-    for(var k in data.headers){
-      xhttp.setRequestHeader(k,data.headers[k])
-    }
-    if(data.responseType){
-      xhttp.responseType = data.responseType;
+    let hs={},d={
+      data:{
+        headers:hs
+      },
+      fun:fun,
+      scope:scope,
+      tab:"master"
     }
     if(data.contentType){
-      xhttp.setRequestHeader("Content-Type",data.contentType)
+      data.headers=data.headers||{}
+      data.headers["Content-Type"]=data.contentType
+      delete data.contentType
     }
-    xhttp.send(data.data);
+    fetch(data.url,data).then(r=>{
+      for (var k of r.headers.entries()) {
+        hs[k[0]]=k[1]
+      }
+      d.data.status=r.status
+      if(data.responseType=="arraybuffer"&&!asFile){
+        let o=_handleBold(this.response,data.url)
+        if(_callback&&_callback.constructor==Function){
+          _callback(o)
+        }else if(responseFun){
+          responseFun(o)
+        }
+      }else if(asFile){
+      }else{
+        return r.text()
+      }
+    }).then(dd=>{
+      if(data.responseType=="arraybuffer"&&!asFile){
+        let o=_handleBold(this.response,data.url)
+        if(_callback&&_callback.constructor==Function){
+          _callback(o)
+        }else if(responseFun){
+          responseFun(o)
+        }
+      }else{
+        d.data.data=dd;
+        if(data.responseType&&this.response){
+          d.data.data=String.fromCharCode.apply(null, new Uint8Array(this.response));
+        }
+        if(_callback&&_callback.constructor==Function){
+          _callback(d.data)
+        }else if(responseFun){
+          responseFun(d.data)
+        }
+      }
+    })
+    // var xhttp = new XMLHttpRequest();
+    // xhttp.onreadystatechange = function() {
+    //   if (this.readyState == 4) {
+    //     if(data.responseType=="arraybuffer"&&!asFile){
+    //       let o=_handleBold(this.response,data.url)
+    //       if(_callback&&_callback.constructor==Function){
+    //         _callback(o)
+    //       }else if(responseFun){
+    //         responseFun(o)
+    //       }
+    //     }else{
+    //       let hs={}
+    //       this.getAllResponseHeaders().split("\n").forEach(x=>{
+    //         if(x){
+    //           let k=x.indexOf(":")
+    //           let v=x.substring(k+1)
+    //           hs[x.substring(0,k).trim()]=v.trim()
+    //         }
+    //       })
+          
+    //       var d={
+    //         tab:"master",
+    //         scope:scope,
+    //         fun:fun,
+    //         data:{status:this.status,data:this.response,headers:hs},
+            
+    //       }
+    //       if(data.responseType&&this.response){
+    //         d.data.data=String.fromCharCode.apply(null, new Uint8Array(this.response));
+    //       }
+    //       if(_callback&&_callback.constructor==Function){
+    //         _callback(d.data)
+    //       }else if(responseFun){
+    //         responseFun(d.data)
+    //       }
+    //     }
+    //   }
+    // };
+    // xhttp.open(data.method, data.url, true);
+    // for(var k in data.headers){
+    //   xhttp.setRequestHeader(k,data.headers[k])
+    // }
+    // if(data.responseType){
+    //   xhttp.responseType = data.responseType;
+    // }
+    // xhttp.send(data.data);
 
     function _handleBold(blob,_url){
       var str=_handleCodePoints(new Uint8Array(blob));
@@ -219,13 +265,7 @@ let funMap={
 }
 let _list={},_responseList={}
 
-chrome.browserAction.setBadgeText({text: chrome.runtime.getManifest().version=="1.2"?"TEST":"AI"});
-//open management page from extension icon!
-// chrome.browserAction.onClicked.addListener(function() {
-  // chrome.tabs.create({url: _appUrl}, function(tab) {});
-// });
-
-
+chrome.action.setBadgeText({text: chrome.runtime.getManifest().version=="1.2"?"TEST":"AI"});
 /*Get Message from IDE*/
 chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) {
   //_console("background (web page): ",_req)
@@ -633,22 +673,8 @@ function getPlugCode(){
   return (extendTopScript||"")+"\n"+_plugInCode+"\n"+(extendEndScript||"")
 }
 function _initFrame(frameId){
+  _setCodeToContent(getPlugCode(),frameId);
   //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
-  if(!window.BZ){
-    _setCodeToContent(getPlugCode(),frameId);
-  }else{
-    //for BZ developer debugging in BZ office
-    if(_masterUrl.includes("boozang")){
-      //alert("The extension is not for production")
-      if(_plugInCode){
-        _setCodeToContent(getPlugCode(),frameId);
-      }else{
-        _setCodeToContent("showCode('BZ Debugging');",frameId);
-      }
-    }else{
-      _setCodeToContent("showCode('BZ Debugging');",frameId);
-    }
-  }
   _setCodeToContent(_bzEnvCode+";window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:bzIframeId})}",frameId);
   _setCodeToContent("_insertCssAndClientCode("+JSON.stringify({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data})+")",frameId)
 

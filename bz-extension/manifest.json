@@ -1,12 +1,12 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Boozang AI",
   "short_name": "Boozang AI",
   "description": "Boozang test automation is powered by AI. Tests can be recorded or written in clear text.",
-  "version": "3.8.22",
-  "permissions": ["webRequest", "tabs","management","storage","*://*/*","<all_urls>"],
+  "version": "4.0.0",
+  "permissions": ["webRequest", "tabs","management","storage"],
   "background": {
-    "scripts": ["background"]
+    "service_worker": "background.js"
   },
   "externally_connectable":{
     "matches":[
@@ -29,15 +29,15 @@
     ]
   },
   "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "all_frames":true,
-      "matchAboutBlank":true,
-      "js": ["first.js","formatter.js"],
-      "run_at": "document_start"
-    },
+    // {
+    //   "matches": [
+    //     "<all_urls>"
+    //   ],
+    //   "all_frames":true,
+    //   "matchAboutBlank":true,
+    //   "js": ["first.js","formatter.js"],
+    //   "run_at": "document_start"
+    // },
     {
       "matches": [
         "<all_urls>"
@@ -60,7 +60,7 @@
     "48": "img/boozang48.png",
     "128": "img/boozang128.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": "img/boozang.png",
     "default_title": "Launch Boozang",
     "default_popup": "popup.html"
