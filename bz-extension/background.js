@@ -540,14 +540,14 @@ function _setCodeToContent(c,id,tabId,chkFrameId){
           id=_topFrameId
         }
         // chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code 1 to client:"+c.length,twPage:1,tab:"master",bz:1});
-        chrome.tabs.executeScript(tabId, {code: c,matchAboutBlank:true,frameId:id},_=>{
+        chrome.tabs.sendMessage(tabId, {code: c,acceptData:1,frameId:id},_=>{
           //let e = chrome.runtime.lastError;
           //if(e !== undefined){
             //console.log(tabId, _, e);
           //}
         });
       }else{
-        chrome.tabs.executeScript(tabId, {code: c,matchAboutBlank:true,allFrames:true},_=>{
+        chrome.tabs.sendMessage(tabId, {code: c,acceptData:1,allFrames:true},_=>{
           let e = chrome.runtime.lastError;
           if(e !== undefined){
             chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code to client get error1:"+e,twPage:1,tab:"master",bz:1});

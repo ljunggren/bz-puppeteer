@@ -1,6 +1,6 @@
 window.bzIframeId=null
 let curContentExeAction=0,topFrame=0,initEnv=0;
- 
+
 //Register
 window.extensionContent=1;
 console.log("BZ-LOG: Extension version: "+chrome.runtime.getManifest().version)
@@ -33,10 +33,25 @@ function registerTab(){
   });
 }
 chrome.runtime.onMessage.addListener(handleMsg);
-let waitCodeTimer
+let waitCodeTimer,assignedData
+function assignStdData(){
+  if(!assignedData){
+    assignedData=1
+    $("<button onclick='o=document.createElement(\"script\");o.id=\"bz\";o.src=\"/"+"/localhost/ide/js/std/app\";document.body.append(o);' style='display:none'></button>").appendTo(document.body).click().remove();
+    setTimeout(function(){
+      _Util._removeAllLinkTarget()
+      $(document.body).on("mouseover","a",function(){
+        _Util._removeLinkTarget(this)
+      })
+    },1000)
+  }
+}
 function handleMsg(_event, _, sendResponse, codeTime) {  
   //_console("content get message: ",_event)
-  if(window.name!="bz-master"&&(!window.ecMap||!window[ecMap.i]||!window[ecMap.u]||!window[ecMap.css])){
+  if(_event.acceptData){
+    assignStdData()
+    return setTimeout(_event.code)
+  }else if(window.name!="bz-master"&&(!window.ecMap||!window[ecMap.i]||!window[ecMap.u]||!window[ecMap.css])){
     if(bzIframeId===null||bzIframeId===undefined){
       return
     }
@@ -248,31 +263,31 @@ function _insertCssAndClientCode(_msg,_time){
     o.innerHTML=_msg._css;
     document.body.parentNode.append(o);
     
-    o=document.createElement("script");
-    var _html="";
-    /**/
-    //_html+="_Util="+_Util._toString(_Util);
-    _html+=ecMap.u+"="+window[ecMap.u][ecMap.ts](window[ecMap.u]);
-    //_html+="_TWHandler="+_Util._toString(_TWHandler);
-    _html+=ecMap.tw+"="+window[ecMap.u][ecMap.ts](window[ecMap.tw]);
-    var w=window[ecMap.dat].TW
-    //_html+="_domActionTask="+_Util._toString(_domActionTask);
-    delete window[ecMap.dat].TW;
-    _html+=ecMap.dat+"="+window[ecMap.u][ecMap.ts](window[ecMap.dat]);
-    window[ecMap.dat].TW=w
-    //_html+="_domRecorder="+_Util._toString(_domRecorder);
-    _html+=ecMap.dr+"="+window[ecMap.u][ecMap.ts](window[ecMap.dr]);
-    //_html+="_uploadHandler="+_Util._toString(_uploadHandler);
-    _html+=ecMap.uh+"="+window[ecMap.u][ecMap.ts](window[ecMap.uh]);
+    // o=document.createElement("script");
+    // var _html="";
+    // /**/
+    // //_html+="_Util="+_Util._toString(_Util);
+    // _html+=ecMap.u+"="+window[ecMap.u][ecMap.ts](window[ecMap.u]);
+    // //_html+="_TWHandler="+_Util._toString(_TWHandler);
+    // _html+=ecMap.tw+"="+window[ecMap.u][ecMap.ts](window[ecMap.tw]);
+    // var w=window[ecMap.dat].TW
+    // //_html+="_domActionTask="+_Util._toString(_domActionTask);
+    // delete window[ecMap.dat].TW;
+    // _html+=ecMap.dat+"="+window[ecMap.u][ecMap.ts](window[ecMap.dat]);
+    // window[ecMap.dat].TW=w
+    // //_html+="_domRecorder="+_Util._toString(_domRecorder);
+    // _html+=ecMap.dr+"="+window[ecMap.u][ecMap.ts](window[ecMap.dr]);
+    // //_html+="_uploadHandler="+_Util._toString(_uploadHandler);
+    // _html+=ecMap.uh+"="+window[ecMap.u][ecMap.ts](window[ecMap.uh]);
 
-    _html+="bzUtil="+window[ecMap.u][ecMap.ts]($util);
+    // _html+="bzUtil="+window[ecMap.u][ecMap.ts]($util);
     
-    _html+="bzTwComm="+window[ecMap.u][ecMap.ts](bzTwComm);
-    /**/
-    _html+="bzTwComm."+ecMap.init+"('"+chrome.runtime.id+"');"
+    // _html+="bzTwComm="+window[ecMap.u][ecMap.ts](bzTwComm);
+    // /**/
+    // _html+="bzTwComm."+ecMap.init+"('"+chrome.runtime.id+"');"
 
-    o.innerHTML=_html;
-    document.body.parentNode.append(o);
+    // o.innerHTML=_html;
+    // document.body.parentNode.append(o);
     
     BZ[ecMap.ss](_msg._newStatus,_msg.data);
     window[ecMap.u][ecMap.k]()

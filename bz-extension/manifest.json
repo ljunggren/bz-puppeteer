@@ -44,7 +44,7 @@
       ],
       "matchAboutBlank":true,
       "all_frames":true,
-      "js": ["content"]
+      "js": ["js/jquery.min.v1.12.4.js"]
     },
     {
       "matches": [
@@ -52,7 +52,7 @@
       ],
       "matchAboutBlank":true,
       "all_frames":true,
-      "js": ["js/jquery.min.v1.12.4.js"]
+      "js": ["content"]
     }
   ],
   "icons": { 
