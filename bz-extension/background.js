@@ -55,7 +55,7 @@ let funMap={
         _rList[i]=null
       }
     })
-    chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:bkScope,fun:bkFun,data:{result:!Object.keys(_list).length,data:_rList}});
+    chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:bkScope,fun:bkFun,data:{result:!Object.keys(_list).length,data:_rList}},()=>{});
   },
   postRequest:function(v,scope,fun){
     if(["main_frame","xmlhttprequest"].includes(v.type)){
@@ -67,7 +67,7 @@ let funMap={
         delete _list[id]
         _responseList[id]=v
       }
-      chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:scope,fun:fun,data:v});
+      chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:scope,fun:fun,data:v},()=>{});
     }
   },
   buildRequestData:function(v){
@@ -106,24 +106,13 @@ let funMap={
       }
       d.data.status=r.status
       if(data.responseType=="arraybuffer"&&!asFile){
-        let o=_handleBold(this.response,data.url)
-        if(_callback&&_callback.constructor==Function){
-          _callback(o)
-        }else if(responseFun){
-          responseFun(o)
-        }
-      }else if(asFile){
+        return r.blob()
       }else{
         return r.text()
       }
     }).then(dd=>{
       if(data.responseType=="arraybuffer"&&!asFile){
-        let o=_handleBold(this.response,data.url)
-        if(_callback&&_callback.constructor==Function){
-          _callback(o)
-        }else if(responseFun){
-          responseFun(o)
-        }
+        return dd.arrayBuffer()
       }else{
         d.data.data=dd;
         if(data.responseType&&this.response){
@@ -133,6 +122,15 @@ let funMap={
           _callback(d.data)
         }else if(responseFun){
           responseFun(d.data)
+        }
+      }
+    }).then(dd=>{
+      if(data.responseType=="arraybuffer"&&!asFile){
+        let o=_handleBold(dd,data.url)
+        if(_callback&&_callback.constructor==Function){
+          _callback(o)
+        }else if(responseFun){
+          responseFun(o)
         }
       }
     })
@@ -191,7 +189,7 @@ let funMap={
       var v=_url.split("/");
       var n=v.pop()||v.pop()
 
-      var t=n.split(".")[1]||"";
+      var t=n.split(".").pop()||"";
       if(["jpg","png","svg","bmp","gif","jpeg","ico"].includes(t)){
         t="image/"+t;
       }else if("txt"==t){
@@ -251,14 +249,14 @@ let funMap={
           offset.top+=r.top
           vs.pop()
           findOffset(vs,img)
-        });
+        },()=>{});
       }else{
         chrome.tabs.sendMessage((t&&t.tab.id)||_masterTabId, {
           tab:(t&&t.tab.id)||"master",
           scope:bkScope,
           fun:bkFun,
           data:{imgUrl:img,offset:offset}
-        });
+        },()=>{});
       }
     }
   }
@@ -281,10 +279,10 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
 //      _req.frameId=[0];
       delete _req.twPage
       _req.twPage2=1
-      chrome.tabs.sendMessage(_masterTabId, _req);
+      chrome.tabs.sendMessage(_masterTabId, _req,()=>{});
     }else{
       _req.frameId=[_sender.frameId];
-      chrome.tabs.sendMessage(_ctrlTabId, _req);
+      chrome.tabs.sendMessage(_ctrlTabId, _req,()=>{});
     }
   //Master tab send dynamic code to background to forward to content
   }else if(_req.bzExeCode){
@@ -313,7 +311,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
         if(_newStatus=="record"){
           //funMap.enableAllIframe()
         }
-        chrome.tabs.sendMessage(_ctrlTabId, {_newStatus:_newStatus,data:_req.data});
+        chrome.tabs.sendMessage(_ctrlTabId, {_newStatus:_newStatus,data:_req.data},()=>{});
         _newStatus=0;
       }
     }
@@ -332,8 +330,8 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   //Dynamic code from BZ master page
   }else if(_req.bzCode){
     if(_masterTabId&&_masterTabId!=_sender.tab.id){
-      chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"window",fun:"close"});
-      chrome.tabs.sendMessage(_ctrlTabId, {tab:"master",scope:"window",fun:"close"});
+      chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"window",fun:"close"},()=>{});
+      chrome.tabs.sendMessage(_ctrlTabId, {tab:"master",scope:"window",fun:"close"},()=>{});
     }
     _shareData={}
     _masterTabId=_sender.tab.id;
@@ -402,10 +400,10 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
         if(_req.exeAction){
           if(_ctrlTabId){
             chrome.tabs.get(_ctrlTabId,function(o){
-              chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",data:_lastErrPage,twPage:1,tab:"master",bz:1});
+              chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",data:_lastErrPage,twPage:1,tab:"master",bz:1},()=>{});
             })
           }else{
-            chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",twPage:1,tab:"master",bz:1});
+            chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",twPage:1,tab:"master",bz:1},()=>{});
           }
         }
       }else{
@@ -480,7 +478,7 @@ function _addFrameId(_req,_element,_fun,_retry){
         console.log("error:")
         console.log(JSON.stringify(_element))
       }
-    })
+    },()=>{})
   }
   clearTimeout(_badRequest)
   _fun()
@@ -534,7 +532,7 @@ function _setCodeToContent(c,id,tabId,chkFrameId){
   //for set dynamic code to current controled client tab, 
   if(tabId && !_lastErrPage){
     try{
-      chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code to client:"+c.length,twPage:1,tab:"master",bz:1});
+      chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code to client:"+c.length,twPage:1,tab:"master",bz:1},()=>{});
       if(id!==undefined){
         if(!id&&_topFrameId){
           id=_topFrameId
@@ -556,7 +554,7 @@ function _setCodeToContent(c,id,tabId,chkFrameId){
         });
       }
     }catch(e){
-      chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG: Set code to extension failed: "+e.message+"\n"+e.stock,twPage:1,tab:"master",bz:1});
+      chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG: Set code to extension failed: "+e.message+"\n"+e.stock,twPage:1,tab:"master",bz:1},()=>{});
       console.log(e.stock)
       
       // chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code to client get error2:"+e.message,twPage:1,tab:"master",bz:1});
@@ -617,7 +615,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     }
     if(_msg.name=="bz-client"){
       if(!_plugInCode){
-        chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"_extensionComm",fun:"_loadPlugCode"});
+        chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"_extensionComm",fun:"_loadPlugCode"},()=>{});
       }
       _ctrlTabId=t.tab.id;
       _ctrlWindowId=t.tab.windowId;
@@ -625,7 +623,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
         _ctrlFrameId=t.frameId
       }
       //to tell master the current client tab id
-      chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,topFrame:t.frameId,tab:"master"});
+      chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,topFrame:t.frameId,tab:"master"},()=>{});
     }
     _topFrameId=_msg.name=="bz-client"||_msg.name=="bz-manager"?t.frameId:_topFrameId;
     _setCodeToContent("bzIframeId="+t.frameId+";topFrame="+(_msg.name=="bz-client"?1:0)+";",t.frameId)
@@ -667,7 +665,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       delete _frameIds[_msg.id]
     }
     _msg.tab="master"
-    chrome.tabs.sendMessage(_masterTabId, _msg);
+    chrome.tabs.sendMessage(_masterTabId, _msg,()=>{});
   }
   _sendResponse("ok")
 });
@@ -705,11 +703,11 @@ function _initFrame(frameId,rep){
       _lastExeActionReq.exeAction.tokenFailed=1
     }
     setTimeout(function(){
-      chrome.tabs.sendMessage(_ctrlTabId, _lastExeActionReq);
+      chrome.tabs.sendMessage(_ctrlTabId, _lastExeActionReq,()=>{});
     },100)
   }
   if(_loadPageInfo){
-    chrome.tabs.sendMessage(_masterTabId, _loadPageInfo)
+    chrome.tabs.sendMessage(_masterTabId, _loadPageInfo,()=>{})
     _loadPageInfo=0
   }
 }
@@ -724,7 +722,7 @@ chrome.tabs.onRemoved.addListener(function(_tab, info) {
   }else if(_ctrlTabId==_tab){
     //_console("background: remove ctrl")
     _ctrlTabId=0;
-    chrome.tabs.sendMessage(_masterTabId, {tw:0,tab:"master"});
+    chrome.tabs.sendMessage(_masterTabId, {tw:0,tab:"master"},()=>{});
   }else{
     delete _frameIds[_tab]
     return
@@ -739,12 +737,12 @@ chrome.tabs.onCreated.addListener(function(_tab, info) {
   if(_doingPopCtrl){
     //_console("background add ctrl tab")
     if(_ctrlTabId && _ctrlTabId!=_tab.id){
-      chrome.tabs.sendMessage(_ctrlTabId, {close:1})
+      chrome.tabs.sendMessage(_ctrlTabId, {close:1},()=>{})
     }
     _ctrlTabId=_tab.id;
     _frameIds={};
     //to tell master the current client tab id
-    chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,tab:"master"});
+    chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,tab:"master"},()=>{});
   }
 });
 
@@ -824,7 +822,7 @@ chrome.webRequest.onCompleted.addListener(function(v){
   }
   if((v.tabId==_ctrlTabId||v.tabId==-1)&&_masterTabId){
     if(!v.url.includes("bzInsert.css")&&!v.url.includes("insert.icons.css")){
-      chrome.tabs.sendMessage(_masterTabId, {twUpdate:1,tab:"master"});
+      chrome.tabs.sendMessage(_masterTabId, {twUpdate:1,tab:"master"},()=>{});
     }
     var r={ctrlInfo:1,url:v.url,from:"complete"}
     if(v.statusCode>=400){
@@ -838,11 +836,11 @@ chrome.webRequest.onCompleted.addListener(function(v){
         r.ready=1;//mainPage
         _lastErrPage=0
         if(_loadPageInfo){
-          chrome.tabs.sendMessage(_masterTabId, _loadPageInfo);
+          chrome.tabs.sendMessage(_masterTabId, _loadPageInfo,()=>{});
         }
         setTimeout(function(){
           if(_loadPageInfo){
-            chrome.tabs.sendMessage(_masterTabId, _loadPageInfo);
+            chrome.tabs.sendMessage(_masterTabId, _loadPageInfo,()=>{});
           }
         },1000)
         r.tab="master"
@@ -862,7 +860,7 @@ chrome.webRequest.onCompleted.addListener(function(v){
       return;
     }
     r.tab="master"
-    chrome.tabs.sendMessage(_masterTabId, r)
+    chrome.tabs.sendMessage(_masterTabId, r,()=>{})
   }
 },{urls: ["<all_urls>"]},["responseHeaders"]);
 
@@ -891,7 +889,7 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
       r.initUrl=v.initiator
     }
     r.tab="master"
-    chrome.tabs.sendMessage(_masterTabId, r)
+    chrome.tabs.sendMessage(_masterTabId, r,()=>{})
   }
 },{urls: ["<all_urls>"]});
 
