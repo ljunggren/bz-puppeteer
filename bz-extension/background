@@ -145,7 +145,7 @@ let funMap={
       var v=_url.split("/");
       var n=v.pop()||v.pop()
 
-      var t=n.split(".")[1]||"";
+      var t=n.split(".").pop()||"";
       if(["jpg","png","svg","bmp","gif","jpeg","ico"].includes(t)){
         t="image/"+t;
       }else if("txt"==t){
