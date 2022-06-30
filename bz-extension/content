@@ -27,8 +27,8 @@ function registerTab(){
   //_console("content register")
   console.log("Do register from:"+bzIframeId)
   chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ),name:window.name},function(_msg){
-    if(_msg && _msg._ignore){
-      chrome.runtime.onMessage.removeListener()
+    if(_msg){
+      setTimeout(_msg)
     }
   });
 }
@@ -50,6 +50,7 @@ function handleMsg(_event, _, sendResponse, codeTime) {
   //_console("content get message: ",_event)
   if(_event.acceptData){
     assignStdData()
+    sendResponse("")
     return setTimeout(_event.code)
   }else if(window.name!="bz-master"&&(!window.ecMap||!window[ecMap.i]||!window[ecMap.u]||!window[ecMap.css])){
     if(bzIframeId===null||bzIframeId===undefined){
@@ -201,12 +202,14 @@ function handleMsg(_event, _, sendResponse, codeTime) {
       }
     }
   }else if(_event.shareData!==undefined){
+    console.log("Share data: "+Object.keys(_event.shareData))
     _doIt1();
     function _doIt1(){
       if(window.BZ){
         BZ[ecMap.sd](_event.shareData);
       }else{
-        setTimeout(function(){_doIt1()},1)
+        console.log("Wait BZ code:"+Object.keys(_event.shareData))
+        setTimeout(function(){_doIt1()},100)
       }
     }
   }else if(_event.element){

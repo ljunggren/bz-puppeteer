@@ -593,11 +593,12 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       _sendResponse(d)
     })
   }else if(!_msg.requestSendResponse){
-    _sendResponse("ok")
+    
   }else{
     _msg.requestSendResponse=_sendResponse
   }
   if(_msg.keep){
+    _sendResponse("ok")
     return;
   }
   //_console("background (content): ",_msg)
@@ -608,6 +609,12 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data,t,_msg.element,_msg.requestSendResponse)
     return !!_msg.requestSendResponse
   }else if(_msg._registerTab && (_msg.name=="bz-client"||_ctrlTabId==t.tab.id)){
+    if(t.url.startsWith(_appUrl)){
+      return alert("Testing on Boozang sites not supported!");
+    }
+    if(isIgnoreFrame(t.url)){
+      return
+    }
     if(_msg.name=="bz-client"){
       if(!_plugInCode){
         chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"_extensionComm",fun:"_loadPlugCode"});
@@ -620,12 +627,6 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       //to tell master the current client tab id
       chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,topFrame:t.frameId,tab:"master"});
     }
-    if(t.url.startsWith(_appUrl)){
-      return alert("Testing on Boozang sites not supported!");
-    }
-    if(isIgnoreFrame(t.url)){
-      return
-    }
     _topFrameId=_msg.name=="bz-client"||_msg.name=="bz-manager"?t.frameId:_topFrameId;
     _setCodeToContent("bzIframeId="+t.frameId+";topFrame="+(_msg.name=="bz-client"?1:0)+";",t.frameId)
 /*
@@ -634,7 +635,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       return
     }
 */
-    _initFrame(t.frameId)
+    _initFrame(t.frameId,_sendResponse)
   //only work after master window is ready, and the requestion will send to master
   }else if(_masterTabId){
     _msg.ctrlInfo=1;
@@ -668,26 +669,36 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     _msg.tab="master"
     chrome.tabs.sendMessage(_masterTabId, _msg);
   }
+  _sendResponse("ok")
 });
 function getPlugCode(){
   return (extendTopScript||"")+"\n"+_plugInCode+"\n"+(extendEndScript||"")
 }
-function _initFrame(frameId){
-  _setCodeToContent(getPlugCode(),frameId);
+function _initFrame(frameId,rep){
+  let c=getPlugCode()+";"
+
+  // _setCodeToContent(getPlugCode(),frameId);
   //Debugging flag, if the current content doesn't have dynamica code, set the master code to it.
-  _setCodeToContent(_bzEnvCode+";window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:bzIframeId})}",frameId);
-  _setCodeToContent("_insertCssAndClientCode("+JSON.stringify({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data})+")",frameId)
+  // _setCodeToContent(_bzEnvCode+";window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:bzIframeId})}",frameId);
+  // _setCodeToContent("_insertCssAndClientCode("+JSON.stringify({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data})+")",frameId)
 
   if(_status!="play"){
     if(_curAction){
-      chrome.tabs.sendMessage(_ctrlTabId,{curAction:_curAction});
-    }else if(_curTest){
-      chrome.tabs.sendMessage(_ctrlTabId,{curTest:_curTest});
+      c+="_IDE._data._curAction="+JSON.stringify(_curAction)+";"
+      // chrome.tabs.sendMessage(_ctrlTabId,{curAction:_curAction});
+    }
+    if(_curTest){
+      c+="_IDE._data._curTest="+JSON.stringify(_curTest)+";"
+      // chrome.tabs.sendMessage(_ctrlTabId,{curTest:_curTest});
     }
   }
   if(_shareData){
-    chrome.tabs.sendMessage(_ctrlTabId,{shareData:_shareData});
+    c+="BZ._setShareData("+JSON.stringify(_shareData)+");"
+    // chrome.tabs.sendMessage(_ctrlTabId,{shareData:_shareData});
   }
+  c+=_bzEnvCode+";window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:bzIframeId})};"
+    +"_insertCssAndClientCode("+JSON.stringify({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data})+");"
+  rep(c)
 
   if(_lastExeActionReq && _status=="play"){
     if(_lastExeActionReq.exeAction.token){
@@ -759,6 +770,31 @@ chrome.runtime.requestUpdateCheck(function(s) {
     console.log("Oops, I'm asking too frequently - I need to back off.");
   }
 });
+
+function _isDownloading(rs){
+  for(var i=0;rs && i<rs.length;i++){
+    var r=rs[i];
+    if(r.name=="Content-Disposition" && (r.value.includes("attachment")||r.value.includes("filename"))){
+      return 1
+    }else if((r.name||"").toLowerCase()=="content-type" && (r.value.includes("application")||r.value.includes("stream"))){
+      return 1
+    }
+  }
+}
+
+function cleanMaster(){
+  var tabId=_ctrlTabId
+  _setCodeToContent("window.close();",_topFrameId,tabId);
+  _status=""
+  _masterTabId=0;
+  _masterFrameId=0;
+  _shareData={}
+  ignoreReqs=0
+  _newStatus=_status=_topFrameId=0
+  _ctrlTabId=0;
+  _uncodeFrames=[]
+}
+
 chrome.webRequest.onBeforeRequest.addListener(function(a,b){
   if(a.tabId==_ctrlTabId&&_ctrlTabId){
     if(a.type=="main_frame"){
@@ -830,16 +866,6 @@ chrome.webRequest.onCompleted.addListener(function(v){
   }
 },{urls: ["<all_urls>"]},["responseHeaders"]);
 
-function _isDownloading(rs){
-  for(var i=0;rs && i<rs.length;i++){
-    var r=rs[i];
-    if(r.name=="Content-Disposition" && (r.value.includes("attachment")||r.value.includes("filename"))){
-      return 1
-    }else if((r.name||"").toLowerCase()=="content-type" && (r.value.includes("application")||r.value.includes("stream"))){
-      return 1
-    }
-  }
-}
 chrome.webRequest.onErrorOccurred.addListener(function(v){
   if(v.tabId==_ctrlTabId||(_masterFrameId&&!_ctrlTabId)){
     var r={ctrlInfo:1,url:v.url,error:v.error};
@@ -868,18 +894,6 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
     chrome.tabs.sendMessage(_masterTabId, r)
   }
 },{urls: ["<all_urls>"]});
-function cleanMaster(){
-  var tabId=_ctrlTabId
-  _setCodeToContent("window.close();",_topFrameId,tabId);
-  _status=""
-  _masterTabId=0;
-  _masterFrameId=0;
-  _shareData={}
-  ignoreReqs=0
-  _newStatus=_status=_topFrameId=0
-  _ctrlTabId=0;
-  _uncodeFrames=[]
-}
 
 chrome.webRequest.onActionIgnored.addListener(function(v){
   if(v.tabId!=_ctrlTabId){
