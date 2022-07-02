@@ -50,7 +50,7 @@ function handleMsg(_event, _, sendResponse, codeTime) {
   //_console("content get message: ",_event)
   if(_event.acceptData){
     assignStdData()
-    sendResponse("")
+    sendResponse(1)
     return setTimeout(_event.code)
   }else if(window.name!="bz-master"&&(!window.ecMap||!window[ecMap.i]||!window[ecMap.u]||!window[ecMap.css])){
     if(bzIframeId===null||bzIframeId===undefined){
@@ -87,8 +87,10 @@ function handleMsg(_event, _, sendResponse, codeTime) {
     return
   }
   if(name=="bz-master"&&_event.tab!="master"){
+    sendResponse(1)
     return
   }else if(name!="bz-master"&&_event.tab=="master"&&!_event.twPage){
+    sendResponse(1)
     return
   }
   if(_event.twPage||_event.twPage2){
@@ -107,6 +109,7 @@ function handleMsg(_event, _, sendResponse, codeTime) {
       window[_event[ecMap.s]][_event[ecMap.f]](_event[ecMap.d]);
     }
   }else if(_event.fun && _event.scope){
+    sendResponse(1)
     return _doIt3();
     function _doIt3(){
       if(name=="bz-master"){
@@ -374,6 +377,6 @@ function responseIframeOffset(vs,_sendResponse){
 }
 function exeCodeInApp(c){
   c=c.replace(/[<]/g,"&lt;")
-  $("<div style='display:none' onclick='this.innerText.replace(/\&lt\;/g,\"<\")'>"+c+"</div>").appendTo(document.body.parentElement).click().remove()
+  $("<div style='display:none' onclick='eval(this.innerText.replace(/\&lt\;/g,\"<\"))'>"+c+"</div>").appendTo(document.body.parentElement).click().remove()
 
 }
