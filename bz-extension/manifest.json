@@ -45,7 +45,7 @@
       ],
       "matchAboutBlank":true,
       "all_frames":true,
-      "js": ["js/jquery.min.v1.12.4.js"]
+      "js": ["js/jquery.min.v1.12.4.js","js/plug.js"]
     },
     {
       "matches": [
