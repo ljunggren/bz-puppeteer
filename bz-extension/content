@@ -3,37 +3,27 @@ let curContentExeAction=0,topFrame=0,initEnv=0;
 
 //Register
 window.extensionContent=1;
-console.log("BZ-LOG: Extension version: "+chrome.runtime.getManifest().version)
-function initCode(t,tt){
-  if(name!=="bz-master"){
-    if(parent==window){
-      registerTab()
-    }else if(window.innerWidth>10&&window.innerHeight>5){
-      setTimeout(()=>{
-        registerTab()
-      },1)
-    }else if(tt<10){
-      setTimeout(function(){
-        initCode(100,tt+1)
-      },t);
+
+rebuild()
+function registerTab(){
+  //_console("content register")
+  chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ),name:window.name},function(_msg){
+    if(_msg){
+      window[ecMap.ev].exeGroupCode(_msg)
     }
+  });
+}
+let waitCodeTimer,assignedData
+chrome.runtime.onMessage.addListener(handleMsg);
+function rebuild(){
+  if(name!=="bz-master"){
+    registerTab()
   }else{
+    console.log("BZ-LOG: Extension version: "+chrome.runtime.getManifest().version)
     document.body.setAttribute("bz-id",chrome.runtime.id)
     window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
   }
 }
-initCode(10,0)
-function registerTab(){
-  //_console("content register")
-  console.log("Do register from:"+bzIframeId)
-  chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ),name:window.name},function(_msg){
-    if(_msg){
-      setTimeout(_msg)
-    }
-  });
-}
-chrome.runtime.onMessage.addListener(handleMsg);
-let waitCodeTimer,assignedData
 function assignStdData(){
   if(!assignedData){
     assignedData=1
@@ -51,7 +41,11 @@ function handleMsg(_event, _, sendResponse, codeTime) {
   if(_event.acceptData){
     assignStdData()
     sendResponse(1)
-    return setTimeout(_event.code)
+    try{
+      return window[ecMap.ev].exeGroupCode(_event.code)
+    }catch(ex){
+      console.log("BZ-LOG: "+ex.message+"\n"+_event.code)
+    }
   }else if(window.name!="bz-master"&&(!window.ecMap||!window[ecMap.i]||!window[ecMap.u]||!window[ecMap.css])){
     if(bzIframeId===null||bzIframeId===undefined){
       return
@@ -79,6 +73,7 @@ function handleMsg(_event, _, sendResponse, codeTime) {
     return
   }
   if(_event.findFrameId){
+    debugger
     return responseIFrameId(_event.findFrameId,sendResponse,_event.element,_event.retry)
   }else if(_event.findOffset){
     return responseIframeOffset(_event.findOffset,sendResponse)
@@ -250,7 +245,7 @@ function afterDocReady(_fun,_time){
   }
 }
 
-function _insertCssAndClientCode(_msg,_time){
+function insertCssAndClientCode(_msg,_time){
   _time=_time||Date.now()
   if(document && document.body && document.body.innerHTML && (["complete","interactive"].includes(document.readyState) || Date.now()-_time>100000)){
     var o=document.createElement("style");
@@ -290,7 +285,7 @@ function _insertCssAndClientCode(_msg,_time){
     initEnv=1
   }else{
     setTimeout(function(){
-      _insertCssAndClientCode(_msg,_time)
+      insertCssAndClientCode(_msg,_time)
     },0)
   }
 }
@@ -380,3 +375,5 @@ function exeCodeInApp(c){
   $("<div style='display:none' onclick='eval(this.innerText.replace(/\&lt\;/g,\"<\"))'>"+c+"</div>").appendTo(document.body.parentElement).click().remove()
 
 }
+
+window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:bzIframeId})}

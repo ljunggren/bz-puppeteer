@@ -1,4524 +1,4 @@
-var _bzMessage={
-  _language:{
-    en:"English",
-    cn:"中文"
-  },
-  _common:{
-    _flag:"Switch Flag",
-    _andMessage:"{0} and {1}",
-    _shortcutList:"Bookmark List",
-    _recentList:"Recent visited List",
-    _pauseList:"Pause List",
-    _template:"Template",
-    _percentage:"Percentage",
-    _other:"Other",
-    _list:"List",
-    _size:"Size",
-    _format:"Format",
-    _debugData:"Debug Data",
-    _result:"Result",
-    _wordSign:"W",
-    _property:"Property",
-    _totalTests:"Total {0} Test case(s)",
-    _fileSize:"File Size",
-    _language:"Language",
-    _created:"Created!",
-    _enter:"Enter",
-    _initial:"INIT",
-    _hour:"h ",
-    _minute:"m ",
-    _second:"s ",
-    _newModule:"[New Module]",
-    on:"on",
-    off:"off",
-    _recommand:"Recommended",
-    or:"or",
-    _bookmark:"Bookmark",
-    _mapping:"Mapping",
-    _deleted:"Deleted",
-    _orWord:"or",
-    _homePage:"Home page",
-    _about:"About",
-    _loading:"Loading ...",
-    _legend:"Hidden tests",
-    _note:"Note",
-    _fields:"Fields",
-    _details:"Details",
-    _general:"general",
-    _loopData:"For Loop Data",
-    _select:"[select ...]",
-    _solution:"Solution",
-    _operations:"Operations",
-    _required:"Required",
-    _option:"Option",
-    _parameterSetting:"Parameter Setting",
-    _newValue:"New Value",
-    _contents:"Contents",
-    _main:"Main",
-    _app:"APP",
-    _copyOf:"Copy of ",
-    _from:"From",
-    _toData:"To",
-    _private:"Private",
-    _dockSide:"Dock side: ",
-    "dock-left":"Dock to left",
-    "dock-right":"Dock to right",
-    "undock":"Undock into separate window",
-    _suite:"Test suites",
-    _authentication:"Authentication",
-    _default:"Default",
-    _requirement:"Requirement",
-    _requirementDesc:"Map test to requirement",
-    _complete:"Complete",
-    _rootUrl:"URL",
-    _label:"Label",
-    _req:"External file/Data",
-    _home:"Home",
-    include:"Include",
-    exclude:"Exclude",
-    _screenshot:"Screenshot",
-    _create:"Created",
-    _fun:"Fun",
-    _file:"File",
-    _root:"Project Root",
-    _enableDisable:"Enabled (Uncheck to skip)",
-    _openIDE:"Click to Open IDE",
-    _adv:"Adv.",
-    _advanced:"Advanced",
-    _options:"Options",
-    _name:"Name",
-    _group:"Group",
-    _alias:"Alias",
-    _aliasDesc:"Split by semicolon(;) for multiple alias. like: XXX; YYY",
-    _tag:"Tags",
-    _features:"Features",
-    _ais:"AI Models",
-    _com:"Components",
-    _path:"Path",
-    _projectId:"Project ID",
-    _function:"Function",
-    _request:"Request",
-    _response:"Response",
-    _exist:"Exist",
-    _and:"and",
-    _orMark:"or",
-    _iLocked:"The item was checked out by you",
-    _othLocked:"The item was locked by other team member. you can release it by click.",
-    _update:"Updated",
-    _updateBy:"Update by",
-    _duration:"Last run: ",
-    _dataBind:"Data Bind",
-    _url:"URL",
-    _method:"Method",
-    _property:"Property",
-    _objectOrArray:"Object or Array ({} / [])",
-    _object:"Object",
-    _array:"Array",
-    _mixed:"Mixed",
-    _csv:"CSV",
-    _matrix:"Matrix",
-    _edit:"Edit",
-    _user:"User",
-    _new:"New",
-    _regex:"Regex format",
-    _item:"item",
-    _items:"items",
-    _noitems:"No items",
-    _ok:"OK",
-    _done:"Done",
-    _search:"Search Modules & Tests by code, tag or name ...",
-    _inSearch:"In search result: {0} test cases",
-    _close:"Close",
-    _view:"View",
-    _code:"Branch",
-    _key:"Key",
-    _script:"Script",
-    _element:"Element",
-    _aiElement:"AI Model Element",
-    _attribute:"Attribute",
-    _panel:"Panel",
-    _comment:"Description",
-    _save:"Save",
-    _class:"Class",
-    _style:"Style",
-    _event:"Event",
-    _hideMore:"Hide options",
-    _more:"More options",
-    disabled:"disabled",
-    _timeUnit:"Millisecond",
-    _timeUnitDesc:"MilliSeconds",
-    _running:"Running",
-    _success:"Success",
-    _stopped:"Stopped",
-    _warning:"Warning",
-    _error:"Error",
-    _failed:"Failed",
-    _expectedFailed:"Expected Fail",
-    _crash:"Critical",
-    _index:"Index",
-    _value:"Value",
-    _title:"Title",
-    _description:"Description",
-    _scope:"Scope",
-    _date:"Date",
-    _data:"Data",
-    _variable:"Variable",
-    _parameter:"Parameter",
-    _link:"Link",
-    _status:"Status",
-    _type:"Type",
-    _subType:"Sub-Type",
-    _refTest:"Reference Test cases",
-    _version:"Branch",
-    _versions:"Branches",
-    _milestone:"Milestone",
-    _aiModule:"AI Model",
-    _module:"Module",
-    _field:"Field",
-    _actionInfo:"Action Info",
-    _moduleExe:"Module Executed",
-    _modules:"Modules",
-    _test:"Test",
-    _tests:"Test cases",
-    _project:"Project",
-    _projects:"Projects",
-    _action:"Action",
-    _actions:"actions",
-    _noactions:"No actions",
-    _content:"Content",
-    _message:"Message",
-    _variableDefinition:"Variable Definition",
-    _fileType:"File Type",
-    _confirm:"Confirm",
-    _merge:"Merge",
-    _info:"Information",
-    _all: "All"
-  },
-  _system:{
-    _operation:{
-      _recording:"Recording",
-      _inAutoValidation:"Recording (with auto-validation)",
-      _playing:"Playing",
-      _pausing:"Pausing",
-      _selectElement:"Select an element in the page to complete the action",
-      _selectForm:"Select a form or input(select, textarea) to build a set of event actions"
-    },
-    _error:{
-      _syntaxError:"Syntax error: ",
-      _parseParameterError:"Parse parameter error",
-      _blockOuterExtension:"Found that you are using the Chrome extension '{0}'. \n\nIt may cause performance issues during the test. \n\nPlease temporarily disable this product",
-      _pathSettingError:"Path setting error",
-      _missingModuleInExpression:"The expression is incorrect! Missing module: {0}",
-      _missKeyInExpressError:"The expression is incorrect! Data keyword not specified： {0}",
-      _unexistVersion:"Version:{0} not exist!",
-      _lostApp:"Lost app window!!",
-      _lostElement:"Lost element",
-      _formatDataIssue:"Data format issue on:\n\n",
-      _importFileError:"Error importing file： {0}",
-      _scriptError:"Script Data Error",
-      _noSolution:"Cannot find test case to build the specified data ({0})",
-      _undefinedValue:"undefined error on: ",
-      _noAIModuleError:"The current Module ([{0}] {1}) is not a AI model!",
-      _noRoom:"The data retention limit has been reached. If you want to store current data, please delete the previous useless data before saving.",
-      _loopDependence:"The below modules have loop-dependency relationship。\n\n{0}",
-      _requireAll:"All fields are required!",
-      _existError:"Element exist issue!",
-      _unSupportOldData:"Data format not supported",
-      _ajaxFailed:"Please check the url, headers, query and body.\n\nMessage:{5}\nStatus: {0}\nURL: {1}\nHeaders:{2}\nQuery:{3}\nBody:{4}",
-      _longTimeNoResponse:"Response taking too long!",
-      _noImplement:"NOT IMPLEMENTED!",
-      _envErr:"Environment number ({0}) is not right",
-      _noSpecifyData:"There is not the specified data '{1}' in '{0}' module.",
-      _duplicateAccountShutdown:"Account already in use. Change user account or worker number. Shutting down.",
-      _duplicateAccount:"Someone has logged in using your account. \n\nIf this was unexpected, please change your password and login again. Thanks\n\n<b>(The current window is going to be closed in 5s)</b>",
-      _tokenAccount:"Your account has been logged in using access token. For security reason, you have therefore lost all write permissions                                                                                                                                                                                                                                                     . \nIf you want to revert to your normal permissions, you have to re-login.",
-      _networkIssue:"The network connection is broken. \nPlease check your network device.",
-      _poorPerformance:"Slow",
-      _dataUnExist:"This data no longer exists",
-      _disableElement:"Cannot trigger event on a disabled element",
-      _deleteAITest:"The AI generated test case ({0}) cannot be deleted!",
-      _notDefinitionObj:"'{0}' is not in ai definition object",
-      _loadPageFailedInFrameset:"Load page failed {0}. Maybe the reason is the application doesn't work in Dock-mode. Do you want to switch to Undock mode?",
-      _requestFormatError:"The request link ({0}) is not correct. The protocol must be ({1})",
-      _requestFailed:"Load file failed ({0})",
-      _dataFormatError:"Data format error!",
-      _failedAsDownload:"Failed as a download action! Error Info: \n\n",
-      _nameFormat:"Module/Test name cannot have '.'",
-      _loadPageErr:"Error when loading page: \n\n  ",
-      _loadPageFailed:"{0}, Failed on loading page: \n\n  ",
-      _loadFileErr:"Error when loading file: \n\n  ",
-      _loadFileFailed:"{0}, Failed when loading file: \n\n  ",
-      _downloadErr:"Error when downloading file: \n\n  ",
-      _downloadFailed:"{0}, Failed when downloading file: \n\n  ",
-      _missHost:"Please set APP URL",
-      _errList:"Get below error:\n\n",
-      _missTestWindow:"There is no testing page, or you have lost control of it. Please use BZ to open your testing page.",
-      _testError:"Element is not found or syntax error exists in the code",
-      _refError:"The Ref Test Item does not exist. Please check the Ref code: ",
-      _duplicateName:"The Name, '{0}', exists or is a system key word! Please change to another name.",
-      _switchCsvToObjError:"Cannot translate sub-object to CSV. Duplicate key words on {0}",
-      _existKey:"The key exists already or is a system key word! Please change to another key.",
-      _emptyKey:"Key/Name must not be empty!",
-      _noResource:"The resource does not exist!",
-      _keyFormat:"The data format is not right. Key can only include letters in upper case or lower case, numbers and underscores",
-      _dataFormat:"There is a data format error!",
-      _errorData:"There is an error data: ",
-      _missData:"Missing data: ",
-      _popWinBlocked:"Open Pop window failed! \n\nPlease make sure the browser doesn't block pop windows from the current host.\n\n<img src='{0}/img/check-pop-{1}.png'/>\n\n\n\n",
-      _defaultSettingIssue:"Project default data issue: ",
-      _personalSettingIssue:"Project private data issue: ",
-      _missElement:"Didn't find the required element",
-      _NoPermission:"No permission for the operation",
-      _NoResource:"Unexpected error when fetching data. Please refresh browser window. ",
-      _missingEnterPointSetting:"There is no a default APP URL setting.",
-      _requiredField:"The {0} is required!",
-      _replaceValue:"Replace {0} to a properly value",
-      _fieldFormat:"The format of {0} is not correct!",
-      _keyError:"The Key is required and it cannot be duplicate.",
-      _dataUpdateByOtherError:"The data was updated/locked by other team member. \n\nPlease refresh your browser to load the current data.",
-      _moveToChildError:"Cannot move parent module to child module",
-      existName:"The name already exists!",
-      _moveModuleOnLock:"Cannot move module {0}. It is locked by other team member.",
-      _missingLoopData:"Missing test case loop data binding",
-      _funDataFormatErr:"This is not a function. As function data, the format must match 'function(){......}'",
-      _funDataLimitOnBZ:"As a function data, the content is not allowed including 'BZ.'",
-      _funDataLimitOnUnderline:"As a function data, the content is not allowed including '_'",
-      _wrongUrl:"You can only test on the current host: ",
-      _saveDataError:"Store data error",
-      _dataPathFormat:"Data format error. Data format can be: $test.xxx, or $test.xxx.xxx",
-      _variableFormat:"WARNING! Found {0}. Please be sure it is not a variable. If it is a variable, the format should be {{{1}}}",
-      _fileSizeIssue:"You can only attach files of maximum 5K file size to your project. Please select a smaller file or use request data. \n\n Note: Request data allows large files to be fetched from your application or file sharing service, like: https:/"+"/www.dropbox.com"
-    },
-    _info:{
-      _unsaveAlert:"The current data hasn't been saved yet. ",
-      _sameData:"Same data, no update.",
-      _noRoomReminder:"The data retention limit has been reached",
-      _confirmUpdate:"Get different data. Do you want to update?",
-      _oldData:"Old Data",
-      _newData:"New Data",
-      _playInToken:"Running with read-only permissions",
-      _secondAgo:"{0} second{1} ago",
-      _minuteAgo:"{0} minute{1} ago",
-      _hourAgo:"{0} hour{1} ago",
-      _dayAgo:"{0} day{1} ago",
-      _weekAgo:"{0} week{1} ago",
-      _monthAgo:"{0} month{1} ago",
-      _yearAgo:"{0} year{1} ago",
-      _noOption:"There is no option",
-      _updateList:"The below test cases were updated:\n\n",
-      _updating:"Updating ...",
-      _errorPossiblePosition:"The issue maybe at:",
-      _missingToken:"Warning: Missing token",
-      _noMoreAsk: "Don't ask again",
-      _confirmDelete:"Are you sure you want to delete selected item?",
-      _upgradeRequired:"This patch requires a data upgrade.\n\nPlease click 'Start' to begin.",
-      _launchApp:"After you setup application host, <br/>the testing application will launch in this window.",
-      // _performanceRequest:"The below resource is taking long to respond. \nTo speed up test execution, you can add it to Settings -> Content Policy -> Ignore Request (URL).",
-      _setMonitor:"After you enter monitor mode, your IDE will display the actions done by the monitored server. \n\nWhenever you want to exit the monitor mode, you just need to reload the browser. \n\nDo you want to enable monitor mode?",
-      _confirmDeleteAllBookmark:"Do you want to remove all bookmarks?",
-      _questionInfo:"Activating help mode. Click on highlighted or underlined functions to learn how the function works. \n\n To deactivate help mode, click the question mark icon once again.",
-      _noReport:"There is no testing report. ",
-      _alertSaveData:"The current data hasn't been saved yet. \n\nDo you want to save it to cloud now?",
-      _inBZIDEIssue:"The feature is not supported in Boozang IDE testing",
-      _requestContact:"For better support, please tell us about your contact information (name, email or phone number). Thanks!",
-      _requireTitle:"Title is required",
-      _demoInfo:"<div style='font-weight:bold'>Welcome to Boozang Demo Project</div><p>In this demo project, you can create modules and record test cases. You'll have access to most of the Boozang features, except to store your work on the Cloud server. \n\nIf you want to setup your own project with full features, you just need to <a href='http:/"+"/{0}/#security/signup'>sign up</a> for free. Thanks!\n\n\nEnjoy:)</p>",
-      _demoLimitField:"Demo project doesn't support the feature.",
-      _demoLimitData:"Your tests has been saved in your local browser storage. This demo project will allow you to create tests, but not to Save them to the Cloud server. \n\nPlease <a href='http:/"+"/{0}/#security/signup'>sign up</a> to create your own project.",
-      _loadPageSuccess:"Load page success: ",
-      _downloadSuccess:"Download file success: ",
-      _missUpdateRef:"The below test case references were not updated:\n\n",
-      _foundRef:"<span style='color:red'>NOTE</span>: Found references from the below test cases:\n\n",
-      _confirmCutTest:"The operation may cause a reference update on other test cases. \nMake sure all the related test cases are not locked by other team members. \n\nIf update reference fails, you can always goto <a href='#{0}tools'>Tools</a> to do a batch update. \n\nDo you want to continue?",
-      _moveModule:"{0} moved Module, {1}",
-      _confirmSignout:"Do you want to sign out?",
-      _confirmSignoutRelease:"Do you want to sign out without release your locked items?",
-      _confirmSignoutSave:"Do you want to sign out without saving to the cloud (currently saved in local only)?",
-      _confirmReplaceAndMerge:"Do you want to replace the current value or you want to merge with current value?",
-      _confirmReleaseLock:"Another member ({0}) is working on the record. \n\nDo you want to continue to release the record?",
-      _workingRecordBeReleased:"Your current working record was released by other member ({0}).",
-      _deleteItem:"Do you want to delete the selected item?",
-      _confirmExit:"Do you want to revert the test case discarding local changes?",
-      _dataLocked:"The data ({0}) was locked by the team member, {1}. Thanks",
-      _manualLockFirst:"The data was locked by other member",
-      _lockby:"Locked by: ",
-      _myself:"Myself",
-      _overwriteSuccess:"The expectation value was replaced with the value from the page. Please review the test case and save it to Cloud server.",
-      _outDomainWarning:"The link will open page in different domain ("+location.host+"), Boozang will lose control of the window. Do you still want to open it?",
-      _confirmLeaveSrcWithoutKeep:"You have updated the source data. Do you want to keep the update in memory?",
-      _missingOption:"Please select at least one option before continue",
-      _missingCheckData:"There is data you haven't confirmed. Please confirm first",
-      _confirmReloadPage:"The page will automatically reload after saving. \n\nDo you want to continue?",
-      _fragmentRequire:"In {0}, you need use fragment to record and execute your test case. \n\nPlease see instructions in <a href='{1}'>management</a> page.",
-      _installIDERequest:"The operation need you to install the Boozang AI Chrome Extension! \n\nPlease <a target='_blank' href='https:/"+"/chrome.google.com/webstore/detail/boozang-ai/bnaebcjlolajbgllgjlmlfobobdemmki'>download</a> it!",
-//      _installIDERequest:"For full functionality you need to install the Boozang AI Chrome Extension! \n\nPlease <a href='javascript:BZ._installExtension()'>download</a> it!",
-      _updateData:"Found data {0}. Do you want to update the data?",
-      _loadDataNote:"(Note: Please be sure there is no 'ACCESS-CONTROL-ALLOW-ORIGIN' issue on the specific resource)"
-    }
-  },
-  _method:{
-    _done:"Done",
-    go:"Go",
-    _ref:"Ref.",
-    _addItem:"Add {0}",
-    _fuzzySearch:"Fuzzy search",
-    _searchReplace:"Search / Replace",
-    _mail:"Send notification / bug report",
-    _addField:"Add field",
-    _popEditor:"Pop-up Editor",
-    _setAlwaysSuccess:"Set to always success",
-    _batchAddModels:"Batch add Models",
-    _cleanFlag:"Remove all data-bz from APP",
-    _import:"Import",
-    _viewSource:"View in JSON",
-    _viewForm:"View Form",
-    _addScope:"Add Scope",
-    _editScope:"Update Scope",
-    _addGroup:"Add Group",
-    _editGroup:"Update Group",
-    _tryIt:"Try it",
-    _play:"Play",
-    _mappingTo:"Map to",
-    _mappingApiHost:"API Host Mapping",
-    _rightClickToCancel:"Right click to cancel pick",
-    _clickToPlay:"Click to play the action",
-    _addCustomize:"Add customize input or dropdown list(css)",
-    _load10:"Load +10",
-    _addFlagFilter:"+ Add BZ-Attr Filter",
-    _addFreeFilter:"+ Add Free Filter",
-    _editRequestPreScript:"Edit Pre-Script of Request",
-    _loadAll:"Load All",
-    _useComboAction:"Use combo action",
-    _scan:"Scan",
-    _setNewName:"Set new name",
-    _setNoteTodo:"Set note / todo",
-    _defineParameter:"Define parameter of test case",
-    _executeAll:"Execute All Cases",
-    _executeRandom:"Execute a random",
-    _filterResult:"Filter Result Script",
-    _reviewMergeHistory:"Review merge history",
-    _showAttribute:"Show BZ Attribute setting",
-    _copyByClick:"To copy content by click",
-    _copyElementPathByClick:"To copy element path by click",
-    _newDataType:"New Module Data Type",
-    _setIdentifyScript:"Set Identify Status Script",
-    _newModuleStatus:"New Module Status",
-    _filterReq:"Filter API requests",
-    _demoFillForm:"Demo fill form",
-    _createField:"Create new Field",
-    _mappingAlias:"Mapping name and alias",
-    _saveData:"Sava data",
-    _setValue:"Set value",
-    _alwaysYes:"Always Yes",
-    _alwaysNo:"Always No",
-    _refreshText:"Automatically reset text based on positioning text method",
-    _refreshTextMethod:"Automatically reset positioning text method based on text",
-    _closeTaskList:"Close task result list",
-    _mapElement:"Mapping Element",
-    _pickAndCopyElementPath:"Pick and Copy element path",
-    _addElement:"Add Element",
-    _addModel:"Add Model",
-    _addTest:"Add Test",
-    _addSubModule:"Add Sub-Module",
-    _addScenario:"Add Scenario",
-    _moveDown:"Move Down",
-    _moveUp:"Move Up",
-    _complete:"Complete",
-    _finish:"Finish",
-    _insertOpr:"Insert Operation",
-    _createOpr:"Create Operation",
-    _insertDep:"Insert Dependent Module",
-    _createDep:"Create Dependent Module",
-    _addGiven:"Add Given Item",
-    _addWhen:"Add When Item",
-    _addThen:"Add Then Item",
-    _addStatus:"Add Data Status",
-    _addColumn:"Add Data Column",
-    _addBusinessLogicDataInFlow:"Add business logic data",
-    _addFlow:"Add Data Flow",
-    _editFlow:"Edit Data Flow",
-    _deleteFlow:"Delete Data Flow",
-    _newRootCause:"New Root Cause",
-    _updateRootCause:"Edit Root Cause",
-    _addIgnorePath:"Ignore the Request",
-    _reGenerateData:"Re-generate Module Data",
-    _newGroupScope:"New Group or Scope",
-    _newLanguage:"New Language",
-    _analyze:"Check test cases",
-    _recordRequest:"Record API",
-    _stopRequest:"Stop Record API",
-    _clearRequest:"Clear Requests",
-    _autoMap:"Auto Map",
-    _previouse:"Previous",
-    _closeAll:"Close All",
-    _openAll:"Open All",
-    _addTicket:"Post ticket to Boozang",
-    _next:"Next",
-    _lanuchAPP:"Launch APP Window",
-    _showMissingItems:"Show Missing Sync Items",
-    _showUpdateItems:"Show Sync Updated Items",
-    _toTestCase:"Pop-up Test Case Details Page",
-    _playFrom:"Play from the action",
-    _newToken:"Create Token Test",
-    _newAppLanguage:"New APP Language",
-    _showAdvanced:"Show Advanced ...",
-    _hideAdvanced:"Hide Advanced",
-    // _hideSetting:"Hide Setting",
-    _mapCustomizeCss:"Map Customize Component",
-    _newRevision:"New Revision",
-    _addDebugData:"Add Debugging Data",
-    _exeWithDebugData:"Execute test case with current debug data",
-    _exeActionWithDebugData:"Execute from action {0} with current debug data",
-    _exeRequestWithDebugData:"Use debug data to test the API",
-    _lock:"Lock test-case",
-    _legend:"Hide test",
-    _addExtract:"Add Extract data action",
-    _addRef:"Add Plug-in test",
-    _addScript:"Add Script Action",
-    _showScreenshot:"Show Screenshot",
-    _hideScreenshot:"Hide Screenshot",
-    _takeScreenshot:"Take a Screenshot",
-    _export:"Export Project",
-    _importExport:"Export / Import",
-    _putInClipboard:"Copy to Clipboard",
-    _copyCodeInClipboard:"Copy code",
-    _sort:"Sort",
-    _popoutApp:"Pop out App Window",
-    _preview:"Preview",
-    _click:"Click",
-    _apply:"Apply",
-    _defined:"Defined",
-    _buildAPIActions:"Generate API Action",
-    _attachAPITest:"Attach",
-    _replaceAPITest:"Overwrite",
-    _generateValidate:"Generate API Validate action",
-    _generateExtract:"Generate API Extract action",
-    _clone:"Clone",
-    _setting:"Setting Details",
-    _importAPI:"Import API",
-    _importProject:"Import Project",
-    _cleanUp:"Clean up",
-    _batchEdit:"Batch Edit",
-    _back:"Back",
-    _removeFromWorksapce:"Remove from workspace",
-    _addToWorkspace:"Add to workspace",
-    _toExist:"Change To Exist",
-    _check:"Check",
-    _autoExe:"Auto-Merge",
-    _showDiff:"Show Diff cases",
-    _hideDiff:"Hide No-conflict cases",
-    _overwriteAll:"Overwrite all",
-    _remove:"Remove",
-    _overwrite:"Overwrite",
-    _merge:"Merge",
-    _outputDoc:"Output Relationship Map",
-    _collection:"Collection",
-    _load:"Load",
-    _speak:"Speak recording action",
-    _noAsk:"Not Ask again",
-    _retry:"Re-try",
-    _toRef:"Switch to Ref-Test",
-    _showConditionInfo:"Show script and condition setting in list",
-    _hideConditionInfo:"Hide script and condition setting in list",
-    _analysisTest:"Check Test Case",
-    _matchLink:"Match Link-Test",
-    _revertHistory:"Revert to previous version",
-    _continueWait:"Continue waiting",
-    _addIgnoreRequest:"Set as ignore request",
-    _continueTest:"Do next",
-    _newForm:"[Mapping to New Form ...]",
-    _minimize:"Minimize",
-    _maxmize:"Maxmize",
-    _addPanel:"New Panel",
-    _addWorkflow:"New Workflow",
-    _loading:"Loading ...",
-    GET:"Retrieving ...",
-    POST:"Posting ...",
-    PUT:"Posting ...",
-    DELETE:"Deleting ...",
-    _locking:"Locking ...",
-    _resetToDefault:"Reset to standard Action Description",
-    _close:"Close",
-    _closeByClick:"Close by click",
-    _tryPath:"Try element path",
-    _tryClick:"Try click",
-    _tryFillValue:"Try fill value",
-    _tryFillForm:"Try fill form",
-    _newWorkflow:"New Workflow",
-    _editWorkflow:"Edit Workflow",
-    _pickElement:"Pick element",
-    _disabled:"Disable",
-    _pickNameFromPath:"Pick target name from page",
-    _batchCreateModule:"Batch Create Modules",
-    _share:"Share",
-    _switchProtocol:"Switch protocol",
-    _clickEdit:"Click to enable edit",
-    _dblclickRun:"Double click to load/reload testing page",
-    _create:"Create {0}",
-    _closePop:"Close (ESC)",
-    _staticPin:"Pin on",
-    _popIn:"Show in tab",
-    _pinOnDetails:"Pin-on details panel",
-    _pinOffDetails:"Pin-off details panel",
-    _bottomDetails:"Move details panel to bottom",
-    _testDetails:"Advanced test settings",
-    _topDetails:"Move details panel to top",
-    _hide:"Hide",
-    _newAttr:"New Attribute",
-    _newErgodic:"New Ergodic data",
-    _saveAndGenerate:"Save & Generate Test case",
-    _overWriteData:"Overwrite default data",
-    _newAlias:"New Alias",
-    _monitor:"Monitor",
-    _clearPageData:"Empty page data",
-    _clearItems:"Clear Items",
-    _optimize:"Optimize",
-    _pick:"Pick",
-    _rePick:"Re-pick",
-    _generate:"Generate '{0}'",
-    _newRole:"New Role (Unique Key)",
-    _switchToGUI:"GUI view",
-    _switchToJS:"JS view",
-    _switchToDesc:"Description view",
-    _switchToTable:"Table view",
-    _switchToCard:"Card view",
-    _switchToModel:"Model view",
-    _switchToTree:"Reference Tree view",
-    _deleteActions:"Delete Actions",
-    _rebuild:"Re-generate",
-    _fold:"Fold",
-    _unfold:"Unfold",
-    _removeLink:"Remove plug-in test",
-    _insertTest:"Insert Test Case into {0}",
-    _viewRunningAction:"View Running Action >>>",
-    _autoZoom:"Auto Zoom (Ctrl/Cmd + 1)",
-    _fullScreen:"Full Screen (F11)",
-    _printer:"Printer",
-    _zoomIn:"Zoom In (Ctrl/Cmd + Plus)",
-    _zoomOut:"Zoom Out (Ctrl/Cmd + Minus)",
-    _giveUp:"Ignore",
-    _skip:"Skip",
-    _upgrade:"Upgrade",
-    _newSuite:"New Suite",
-    _plugNewTest:"Plug New Test",
-    _plugNewSuite:"Plug New Suite",
-    _plugNewLinkTest:"Plug New Link Test",
-    _plugNewScenario:"Plug New Scenario",
-    _plugLinkTest:"Plug Link Test",
-    _plugLinkScenario:"Plug Scenario",
-    _newSubscription:"Subscribe to test report",
-    _newHost:"New HOST",
-    _repair:"Repair",
-    _continue:"Continue",
-    _applyToAll:"Apply to all",
-    _continueNextAction:"Continue on Next Action",
-    _disbandGroup:"Disband Group",
-    _newGroup:"New Group Action",
-    _newGroupTest:"Generate Test case and reference",
-    _fromStepToAction:"Steps => Actions",
-    _fromActionToStep:"Actions => Steps",
-    _addMore:"Add More",
-    _undo:"Undo (Ctrl/Cmd + Z)",
-    _redo:"Redo (Ctrl/Cmd + Y)",
-    _redo2:"Redo",
-    _deleteParameter:"Delete Parameter",
-    _execute:"Execute",
-    _yesAll:"Yes on All",
-    _yesAllAndCreate:"Yes on All and Create All New Data",
-    _yesAndCreate:"Yes and Create New Data",
-    _notAll:"No on All",
-    _addHost:"Add APP",
-    _deleteHost:"Remove APP",
-    _deleteEnvironment:"Delete Environment",
-    _editEnvironment:"Edit Environment",
-    _newEnvironment:"New Environment",
-    _start:"Start",
-    _end:"End",
-    _gotoRefTest:"Go to plug test case",
-    _pass:"Pass",
-    _fail:"Fail",
-    _shortcut:"Make Bookmark",
-    _shortcutOff:"Remove Bookmark",
-    _refresh:"Refresh Data",
-    _newWord:"New Word",
-    _newField:"New Field",
-    _deleteTest:"Delete Test Case",
-    _deleteAll:"Delete All",
-    _deleteSelectItems:"Delete selected items",
-    _deleteCurItem:"Delete current item",
-    _deleteAllActions:"Delete All Actions",
-    _newElementDefinition:"New Element Definition",
-    _newMember:"New Team Member",
-    _newSubModule:"New Sub-module",
-    _newElement:"Define UI Object",
-    _insert:"Insert",
-    _replaceInTest:"Replace In Test",
-    _replaceInValue:"Replace In Value",
-    _deleteEntity:"Delete Entity",
-    _deleteValue:"Delete Value",
-    _option:"Options",
-    _new:"New",
-    _add:"Add",
-    _edit:"Edit",
-    _newVersion:"New Branch / Milestone",
-    _branchManagement:"Branch Management",
-    _newModule:"Create Module",
-    _newAIModule:"Create AI Model",
-    _newFeature:"Create Feature",
-    _newTest:"Create Test",
-    _newCom:"Create Component",
-    _newAPI:"Create API Test",
-    _newScenario:"Create Scenario",
-    _importFeature:"Import Features",
-    _exportFeature:"Export Feature",
-    _newBug:"Create Bug",
-    _newAction:"Append Action here",
-    _newData:"Create Data",
-    _yes:"Yes",
-    _not:"No",
-    _save:"Save",
-    _publish:"Save",
-    _unsave:"Save later",
-    _unlock:"Unlock",
-    _update:"Update",
-    _delete:"Delete",
-    _deleteSubItems:"Clean sub-items",
-    _copy:"Copy",
-    _copy2:"Copy",
-    _clickToCopy:"Click item to copy to Clipboard",
-    _paste:"Paste",
-    _cut:"Cut (Ctrl / CMD + X)",
-    _domPicker:"Dom Picker",
-    _gotoManagement:"Boozang Management",
-    _downloadValidationData:"Download Validation Data",
-    _record:"Record",
-    _pause:"Pause",
-    _breakpoint:"Add breakpoint",
-    _stop:"Stop",
-    _cancel:"Cancel",
-    _submit:"Submit",
-    _logout:"Sign out",
-    _navigate:"Navigate project tree",
-    _selectAll:"Select All",
-    _keep:"Keep",
-    _download:"Download",
-    _downloadFeature:"Download Feature",
-    _supportReadonlySet:"Support set value on readonly",
-    _keepInMemory:"Keep In Memory",
-    _notKeep:"Do Not keep",
-    _reset:"Revert",
-    _confirmReleaseAll:"Yes, release all",
-    _validate:"Validation",
-    _comment:"Comment",
-    _exit:"Exit",
-    _filter:"Filter",
-    _searchElement:"Search Elements ...",
-    _search:"Search",
-    _replace:"Replace",
-    _replaceAll:"Replace All",
-    _deleteAllValue:"Delete All Values",
-    _move:"Move",
-    _setEnv:"Set Environment",
-    _enableLoop:"Loop over data",
-    _setParameter:"(set)",
-    _editParameter:"(edit)",
-    _loadUrl: "URL: "
-  },
-  _data:{
-    _mapAuth:"Mapping to Authorization setting",
-    _loopData:"Loop data ($loop)",
-    _testData:"Test case ($test)",
-    _moduleData:"Module ($module)",
-    _projectData:"Project ($project)",
-    _personalData:"Personal (Overwrite shared data)",
-    _filterMsg:"Filter data type: ",
-    _newKey:"New Key",
-    _setLoopData:"Do you want to enable loop data on current test case?",
-    _deleteFile:"Will delete the upload file at the same time.",
-    _nameMap:{
-      element:"Element",
-      event:"Event",
-      expection:"Expection",
-      content:"Content",
-      script:"Script",
-      description:"Description",
-      type:"Type",
-      name:"Name",
-      tag:"Tag",
-      enterPoint:"URL",
-      hostId:"Host Num.",
-      defParameter:"Default Parameter",
-      dataMap:"Data",
-      comment:"Comment",
-      defaultHostId:"Default Host Num.",
-      loopData:"For Loop Data"
-    }
-  },
-  _root:{
-    _exOperations:{
-      _cleanUp:"Clean un-used link test cases.",
-      _branchManagement:"In Branch management, you can create and delete branches. For example: create a branch based on the current branch. Similar to git, branches must be merged back from the active branch, not vice-versa.",
-      _merge:"Merges another branch into current active branch. Similar to git, the active branch is only affected.",
-      _outputDoc:"Output object map in different file type: HTML, PDF, WORD and MARKDOWN.",
-      _importExport:"",
-      _analyze:"Analyze and check all test cases data, and report issues.",
-      _importOptions:{
-        _export:"Export the current version/branch data to an external file. Use this for backup and new project import.",
-        _importProject:"Import exported data into current project version/branch.",
-        _importFeature:"Import features. It could be using text input, via file, or synchronizing from external system (Like: GitLab, GitHub, Jire, BitBucket and Azure). Set up system integration in Settings ==> Integrations.",
-        _importAPI:"Automatically generate corresponding modules and API test cases by importing API file. This will also generate scenario test cases on import all APIs of the system. Support formats are: Open-API, Postman, Curl and HTTP."
-      }
-    },
-    _dashboard:{
-      _title:"Info",
-      _teamOwner:"Team Owner",
-      _license:"License",
-      _users:"Active Users",
-      _createTime:"Last Update on",
-      _lastUpdateTime:"Last Update on",
-      _lastUpdateUser:"Last update by",
-      _member:"Member",
-      _test:"Test Cases",
-      _action:"Action",
-      _month:"Month",
-      _week:"Week",
-      _lastDay:"Last Day",
-      _today:"Today",
-      _usageReport:"Usage Report",
-      _executed:"Executed: Actions / Tests",
-    },
-    _modules:{
-      _title:"Modules",
-      _testCount:"Tests"
-    },
-    _features:{
-      _title:"Features"
-    },
-    _defaultData:{
-      _title:"Default Data",
-      _description:"Defines project default data. \n\nThe value will be set to window.$project"
-    },
-    _personalData:{
-      _title:"Private Data",
-      _description:"Defines project user-private data. \n\nThe value will be merged and overridden window.$project."
-    },
-    _tools:{
-      _title:"Tools",
-      _description:"Import/export the current branch, search and batch operation.",
-      _missImportData:"Please choose what import data is.",
-      _advSearch:"Advance Search & Batch Operation",
-      _team:"Team",
-      _insertIntoVersion:"Insert data into current version: ",
-      _insertIntoModule:"Insert data into a module: ",
-      _insertIntoTest:"Insert data into a test case: ",
-      _successInfo:"Success! \n\nPlease refresh page to review import data.",
-      _allData:"All items",
-      _fileRequested:"Please select an import file first!",
-      _find:"Find what",
-      _replaceWith:"Replace with",
-      _scope:"Scope",
-      _dataScope:"Data Scope",
-      _dataName:"Data Name",
-      _searchResult:"Search Result",
-      _retrieveData:"Search & Retrieve data",
-      _batch:"Batch",
-      _importFile:"Import File",
-      _case:"Match case",
-      _full:"Match whole word only",
-      _regex:"Regular expression",
-      _match:"Match",
-      _dirtyData:"Unsaved Data",
-      _lockedData:"Locked Data",
-      _buildTests:"Generate Test Cases",
-      _confirmClearModules:"Please clear all the modules from the selected version, \notherwise, there might be a Reference Test Case issue.\n\nAre you sure you want to continue?"
-    },
-    _dictionary:{
-      _title:"Dictionary",
-      _description:"This setting identifies the user application content dictionary element. There are three kinds of elements: operations, modules, and attributes. Users can customize words.\n\t\tthe keyword cannot be duplicated and can not be the same as syntax keywords. ",
-      _duplicateKey:"There are some duplicate keywords in the Dictionary setting! Please modify.",
-      _similarElement:"Found similar definition in dictionary",
-      _ignore:"Ignore Words",
-      _options:{
-        ignore:{
-          _title:"Ignore words"
-        },
-        operation:{
-          _title:"Operation",
-          add:"add",
-          edit:"edit",
-          "delete":"delete",
-          view:"view details",
-          enter:"Enter",
-          validate:"Validate",
-          preview:"preview",
-          "submit":"submit",
-          "execute":"execute",
-          report:"report",
-          cancel:"cancel",
-          reset:"reset",
-          search:"search",
-          filter:"filter",
-          next:"next",
-          previous:"previous"
-        },
-        fun:{
-          _title:"Function",
-          home:"Home",
-          "sign-out":"sign out",
-          "sign-in":"sign in",
-          "sign-up":"sign up",
-          "forgot-password":"forgot password",
-          "change-password":"change password",
-          upload:"upload",
-          download:"download",
-          "export":"export",
-          "import":"import"
-        },
-        info:{
-          _title:"Information",
-          success:"success",
-          fail:"fail",
-          error:"error",
-          "confirm":"confirm",
-          info:"information",
-          warning:"warning"
-        },
-        attribute:{
-          _title:"Attribute name",
-          id:"id|key",
-          name:"name",
-          username:"user name",
-          password:"password",
-          "confirm-password":"confirm password",
-          "old-password":"old password",
-          "new-password":"new password",
-          "number":"number",
-          price:"price",
-          value:"value",
-          text:"text",
-          email:"email",
-          phone:"phone",
-          address:"address",
-          postcode:"postcode",
-          role:"role",
-          permission:"permission",
-          common:"common",
-          file:"file",
-          link:"link"
-        }
-      }
-    },
-    _attributeMap:{
-      _title:"Regular expressions for data generation and validation",
-      _fieldMap:"Field mapping",
-      _regex:"Regex",
-      _example:"Example"
-    },
-    _ergodicMap:{
-      _title:"Ergodic data for fill-form action",
-    },
-    _bug:{
-      _title:"Bugs"
-    },
-    _aliasManagement:{
-      _title:"Test-case aliases"
-    }
-  },
-  _ticket:{
-    subject:"Subject",
-    description:"Description",
-    expectedResult:"Expected Result",
-    actualResult:"Actual Result",
-    reproduce:"How to reproduce",
-    reproduceSuggest:"Maybe you just need paste which test case I should play from to reproduce the issue.",
-    issuePoint:"The location of the problem"
-  },
-  _aiFlag:{
-    _selectScope:"Select Update Scope",
-    _complete:"<h3>Completed! ({0})</h3>\nNote:No new modeling elements are found on the page. \n\nIf you know that a page is missing, you can manually browse the page and click the Continue button.",
-    _handleUrl:"Parse Url Script",
-    _scanApp:"Scan APP",
-    _error:{
-      _handleElementErr:"An error occurred while manipulating element ({0}).",
-      _buildHandleUrlFunError:"Parse Url Function error",
-      _handleUrlError:"Parse Url error",
-      _missFlag:"Wrong use of BZ attribute, or non-existent BZ attribute.",
-      _dataFormatError:"Data Format Error",
-      _missImplement:"Property not implemented",
-      _missKey:"Object Key is not set",
-      _missModuleInPage:"The parent module setting is missing in the page",
-      _missSupModule:"The parent module is not set",
-      _missModule:"The current module is not set",
-      _fieldError:"Field error (no appropriate field name was found)",
-      _missPanel:"Panel is not set",
-      _missForm:"Form not set",
-      _missStepIndex:"Step number is not set",
-      _missStepKey:"Step identifier is not set",
-      _unexistModule:"A module that does not exist",
-      _unexistOprType:"Operation type that does not exist",
-      _unexistOpr:"Non-existent operation",
-      _missOpr:"Operation not set",
-      _missingUserName:"Missing username setting"
-    },
-    _tabs:{
-      _new:"New Module",
-      _update:"Update Module",
-      _warnings:"Issues",
-      _script:"Insert data-bz script",
-      _setting:"Setting"
-    }
-  },
-  _model:{
-    _pathOption:{
-      _title:"Use path scheme",
-      _form:{
-        "":"Typing elment path",
-        view:"Data display element path",
-        cur:"The element in the current panel"
-      },
-      _view:{
-        "":"Batch validation",
-        input:"Typing elment path",
-        view:"Data display element path",
-        cur:"The element in the current panel"
-      }
-    },
-    _scanForm:"Scan form",
-    _openPage:"Open page",
-    _openForm:"Open form",
-    _confirmReplaceToEmpty:"Are you sure you want to clear the value of {0} from selected items?",
-    _outerItem:"Outer element of current panel",
-    _templateDesc:"Specity a AI model as template to build models",
-    _appMenu:"Identify the button of APP main menu(css)",
-    _requiredMark:"Identify required field mark(css)",
-    _customizeInput:"Identify customize input, dropdown list(css)",
-    _formTab:"Identify form tab",
-    _appMenuDesc:"If the current module entry point (link) is in an APP main menu,\nuser need to set the style (CSS) of the button to open this menu.",
-    _requiredMarkDesc:"Set the required field mark for identification to help better complete the form identification task",
-    _customizeDesc: "This tool will automatically recognize custom input boxes and drop-down menus. For those that cannot be identified correctly, you can use this setting to help with form identification tasks. Users can try intelligent automatic scan first, then add omissions and scan again.",
-    _formTabDesc:"Style the form tabs to help scan fields in the tabs.",
-    _batchType:"Batch add model type",
-    _askCreateStdModels:"Do you want to create the below models?",
-    _selectModule:"Select an exist Module",
-    _confirmApplyDefinitionSrc:"Do you want to overwrite the current model setting?",
-    _dependenceTitle:"Dependency conditions",
-    _moduleRef:"Reference",
-    _advanceSrc:"Advance Setting",
-    _advanceDesc:"Advance Setting in JSON format",
-    _aiIdentifySetting:"AI modeling recognition settings",
-    _panelName:"{0} {1}",
-    _confirmScan:"A rescan removes the existing field buttons in the form. \nAdding individual fields can be solved by adding them manually. \n\nPlease confirm whether to continue scanning.",
-    _supportVE:"Support validation on the form",
-    _aiBuilderDesc:"This function requires the user application to label elements in accordance with the data-bz rule. If the labeling is correct and complete, this function will automatically complete the establishment of a series of test modules and test cases.",
-    _aiBuilderScriptDesc:"If it is not convenient to use data-bz directly on the page, you can dynamically insert the corresponding data-bz value on the page through a script. And choose not to use the data-bz value to identify the element.",
-    _flowFilterTitle:"Filter flow",
-    _validationTest:"Validation Test Case",
-    _synaModel:"Syan Module",
-    _formModel:"Form Module",
-    _submitTxt:"Submit|Save|Confirm|Yes|OK",
-    _initData:"Initial Data",
-    _dataFlow:"DataFlow",
-    _baseData:"Module Data Template",
-    _baseDataDesc:"The template data is useful on merging with other attribute set to build a property entity data.",
-    _initDataDesc:"If current module already exists some entity data in application, and they are going to join the testing, user should defind these data and set at here",
-    _dynamicData:"Dynamic Data",
-    _comboFun:"  /"+"/Parameter: data is the variable of current module data. \n  /"+"/You should set the combo attribute value on it.",
-    _noExit:"[No Exist!!!]",
-    _result:"Result",
-    _readonly:"Readonly in the form",
-    _gotoRefModule:"Go to ref-module",
-    _enterDetailsName:"{0} enter",
-    _confirmDelete:"Do you want to delete the selected item and the related items?",
-    _confirmClear:"Do you want to clear all items from the selected panel?",
-    _confirmDeleteButton:"The {0} button is empty now, do you want to delete it?",
-    _deleteFlowFromList:"Please select the process from which the 'created' status needs to be removed",
-    _updataRefData:"Found the below modules referent on the data. Do you want to update all of them \n\n(from {0} to {1})?",
-    _stdStatus:{
-      start:"Start",
-      created:"Created",
-      deleted:"Deleted"
-    },
-    _operation:{
-      add:"Create {0}",
-      edit:"Update {0}",
-      delete:"Delete {0}"
-    },
-    _tabType:{
-      _workflow:"Workflow",
-      _summary:"Summary",
-      _panel:"Panel/Page"
-    },
-    _panelType:{
-      home:"Home Page",
-      _mainModulePanel:"Main Module Panel",
-      modulePanel:"Module Panel",
-      dataPanel:"Data Panel",
-      list:"Data List",
-      table:"Data Table",
-      form:"Form"
-    },
-    _enter:{
-      _title:"Enter Point",
-      _options:{
-        enterModule:"Module Entry",
-        enterDetails:"Details Entry"
-      }
-    },
-    _table:{
-      _title:"Table",
-      _options:{
-        table:"Data Table",
-        list:"Data List"
-      }
-    },
-    _panel:{
-      _title:"Panel",
-      _options:{
-        innerPanel:"Inner Panel",
-        curPanel:"Current Panel",
-        table:"Data Table",
-        list:"Data List",
-        form:"Form"
-      },
-      _setting:"Panel Setting"
-    },
-    _button:{
-      _title:"Button",
-      _buttonSetting:"Button Setting",
-      _lanuchForm:"Launch Form",
-      _gotoPanel:"Final panel"
-    },
-    _module:{
-      _title:"Module",
-      _options:{
-        modulesub:"Sub-Module",
-        module:"Related Module",
-        parentModule:"Parent Module"
-      }
-    },
-    _page:{
-      _title:"Link",
-      _options:{
-        page:"Web Page",
-        download:"Download"
-      }
-    },
-    _field:{
-      _title:"Field",
-      _options:{
-        viewData:"View data",
-        outerField:"Foreign Field",
-        dataType:"Module Data Type" 
-      }
-    },
-    _subField:"Sub-Field",
-    _trigger:{
-      _title:"Trigger Form",
-      _options:{
-        submit:"Submit",
-        next:"Next",
-        close:"Close/Cancel",
-        confirm:"Confirm",
-        outopr:"Outer Module Operation",
-        insert:"Add a new row button to data table",
-        "ex-insert":"Add form data to datatable button (non-save)",
-        "form-tab":"Form Tab"
-      }
-    },
-    _wordType:{
-      data:"Data(Current Module)",
-      // relatedData:"Data(Related Module)",
-      app:"APP Text"
-    },
-    _dependenceValueOptions:{
-      "":"empty/false/null",
-      "on":"true/not null",
-      "undefined":"undefined"
-    },
-    _api:{
-      name:"Name",
-      method:"Method",
-      contentType:"Content Type",
-      url:"Url",
-      headers:"Headers",
-      query:"Query",
-      data:"Body",
-      responseScript:"Response Script",
-      auth:"Authorization",
-      asStdFun:{
-        _title:"As a standard operation on module data",
-        GET:"Initial data function",
-        POST:"Standard add function",
-        DELETE:"Standard delete function"
-      }
-    }
-  },
-  _module:{
-    _general:{
-      _title:"General",
-      _missingRootURL:"Please set the module APP URL!",
-      _defaultHost:"App root url",
-      _startPanel:"Start method",
-      _defaultAuth:"Default Role",
-      _moduleLink:"Module Link",
-      _linkageModule:"Auth Link module",
-      _refKeys:"Reference setting",
-      _pickElementDesc:"Pick element from App page and add the elements into the current panel/page."
-    },
-    _modules:{
-      _title:"Modules",
-      _testCount:"Tests",
-      _newModuleDesc:"The project modules should correspond to the logical entities of the application under test, to help you keep an object-oriented test approach.\n\nFor a project management application, you'll find modules like \"Authentication\", \"Projects\", and \"Tasks\".",
-      _newFeatureDesc:"Features are containers that contain one or many Cucumber scenarios. A feature in Boozang simply plugs a number of scenarios, not unlike a test suite.\n\nFeature examples: \"Manage Projects\", \"Manage Tasks\", or \"Authentication\".",
-    },
-    _moduleAndTest:{
-      _title:"Tests & Sub-modules"
-    },
-    _moduleGUI:{
-      _title:"Module Flow Diagram"
-    },
-    _tests:{
-      _title:"Test case list",
-      _actionCount:"Actions",
-      _bugDesc:"Bugs represent visual bugs. Usually they are comprised by a series of clicks and comments (in-browser annotations).",
-      _comDesc:"Components could be reference from any test case, the difference with other test case type is it not report details in test report. And, it could be execute as one action.",
-      _testDesc:"Tests are a collection of actions that fulfills a certain task. A test can reference any number of other tests. For re-use, it's better to combine small tests with specific purposes, than having a single long test.\n\nExamples of tests: CRUD tests, like \"Create project\" or \"Delete project\", or validation tests, like \"Validate project data\".",
-      _ctrlDesc:"The control test case automatically invokes the corresponding test case according to the specified data attributes, and prepares the preliminary conditions for the execution purpose of the test case.",
-      _validDesc:"The verification test case is used to verify the result of a certain test.",
-      _apiDesc:"API test includes a set of api actions. It can be a standard API Test, or can work with UI actions to complete some complex tasks. \n\nFor example: user can use UI sign-in and retrieve authorization token from one request, and use the token in following API tests.",
-      _suiteDesc:"A test suite defines a group of test cases to be run in a certain order.\n\nExamples \"Smoke Tests\" or \"Customer Onboarding A\".",
-      _workflowDesc:"The business requirement in Gherkin syntax consists of three parts.\nGiven(pre-conditions), When (do something) and Then (validations/post-conditions).\n\nScenario outline example:\n\nGiven An empty cart. \nWhen a <product> is added to cart. \nThen The cart total should be <price>\n\nExamples:\n\n  | product | price |\n  | banana | 1.50 |"
-    },
-    _data:{
-      _title:"Module Data"
-    },
-    _field:{
-      _title:"Fields"
-    },
-    _type:{
-      "":{
-        _text:"Blank Module",
-        _desc:"On Blank Module, user control everything, and missing some AI features"
-      },
-      auth:{
-        _text:"Authorization",
-        _desc:"If the application requires login, a wizard will be launched to create the authorization module. It will include standard sign-in and sign-out test cases. \nThis will allow for automated user switching for test steps that needs to be executed as a certain user role. "
-      },
-      data:{
-        _text:"AI Model",
-        _desc:"The AI Model allows a user to map out the module data using a page mapper. The user typically maps out CRUD operations, such as create, delete and update. After doing this, the user can construct tests using the workflow engine. \nThe AI model can have relationships with other modules."
-      },
-      account:{
-        _text:"My Account Module",
-        _desc:"My account Module handles the current sign-in user personal info"
-      },
-      setting:{
-        _text:"Setting Module",
-        _desc:"Setting Module handles the APP global parameter setting"
-      },
-      tools:{
-        _text:"Tools Module",
-        _desc:"Tools Module supports batch operation"
-      },
-      summary:{
-        _text:"Control Module",
-        _name:"Summary",
-        _desc:"The Control Module will auto-generate a test suite that will trigger all scenarios in each AI Model"
-      }
-    },
-    _sortby:{
-      codeA:"ID (ascending)",
-      codeZ:"ID (descending)",
-      nameA:"Name (a-z)",
-      nameZ:"Name (z-a)",
-      updateStampA:"Last Updated (oldest first)",
-      updateStampZ:"Last Updated (newest first)",
-      sizeA:"Size (ascending)",
-      sizeZ:"Size (descending)"
-      // createStampA:"Created (newest first)",
-      // createStampZ:"Created (oldest first)",
-      // performanceA:"Execute time (ascend)",
-      // performanceZ:"Execute time (descend)"
-    },
-    _contentElement:"Content Element",
-    _webPage:"Web page link",
-    _relatedModules:"Related Modules",
-    _words:"Words",
-    _parent:"Parent Module",
-    _moduleLink:"Module Path",
-    _batchAddPrefixModuleName:"Do you want to add prefix name, {0}, on the below modules name",
-    _batchRemovePrefixModuleName:"Do you want to remove prefix name, {0}, from the below modules name",
-    _newModuleName:"New Module Name",
-    _newModuleAlias:"New Module Alias",
-    _newModuleAliasDesc:"Alias is for data-bind",
-    _newModuleFields:"New Module Fields",
-    _newModuleFieldsDesc:"The first is the key field, separated by commas. For example: id,name",
-    _modulesArea:"Please select Modules Area from APP page",
-    _batchCreateDesc:"Create multiple Modules",
-    _whatType:"Please click which Module type to you want to create",
-    _batchUpdateTestName:"Do you want to base on new module name to update the name of all test cases at below?",
-    _subModule:"Sub-modules",
-    _curModule:"Current Module",
-    _addTag:"Add tags",
-    _noTag:"No tags set",
-    _existData:"Edit module data",
-    _noExistData:"Add module data",
-    _setComment:"Add description",
-    _workflow:{
-      _title:"Workflow",
-      _list:"Flow List",
-      _type:{
-        role:"Role",
-        test:"Test Case"
-      },
-      _switchRole:"Switch to role: ",
-      _runTest:"Execute： ",
-      _runTestWithParameter:"Execute {0} with parameter",
-      _runTestWithValue:"Execute {0} (Parameter: {1})",
-    }
-  },
-  _setting:{
-    _title:"Settings",
-    _changeBehaviorInTestSetting:"You can change the method in test case setting",
-    _userTmpData:"Use temporary data",
-    _changeProjectLanguage:"This change changes how items are recognized and resets content generation settings. \n\nAre you sure you want to make this change?",
-    _useTmpDataOptions:{
-      "":"Ask to use temporary",
-      yes:"Auto-use temporary data",
-      no:"Not use temporary data"
-    },
-    _tableStyle:{
-      _title:"Table style",
-      _options:{
-        large:"Standard rows",
-        middle:"Compressed rows",
-        small:"Minimum rows"
-      }
-    },
-    _actionStyle:{
-      _title:"Action style",
-      _options:{
-        icontext:"Show action type using text and icon",
-        icon:"Show action type using icon only",
-        text:"Show action type using text",
-      }
-    },
-    _contentPolice:{
-      _title:"Content Policy",
-      _description:"Advanced content policy settings. Use this to customize Boozang for your specific application needs.",
-      _ignore:"Ignore Classes for element selection",
-      _ignorePopValidation:"Ignore validation on pop window",
-      _contentAttribute:"Text Attribute",
-      _appDictionary:"APP Dictionary",
-      _clickableElements:"Clickable Elements",
-      _loadingElement:"Identify loading status",
-      _hideDataName:"Hidden data name",
-      _priorityElementItems:"Priority classes for element selection",
-      _ignoreRequest:"Ignore Request (URL)",
-      _defFailResponse:"Default Response on Action Failed",
-      _filters:"Filter Policy",
-      _contentId:"Data",
-      _contentDate:"Date",
-      _contentTime:"Time",
-      _disableAutoOneAction:"Disable auto-one-action execution",
-      _completeActionOnRender:"As end of Action after Render complete",
-      _ignoreRenderElement:"Ignore Render Element",
-    },
-    _contentPoliceHelp:{
-      _ignoreRequest:"A list of hosts or URLs that should be ignored by Boozang.\n\n This means the platform will not wait for any responses from these hosts,\nor report any problems related to them in report -> Extra info.\n\nIt’s useful to add, for instance, hostname for analytics tools,\nto speed up execution and improve stability.",
-      _ignore:"List of classes that should be ignored in the element selection. \n\nWildcard character (*) is supported.",
-      _priorityElementItems:"List of classes that should be prioritized when selecting elements. \n\nWildcard character (*) is supported.",
-      _contentAttribute:"Attributes used for text representation, \nused in a similar fashion to title. ",
-      _clickableElements:"To specify what's kind of element is clickable. \n\nThe default is: A, Button",
-      _loadingElement:"Identify that the page is still loading using element CSS or scripts. \n\nIf a loading element is matched, \nBoozang will automatically wait for it to dissapear.\n\nIdeal to set if the application has a loading spinner.",
-    },
-    _contentGeneration:{
-      _title:"Content Generation",
-      _description:"You can define regular expressions in the content generation settings to generate data and set the Cucumber syntax for auto-generated tests.",
-      _help:{
-        _ergodic:"Ergodic data is used to automate form fill tests.",
-        _attributeContent:"A list of regular expressions used for data matching and data generation.\n\n Use /BZ-regexpname/ to generate data based on the expression,\n and use /"+"/BZ-regexpname/"+"/ for validations.",
-        _sentences:"Used to auto-generate readable Cucumber tests \ninside the AI model.",
-      },
-    },
-    _environment:{
-      _title:"Environments",
-      _name:"APP",
-      _solution:"Environment",
-      _curEnvironment:"Current Environment",
-      _enableAuthSetting:"Enable AI authorization",
-      _mappingAIFlag:"Build AI Modeling",
-      _authSetting:"Authorization Settings",
-      _enableAuth:"Enable AI Authorization (Sign-in / Sign-out)",
-      _benifitAuth:"Note: After enabling AI Authorization, you will get the below benefits:\n\n"
-                  +"1. The tool will assist in generating a set of Authorization test cases. Like: Sign-in, Sign-in API, Sign-out, Sign-out API, Retrieve API Token and Check all test cases suite. \n"
-                  +"2. Auto generate 'Sign-in status to ' test case, which switches role based on the parameter sent\n"
-                  +"3. Through Retrieve API Token test case, the tool can retrieve realtime token for api test request, and merge the token data into API Request headers automatically.",
-      _missingHostError:"Each App URL is required",
-      _missingNameError:"Each App name is required",
-      _dataURL:"API Root",
-      _auth:"Authentication",
-      _host:"Domain",
-      _shareOptions:"Share Options in different hosts",
-      _defaultRoot:"Domain",
-      _noHostError:"Domain is required!",
-      _minSolutionLimition:"At least one environment is needed",
-      _name:"Name (ex. development, qa, staging)",
-      _appUrl:"Application URL",
-      _openMethod:"Open/Refresh Method",
-      _open:"Load window",
-      _href:"Set URL",
-      _appName:"APP Name",
-      _addUrl:"Add additional application URLs",
-      _description:"Boozang supports multiple environments (ex: default, staging and production) and different application interfaces (ex: mgmt, storefront).",
-      _errHostFormat:"One APP URL format is not correct. The correct format is: http:/"+"/xxx or https:/"+"/xxx"
-    },
-    _preferences:{
-      _title:"Preferences",
-      _reportDetails:"Output all actions report",
-      //_timeMode:"Timing mode",
-      _completeTime:"Complete time",
-      _waitTime:"Waiting time",
-      _ignorePoorPerformance:"Ignore performance issue",
-      _asFailOnPerformance:"Report slow actions as fail",
-      _asWarningOnPerformance:"Report slow actions as warning",
-      _popWindowStyle:"Pop Window Style",
-      _autoSize:"Adaptive window size",
-      _popSizeOptions:"Popup App window size options",
-      _sizeFormat:"Format: %, width, width x height",
-      _customizeSize:"Customize size",
-      _performanceReminder:"Report slow action threshold (ms)",
-      _maxRequestTime:"Max wait for pending requests",
-      _loadPageTime:"Max wait for loading page",
-      _expectReactionTime:"Default action timeout (ms)",
-      _stepDelay:"Default interval time between steps (ms) (ms)",
-      _description:"User preferences. Environment-specific settings can be found under the environment tab.<br/>Settings will only apply to your user. Other users will be unaffected by this change.",
-      // _autoAIValidation:"Auto insert AI Validation",
-      // _ignoreAIValidateArea:"Ignore Area in AI Validation",
-      _autoDataBind:"Auto data bind",
-      _disableShadowRootRecording:"Disable recording on shadow-root element",
-      _autoMergeToSetValue:"Auto-merge dropdown click actions to single set action",
-      _ignoreAlertLoadFileError:"Disable alerts for Load File Errors",
-      _noAlertAIRepire:"Disable alerts for AI Repair (on test execution error)",
-      _noAutoFocus:"Disable auto focus (NOTE: Some input action need auto focus to avoid execution fail)",
-      _acceptMonitor:"Accept to be monitored",
-      _debugOneAction:"Click to disable rapid action execution on playback",
-      _switchToOneAction: "Click to enable rapid action execution on playback",
-      _speakOnRecording:"Audio-assisted recording",
-      _infoRunningTest:"Display action info on running or recording",
-      _outputActionReport:"Display action details in report",
-      _cooperator:"As Cooperation Server",
-      _reqCooperator:"Require cooperation test",
-      _defaultRole:"Default Role",
-      _defaultRoleDesc:"Personal setting for debugging"
-    },
-    _record:{
-      _title:"Recording Events",
-      _listenEvents:"Events",
-      _moveStep:"Mousemove step",
-      _description:"Set which browser events should be captured when using recording function. <br/><br/>Settings will only apply to your user. Other users will be unaffected by this change.",
-    },
-    _domFinder:{
-      _title:"Dom Strategy",
-      _description:"The Dom Strategy decides how html document elements are captured in the DOM tree when recording. This setting will affect how a test is represented and therefore if a test can be uniquely replayed.<br/><br/>Settings will only apply to your user. Other users will be unaffected by this change.",
-      _catchId:"Id",
-      _catchFirstId:"First",
-      _catchMutilId:"Multi",
-      _ignoreIdFormat:"Ignore Id format in regex. (e.g. [0-9])",
-      _catchClass:"Class",
-      _catchLastLevelClass:"Catch last Level Class",
-      _catch:"Catch",
-      _ignoreClasses:"Set Ignoring Classes. (e.g. ng-untouched, ng-valid, ng-dirty, ng-valid-parse)",
-      _catchAttr:"Attribute",
-      _catchFirstAttr:"First",
-      _catchMutilAttr:"Multi",
-      _catchContains:"Contains text",
-      _autoValidationArea:"Dom",
-      _catchParentClass:"Parent Class",
-      _catchFirstClass:"First",
-      _catchMutilClass:"Multi",
-    },
-    _validationIgnore:{
-      _title:"Validation Ignore",
-      _description:"This is the default setting of which elements should be ignored when creating a new validation for the BZ format. Any changes in the action view for each test will override this value. <br/><br/>Settings will only apply to your user. Other users will be unaffected by this change."
-    },
-    _subscription:{
-      _title:"Notifications",
-      _server:"Server host",
-      _options:"Content of Report",
-      _option:"Email {0} report to {1}"
-    },
-    _monitorLog:{
-      _title:"Monitor Cucumber Report Content",
-      _filterDesc:"Filter key words and support Regex (Format: /xxxxx/)",
-      _emailContent:"Email content",
-      _attachScreenshot:"Attach screenshot"
-    },
-    // _identificationTask:{
-      // _title:"Task Info"
-    // },
-    _objectLib:{
-      _title:"Element Definition",
-      _routes:"Routes",
-      _selectRoute:"There are multiple Routes. Please select which one is you want.",
-      _description:"This setting identifies user application object elements. There are five types of elements: element, component, operation, status, and business. A user can customize an element keyword or add a new element. \nNote: \n\t\tKey words are case-insensitive. \n\t\tthe keyword cannot be duplicated and can not be the same as syntax keywords. ",
-      _similarElement:"Found similar match in Element Definition",
-      _identifyCss:"Identify CSS for {0}",
-      _duplicateKey:"There are some duplicate keywords in the Object Lib setting! Please modify.",
-      _options:{
-        element:{
-          _title:"Element",
-          button:"button",
-          link:"link",
-          input:"input",
-          dropdownList:"dropdown list",
-          textarea:"textarea",
-          checkbox:"checkbox",
-          radio:"radio",
-          file:"file",
-          mainHeading:"main heading",
-          subHeading:"sub-heading",
-          panel:"panel"
-        },
-        message:{
-          _title:"Message",
-          missData:"miss required data",
-          dataType:"wrong data type",
-          tooLong:"data size too long",
-          tooShort:"data size too short",
-          dataFormat:"wrong data format",
-          dataLocked:"data locked",
-          noResponse:"no response from server"
-        },
-        component:{
-          _title:"Component",
-          rangeSlider:"Range Slider",
-          dropdownInput:"Dropdown input",
-          dragInput:"Drag input",
-          checkbox:"Checkbox",
-          radio:"Radio"
-        },
-        operation:{
-          _title:"Operation",
-          add:"create",
-          edit:"modify",
-          "delete":"delete",
-          attach:"attach",
-          archive:"archive",
-          view:"view/details",
-          enter:"enter",
-          preview:"preview",
-          "submit":"submit",
-          execute:"execute",
-          report:"report",
-          "confirm":"confirm",
-          close:"close",
-          cancel:"cancel",
-          reset:"reset",
-          search:"search",
-          next:"next",
-          previous:"previous"
-        },
-        fun:{
-          _title:"Function",
-          home:"Home",
-          "sign-out":"sign out/logout",
-          "sign-in":"sign in/login",
-          "sign-up":"sign up/register",
-          "forgot-password":"forgot password",
-          "change-password":"change password",
-          download:"download",
-          "export":"export",
-          "import":"import"
-        },
-        status:{
-          _title:"Status",
-          active:"active",
-          highlight:"highlight",
-          required:"required",
-          error:"error",
-          warning:"warning",
-          success:"success",
-          waiting:"waiting"
-        },
-        business:{
-          _title:"Business Logic Object"
-        }
-      },
-      _data:"Data",
-      _relatedFields:"Fields",
-      _dependence:"Dependencies",
-      _moduleDataType:"Module Data Type",
-      _dependenceType:{
-        operation:"Operation",
-        data:"Data"
-      },
-      _valueTab:"Value",
-      _reference:"Reference",
-      _errType:"Error Type",
-      preSteps:"Pre-Steps",
-      endSteps:"End-Steps",
-      _preScript:"Pre-Script",
-      _endScript:"End-Script",
-      _handleParameter:"Handler Parameter ($parameter)",
-      _handleData:"Handler final data",
-      _auth:"Authentication",
-      _validation:"Validation",
-      _action:"Action",
-      _searchFieldMap:"Search Fields",
-      _batchUpdate:"Batch update",
-      disable:"Disable",
-      path:"Element path",
-      fakeElement:"Fake Element",
-      _field:{
-        _title:"Field",
-        _setting:"Field Setting",
-        name:"Name",
-        alias:"Alias",
-        data:"Bind Data",
-        subtype:"Sub-type",
-        ergodic:"Ergodic checking",
-        defValue:"Default Value of the form",
-        demoValue:"Demo Value on element path",
-        type:"Type",
-        inputFormat:"Input Format",
-        outputFormat:"Output Format",
-        combFormat:"Comb format",
-        displayFormat:"Display Format",
-        dependencies:"Dependencies",
-        key:"Key",
-        label:"UI Value",
-        unique:"Unique",
-        required:"Required",
-        _inputFormatDesc:"Set input format, like: /[a-z]+/",
-        _outputFormatDesc:"1. This is for validation, if output is the same as input, not need to set it.\n2. base on $parameter to get data",
-        _combFormat:"Comb with mutiple fields",
-        _valueTypeTitle:"Value Type",
-        _valueType:{
-          0:"Empty (false/null/uncheck)",
-          1:"Not empty (on/true/not null/check)",
-          "==":"=",
-          ">":">",
-          "<":"<",
-          ">=":">=",
-          "<=":"<=",
-          "!=":"!=",
-          "regex":"match(Regex)",
-          script:"Script"
-        },
-        _targetType:{
-          "[false]":"Empty/Null/False",
-          "[true]":"No empty/No null/True",
-          "[enable]":"Editable/Enable"
-        },
-        moduleRelatineship:"Relationship Type",
-        _relationships:{
-          ref:"Reference",
-          include:"Include",
-          dependency:"Dependencies"
-        }
-      },
-      _page:{
-        _title:"Page",
-        name:"Name",
-        alias:"Alias",
-        type:"Type",
-        page:"Page",
-        path:"Path",
-        scope:"Scope",
-        level:"Level",
-        word:"Word",
-        form:"Form",
-        url:"Page link",
-        preFilter:"Pre-filter",
-        preFilterArea:"Pre-filter area/element",
-        selector:"Multiple Selector",
-        afterSearch:"After Search enter details page",
-        _confirmMsg:"Validate confirm message",
-      },
-      _pageType:{
-        home:"Home page",
-        module:"Module home page",
-        exModule:"Module Ex-page",
-        parent:"Parent Module home page",
-        parentDetails:"Parent Module Details",
-        parentExDetails:"Parent Module Ex-Details",
-        parentAddForm:"Parent Add Form",
-        parentEditForm:"Parent Edit Form",
-        details:"Details page",
-        exDetails:"Extra Details",
-        any:"Any page"
-      },
-      _relatedModuleSetting:"Related Module Setting",
-      _switchToOperation:"Switch to operation",
-      _switchToWebLink:"Switch to Module/Web page",
-      _switchToTrigger:"Switch to Trigger event button",
-      _askSwitchToOperation:"Do you want to switch <b>{0}</b> to operation?",
-      _askSwitchToWebLink:"Do you want to switch <b>{0}</b> to web link?",
-      _askSwitchToTrigger:"Do you want to switch <b>{0}</b> to trigger event button?",
-      _form:{
-        _title:"Form",
-        add:"Create form",
-        edit:"Edit form",
-        search:"Search form",
-        exe:"Process form"
-      },
-      _operation:{
-        _setting:"Operation Setting",
-        _title:"Operation",
-        page:"Page type",
-        _area:"Area",
-        _level:{
-          module:"Module",
-          data:"Handle Single Data",
-          multiple:"Handle Multiple Data"
-        },
-        _confirmPlaceholder:"Format: message or in regex"
-      },
-      _content:{
-        _setting:"Content setting",
-        _cleanSteps:"Do you want to clean the current steps?"
-      },
-      _missPath:"Missing element path",
-      _dependenceDesc:"Specify dependent data, like:\nXXXX.checked",
-      _toggle:"Toggle",
-      _panel:"Main Panel",
-      _clear:"Clear button",
-      _value:"Retrieve value",
-      _objTitle:"Title",
-      _header:"Header",
-      _ctrlPanel:"Control Panel",
-      _row:"Row",
-      _col:"Col",
-      _paging:"Paging",
-      _item:"Item",
-      _missPanel:"Please set the component panel first.",
-      _missFormat:"Please set the component value format first. (Ex.: $1, $1-$2)",
-      _selectMark:"Please select the best css to specify the target element",
-      _recordSteps:"Record Steps",
-      _supportMSCooperationTest:"Need to perform tandem test tasks",
-      _supportMSCooperationTestDesc:"If certain functions need to be executed on a specific server, \nyou need to enable this function.",
-      _customizeInputs:"Customize Input Component",
-      _missCloser:"Didn't find clean button",
-      _valueFormat:"Value Format",
-      _valueFormatDesc:"Ex. 100 -> $1, 10:30 -> $1:$2, 2019-03-21 -> $1-$2-$3",
-      _name:"Name",
-      _type:"Type",
-      _path:"Element Path",
-      _showSource:"Show Source Data",
-      _showDefUI:"Show form UI",
-      _fields:"Fields",
-      _element:"Element",
-      _selectors:"Selectors",
-      _operationType:"Operation Type",
-      _wordSetting:"Word Setting",
-      _confirmElementWord:"Words definition",
-      _confirmElement:"Elements definition",
-      _moduleData:{
-        // noData:"No Data",
-        dataSize:"Data size",
-        // onlyOne:"Only one piece of data",
-        // least2:"At least 2 pieces of data",
-        // noRef:"No reference to current module data",
-        // hasRef:"Reference to current module data",
-        specialData:"Specific field value"
-      },
-      _dataType:{
-        string:"String",
-        text:"Text",
-        boolean:"Boolean",
-        enum:"Enum",
-        array:"Array",
-        date:"Date",
-        number:"Number",
-        decimal:"Float",
-        module:"Module",
-        viewData:"View data",
-        combo:"Combo data",
-        object:"Object (data structure)",
-        file:"File",
-        fake:"Fake"
-      }
-    },
-    _integration:{
-      _title:"Integrations",
-      _description:"The integration tab includes alias, notifications and feature file synchronization. "
-                  +"\nThe alias allows you to create a shortcut to any test.",
-      _help:{
-        _alias:"Use alias to create short-cuts to tests. \n\nAll aliases are URL accessible.",
-        _notifications:"Set up email notifications.\n\nTest reports will be emailed to you.",
-        _monitor:"Monitor test reports for certain keywords (via email).\n\nSupports regular expressions.",
-        _feature:"Load your Cucumber feature files into Boozang. \n\n Xray, GitHub, GitLab, and BitBucket\nare supported integrations.",
-        _upload:"Integration for outgoing reports.\n\nContact Boozang support to activate."
-      }
-    },
-    _alias:{
-      _title:"Aliases",
-    },
-    _businessType:{
-      module:["","Setting","Account","Tools","Data","Group"],
-      test:["Add","Attach","Edit","Delete","Archive","Execute","Other"]
-    },
-    _service:{
-      _title:"Service",
-      _description:"Boozang supports user to take screenshots, email and TR Report system.",
-      _trService:"TR Report",
-      _emailService:"Email Service",
-      _screenshotService:"Screenshot Service",
-      _testService:"Testing Report Service",
-      _server:"Server host",
-      _note:{
-        _trService:"Note: Boozang supports customers to automatically generate Trouble Reports. If you want to have this feature activated contact  Boozang support.",
-        _screenshotService:"Note: If you want the screenshot service feature contact Boozang support.",
-        _testService:"Note: If you want this feature contact Boozang support. ",
-        _emailService:"Note: If you want the feature contact Boozang support.",
-      }
-    },
-    _fragment:{
-      _title:"Fragment"
-    }
-  },
-  _ciSetting:{
-    _title:"CI",
-    _parameterOf:"Parameter ({0})",
-    _localized:"Enable Localized Server",
-    _localizedDesc:"Control socket center IP",
-    _singleWorker:"Single worker",
-    _multipleWorker:"Multiple workers (parallel tests, start worker index at: 1)",
-    _numberOfWorkers:"Number of workers",
-    _generateCIUrl:"Generate CI Link",
-    _generateSchedule:"Generate Schedule",
-    _generate:"Generate",
-    _listTitle:"Execution worker list",
-    _refreshCoopTime:"Auto refresh info in",
-    _worker:"Worker",
-    _workerScope:"In test scope workers",
-    _schedule:"Schedule",
-    _outputFormat:"Output format",
-    _exServer:{
-      "":"CI links",
-      jenkins:"Get Jenkins config",
-      docker:"Docker standalone",
-      gitlab:"GitLab CI config",
-      node:"Node / NPM config",
-      github:"GitHub actions config",
-      microsoft:"Microsoft Azure",
-      circle:"Other CI servers"
-    }
-  },
-  _log:{
-    _title:"Reports",
-    _exeSingleActionGroup:"Action (in Single action group)",
-    _screenshotOnFail:"On fail",
-    _curReport:{
-      _title:"Test Report",
-      _titleWithProjectName:"{0} test report",
-      _time:"Test time: {0}-{1}-{2} {3}:{4}:{5}",
-      _account:"Test account: {0}",
-      _testedApp:"Tested APP: {0}",
-      _index:"Index",
-      _type:"Test type",
-      _content:"Test Content",
-      _count:"Test case count",
-      _typeOptions:{
-        _fun:"Functional Automation Test",
-        _performance:"Performance Test",
-        _form:"Form field Validation Test"
-      },
-      _scope:{
-        _title:"1. Test Scope",
-        _desc:"The test scope includes： {0}.",
-        _detailRef:"The test content details："
-      },
-      _result:{
-        _title:"Test result",
-        _type:"Success / Failed",
-        _total:"Total",
-        _funFail:"Functional Automation Tests, {0}. Failed, {1}, They are: {2}. Reference the details on attachment-1.",
-        _funSuccess:"Functional Automation Tests, {0}. All passed. Reference the details on attachment-1.",
-        _performanceFail:"Performance Tests, {0}. Failed, {1}, They are: {2}. Reference the details on attachment-2.",
-        _performanceSuccess:"Performance Tests, {0}. All passed. Reference the details on attachment-2.",
-        _formFail:"Form field data validations: {0}. Failed, {1}, They are: {2}. Reference the details on attachment-3.",
-        _formSuccess:"Form field data validations: {0}. All passed. Reference the details on attachment-3.",
-      },
-      _conclusion:{
-        _title:"Test conclusion",
-        _desc:"After the {0} of {1}, the test result is:",
-        _funSuccess:"1, The functions were implements as the same as the requirement.",
-        _funFail:"1, There are some functions were not the same as requirement.",
-        _performanceSuccess:"2, The performances are all less than {0}s. All the response are in normal.",
-        _performanceFail:"2, There are some response time is longer than {0}",
-        _formSuccess:"3, The validated form fields are all in expectation",
-        _formFail:"3, There are some form fields validation are not normal",
-      },
-      _attachment:{
-        _requestList:"Requests",
-        _index:"Index",
-        _funName:"Name",
-        _failedStep:"Failed step",
-        _step:"Steps",
-        _exe:"Exe/Un-exe",
-        _pass:"Passed/Failed",
-        _performanceName:"Name",
-        _dataCount:"Data count",
-        _formName:"Name",
-        _issueData:"Exception data",
-        _logic:"Violation of the verification rules",
-        _responseTime:"Response Time",
-        _spendTime:"Spend Time",
-        _funTitle:"Attachment-1: Functional Automation Test",
-        _funDesc:"Execute functional automation test results:",
-        _funFailSteps:"Cause failed steps are:",
-        _performanceTitle:"Attachment-2: Performance Test",
-        _performanceDesc:"Performance Test results:",
-        _performanceFailDetails:"Longer than {0} seconds responses are:",
-        _formTitle:"Attachment-3: Validation of form fields Test",
-        _formDesc:"Validated form fields are：",
-        _formFailDetails:"Unexpected form fields are："
-      }
-    },
-    _keptReport:{
-      _title:"Saved Report"
-    },
-    _search:{
-      user:"Operator",
-      from:"From",
-      to:"To"
-    },
-    _report:{
-      _failedAt:"Failed at: ",
-      _dataIdx:"Data Index",
-      _dataIdxDesc:"Note: the index start from 0",
-      _title:"Test Reports",
-      _start:"Send request time",
-      _searchRequestLog:"Search Request Log",
-      _actions:"Actions",
-      _tests:"Tests",
-      _forms:"Forms",
-      _requestTime:"Request Time",
-      _exeActions:"Executed Actions",
-      _refreshScreenshot:"Before refresh",
-      _orgImg:"Original",
-      _failedAction:"Failed action",
-      _failedActions:"Failed Actions",
-      _performances:"Request Actions",
-      _failedPerformances:"Slow request actions",
-      _lastResult:"Last Result",
-      _form:"Form Data",
-      _failedForm:"Failed Form Data",
-      _time:"Time",
-      _operation:"Operation",
-      _operator:"Operator",
-      _viewTreads:"Check result trends",
-      _info:"Info",
-      _requests:"requests",
-      _requestBlockingIssue:"There is request blocking testing issue:\n\n",
-      _longRequestIssue:"Long waiting request:\n",
-      _newRequestIssue:"New request:\n",
-      _diff:"Diff",
-      _defTitle:"Test Result",
-      _period:"Time",
-      _check:"View",
-      _result:"Result",
-      _exeTime:"Execution Time",
-      _repTime:"Response Time",
-      _extraInfo:"Extra Info",
-      _viewAction:"View Running Action",
-      _callSelf:"{0} (Call self)",
-      _inLoop:"{0} (Loop: {1})",
-      _loadFrom:"Be loaded from",
-      _performance:"Slow Actions",
-      _unexpect:"Unexpected",
-      _autoDownload:"Auto-download Reports",
-      _requestDetails:"Requests",
-      _stateCode:"State code",
-      _showRequestDetails:"Record requests details and enable performance report",
-      _failedOnAction:"Failed on Action: ",
-      _searchType:"Search content",
-      _trends:{
-        _performance:"Total Performance",
-        _dataPerformance:"Iteration performance",
-        _iterationTrends:"Iteration Trends",
-        _summary:"Aggregate Results",
-        _average:"Average (iteration)",
-        _average1:"Average",
-        _startTime:"Start time",
-        _runUnit:"Test Run",
-        _iterationUnit:"Test iterations",
-        _time:"Time",
-        _idx:"Index",
-        _last:"Last Result",
-        _lastTime:"Last usage time",
-        _module:"Module / feature",
-        _test:"Test / Scenario",
-        _result:"Result",
-        _executeTime:"Execution Time",
-        _percentile:" Percentile",
-        _mean:"Mean",
-        _max:"Max"
-      },
-      _options:{
-        history:"Test Result Record",
-        request:"Request history",
-        trends:"Trends",
-        operation:"Operation Log",
-        fd:"Function Details Log",
-        fs:"Function Summary Log",
-        pfd:"Performance Details Log",
-        lt:"Load Testing Summary",
-        rup:"Ramp-Up",
-        report:"Summary Report"
-      },
-      _shortReportName:{
-        fd:"Function",
-        pfd:"Performance",
-        lt:"Load Testing",
-        rup:"Ramp-Up",
-        report:"Summary"
-      },
-      _postData:{
-        _title:"Upload Report Data to specific Server",
-        _format:"Data Format",
-        _options:{
-          jk:"Cucumber Report",
-          as:"Request Action Execute List",
-          rs:"General Result Data"
-        },
-        _target:{
-          server:"Sent data to Server",
-          console:"Console output"
-        },
-        _text:"{0} for {1}"
-      },
-      _loadTesting:{
-        _times:"Times",
-        _totalRequests:"Total Requests",
-        _totalDuration:"Total Duration(ms)",
-        _accumulatedTime:"Accumulated Request Time(ms)",
-        _concurrentTime:"Concurrent Request Time(ms)",
-        _maxDuration:"Max Duration(ms)",
-        _minDuration:"Min Duration(ms)",
-        _evenDuration:"Avg. Duration(ms)",
-        _url:"URL",
-        _method:"Method",
-        _detailsInfo:"Settings: {0} Times, {1}, Launch period: {2}",
-        _immediately:"Immediately",
-        _every:"Time/{0}",
-        s:"s",
-        m:"min"
-      }
-    },
-    _info:{
-      _title:"Events & Messages",
-      _lockedProjectData:"{0} locked project data.",
-      _releasedProjectData:"{0} released lock from project data.",
-      _updateProjectData:"{0} updated project setting data",
-      _lockedModule:"{0} locked module, {1}",
-      _releasedModule:"{0} released lock from module, {1}",
-      _newModule:"{0} added new module, {1}",
-      _updateModule:"{0} updated module, {1}",
-      _deleteModule:"{0} deleted module, {1}",
-      _lockedTest:"{0} locked test case, {1}",
-      _releasedTest:"{0} released lock from test case, {1}",
-      _newTest:"{0} added new test case, {1}",
-      _newCom:"{0} added new component, {1}",
-      _updateTest:"{0} updated test case, {1}",
-      _deleteTest:"{0} deleted test case, {1}",
-      _login:"{0} login",
-      _logout:"{0} logout",
-      _trReport:"{0} reported a new TR",
-      _trComment:"Comment success",
-      _coopStatus:"Coop-Status",
-      _stopByContainer:"stopped by container",
-      _getVideo:"Received video request",
-      _saveVideo:"Saved video file",
-      _longTimeNoResponse:"Long time no response. Stop task",
-      _clearTask:"clear task at beginning",
-      _retrieveToken:"Retrieve token",
-      _noResponseFromAPP:"Warning! No response from app window. Going to reset APP window.",
-      _newData:"New Data",
-      _endNewData:"End New Data",
-      _hasErrOnAction:"Has problem on action",
-      _noCucumber:"Cucumber report was not generated as no scenarios were run!",
-      _completeTopLevelTest:"Completed top-level test case",
-      _coopWorker:"Coop-Worker",
-      _addCoop:"Join worker",
-      _removeCoop:"Remove worker",
-      _failedTest:"failed test",
-      _nextTask:"Next schedule at",
-      _logTimeoutInMs:"timeout in ms",
-      _remoteEnd:"Remote",
-      _loadItem:"Loading",
-      _end:"End",
-      _sentEmail:"Sending out email notifications",
-      _initFailed:"Initial data failed",
-      _chkErrPage:"Check error page",
-      _stopOnCrashAction:"Stopped Test Task",
-      _noMoreAction:"No more action, task complete!",
-      _stopedByBZStop:"stopped by bz-stop flag",
-      _loadErr:"Load page error"
-    },
-    _operation:{
-      _type:{
-        add:"add",
-        update:"update",
-        delete:"delete",
-        signin:"signin",
-        signout:"signout",
-        exe:"exe",
-        auto:"auto"
-      },
-      _scope:{
-        project:"project",
-        version:"version",
-        module:"module",
-        test:"test",
-        config:"config"
-      },
-      _result:{
-        success:"success",
-        failed:"failed"
-      }
-    }
-  },
-  _account:{
-    _title:"Account",
-    _profile:{
-      _title:"Profile",
-      _description:"Edit your account information.",
-      firstName:"First Name",
-      lastName:"Last Name",
-      phone:"Phone",
-      fax:"Fax",
-      cell:"Cell",
-      email:"Email",
-      address1:"Address 1",
-      address2:"Address 2",
-      city:"City",
-      state:"State / province",
-      country:"Country",
-      postCode:"Post Code / Zip",
-      language:"Language",
-      role:"Role",
-      _permissions:"Permissions"
-    },
-    _usage:{
-      _title:"Data Usage",
-      _description:"Check your data usage",
-      _versions:"Branches",
-      _modules:"Modules",
-      _tests:"Tests",
-      _dataSize:"Data Size",
-      _remaining:"Remaining",
-      _exeAction:"Total actions executed"
-    },
-    _billing:{
-      _title:"Billing",
-      _plan:"Plan",
-      _promoCode:"Promo Code"
-    },
-    _permissionActions:{
-      _readEntity:"View Details",
-      _readList:"View List",
-      _add:"Add",
-      _update:"Modify",
-      _delete:"Delete",
-      _sysManage:"System Management",
-      _selfCtrl:"Self Control"
-    },
-    _permissionModules:[
-      "Users",
-      "Companies",
-      "Departments",
-      "Projects",
-      "Versions",
-      "Modules",
-      "Test cases",
-      "TRs",
-      "System",
-      "Requirements"
-    ],
-    _roleOptions:{
-      qa:"QA",
-      developer:"Developer",
-      ci:"CI",
-      viewer:"Viewer",
-      admin:"Administrator",
-      manager:"Manager",
-      teamLeader: "Team Leader",
-      architect:"Architect",
-      owner:"Owner"
-    }
-  },
-  _test:{
-    _hostExample:"https:/"+"/google.com",
-    _missUrl:"Please set a correct url",
-    _uiTabs:{
-      console:"Console",
-      data:"Data",
-      details:"Test setting",
-      config:"Action setting"
-    },
-    _testDetails:"Test info",
-    _moduleDetails:"Module info",
-    _typeDesc:{
-      unit:"Tests are the atomic units that test your application. Each test consists of a mixture of UI actions, API calls, validations, and Javascript. Keep tests short, data-driven, and focused.",
-      api:"API tests are comprised of API and script actions. Use this test type to test your application APIs or quickly generate test data. To create mixed tests (UI and API), use Functional tests, which support UI and API actions.",
-      link:"Link tests binds Cucumber/Gherkin scenario test steps to test cases.",
-      scenario:"Scenarios are test conditions written in Gherkin language. They are composed of Given, When and Then conditions.",
-      bug:"Bugs represent visual bugs. Usually they are comprised by a series of clicks and comments (in-browser annotations).",
-      com:"Components could be reference from any test case, the difference with other test case type is it not report details in test report. And, it could be execute as one action.",
-      int:"Test suites drive test execution. Create an ordered list of test cases using the plug test-case action. They are also used to model Cucumber features.",
-      subModule:"Sub-modules are modules within modules, useful for further breaking down your test tree into functional units.",
-      module:"Modules represent a functional part of the application under test, and acts as a container for test cases.",
-      feature:"Features are a set of Cucumber scenarios, referenced using the plug-test case action."
-    },
-    _general:{
-      _title:"Editor",
-      _url:"URL",
-      follow:"Never reload page",
-      followCheck:"Reload page on host mismatch",
-      newpage:"Always reload page",
-      followSameURL:"Reload page on URL mismatch",
-      _enterPointType:"Reload policy",
-      _enterPointTypeDesc:"Load test page method",
-      _loopData:"Loop Data",
-      _startIdx:"Start",
-      _endIdx:"End",
-      _startDesc:"Start from 0",
-      _endDesc:"Keep empty as end",
-      _exitLoopOnError:"Exit on error in loop",
-      _toActions:"To Actions",
-      _toDescription:"To Description",
-//      _nonMatchDesc:"The Test case Instructions is not the same as actions!",
-      _testTitle:"Test Case Setting",
-      _suiteTitle:"Test Suite Setting",
-      _bugTitle:"Bug Setting",
-      _host:"Domain",
-      _apiHost:"API Host",
-      _pageLink:"Page"
-    },
-    _askToAddHost:"Do you want to add the APP URL ({0}) into the environment server host list?",
-    _existData:"Edit test data",
-    _noExistData:"Add test data",
-    _noSimilarParameter:"There is no similar parameter mapping to, do you want to create a new one?",
-    _batchUpdateTest:"Do you want to update all '{0}' refer test case\n\nfrom: '{1}' \nto: '{2}'",
-    _batchNewTest:"Do you want to update all '{0}' refer test case: '{1}'",
-    _refset:"Ref-Setting",
-    _jsToAction:"Convert to action via $script API",
-    _textToAction:"Converting descriptions into action",
-    _scriptGeneratedActions:"Generated below actions",
-    _scriptGeneratedActionList:"Script generated action list",
-    _askPasteActions:"Do you want to insert actions or replace all actions?",
-    _actions:{
-      _title:"Record",
-      _insert:"Insert new action"
-    },
-    _testGUI:{
-      _title:"Test Flow Diagram"
-    },
-    _trReport:{
-      _title:"Bug Report",
-      _location:"Location",
-      _assignTo:"Assign To",
-      _newComment:"New Comment",
-      _comments:"Comments"
-    },
-    _data:{
-      _title:"Test data"
-    },
-    _type:{
-      //cell:"Atomic",
-      unit:"Test",
-      api:"API Test",
-      "int":"Suite",
-      bug:"Bug",
-      com:"Component",
-      scenario:"Scenario",
-      feature:"Feature",
-      module:"Module",
-      subModule:"Sub-Module",
-      "ai-model":"AI Model"
-    },
-    _moduleTab:{
-      unit:"Test",
-      api:"API",
-      scenario:"Scenario",
-      "int":"Suite",
-      module:"Sub-Module"
-    },
-    _modelTab:{
-      // _base:"Base Setting",
-      _page:"UI mapping",
-      _api:"API mapping",
-      _flow:"Data Flow"
-    },
-    _testTab:{
-      ctrl:"Controller",
-      operation:"Operation",
-      validation:"Validation",
-      api:"API",
-      scenario:"Scenario",
-      "int":"Test Suite"
-    },
-    _common:{
-      _fieldsetName:"Common",
-      _name:"Name",
-      _comment:"Comment",
-      _breakPoint:"Break Point for Debugging",
-    },
-    _action:{
-      _fieldsetName:"Actions",
-      _name:"Name",
-      _typeLabel:"Type",
-      _type:[
-        {
-          _name:"Validation",
-          _desc:"Creates an assertion condition in the page"
-        },
-        {
-          _name:"Trigger Event",
-          _desc:"Trigger a web page event such as: click, change, dblclick"
-        },
-        {
-          _name:"Extract Data",
-          _desc:"BZ supports 3 kinds of extract data methods. \n1. Extract web page element content as data. \n2. Extract JavaScript object as data. \n3. Extract data from database (by BZ tester supported data checker page)."
-        },
-        {
-          _name:"JavaScript Code",
-          _desc:"Executes JavaScript code"
-        },
-        {
-          _name:"Plug Test Case",
-          _desc:"Makes a call to a test case"
-        },
-        {
-          _name:"Comment",
-          _desc:"Add a comment on page element. Useful to highlight bugs and errors."
-        },
-        {
-          _name:"Refresh window/Load Page",
-          _desc:"Refresh current testing window."
-        },
-        {
-          _name:"Group",
-          _desc:"Group Actions"
-        },
-        {
-          _name:"Visit Links",
-          _desc:"Visit Links"
-        },
-        {
-          _name:"Validate Form Fields",
-          _desc:"Auto-validate Form fields (Support JSON or dat reference, like: $test.data)"
-        }
-      ],
-      _event:"Event",
-      _data:"Data",
-      _value:"Value",
-      _showDetails:"Show Details"
-    },
-    _error:{
-      _format:{
-        _test:"Data Format Error: Test case format is not correct. It must be in JSON format",
-        _actions:"Data Format Error: actions format is not correct. It must be in Array([]) format",
-        _dataMap:"Data Format Error: dataMap format is not correct. It must be in Object({}) format"
-      },
-      _emptyName:"Test Name cannot be empty!",
-      _missPop:"Miss {0}. Expected Message: {1}",
-      _unexpectedPop:"Unexpected {0}. Message: {1}",
-      _unMatchPop:"No Match {0}. Expected Message: {1}, Actual Message: {2}",
-    },
-    _play:{
-      _play:"Play Test Case",
-      _playgood:"Play upstream test",
-      _remote:"Remote play",
-      _stepByStep:"Step forward",
-      _debugging:"Play in repair mode from selected action",
-      _demo:"Play in demo mode",
-      _auto:"Automation Play",
-      _api:"Generate API",
-      _camera:"Generate action screenshot",
-      _repair:"Play & Repair",
-      _action:"Execute current action (Double click)"
-    },
-    _tab:{
-      success:"On Success",
-      failed:"On Failed",
-      error:"On Error",
-      condition:"Condition",
-      auth:"Authentication",
-      adv:"Advanced",
-      dependency:"Pre-dependency",
-      pop:"Pop Handler",
-      script:"Script / Loop",
-      resultscript:"Result Script",
-      loopdata:"Pre-Script / Loop",
-      note:"Note / Todo",
-      description:"Description",
-      parameter:"Parameter",
-      info:"Basic info"
-    },
-    _conditionSetting:{
-      _code:"Exit",
-      _action:"Action",
-      _report:"Report",
-      _goto:"Goto",
-      _set:"Set"
-    },
-    _defParameter:{
-      _json:"JSON Editor",
-      _form:"Key-Value Editor",
-      _text:"Text Editor",
-      _map:"Map Parameter"
-    },
-    _advOperation:"Advanced Operations",
-    _mergeOpr:{
-      _title:"Merge from other branch",
-      _desc:"Merges another branch. Changes are only applied to your current branch."
-    },
-    _analyze:{
-      _title:"Check Test case",
-      _desc:"Analyze and check test cases data, and report issues."
-    },
-    _shareOpr:{
-      _title:"Generate tokenized URL",
-      _desc:"Generates a URL with a personalized user access token. This can be used for CI integration."
-    },
-    _outputDoc:{
-      _title:"Output Relationship Map",
-      _desc:"Output object map in different file type: HTML, PDF, WORD and MARKDOWN"
-    },
-    _noTime:"Info from last run missing",
-    _textView:"T",
-    _subType:{
-      ctrl:"Condition Controller",
-      operation:"Operation",
-      validation:"Validation"
-    },
-    _targetParameter:"Target Parameter",
-    _passParameter:"Pass Parameter",
-    _foundIssues:"Found below issues",
-    _refreshParameterDefinition:"Auto-generate parameters based on test",
-    _noIssue:"Very good! No problems were found.",
-    enter:"Enter",
-    _beRef:"Be Plug-in",
-    _tryFix:"Try to fix",
-    _noAIFix:"Requires manual fix",
-    _issueOptions:{
-      _missExpection:"Missing expectation setting",
-      _missValue:"Input action has empty value",
-      _missScript:"Empty script action",
-      _errorData:"Data error: {0}",
-      _missDesc:"Missing description setting",
-      _missElement:"Missing element in action",
-      _plugInError:"Plug test case target is missing",
-      _missTarget:"Missing target setting",
-      _missData:"Missing data setting",
-      _missFinalSuccess:"Missing success message",
-      _missDataDefine:"Missing data definition: {0}",
-      _noBeRef:"Un-referenced test cases",
-      // _wrongInsertDataStyle:"Data insert format warnings. ({0})\n\nThe correct format of data bind on Value, Expectation, Element, Plug Test case and Load page URL is: {{....}}. \n\nFor example: {{{1}}}",
-      // _wrongScriptFormat:"Script format warnings. ({0})\n\nThe correct of reference a data in Script is not need to use {{....}}.",
-      // _wrongDataFormatInParameter:"Data format in parameter. ({0})\n\nWhen using different data scopes in parameter, don't use {{....}}, and \"....\" or '....'.",
-      _notBest:"Non-unique element selector",
-      _missPlugIn:"Missing plug test case",
-      _suggestNeverLaunchMethod:"Launch page issue. There are no element actions found. Use 'never reload' on the test case to speed up execution."
-    },
-    _askToApplyUpdate:"Do you want to apply the update?",
-    _removeActionDesc:"Going to remove {0} action.",
-    _repairAlert:{
-      _missPlugIn:"the missing plug-in",
-      _plugInError:"the wrong plug-in",
-      _missValue:"the missing value",
-      _missExpection:"the missing expection",
-      _missDesc:"the missing desction",
-      _missElement:"the missing element",
-      // _wrongInsertDataStyle:"Going to update {0} to {1}",
-      // _wrongDataFormatInParameter:"Do you want to apply the update?",
-      _missScript:"the missing script",
-      // _wrongScriptFormat:"Do you want to apply the update?",
-      _suggestNeverLaunchMethod:"Going to change the launch method to never reload"
-    },
-    _issueTab:{
-      _summary:"Summary",
-      _list:"Issue list"
-    },
-    _issueScope:"The issues in {0}",
-    _issues:"Test case setting issues",
-    _confirmToRevision:"The operation will restore a previous test revision. Current test version will be lost. \n\nDo you want to continue?",
-    _deleteScreenshotDesc:"Do you want to delete the action screenshot or delete all screenshots from the test case?",
-    _increaseTime:"Execute time increase: ",
-    _decreaseTime:"Execute time decrease: ",
-    _lastTimeSuccess:"Last time success",
-    _lastTimeFailed:"Last time failed",
-    _reloadData:"Reload data",
-    _validateVariable:"Validate variable value",
-    _validateStatus:"Validate request status",
-    _insertRefresh:"Insert Refresh Action",
-    _testParameter:"Test Parameter",
-    _aiVariable:"[Auto Generate Variable]",
-    _testId:"Test Id",
-    _noRefAction:"There is no reference to other test case.",
-    _doValidation:"Do Validation",
-    _defVariable:"Default Variable",
-    _deleteList:"Deleted the below test cases:",
-    _orgDefValue:"Default Parameter Value",
-    _deleteNone:"No test cases deleted",
-    _staticValue:"Static Value",
-    _newValue:"To be assigned",
-    _reAssignParameter:"Do you want to re-assign parameter for each actions?",
-    _removeDependencedTest:"In general workflow logic, the below test cases are base on the test case. \n\n{0}\n\n Do you want to continue move out it?",
-    _noPerfect:"There is no perfect solution to test the current test case",
-    _perfectList:"Please select the test case to play",
-    _refOf:"References of{0}",
-    _addTimeout:"Look like there are {0} ms delay, do you want to set a timeout on the action?",
-    _suggestDelay:"The problem maybe was caused by executed previous action too early. \n\nSuggestion: Add a delay on some previous action (click)",
-    _historyList:"Test case history list",
-    _noHistory:"No history data",
-    _toDisableAction:"Do you want to repair the test by disabling the failed action?",
-    _ignoreLoad:"Ignore load page",
-    _loadPage:"Loaded page",
-    _confirmMove:"Are you sure you want to move the current test case into {0}",
-    _viewLastTest:"Click to go back test case",
-    _viewNextTest:"Click to go forward test case",
-    _curTest:"Current Test case",
-    _details:"Test Details",
-    _finalLink:"Final Link",
-    _confirmDeleteTestOrActions:"Do you want to delete all actions or the current test case?",
-    _confirmRebuildActions:"Do you want to rebuild all actions?",
-    _synActionDesc:"Synchronize Actions on save Test Case",
-    _asCtrlItem:"Mark as test suite that calls other tests",
-    _missingElementInUpgrade:"Didn't find element by original element path.",
-    _findSimilar:"\n\nFound a similar element. \n\nIf it is not correct, please select target element from tested page, and click 'Continue' ",
-    _noFindSimilar:"Please select target element from tested page, and click 'Continue'",
-    _pickTargetElement:"Please pick target element from tested page first.",
-    _selectTests:"Select Test Cases:",
-    _moduleTests:"Module Test Cases:",
-    _suiteTests:"Suite Test Cases:",
-    _shareTestLink:"Test case link",
-    _shareToken:"Token execute link",
-    _cooperationToken:"Fill password to retrieve token",
-    _autoCopied:"Auto copied the link",
-    _upgradeStrategy:"Upgrade Strategy",
-    _askByRequests:"Catch the below API requests, please click which operation you want.",
-    _apiOprDesc:"Note:\nCreate: Create a new API Test\nAttach: Attach to an exist API Test\nOverwrite: Overwrite an exist API Test.",
-    _attachToAPITest:"Attach to test",
-    _overWriteAPITest:"Overwrite test",
-    _missNewElement:"Please select the purpose element before continue"
-  },
-  _picker:{
-    _resetIdx:"Re-set element path index ...",
-    _slowReminder:"Estimated time to find element",
-    _autoRefresh:"Auto check",
-    _chkPath:"Check path",
-    _children:"Children Elements",
-    _sibling:"Sibling Elements",
-    _parent:"Parent Element",
-    _name:"Dom Picker",
-    _header:"Header",
-    _text:"Text",
-    _label:"Label",
-    _index:"Index",
-    _okBtnPass:"Select",
-    _okBtnWarning:"Select (The path is not well-defined)",
-    _testFailed:"No element match",
-    _noExpectedType:"Expected type element missing: {0}",
-    _reminderManualEdit:"Tip: Click on each part to manually edit element path",
-    _selectPath:"Select element path",
-    _textOptions:{
-      "":"",
-      ":text":":text",
-      ":input":":input",
-      ":panel":":panel",
-      ":RowCol":":RowCol",
-      ":rowcol":":rowcol (case sensitive)",
-      ":after":":after",
-      ":before":":before",
-      ":contains":":contains (case sensitive)",
-      ":Contains":":Contains",
-      ":equal":":equal (case sensitive)",
-      ":endEqual":":endEqual",
-      ":endContains":":endContains",
-      ":near":":near",
-    },
-    _editPath:"Edit element path",
-    _noElement:"No element selected",
-    _labelSettingError:"The label was not found on page",
-    _headerSettingError:"The header was not found on page",
-    _applyFailed:"Apply the specific text failed. Please try other words or manully select",
-    _reminder:"Please select target element from APP page"
-  },
-  _task:{
-    _stopped:"Stopped",
-    _expectedFailed:"Expected error",
-    _logDetails:"Log Details",
-    _exeNextInDemo:"Click browser to execute next step: {0}",
-    _retrieveTokenFailed:"Failed to retrieve token",
-    _curTest:"Current Test",
-    _setting:"Execution environment and options setting",
-    _taskQueueSize:"Task queue ({0})",
-    _allActions:"Result list",
-    _failedActions:"Failed Actions ({0})",
-    _loopData:"Loop data",
-    _executing:"Executing ...",
-    _startTime:"Start time: ",
-    _endTime:"End time: ",
-    _currentData:"Current Data",
-    _selectLoopData:"Specify the data to be executed",
-    _waitRequests:"Waiting for {0} requests to complete:\n\n{1}",
-    _debuggerError:"Debugger not supported here! \nPlease put your code in a function, and set the debugger inside.\n\nThe debugging code:\n\n",
-    _logAgain:"    Ditto ...",
-    _retryOnMissingElement:"Retry on missing element",
-    _retryOnElementExist:"Retry on element is still here.",
-    _showLog:"Show Log",
-    _tooLongToRefresh:"In processing, there is a refresh on {1}, since a long waiting without response ({0}) issue.",
-    _continueTest:"The last task was stopped manually. Do you want to run test using current data context.",
-    _missBeginningRepElementError:"Missing Response Element at beginning",
-    _repElementAppearBeforeExeError:"Response Element appears before execute action",
-    _repElementAppearFailed:"Response element didn't appear as expected",
-    _repElementDispearFailed:"Response element didn't disappear as expected",
-    _pageException:"The page is abnormal： {0}",
-    _tried:"Tried",
-    _callAtEnd:"Note: Remember to Call the function at the end",
-    _insertDataListInElement:"This could be a data issue. Please review the data below:",
-    _stopAction:"Stop Action ",
-    _extractEmptyData:"Got empty data by API request.",
-    _autoCloseWindow:"Task completed! The window will be closed in 30s.\n\nYou can click cancel button the keep the window.",
-    _playDemoNote:"Please click on browser or key Right/Down/Ctrl to execute script step by step. \n\nNext step: {0}",
-    _analysising:"Analyzing page ......",
-    _validatingPage:"Validating filled form ......",
-    _fillingForm:"Filling form ......",
-    _crashInfo:"Page '{0}' not available. Stopped test case.",
-    _windowNotReady:"Test window not found. Please execute a test case to open it.",
-    _bzStop:"Stopped test task by bz-stop",
-    _bzSkip:"Skipped current action by bz-skip",
-    _bzSkipGroup:"Skipped current action group by bz-skip-group",
-    _bzStopInfo:"(The test case is bz-stop on action {0})",
-    _bzSkipInfo:"Skipped by bz-skip at {0}",
-    _skipValidData:"Ignore on validating data, {0}.",
-    _skipByElement:"Skipped by skip action element",
-    _bzSkipGroupInfo:"(bz-skip-group)",
-    _parameterRequired:"The current test need to assign a parameter. Please set it. <br/>The format can be in String, Object ({...}) or Array ([...])",
-    _uncomplete:"The current Task is not complete!",
-    _replaceExpection:"Expected value was replaced.",
-    UnMatch:"The actual result does not match the expected result.",
-    _askToDebug:"The target element was not found. ",
-    _helpOnMissingElement:"\n\nIf the element was slow to load and has appeared, click 'Re-try'.\n\nIf the element has changed and need to be re-selected, click 'Pick'. \n\nTo stop test execution, click 'Stop'. To ignore the error and continue execution, click 'Continue'.",
-    _askDownloadAssign:"No file was downloaded! Change validation to non-download action?",
-    _stack:"Stack trace",
-    _demo:{
-      _validation:"Validating content {0} ...",
-      _triggerEvent:"Triggering event {0} here ",
-      _extractData:"Extracting data from {0} ...",
-      _script:"Running script: {0}",
-      _ref:"Invoking test case: {0}",
-      _comment:"Showing comment ...",
-      _refresh:"Reloading current page ...",
-      _group:"Action Group",
-      _pageResult:"Page result",
-      _jsResult:"Script result",
-      _apiResult:"REST API result"
-    },
-    _nextSchedule:"Next schedule at: ",
-    _confirmDebugging:"Playing in debug mode will start from the selected action. \nIf you want to start from the beginning of the test case, click cancel and select the test case from the navigator. \n\nDo you want to continue?"
-  },
-  _diff:{
-    _title:"Difference",
-    _expection:"Expectation",
-    _actual:"Actual",
-    _OverWrite:"Overwrite",
-  },
-  _login:{
-    _userName:"User Name",
-    _password:"Password",
-    _extra:"Extra",
-    _failed:"Login failed! <br/> Please check your username and password."
-  },
-  _action:{
-    _details:"Action Details",
-    _rightClick:"Right click",
-    _reselect:"to re-select",
-    _moveToPos:"Move to position",
-    _preScript:"Pre-Script ({0})",
-    _defTimeout:"Default timeout 60000ms",
-    _dynamicOneAction:"Auto-one-action-group, from {0} to {1}",
-    _tryTmpData:"Debug action with temporary data",
-    _testDiffValue:"Debug action with temporary data",
-    _bindAction:"Combo action",
-    _comboIssue:"Combo data input format setting issue",
-    _cfgSubTabs:{
-      main:"Overview",
-      condition:"Condition",
-      script:"Pre & End Script"
-    },
-    _apiSubTabs:{
-      details:"API Setting",
-      condition:"Condition",
-    },
-    _batchApiSubTabs:{
-      batch:"Load Testing"
-    },
-    _elementSetting:{
-      _policy:"Policy",
-      _clickEvent:"Click Action",
-      _setEvent:"Set Action"
-    },
-    _refFrom:"Reference from action",
-    _noLightAction:"Non-rapid action",
-    _pickOrComponent:"Pick element from APP page or Select a component in the dropdown list",
-    _ifUploadFile:"You are doing an uploading file action. There are the following options for uploading files:",
-    _uploadInStdFiles:"Use simple files provided by Boozang.",
-    _existFileData:"Exist file data",
-    _uploadInUrlFile:"Use URL to specify file",
-    _uploadFromDesk:"Select upload file from local",
-    _missingUploadFile:"No upload file specified",
-    _confirmUploadFileToServer:"This file (Max 2M) can be uploaded to the server (up to ten files can be stored) and mapped to a project-level data ($project) to facilitate sharing and use among different environments and team members. \n\nIs this operation allowed?",
-    _reviewByDownload:"Review by download",
-    _tooLargeInScript:"The file is too large to be stored in the script. Please try another smaller file or choose to store it on the server.",
-    token:"Token",
-    _origin:"Origin",
-    _originOptions:{
-      mc:"Middle center",
-      lt:"Upper left corner",
-      t:"Top center",
-      rt:"Upper right corner",
-      r:"Right center",
-      rb:"Bottom right",
-      b:"Bottom center",
-      lb:"Bottom left",
-      l:"Left center"
-    },
-    _asOffsetAction:"Apply an offset element",
-    _asOffsetTargetElement:"Apply an offset on target element",
-    _setTime:"Set custom delay / timeout",
-    _noteDesc:"Any important info about the action, for example: make a note on todo checked",
-    _loopDataDesc:"The loop data should be a number, array, or CSV.\n\n"
-                  +"Access iteration data using handles: $action or $group. \n\n"
-                  +"1. Number: Loops n times. A value of 0 skips action.\n"
-                  +"2. Array: ex. [1,3,5]. Executes three times assigning $action to 1, 3, 5. \n"
-                  +"3. CSV: Row headings contain attribute names, split by tabs.\n"
-                  +"4. JavaScript: ex. (function(){ return [1,2,3]})();\n"
-                  +"5. Data: ex. $parameter.data\n\n"
-                  +"Note： Support generate data by Regex",
-    _chkDataInJson:"Check data in JSON",
-    _exeFunctionFailed:"The data is defined as a function. The current execute failed. ",
-    _identityFunction:"The data is defined as a function, The current execution result is:\n\n{0}",
-    _notLoopDataFormat:"The data format is not correct. The result should be a array or a number. The current data is: \n\n{0}",
-    _deleteScreenshot:"Delete Screenshot",
-    _missRefTests:"Please select which test case need to insert.",
-    _missRefModule:"Please select which module need to insert.",
-    _cleanBySignout:"Clean Token",
-    _changeResultOnSuccess:"Change Result on success",
-    _changeResultOnFail:"Change Result on fail",
-    _changeResultOnError:"Change Result on error",
-    _mouseEvent:"Mouse event",
-    _ref:{
-      _success:"On Success",
-      _successParameter:"Parameter of success",
-      _fail:"On Fail",
-      _failParameter:"Parameter of fail",
-      _error:"On Error",
-      _errorParameter:"Parameter of error",
-      _toFail:"To fail",
-      _toWarning:"To warning",
-      _toError:"To error",
-      _toSuccess:"To success",
-      _none:"None"
-    },
-    _tokenTest:"Retrieve Token",
-    _enableTokenAction:"Enable retrieve token",
-    _tokenValue:"Current Token value",
-    _noTokenTest:"No token test case for the test case host",
-    _noTokenValue:"No token value now!",
-    _mapTestParameter:"Mapping target test case defined parameter",
-    _mapGotoTest:"Mapping goto test case",
-    _monitorToken:"Monitor Token",
-    _hostToken:"Token host",
-    _tokenKey:"Token key",
-    _tokenErrMsgDesc:"The information flag obtained by the API \nwhen there is no token or the token data is incorrect.\n\nNote: This setting prepares data for the self-retrieving token function.",
-    _tokenErrMsg:"The information flag on token error",
-    // _apiReplaceEvent:"Execute API ",
-    _else:"else",
-    _resultScriptDesc:"User can control process flow by updating result status in script.\n\nScript Format： \n(function(){\n  /"+"/Tip: Use double brackets to insert standard code\n})();\n\n$result data structure: \n$result.status: execute result (success,failed,error)\n$result.failedAction: failed action\n$result.failedAction.idx=failed action index\n$result.failedAction.description=action description\n$result.failedAction.test=The failed action test case code。",
-    _loop:"loop",
-    _event:"event",
-    _clickDownloadImage:"Click to download the current action camera image.",
-    _dblclickDownloadImages:"Double click to download all camera images of the current test case.",
-    _toCompare:"Compare",
-    _autoDelay:"Auto wait until last data request complete",
-    _timeLong:"Time long",
-    _actionPath:"Group (action)",
-    _requestLink:"Request URL",
-    _setValueFailed:"Failed on setting value ({0})",
-    _exeScriptBrowser:"Play on",
-    _noBestPath:"Note: Non-unique element path found!",
-    _confirmUpdateExpection:"The actual value is not the same as the expectation. \n\nActual: {0}</div><div class='bz-box'>Expectation: {1}\n\nDo you want to replace it?",
-    _submitDataInfo:"Note: The submit data will be keep on $test.curFillFormData. Can be useful on clearing data as a parameter to call a delete data test case.",
-    _msgNotMatch:"Alert info is not match.\nData = {{0}：'{1}'}\nExpectation：{2}\nActual：{3}",
-    _lostTargetElement:"Lost target element",
-    _successMsg:"Success Message",
-    _missSuccessMsg:"Missing success flag",
-    _aiReset:"Reset to default AI Setting",
-    _notFoundElement:"The element: {0}\n\nCannot be found on current page.",
-    _updateFillFormData:"Do you want to update data?",
-    _missData:{
-      _script:"Script missing",
-      _element:"Element missing",
-      _warn:"Element path can be improved",
-      _ref:"NOT IMPLEMENTED!",
-      _url:"URL missing",
-      _expection:"Expectation value missing",
-      _data:"Missing fill-form values",
-      _requests:"Missing API Requests",
-      _description:"Missing description"
-    },
-    _reloadOptions:{
-      _page:"Refresh Page",
-      _data:"Re-Initialize data"
-    },
-    _refreshType:"Refresh Type",
-    _specifyRefreshData:"Specify refresh data",
-    _addDataHandler:"+ Reference Data",
-    _stdApiResponseScript:"Reset to standard API response script",
-    _addBaseFun:"+ Function",
-    _noData:"No data to fill!",
-    _actionOperations:"Operations on Current Action",
-    _notExeAlone:"Doesn't support execute the action alone, you must execute the test case",
-    _setFlag:"Set Switch flag",
-    _setTimer:"Set action timeout or delay",
-    _setPop:"Set brower popup box: alert, confirm and prompt",
-    _setCondition:"Set condition",
-    _validationType:"Validation Type",
-    _noInsert:"Not Insert",
-    _asGroup:"As {0} group",
-    _loopOptions:{
-      _title:"Loop Options",
-      _noLoop:"No Loop",
-      "for":"For Loop",
-      "while":"While Loop",
-    },
-    _groupOptions:{
-      "if":"An If group, the first action must be a validation action. The IDE will auto fill it.",
-      "else":"An Else-Group needs to follow an If-group. If the group is broken, the flow will instead enter the Else-Group.",
-      "switch":"A switch group is used for multiple choices or to skip code. Any previous action can directly goto the group using exit conditions or by script, like: $util.gotoFlag('xxx'). Make sure it's run in IDE",
-      "for":"A for loop group accepts number or array. The value can be filled directly, assigned by data or generated by a script. If the value is 0 or empty array, the group actions will be skipped.",
-      "while":"A loop-group repeats its inner actions unlimited times, until a bz-skip-group value or break-group condition."
-    },
-    _speed:"Speed",
-    _unique:"Unique",
-    _noUnique:"Not unique",
-    _skipPosition:{
-      _value:"Set value",
-      _element:"Element path",
-      _expection:"Expection value",
-      _url:"Request URL",
-      _headers:"Request Headers",
-      _httpData:"Post Data",
-      _action:"$action",
-      _group:"$group",
-      _ref:"Call test case"
-    },
-    elseGroup:"As else group",
-    loopGroup:"As loop group",
-    asOneAction:"Execute as single action in App window",
-    // singleAction:"As Single Action",
-    // singleActionDesc:"As a single action group, all inner actions will be hidden, and all actions result as one action result.",
-    _batRef:"Plug Test Case (Batch)",
-    _passErrData:"Passed on an error data!",
-    _failedOnSuccessData:"Failed on submit a normal data",
-    _typeTitle:"Event Type",
-    _popType:"Pop Type",
-    _contentType:"Operation",
-    _asRunningData:"As initial data for playing from the action",
-    _plugActions:"Plug ...",
-    _autoClick:"Auto click ",
-    _handleMsg:"Auto Check message",
-    _handleMsgOptions:{
-      _none:"[none]",
-      _realtime:"Check after each input",
-      _submit:"Check after each paging and submit",
-      _both:"Check after each input, paging and submit"
-    },
-    _successSelector:"Success Message",
-    _successMark:"Success Mark",
-    _errMark:"Error Mark",
-    _summaryMsg:"Summary Message",
-    _lineMsg:"Each field Message",
-    _errMapDesc:"Mapping on error data. like:\n\n{name:{error:['',1,'#@$']}}",
-    _successMapDesc:"Mapping on success data. like:\n{name:{success:'boozang'}}, \n\nor \n\n{name:{success:['boozang']}}\n\nIf want to set a normal without success message, should be:{name:'Boozang'}",
-    _infoMapDesc:"March general info. Like：\n\n{name:{info:['some special name']}}",
-    _fillFormDesc:"Support JSON, the format is:"+`
-{    
-  name：{
-    error:[
-      {
-        value:"",
-        message:"Please fill a value for it"
-      },
-      {
-        value:"333",
-        message:"Data format is not correct. Only letters are supported."
-      }
-    ],
-    success:"Some one"
-  },
-  company:"XXX" //Set a success value without a validation,
-  contact:{
-    error:"111", //Data format is not correct. 
-    success:"Some one"
-  }
-}
-
-Support reference data, like:
-
-$test.data
-    `,
-    _type:{
-      _validation:"Validate Result",
-      _triggerEvent:"Trigger Event",
-      _extractData:"Extract Data",
-      _script:"JavaScript & Function",
-      _ref:"Plug Test Case",
-      _comment:"Comment",
-      _refresh:"Refresh (Window/Data)",
-      _group:"Group",
-      _visit:"Visit Links",
-      _fillForm:"Validate Form Fields",
-      _load:"Load Test"
-    },
-    _content:{
-      _BZFormat:"BZ Format",
-      _subLength:"Sub Dom Count",
-      _parentLevel:"Parent Level",
-      _exist:"Exist",
-      _unexist:"Not exist",
-      _dnexist:"Dynamic Exist",
-      _value:"Input Value",
-      _enable:"Is Enabled",
-      _disable:"Is Disabled",
-      _checked:"Is Checked"
-    },
-    _markErrorOnHidden:"Treat hidden elements as not found",
-    _asDblClick:"As double-click action",
-    _switchToSetValue:"Switch to set value",
-    _loadURL:"Load Page",
-    _method:"Method",
-    _reqRep:"Request/Response (API)",
-    _coordinate:"Coordinate deviation",
-    _panel:"Panel",
-    _requireToggle:"Toggle Required",
-    _panelToggle:"Panel Toggle",
-    _targetToggle:"Target Toggle",
-    _plugin:"Plug-in",
-    _left:"Left",
-    _right:"Right",
-    _top:"Top",
-    _bottom:"Bottom",
-    _redo:"Re-do",
-    _jsonContent:"In JSON Content",
-    _ignoreOptions:"Ignore options",
-    _aipSetting:"API Setting",
-    _httpMethod:"HTTP Method",
-    _httpData:"HTTP Data",
-    _element:"Element",
-    _target:"Target Element",
-    _monitorUrlValue:"[Set target link characteristics at here]",
-    _skipMark:"Skip mark",
-    _failMark:"Fail mark",
-    _failElement:"Fail action element",
-    // _auxiliaryRecognition:"Auxiliary recognition",
-    _enableMonitorUrl:"Enable monitor Url function",
-    _offset:"Offset",
-    _monitorUrl:"Monitor APP URL",
-    _monitorUrlError:"Monitor URL function error: ",
-    _initMonitorUrlError:"Enable Monitor URL function error: ",
-    _skipActionElement:"Skip action element",
-    // _finalElement:"Element script",
-    _skipActionDesc:"When the specified target element appears on the page, this action is not performed.",
-    _failElementDesc:"When the specified target element appears on the page, the execution of this action fails.",
-    // _finalElementDesc:"After the action element is found, execute this script to assign the target element to a dynamic element to complete the entire action operation. You can refer to the action element with $element.",
-    // _auxiliaryRecognitionDesc:"This setting is to help the testing tool complete the identification and operation of the custom drop-down box control.\n\nPanel style: Used to identify the scope of custom controls.\nValue style: used to identify the sub-items of the drop-down menu.\nSelected style: used to identify the current selection.",
-    _monitorUrlDesc:"When some system dialog boxes are called on APP loading a dynamic page, (such as: Windows security authentication dialog box), it will cause the APP window to lose control. In order to avoid this situation, it is often necessary to change the dynamic link address. After using the monitoring script, the script will receive the data request link appearing on the APP in real time. Users can find the target link according to business rules, return true, and stop monitoring.",
-    _offsetDesc:"The offset setting is used when the target point is not on the action element. \nGenerally used to test and click controls developed based on canvas.",
-    _customizeInputTitle:"Identify custom control auxiliary settings",
-    _customizeInputDesc:"Help identify and assign user-defined controls in the product",
-    _repElement:"Combo action element",
-    _interval:"Interval",
-    _repElementMethod:"Response Element Method",
-    _repElementOptions:{
-      a:"Retry until element appears",
-      1:"Validate element appears",
-      2:"Validate element appears and disappears",
-      3:"Validate element appears and click on it",
-      4:"Validate element appears and double click on it",
-      5:"Validate element disappears",
-      6:"Validate element disappears and appears again",
-      7:"Validate element disappears and appears again and click on it",
-      8:"Validate element disappears and appears again and double click on it",
-    },
-    _location:"Location",
-    _expection:"Expectation",
-    _elementMissingPolicy:"Re-try policy",
-    //_failedReactionDefault:"Re-try on element missing",
-    _failedReactionQuick:"Never re-try on element missing",
-    _disableAISet:"Disable AI Set",
-    _failedReactionRetry:"Re-try if content mismatch",
-    _showOptions:"Show options",
-    _compare:"Comparison",
-    _preFormat:"Match (RegExp)",
-    _replace:"Replacement String",
-    _dataSizeWarning:"Note: If the expectation data size is more than 5K, the cloud server will only keep the MD5 value, not the original data",
-    _refOfSuccess:"On Success",
-    _refOfFailed:"On Fail: Validation False",
-    _refOfFailedLoadPage:"On Fail: Load Page",
-    _refOfFailedDownload:"On Fail: Download File",
-    _refOfErrorLoadPage:"Error: Load Page",
-    _refOfError:"Error: Element Not Found",
-    _returnValue:"Return",
-    _script:"Script",
-    _extractData:"Extract Data",
-    _showCommentJudge:"Show selection for Pass/Fail",
-    _inGroup:"In Group",
-    _todo:"TODO",
-    _header:"HTTP Headers",
-    _downloadAsFile:"Download as a file object",
-    _jsonFormat:"JSON Format",
-    _delay:"Delay Time",
-    _delayType:"Delay Mode",
-    _general:"General",
-    min:"Delay Time",
-    max:"Timeout",
-    defaultMin:"Default Delay: {0}",
-    defaultMax:"Default Timeout: {0}",
-    _okData:"The action is complete.",
-    _warningData:"The action complete, but the element path is not well-defined. Please check it.",
-    _notReadyData:"The action is incomplete",
-    _popFollow:"Validate in next action",
-    _nullValue:"Null Value",
-    _emptyValue:"Empty Value",
-    _jsonKey:"Keys",
-    _jsonValue:"Value",
-    _ignore:"Ignores",
-    _allAttrs:"All attributes (Except input value)",
-    _keyGroup:"Group (down, press and up)",
-    _mouseGroup:"Group (down, up and click)",
-    _otherAttr:"Other attributes",
-    _otherElement:"Other elements",
-    _numberAttr:"Number in Attribute (Except input value)",
-    _left:"Left",
-    _middle:"Middle",
-    _right:"Right",
-    _confirmInsertRefUnits:"Do you want to try a BZ AI fill the test suite?",
-    _reTryOnError:"Re-try on error",
-    _fromPanel:"Panel Style (CSS)",
-    _valueStyle:"Item Style (CSS)",
-    _selectStyle:"Selected item Style (CSS)",
-    _groupKeys:"A group keys",
-    _clearCookie:"Clear Cookie",
-    _clearLocalStorage:"Clear LocalStorage",
-    _batchInsert:"Batch add validate data",
-    _extractDataScriptInfo:"The extract element {0} is: '{1}'.\n\n It is set to a temporary variable, $test.tmpValue. You can manually change the variable name, or take other element attribute.",
-    _defComment:"There is a note",
-    _actionMenuOptions:{
-      _validation:"Validation Action",
-      _mouse:"Mouse Action",
-      _keyboard:"Keyboard Event",
-      _com:"Set value component",
-      _extract:"Extract Action",
-      _script:"Script Action",
-      _plugin:"Plug-in Test",
-      _add:"Other Actions ...",
-      _break:"Add break",
-      _playAction:"Play the action (Dblclick)",
-      _record:"Record from here",
-      _group:"Group",
-      _api:"API Action",
-      _load:"Load test",
-      _validScript:"Script Validation"
-    },
-    _description:{
-      _validateContent:"Validate {0}: {1} ",
-      _validateResponse:"Validate response: {0} {1} ",
-      _extractResponse:"Extract response: {0} {1}",
-      _extractData:"Extract: ",
-      _trigger:{
-        _change:"set {0}",
-        _check:"check {0}",
-        _uncheck:"uncheck {0}",
-        _typing:"typing",
-        _click:"click {0}",
-        _dblclick:"double click {0}",
-        _rightclick:"right click {0}"
-      },
-      _comment:"comment: {0} found issue ({1})",
-      _refresh:"Refresh page: {0}",
-      _refreshData:"Re-Initialize data: {0}",
-      _ref:"Call: ",
-      _exeScript:"Script: ",
-      _group:"Group: ",
-      _visit:"Visit Links from: ",
-      _fillForm:"Fill form: {0}",
-      _load:"Execute {0} API"
-    },
-    _methodDesc:{
-      _validateContent:"Validate",
-      _validateResponse:"API-Validate",
-      _validateJS:"JS-Validate",
-      _extractResponse:"API-Extract",
-      _extractData:"Extract",
-      _trigger:{
-        _change:"Set",
-        _check:"Check",
-        _uncheck:"Uncheck",
-        _typing:"Typing",
-        _click:"Click",
-        _dblclick:"Double click",
-        _rightclick:"Right click",
-        _dragdrop:"dragedrop",
-        _drag:"drag",
-      },
-      _comment:"Comment",
-      _refresh:"Refresh page",
-      _refreshData:"Re-Initialize data",
-      _ref:"Call",
-      _group:"Group",
-      _visit:"Visit Links",
-      _fillForm:"Fill form",
-      _script:"Script",
-      _load:"Load Test"
-    },
-    _insertRecording:"Record Action from here",
-    _insertAction:"Insert {0}",
-    _searchTest:"Search test case to add",
-    _missRef:"Error: test case doesn't exist",
-    _missElement:"Element not found on page!",
-    _functions:{
-      _loadPage:"Load page",
-      _retrieveUrl:"Retrieve URL",
-      _browserBack:"Browser Back",
-      _browserForward:"Browser Forward",
-      _scrollTop:"Scroll to Top",
-      _scrollBottom:"Scroll to Bottom",
-      _scrollPageDown:"Scroll one page down and right",
-      _scrollPageUp:"Scroll one page up and left",
-      _gotoFlag:"Goto Flag",
-      // _takeScreenshot:"Take Screenshot",
-      _asynFun:"Asyn Function"
-    },
-    _selectFun:"[Select Function ...]",
-    _insertFunction:"Insert function",
-    _enterLines:"Ctrl + Enter to insert multiple lines",
-    _downloadAction:"As a download action",
-    Timer:"Delay Timer",
-    Success:"Execute extra action on Success",
-    Failed:"Execute extra action on Failed",
-    Error:"Execute extra action on Error"
-  },
-  _ref:{
-    _none:"None",
-    ".":"Continue To Next Action",
-    "..":"Break Current Test",
-    "...":"Break Group",
-    "....":"Stop All Tests",
-    _refOfSuccess:"Continue To Next Action",
-    _refOfFailed:"Continue To Next Action",
-    _refOfError:"Break Test Case",
-    _refPath:"Test",
-    _exit:"Exit Options",
-    _report:"Report Result",
-    _gotoFlag:"Goto flag",
-    _refreshWindow:"Refresh page",
-    _limitLoop:"Limit loop",
-    _maxTimes:"Max {0} times",
-    _times:"Time(s)"
-  },
-  _domRootDefinition:{
-    _title:"Defined Root Dom",
-    _update:"Update all actions",
-    _notUpdate:"Update item only",
-    _confirmUpdate:"Do you want to base on the new path to update all the action elements under the module? \n\nIf yes, you need to make sure that all test cases in question haven't been locked by other team members.",
-  },
-  _innerWin:{
-    _addScript:"Add Script ...",
-    _darkModel:"Dark mode",
-    _skip:"Skip",
-    _launchBtn:"Launch Toolbar",
-    _moduleName:"Module Name",
-    _testName:"Test Case Name",
-    _scope:"Use data scope",
-    _bindData:"Build Data bind",
-    _dataPath:"Data path",
-    _form:"Pick value from Form",
-    _domPath:"Element Path:",
-    _tools:{
-      _title:"Options",
-      _recordInsert:"Record (Insert into selected Test Case)",
-      _recordAdd:"Record (Create new Test Case into selected Module)",
-      _addAfterAction:" (new actions are inserted after selected action)",
-      _addAtTop:" (new actions are inserted at the top of the test case)",
-      _dataBind:"Bind Data",
-      _dataBindInRecording:"Bind Data",
-      _autoValidationInRecording:"Auto Validation (In Recording)",
-      _checker:"Checker",
-      _invalidPath:"The path is not valid!",
-      _invalidChecker:"The checker is required!",
-      _checkerParameters:"Parameters: name and value",
-      _showIDE:"Show tool window"
-    },
-    _save:"Save",
-    _error:{
-      _noItemInDom:"Didn't find input-box for data binding in the selected area (input, select or textarea)."
-    }
-  },
-  _tools:{
-    _title:"Tools",
-    _ideKey:"IDE Keyword",
-    _jsKey:"JS Keyword",
-    _BZPublicCode:"Use handles: \n\n"
-                  +"Data scopes: $project, $module, $test\n"
-                  +"Loop iteration data: $loop, $group, $action\n"
-                  +"Current element: $element\n"
-                  +"Execute result: $result ($result.statue: success, failed)\n"
-                  +"Invoke util functions: $util.xxxxxx",
-    _insertCodeDescription:"Use: {{ ... }} to insert data/script",
-    _currentVersionOnly:"Current branch only ({0})",
-    _suggestJsCodeFormat:"Supports Javascript with syntax highlighting\n\n",
-    _jsonWithData:'Support JSON format with test data. The format like:\n\n{\n  "id":"xxxxxx",\n  "name" : $parameter.name,\n  value : $project.value\n}',
-    _suggestValidationJsCodeFormat:"Validation JS Code style:\n(function(){\n  ......\n  return true/false;\n  /"+"/Tip: Use double brackets to insert standard code\n})()\n\n",
-    _bindDataJsCodeFormat:"Validation Data code style:\nxxx.xxx\nxxxx.xxxx",
-    _suggestJsDataFormat:"There are 2 style for Script data: \n Simply way: \nxxxx; (ex. Date.now()). The function code will be executed once only, the value not change. \n or \nfunction way:\nfunction(){\n  ......\n  return xxx\n}\nThe function code will be executed every time it be called. The reture value can be different every time.",
-    _jsonPlainFormat:"Supports JSON and plain text format",
-    _cvsFormat:"Supports plain text, and interval by TAB. Exp.\n\nfirstName\tlastName\tuserName\nTom\tBush\tuser1\nFlora\tLi\tfl",
-    _matrixFormat:"Supports plain text, must have key column(_"+"key), and interval by TAB. Exp.\n\n_"+"key\tfirstName\tlastName\tuserName\nadmin\tTom\tBush\tuser1\nmanager\tFlora\tLi\tfl",
-    _regexFormat:"Format: Regular Expression",
-    _regexFormat2:"Format: Regular Expression (/....../g)\n\nSupports multiple rows",
-    _file:"Upload sharing file",
-    _advData:"Advanced Data",
-    _selectDownloadVersions:"Please select download versions:",
-    _insertRegex:"Regex - Generate Data",
-    // _insertValRegex:"Regex - Match Data",
-    _insertCondition:"Condition",
-    _insertOrgRegex:"Insert Original Regex definition",
-    _elementFilter:"Element Filter",
-    _filter:"Filter",
-    _style:"Style",
-    _ignoreReqDesc:"Set ignore request path",
-    _newIgnorePath:"New Ignore URL",
-    _notChangeHeader:"Update field name not supported here.",
-    _existIgnoreList:"Current Ignore Requests List",
-    _showFilterElement:"Show",
-    _removeFilterElement:"Hide",
-    _csvTab:{
-      _table:"Table",
-      _txt:"Text"
-    },
-    _setting:"Setting",
-    _uploadData:"Upload data setting",
-    _filterDesc:"Filter format\n\ntag: xxx, like: button\nclass: .xxx, like: .btn\nid: #xxx, like: #item\n attribute: [xxx], like: [data-qa], note: support * on filter by attribute. like: [data-bz-*]"
-  },
-  _console:{
-    _title:"Console",
-    _monitorData:"Monitor Data",
-    _clear:"Clear Console [Ctrl/Cmd + L] \n(cmd: $console.clear())"
-  },
-  _help:{
-    _title:"Help",
-    _learn:"Show help",
-    _hideLearn:"Hide help",
-    _syntax:"Boozang Syntax",
-    _vedio:"Video Tutorials",
-    _doc:"Documentation",
-    _sbsVedio:"Video helper",
-    _sbs:"Step by step",
-    _missElement:"Element cannot be found. Step-by-Step is broken. Please be sure you have at lease one Module, one test case and your application page is launched as well. And try again."
-  },
-  _syntax:{
-    test:{
-      loopData:"loop/$loop/batch",
-      tag:"tag",
-      link:"always reloads/load/url/page",
-      follow:"never reloads",
-      followCheck:"host mismatch",
-      followSameURL:"URL mismatch",
-      host:"root url/host"
-    },
-    action:{
-      validate:"validate/validation",
-      extract:"extract/get/take/pick",
-      plug:"call/ref/plug/reference/run/execute",
-      refresh:"refresh",
-      comment:"comment",
-      js:"script/js/javascript",
-      validateResponse:"validate response",
-      extractResponse:"extract response",
-      group:"group",
-      visit:"visit"
-    },
-    advance:{
-      refOfError:"error",
-      refOfSuccess:"success",
-      refOfFailed:"fail",
-    },
-    "event":{
-      click:"click",
-      mousedown:"mousedown",
-      mouseup:"mouseup",
-      mousemove:"mousemove",
-      mouseover:"mouseover",
-      mouseout:"mouseout",
-      dblclick:"double click/dblclick",
-      rightclick:"right click",
-      keypress:"keypress",
-      keyup:"keyup",
-      keydown:"keydown",
-      keygroup:"key/keygroup",
-      typing:"typing",
-      set:"set/put/input/change",
-      check:"check/select",
-      uncheck:"uncheck",
-      dragdrop:"dragdrop",
-      drag:"drag",
-      retrieve:"retrieve",
-      fillform:"fillform",
-      alert:"alert",
-      call:"ref/reference/call",
-      group:"group"
-    },
-  },
-  _syntaxExtra:{
-    compare:{
-      "==":"equal/==/=",
-      "!=":"not equal/!=",
-      include:"include/includes",
-      exclude:"exclude/excludes",
-      ">":"greater than/>",
-      ">=":"greater than or equal to/>=",
-      "<":"less than/<",
-      "<=":"less than or equal to/<=",
-      regex:"regex",
-      "bz-compare-issue":"found issue",
-      "bz-compare-error":"found error",
-    }
-  },
-  _script:{
-    _askDescToAction:"Convert text to Actions?",
-    _parseTxtFailed:"Failed on parse text to action: {0}\n\nMessage: {1}",
-    _options:{
-      _alwaysSuccess:'always success',
-      _timeout:'timeout',
-      _delay:'delay',
-      _flag:'flag',
-      _successGotoFlag:'on success goto',
-      _failedGotoFlag:'on failed goto',
-      _errorGotoFlag:'on error goto',
-      _successGotoTest:'on success test|play|execute',
-      _failedGotoTest:'on failed test|play|execute',
-      _errorGotoTest:'on error test|play|execute'
-    },
-    _matchDesc:{
-      kwk1:/^(validate|drag)[:： ]*({w}) +(is exist|is unexist|is enable|is disable|from (\[[xy= 0-9,，]+\]) to (\[[xy= 0-9,，]+\])) *([\(](.+)[\)])?$/i,
-      kwk2:/^(extract|get)( data of| value of|[:：]) *([^(]+) *([\(](.+)[\)])?$/i,
-      kwkw1:/^(validate|set|typing)[:： ]*(.+) *([=><!]+) *([^\(]+) *([\(](.+)[\)])?$/i,
-      kwkw2:/^(dragdrop)[:： ]*(".+"|'.+'|`.+`|.+) +to +([^\(]) *([\(](.+)[\)])?$/i,
-      kw:/^(validate script|validate form|validate form fields?|click|right click|double click|mousedown|mouseup|mousemove|mouseout|mouseover|check|uncheck|alert|open link|open url|go ?to link|go ?to url|reset data|script|play|call|test|reference|ref\.|check links?|fillform|fill form)[:： ]*([^\(]+) *([\(](.+)[\)])?$/i
-    },
-    _actionMap:{
-      "validate script":{type:0,method:1},
-      validate:{type:0,method:0,content:{}},
-      click:{type:1,event:{action:"click",type:"mouse"}},
-      mousedown:{type:1,event:{action:"mousedown",type:"mouse"}},
-      mouseup:{type:1,event:{action:"mouseup",type:"mouse"}},
-      mousemove:{type:1,event:{action:"mousemove",type:"mouse"}},
-      mouseout:{type:1,event:{action:"mouseout",type:"mouse"}},
-      mouseover:{type:1,event:{action:"mouseover",type:"mouse"}},
-      "right click":{type:1,event:{action:"click",type:"mouse",button:2}},
-      "double click":{type:1,event:{action:"dblclick",type:"mouse"}},
-      dragdrop:{type:1,event:{action:"dragdrop",type:"mouse"}},
-      drag:{type:1,event:{action:"drag",type:"mouse"}},
-      set:{type:1,event:{type:"change",autoBlur:1}},
-      typing:{type:1,event:{type:"key",action:"group"}},
-      check:{type:1,event:{type:"change",autoBlur:1,value:true}},
-      uncheck:{type:1,event:{type:"change",autoBlur:1,value:false}},
-      extract:{type:2,method:0},get:{type:2,method:0},
-      script:{type:3},
-      play:{type:4},call:{type:4},test:{type:4},reference:{type:4},ref:{type:4},trigger:{type:4},execute:{type:4},
-      alert:{type:5},
-      "open link":{type:6},"open url":{type:6},
-      "reset data":{type:6,refreshType:"data"},
-      group:{type:7},
-      "check links":{type:8},
-      "validate form":{type:9},"validate form fields":{type:9},"validate form field":{type:9},
-      fillform:"","fill form":""
-    },
-    _templates:{
-      0:{//_validate
-        exist:'Validate: "{0}" is exist',
-        unexist:'Validate: "{0}" is not exist',
-        screenshot:'Validate: "{0}" md5 is "{1}"',
-        data:'Validate: "{1}" in "{0}"',
-        text:'Validate: "{0}" = "{1}"',
-        value:'Validate: "{0}" = "{1}"',
-        enable:'Validate: "{0}" is enable',
-        disable:'Validate: "{0}" is disable',
-        script:'Validate script: "{0}"'
-      },
-      1:{//_event
-        click:'Click "{0}"',
-        rightClick:'Right click "{0}"',
-        dblclick:'Double click "{0}"',
-        dragdrop:'Dragdrop "{0}" to "{1}"',
-        drag:'Drag "{0}" from [{1}] to [{2}]',
-        change:'Set "{0}" = "{1}"',
-        key:'Typing "{0}" = "{1}"',
-        check:'Check "{0}"',
-        uncheck:'Uncheck "{0}"',
-      },
-      2:'Get data of "{0}"',  //extract
-      3:'Script "{0}"', //script
-      4:'Call "{0}"', //callTest
-      5:'Alert "{0}"',  //alert
-      6:{
-        "":'Open link: "{0}"',  //gotoUrl
-        "data":'Reset data: "{0}"',  //refreshData
-      },
-      7:'"{0}" group', //Group
-      8:'Check links on "{0}"',
-      9:'Form validation on "{0}"'
-    }
-  },
-  _syntaxOption:{
-    process:{
-      _refresh:"refresh",
-      _break:"break",
-      _breakGroup:"break group",
-      _continue:"continue",
-      _stop:"stop/end"
-    },
-    result:{
-      _success:"report success",
-      _warning:"report warning",
-      _failed:"report failed",
-      _error:"report error",
-      _crash:"report crash"
-    },
-    response:{
-      httpMethod:"method",
-      httpURL:"link/url",
-      httpHeaders:"header/headers",
-      httpData:"data",
-      type:"type",
-      ignore:"ignore",
-      nullValue:"null",
-      emptyValue:"empty",
-      status:"status",
-      data:"data",
-      jsonKey:"ignore key",
-      jsonValue:"ignore value",
-      downloadAsFile:"download as file"
-    },
-    format:{
-      exist:"exist",
-      screenshot:"screenshot",
-      innerText:"innertext",
-      innerHTML:"innerhtml",
-      outerHTML:"outerhtml",
-      data:"data"
-    },
-    mouse:{
-      x:"x",
-      y:"y",
-      key:"key",
-      download:"download/download action/as download action",
-      dragdrop:"{0} to {1}"
-    },
-    key:{
-      ctrl:"ctrl",
-      alt:"alt",
-      shift:"shift"
-    },
-    loop:{
-      loopStart:"start",
-      loopEnd:"end",
-      exitLoop:"exit/exit loop on error"
-    },
-    refresh:{
-      cookie:"cookie",
-      locationStorage:"localstorage"
-    }
-  },
-  _aiHandler:{
-    _note:"Note: Ctrl/Cmd + Click on key word to add or update object definition (use CMD key for Mac)",
-    _noPaste:"Unfortunately, cannot execute paste operation from menu. Type 'Ctrl + V' from your keyboard.",
-    _selectOptionMsg:"Please select one option first, and start.",
-    _emptyActionToDescIssue:"There is no action!",
-    _emptyDescIssueToAction:"There is no description!",
-    _toActionsMsg : "<label class='modal-option1'><input type='radio' name='_updateWay' value='_action'/> Generate <u>actions</u> from <u>test case description</u></label>\n"
-                  + "<label class='modal-suboption'><input type='radio' name='_toActionOption' value='1' disabled/> Override the current test case only</label>\n"
-                  + "<label class='modal-suboption'><input type='radio' name='_toActionOption' value='2' disabled/> Override all passing test cases</label>\n"
-                  + "<label class='modal-suboption'><input type='radio' name='_toActionOption' value='3' disabled/> For empty test cases only</label>\n\n\n"
-                  + "<label class='modal-option2'><input type='radio' name='_updateWay' value='_desc'/> Generate <u>test case description</u> from <u>actions</u></label>\n\n\n"
-                  + "<label class='modal-option2'><input type='radio' name='_updateWay' value='_update'/> Re-generate action element path (for migration)</label>\n"
-  },
-  _nav:{
-    _currentTest:"Working Test Case",
-    _explorers:{
-      workspace:"Workspace",
-      module:"Module Explorer",
-      feature:"Feature Explorer",
-      "ai-model":"Model Explorer",
-      com:"Component Explorer",
-      search:"Search",
-      history:"History",
-      logs:"Reports",
-      "root-cause":"Known Issues"
-    },
-    _viewTeam:"View in full team update history",
-    _searchDesc:"Search word in modules / tests / actions ..."
-  },
-  _bug:{
-    _title:"Bugs",
-    _missEmail:"Missing email! Please fill an email.",
-    _mailContent:"Hello,\n\n\nPlease check the test case. Thanks\n\nBest regard,\n\n"
-  },
-  _com:{
-    _title:"Component",
-    _asOneAction:"Execute as single action in App window",
-    _identifyElementCss:"Identify element (CSS)",
-    _identifyElementCssDesc:"Set identify element to help IDE find component element\nand set proper element path on recording and scanning",
-    _oneWordNameError:"Only A-Z, a-z, 0-9 can be used to name componet.",
-    _conflictNameError:"This name conflicts with the system method name! Please consider other name."
-  },
-  _team:{
-    _title:"Team",
-  },
-  _chat:{
-    _title:"Chat & Message",
-    _clear:"Clear chat",
-    _postMethod:"Ctrl / Meta + Enter to submit message",
-    _showPopInfo:"Show pop Info"
-  },
-  _sync:{
-    _title:"Synchronize"
-  },
-  _importantInfo:{
-    _record:"WE ARE NOW RECORDING. ALL BROWSER INTERACTIONS WILL BE CAPTURED. \n Use toolbar to add validations and comments, and to stop recording.",
-    _success:"Success!",
-    _failed:"Failed!",
-    _stop:"Stop!",
-    _loadingData:"Loading data ...",
-    _timer:"Waiting {0}"
-  },
-  plugInfo:{
-    record:"Recording",
-    play:"Playing",
-    ctrl:"Controlling"
-  },
-  _dataBind:{
-    _jsonTransfer:"JSON Transfer",
-    _requireMatrixKey:"As a Matrix data, the first column name must be '_"+"key'",
-    _fillExistDataOnly:"Do you want Boozang to auto-generate form content where it cannot find matching data?\n\nBy clicking 'Yes', Boozang will auto-generate dummy data based all fields. Otherwise only fields with matching data will be filled.",
-    _confirmFillField:"Adjust pre-filled data and click 'continue' on Boozang toolbar to finalize data bind.",
-    _keyExist:"The key ({0}) exists, and it is in different format. Please use other key.",
-    // _autoClose:"Keep mouseover on the close icon, \nthe data-bind menu will auto-close in 3 seconds.",
-    _overWrite:"Overwrite: ",
-    _noOverWriteOption:"There is no default data to overwrite.",
-    _selectOverWriteData:"Select which data you want to overwrite：",
-    csv:"CSV/Matrix (comma-separated or tab-separated values)",
-    file:"File",
-    json:"JSON",
-    _bindFailed:"Bind data failed! Please try it manually.",
-    _bindDataInfo:"Bind on: {0}",
-    _hasData:"The item contains data",
-    _defParameter:"Default Parameter",
-    _doData:"Copy to Data",
-    _refData:"Load Data",
-    _dataNameIssue:"Data name is not correct. Data name cannot includes space, dot(.) and other mark letters.",
-    _overrideDataIssue:"The same data name already exist, but it is in different data type. You cannot override it.",
-    _parameterToData:"Default Parameter to Data",
-    _parameterToValue:"Set default parameter to: {0}",
-    _dataFormatIssue:"Look like there is a data format issue, do you want to check it?\n\nError message: {0}",
-    _askBuildData:"The data, {0} does not exist. Would you like to create the data?",
-    _noExistModuleInAlias:"No module with alias {0} was found",
-    _autoFill:"Do you want to auto bind-data?",
-    _loadDataFailed:"Load data ({0}) failed! {1}",
-    _noData:"There is no data to bind.",
-    _autoFill:"Autofill Forms",
-    _funErr:"Function Data setting error: ",
-    _funNameErr:"The function data should not include a function name. The correct format should be: \n\nfunction(){\n  ...\n  return ...\n}",
-    _empty:"[Empty]",
-    _objData:"Object Data",
-    _replaceKeyByParameter:"Replace key by $parameter",
-    "bz-skip-group":"In testing, if use bz-skip as a value on an action \n(to set element, typing value or reference other test case), \nthe current action group will be skipped to next.",
-    "bz-skip":"In testing, if use bz-skip as a value on an action \n(to set element, typing value or reference other test case), \nthe action will be skipped to next.",
-    "bz-stop":"In testing, if use bz-stop as a value on an action \n(to set element, typing value or reference other test case), \nthe current test case will be stopped",
-    _asParameter:"Make $parameter = '{0}'",
-    _setNewValue:"Update data <b>{0}</b> value, from: <b>{1}</b> to <b>{2}</b>",
-    _errorFrom:"(Error from: {0})",
-    _options:{
-      _email:"Email",
-      _phoneNumber:"Phone Number",
-      _address:"Address",
-      _postCode:"Post Code",
-      _name:"Name",
-      _number:"Number",
-      _decimal:"Decimal",
-      _string:"String",
-      _url:"Link"
-    },
-    _typeDesc:{
-      _property:"Properties are for name-value pairs. This is a good way to store strings and numbers.",
-      _file:"Files are used to upload example data. Keep the file size below 5 Kb.",
-      _csv:"Used to handle spreadsheet data. It can be used to drive data loops. ",
-      _object:"JSON objects are used to group data together. Ideal to handle a set of name-value pairs, such as form data.",
-      _array:"Arrays are used to handle data sequences. Can be used to drive data loops.",
-      _mixed:"Mixed data is generalized JSON data. User can use any structure as long as it complies with the JSON format.",
-      _req:"Request data is used to fetch external data. CSV, file and object type are supported. ",
-      js:"Javascript data allows you to construct functions in Javascript code to generate dynamic data.",
-      _matrix:"Matrix data is a complex data type used to drive tests. Similar to CSV, except that each row has to have a key, so it can be fetched by name."
-    }
-  },
-  _auth:{
-    _checkAll:"Check All",
-    _editDefTests:"Edit default authorization item setting",
-    _roleSetting:"Role data setting",
-    _skipAuthData:"Skip Authorization Data setting (not recommended)",
-    _noCatchRequest:"Didn't catch any API requests.\n\n1. Stop the process by click 'Close' button, and try again. \n2. Ask the developer of the application, and fill the API test case manually.",
-    _missHeaders:"Please select a token request and specify the token",
-    _missSelectRequest:"Please specify a API request",
-    _autoToken:"Enable auto merge/insert authorization info (token)",
-    _toAIApi:"Create AI Modules",
-    _missHost:"The host ({0}) hasn't been defined. Do you want to add it to the environment setting now?",
-    _notFromHost:"The request is not defined. Please add the host into environment setting.",
-    _tokenRequest:"Request base on token",
-    _title:"Authorization Setting - ",
-    _generateWizard:"Generate Test Case",
-    _module:"Auth-Module Name",
-    _moduleName:"Authorization",
-    _linkToModule:"Select module",
-    _linkToTest:"Select test case",
-    _linkToData:"Select user data",
-    _generalTests:"Sign-in / Sign-out",
-    _apiTests:"API-Sign-in / API-Sign-out",
-    _tokenTest:"Retrieve API Token",
-    _loginValidateGroupDesc:"Pre-validation for sign-in status",
-    _role:"Role (Unique)",
-    _username:"Username",
-    _password:"Password",
-    _validation:"User Identifier",
-    _validationDesc:"Ex. first / last name",
-    _other:"Other",
-    _othAttr:"Other login attributes",
-    _authStaticSetting:"Static Authorization Setting",
-    _storePersonal:"Select it to store the data as Personal Data",
-    _generateTests:"Do you want our AI to generate the below test case for you?",
-    _checkTest:"Check all accounts",
-    _checkApi:"Check all API",
-    _curAuthValue:"Current Token",
-    _login:"Log in",
-    _logout:"Log out",
-    _desc:{
-      _role:"User role, \nsupport for single user to have multiple roles,\nand support for multiple users to have the same role",
-      _identifier:"Recognized characters of the user on the interface",
-      id:"ID of user data in the database (mostly used for API testing)"
-    },
-    _testDesc:{
-      _clickTriggerRequest:"Click a link to trigger a request with Authorization token",
-      _verifyTokenExist:"Verify retrieved token",
-      _todoToken:"Please set API host in description tab, \nand select a good link to click, \nthe link should trigger a request on the API host with token.",
-      _setSignStatus:"Base on real time sign-in status and required sign-in user to get properly sign-in flow (test case)",
-      _chkSignIn:"Check if you are already signed in",
-      _todoChkSignIn:"Please be sure the identifier element path is correct. \n\nNote: the action is required. DO NOT REMOVE!",
-      _todoUsername:"Please be sure the username input element path is correct. \n\nAnd you can insert steps before or after if necessary.\n\nNote: the action is required. DO NOT REMOVE!",
-      _todoPassword:"Please be sure the password input element path is correct.\n\nNote: the action is required. DO NOT REMOVE!",
-      _todoLogin:"Please be sure the login button element path is correct.\n\nNote: the action is required. DO NOT REMOVE!",
-      _todoSignInApi:"Please correct the sign-in api request setting\n\nNote: the action is required. DO NOT REMOVE!",
-      _todoSignOutApi:"Please correct the sign-out api request setting\n\nNote: the action is required. DO NOT REMOVE!",
-      _todoChkSignInOption:"Please be sure the identifier element path is correct. \n\nNote: the action is optional. It can be removed",
-      _chkSignOut:"Check if signed out",
-      _todoSignout:"Please be sure the sign-out button element path is correct. \n\nNote: the action is required. DO NOT REMOVE!",
-      _chkSignInSuccess:"Check if signed in successfully.",
-      _confirmSignout:"Click Confirm sign-out",
-      _todoConfirmSignout:"Please be sure the confirm button element path is correct. \n\nIf the button is unexist, you should remove the action",
-      _chkSignoutSuccess:"Check if signed out successfully.",
-      _todoRefresh:"Refresh page to prepare for next validate step\n\nNote: the action is optional, can be removed",
-      _todoSignOutSuccessOption:"Please correct the sign-in identifier element path. \n\nNote: the action is optional, can be removed",
-      _todoSigninStatus:"Please correct the element path, which should appear on any page after sign-in. \n\nNote: the action is required. DO NOT REMOVE!"
-    },
-    _authType:{
-      "":"No Auth",
-      api:"API Key",
-      basic:"Basic Auth",
-      bearer:"Bearer Token",
-      digest:"Digest Auth",
-      oauth1:"Oauth 1.0",
-      oauth2:"Oauth 2.0",
-      hawk:"Hawk Authentication",
-      aws:"AWS Signature",
-      ntlm:"NTLM Authentication",
-      akamai:"Akamai EdgeGrid"
-    },
-    _new:{
-      _module:"Required field. Create new module as Authentication module",
-      signIn:"Required field. Create new test case as Sign-in test case",
-      signOut:"Required field. Create new test case as Sign-out test case",
-      signInApi:"Optional field. Create new test case as API Sign-in test case",
-      signOutApi:"Optional field. Create new test case as API Sign-out test case",
-      token:"Optional field. For API Request with token",
-      _data:"Required field. Create new data as Authentication user data"
-    },
-    _tokenSetting:"Token Setting",
-    _noteUseToken:"Note: If the token is a dynamic, and can be retrieved from a page request, the best solution is to create a Retrieve Token Test case. After that, the tool can trigger it to get a realtime token when needed, and add it to the request headers.",
-    _assignDefAuth:"Precondition - login as user",
-    _missDataErrMsg:"Missing Login Data! \n\nDo you want to ignore the issue and continue?",
-    _missFieldErrMsg:"Missing some required fields!",
-    _dataMapping:"Mapping Data",
-    _dataScope:"Some Username/Password data are personal data",
-    _personalDataInfo:"Note: Please Point out which sign-in data is personal data in the table. The personal data will be stored in project Custom data, and non-personal data will be store in project Default Data. "
-  },
-  _aiTask:{
-    _browsePages:"Browsing pages ...",
-    _generateTest:"Generate test case： {0}",
-    _updateTest:"Update test case： {0}",
-    _generateModule:"Generate module: {0}",
-    _updateModule:"Update module: {0}",
-    _complete:"Completed!",
-    _afterBrowse:"Completed browsing the application, but didn't find all required elements to complete the generating task!",
-    _findElement:"Found element: {0}",
-    _completeTest:"Complete test case: {0}",
-    _confirmCancelWizard:"You haven't completed all steps! \n\nAre you sure you want to exit current wizard please?",
-    _cancelTask:"Canceled wizard of {0}",
-    _optimizeTest:"Finalize the test case",
-    _validateStep:"Click the selector button to pick an element that confirms sign-in successful",
-    _validateComplete:"Validation action of {0} completed",
-    _unmatchIdentifier:"The selected element doesn't include the user Identifier '{0}'. Do you want to re-pick element or replace the Identifier value to: '{1}'",
-    _reqSignOut:"Handle require sign-out",
-    _getAuthFlowByRole:"Base on real time sign-in status and required sign-in user to get properly sign-in flow (test case)",
-    _signIn:{
-      _key:"sign-in",
-      _confirmPage:["Navigate to the login page"],
-      _record:["Click record button to record the sign in","Recording","Record Sign in completed"],
-      _signInTip:["Tip: You should see a data-bind menu under the input box. If there is a browser auto-complete cover it, you can type 'ESC' key to close the menu."],
-      _pickRequests:["Select request(s) for generate Sign in API"],
-      _validateBefSignIn:"before sign in",
-      _validateAftSignIn:"after sign in",
-      _validateFormTip:["Tip: The selected element should only occur when signed out"],
-      _validateStatusTip:["Tip: The selected element should indicate that you are signed in as the current role."],
-      _recordTip:["Tip: If the username/password is pre-filled, you should remove them before starting to record."]
-    },
-    _signOut:{
-      _key:"sign-out",
-      _confirmPage:["Confirm that you are signed in."],
-      _record:["Click record button to record the sign-out procedure.","Recording","Sign out procedure completed"],
-      _validateBefSignOut:"before sign out",
-      _pickRequests:["Select request(s) for generate Sign in API"],
-      _validateTip:["Tip: The selected element should always occur when signed in as any role"]
-    },
-    token:{
-      _confirmPage:["Confirm that you are signed in"],
-      _record:["Click record button to record a process","Recording","Trigger Request completed"],
-      _tip:["Tip: The process should trigger a request with token"],
-      _list:["Request list:"],
-      _pickToken:["Specify token name from retrieved request list"]
-    },
-    _module:{},
-    _modules:{},
-    _add:{},
-    _edit:{},
-    _delete:{},
-    _workflow:{}
-  },
-  _gui:{
-    refOfError:"On error",
-    refOfSuccess:"On success",
-    refOfFailed:"On fail",
-    refOfTimer:"Set delay",
-    _verticalView:"View in Vertical Style (Ctrl/Cmd + V)",
-    _horizontalView:"View in Horizontal Style (Ctrl/Cmd + H)",
-    _snakeView:"View in Snake style",
-    _linearView:"View in Linear style",
-    _stablePageOnPlaying:"Stable page on playing",
-    _testItem:{
-      width:"Test case item Width",
-      height:"Test case item Height",
-      spaceX:"Test case X-Separation",
-      spaceY:"Test case Y-Separation"
-    },
-    _actionItem:{
-      width:"Action item Width",
-      height:"Action item Height",
-      spaceX:"Action X-Separation",
-      spaceY:"Action Y-Separation"
-    },
-    zoom:"View Scale",
-    _details:"Details",
-    _data:"Scenario Data",
-    to:"Downstream",
-    from:"Upstream",
-    _resetDef:"Reset default",
-//    shadow:"Show Shadow",
-    // desc:"Show Special Trigger Description",
-    _end:"End"
-  },
-  _monitor:{
-    _end:"Remote server playing end!",
-    _followMonitor:"The monitor is playing, do you want to switch to monitor it right now?"
-  },
-  _cooperation:{
-    _title:"Cooperation Service",
-    _listTabs:{
-      "":"All",
-      _success:"Success",
-      _failed:"Failed",
-      _testing:"Testing",
-      _waiting:"Waiting"
-    },
-    _realtimeWorkerList:"Realtime worker list",
-    _filterInWorker:"Filter by worker",
-    _filterInModule:"Filter by module",
-    _taskList:"Task List",
-    _completedIn:" Completed in ",
-    _newTask:"Launch new Task",
-    _unexistInCurVersion:"Not exist in the current branch!!!",
-    _saveReport:"Store test report",
-    _splitTask:"Split task({0}): {1}",
-    _splitSuite:"Split suite({0}): {1}",
-    _noteTask:"Note: You can check the result in the report",
-    _initTest:"Initial Test case",
-    _waitingTask:"Waiting on {0}, declared by {1}, {2}",
-    // _exeInTmpVersion:"Execute in a temporary clone version (On stand alone only)",
-    _alwaysRestart:"Always execute initial test case after reload IDE",
-    _asCenter:"Responsible for collecting test results",
-    _funScope:"As a designated function server",
-    _missCenter:"No server found to accept the task",
-    _notCoopServer:"I am not a cooperation server",
-    _notSupport:"You don't have permission to post task on the server",
-    _generateLink:"Generate My account Cooperation Server Link",
-    _specifyNo:"Server key must fill in letter and number, cannot be empty",
-    _specifyGroup:"Group No. must fill in letter and number, cannot be empty",
-    _specifyScope:"Server Scope/Tag must fill in letter and number, but can be empty",
-    _selfOnly:"Service to myself ({0}) only",
-    _aloneService:"Stand alone service",
-    _autoService:"Free combination of services",
-    _alertSelectExeGroup:"Please select a scope to execute your test case",
-    _specifyRole:"Specify application role",
-    _serverNo:"Server key",
-    _workers:"Workers",
-    _passData:"Pass data",
-    _responseData:"Response data",
-    _specifyFun:"Specify function Service Scope",
-    _bzUpdateInfo:"Boozang updated! Please refresh your browser to get the latest version.\n\n\nClick to <a onclick='location.reload()'>Refresh (F5)</a>",
-    _specifyAppRole:"Specify AI Authorization Role to execute",
-    _scope:"Scope",
-    _group:"Group No.",
-    _emptyList:"No cooperation server",
-    _remoteExe:"Execute on remote server",
-    _missingScopeSetting:"As a cooperation server, a Scope Service is required! \n\nPlease setup a Scope Service in:\n\n project setting → Integration → Cooperation Service",
-    _afterRemoteExe:{
-      _waitResult:"Wait for the result to continue",
-      _noWaitResult:"Do not wait for the result, immediately execute the next action"
-    },
-    _statusDesc:"{2}, {3}, Root {0}, Completed in {1}.",
-    _initDesc:"Executing initial test case {0}, complete in {1}",
-    _confirmRemote:"Do you want to execute the test case in a remote cooperation server?\n\nYou can specify a server or group the list below, \nor let us pick the best one for you.",
-    _spceifyServer:"Specify server by server scope/tag",
-    _cooperatorDesc:"A cooperator server remote commands to execute test cases. User can through this feature command multiple servers to complete a complex test job (like: Validate realtime socket synchronized data), or command different servers to complete test jobs from different modules at the same time. ",
-    _service:"Support Service",
-    _appRole:"Testing Application Role scope",
-    _ideRole:"Accessible team roles",
-    _allRoles:"Support to test on any role",
-    _allUsers:"Support service for any team memeber",
-    _host:"App & Host",
-    _exclusive:"Require Exclusive Service",
-    _noWait:"No-wait test result",
-    _optionUnderCooperation:"Note: The options only are available for cooperation test service",
-    _server:"Server",
-    _acceptRoles:"Allow access roles",
-    _allowAll:"All roles",
-    _status:"Status",
-    _statusType:{
-      idling:"Idling",
-      testing:"Testing",
-      waiting:"Waiting",
-      initializing:"Initializing",
-      suspense:"Suspend",
-      declare:"Declare",
-      report:"Submit Report"
-    },
-    _operation:{
-      _report:"Report status",
-      _shutdown:"Shut down",
-      _reboot:"Reboot",
-      _clean:"Clear tasks",
-      _stop:"Stop current task",
-      _setting:"Setting ...",
-      _suspense:"Suspend Tasks",
-      _restart:"Restart Tasks",
-      _join:"Join Testing"
-    },
-    _tasks:"Tasks",
-    _unknown:"Unknown",
-    _onlineList:"On-line servers: ",
-    _scopeList:"Server Scopes: ",
-    _tester:"Tester",
-    _list:"Waiting List",
-    _noRoleCase:"[Unspecified Role Test Case]",
-    _noServer:"Your selected servers are not in service. Try using another cooperator server. ",
-    _noService:"There is no cooperation service from the server({0}). Please contact the server administrator.",
-    _notInService:"You are not in the service list of the server ({0}). Please contact the server administrator."
-  },
-  _aiDefinition:{
-    _key:"_"+"key",
-    _timer:"Timer Setting",
-    _skipLogin:"Ignore identify Authorization",
-    _aiSetting:"AI Setting",
-    _validForm:"{0} form",
-    _oprName:"{0} {1}",
-    _startUrl:"Start URL",
-    _forDelete:"Validate deleted",
-    _flowSetting:"Data flow setting",
-    _fromStatus:"From Status",
-    _toStatus:"End Status",
-    _scriptDesc:"To use $parameter reference the attributes of the form\n\nAnd base on condition set suitable value on $parameter",
-    _confirmToBuildDataTypeByEnum:"Do you want to build the below data type in the current module?\n\n{0}",
-    _forField:"For field: ",
-    _fakeElement:"Fake element",
-    _noSetFakeElement:"No allow to set element on a Fake element",
-    _triggerByData:"Trigger by data",
-    _toGenerateDataByOuterOperation:"Generate data '{2}' through the '{1}' operation in the '{0}' module",
-    _missingOprSetting:"[Process operation is not set]",
-    _copyOprs:"Copy from other flow",
-    _oprListOfStatusUpdate:"Operations of '{0}' to '{1}'",
-    _missLabelField:"Missing Label field setting",
-    _preStepsForm:"Pre-steps of fill form",
-    _skipOnParentCtrl:"Skip on controllable parent case(inner form)",
-    _parentCtrl:"Submit data with the parent form",
-    _requiredOperation:"Required Operation",
-    _parentDependenceNode:"Parent node dependencies:",
-    _missInitData:"The initial data setting on the module is missing, or the initial data field does not match: {0}",
-    _isDataWord:"Is '{0}' a data?",
-    _missStartPanel:"Miss set {0} module 'Start Style'",
-    _missingDemoValue:"Missing required demo value on field '{0}'",
-    _unexistField:"Unexist field '{0}'",
-    _anyOrInherity:"* (Any/Inherity)",
-    _alwaysExe:"Always executed (even if the current field data is bz-skip)",
-    _maybeNoExist:"Maybe not exist or disabled element",
-    _colName:"Column Name",
-    _applyFlowDataType:"Module data type suitable for the flow",
-    _applyFlowAuth:"Roles suitable for the flow",
-    _scenarioName:{
-      add:"Add {0} scenario",
-      add2:"Add {0} ({1}) scenario",
-      edit:"Update {0} from {1} to {2} scenario",
-      delete:"Delete {1} {0} scenario"
-    },
-    _authOptions:{
-      "*":"* (Any case)",
-      "sign-in":"Sign-in with any role",
-      "sign-out":"Sign-out"
-    },
-    _dataTypeCase:"Data type cases",
-    _authCase:"Auth cases",
-    _generateScenario:"Generate Scenario",
-    _mainTestType:"Main testing type",
-    _aliasDesc:"As variable name in Script",
-    _targetField:"Target value",
-    _curUser:"$curtAppLoginUser",
-    _newParameter:"new",
-    _missingDefRoleDefine:"Missing setup default role. Please set in <a href='javascript:_Util._gotoPageFromModelWindow(\"settingEnvironment\",this)'>Environment</a> setting",
-    _new:"$new",
-    $status:"{0}_status",
-    _oprDataType:"Operation Data Type",
-    _businessData:"Business Logic Data",
-    _exColumns:"Extra Columns",
-    _duplicateDynamicAuthIssue:"Doesn't support multiple dynamic sign-in",
-    _assignVariableTo:"Assign to object name $test.",
-    _oprObjName:"Operate object name $test.",
-    _takeVariable:"Take variable: $project.",
-    _defScript:"/"+"/Pre-condition:\n{0}\n/"+"/Current operation data:\n$parameter",
-    _asUserModule:"As User module (The data are the same as Authorization module)",
-    _missSettingInField:"Missing setting in field: {0}",
-    _curAccount:"Current Account(#account)",
-    _inDisable:"{0} is in disabled",
-    _loopOnRegex:"When the parameter is Regex, delete data in loop",
-    _mainSuite:"Main Suite",
-    _dependenceCauseDisable:"Dependency settings are causing some fields to be disabled",
-    _tmpTestCase:"System Driving",
-    _viewTest:"View Related Test cases",
-    _noFieldInValidation:"Disable: {0}!!! There is no validation content (no fields setting in the panel)",
-    _countChecker:"Count Checker",
-    _clickConfirmButton:"Click confirm button",
-    _setCurItemData:"Register the current data in system control data map",
-    _dataNotReady:"The feature is base the the below setting (one or many)：\n\n{0}",
-    _enterDetailLoopError:"The details enter should not in the details page.",
-    _testDependence:"Call: {0}, to test '{1}' dependencies",
-    _noTestForField:"There is no operation handle field: {0}",
-    _noTryInRecording:"Not allow to try on recording. Do you want to stop recording now?",
-    _staticPage:"Static pages",
-    _mapField:"Mapping Field",
-    _foundDisabledField:"The setting limits the below fields. Please consider the setting.\n\n{0}",
-    _dependLoopError:"There is a dependency loop setting issue! Please reset\n\n{0}",
-    _dependConflictData:"There is dependency value conflict issue!  Please reset:\n\n{0}",
-    _curModule:"Current Module ($module)",
-    _relatedDataUnexist:"[Related object doesn't exist]",
-    _cleanData:"Clean Test Data",
-    _permission:"Permission",
-    _validTag:"Validation",
-    _setIn:"Set value of '{0}'",
-    _pickFromPanel:"Pick value from '{0}'",
-    _validationName:"Valid: {0}",
-    _validUnExist:"Valid unexist in {0}",
-    _refValidateExistDesc:"Validate data in {0}",
-    _refValidateUnExistDesc:"Validate data not exist in {0}",
-    _updateForm:"Update form",
-    _doSubmit:"Do submit",
-    _updateData:"Set attribute test",
-    _prepareDataNote:"Test cases that can be used to modify attributes to match required data.",
-    _role:"Role",
-    _identify:"Identify",
-    _fullHyApp:"Fullly hyperlink driving project (URL Analyzable)",
-    _setTmpFlag:"Assign data-bz",
-    _showTmpFlagScript:"Use temporary insert data-bz script",
-    _avoidBzFlagElement:"Not use data-bz on element path",
-    _statusSettingError:"Missing data status setting on module, {0}",
-    _dependence:"Dependency",
-    _operation:"Operations",
-    _dataType:"Type",
-    _inArray:"Submit data is in Array",
-    _scenario:"Scenario",
-    _tryLimit:"Doesn't support playing from here. Please try it in definition of module general",
-    _missingOperationSetting:"There is missing {0} operation setting in module '{1}'",
-    _missingWordSetting:"There is a missing on word: {0}",
-    _noElementSetting:"There is not an Element Setting.",
-    _createForUnExist:"Create {0} if current data is unexist",
-    _has:"There is one {0} (#status)",//For unit test case
-    _hasApi:"There is one {0}",
-    _tmp:"Temporary test case (for debugging)",
-    _nohas:"There is no any {0}",
-    _setHas:"There is a setting of {0}",
-    _mapTest:"Mapping Test Case",
-    _selectPattern:"Select Pattern",
-    _expectedResult:" (Expected result is {0})",
-    _completeModel:"Completed create all \"{0}\" modules for all hosts",
-    _selectHost:"Select building \"{0}\" on which server:",
-    _depData:"Data",
-    _oprParameter:"Parameter",
-    _depDataSetting:"Dependency data Setting",
-    _scenarioRoleSetting:"Operation Role Setting",
-    _oprParameterSetting:"Business Logic Parameter Setting",
-    _oprRole:"Role",
-    _dataDesc:"Column: {0}\nItems: {1}",
-    _roleSetting:"Role Setting",
-    _tmpTest:"Temporary test: to generate data '{0}' {1}",
-    _actionDesc:{
-      _getMatchData:"Found a usable data and assigned to variable: {0}"
-    },
-    _endStepsMethod:{
-      set:"Set value",
-      script:"Script set value",
-      pick:"Pick value from panel"
-    },
-    _setting:{
-      _details:"Details",
-      _src:"Model Source",
-      _status:"Data Status",
-      _fields:"Fields",
-      _relatedModules:"Related Modules",
-      _data:"Data",
-      _preScope:"Pre-Script",
-      _endScope:"End-Script",
-      _console:"Console",
-      _glossary:"Glossary"
-    },
-    _preScriptDesc:"Process the test case parameters into parameter values that conform to the business logic of the module.\nParameter：\n  data: Test case parameter\n  test: Test case",
-    _endScriptDesc:"The return value of the test case is processed into data that conforms to the business logic of the module.\nParameter：\n  data: Test case return value\n  test: Test case",
-    _glossaryItems:{
-      _refData:{
-        _title:"Reference data key words",
-        _options:{
-          $project:"Used to reference project-level data. It can be accessed in any test case",
-          $module:"Used to refer to the current module data.",
-          $test:"Used to reference the current test case data.",
-          $loop:"Used to refer to the loop data configured in the current test case.",
-          $parameter:"The parameters passed when the current test case is called.",
-          $group:"Used to reference group action data, all actions in this group can be accessed. This data must be an array or number. Used to generate cyclic execution of actions in the group. If the data is an empty array or 0, this set of actions will be skipped.",
-          $action:"Used to refer to the action data, this data must be an array or number. Used for cyclic execution of this action. If the data is an empty array or 0, this action will be skipped.",
-          $curtXXXX:"Used to refer to the current object data in the current module. In the test script generated by AI, this variable name will be generated based on the module alias and placed in $project. During the execution process, a test case will be automatically invoked according to the data situation, and the test efficiency will be improved.",
-          $curtAppLoginUser:"Used to refer to the current user data. This data is placed in $project. Automatic role changes based on login/logout and permission settings of test cases.",
-          $status:"AI model data status attribute value. Set in the AI model data status configuration. Ref. example： $project.$curtXXXX.$status"
-        }
-      },
-      _setData:{
-        _title:"Set data key words",
-        _options:{
-          "#any-exist":"Used to reference any existing data. Generally used to reference a related module in the form.",
-          "#try-exist":"When the data of a certain module needs to be applied in the form, if the module has data, any data is quoted, if not, a data is created first, and then the form is quoted.",
-          "#try-other":"Reference to the existing data in the form of a module data. Now if there are other data, it should be replaced by other data.",
-          "#curtAppLoginUser":"Used to refer to the current app login user data, the final user attribute used is the attribute mapped in the field.",
-          "bz-skip":"During the execution, if the referenced value is bz-skip, then skip this action",
-          "regex":"Support the use of regular expressions to assign random data. Format： /..../ Ex.： /[0-9]*[a-z]+/",
-          "/BZ-XXXX/":"Generate random data using a specific attribute format. The user can define the attribute data format in Settings> Content Rules> Data Format. Common attributes defined by the system include: name, number, email, phone number, etc.Format: /BZ-xxxxxx/, ex.: /BZ-name/",
-          "/{random}/":"Used to assign random values to drop-down boxes (including custom drop-down boxes).",
-          "/{date:xxxxxx}/":"Generate the date in the specified format. Format： /{date:xxxxx|[date format]}/ Ex.： /{date:today|yyyy-MM-dd hh:mm:ss}/"
-        }
-      },
-      _aiModuleSetting:{
-        _title:"AI model attributes",
-        _options:{
-          "Syan Module":"One attribute in AI model settings. Specify when this module data is related to a certain module data.",
-          "Initial Data":"One attribute in AI model settings. Specify module initialization data. It is used for the data that existed at the beginning of the test, or the sub-module data of a certain value is generated at the same time when the data of a certain module is created.",
-        }
-      },
-    },
-    _scenarios:{
-      add:{
-        _name:"Simple process for {0}",
-        _when:"{0} <{0}>"
-      },
-      edit:{
-        _name:"Simple process for {0}",
-        _when:"{0}<{0}> to <newData>"
-      },
-      delete:{
-        _name:"Simple process for {0}",
-        _when:"{0} <{0}>"
-      },
-      execute:{
-        _name:"Simple process for {0}",
-        //execute {send email} <{form}> in <{project}>
-        _when:"Execute {1} <formData> in <{0}>",
-        _whenModule:"Execute {1} <formData> in {0}"
-      },
-      chkCondition:{
-        _name:"Simple process for check condition {0}",
-        _when:""
-      },
-      _roleRef:"<role>",
-      _validExist:"validate <{0}> in {1}",
-      _validUnExist:"validate <{0}> not exist in {1}",
-      _linkHas:"Has one {0}<{1}>", //for link test case
-      _linkNoHas:"Unexist {0}<{1}>", //for link test case
-      _scenarioData:"Scenario Data",
-      _role:"role",
-      _data:"data",
-      _result:"result",
-      _parameterName:"Parameter"
-    },
-    _comment:{
-      _conflictData:"Conflict data at: {0}",
-      _synaScript:"  /"+"/The purpose of the function is to get all suitable data from the specified syna-module.\n  /"
-                 +"/parameter: dataList, the syan-module data list",
-      _solutionComment:"Execute '{0}' test case to make sure condition: {1}",
-      _makeSureModuleDataSize:"module, '{0}' data size is {1}",
-      _aboutCurData:"/"+"/Note: In modify/delete/execute test case, the data, $project.{0}, should be assigned in previous action",
-      _makeSureModuleNoData:"module, '{0}' not has data",
-      _makeSureModuleData:"module '{0}' has data",
-      _exeTestByParameter:"Execute test case: $parameter.code",
-      _signInForTest:"Sign-in with the appropriate role for the target test case",
-      _stopOnKey:"If parameter is key word, leave the test case",
-      _continueExe:"If parameter is not a key word, continue executeing the test case",
-      _methodOnItem:"{0} {0}",
-      _noParameterTakeCurData:"/"+"/Take cur-data when doesn't specify parameter\n",
-      _takeDataInParameterKey:"/"+"/Take data by parameter as a key\n",
-      _findDataByParameterInAttributes:"/"+"/Find data by parameter as an object (attributes)\n",
-      _successCondition:"/"+"/Condition success when {0} is not empty\n",
-      _notInMemory:"/"+"/If the data is not in memory, the data does not exist\n",
-      _getExeTests:"/"+"/Base on required attributes to get a set of suitable test cases to create test data\n",
-      _exeTests:"Generate solution to get specify object data",
-      _triggerRemove:"/"+"/Call delete data test case\n",
-      _triggerUpdate:"/"+"/Call Update entity test case if there is an entity in the module\n",
-    }
-  },
-  _scenario:{
-    _title:"Scenario",
-    _specifyAttr:"[Specify parameter]",
-    _updateList:"Updating Items",
-    _sentence:"Test step",
-    _stdSuiteName:"{0} suite",
-    _emptySentenceIssue:"Sentence cannot be empty",
-    _existSentence:"This sentence pattern already exists, do you want to continue?",
-    client_id:"Client ID",
-    client_secret:"Client Secret",
-    _reviewScenarioSentence:"Review the test case mapping of scenario",
-    _onlyGroupAndRefAction:"An unsupported action type is included in the assigned action. \n\nNote: Only reference actions (plug-test case) are supported in scenarios.",
-    _group:{
-      given:"Given",
-      when:"When",
-      then:"Then"
-    },
-    _map:{
-      given:"given",
-      when:"when",
-      then:"then",
-      and:"and",but:"and",
-      example:"ignore",data:"ignore",
-      "|":"data"
-    },
-    given:["Given"],
-    when:["When"],
-    then:["Then"],
-    and:["And"],
-    _tabType:{
-      _form:"Form",
-      _word:"Cucumber Text"
-    },
-    auth:["Authorization"],
-    _featureMap:{
-      _feature:"Feature",
-      _scenario:"Scenario",
-      _scenarioOutline:"Scenario outline"
-    },
-    _sentenceSetting:"Standard Scenario sentence pattern",
-    _sentenceExample:{
-      "#module":"product",
-      "#test-name":"Create",
-      "#test-description":"Add a product",
-      "#parameter-list":["name","description","price"]
-    },
-    reverse:"On reverse",
-    _zipFile:"In Zip",
-    _importByText:"By Text",
-    _importByFile:"By File",
-    _importByServer:"Sync from server",
-    _link:"Link Test Case",
-    _target:"Target Test Case",
-    Jira:"Jira / Xray",
-    _feature:"Feature",
-    _toTxtEditor:"Switch to text editor",
-    _toTableEditor:"Switch to table editor",
-    _manualParameter:"Manual Parameter",
-    _missContent:"Didn't find available content in '{0}'. Please check the format of the file.",
-    _mapLink:"[Mapping Link-test ...]",
-    _targetTest:"Target Test case",
-    _refDesc:"Reference Description",
-    _matchServer:"Load features from VCS",
-    _scenarioServer:"Feature file server",
-    _fileList:"File List Url",
-    token:"Token",
-    _parameterType:{
-      any:"Exist data or create new item by '{0}'",
-      new:"New Data by '{0}'",
-      attr:"Specify attributes"
-    },
-    _fileMatch:"Match File",
-    _testMapTitle:"Test relationship maps",
-    _tableContent:"Table of Contents",
-    _confirmNewMap:"Update the link test case mapping, it will effect other test cases which refer the link test case. Please confirm the update",
-    _missFeatureName:"Feature name missing.",
-    _getFileList:"Get feature file list"
-  },
-  _rootCause:{
-    _title:"Known issues",
-    _fields:{
-      errHash:"Error Hash",
-      errDesc:"Name",
-      type:"Issue Type",
-      scope:"Scope",
-      assignTo:"Assign to",
-      status:"Status",
-      desc:"Description",
-      url:"Ext. URL",
-      key:"Ext. Key"
-    },
-    _actions:"Actions",
-    _status:{
-      created:"New",
-      pending:"In Progress",
-      fixed:"Fixed",
-    },
-    _typeOptions:{
-      unknow:"Unknown",
-      auto:"Automation",
-      app:"Application"
-    },
-    _extInfo:"Ext info"
-  },
-  _tmpDataBase:{
-    _title:"Temporary Database",
-    _size:"Exist data",
-    _addModuleData:"Add module data",
-    _unset:"Unset",
-    _dynamicValue:"Dynamic Value"
-  },
-  _api:{
-    _skipRoot:"Ignore root module",
-    _existHost:"Exist App host",
-    _mapHostDesc:"Do you want to add the below host or map them to exist host?",
-    _setting:"API Parameter, Response and headers setting",
-    _preName:"Prefix name",
-    _triggerTokenTestFrom:"Retrieve token from specific host (Token Test case)",
-    _prepareParameter:"  /"+"/Insert script at here for preparing $parameter data",
-    _batchRequestEndScriptDesc:"  /"+"/The script is for storing response data ($result) to $parameter.$result[$result.idx]. \n  /"+"/It could be used in next api (variable name: $result)",
-    _testTmpData:"Test Temporary Data",
-    _apiList:"API List",
-    _uiToApiTool:"Capture API data request tool in UI operation",
-    _missRefModule:"Missing reference Module for: {0}!",
-    _importScope:{
-      _action:"Selected action",
-      _test:"Current test",
-      _module:"Current module"
-    },
-    _confirmDeleteHost:"Deleting this API host will also cancel the import of related APIs. \n\nDo you want to delete?",
-    _import:"Import by Text",
-    _importOption:"Import method",
-    _importAndOverwrite:"Import and overwrite current api",
-    _importFile:"Import by File",
-    _modulePreview:"Module API preview",
-    _rootPath:"Root path",
-    _foreignKeyMapping:"Foreign Key Mapping",
-    _lastTransaction:"Last batch of data requests",
-    _noField:"Field {0} doesn't exist!",
-    _defValue:"Set Default Parameter value",
-    _reviewInitParameterMapping:"Review module initial parameter mapping",
-    _identifyDataList:"The following {0} sets of data are identified. \n\nWhether to execute all data, or execute a set of random data?",
-    _gotoJoinAPI:"Goto '{0}' definition",
-    _joinAction:"Join test case: {0}",
-    _dataList:"Data List",
-    _tryJoinTogether:"Test Join cases at the same time",
-    _redoOnTokenExpair:"The last token was expires! Obtained a new token automatically and performed the operation again",
-    _initParameterSetting:"Initial Function Parameter setting",
-    _missKeyFieldInModule:"Miss key field setting in module {0}",
-    _missStdInitFun:"Missing standard inital data api function in module, {0}",
-    _missStdNewFun:"Missing standard add data api function in module, {0}",
-    _askUseTmpData:"Do you want to use Temporary data?",
-    _getDataSize:"Received {0} {1} data records and keep {2} new records in the temporary database",
-    _querySetting:"Query '{0}' Setting",
-    _defScript:"Set Default Script",
-    _filterScriptDesc:"For filter result data. \nIt will be used to replace response script on the api, \nto get specific initial data.",
-    _keyField:"Key data field",
-    _empty:"Empty",
-    _export:"Export",
-    _uiValue:"Display Value",
-    _setInitParameter:"Set init parameters",
-    _tmpDataSize:"Keep data size in Temporary Database",
-    _refPath:"Data path",
-    _mappingModule:"Mapping Module",
-    _mappingKey:"Key / Value",
-    _syncField:"Sync field settings",
-    _exFilterDesc:"When the application data is a specific field value is set",
-    _currentValue:"Current value",
-    _candidateData:"Select Candidate Data",
-    _timeout:"Timeout",
-    _fKeyDesc:"Filter attributes can be specified in the input format. Such as: \n    /{exist:{0}:type=xxx|type=yyy}/ \n\nYou can also use regular expressions, such as: \n    /{exist:{0}:type=/xxx|yyy/}/",
-    _showResponseType:{
-      _data:"Return value",
-      _header:"Headers"
-    },
-    _postKeyWarning:"Warning! It is not normal to post key field.",
-    _missingKeyFieldInModule:"Missing Key field in module ({0})",
-    _deleteKeyInPOST:"Do you want to remove key fields from all POST requests or only selected parts?",
-    _enable:"Enable temporary API Debug",
-    _queryNote:"If the query value is bz-skip, it will not be added to the request URL. Debug mode allows you to <b>TEMPORARILY</b> turn query parameters on and off.",
-    _responseSetting:"Response Script ($result)",
-    _responseData:"Execute API to Retrieve Response Data",
-    _scriptDesc:"1. As a extract action: \n\tYou can set the $result.data to a variable. like: \n\n$test.name=$result.data.name\n\n2. As a validate action. you must defined an anonymous  function, and return true or false in the inner code, and remember to execute it as well. like:\n(function(){\n\t...\n\t...\n\treturn true; \n  /"+"/Tip: Double textare to insert standard code\n})()\n\nNote: return true or undefined is validate success. return false is validate failed",
-    _headerSetting:"Headers Setting",
-    _targetMethod:"Target Method",
-    _missForeignKey:"List of unmapped foreign keys",
-    _monitor:"Watch variable",
-    _scope:"Variable Scope",
-    _responseSize:"Response size",
-    _responseText:"Response text",
-    _variableName:"Variable Name",
-    _targetModule:"Target Module",
-    _try:"Try",
-    _authOptions:{
-      _existAuthModule:"Exist Auth Module",
-      _importAuthModule:"Import Auth Module",
-      _noAuthModule:"No auth"
-    },
-    _parameters:"Parameters",
-    _requestBody:"Request body",
-    _responses:"Responses",
-    _authModule:"Authorization Module",
-    _baseToken:"Authorization base on Token",
-    _keyFormat:"Suffix of Key field: ",
-    _fKeyFormat:"Suffix of foreign key: ",
-    _exKeyFormat:"Ex.: {0}",
-    _testScenario:"Test: {0}",
-    _exFKeyFormat:"Ex.: {0}",
-    _preLabelPattern:"Identify pattern of module name from description",
-    _confirmStopRecording:"Do you want to stop API recording?",
-    _oneAction:"Merge All requests in one action",
-    _auth:"Auth",
-    _authDesc:"Authentication settings： \n\nSupports the usual authentication setting methods, and can also specify test cases to obtain tokens. \nAfter setting, the token acquisition test case will be automatically executed during execution.",
-    _backList:"Close API form and Back to Action List",
-    _noAPIRequest:"Non-API Request",
-    _responseDataName:"Assign response data to variable",
-    _mapRequestDetails:"Mapping request data",
-    _noCatchResponse:"Return data not captured",
-    _missResponse:"Tip: The response data can be captured through the recording API to better generate API actions.",
-    // _reqToOneAction:"Put all requests in one action",
-    _asParameter:"Mapping to test case parameter",
-    _header:"Headers",
-    _body:"Body",
-    _path:"Path",
-    _query:"Query",
-    _join:"Join API",
-    _joinDesc:"To implement multiple API data requests in one transaction.",
-    _preScriptDesc:"The pre-action script will be executed when the action starts. \n\nIf the return value is an array or number, the data request in this action will be executed \naccording to the number of arrays or the specified number. \nAvailable every time the data can be referenced by $action\n\nIf the return value is 0, this action will not be executed. \n\nThere is no return value, and it is executed in the usual way.",
-    _responseScriptDesc:"This script is executed after the API request is completed. \n\nThe execution result return data can be accessed through $result.",
-    _repeat:"Repeat",
-    _preScript:"Pre-Script",
-    _responseScript:"End-Script",
-    _loadTesting:{
-      _repeat:"Simply Repeat",
-      _ramp:"Ramp-Up"
-    },
-    _keyType:{
-      _key:"Current Module Key",
-      _fKey:"Foreign Key"
-    },
-    _updateSameField:"Set the same setting on all the same name fields",
-    _updateOnModule:"Set the same role setting on all requests in the module",
-    _curRequestOnly:"Update the selected request only",
-    _updateOnProject:"Set the same role setting on all modules",
-    _generateModelPageMapping:"Generate Modeling Page(UI) Mapping",
-    _allInAPIModule:"Add API prefix to modules",
-    _generateScenario:"Generate Scenarioes",
-    _generateFeature:"Generate Features",
-    _users:"Users",
-    _totalTime:"Total Time (sec)",
-    _upTime:"Ramp-Up Time (sec)",
-    _script:"Script",
-    _start:"Start Time",
-    _end:"End Time",
-    _spendTime:"Spend Time",
-    _requestGroups:"Request Groups",
-    _totalRequests:"Total Requests",
-    _gPeriod:"View Period",
-    _result:"Request Result",
-    _successRequest:"Success Requests",
-    _failedRequest:"Failed Requests",
-    _averageRequest:"Average Response Time",
-    _exeResult:"Execution",
-    _status:"Status",
-    _repeatTimes:"Execute Times",
-    _exeMethod:"Execute Method",
-    _disableLoadTest:"Disable Load Testing",
-    _handleScriptForEnableLoadTest:"After Enable load testing, the script need to be updated to support Concurrency Requests. \nDo you want to the tool update for you?",
-    _handleScriptForDisableLoadTest:"After Disable load testing, the support Concurrency requests script could be removed. \nDo you want to the tool update for you?",
-    _sync:"Synchronous",
-    _asyn:"Asynchronous",
-    _period:"Launch Period (ms)",
-    _validateResult:"/"+"/To get validation result",
-    _ignoreOtherValues:"/"+"/Ignore the other {0} attributes value",
-    _insertValidateCode:"/"+"/Insert other validation code. like\n  /"+"/vr=vr&&v.name==' .... ';\n",
-    _insertAssignVariable:"/"+"/Insert assign variable code. like\n  /"+"/$test.tmpData=v.name;\n",
-    _scriptMissTrigger:"Look like you defined a function without a trigger for it. "
-  },
-  _merge:{
-    _title:"Merge branches",
-    _newModule:"Creates a new module",
-    _cloneMsg:"The operation will delete current branch data. Are you sure you want to continue?",
-    _ttRelation:{
-      _new:"New Test Case",
-      _late:"Found newer version of test case. Do you still want to overwrite it?",
-      _same:"Identical data found. Nothing to do.",
-      _overwrite:"Use new branch data",
-      _conflict:"Conflicts found. \n\nClick 'Merge' button to manually merge changes (cherry-picking).\nOr, click 'Overwrite' button to overwrite conflicts in current branch."
-    },
-    _updateRef:"Update all references to the data",
-    _confirmOverwriteNewVersion:"Are you sure you want to overwrite all data of current version (Includes conflict data and newer data of current version)?",
-    _createTestCase:"Import Test Case",
-    _createModule:"Import Module",
-    _keepRemote:"Import Remote",
-    _noUpdate:"No Update",
-    _noConflict:"No conflict data",
-    _keepLocal:"Keep Local",
-    _noRelated:"There is no related data in the specific version",
-    _versionSetting:"Settings",
-    _manualMerge:"Manual Merge",
-    _baseData:"Baseline",
-    _showBaseline:"Show baseline",
-    _rootKey:"Data Path",
-    _noBaseVersion:"There is no shared base version.",
-    _dataNotReady:"There is a conflict that needs to be merged manually.",
-    _autoMergeSuccess:"Auto-merge successful. Stored in database."
-  },
-  _debug:{
-    _dataSnapshot:"View data snapshot on action",
-    _condition:"Set condition",
-    _conditionNote:"Note: put a condition to help you debugging, but you should not put set value inside.",
-    _missConsoleOpen:"To debug Javascript breakpoints, \nyou need to open the browser console. \n\nOpen the console by pressing 'F12', \nand then click the'<b>Continue</b>' button to execute the test task"
-  },
-  _version:{
-    _code:"Branch",
-    _freezedVersion:"The branch is freezen (Readonly).",
-    _createMilestone:"Build milestone from current branch",
-    _completeBuildMilestone:"Successfully added milestone： {0}",
-    _noOtherVersionToMerge:"There is no other branch to merge",
-    _baseVersion:"Copy from branch",
-    _emptyBranch:"Without base branch",
-    _preLoadDesc:"Loads the full project into localstorage and display audit info (not implemented will be shown in red)",
-    _cleanupDesc:"Removes all link tests that are not referenced by a feature",
-    _newModuleDesc:"Creates a new project module. \nModules are containers \nfor multiple tests.",
-    _newAIModuleDesc:"Creates a new AI modeling module. \nAfter modeling, the relative tests \nwill be auto generated.",
-    _newFeatureDesc:"Creates a new Cucumber feature. \nFeatures are containers for scenarios.",
-    _warningImport:"All current data will be removed after import. \n\nDo you want to continue?",
-    _importDesc:"Imports Cucumber features from an external system."
-  },
-  _appWords:{
-    _title:"App Multiple Lanuage Words",
-    _items:"{0} Items",
-    _appLanguage:"App Language",
-    _splitWords:"Split words",
-    _sameAsDef:"Same as default value",
-    _autoTran:"Auto translate",
-    _overWrite:"Over write",
-    _retrieveWords:"Retrieve Words from Actions",
-    _updateActions:"The word, ({0}), is in the below actions. Do you want to update the actions?"
-  },
-  _schedule:{
-    _setScheduleTitle:"Set schedule",
-    _executeScheduleTask:"Test the CI link",
-    _executeScheduleTaskDesc:"To execute the link on the browser will auto logout IDE, \n\ndo you want to continue?",
-    _task:"Task",
-    _time:"Execute Time",
-    _day:"Day",
-    _date:"Date",
-    _month:"Month",
-    _repeat:"Repeat",
-    _noRepeat:"No Repeat",
-    _next:"The next execution will be: {0}",
-    _type:"Execute",
-    _options:{
-      asap:"As soon as possible",
-      schedule:"In schedule"
-    },
-    _dayMap:{
-      0:"Mon",
-      1:"Tues",
-      2:"Wed",
-      3:"Thur",
-      4:"Fri",
-      5:"Sat",
-      6:"Sun"
-    },
-    _monthMap:{
-      0:"Jan",
-      1:"Feb",
-      2:"Mar",
-      3:"Apr",
-      4:"May",
-      5:"Jun",
-      6:"Jul",
-      7:"Aug",
-      8:"Sep",
-      9:"Oct",
-      10:"Nov",
-      11:"Dec"
-    },
-    _everyDay:"{0} everyday",
-    _every:"every {0}",
-    _timeMessage:"At {0}",
-    _dateMessage:"on day-of-month {0}",
-    _dateUnit:"{0}",
-    _timeDateMessage:"{0} {1}",
-    _dayMessage:"on {0}",
-    _monthMessage:"{0} in {1}"
-  }
-};//extension code map
+//extension code map
 var ecMap={
   idm:"_ideDataManagement",
   ttmd:"_tmpTaskDataMap",
@@ -4560,6 +40,8 @@ var ecMap={
   sd:"_setShareData",
   inn:"_innerWin",
   r:"_refresh",
+  ev:"_eval",
+  ex:"_exeCode",
   lnp:"_infoLoadingNewPage"
 };var _compressJSON={
   _version:"BZ-0.001",
@@ -5202,7 +684,7 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
  * Copyright (c) 2019 Niklas von Hertzen <https://hertzen.com>
  * Released under MIT License
  */
-!function(A,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):(A=A||self).html2canvas=e()}(this,function(){"use strict";var r=function(A,e){return(r=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(A,e){A.__proto__=e}||function(A,e){for(var t in e)e.hasOwnProperty(t)&&(A[t]=e[t])})(A,e)};function A(A,e){function t(){this.constructor=A}r(A,e),A.prototype=null===e?Object.create(e):(t.prototype=e.prototype,new t)}var K=function(){return(K=Object.assign||function(A){for(var e,t=1,r=arguments.length;t<r;t++)for(var n in e=arguments[t])Object.prototype.hasOwnProperty.call(e,n)&&(A[n]=e[n]);return A}).apply(this,arguments)};function a(B,s,o,i){return new(o||(o=Promise))(function(A,e){function t(A){try{n(i.next(A))}catch(A){e(A)}}function r(A){try{n(i.throw(A))}catch(A){e(A)}}function n(e){e.done?A(e.value):new o(function(A){A(e.value)}).then(t,r)}n((i=i.apply(B,s||[])).next())})}function S(t,r){var n,B,s,A,o={label:0,sent:function(){if(1&s[0])throw s[1];return s[1]},trys:[],ops:[]};return A={next:e(0),throw:e(1),return:e(2)},"function"==typeof Symbol&&(A[Symbol.iterator]=function(){return this}),A;function e(e){return function(A){return function(e){if(n)throw new TypeError("Generator is already executing.");for(;o;)try{if(n=1,B&&(s=2&e[0]?B.return:e[0]?B.throw||((s=B.return)&&s.call(B),0):B.next)&&!(s=s.call(B,e[1])).done)return s;switch(B=0,s&&(e=[2&e[0],s.value]),e[0]){case 0:case 1:s=e;break;case 4:return o.label++,{value:e[1],done:!1};case 5:o.label++,B=e[1],e=[0];continue;case 7:e=o.ops.pop(),o.trys.pop();continue;default:if(!(s=0<(s=o.trys).length&&s[s.length-1])&&(6===e[0]||2===e[0])){o=0;continue}if(3===e[0]&&(!s||e[1]>s[0]&&e[1]<s[3])){o.label=e[1];break}if(6===e[0]&&o.label<s[1]){o.label=s[1],s=e;break}if(s&&o.label<s[2]){o.label=s[2],o.ops.push(e);break}s[2]&&o.ops.pop(),o.trys.pop();continue}e=r.call(t,o)}catch(A){e=[6,A],B=0}finally{n=s=0}if(5&e[0])throw e[1];return{value:e[0]?e[1]:void 0,done:!0}}([e,A])}}}var I=(n.prototype.add=function(A,e,t,r){return new n(this.left+A,this.top+e,this.width+t,this.height+r)},n.fromClientRect=function(A){return new n(A.left,A.top,A.width,A.height)},n);function n(A,e,t,r){this.left=A,this.top=e,this.width=t,this.height=r}for(var T=function(A){return I.fromClientRect(A.getBoundingClientRect())},c=function(A){for(var e=[],t=0,r=A.length;t<r;){var n=A.charCodeAt(t++);if(55296<=n&&n<=56319&&t<r){var B=A.charCodeAt(t++);56320==(64512&B)?e.push(((1023&n)<<10)+(1023&B)+65536):(e.push(n),t--)}else e.push(n)}return e},l=function(){for(var A=[],e=0;e<arguments.length;e++)A[e]=arguments[e];if(String.fromCodePoint)return String.fromCodePoint.apply(String,A);var t=A.length;if(!t)return"";for(var r=[],n=-1,B="";++n<t;){var s=A[n];s<=65535?r.push(s):(s-=65536,r.push(55296+(s>>10),s%1024+56320)),(n+1===t||16384<r.length)&&(B+=String.fromCharCode.apply(String,r),r.length=0)}return B},e="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",Q="undefined"==typeof Uint8Array?[]:new Uint8Array(256),t=0;t<e.length;t++)Q[e.charCodeAt(t)]=t;function B(A,e,t){return A.slice?A.slice(e,t):new Uint16Array(Array.prototype.slice.call(A,e,t))}var s=(o.prototype.get=function(A){var e;if(0<=A){if(A<55296||56319<A&&A<=65535)return e=((e=this.index[A>>5])<<2)+(31&A),this.data[e];if(A<=65535)return e=((e=this.index[2048+(A-55296>>5)])<<2)+(31&A),this.data[e];if(A<this.highStart)return e=2080+(A>>11),e=this.index[e],e+=A>>5&63,e=((e=this.index[e])<<2)+(31&A),this.data[e];if(A<=1114111)return this.data[this.highValueIndex]}return this.errorValue},o);function o(A,e,t,r,n,B){this.initialValue=A,this.errorValue=e,this.highStart=t,this.highValueIndex=r,this.index=n,this.data=B}function C(A,e,t,r){var n=r[t];if(Array.isArray(A)?-1!==A.indexOf(n):A===n)for(var B=t;B<=r.length;){if((i=r[++B])===e)return!0;if(i!==H)break}if(n===H)for(B=t;0<B;){var s=r[--B];if(Array.isArray(A)?-1!==A.indexOf(s):A===s)for(var o=t;o<=r.length;){var i;if((i=r[++o])===e)return!0;if(i!==H)break}if(s!==H)break}return!1}function g(A,e){for(var t=A;0<=t;){var r=e[t];if(r!==H)return r;t--}return 0}function w(A,e,t,r,n){if(0===t[r])return Y;var B=r-1;if(Array.isArray(n)&&!0===n[B])return Y;var s=B-1,o=1+B,i=e[B],a=0<=s?e[s]:0,c=e[o];if(2===i&&3===c)return Y;if(-1!==j.indexOf(i))return"!";if(-1!==j.indexOf(c))return Y;if(-1!==$.indexOf(c))return Y;if(8===g(B,e))return"÷";if(11===q.get(A[B])&&(c===X||c===P||c===x))return Y;if(7===i||7===c)return Y;if(9===i)return Y;if(-1===[H,d,f].indexOf(i)&&9===c)return Y;if(-1!==[p,N,m,O,y].indexOf(c))return Y;if(g(B,e)===v)return Y;if(C(23,v,B,e))return Y;if(C([p,N],L,B,e))return Y;if(C(12,12,B,e))return Y;if(i===H)return"÷";if(23===i||23===c)return Y;if(16===c||16===i)return"÷";if(-1!==[d,f,L].indexOf(c)||14===i)return Y;if(36===a&&-1!==rA.indexOf(i))return Y;if(i===y&&36===c)return Y;if(c===R&&-1!==Z.concat(R,m,D,X,P,x).indexOf(i))return Y;if(-1!==Z.indexOf(c)&&i===D||-1!==Z.indexOf(i)&&c===D)return Y;if(i===M&&-1!==[X,P,x].indexOf(c)||-1!==[X,P,x].indexOf(i)&&c===b)return Y;if(-1!==Z.indexOf(i)&&-1!==AA.indexOf(c)||-1!==AA.indexOf(i)&&-1!==Z.indexOf(c))return Y;if(-1!==[M,b].indexOf(i)&&(c===D||-1!==[v,f].indexOf(c)&&e[1+o]===D)||-1!==[v,f].indexOf(i)&&c===D||i===D&&-1!==[D,y,O].indexOf(c))return Y;if(-1!==[D,y,O,p,N].indexOf(c))for(var Q=B;0<=Q;){if((w=e[Q])===D)return Y;if(-1===[y,O].indexOf(w))break;Q--}if(-1!==[M,b].indexOf(c))for(Q=-1!==[p,N].indexOf(i)?s:B;0<=Q;){var w;if((w=e[Q])===D)return Y;if(-1===[y,O].indexOf(w))break;Q--}if(J===i&&-1!==[J,G,V,z].indexOf(c)||-1!==[G,V].indexOf(i)&&-1!==[G,k].indexOf(c)||-1!==[k,z].indexOf(i)&&c===k)return Y;if(-1!==tA.indexOf(i)&&-1!==[R,b].indexOf(c)||-1!==tA.indexOf(c)&&i===M)return Y;if(-1!==Z.indexOf(i)&&-1!==Z.indexOf(c))return Y;if(i===O&&-1!==Z.indexOf(c))return Y;if(-1!==Z.concat(D).indexOf(i)&&c===v||-1!==Z.concat(D).indexOf(c)&&i===N)return Y;if(41===i&&41===c){for(var u=t[B],U=1;0<u&&41===e[--u];)U++;if(U%2!=0)return Y}return i===P&&c===x?Y:"÷"}function u(t,A){A||(A={lineBreak:"normal",wordBreak:"normal"});var e=function(A,n){void 0===n&&(n="strict");var B=[],s=[],o=[];return A.forEach(function(A,e){var t=q.get(A);if(50<t?(o.push(!0),t-=50):o.push(!1),-1!==["normal","auto","loose"].indexOf(n)&&-1!==[8208,8211,12316,12448].indexOf(A))return s.push(e),B.push(16);if(4!==t&&11!==t)return s.push(e),31===t?B.push("strict"===n?L:X):t===W?B.push(_):29===t?B.push(_):43===t?131072<=A&&A<=196605||196608<=A&&A<=262141?B.push(X):B.push(_):void B.push(t);if(0===e)return s.push(e),B.push(_);var r=B[e-1];return-1===eA.indexOf(r)?(s.push(s[e-1]),B.push(r)):(s.push(e),B.push(_))}),[s,B,o]}(t,A.lineBreak),r=e[0],n=e[1],B=e[2];return"break-all"!==A.wordBreak&&"break-word"!==A.wordBreak||(n=n.map(function(A){return-1!==[D,_,W].indexOf(A)?X:A})),[r,n,"keep-all"===A.wordBreak?B.map(function(A,e){return A&&19968<=t[e]&&t[e]<=40959}):void 0]}var i,U,E,F,h,H=10,d=13,f=15,p=17,N=18,m=19,R=20,L=21,v=22,O=24,D=25,b=26,M=27,y=28,_=30,P=32,x=33,V=34,z=35,X=37,J=38,G=39,k=40,W=42,Y="×",q=(i=function(A){var e,t,r,n,B,s=.75*A.length,o=A.length,i=0;"="===A[A.length-1]&&(s--,"="===A[A.length-2]&&s--);var a="undefined"!=typeof ArrayBuffer&&"undefined"!=typeof Uint8Array&&void 0!==Uint8Array.prototype.slice?new ArrayBuffer(s):new Array(s),c=Array.isArray(a)?a:new Uint8Array(a);for(e=0;e<o;e+=4)t=Q[A.charCodeAt(e)],r=Q[A.charCodeAt(e+1)],n=Q[A.charCodeAt(e+2)],B=Q[A.charCodeAt(e+3)],c[i++]=t<<2|r>>4,c[i++]=(15&r)<<4|n>>2,c[i++]=(3&n)<<6|63&B;return a}("KwAAAAAAAAAACA4AIDoAAPAfAAACAAAAAAAIABAAGABAAEgAUABYAF4AZgBeAGYAYABoAHAAeABeAGYAfACEAIAAiACQAJgAoACoAK0AtQC9AMUAXgBmAF4AZgBeAGYAzQDVAF4AZgDRANkA3gDmAOwA9AD8AAQBDAEUARoBIgGAAIgAJwEvATcBPwFFAU0BTAFUAVwBZAFsAXMBewGDATAAiwGTAZsBogGkAawBtAG8AcIBygHSAdoB4AHoAfAB+AH+AQYCDgIWAv4BHgImAi4CNgI+AkUCTQJTAlsCYwJrAnECeQKBAk0CiQKRApkCoQKoArACuALAAsQCzAIwANQC3ALkAjAA7AL0AvwCAQMJAxADGAMwACADJgMuAzYDPgOAAEYDSgNSA1IDUgNaA1oDYANiA2IDgACAAGoDgAByA3YDfgOAAIQDgACKA5IDmgOAAIAAogOqA4AAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAK8DtwOAAIAAvwPHA88D1wPfAyAD5wPsA/QD/AOAAIAABAQMBBIEgAAWBB4EJgQuBDMEIAM7BEEEXgBJBCADUQRZBGEEaQQwADAAcQQ+AXkEgQSJBJEEgACYBIAAoASoBK8EtwQwAL8ExQSAAIAAgACAAIAAgACgAM0EXgBeAF4AXgBeAF4AXgBeANUEXgDZBOEEXgDpBPEE+QQBBQkFEQUZBSEFKQUxBTUFPQVFBUwFVAVcBV4AYwVeAGsFcwV7BYMFiwWSBV4AmgWgBacFXgBeAF4AXgBeAKsFXgCyBbEFugW7BcIFwgXIBcIFwgXQBdQF3AXkBesF8wX7BQMGCwYTBhsGIwYrBjMGOwZeAD8GRwZNBl4AVAZbBl4AXgBeAF4AXgBeAF4AXgBeAF4AXgBeAGMGXgBqBnEGXgBeAF4AXgBeAF4AXgBeAF4AXgB5BoAG4wSGBo4GkwaAAIADHgR5AF4AXgBeAJsGgABGA4AAowarBrMGswagALsGwwbLBjAA0wbaBtoG3QbaBtoG2gbaBtoG2gblBusG8wb7BgMHCwcTBxsHCwcjBysHMAc1BzUHOgdCB9oGSgdSB1oHYAfaBloHaAfaBlIH2gbaBtoG2gbaBtoG2gbaBjUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHbQdeAF4ANQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQd1B30HNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B4MH2gaKB68EgACAAIAAgACAAIAAgACAAI8HlwdeAJ8HpweAAIAArwe3B14AXgC/B8UHygcwANAH2AfgB4AA6AfwBz4B+AcACFwBCAgPCBcIogEYAR8IJwiAAC8INwg/CCADRwhPCFcIXwhnCEoDGgSAAIAAgABvCHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIhAiLCI4IMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlggwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAANQc1BzUHNQc1BzUHNQc1BzUHNQc1B54INQc1B6II2gaqCLIIugiAAIAAvgjGCIAAgACAAIAAgACAAIAAgACAAIAAywiHAYAA0wiAANkI3QjlCO0I9Aj8CIAAgACAAAIJCgkSCRoJIgknCTYHLwk3CZYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiAAIAAAAFAAXgBeAGAAcABeAHwAQACQAKAArQC9AJ4AXgBeAE0A3gBRAN4A7AD8AMwBGgEAAKcBNwEFAUwBXAF4QkhCmEKnArcCgAHHAsABz4LAAcABwAHAAd+C6ABoAG+C/4LAAcABwAHAAc+DF4MAAcAB54M3gweDV4Nng3eDaABoAGgAaABoAGgAaABoAGgAaABoAGgAaABoAGgAaABoAGgAaABoAEeDqABVg6WDqABoQ6gAaABoAHXDvcONw/3DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DncPAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcAB7cPPwlGCU4JMACAAIAAgABWCV4JYQmAAGkJcAl4CXwJgAkwADAAMAAwAIgJgACLCZMJgACZCZ8JowmrCYAAswkwAF4AXgB8AIAAuwkABMMJyQmAAM4JgADVCTAAMAAwADAAgACAAIAAgACAAIAAgACAAIAAqwYWBNkIMAAwADAAMADdCeAJ6AnuCR4E9gkwAP4JBQoNCjAAMACAABUK0wiAAB0KJAosCjQKgAAwADwKQwqAAEsKvQmdCVMKWwowADAAgACAALcEMACAAGMKgABrCjAAMAAwADAAMAAwADAAMAAwADAAMAAeBDAAMAAwADAAMAAwADAAMAAwADAAMAAwAIkEPQFzCnoKiQSCCooKkAqJBJgKoAqkCokEGAGsCrQKvArBCjAAMADJCtEKFQHZCuEK/gHpCvEKMAAwADAAMACAAIwE+QowAIAAPwEBCzAAMAAwADAAMACAAAkLEQswAIAAPwEZCyELgAAOCCkLMAAxCzkLMAAwADAAMAAwADAAXgBeAEELMAAwADAAMAAwADAAMAAwAEkLTQtVC4AAXAtkC4AAiQkwADAAMAAwADAAMAAwADAAbAtxC3kLgAuFC4sLMAAwAJMLlwufCzAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAApwswADAAMACAAIAAgACvC4AAgACAAIAAgACAALcLMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAvwuAAMcLgACAAIAAgACAAIAAyguAAIAAgACAAIAA0QswADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAANkLgACAAIAA4AswADAAMAAwADAAMAAwADAAMAAwADAAMAAwAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACJCR4E6AswADAAhwHwC4AA+AsADAgMEAwwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMACAAIAAGAwdDCUMMAAwAC0MNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQw1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHPQwwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADUHNQc1BzUHNQc1BzUHNQc2BzAAMAA5DDUHNQc1BzUHNQc1BzUHNQc1BzUHNQdFDDAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAgACAAIAATQxSDFoMMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAF4AXgBeAF4AXgBeAF4AYgxeAGoMXgBxDHkMfwxeAIUMXgBeAI0MMAAwADAAMAAwAF4AXgCVDJ0MMAAwADAAMABeAF4ApQxeAKsMswy7DF4Awgy9DMoMXgBeAF4AXgBeAF4AXgBeAF4AXgDRDNkMeQBqCeAM3Ax8AOYM7Az0DPgMXgBeAF4AXgBeAF4AXgBeAF4AXgBeAF4AXgBeAF4AXgCgAAANoAAHDQ4NFg0wADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAeDSYNMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAIAAgACAAIAAgACAAC4NMABeAF4ANg0wADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAD4NRg1ODVYNXg1mDTAAbQ0wADAAMAAwADAAMAAwADAA2gbaBtoG2gbaBtoG2gbaBnUNeg3CBYANwgWFDdoGjA3aBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gaUDZwNpA2oDdoG2gawDbcNvw3HDdoG2gbPDdYN3A3fDeYN2gbsDfMN2gbaBvoN/g3aBgYODg7aBl4AXgBeABYOXgBeACUG2gYeDl4AJA5eACwO2w3aBtoGMQ45DtoG2gbaBtoGQQ7aBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gZJDjUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B1EO2gY1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQdZDjUHNQc1BzUHNQc1B2EONQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHaA41BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B3AO2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gY1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B2EO2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gZJDtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBkkOeA6gAKAAoAAwADAAMAAwAKAAoACgAKAAoACgAKAAgA4wADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAD//wQABAAEAAQABAAEAAQABAAEAA0AAwABAAEAAgAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAKABMAFwAeABsAGgAeABcAFgASAB4AGwAYAA8AGAAcAEsASwBLAEsASwBLAEsASwBLAEsAGAAYAB4AHgAeABMAHgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAFgAbABIAHgAeAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQABYADQARAB4ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAUABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAkAFgAaABsAGwAbAB4AHQAdAB4ATwAXAB4ADQAeAB4AGgAbAE8ATwAOAFAAHQAdAB0ATwBPABcATwBPAE8AFgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAB4AHgAeAB4AUABQAFAAUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AHgAeAFAATwBAAE8ATwBPAEAATwBQAFAATwBQAB4AHgAeAB4AHgAeAB0AHQAdAB0AHgAdAB4ADgBQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgBQAB4AUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAJAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAkACQAJAAkACQAJAAkABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAeAB4AHgAeAFAAHgAeAB4AKwArAFAAUABQAFAAGABQACsAKwArACsAHgAeAFAAHgBQAFAAUAArAFAAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAEAAQABAAEAAQABAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAUAAeAB4AHgAeAB4AHgArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwAYAA0AKwArAB4AHgAbACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQADQAEAB4ABAAEAB4ABAAEABMABAArACsAKwArACsAKwArACsAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAKwArACsAKwArAFYAVgBWAB4AHgArACsAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AGgAaABoAGAAYAB4AHgAEAAQABAAEAAQABAAEAAQABAAEAAQAEwAEACsAEwATAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABABLAEsASwBLAEsASwBLAEsASwBLABoAGQAZAB4AUABQAAQAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQABMAUAAEAAQABAAEAAQABAAEAB4AHgAEAAQABAAEAAQABABQAFAABAAEAB4ABAAEAAQABABQAFAASwBLAEsASwBLAEsASwBLAEsASwBQAFAAUAAeAB4AUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwAeAFAABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQAUABQAB4AHgAYABMAUAArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAFAABAAEAAQABAAEAFAABAAEAAQAUAAEAAQABAAEAAQAKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAArACsAHgArAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAeAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAFAABAAEAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAAQABAANAA0ASwBLAEsASwBLAEsASwBLAEsASwAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQAKwBQAFAAUABQAFAAUABQAFAAKwArAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAKwArACsAUABQAFAAUAArACsABABQAAQABAAEAAQABAAEAAQAKwArAAQABAArACsABAAEAAQAUAArACsAKwArACsAKwArACsABAArACsAKwArAFAAUAArAFAAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwBQAFAAGgAaAFAAUABQAFAAUABMAB4AGwBQAB4AKwArACsABAAEAAQAKwBQAFAAUABQAFAAUAArACsAKwArAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAUAArAFAAUAArAFAAUAArACsABAArAAQABAAEAAQABAArACsAKwArAAQABAArACsABAAEAAQAKwArACsABAArACsAKwArACsAKwArAFAAUABQAFAAKwBQACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwAEAAQAUABQAFAABAArACsAKwArACsAKwArACsAKwArACsABAAEAAQAKwBQAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAUAArAFAAUABQAFAAUAArACsABABQAAQABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQAKwArAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwAeABsAKwArACsAKwArACsAKwBQAAQABAAEAAQABAAEACsABAAEAAQAKwBQAFAAUABQAFAAUABQAFAAKwArAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQAKwArAAQABAArACsABAAEAAQAKwArACsAKwArACsAKwArAAQABAArACsAKwArAFAAUAArAFAAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwAeAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwAEAFAAKwBQAFAAUABQAFAAUAArACsAKwBQAFAAUAArAFAAUABQAFAAKwArACsAUABQACsAUAArAFAAUAArACsAKwBQAFAAKwArACsAUABQAFAAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwAEAAQABAAEAAQAKwArACsABAAEAAQAKwAEAAQABAAEACsAKwBQACsAKwArACsAKwArAAQAKwArACsAKwArACsAKwArACsAKwBLAEsASwBLAEsASwBLAEsASwBLAFAAUABQAB4AHgAeAB4AHgAeABsAHgArACsAKwArACsABAAEAAQABAArAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArAFAABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQABAArACsAKwArACsAKwArAAQABAArAFAAUABQACsAKwArACsAKwBQAFAABAAEACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAB4AUAAEAAQABAArAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQACsAKwAEAFAABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQABAArACsAKwArACsAKwArAAQABAArACsAKwArACsAKwArAFAAKwBQAFAABAAEACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAFAABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQABABQAB4AKwArACsAKwBQAFAAUAAEAFAAUABQAFAAUABQAFAAUABQAFAABAAEACsAKwBLAEsASwBLAEsASwBLAEsASwBLAFAAUABQAFAAUABQAFAAUABQABoAUABQAFAAUABQAFAAKwArAAQABAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQACsAUAArACsAUABQAFAAUABQAFAAUAArACsAKwAEACsAKwArACsABAAEAAQABAAEAAQAKwAEACsABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArAAQABAAeACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAAqAFwAXAAqACoAKgAqACoAKgAqACsAKwArACsAGwBcAFwAXABcAFwAXABcACoAKgAqACoAKgAqACoAKgAeAEsASwBLAEsASwBLAEsASwBLAEsADQANACsAKwArACsAKwBcAFwAKwBcACsAKwBcAFwAKwBcACsAKwBcACsAKwArACsAKwArAFwAXABcAFwAKwBcAFwAXABcAFwAXABcACsAXABcAFwAKwBcACsAXAArACsAXABcACsAXABcAFwAXAAqAFwAXAAqACoAKgAqACoAKgArACoAKgBcACsAKwBcAFwAXABcAFwAKwBcACsAKgAqACoAKgAqACoAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArAFwAXABcAFwAUAAOAA4ADgAOAB4ADgAOAAkADgAOAA0ACQATABMAEwATABMACQAeABMAHgAeAB4ABAAEAB4AHgAeAB4AHgAeAEsASwBLAEsASwBLAEsASwBLAEsAUABQAFAAUABQAFAAUABQAFAAUAANAAQAHgAEAB4ABAAWABEAFgARAAQABABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAANAAQABAAEAAQABAANAAQABABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsADQANAB4AHgAeAB4AHgAeAAQAHgAeAB4AHgAeAB4AKwAeAB4ADgAOAA0ADgAeAB4AHgAeAB4ACQAJACsAKwArACsAKwBcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqAFwASwBLAEsASwBLAEsASwBLAEsASwANAA0AHgAeAB4AHgBcAFwAXABcAFwAXAAqACoAKgAqAFwAXABcAFwAKgAqACoAXAAqACoAKgBcAFwAKgAqACoAKgAqACoAKgBcAFwAXAAqACoAKgAqAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAKgAqACoAKgAqACoAKgAqACoAXAAqAEsASwBLAEsASwBLAEsASwBLAEsAKgAqACoAKgAqACoAUABQAFAAUABQAFAAKwBQACsAKwArACsAKwBQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAFAAUABQAFAAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQACsAKwBQAFAAUABQAFAAUABQACsAUAArAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUAArACsAUABQAFAAUABQAFAAUAArAFAAKwBQAFAAUABQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwAEAAQABAAeAA0AHgAeAB4AHgAeAB4AHgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AHgAeAB4AHgAeAB4AHgAeACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQACsAKwANAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAA0AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQABYAEQArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAADQANAA0AUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAABAAEAAQAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAA0ADQArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsABAAEACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoADQANABUAXAANAB4ADQAbAFwAKgArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArAB4AHgATABMADQANAA4AHgATABMAHgAEAAQABAAJACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAUABQAFAAUABQAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABABQACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwArACsAKwAeACsAKwArABMAEwBLAEsASwBLAEsASwBLAEsASwBLAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcACsAKwBcAFwAXABcAFwAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcACsAKwArACsAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwBcACsAKwArACoAKgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEACsAKwAeAB4AXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAKgAqACoAKgAqACoAKgArACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgArACsABABLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAKgAqACoAKgAqACoAKgBcACoAKgAqACoAKgAqACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQAUABQAFAAUABQAFAAUAArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsADQANAB4ADQANAA0ADQAeAB4AHgAeAB4AHgAeAB4AHgAeAAQABAAEAAQABAAEAAQABAAEAB4AHgAeAB4AHgAeAB4AHgAeACsAKwArAAQABAAEAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAUABQAEsASwBLAEsASwBLAEsASwBLAEsAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwArACsAKwArACsAHgAeAB4AHgBQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwANAA0ADQANAA0ASwBLAEsASwBLAEsASwBLAEsASwArACsAKwBQAFAAUABLAEsASwBLAEsASwBLAEsASwBLAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAANAA0AUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAeAB4AHgAeAB4AHgArACsAKwArACsAKwArACsABAAEAAQAHgAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAFAAUABQAFAABABQAFAAUABQAAQABAAEAFAAUAAEAAQABAArACsAKwArACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwAEAAQABAAEAAQAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUAArAFAAKwBQACsAUAArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAHgAeAB4AHgAeAB4AHgAeAFAAHgAeAB4AUABQAFAAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAKwArAB4AHgAeAB4AHgAeACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAUABQAFAAKwAeAB4AHgAeAB4AHgAeAA4AHgArAA0ADQANAA0ADQANAA0ACQANAA0ADQAIAAQACwAEAAQADQAJAA0ADQAMAB0AHQAeABcAFwAWABcAFwAXABYAFwAdAB0AHgAeABQAFAAUAA0AAQABAAQABAAEAAQABAAJABoAGgAaABoAGgAaABoAGgAeABcAFwAdABUAFQAeAB4AHgAeAB4AHgAYABYAEQAVABUAFQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgANAB4ADQANAA0ADQAeAA0ADQANAAcAHgAeAB4AHgArAAQABAAEAAQABAAEAAQABAAEAAQAUABQACsAKwBPAFAAUABQAFAAUAAeAB4AHgAWABEATwBQAE8ATwBPAE8AUABQAFAAUABQAB4AHgAeABYAEQArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAGwAbABsAGwAbABsAGwAaABsAGwAbABsAGwAbABsAGwAbABsAGwAbABsAGwAaABsAGwAbABsAGgAbABsAGgAbABsAGwAbABsAGwAbABsAGwAbABsAGwAbABsAGwAbABsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgBQABoAHgAdAB4AUAAeABoAHgAeAB4AHgAeAB4AHgAeAB4ATwAeAFAAGwAeAB4AUABQAFAAUABQAB4AHgAeAB0AHQAeAFAAHgBQAB4AUAAeAFAATwBQAFAAHgAeAB4AHgAeAB4AHgBQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAB4AUABQAFAAUABPAE8AUABQAFAAUABQAE8AUABQAE8AUABPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBQAFAAUABQAE8ATwBPAE8ATwBPAE8ATwBPAE8AUABQAFAAUABQAFAAUABQAFAAHgAeAFAAUABQAFAATwAeAB4AKwArACsAKwAdAB0AHQAdAB0AHQAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAeAB0AHQAeAB4AHgAdAB0AHgAeAB0AHgAeAB4AHQAeAB0AGwAbAB4AHQAeAB4AHgAeAB0AHgAeAB0AHQAdAB0AHgAeAB0AHgAdAB4AHQAdAB0AHQAdAB0AHgAdAB4AHgAeAB4AHgAdAB0AHQAdAB4AHgAeAB4AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAeAB4AHgAdAB4AHgAeAB4AHgAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB4AHgAdAB0AHQAdAB4AHgAdAB0AHgAeAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB0AHgAeAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHgAeAB4AHQAeAB4AHgAeAB4AHgAeAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeABQAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAWABEAFgARAB4AHgAeAB4AHgAeAB0AHgAeAB4AHgAeAB4AHgAlACUAHgAeAB4AHgAeAB4AHgAeAB4AFgARAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBQAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB4AHgAeAB4AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHgAeAB0AHQAdAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB0AHgAdAB0AHQAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAdAB0AHgAeAB0AHQAeAB4AHgAeAB0AHQAeAB4AHgAeAB0AHQAdAB4AHgAdAB4AHgAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAeAB0AHQAeAB4AHQAeAB4AHgAeAB0AHQAeAB4AHgAeACUAJQAdAB0AJQAeACUAJQAlACAAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAHgAeAB4AHgAdAB4AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB4AHQAdAB0AHgAdACUAHQAdAB4AHQAdAB4AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlACUAJQAlACUAHQAdAB0AHQAlAB4AJQAlACUAHQAlACUAHQAdAB0AJQAlAB0AHQAlAB0AHQAlACUAJQAeAB0AHgAeAB4AHgAdAB0AJQAdAB0AHQAdAB0AHQAlACUAJQAlACUAHQAlACUAIAAlAB0AHQAlACUAJQAlACUAJQAlACUAHgAeAB4AJQAlACAAIAAgACAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHgAeABcAFwAXABcAFwAXAB4AEwATACUAHgAeAB4AFgARABYAEQAWABEAFgARABYAEQAWABEAFgARAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAWABEAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AFgARABYAEQAWABEAFgARABYAEQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeABYAEQAWABEAFgARABYAEQAWABEAFgARABYAEQAWABEAFgARABYAEQAWABEAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AFgARABYAEQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeABYAEQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwAeAB4AHgAeAB4AHgAeAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAEAAQABAAeAB4AKwArACsAKwArABMADQANAA0AUAATAA0AUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAUAANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAEAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQACsAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAA0ADQANAA0ADQANAA0ADQAeAA0AFgANAB4AHgAXABcAHgAeABcAFwAWABEAFgARABYAEQAWABEADQANAA0ADQATAFAADQANAB4ADQANAB4AHgAeAB4AHgAMAAwADQANAA0AHgANAA0AFgANAA0ADQANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAKwArACsAKwArACsAKwArACsAKwArACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAlACUAJQAlACUAJQAlACUAJQAlACUAJQArACsAKwArAA0AEQARACUAJQBHAFcAVwAWABEAFgARABYAEQAWABEAFgARACUAJQAWABEAFgARABYAEQAWABEAFQAWABEAEQAlAFcAVwBXAFcAVwBXAFcAVwBXAAQABAAEAAQABAAEACUAVwBXAFcAVwA2ACUAJQBXAFcAVwBHAEcAJQAlACUAKwBRAFcAUQBXAFEAVwBRAFcAUQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFEAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBRAFcAUQBXAFEAVwBXAFcAVwBXAFcAUQBXAFcAVwBXAFcAVwBRAFEAKwArAAQABAAVABUARwBHAFcAFQBRAFcAUQBXAFEAVwBRAFcAUQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFEAVwBRAFcAUQBXAFcAVwBXAFcAVwBRAFcAVwBXAFcAVwBXAFEAUQBXAFcAVwBXABUAUQBHAEcAVwArACsAKwArACsAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwArACUAJQBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArACsAKwArACUAJQAlACUAKwArACsAKwArACsAKwArACsAKwArACsAUQBRAFEAUQBRAFEAUQBRAFEAUQBRAFEAUQBRAFEAUQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACsAVwBXAFcAVwBXAFcAVwBXAFcAVwAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAE8ATwBPAE8ATwBPAE8ATwAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAEcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAADQATAA0AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABLAEsASwBLAEsASwBLAEsASwBLAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAABAAEAAQABAAeAAQABAAEAAQABAAEAAQABAAEAAQAHgBQAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AUABQAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAeAA0ADQANAA0ADQArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAB4AHgAeAB4AHgAeAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAB4AHgAeAB4AHgAeAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAAQAUABQAFAABABQAFAAUABQAAQAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAeAB4AHgAeACsAKwArACsAUABQAFAAUABQAFAAHgAeABoAHgArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAADgAOABMAEwArACsAKwArACsAKwArACsABAAEAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwANAA0ASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABABQAFAAUABQAFAAUAAeAB4AHgBQAA4AUAArACsAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAA0ADQBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwArACsAKwArACsAKwArACsAKwArAB4AWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYACsAKwArAAQAHgAeAB4AHgAeAB4ADQANAA0AHgAeAB4AHgArAFAASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArAB4AHgBcAFwAXABcAFwAKgBcAFwAXABcAFwAXABcAFwAXABcAEsASwBLAEsASwBLAEsASwBLAEsAXABcAFwAXABcACsAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArAFAAUABQAAQAUABQAFAAUABQAFAAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAHgANAA0ADQBcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAXAAqACoAKgBcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAAqAFwAKgAqACoAXABcACoAKgBcAFwAXABcAFwAKgAqAFwAKgBcACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcACoAKgBQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAA0ADQBQAFAAUAAEAAQAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUAArACsAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQADQAEAAQAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAVABVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBUAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVACsAKwArACsAKwArACsAKwArACsAKwArAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAKwArACsAKwBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAKwArACsAKwAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAKwArACsAKwArAFYABABWAFYAVgBWAFYAVgBWAFYAVgBWAB4AVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgArAFYAVgBWAFYAVgArAFYAKwBWAFYAKwBWAFYAKwBWAFYAVgBWAFYAVgBWAFYAVgBWAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAEQAWAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUAAaAB4AKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAGAARABEAGAAYABMAEwAWABEAFAArACsAKwArACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACUAJQAlACUAJQAWABEAFgARABYAEQAWABEAFgARABYAEQAlACUAFgARACUAJQAlACUAJQAlACUAEQAlABEAKwAVABUAEwATACUAFgARABYAEQAWABEAJQAlACUAJQAlACUAJQAlACsAJQAbABoAJQArACsAKwArAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAAcAKwATACUAJQAbABoAJQAlABYAEQAlACUAEQAlABEAJQBXAFcAVwBXAFcAVwBXAFcAVwBXABUAFQAlACUAJQATACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXABYAJQARACUAJQAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwAWACUAEQAlABYAEQARABYAEQARABUAVwBRAFEAUQBRAFEAUQBRAFEAUQBRAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAEcARwArACsAVwBXAFcAVwBXAFcAKwArAFcAVwBXAFcAVwBXACsAKwBXAFcAVwBXAFcAVwArACsAVwBXAFcAKwArACsAGgAbACUAJQAlABsAGwArAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwAEAAQABAAQAB0AKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsADQANAA0AKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAFAAHgAeAB4AKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAKwArAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAAQAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsADQBQAFAAUABQACsAKwArACsAUABQAFAAUABQAFAAUABQAA0AUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUAArACsAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQACsAKwArAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAA0AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAB4AHgBQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsADQBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwBQAFAAUABQAFAABAAEAAQAKwAEAAQAKwArACsAKwArAAQABAAEAAQAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsABAAEAAQAKwArACsAKwAEAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsADQANAA0ADQANAA0ADQANAB4AKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAB4AUABQAFAAUABQAFAAUABQAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEACsAKwArACsAUABQAFAAUABQAA0ADQANAA0ADQANABQAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwANAA0ADQANAA0ADQANAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAHgAeAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwBQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAA0ADQAeAB4AHgAeAB4AKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAeAB4AHgANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAKwArAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsASwBLAEsASwBLAEsASwBLAEsASwANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAeAA4AUAArACsAKwArACsAKwArACsAKwAEAFAAUABQAFAADQANAB4ADQAeAAQABAAEAB4AKwArAEsASwBLAEsASwBLAEsASwBLAEsAUAAOAFAADQANAA0AKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAANAA0AHgANAA0AHgAEACsAUABQAFAAUABQAFAAUAArAFAAKwBQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAA0AKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsABAAEAAQABAArAFAAUABQAFAAUABQAFAAUAArACsAUABQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAArACsABAAEACsAKwAEAAQABAArACsAUAArACsAKwArACsAKwAEACsAKwArACsAKwBQAFAAUABQAFAABAAEACsAKwAEAAQABAAEAAQABAAEACsAKwArAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAQABABQAFAAUABQAA0ADQANAA0AHgBLAEsASwBLAEsASwBLAEsASwBLACsADQArAB4AKwArAAQABAAEAAQAUABQAB4AUAArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEACsAKwAEAAQABAAEAAQABAAEAAQABAAOAA0ADQATABMAHgAeAB4ADQANAA0ADQANAA0ADQANAA0ADQANAA0ADQANAA0AUABQAFAAUAAEAAQAKwArAAQADQANAB4AUAArACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwAOAA4ADgAOAA4ADgAOAA4ADgAOAA4ADgAOACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAArACsAKwAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAXABcAA0ADQANACoASwBLAEsASwBLAEsASwBLAEsASwBQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwBQAFAABAAEAAQABAAEAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAFAABAAEAAQABAAOAB4ADQANAA0ADQAOAB4ABAArACsAKwArACsAKwArACsAUAAEAAQABAAEAAQABAAEAAQABAAEAAQAUABQAFAAUAArACsAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAA0ADQANACsADgAOAA4ADQANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEACsABAAEAAQABAAEAAQABAAEAFAADQANAA0ADQANACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwAOABMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQACsAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAArACsAKwAEACsABAAEACsABAAEAAQABAAEAAQABABQAAQAKwArACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsADQANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAASABIAEgAQwBDAEMAUABQAFAAUABDAFAAUABQAEgAQwBIAEMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAASABDAEMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABIAEMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwANAA0AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAAQABAAEAAQABAANACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAA0ADQANAB4AHgAeAB4AHgAeAFAAUABQAFAADQAeACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAEcARwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwArACsAKwArACsAKwArACsAKwArACsAKwArAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQACsAKwAeAAQABAANAAQABAAEAAQAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAEAAQABAAEAB4AHgAeAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAHgAeAAQABAAEAAQABAAEAAQAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAEAAQABAAEAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAEAAQABAAeACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAFAAUAArACsAUAArACsAUABQACsAKwBQAFAAUABQACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwBQACsAUABQAFAAUABQAFAAUAArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAKwAeAB4AUABQAFAAUABQACsAUAArACsAKwBQAFAAUABQAFAAUABQACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AKwArAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAB4AHgAeAB4ABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAB4AHgAeAB4AHgAeAB4AHgAEAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAeAB4ADQANAA0ADQAeACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAAQABAAEAAQABAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAQABAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsABAAEAAQABAAEAAQABAArAAQABAArAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAEAAQABAAEAAQABAAEACsAKwArACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAFgAWAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUAArAFAAKwArAFAAKwBQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUAArAFAAKwBQACsAKwArACsAKwArAFAAKwArACsAKwBQACsAUAArAFAAKwBQAFAAUAArAFAAUAArAFAAKwArAFAAKwBQACsAUAArAFAAKwBQACsAUABQACsAUAArACsAUABQAFAAUAArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQACsAUABQAFAAUAArAFAAKwBQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwBQAFAAUAArAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwArACsATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwAlACUAJQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAeACUAHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHgAeACUAJQAlACUAHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQAlACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAHgAeACUAJQAlACUAJQAeACUAJQAlACUAJQAgACAAIAAlACUAIAAlACUAIAAgACAAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIQAhACEAIQAhACUAJQAgACAAJQAlACAAIAAgACAAIAAgACAAIAAgACAAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAgACAAIAAlACUAJQAlACAAJQAgACAAIAAgACAAIAAgACAAIAAlACUAJQAgACUAJQAlACUAIAAgACAAJQAgACAAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeACUAHgAlAB4AJQAlACUAJQAlACAAJQAlACUAJQAeACUAHgAeACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAHgAeAB4AHgAeAB4AHgAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAgACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAlACUAJQAlACAAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAIAAgACAAJQAlACUAIAAgACAAIAAgAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AFwAXABcAFQAVABUAHgAeAB4AHgAlACUAJQAgACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAgACAAJQAlACUAJQAlACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAJQAlACUAJQAlACAAIAAgACAAIAAlACAAIAAlACUAJQAlACUAJQAgACUAJQAlACUAJQAlACUAJQAlACAAIAAgACAAIAAgACAAIAAgACAAJQAlACUAIAAgACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACsAKwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAJQAlACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAJQAlACUAJQAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQArAAQAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsA"),U=Array.isArray(i)?function(A){for(var e=A.length,t=[],r=0;r<e;r+=4)t.push(A[r+3]<<24|A[r+2]<<16|A[r+1]<<8|A[r]);return t}(i):new Uint32Array(i),E=Array.isArray(i)?function(A){for(var e=A.length,t=[],r=0;r<e;r+=2)t.push(A[r+1]<<8|A[r]);return t}(i):new Uint16Array(i),F=B(E,12,U[4]/2),h=2===U[5]?B(E,(24+U[4])/2):function(A,e,t){return A.slice?A.slice(e,t):new Uint32Array(Array.prototype.slice.call(A,e,t))}(U,Math.ceil((24+U[4])/4)),new s(U[0],U[1],U[2],U[3],F,h)),Z=[_,36],j=[1,2,3,5],$=[H,8],AA=[M,b],eA=j.concat($),tA=[J,G,k,V,z],rA=[f,d],nA=(BA.prototype.slice=function(){return l.apply(void 0,this.codePoints.slice(this.start,this.end))},BA);function BA(A,e,t,r){this.codePoints=A,this.required="!"===e,this.start=t,this.end=r}var sA,oA;(oA=sA||(sA={}))[oA.STRING_TOKEN=0]="STRING_TOKEN",oA[oA.BAD_STRING_TOKEN=1]="BAD_STRING_TOKEN",oA[oA.LEFT_PARENTHESIS_TOKEN=2]="LEFT_PARENTHESIS_TOKEN",oA[oA.RIGHT_PARENTHESIS_TOKEN=3]="RIGHT_PARENTHESIS_TOKEN",oA[oA.COMMA_TOKEN=4]="COMMA_TOKEN",oA[oA.HASH_TOKEN=5]="HASH_TOKEN",oA[oA.DELIM_TOKEN=6]="DELIM_TOKEN",oA[oA.AT_KEYWORD_TOKEN=7]="AT_KEYWORD_TOKEN",oA[oA.PREFIX_MATCH_TOKEN=8]="PREFIX_MATCH_TOKEN",oA[oA.DASH_MATCH_TOKEN=9]="DASH_MATCH_TOKEN",oA[oA.INCLUDE_MATCH_TOKEN=10]="INCLUDE_MATCH_TOKEN",oA[oA.LEFT_CURLY_BRACKET_TOKEN=11]="LEFT_CURLY_BRACKET_TOKEN",oA[oA.RIGHT_CURLY_BRACKET_TOKEN=12]="RIGHT_CURLY_BRACKET_TOKEN",oA[oA.SUFFIX_MATCH_TOKEN=13]="SUFFIX_MATCH_TOKEN",oA[oA.SUBSTRING_MATCH_TOKEN=14]="SUBSTRING_MATCH_TOKEN",oA[oA.DIMENSION_TOKEN=15]="DIMENSION_TOKEN",oA[oA.PERCENTAGE_TOKEN=16]="PERCENTAGE_TOKEN",oA[oA.NUMBER_TOKEN=17]="NUMBER_TOKEN",oA[oA.FUNCTION=18]="FUNCTION",oA[oA.FUNCTION_TOKEN=19]="FUNCTION_TOKEN",oA[oA.IDENT_TOKEN=20]="IDENT_TOKEN",oA[oA.COLUMN_TOKEN=21]="COLUMN_TOKEN",oA[oA.URL_TOKEN=22]="URL_TOKEN",oA[oA.BAD_URL_TOKEN=23]="BAD_URL_TOKEN",oA[oA.CDC_TOKEN=24]="CDC_TOKEN",oA[oA.CDO_TOKEN=25]="CDO_TOKEN",oA[oA.COLON_TOKEN=26]="COLON_TOKEN",oA[oA.SEMICOLON_TOKEN=27]="SEMICOLON_TOKEN",oA[oA.LEFT_SQUARE_BRACKET_TOKEN=28]="LEFT_SQUARE_BRACKET_TOKEN",oA[oA.RIGHT_SQUARE_BRACKET_TOKEN=29]="RIGHT_SQUARE_BRACKET_TOKEN",oA[oA.UNICODE_RANGE_TOKEN=30]="UNICODE_RANGE_TOKEN",oA[oA.WHITESPACE_TOKEN=31]="WHITESPACE_TOKEN",oA[oA.EOF_TOKEN=32]="EOF_TOKEN";function iA(A){return 48<=A&&A<=57}function aA(A){return iA(A)||65<=A&&A<=70||97<=A&&A<=102}function cA(A){return 10===A||9===A||32===A}function QA(A){return function(A){return function(A){return 97<=A&&A<=122}(A)||function(A){return 65<=A&&A<=90}(A)}(A)||function(A){return 128<=A}(A)||95===A}function wA(A){return QA(A)||iA(A)||45===A}function uA(A,e){return 92===A&&10!==e}function UA(A,e,t){return 45===A?QA(e)||uA(e,t):!!QA(A)||!(92!==A||!uA(A,e))}function lA(A,e,t){return 43===A||45===A?!!iA(e)||46===e&&iA(t):iA(46===A?e:A)}var CA={type:sA.LEFT_PARENTHESIS_TOKEN},gA={type:sA.RIGHT_PARENTHESIS_TOKEN},EA={type:sA.COMMA_TOKEN},FA={type:sA.SUFFIX_MATCH_TOKEN},hA={type:sA.PREFIX_MATCH_TOKEN},HA={type:sA.COLUMN_TOKEN},dA={type:sA.DASH_MATCH_TOKEN},fA={type:sA.INCLUDE_MATCH_TOKEN},pA={type:sA.LEFT_CURLY_BRACKET_TOKEN},NA={type:sA.RIGHT_CURLY_BRACKET_TOKEN},KA={type:sA.SUBSTRING_MATCH_TOKEN},IA={type:sA.BAD_URL_TOKEN},TA={type:sA.BAD_STRING_TOKEN},mA={type:sA.CDO_TOKEN},RA={type:sA.CDC_TOKEN},LA={type:sA.COLON_TOKEN},vA={type:sA.SEMICOLON_TOKEN},OA={type:sA.LEFT_SQUARE_BRACKET_TOKEN},DA={type:sA.RIGHT_SQUARE_BRACKET_TOKEN},bA={type:sA.WHITESPACE_TOKEN},SA={type:sA.EOF_TOKEN},MA=(yA.prototype.write=function(A){this._value=this._value.concat(c(A))},yA.prototype.read=function(){for(var A=[],e=this.consumeToken();e!==SA;)A.push(e),e=this.consumeToken();return A},yA.prototype.consumeToken=function(){var A=this.consumeCodePoint();switch(A){case 34:return this.consumeStringToken(34);case 35:var e=this.peekCodePoint(0),t=this.peekCodePoint(1),r=this.peekCodePoint(2);if(wA(e)||uA(t,r)){var n=UA(e,t,r)?2:1,B=this.consumeName();return{type:sA.HASH_TOKEN,value:B,flags:n}}break;case 36:if(61===this.peekCodePoint(0))return this.consumeCodePoint(),FA;break;case 39:return this.consumeStringToken(39);case 40:return CA;case 41:return gA;case 42:if(61===this.peekCodePoint(0))return this.consumeCodePoint(),KA;break;case 43:if(lA(A,this.peekCodePoint(0),this.peekCodePoint(1)))return this.reconsumeCodePoint(A),this.consumeNumericToken();break;case 44:return EA;case 45:var s=A,o=this.peekCodePoint(0),i=this.peekCodePoint(1);if(lA(s,o,i))return this.reconsumeCodePoint(A),this.consumeNumericToken();if(UA(s,o,i))return this.reconsumeCodePoint(A),this.consumeIdentLikeToken();if(45===o&&62===i)return this.consumeCodePoint(),this.consumeCodePoint(),RA;break;case 46:if(lA(A,this.peekCodePoint(0),this.peekCodePoint(1)))return this.reconsumeCodePoint(A),this.consumeNumericToken();break;case 47:if(42===this.peekCodePoint(0))for(this.consumeCodePoint();;){var a=this.consumeCodePoint();if(42===a&&47===(a=this.consumeCodePoint()))return this.consumeToken();if(-1===a)return this.consumeToken()}break;case 58:return LA;case 59:return vA;case 60:if(33===this.peekCodePoint(0)&&45===this.peekCodePoint(1)&&45===this.peekCodePoint(2))return this.consumeCodePoint(),this.consumeCodePoint(),mA;break;case 64:var c=this.peekCodePoint(0),Q=this.peekCodePoint(1),w=this.peekCodePoint(2);if(UA(c,Q,w))return B=this.consumeName(),{type:sA.AT_KEYWORD_TOKEN,value:B};break;case 91:return OA;case 92:if(uA(A,this.peekCodePoint(0)))return this.reconsumeCodePoint(A),this.consumeIdentLikeToken();break;case 93:return DA;case 61:if(61===this.peekCodePoint(0))return this.consumeCodePoint(),hA;break;case 123:return pA;case 125:return NA;case 117:case 85:var u=this.peekCodePoint(0),U=this.peekCodePoint(1);return 43!==u||!aA(U)&&63!==U||(this.consumeCodePoint(),this.consumeUnicodeRangeToken()),this.reconsumeCodePoint(A),this.consumeIdentLikeToken();case 124:if(61===this.peekCodePoint(0))return this.consumeCodePoint(),dA;if(124===this.peekCodePoint(0))return this.consumeCodePoint(),HA;break;case 126:if(61===this.peekCodePoint(0))return this.consumeCodePoint(),fA;break;case-1:return SA}return cA(A)?(this.consumeWhiteSpace(),bA):iA(A)?(this.reconsumeCodePoint(A),this.consumeNumericToken()):QA(A)?(this.reconsumeCodePoint(A),this.consumeIdentLikeToken()):{type:sA.DELIM_TOKEN,value:l(A)}},yA.prototype.consumeCodePoint=function(){var A=this._value.shift();return void 0===A?-1:A},yA.prototype.reconsumeCodePoint=function(A){this._value.unshift(A)},yA.prototype.peekCodePoint=function(A){return A>=this._value.length?-1:this._value[A]},yA.prototype.consumeUnicodeRangeToken=function(){for(var A=[],e=this.consumeCodePoint();aA(e)&&A.length<6;)A.push(e),e=this.consumeCodePoint();for(var t=!1;63===e&&A.length<6;)A.push(e),e=this.consumeCodePoint(),t=!0;if(t){var r=parseInt(l.apply(void 0,A.map(function(A){return 63===A?48:A})),16),n=parseInt(l.apply(void 0,A.map(function(A){return 63===A?70:A})),16);return{type:sA.UNICODE_RANGE_TOKEN,start:r,end:n}}var B=parseInt(l.apply(void 0,A),16);if(45===this.peekCodePoint(0)&&aA(this.peekCodePoint(1))){this.consumeCodePoint(),e=this.consumeCodePoint();for(var s=[];aA(e)&&s.length<6;)s.push(e),e=this.consumeCodePoint();return n=parseInt(l.apply(void 0,s),16),{type:sA.UNICODE_RANGE_TOKEN,start:B,end:n}}return{type:sA.UNICODE_RANGE_TOKEN,start:B,end:B}},yA.prototype.consumeIdentLikeToken=function(){var A=this.consumeName();return"url"===A.toLowerCase()&&40===this.peekCodePoint(0)?(this.consumeCodePoint(),this.consumeUrlToken()):40===this.peekCodePoint(0)?(this.consumeCodePoint(),{type:sA.FUNCTION_TOKEN,value:A}):{type:sA.IDENT_TOKEN,value:A}},yA.prototype.consumeUrlToken=function(){var A=[];if(this.consumeWhiteSpace(),-1===this.peekCodePoint(0))return{type:sA.URL_TOKEN,value:""};var e,t=this.peekCodePoint(0);if(39===t||34===t){var r=this.consumeStringToken(this.consumeCodePoint());return r.type===sA.STRING_TOKEN&&(this.consumeWhiteSpace(),-1===this.peekCodePoint(0)||41===this.peekCodePoint(0))?(this.consumeCodePoint(),{type:sA.URL_TOKEN,value:r.value}):(this.consumeBadUrlRemnants(),IA)}for(;;){var n=this.consumeCodePoint();if(-1===n||41===n)return{type:sA.URL_TOKEN,value:l.apply(void 0,A)};if(cA(n))return this.consumeWhiteSpace(),-1===this.peekCodePoint(0)||41===this.peekCodePoint(0)?(this.consumeCodePoint(),{type:sA.URL_TOKEN,value:l.apply(void 0,A)}):(this.consumeBadUrlRemnants(),IA);if(34===n||39===n||40===n||0<=(e=n)&&e<=8||11===e||14<=e&&e<=31||127===e)return this.consumeBadUrlRemnants(),IA;if(92===n){if(!uA(n,this.peekCodePoint(0)))return this.consumeBadUrlRemnants(),IA;A.push(this.consumeEscapedCodePoint())}else A.push(n)}},yA.prototype.consumeWhiteSpace=function(){for(;cA(this.peekCodePoint(0));)this.consumeCodePoint()},yA.prototype.consumeBadUrlRemnants=function(){for(;;){var A=this.consumeCodePoint();if(41===A||-1===A)return;uA(A,this.peekCodePoint(0))&&this.consumeEscapedCodePoint()}},yA.prototype.consumeStringSlice=function(A){for(var e="";0<A;){var t=Math.min(6e4,A);e+=l.apply(void 0,this._value.splice(0,t)),A-=t}return this._value.shift(),e},yA.prototype.consumeStringToken=function(A){for(var e="",t=0;;){var r=this._value[t];if(-1===r||void 0===r||r===A)return e+=this.consumeStringSlice(t),{type:sA.STRING_TOKEN,value:e};if(10===r)return this._value.splice(0,t),TA;if(92===r){var n=this._value[t+1];-1!==n&&void 0!==n&&(10===n?(e+=this.consumeStringSlice(t),t=-1,this._value.shift()):uA(r,n)&&(e+=this.consumeStringSlice(t),e+=l(this.consumeEscapedCodePoint()),t=-1))}t++}},yA.prototype.consumeNumber=function(){var A=[],e=4,t=this.peekCodePoint(0);for(43!==t&&45!==t||A.push(this.consumeCodePoint());iA(this.peekCodePoint(0));)A.push(this.consumeCodePoint());t=this.peekCodePoint(0);var r=this.peekCodePoint(1);if(46===t&&iA(r))for(A.push(this.consumeCodePoint(),this.consumeCodePoint()),e=8;iA(this.peekCodePoint(0));)A.push(this.consumeCodePoint());t=this.peekCodePoint(0),r=this.peekCodePoint(1);var n=this.peekCodePoint(2);if((69===t||101===t)&&((43===r||45===r)&&iA(n)||iA(r)))for(A.push(this.consumeCodePoint(),this.consumeCodePoint()),e=8;iA(this.peekCodePoint(0));)A.push(this.consumeCodePoint());return[function(A){var e=0,t=1;43!==A[e]&&45!==A[e]||(45===A[e]&&(t=-1),e++);for(var r=[];iA(A[e]);)r.push(A[e++]);var n=r.length?parseInt(l.apply(void 0,r),10):0;46===A[e]&&e++;for(var B=[];iA(A[e]);)B.push(A[e++]);var s=B.length,o=s?parseInt(l.apply(void 0,B),10):0;69!==A[e]&&101!==A[e]||e++;var i=1;43!==A[e]&&45!==A[e]||(45===A[e]&&(i=-1),e++);for(var a=[];iA(A[e]);)a.push(A[e++]);var c=a.length?parseInt(l.apply(void 0,a),10):0;return t*(n+o*Math.pow(10,-s))*Math.pow(10,i*c)}(A),e]},yA.prototype.consumeNumericToken=function(){var A=this.consumeNumber(),e=A[0],t=A[1],r=this.peekCodePoint(0),n=this.peekCodePoint(1),B=this.peekCodePoint(2);if(UA(r,n,B)){var s=this.consumeName();return{type:sA.DIMENSION_TOKEN,number:e,flags:t,unit:s}}return 37===r?(this.consumeCodePoint(),{type:sA.PERCENTAGE_TOKEN,number:e,flags:t}):{type:sA.NUMBER_TOKEN,number:e,flags:t}},yA.prototype.consumeEscapedCodePoint=function(){var A=this.consumeCodePoint();if(aA(A)){for(var e=l(A);aA(this.peekCodePoint(0))&&e.length<6;)e+=l(this.consumeCodePoint());cA(this.peekCodePoint(0))&&this.consumeCodePoint();var t=parseInt(e,16);return 0===t||function(A){return 55296<=A&&A<=57343}(t)||1114111<t?65533:t}return-1===A?65533:A},yA.prototype.consumeName=function(){for(var A="";;){var e=this.consumeCodePoint();if(wA(e))A+=l(e);else{if(!uA(e,this.peekCodePoint(0)))return this.reconsumeCodePoint(e),A;A+=l(this.consumeEscapedCodePoint())}}},yA);function yA(){this._value=[]}var _A=(PA.create=function(A){var e=new MA;return e.write(A),new PA(e.read())},PA.parseValue=function(A){return PA.create(A).parseComponentValue()},PA.parseValues=function(A){return PA.create(A).parseComponentValues()},PA.prototype.parseComponentValue=function(){for(var A=this.consumeToken();A.type===sA.WHITESPACE_TOKEN;)A=this.consumeToken();if(A.type===sA.EOF_TOKEN)throw new SyntaxError("Error parsing CSS component value, unexpected EOF");this.reconsumeToken(A);for(var e=this.consumeComponentValue();(A=this.consumeToken()).type===sA.WHITESPACE_TOKEN;);if(A.type===sA.EOF_TOKEN)return e;throw new SyntaxError("Error parsing CSS component value, multiple values found when expecting only one")},PA.prototype.parseComponentValues=function(){for(var A=[];;){var e=this.consumeComponentValue();if(e.type===sA.EOF_TOKEN)return A;A.push(e),A.push()}},PA.prototype.consumeComponentValue=function(){var A=this.consumeToken();switch(A.type){case sA.LEFT_CURLY_BRACKET_TOKEN:case sA.LEFT_SQUARE_BRACKET_TOKEN:case sA.LEFT_PARENTHESIS_TOKEN:return this.consumeSimpleBlock(A.type);case sA.FUNCTION_TOKEN:return this.consumeFunction(A)}return A},PA.prototype.consumeSimpleBlock=function(A){for(var e={type:A,values:[]},t=this.consumeToken();;){if(t.type===sA.EOF_TOKEN||Be(t,A))return e;this.reconsumeToken(t),e.values.push(this.consumeComponentValue()),t=this.consumeToken()}},PA.prototype.consumeFunction=function(A){for(var e={name:A.value,values:[],type:sA.FUNCTION};;){var t=this.consumeToken();if(t.type===sA.EOF_TOKEN||t.type===sA.RIGHT_PARENTHESIS_TOKEN)return e;this.reconsumeToken(t),e.values.push(this.consumeComponentValue())}},PA.prototype.consumeToken=function(){var A=this._tokens.shift();return void 0===A?SA:A},PA.prototype.reconsumeToken=function(A){this._tokens.unshift(A)},PA);function PA(A){this._tokens=A}function xA(A){return A.type===sA.DIMENSION_TOKEN}function VA(A){return A.type===sA.NUMBER_TOKEN}function zA(A){return A.type===sA.IDENT_TOKEN}function XA(A){return A.type===sA.STRING_TOKEN}function JA(A,e){return zA(A)&&A.value===e}function GA(A){return A.type!==sA.WHITESPACE_TOKEN}function kA(A){return A.type!==sA.WHITESPACE_TOKEN&&A.type!==sA.COMMA_TOKEN}function WA(A){var e=[],t=[];return A.forEach(function(A){if(A.type===sA.COMMA_TOKEN){if(0===t.length)throw new Error("Error parsing function args, zero tokens for arg");return e.push(t),void(t=[])}A.type!==sA.WHITESPACE_TOKEN&&t.push(A)}),t.length&&e.push(t),e}function YA(A){return A.type===sA.NUMBER_TOKEN||A.type===sA.DIMENSION_TOKEN}function qA(A){return A.type===sA.PERCENTAGE_TOKEN||YA(A)}function ZA(A){return 1<A.length?[A[0],A[1]]:[A[0]]}function jA(A,e,t){var r=A[0],n=A[1];return[ae(r,e),ae(void 0!==n?n:r,t)]}function $A(A){return A.type===sA.DIMENSION_TOKEN&&("deg"===A.unit||"grad"===A.unit||"rad"===A.unit||"turn"===A.unit)}function Ae(A){switch(A.filter(zA).map(function(A){return A.value}).join(" ")){case"to bottom right":case"to right bottom":case"left top":case"top left":return[se,se];case"to top":case"bottom":return Qe(0);case"to bottom left":case"to left bottom":case"right top":case"top right":return[se,ie];case"to right":case"left":return Qe(90);case"to top left":case"to left top":case"right bottom":case"bottom right":return[ie,ie];case"to bottom":case"top":return Qe(180);case"to top right":case"to right top":case"left bottom":case"bottom left":return[ie,se];case"to left":case"right":return Qe(270)}return 0}function ee(A){return 0==(255&A)}function te(A){var e=255&A,t=255&A>>8,r=255&A>>16,n=255&A>>24;return e<255?"rgba("+n+","+r+","+t+","+e/255+")":"rgb("+n+","+r+","+t+")"}function re(A,e){if(A.type===sA.NUMBER_TOKEN)return A.number;if(A.type!==sA.PERCENTAGE_TOKEN)return 0;var t=3===e?1:255;return 3===e?A.number/100*t:Math.round(A.number/100*t)}function ne(A){var e=A.filter(kA);if(3===e.length){var t=e.map(re),r=t[0],n=t[1],B=t[2];return ue(r,n,B,1)}if(4!==e.length)return 0;var s=e.map(re),o=(r=s[0],n=s[1],B=s[2],s[3]);return ue(r,n,B,o)}var Be=function(A,e){return e===sA.LEFT_CURLY_BRACKET_TOKEN&&A.type===sA.RIGHT_CURLY_BRACKET_TOKEN||(e===sA.LEFT_SQUARE_BRACKET_TOKEN&&A.type===sA.RIGHT_SQUARE_BRACKET_TOKEN||e===sA.LEFT_PARENTHESIS_TOKEN&&A.type===sA.RIGHT_PARENTHESIS_TOKEN)},se={type:sA.NUMBER_TOKEN,number:0,flags:4},oe={type:sA.PERCENTAGE_TOKEN,number:50,flags:4},ie={type:sA.PERCENTAGE_TOKEN,number:100,flags:4},ae=function(A,e){if(A.type===sA.PERCENTAGE_TOKEN)return A.number/100*e;if(xA(A))switch(A.unit){case"rem":case"em":return 16*A.number;case"px":default:return A.number}return A.number},ce=function(A){if(A.type===sA.DIMENSION_TOKEN)switch(A.unit){case"deg":return Math.PI*A.number/180;case"grad":return Math.PI/200*A.number;case"rad":return A.number;case"turn":return 2*Math.PI*A.number}throw new Error("Unsupported angle type")},Qe=function(A){return Math.PI*A/180},we=function(A){if(A.type===sA.FUNCTION){var e=he[A.name];if(void 0===e)throw new Error('Attempting to parse an unsupported color function "'+A.name+'"');return e(A.values)}if(A.type===sA.HASH_TOKEN){if(3===A.value.length){var t=A.value.substring(0,1),r=A.value.substring(1,2),n=A.value.substring(2,3);return ue(parseInt(t+t,16),parseInt(r+r,16),parseInt(n+n,16),1)}if(4===A.value.length){t=A.value.substring(0,1),r=A.value.substring(1,2),n=A.value.substring(2,3);var B=A.value.substring(3,4);return ue(parseInt(t+t,16),parseInt(r+r,16),parseInt(n+n,16),parseInt(B+B,16)/255)}if(6===A.value.length){t=A.value.substring(0,2),r=A.value.substring(2,4),n=A.value.substring(4,6);return ue(parseInt(t,16),parseInt(r,16),parseInt(n,16),1)}if(8===A.value.length){t=A.value.substring(0,2),r=A.value.substring(2,4),n=A.value.substring(4,6),B=A.value.substring(6,8);return ue(parseInt(t,16),parseInt(r,16),parseInt(n,16),parseInt(B,16)/255)}}if(A.type===sA.IDENT_TOKEN){var s=He[A.value.toUpperCase()];if(void 0!==s)return s}return He.TRANSPARENT},ue=function(A,e,t,r){return(A<<24|e<<16|t<<8|Math.round(255*r)<<0)>>>0};function Ue(A,e,t){return t<0&&(t+=1),1<=t&&(t-=1),t<1/6?(e-A)*t*6+A:t<.5?e:t<2/3?6*(e-A)*(2/3-t)+A:A}function le(A){var e=A.filter(kA),t=e[0],r=e[1],n=e[2],B=e[3],s=(t.type===sA.NUMBER_TOKEN?Qe(t.number):ce(t))/(2*Math.PI),o=qA(r)?r.number/100:0,i=qA(n)?n.number/100:0,a=void 0!==B&&qA(B)?ae(B,1):1;if(0==o)return ue(255*i,255*i,255*i,1);var c=i<=.5?i*(1+o):i+o-i*o,Q=2*i-c,w=Ue(Q,c,s+1/3),u=Ue(Q,c,s),U=Ue(Q,c,s-1/3);return ue(255*w,255*u,255*U,a)}var Ce,ge,Ee,Fe,he={hsl:le,hsla:le,rgb:ne,rgba:ne},He={ALICEBLUE:4042850303,ANTIQUEWHITE:4209760255,AQUA:16777215,AQUAMARINE:2147472639,AZURE:4043309055,BEIGE:4126530815,BISQUE:4293182719,BLACK:255,BLANCHEDALMOND:4293643775,BLUE:65535,BLUEVIOLET:2318131967,BROWN:2771004159,BURLYWOOD:3736635391,CADETBLUE:1604231423,CHARTREUSE:2147418367,CHOCOLATE:3530104575,CORAL:4286533887,CORNFLOWERBLUE:1687547391,CORNSILK:4294499583,CRIMSON:3692313855,CYAN:16777215,DARKBLUE:35839,DARKCYAN:9145343,DARKGOLDENROD:3095837695,DARKGRAY:2846468607,DARKGREEN:6553855,DARKGREY:2846468607,DARKKHAKI:3182914559,DARKMAGENTA:2332068863,DARKOLIVEGREEN:1433087999,DARKORANGE:4287365375,DARKORCHID:2570243327,DARKRED:2332033279,DARKSALMON:3918953215,DARKSEAGREEN:2411499519,DARKSLATEBLUE:1211993087,DARKSLATEGRAY:793726975,DARKSLATEGREY:793726975,DARKTURQUOISE:13554175,DARKVIOLET:2483082239,DEEPPINK:4279538687,DEEPSKYBLUE:12582911,DIMGRAY:1768516095,DIMGREY:1768516095,DODGERBLUE:512819199,FIREBRICK:2988581631,FLORALWHITE:4294635775,FORESTGREEN:579543807,FUCHSIA:4278255615,GAINSBORO:3705462015,GHOSTWHITE:4177068031,GOLD:4292280575,GOLDENROD:3668254975,GRAY:2155905279,GREEN:8388863,GREENYELLOW:2919182335,GREY:2155905279,HONEYDEW:4043305215,HOTPINK:4285117695,INDIANRED:3445382399,INDIGO:1258324735,IVORY:4294963455,KHAKI:4041641215,LAVENDER:3873897215,LAVENDERBLUSH:4293981695,LAWNGREEN:2096890111,LEMONCHIFFON:4294626815,LIGHTBLUE:2916673279,LIGHTCORAL:4034953471,LIGHTCYAN:3774873599,LIGHTGOLDENRODYELLOW:4210742015,LIGHTGRAY:3553874943,LIGHTGREEN:2431553791,LIGHTGREY:3553874943,LIGHTPINK:4290167295,LIGHTSALMON:4288707327,LIGHTSEAGREEN:548580095,LIGHTSKYBLUE:2278488831,LIGHTSLATEGRAY:2005441023,LIGHTSLATEGREY:2005441023,LIGHTSTEELBLUE:2965692159,LIGHTYELLOW:4294959359,LIME:16711935,LIMEGREEN:852308735,LINEN:4210091775,MAGENTA:4278255615,MAROON:2147483903,MEDIUMAQUAMARINE:1724754687,MEDIUMBLUE:52735,MEDIUMORCHID:3126187007,MEDIUMPURPLE:2473647103,MEDIUMSEAGREEN:1018393087,MEDIUMSLATEBLUE:2070474495,MEDIUMSPRINGGREEN:16423679,MEDIUMTURQUOISE:1221709055,MEDIUMVIOLETRED:3340076543,MIDNIGHTBLUE:421097727,MINTCREAM:4127193855,MISTYROSE:4293190143,MOCCASIN:4293178879,NAVAJOWHITE:4292783615,NAVY:33023,OLDLACE:4260751103,OLIVE:2155872511,OLIVEDRAB:1804477439,ORANGE:4289003775,ORANGERED:4282712319,ORCHID:3664828159,PALEGOLDENROD:4008225535,PALEGREEN:2566625535,PALETURQUOISE:2951671551,PALEVIOLETRED:3681588223,PAPAYAWHIP:4293907967,PEACHPUFF:4292524543,PERU:3448061951,PINK:4290825215,PLUM:3718307327,POWDERBLUE:2967529215,PURPLE:2147516671,REBECCAPURPLE:1714657791,RED:4278190335,ROSYBROWN:3163525119,ROYALBLUE:1097458175,SADDLEBROWN:2336560127,SALMON:4202722047,SANDYBROWN:4104413439,SEAGREEN:780883967,SEASHELL:4294307583,SIENNA:2689740287,SILVER:3233857791,SKYBLUE:2278484991,SLATEBLUE:1784335871,SLATEGRAY:1887473919,SLATEGREY:1887473919,SNOW:4294638335,SPRINGGREEN:16744447,STEELBLUE:1182971135,TAN:3535047935,TEAL:8421631,THISTLE:3636451583,TOMATO:4284696575,TRANSPARENT:0,TURQUOISE:1088475391,VIOLET:4001558271,WHEAT:4125012991,WHITE:4294967295,WHITESMOKE:4126537215,YELLOW:4294902015,YELLOWGREEN:2597139199};(ge=Ce||(Ce={}))[ge.VALUE=0]="VALUE",ge[ge.LIST=1]="LIST",ge[ge.IDENT_VALUE=2]="IDENT_VALUE",ge[ge.TYPE_VALUE=3]="TYPE_VALUE",ge[ge.TOKEN_VALUE=4]="TOKEN_VALUE",(Fe=Ee||(Ee={}))[Fe.BORDER_BOX=0]="BORDER_BOX",Fe[Fe.PADDING_BOX=1]="PADDING_BOX";function de(A){var e=we(A[0]),t=A[1];return t&&qA(t)?{color:e,stop:t}:{color:e,stop:null}}function fe(A,t){var e=A[0],r=A[A.length-1];null===e.stop&&(e.stop=se),null===r.stop&&(r.stop=ie);for(var n=[],B=0,s=0;s<A.length;s++){var o=A[s].stop;if(null!==o){var i=ae(o,t);B<i?n.push(i):n.push(B),B=i}else n.push(null)}var a=null;for(s=0;s<n.length;s++){var c=n[s];if(null===c)null===a&&(a=s);else if(null!==a){for(var Q=s-a,w=(c-n[a-1])/(1+Q),u=1;u<=Q;u++)n[a+u-1]=w*u;a=null}}return A.map(function(A,e){return{color:A.color,stop:Math.max(Math.min(1,n[e]/t),0)}})}function pe(A,e,t){var r="number"==typeof A?A:function(A,e,t){var r=e/2,n=t/2,B=ae(A[0],e)-r,s=n-ae(A[1],t);return(Math.atan2(s,B)+2*Math.PI)%(2*Math.PI)}(A,e,t),n=Math.abs(e*Math.sin(r))+Math.abs(t*Math.cos(r)),B=e/2,s=t/2,o=n/2,i=Math.sin(r-Math.PI/2)*o,a=Math.cos(r-Math.PI/2)*o;return[n,B-a,B+a,s-i,s+i]}function Ne(A,e){return Math.sqrt(A*A+e*e)}function Ke(A,e,B,s,o){return[[0,0],[0,e],[A,0],[A,e]].reduce(function(A,e){var t=e[0],r=e[1],n=Ne(B-t,s-r);return(o?n<A.optimumDistance:n>A.optimumDistance)?{optimumCorner:e,optimumDistance:n}:A},{optimumDistance:o?1/0:-1/0,optimumCorner:null}).optimumCorner}function Ie(A){var n=Qe(180),B=[];return WA(A).forEach(function(A,e){if(0===e){var t=A[0];if(t.type===sA.IDENT_TOKEN&&-1!==["top","left","right","bottom"].indexOf(t.value))return void(n=Ae(A));if($A(t))return void(n=(ce(t)+Qe(270))%Qe(360))}var r=de(A);B.push(r)}),{angle:n,stops:B,type:xe.LINEAR_GRADIENT}}function Te(A){return 0===A[0]&&255===A[1]&&0===A[2]&&255===A[3]}var me={name:"background-clip",initialValue:"border-box",prefix:!(Fe[Fe.CONTENT_BOX=2]="CONTENT_BOX"),type:Ce.LIST,parse:function(A){return A.map(function(A){if(zA(A))switch(A.value){case"padding-box":return Ee.PADDING_BOX;case"content-box":return Ee.CONTENT_BOX}return Ee.BORDER_BOX})}},Re={name:"background-color",initialValue:"transparent",prefix:!1,type:Ce.TYPE_VALUE,format:"color"},Le=function(A,e,t,r,n){var B="http://www.w3.org/2000/svg",s=document.createElementNS(B,"svg"),o=document.createElementNS(B,"foreignObject");return s.setAttributeNS(null,"width",A.toString()),s.setAttributeNS(null,"height",e.toString()),o.setAttributeNS(null,"width","100%"),o.setAttributeNS(null,"height","100%"),o.setAttributeNS(null,"x",t.toString()),o.setAttributeNS(null,"y",r.toString()),o.setAttributeNS(null,"externalResourcesRequired","true"),s.appendChild(o),o.appendChild(n),s},ve=function(r){return new Promise(function(A,e){var t=new Image;t.onload=function(){return A(t)},t.onerror=e,t.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent((new XMLSerializer).serializeToString(r))})},Oe={get SUPPORT_RANGE_BOUNDS(){var A=function(A){if(A.createRange){var e=A.createRange();if(e.getBoundingClientRect){var t=A.createElement("boundtest");t.style.height="123px",t.style.display="block",A.body.appendChild(t),e.selectNode(t);var r=e.getBoundingClientRect(),n=Math.round(r.height);if(A.body.removeChild(t),123===n)return!0}}return!1}(document);return Object.defineProperty(Oe,"SUPPORT_RANGE_BOUNDS",{value:A}),A},get SUPPORT_SVG_DRAWING(){var A=function(A){var e=new Image,t=A.createElement("canvas"),r=t.getContext("2d");if(!r)return!1;e.src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'></svg>";try{r.drawImage(e,0,0),t.toDataURL()}catch(A){return!1}return!0}(document);return Object.defineProperty(Oe,"SUPPORT_SVG_DRAWING",{value:A}),A},get SUPPORT_FOREIGNOBJECT_DRAWING(){var A="function"==typeof Array.from&&"function"==typeof window.fetch?function(r){var A=r.createElement("canvas"),n=100;A.width=n,A.height=n;var B=A.getContext("2d");if(!B)return Promise.reject(!1);B.fillStyle="rgb(0, 255, 0)",B.fillRect(0,0,n,n);var e=new Image,s=A.toDataURL();e.src=s;var t=Le(n,n,0,0,e);return B.fillStyle="red",B.fillRect(0,0,n,n),ve(t).then(function(A){B.drawImage(A,0,0);var e=B.getImageData(0,0,n,n).data;B.fillStyle="red",B.fillRect(0,0,n,n);var t=r.createElement("div");return t.style.backgroundImage="url("+s+")",t.style.height="100px",Te(e)?ve(Le(n,n,0,0,t)):Promise.reject(!1)}).then(function(A){return B.drawImage(A,0,0),Te(B.getImageData(0,0,n,n).data)}).catch(function(){return!1})}(document):Promise.resolve(!1);return Object.defineProperty(Oe,"SUPPORT_FOREIGNOBJECT_DRAWING",{value:A}),A},get SUPPORT_CORS_IMAGES(){var A=void 0!==(new Image).crossOrigin;return Object.defineProperty(Oe,"SUPPORT_CORS_IMAGES",{value:A}),A},get SUPPORT_RESPONSE_TYPE(){var A="string"==typeof(new XMLHttpRequest).responseType;return Object.defineProperty(Oe,"SUPPORT_RESPONSE_TYPE",{value:A}),A},get SUPPORT_CORS_XHR(){var A="withCredentials"in new XMLHttpRequest;return Object.defineProperty(Oe,"SUPPORT_CORS_XHR",{value:A}),A}},De=(be.prototype.debug=function(){for(var A=[],e=0;e<arguments.length;e++)A[e]=arguments[e];this.enabled&&("undefined"!=typeof window&&window.console&&"function"==typeof console.debug?console.debug.apply(console,[this.id,this.getTime()+"ms"].concat(A)):this.info.apply(this,A))},be.prototype.getTime=function(){return Date.now()-this.start},be.create=function(A){be.instances[A.id]=new be(A)},be.destroy=function(A){delete be.instances[A]},be.getInstance=function(A){var e=be.instances[A];if(void 0===e)throw new Error("No logger instance found with id "+A);return e},be.prototype.info=function(){for(var A=[],e=0;e<arguments.length;e++)A[e]=arguments[e];this.enabled&&"undefined"!=typeof window&&window.console&&"function"==typeof console.info&&console.info.apply(console,[this.id,this.getTime()+"ms"].concat(A))},be.prototype.error=function(){for(var A=[],e=0;e<arguments.length;e++)A[e]=arguments[e];this.enabled&&("undefined"!=typeof window&&window.console&&"function"==typeof console.error?console.error.apply(console,[this.id,this.getTime()+"ms"].concat(A)):this.info.apply(this,A))},be.instances={},be);function be(A){var e=A.id,t=A.enabled;this.id=e,this.enabled=t,this.start=Date.now()}var Se=(Me.create=function(A,e){return Me._caches[A]=new ye(A,e)},Me.destroy=function(A){delete Me._caches[A]},Me.open=function(A){var e=Me._caches[A];if(void 0!==e)return e;throw new Error('Cache with key "'+A+'" not found')},Me.getOrigin=function(A){var e=Me._link;return e?(e.href=A,e.href=e.href,e.protocol+e.hostname+e.port):"about:blank"},Me.isSameOrigin=function(A){return Me.getOrigin(A)===Me._origin},Me.setContext=function(A){Me._link=A.document.createElement("a"),Me._origin=Me.getOrigin(A.location.href)},Me.getInstance=function(){var A=Me._current;if(null===A)throw new Error("No cache instance attached");return A},Me.attachInstance=function(A){Me._current=A},Me.detachInstance=function(){Me._current=null},Me._caches={},Me._origin="about:blank",Me._current=null,Me);function Me(){}var ye=(_e.prototype.addImage=function(A){var e=Promise.resolve();return this.has(A)||(Ye(A)||Ge(A))&&(this._cache[A]=this.loadImage(A)),e},_e.prototype.match=function(A){return this._cache[A]},_e.prototype.loadImage=function(s){return a(this,void 0,void 0,function(){var e,r,t,n,B=this;return S(this,function(A){switch(A.label){case 0:return e=Se.isSameOrigin(s),r=!ke(s)&&!0===this._options.useCORS&&Oe.SUPPORT_CORS_IMAGES&&!e,t=!ke(s)&&!e&&"string"==typeof this._options.proxy&&Oe.SUPPORT_CORS_XHR&&!r,e||!1!==this._options.allowTaint||ke(s)||t||r?(n=s,t?[4,this.proxy(n)]:[3,2]):[2];case 1:n=A.sent(),A.label=2;case 2:return De.getInstance(this.id).debug("Added image "+s.substring(0,256)),[4,new Promise(function(A,e){var t=new Image;t.onload=function(){return A(t)},t.onerror=e,(We(n)||r)&&(t.crossOrigin="anonymous"),t.src=n,!0===t.complete&&setTimeout(function(){return A(t)},500),0<B._options.imageTimeout&&setTimeout(function(){return e("Timed out ("+B._options.imageTimeout+"ms) loading image")},B._options.imageTimeout)})];case 3:return[2,A.sent()]}})})},_e.prototype.has=function(A){return void 0!==this._cache[A]},_e.prototype.keys=function(){return Promise.resolve(Object.keys(this._cache))},_e.prototype.proxy=function(B){var s=this,o=this._options.proxy;if(!o)throw new Error("No proxy defined");var i=B.substring(0,256);return new Promise(function(e,t){var r=Oe.SUPPORT_RESPONSE_TYPE?"blob":"text",n=new XMLHttpRequest;if(n.onload=function(){if(200===n.status)if("text"==r)e(n.response);else{var A=new FileReader;A.addEventListener("load",function(){return e(A.result)},!1),A.addEventListener("error",function(A){return t(A)},!1),A.readAsDataURL(n.response)}else t("Failed to proxy resource "+i+" with status code "+n.status)},n.onerror=t,n.open("GET",o+"?url="+encodeURIComponent(B)+"&responseType="+r),"text"!=r&&n instanceof XMLHttpRequest&&(n.responseType=r),s._options.imageTimeout){var A=s._options.imageTimeout;n.timeout=A,n.ontimeout=function(){return t("Timed out ("+A+"ms) proxying "+i)}}n.send()})},_e);function _e(A,e){this.id=A,this._options=e,this._cache={}}function Pe(A){var n=rt.CIRCLE,B=Bt.FARTHEST_CORNER,s=[],o=[];return WA(A).forEach(function(A,e){var t=!0;if(0===e?t=A.reduce(function(A,e){if(zA(e))switch(e.value){case"center":return o.push(oe),!1;case"top":case"left":return o.push(se),!1;case"right":case"bottom":return o.push(ie),!1}else if(qA(e)||YA(e))return o.push(e),!1;return A},t):1===e&&(t=A.reduce(function(A,e){if(zA(e))switch(e.value){case"circle":return n=rt.CIRCLE,!1;case et:return n=rt.ELLIPSE,!1;case tt:case Ze:return B=Bt.CLOSEST_SIDE,!1;case je:return B=Bt.FARTHEST_SIDE,!1;case $e:return B=Bt.CLOSEST_CORNER,!1;case"cover":case At:return B=Bt.FARTHEST_CORNER,!1}else if(YA(e)||qA(e))return Array.isArray(B)||(B=[]),B.push(e),!1;return A},t)),t){var r=de(A);s.push(r)}}),{size:B,shape:n,stops:s,position:o,type:xe.RADIAL_GRADIENT}}var xe,Ve,ze=/^data:image\/svg\+xml/i,Xe=/^data:image\/.*;base64,/i,Je=/^data:image\/.*/i,Ge=function(A){return Oe.SUPPORT_SVG_DRAWING||!qe(A)},ke=function(A){return Je.test(A)},We=function(A){return Xe.test(A)},Ye=function(A){return"blob"===A.substr(0,4)},qe=function(A){return"svg"===A.substr(-3).toLowerCase()||ze.test(A)},Ze="closest-side",je="farthest-side",$e="closest-corner",At="farthest-corner",et="ellipse",tt="contain";(Ve=xe||(xe={}))[Ve.URL=0]="URL",Ve[Ve.LINEAR_GRADIENT=1]="LINEAR_GRADIENT",Ve[Ve.RADIAL_GRADIENT=2]="RADIAL_GRADIENT";var rt,nt,Bt,st;(nt=rt||(rt={}))[nt.CIRCLE=0]="CIRCLE",nt[nt.ELLIPSE=1]="ELLIPSE",(st=Bt||(Bt={}))[st.CLOSEST_SIDE=0]="CLOSEST_SIDE",st[st.FARTHEST_SIDE=1]="FARTHEST_SIDE",st[st.CLOSEST_CORNER=2]="CLOSEST_CORNER",st[st.FARTHEST_CORNER=3]="FARTHEST_CORNER";var ot=function(A){if(A.type===sA.URL_TOKEN){var e={url:A.value,type:xe.URL};return Se.getInstance().addImage(A.value),e}if(A.type!==sA.FUNCTION)throw new Error("Unsupported image type");var t=ct[A.name];if(void 0===t)throw new Error('Attempting to parse an unsupported image function "'+A.name+'"');return t(A.values)};var it,at,ct={"linear-gradient":function(A){var n=Qe(180),B=[];return WA(A).forEach(function(A,e){if(0===e){var t=A[0];if(t.type===sA.IDENT_TOKEN&&"to"===t.value)return void(n=Ae(A));if($A(t))return void(n=ce(t))}var r=de(A);B.push(r)}),{angle:n,stops:B,type:xe.LINEAR_GRADIENT}},"-moz-linear-gradient":Ie,"-ms-linear-gradient":Ie,"-o-linear-gradient":Ie,"-webkit-linear-gradient":Ie,"radial-gradient":function(A){var B=rt.CIRCLE,s=Bt.FARTHEST_CORNER,o=[],i=[];return WA(A).forEach(function(A,e){var t=!0;if(0===e){var r=!1;t=A.reduce(function(A,e){if(r)if(zA(e))switch(e.value){case"center":return i.push(oe),A;case"top":case"left":return i.push(se),A;case"right":case"bottom":return i.push(ie),A}else(qA(e)||YA(e))&&i.push(e);else if(zA(e))switch(e.value){case"circle":return B=rt.CIRCLE,!1;case et:return B=rt.ELLIPSE,!1;case"at":return!(r=!0);case Ze:return s=Bt.CLOSEST_SIDE,!1;case"cover":case je:return s=Bt.FARTHEST_SIDE,!1;case tt:case $e:return s=Bt.CLOSEST_CORNER,!1;case At:return s=Bt.FARTHEST_CORNER,!1}else if(YA(e)||qA(e))return Array.isArray(s)||(s=[]),s.push(e),!1;return A},t)}if(t){var n=de(A);o.push(n)}}),{size:s,shape:B,stops:o,position:i,type:xe.RADIAL_GRADIENT}},"-moz-radial-gradient":Pe,"-ms-radial-gradient":Pe,"-o-radial-gradient":Pe,"-webkit-radial-gradient":Pe,"-webkit-gradient":function(A){var e=Qe(180),s=[],o=xe.LINEAR_GRADIENT,t=rt.CIRCLE,r=Bt.FARTHEST_CORNER;return WA(A).forEach(function(A,e){var t=A[0];if(0===e){if(zA(t)&&"linear"===t.value)return void(o=xe.LINEAR_GRADIENT);if(zA(t)&&"radial"===t.value)return void(o=xe.RADIAL_GRADIENT)}if(t.type===sA.FUNCTION)if("from"===t.name){var r=we(t.values[0]);s.push({stop:se,color:r})}else if("to"===t.name)r=we(t.values[0]),s.push({stop:ie,color:r});else if("color-stop"===t.name){var n=t.values.filter(kA);if(2===n.length){r=we(n[1]);var B=n[0];VA(B)&&s.push({stop:{type:sA.PERCENTAGE_TOKEN,number:100*B.number,flags:B.flags},color:r})}}}),o===xe.LINEAR_GRADIENT?{angle:(e+Qe(180))%Qe(360),stops:s,type:o}:{size:r,shape:t,stops:s,position:[],type:o}}},Qt={name:"background-image",initialValue:"none",type:Ce.LIST,prefix:!1,parse:function(A){if(0===A.length)return[];var e=A[0];return e.type===sA.IDENT_TOKEN&&"none"===e.value?[]:A.filter(function(A){return kA(A)&&function(A){return A.type!==sA.FUNCTION||ct[A.name]}(A)}).map(ot)}},wt={name:"background-origin",initialValue:"border-box",prefix:!1,type:Ce.LIST,parse:function(A){return A.map(function(A){if(zA(A))switch(A.value){case"padding-box":return 1;case"content-box":return 2}return 0})}},ut={name:"background-position",initialValue:"0% 0%",type:Ce.LIST,prefix:!1,parse:function(A){return WA(A).map(function(A){return A.filter(qA)}).map(ZA)}};(at=it||(it={}))[at.REPEAT=0]="REPEAT",at[at.NO_REPEAT=1]="NO_REPEAT",at[at.REPEAT_X=2]="REPEAT_X";var Ut,lt,Ct={name:"background-repeat",initialValue:"repeat",prefix:!(at[at.REPEAT_Y=3]="REPEAT_Y"),type:Ce.LIST,parse:function(A){return WA(A).map(function(A){return A.filter(zA).map(function(A){return A.value}).join(" ")}).map(gt)}},gt=function(A){switch(A){case"no-repeat":return it.NO_REPEAT;case"repeat-x":case"repeat no-repeat":return it.REPEAT_X;case"repeat-y":case"no-repeat repeat":return it.REPEAT_Y;case"repeat":default:return it.REPEAT}};(lt=Ut||(Ut={})).AUTO="auto",lt.CONTAIN="contain";function Et(A){return{name:"border-"+A+"-color",initialValue:"transparent",prefix:!1,type:Ce.TYPE_VALUE,format:"color"}}function Ft(A){return{name:"border-radius-"+A,initialValue:"0 0",prefix:!1,type:Ce.LIST,parse:function(A){return ZA(A.filter(qA))}}}var ht,Ht,dt={name:"background-size",initialValue:"0",prefix:!(lt.COVER="cover"),type:Ce.LIST,parse:function(A){return WA(A).map(function(A){return A.filter(ft)})}},ft=function(A){return zA(A)||qA(A)},pt=Et("top"),Nt=Et("right"),Kt=Et("bottom"),It=Et("left"),Tt=Ft("top-left"),mt=Ft("top-right"),Rt=Ft("bottom-right"),Lt=Ft("bottom-left");(Ht=ht||(ht={}))[Ht.NONE=0]="NONE",Ht[Ht.SOLID=1]="SOLID";function vt(A){return{name:"border-"+A+"-style",initialValue:"solid",prefix:!1,type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"none":return ht.NONE}return ht.SOLID}}}function Ot(A){return{name:"border-"+A+"-width",initialValue:"0",type:Ce.VALUE,prefix:!1,parse:function(A){return xA(A)?A.number:0}}}var Dt,bt,St=vt("top"),Mt=vt("right"),yt=vt("bottom"),_t=vt("left"),Pt=Ot("top"),xt=Ot("right"),Vt=Ot("bottom"),zt=Ot("left"),Xt={name:"color",initialValue:"transparent",prefix:!1,type:Ce.TYPE_VALUE,format:"color"},Jt={name:"display",initialValue:"inline-block",prefix:!1,type:Ce.LIST,parse:function(A){return A.filter(zA).reduce(function(A,e){return A|Gt(e.value)},0)}},Gt=function(A){switch(A){case"block":return 2;case"inline":return 4;case"run-in":return 8;case"flow":return 16;case"flow-root":return 32;case"table":return 64;case"flex":case"-webkit-flex":return 128;case"grid":case"-ms-grid":return 256;case"ruby":return 512;case"subgrid":return 1024;case"list-item":return 2048;case"table-row-group":return 4096;case"table-header-group":return 8192;case"table-footer-group":return 16384;case"table-row":return 32768;case"table-cell":return 65536;case"table-column-group":return 131072;case"table-column":return 262144;case"table-caption":return 524288;case"ruby-base":return 1048576;case"ruby-text":return 2097152;case"ruby-base-container":return 4194304;case"ruby-text-container":return 8388608;case"contents":return 16777216;case"inline-block":return 33554432;case"inline-list-item":return 67108864;case"inline-table":return 134217728;case"inline-flex":return 268435456;case"inline-grid":return 536870912}return 0};(bt=Dt||(Dt={}))[bt.NONE=0]="NONE",bt[bt.LEFT=1]="LEFT",bt[bt.RIGHT=2]="RIGHT",bt[bt.INLINE_START=3]="INLINE_START";var kt,Wt,Yt,qt,Zt={name:"float",initialValue:"none",prefix:!(bt[bt.INLINE_END=4]="INLINE_END"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"left":return Dt.LEFT;case"right":return Dt.RIGHT;case"inline-start":return Dt.INLINE_START;case"inline-end":return Dt.INLINE_END}return Dt.NONE}},jt={name:"letter-spacing",initialValue:"0",prefix:!1,type:Ce.VALUE,parse:function(A){return A.type===sA.IDENT_TOKEN&&"normal"===A.value?0:A.type===sA.NUMBER_TOKEN?A.number:A.type===sA.DIMENSION_TOKEN?A.number:0}},$t={name:"line-break",initialValue:(Wt=kt||(kt={})).NORMAL="normal",prefix:!(Wt.STRICT="strict"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"strict":return kt.STRICT;case"normal":default:return kt.NORMAL}}},Ar={name:"line-height",initialValue:"normal",prefix:!1,type:Ce.TOKEN_VALUE},er={name:"list-style-image",initialValue:"none",type:Ce.VALUE,prefix:!1,parse:function(A){return A.type===sA.IDENT_TOKEN&&"none"===A.value?null:ot(A)}};(qt=Yt||(Yt={}))[qt.INSIDE=0]="INSIDE";var tr,rr,nr={name:"list-style-position",initialValue:"outside",prefix:!(qt[qt.OUTSIDE=1]="OUTSIDE"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"inside":return Yt.INSIDE;case"outside":default:return Yt.OUTSIDE}}};(rr=tr||(tr={}))[rr.NONE=-1]="NONE",rr[rr.DISC=0]="DISC",rr[rr.CIRCLE=1]="CIRCLE",rr[rr.SQUARE=2]="SQUARE",rr[rr.DECIMAL=3]="DECIMAL",rr[rr.CJK_DECIMAL=4]="CJK_DECIMAL",rr[rr.DECIMAL_LEADING_ZERO=5]="DECIMAL_LEADING_ZERO",rr[rr.LOWER_ROMAN=6]="LOWER_ROMAN",rr[rr.UPPER_ROMAN=7]="UPPER_ROMAN",rr[rr.LOWER_GREEK=8]="LOWER_GREEK",rr[rr.LOWER_ALPHA=9]="LOWER_ALPHA",rr[rr.UPPER_ALPHA=10]="UPPER_ALPHA",rr[rr.ARABIC_INDIC=11]="ARABIC_INDIC",rr[rr.ARMENIAN=12]="ARMENIAN",rr[rr.BENGALI=13]="BENGALI",rr[rr.CAMBODIAN=14]="CAMBODIAN",rr[rr.CJK_EARTHLY_BRANCH=15]="CJK_EARTHLY_BRANCH",rr[rr.CJK_HEAVENLY_STEM=16]="CJK_HEAVENLY_STEM",rr[rr.CJK_IDEOGRAPHIC=17]="CJK_IDEOGRAPHIC",rr[rr.DEVANAGARI=18]="DEVANAGARI",rr[rr.ETHIOPIC_NUMERIC=19]="ETHIOPIC_NUMERIC",rr[rr.GEORGIAN=20]="GEORGIAN",rr[rr.GUJARATI=21]="GUJARATI",rr[rr.GURMUKHI=22]="GURMUKHI",rr[rr.HEBREW=22]="HEBREW",rr[rr.HIRAGANA=23]="HIRAGANA",rr[rr.HIRAGANA_IROHA=24]="HIRAGANA_IROHA",rr[rr.JAPANESE_FORMAL=25]="JAPANESE_FORMAL",rr[rr.JAPANESE_INFORMAL=26]="JAPANESE_INFORMAL",rr[rr.KANNADA=27]="KANNADA",rr[rr.KATAKANA=28]="KATAKANA",rr[rr.KATAKANA_IROHA=29]="KATAKANA_IROHA",rr[rr.KHMER=30]="KHMER",rr[rr.KOREAN_HANGUL_FORMAL=31]="KOREAN_HANGUL_FORMAL",rr[rr.KOREAN_HANJA_FORMAL=32]="KOREAN_HANJA_FORMAL",rr[rr.KOREAN_HANJA_INFORMAL=33]="KOREAN_HANJA_INFORMAL",rr[rr.LAO=34]="LAO",rr[rr.LOWER_ARMENIAN=35]="LOWER_ARMENIAN",rr[rr.MALAYALAM=36]="MALAYALAM",rr[rr.MONGOLIAN=37]="MONGOLIAN",rr[rr.MYANMAR=38]="MYANMAR",rr[rr.ORIYA=39]="ORIYA",rr[rr.PERSIAN=40]="PERSIAN",rr[rr.SIMP_CHINESE_FORMAL=41]="SIMP_CHINESE_FORMAL",rr[rr.SIMP_CHINESE_INFORMAL=42]="SIMP_CHINESE_INFORMAL",rr[rr.TAMIL=43]="TAMIL",rr[rr.TELUGU=44]="TELUGU",rr[rr.THAI=45]="THAI",rr[rr.TIBETAN=46]="TIBETAN",rr[rr.TRAD_CHINESE_FORMAL=47]="TRAD_CHINESE_FORMAL",rr[rr.TRAD_CHINESE_INFORMAL=48]="TRAD_CHINESE_INFORMAL",rr[rr.UPPER_ARMENIAN=49]="UPPER_ARMENIAN",rr[rr.DISCLOSURE_OPEN=50]="DISCLOSURE_OPEN";function Br(A){return{name:"margin-"+A,initialValue:"0",prefix:!1,type:Ce.TOKEN_VALUE}}var sr,or,ir={name:"list-style-type",initialValue:"none",prefix:!(rr[rr.DISCLOSURE_CLOSED=51]="DISCLOSURE_CLOSED"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"disc":return tr.DISC;case"circle":return tr.CIRCLE;case"square":return tr.SQUARE;case"decimal":return tr.DECIMAL;case"cjk-decimal":return tr.CJK_DECIMAL;case"decimal-leading-zero":return tr.DECIMAL_LEADING_ZERO;case"lower-roman":return tr.LOWER_ROMAN;case"upper-roman":return tr.UPPER_ROMAN;case"lower-greek":return tr.LOWER_GREEK;case"lower-alpha":return tr.LOWER_ALPHA;case"upper-alpha":return tr.UPPER_ALPHA;case"arabic-indic":return tr.ARABIC_INDIC;case"armenian":return tr.ARMENIAN;case"bengali":return tr.BENGALI;case"cambodian":return tr.CAMBODIAN;case"cjk-earthly-branch":return tr.CJK_EARTHLY_BRANCH;case"cjk-heavenly-stem":return tr.CJK_HEAVENLY_STEM;case"cjk-ideographic":return tr.CJK_IDEOGRAPHIC;case"devanagari":return tr.DEVANAGARI;case"ethiopic-numeric":return tr.ETHIOPIC_NUMERIC;case"georgian":return tr.GEORGIAN;case"gujarati":return tr.GUJARATI;case"gurmukhi":return tr.GURMUKHI;case"hebrew":return tr.HEBREW;case"hiragana":return tr.HIRAGANA;case"hiragana-iroha":return tr.HIRAGANA_IROHA;case"japanese-formal":return tr.JAPANESE_FORMAL;case"japanese-informal":return tr.JAPANESE_INFORMAL;case"kannada":return tr.KANNADA;case"katakana":return tr.KATAKANA;case"katakana-iroha":return tr.KATAKANA_IROHA;case"khmer":return tr.KHMER;case"korean-hangul-formal":return tr.KOREAN_HANGUL_FORMAL;case"korean-hanja-formal":return tr.KOREAN_HANJA_FORMAL;case"korean-hanja-informal":return tr.KOREAN_HANJA_INFORMAL;case"lao":return tr.LAO;case"lower-armenian":return tr.LOWER_ARMENIAN;case"malayalam":return tr.MALAYALAM;case"mongolian":return tr.MONGOLIAN;case"myanmar":return tr.MYANMAR;case"oriya":return tr.ORIYA;case"persian":return tr.PERSIAN;case"simp-chinese-formal":return tr.SIMP_CHINESE_FORMAL;case"simp-chinese-informal":return tr.SIMP_CHINESE_INFORMAL;case"tamil":return tr.TAMIL;case"telugu":return tr.TELUGU;case"thai":return tr.THAI;case"tibetan":return tr.TIBETAN;case"trad-chinese-formal":return tr.TRAD_CHINESE_FORMAL;case"trad-chinese-informal":return tr.TRAD_CHINESE_INFORMAL;case"upper-armenian":return tr.UPPER_ARMENIAN;case"disclosure-open":return tr.DISCLOSURE_OPEN;case"disclosure-closed":return tr.DISCLOSURE_CLOSED;case"none":default:return tr.NONE}}},ar=Br("top"),cr=Br("right"),Qr=Br("bottom"),wr=Br("left");(or=sr||(sr={}))[or.VISIBLE=0]="VISIBLE",or[or.HIDDEN=1]="HIDDEN",or[or.SCROLL=2]="SCROLL";function ur(A){return{name:"padding-"+A,initialValue:"0",prefix:!1,type:Ce.TYPE_VALUE,format:"length-percentage"}}var Ur,lr,Cr,gr,Er={name:"overflow",initialValue:"visible",prefix:!(or[or.AUTO=3]="AUTO"),type:Ce.LIST,parse:function(A){return A.filter(zA).map(function(A){switch(A.value){case"hidden":return sr.HIDDEN;case"scroll":return sr.SCROLL;case"auto":return sr.AUTO;case"visible":default:return sr.VISIBLE}})}},Fr={name:"overflow-wrap",initialValue:(lr=Ur||(Ur={})).NORMAL="normal",prefix:!(lr.BREAK_WORD="break-word"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"break-word":return Ur.BREAK_WORD;case"normal":default:return Ur.NORMAL}}},hr=ur("top"),Hr=ur("right"),dr=ur("bottom"),fr=ur("left");(gr=Cr||(Cr={}))[gr.LEFT=0]="LEFT",gr[gr.CENTER=1]="CENTER";var pr,Nr,Kr={name:"text-align",initialValue:"left",prefix:!(gr[gr.RIGHT=2]="RIGHT"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"right":return Cr.RIGHT;case"center":case"justify":return Cr.CENTER;case"left":default:return Cr.LEFT}}};(Nr=pr||(pr={}))[Nr.STATIC=0]="STATIC",Nr[Nr.RELATIVE=1]="RELATIVE",Nr[Nr.ABSOLUTE=2]="ABSOLUTE",Nr[Nr.FIXED=3]="FIXED";var Ir,Tr,mr={name:"position",initialValue:"static",prefix:!(Nr[Nr.STICKY=4]="STICKY"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"relative":return pr.RELATIVE;case"absolute":return pr.ABSOLUTE;case"fixed":return pr.FIXED;case"sticky":return pr.STICKY}return pr.STATIC}},Rr={name:"text-shadow",initialValue:"none",type:Ce.LIST,prefix:!1,parse:function(A){return 1===A.length&&JA(A[0],"none")?[]:WA(A).map(function(A){for(var e={color:He.TRANSPARENT,offsetX:se,offsetY:se,blur:se},t=0,r=0;r<A.length;r++){var n=A[r];YA(n)?(0===t?e.offsetX=n:1===t?e.offsetY=n:e.blur=n,t++):e.color=we(n)}return e})}};(Tr=Ir||(Ir={}))[Tr.NONE=0]="NONE",Tr[Tr.LOWERCASE=1]="LOWERCASE",Tr[Tr.UPPERCASE=2]="UPPERCASE";var Lr,vr,Or={name:"text-transform",initialValue:"none",prefix:!(Tr[Tr.CAPITALIZE=3]="CAPITALIZE"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"uppercase":return Ir.UPPERCASE;case"lowercase":return Ir.LOWERCASE;case"capitalize":return Ir.CAPITALIZE}return Ir.NONE}},Dr={name:"transform",initialValue:"none",prefix:!0,type:Ce.VALUE,parse:function(A){if(A.type===sA.IDENT_TOKEN&&"none"===A.value)return null;if(A.type!==sA.FUNCTION)return null;var e=br[A.name];if(void 0===e)throw new Error('Attempting to parse an unsupported transform function "'+A.name+'"');return e(A.values)}},br={matrix:function(A){var e=A.filter(function(A){return A.type===sA.NUMBER_TOKEN}).map(function(A){return A.number});return 6===e.length?e:null},matrix3d:function(A){var e=A.filter(function(A){return A.type===sA.NUMBER_TOKEN}).map(function(A){return A.number}),t=e[0],r=e[1],n=(e[2],e[3],e[4]),B=e[5],s=(e[6],e[7],e[8],e[9],e[10],e[11],e[12]),o=e[13];e[14],e[15];return 16===e.length?[t,r,n,B,s,o]:null}},Sr={type:sA.PERCENTAGE_TOKEN,number:50,flags:4},Mr=[Sr,Sr],yr={name:"transform-origin",initialValue:"50% 50%",prefix:!0,type:Ce.LIST,parse:function(A){var e=A.filter(qA);return 2!==e.length?Mr:[e[0],e[1]]}};(vr=Lr||(Lr={}))[vr.VISIBLE=0]="VISIBLE",vr[vr.HIDDEN=1]="HIDDEN";var _r,Pr,xr={name:"visible",initialValue:"none",prefix:!(vr[vr.COLLAPSE=2]="COLLAPSE"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"hidden":return Lr.HIDDEN;case"collapse":return Lr.COLLAPSE;case"visible":default:return Lr.VISIBLE}}};(Pr=_r||(_r={})).NORMAL="normal",Pr.BREAK_ALL="break-all";var Vr,zr,Xr={name:"word-break",initialValue:"normal",prefix:!(Pr.KEEP_ALL="keep-all"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"break-all":return _r.BREAK_ALL;case"keep-all":return _r.KEEP_ALL;case"normal":default:return _r.NORMAL}}},Jr={name:"z-index",initialValue:"auto",prefix:!1,type:Ce.VALUE,parse:function(A){if(A.type===sA.IDENT_TOKEN)return{auto:!0,order:0};if(VA(A))return{auto:!1,order:A.number};throw new Error("Invalid z-index number parsed")}},Gr={name:"opacity",initialValue:"1",type:Ce.VALUE,prefix:!1,parse:function(A){return VA(A)?A.number:1}},kr={name:"text-decoration-color",initialValue:"transparent",prefix:!1,type:Ce.TYPE_VALUE,format:"color"},Wr={name:"text-decoration-line",initialValue:"none",prefix:!1,type:Ce.LIST,parse:function(A){return A.filter(zA).map(function(A){switch(A.value){case"underline":return 1;case"overline":return 2;case"line-through":return 3;case"none":return 4}return 0}).filter(function(A){return 0!==A})}},Yr={name:"font-family",initialValue:"",prefix:!1,type:Ce.LIST,parse:function(A){return A.filter(qr).map(function(A){return A.value})}},qr=function(A){return A.type===sA.STRING_TOKEN||A.type===sA.IDENT_TOKEN},Zr={name:"font-size",initialValue:"0",prefix:!1,type:Ce.TYPE_VALUE,format:"length"},jr={name:"font-weight",initialValue:"normal",type:Ce.VALUE,prefix:!1,parse:function(A){if(VA(A))return A.number;if(zA(A))switch(A.value){case"bold":return 700;case"normal":default:return 400}return 400}},$r={name:"font-variant",initialValue:"none",type:Ce.LIST,prefix:!1,parse:function(A){return A.filter(zA).map(function(A){return A.value})}};(zr=Vr||(Vr={})).NORMAL="normal",zr.ITALIC="italic";function An(A,e){return 0!=(A&e)}function en(A,e,t){if(!A)return"";var r=A[Math.min(e,A.length-1)];return r?t?r.open:r.close:""}var tn={name:"font-style",initialValue:"normal",prefix:!(zr.OBLIQUE="oblique"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"oblique":return Vr.OBLIQUE;case"italic":return Vr.ITALIC;case"normal":default:return Vr.NORMAL}}},rn={name:"content",initialValue:"none",type:Ce.LIST,prefix:!1,parse:function(A){if(0===A.length)return[];var e=A[0];return e.type===sA.IDENT_TOKEN&&"none"===e.value?[]:A}},nn={name:"counter-increment",initialValue:"none",prefix:!0,type:Ce.LIST,parse:function(A){if(0===A.length)return null;var e=A[0];if(e.type===sA.IDENT_TOKEN&&"none"===e.value)return null;for(var t=[],r=A.filter(GA),n=0;n<r.length;n++){var B=r[n],s=r[n+1];if(B.type===sA.IDENT_TOKEN){var o=s&&VA(s)?s.number:1;t.push({counter:B.value,increment:o})}}return t}},Bn={name:"counter-reset",initialValue:"none",prefix:!0,type:Ce.LIST,parse:function(A){if(0===A.length)return[];for(var e=[],t=A.filter(GA),r=0;r<t.length;r++){var n=t[r],B=t[r+1];if(zA(n)&&"none"!==n.value){var s=B&&VA(B)?B.number:0;e.push({counter:n.value,reset:s})}}return e}},sn={name:"quotes",initialValue:"none",prefix:!0,type:Ce.LIST,parse:function(A){if(0===A.length)return null;var e=A[0];if(e.type===sA.IDENT_TOKEN&&"none"===e.value)return null;var t=[],r=A.filter(XA);if(r.length%2!=0)return null;for(var n=0;n<r.length;n+=2){var B=r[n].value,s=r[n+1].value;t.push({open:B,close:s})}return t}},on={name:"box-shadow",initialValue:"none",type:Ce.LIST,prefix:!1,parse:function(A){return 1===A.length&&JA(A[0],"none")?[]:WA(A).map(function(A){for(var e={color:255,offsetX:se,offsetY:se,blur:se,spread:se,inset:!1},t=0,r=0;r<A.length;r++){var n=A[r];JA(n,"inset")?e.inset=!0:YA(n)?(0===t?e.offsetX=n:1===t?e.offsetY=n:2===t?e.blur=n:e.spread=n,t++):e.color=we(n)}return e})}},an=(cn.prototype.isVisible=function(){return 0<this.display&&0<this.opacity&&this.visibility===Lr.VISIBLE},cn.prototype.isTransparent=function(){return ee(this.backgroundColor)},cn.prototype.isTransformed=function(){return null!==this.transform},cn.prototype.isPositioned=function(){return this.position!==pr.STATIC},cn.prototype.isPositionedWithZIndex=function(){return this.isPositioned()&&!this.zIndex.auto},cn.prototype.isFloating=function(){return this.float!==Dt.NONE},cn.prototype.isInlineLevel=function(){return An(this.display,4)||An(this.display,33554432)||An(this.display,268435456)||An(this.display,536870912)||An(this.display,67108864)||An(this.display,134217728)},cn);function cn(A){this.backgroundClip=Un(me,A.backgroundClip),this.backgroundColor=Un(Re,A.backgroundColor),this.backgroundImage=Un(Qt,A.backgroundImage),this.backgroundOrigin=Un(wt,A.backgroundOrigin),this.backgroundPosition=Un(ut,A.backgroundPosition),this.backgroundRepeat=Un(Ct,A.backgroundRepeat),this.backgroundSize=Un(dt,A.backgroundSize),this.borderTopColor=Un(pt,A.borderTopColor),this.borderRightColor=Un(Nt,A.borderRightColor),this.borderBottomColor=Un(Kt,A.borderBottomColor),this.borderLeftColor=Un(It,A.borderLeftColor),this.borderTopLeftRadius=Un(Tt,A.borderTopLeftRadius),this.borderTopRightRadius=Un(mt,A.borderTopRightRadius),this.borderBottomRightRadius=Un(Rt,A.borderBottomRightRadius),this.borderBottomLeftRadius=Un(Lt,A.borderBottomLeftRadius),this.borderTopStyle=Un(St,A.borderTopStyle),this.borderRightStyle=Un(Mt,A.borderRightStyle),this.borderBottomStyle=Un(yt,A.borderBottomStyle),this.borderLeftStyle=Un(_t,A.borderLeftStyle),this.borderTopWidth=Un(Pt,A.borderTopWidth),this.borderRightWidth=Un(xt,A.borderRightWidth),this.borderBottomWidth=Un(Vt,A.borderBottomWidth),this.borderLeftWidth=Un(zt,A.borderLeftWidth),this.boxShadow=Un(on,A.boxShadow),this.color=Un(Xt,A.color),this.display=Un(Jt,A.display),this.float=Un(Zt,A.cssFloat),this.fontFamily=Un(Yr,A.fontFamily),this.fontSize=Un(Zr,A.fontSize),this.fontStyle=Un(tn,A.fontStyle),this.fontVariant=Un($r,A.fontVariant),this.fontWeight=Un(jr,A.fontWeight),this.letterSpacing=Un(jt,A.letterSpacing),this.lineBreak=Un($t,A.lineBreak),this.lineHeight=Un(Ar,A.lineHeight),this.listStyleImage=Un(er,A.listStyleImage),this.listStylePosition=Un(nr,A.listStylePosition),this.listStyleType=Un(ir,A.listStyleType),this.marginTop=Un(ar,A.marginTop),this.marginRight=Un(cr,A.marginRight),this.marginBottom=Un(Qr,A.marginBottom),this.marginLeft=Un(wr,A.marginLeft),this.opacity=Un(Gr,A.opacity);var e=Un(Er,A.overflow);this.overflowX=e[0],this.overflowY=e[1<e.length?1:0],this.overflowWrap=Un(Fr,A.overflowWrap),this.paddingTop=Un(hr,A.paddingTop),this.paddingRight=Un(Hr,A.paddingRight),this.paddingBottom=Un(dr,A.paddingBottom),this.paddingLeft=Un(fr,A.paddingLeft),this.position=Un(mr,A.position),this.textAlign=Un(Kr,A.textAlign),this.textDecorationColor=Un(kr,A.textDecorationColor||A.color),this.textDecorationLine=Un(Wr,A.textDecorationLine),this.textShadow=Un(Rr,A.textShadow),this.textTransform=Un(Or,A.textTransform),this.transform=Un(Dr,A.transform),this.transformOrigin=Un(yr,A.transformOrigin),this.visibility=Un(xr,A.visibility),this.wordBreak=Un(Xr,A.wordBreak),this.zIndex=Un(Jr,A.zIndex)}var Qn,wn=function(A){this.content=Un(rn,A.content),this.quotes=Un(sn,A.quotes)},un=function(A){this.counterIncrement=Un(nn,A.counterIncrement),this.counterReset=Un(Bn,A.counterReset)},Un=function(A,e){var t=new MA,r=null!=e?e.toString():A.initialValue;t.write(r);var n=new _A(t.read());switch(A.type){case Ce.IDENT_VALUE:var B=n.parseComponentValue();return A.parse(zA(B)?B.value:A.initialValue);case Ce.VALUE:return A.parse(n.parseComponentValue());case Ce.LIST:return A.parse(n.parseComponentValues());case Ce.TOKEN_VALUE:return n.parseComponentValue();case Ce.TYPE_VALUE:switch(A.format){case"angle":return ce(n.parseComponentValue());case"color":return we(n.parseComponentValue());case"image":return ot(n.parseComponentValue());case"length":var s=n.parseComponentValue();return YA(s)?s:se;case"length-percentage":var o=n.parseComponentValue();return qA(o)?o:se}}throw new Error("Attempting to parse unsupported css format type "+A.format)},ln=function(A){this.styles=new an(window.getComputedStyle(A,null)),this.textNodes=[],this.elements=[],null!==this.styles.transform&&uB(A)&&(A.style.transform="none"),this.bounds=T(A),this.flags=0},Cn=function(A,e){this.text=A,this.bounds=e},gn=function(A){var e=A.ownerDocument;if(e){var t=e.createElement("html2canvaswrapper");t.appendChild(A.cloneNode(!0));var r=A.parentNode;if(r){r.replaceChild(t,A);var n=T(t);return t.firstChild&&r.replaceChild(t.firstChild,t),n}}return new I(0,0,0,0)},En=function(A,e,t){var r=A.ownerDocument;if(!r)throw new Error("Node has no owner document");var n=r.createRange();return n.setStart(A,e),n.setEnd(A,e+t),I.fromClientRect(n.getBoundingClientRect())},Fn=function(A,e){return 0!==e.letterSpacing?c(A).map(function(A){return l(A)}):hn(A,e)},hn=function(A,e){for(var t,r=function(A,e){var t=c(A),r=u(t,e),n=r[0],B=r[1],s=r[2],o=t.length,i=0,a=0;return{next:function(){if(o<=a)return{done:!0,value:null};for(var A=Y;a<o&&(A=w(t,B,n,++a,s))===Y;);if(A===Y&&a!==o)return{done:!0,value:null};var e=new nA(t,A,i,a);return i=a,{value:e,done:!1}}}}(A,{lineBreak:e.lineBreak,wordBreak:e.overflowWrap===Ur.BREAK_WORD?"break-word":e.wordBreak}),n=[];!(t=r.next()).done;)t.value&&n.push(t.value.slice());return n},Hn=function(A,e){this.text=dn(A.data,e.textTransform),this.textBounds=function(A,t,r){var e=Fn(A,t),n=[],B=0;return e.forEach(function(A){if(t.textDecorationLine.length||0<A.trim().length)if(Oe.SUPPORT_RANGE_BOUNDS)n.push(new Cn(A,En(r,B,A.length)));else{var e=r.splitText(A.length);n.push(new Cn(A,gn(r))),r=e}else Oe.SUPPORT_RANGE_BOUNDS||(r=r.splitText(A.length));B+=A.length}),n}(this.text,e,A)},dn=function(A,e){switch(e){case Ir.LOWERCASE:return A.toLowerCase();case Ir.CAPITALIZE:return A.replace(fn,pn);case Ir.UPPERCASE:return A.toUpperCase();default:return A}},fn=/(^|\s|:|-|\(|\))([a-z])/g,pn=function(A,e,t){return 0<A.length?e+t.toUpperCase():A},Nn=(A(Kn,Qn=ln),Kn);function Kn(A){var e=Qn.call(this,A)||this;return e.src=A.currentSrc||A.src,e.intrinsicWidth=A.naturalWidth,e.intrinsicHeight=A.naturalHeight,Se.getInstance().addImage(e.src),e}var In,Tn=(A(mn,In=ln),mn);function mn(A){var e=In.call(this,A)||this;return e.canvas=A,e.intrinsicWidth=A.width,e.intrinsicHeight=A.height,e}var Rn,Ln=(A(vn,Rn=ln),vn);function vn(A){var e=Rn.call(this,A)||this,t=new XMLSerializer;return e.svg="data:image/svg+xml,"+encodeURIComponent(t.serializeToString(A)),e.intrinsicWidth=A.width.baseVal.value,e.intrinsicHeight=A.height.baseVal.value,Se.getInstance().addImage(e.svg),e}var On,Dn=(A(bn,On=ln),bn);function bn(A){var e=On.call(this,A)||this;return e.value=A.value,e}var Sn,Mn=(A(yn,Sn=ln),yn);function yn(A){var e=Sn.call(this,A)||this;return e.start=A.start,e.reversed="boolean"==typeof A.reversed&&!0===A.reversed,e}var _n,Pn=[{type:sA.DIMENSION_TOKEN,flags:0,unit:"px",number:3}],xn=[{type:sA.PERCENTAGE_TOKEN,flags:0,number:50}],Vn="checkbox",zn="radio",Xn="password",Jn=707406591,Gn=(A(kn,_n=ln),kn);function kn(A){var e=_n.call(this,A)||this;switch(e.type=A.type.toLowerCase(),e.checked=A.checked,e.value=function(A){var e=A.type===Xn?new Array(A.value.length+1).join("•"):A.value;return 0===e.length?A.placeholder||"":e}(A),e.type!==Vn&&e.type!==zn||(e.styles.backgroundColor=3739148031,e.styles.borderTopColor=e.styles.borderRightColor=e.styles.borderBottomColor=e.styles.borderLeftColor=2779096575,e.styles.borderTopWidth=e.styles.borderRightWidth=e.styles.borderBottomWidth=e.styles.borderLeftWidth=1,e.styles.borderTopStyle=e.styles.borderRightStyle=e.styles.borderBottomStyle=e.styles.borderLeftStyle=ht.SOLID,e.styles.backgroundClip=[Ee.BORDER_BOX],e.styles.backgroundOrigin=[0],e.bounds=function(A){return A.width>A.height?new I(A.left+(A.width-A.height)/2,A.top,A.height,A.height):A.width<A.height?new I(A.left,A.top+(A.height-A.width)/2,A.width,A.width):A}(e.bounds)),e.type){case Vn:e.styles.borderTopRightRadius=e.styles.borderTopLeftRadius=e.styles.borderBottomRightRadius=e.styles.borderBottomLeftRadius=Pn;break;case zn:e.styles.borderTopRightRadius=e.styles.borderTopLeftRadius=e.styles.borderBottomRightRadius=e.styles.borderBottomLeftRadius=xn}return e}var Wn,Yn=(A(qn,Wn=ln),qn);function qn(A){var e=Wn.call(this,A)||this,t=A.options[A.selectedIndex||0];return e.value=t&&t.text||"",e}var Zn,jn=(A($n,Zn=ln),$n);function $n(A){var e=Zn.call(this,A)||this;return e.value=A.value,e}function AB(A){return we(_A.create(A).parseComponentValue())}var eB,tB=(A(rB,eB=ln),rB);function rB(A){var e=eB.call(this,A)||this;e.src=A.src,e.width=parseInt(A.width,10)||0,e.height=parseInt(A.height,10)||0,e.backgroundColor=e.styles.backgroundColor;try{if(A.contentWindow&&A.contentWindow.document&&A.contentWindow.document.documentElement){e.tree=iB(A.contentWindow.document.documentElement);var t=A.contentWindow.document.documentElement?AB(getComputedStyle(A.contentWindow.document.documentElement).backgroundColor):He.TRANSPARENT,r=A.contentWindow.document.body?AB(getComputedStyle(A.contentWindow.document.body).backgroundColor):He.TRANSPARENT;e.backgroundColor=ee(t)?ee(r)?e.styles.backgroundColor:r:t}}catch(A){}return e}function nB(A){return"STYLE"===A.tagName}var BB=["OL","UL","MENU"],sB=function(A,e,t){for(var r=A.firstChild,n=void 0;r;r=n)if(n=r.nextSibling,QB(r)&&0<r.data.trim().length)e.textNodes.push(new Hn(r,e.styles));else if(wB(r)){var B=oB(r);B.styles.isVisible()&&(aB(r,B,t)?B.flags|=4:cB(B.styles)&&(B.flags|=2),-1!==BB.indexOf(r.tagName)&&(B.flags|=8),e.elements.push(B),dB(r)||gB(r)||fB(r)||sB(r,B,t))}},oB=function(A){return hB(A)?new Nn(A):FB(A)?new Tn(A):gB(A)?new Ln(A):UB(A)?new Dn(A):lB(A)?new Mn(A):CB(A)?new Gn(A):fB(A)?new Yn(A):dB(A)?new jn(A):HB(A)?new tB(A):new ln(A)},iB=function(A){var e=oB(A);return e.flags|=4,sB(A,e,e),e},aB=function(A,e,t){return e.styles.isPositionedWithZIndex()||e.styles.opacity<1||e.styles.isTransformed()||EB(A)&&t.styles.isTransparent()},cB=function(A){return A.isPositioned()||A.isFloating()},QB=function(A){return A.nodeType===Node.TEXT_NODE},wB=function(A){return A.nodeType===Node.ELEMENT_NODE},uB=function(A){return void 0!==A.style},UB=function(A){return"LI"===A.tagName},lB=function(A){return"OL"===A.tagName},CB=function(A){return"INPUT"===A.tagName},gB=function(A){return"svg"===A.tagName},EB=function(A){return"BODY"===A.tagName},FB=function(A){return"CANVAS"===A.tagName},hB=function(A){return"IMG"===A.tagName},HB=function(A){return"IFRAME"===A.tagName},dB=function(A){return"TEXTAREA"===A.tagName},fB=function(A){return"SELECT"===A.tagName},pB=(NB.prototype.getCounterValue=function(A){var e=this.counters[A];return e&&e.length?e[e.length-1]:1},NB.prototype.getCounterValues=function(A){var e=this.counters[A];return e||[]},NB.prototype.pop=function(A){var e=this;A.forEach(function(A){return e.counters[A].pop()})},NB.prototype.parse=function(A){var t=this,e=A.counterIncrement,r=A.counterReset,n=!0;null!==e&&e.forEach(function(A){var e=t.counters[A.counter];e&&0!==A.increment&&(n=!1,e[Math.max(0,e.length-1)]+=A.increment)});var B=[];return n&&r.forEach(function(A){var e=t.counters[A.counter];B.push(A.counter),e||(e=t.counters[A.counter]=[]),e.push(A.reset)}),B},NB);function NB(){this.counters={}}function KB(r,A,e,n,t,B){return r<A||e<r?yB(r,t,0<B.length):n.integers.reduce(function(A,e,t){for(;e<=r;)r-=e,A+=n.values[t];return A},"")+B}function IB(A,e,t,r){for(var n="";t||A--,n=r(A)+n,e<=(A/=e)*e;);return n}function TB(A,e,t,r,n){var B=t-e+1;return(A<0?"-":"")+(IB(Math.abs(A),B,r,function(A){return l(Math.floor(A%B)+e)})+n)}function mB(A,e,t){void 0===t&&(t=". ");var r=e.length;return IB(Math.abs(A),r,!1,function(A){return e[Math.floor(A%r)]})+t}function RB(A,e,t,r,n,B){if(A<-9999||9999<A)return yB(A,tr.CJK_DECIMAL,0<n.length);var s=Math.abs(A),o=n;if(0===s)return e[0]+o;for(var i=0;0<s&&i<=4;i++){var a=s%10;0==a&&An(B,1)&&""!==o?o=e[a]+o:1<a||1==a&&0===i||1==a&&1===i&&An(B,2)||1==a&&1===i&&An(B,4)&&100<A||1==a&&1<i&&An(B,8)?o=e[a]+(0<i?t[i-1]:"")+o:1==a&&0<i&&(o=t[i-1]+o),s=Math.floor(s/10)}return(A<0?r:"")+o}var LB,vB,OB={integers:[1e3,900,500,400,100,90,50,40,10,9,5,4,1],values:["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"]},DB={integers:[9e3,8e3,7e3,6e3,5e3,4e3,3e3,2e3,1e3,900,800,700,600,500,400,300,200,100,90,80,70,60,50,40,30,20,10,9,8,7,6,5,4,3,2,1],values:["Ք","Փ","Ւ","Ց","Ր","Տ","Վ","Ս","Ռ","Ջ","Պ","Չ","Ո","Շ","Ն","Յ","Մ","Ճ","Ղ","Ձ","Հ","Կ","Ծ","Խ","Լ","Ի","Ժ","Թ","Ը","Է","Զ","Ե","Դ","Գ","Բ","Ա"]},bB={integers:[1e4,9e3,8e3,7e3,6e3,5e3,4e3,3e3,2e3,1e3,400,300,200,100,90,80,70,60,50,40,30,20,19,18,17,16,15,10,9,8,7,6,5,4,3,2,1],values:["י׳","ט׳","ח׳","ז׳","ו׳","ה׳","ד׳","ג׳","ב׳","א׳","ת","ש","ר","ק","צ","פ","ע","ס","נ","מ","ל","כ","יט","יח","יז","טז","טו","י","ט","ח","ז","ו","ה","ד","ג","ב","א"]},SB={integers:[1e4,9e3,8e3,7e3,6e3,5e3,4e3,3e3,2e3,1e3,900,800,700,600,500,400,300,200,100,90,80,70,60,50,40,30,20,10,9,8,7,6,5,4,3,2,1],values:["ჵ","ჰ","ჯ","ჴ","ხ","ჭ","წ","ძ","ც","ჩ","შ","ყ","ღ","ქ","ფ","ჳ","ტ","ს","რ","ჟ","პ","ო","ჲ","ნ","მ","ლ","კ","ი","თ","ჱ","ზ","ვ","ე","დ","გ","ბ","ა"]},MB="마이너스",yB=function(A,e,t){var r=t?". ":"",n=t?"、":"",B=t?", ":"",s=t?" ":"";switch(e){case tr.DISC:return"•"+s;case tr.CIRCLE:return"◦"+s;case tr.SQUARE:return"◾"+s;case tr.DECIMAL_LEADING_ZERO:var o=TB(A,48,57,!0,r);return o.length<4?"0"+o:o;case tr.CJK_DECIMAL:return mB(A,"〇一二三四五六七八九",n);case tr.LOWER_ROMAN:return KB(A,1,3999,OB,tr.DECIMAL,r).toLowerCase();case tr.UPPER_ROMAN:return KB(A,1,3999,OB,tr.DECIMAL,r);case tr.LOWER_GREEK:return TB(A,945,969,!1,r);case tr.LOWER_ALPHA:return TB(A,97,122,!1,r);case tr.UPPER_ALPHA:return TB(A,65,90,!1,r);case tr.ARABIC_INDIC:return TB(A,1632,1641,!0,r);case tr.ARMENIAN:case tr.UPPER_ARMENIAN:return KB(A,1,9999,DB,tr.DECIMAL,r);case tr.LOWER_ARMENIAN:return KB(A,1,9999,DB,tr.DECIMAL,r).toLowerCase();case tr.BENGALI:return TB(A,2534,2543,!0,r);case tr.CAMBODIAN:case tr.KHMER:return TB(A,6112,6121,!0,r);case tr.CJK_EARTHLY_BRANCH:return mB(A,"子丑寅卯辰巳午未申酉戌亥",n);case tr.CJK_HEAVENLY_STEM:return mB(A,"甲乙丙丁戊己庚辛壬癸",n);case tr.CJK_IDEOGRAPHIC:case tr.TRAD_CHINESE_INFORMAL:return RB(A,"零一二三四五六七八九","十百千萬","負",n,14);case tr.TRAD_CHINESE_FORMAL:return RB(A,"零壹貳參肆伍陸柒捌玖","拾佰仟萬","負",n,15);case tr.SIMP_CHINESE_INFORMAL:return RB(A,"零一二三四五六七八九","十百千萬","负",n,14);case tr.SIMP_CHINESE_FORMAL:return RB(A,"零壹贰叁肆伍陆柒捌玖","拾佰仟萬","负",n,15);case tr.JAPANESE_INFORMAL:return RB(A,"〇一二三四五六七八九","十百千万","マイナス",n,0);case tr.JAPANESE_FORMAL:return RB(A,"零壱弐参四伍六七八九","拾百千万","マイナス",n,7);case tr.KOREAN_HANGUL_FORMAL:return RB(A,"영일이삼사오육칠팔구","십백천만",MB,B,7);case tr.KOREAN_HANJA_INFORMAL:return RB(A,"零一二三四五六七八九","十百千萬",MB,B,0);case tr.KOREAN_HANJA_FORMAL:return RB(A,"零壹貳參四五六七八九","拾百千",MB,B,7);case tr.DEVANAGARI:return TB(A,2406,2415,!0,r);case tr.GEORGIAN:return KB(A,1,19999,SB,tr.DECIMAL,r);case tr.GUJARATI:return TB(A,2790,2799,!0,r);case tr.GURMUKHI:return TB(A,2662,2671,!0,r);case tr.HEBREW:return KB(A,1,10999,bB,tr.DECIMAL,r);case tr.HIRAGANA:return mB(A,"あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん");case tr.HIRAGANA_IROHA:return mB(A,"いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす");case tr.KANNADA:return TB(A,3302,3311,!0,r);case tr.KATAKANA:return mB(A,"アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヰヱヲン",n);case tr.KATAKANA_IROHA:return mB(A,"イロハニホヘトチリヌルヲワカヨタレソツネナラムウヰノオクヤマケフコエテアサキユメミシヱヒモセス",n);case tr.LAO:return TB(A,3792,3801,!0,r);case tr.MONGOLIAN:return TB(A,6160,6169,!0,r);case tr.MYANMAR:return TB(A,4160,4169,!0,r);case tr.ORIYA:return TB(A,2918,2927,!0,r);case tr.PERSIAN:return TB(A,1776,1785,!0,r);case tr.TAMIL:return TB(A,3046,3055,!0,r);case tr.TELUGU:return TB(A,3174,3183,!0,r);case tr.THAI:return TB(A,3664,3673,!0,r);case tr.TIBETAN:return TB(A,3872,3881,!0,r);case tr.DECIMAL:default:return TB(A,48,57,!0,r)}},_B="data-html2canvas-ignore",PB=(xB.prototype.toIFrame=function(A,t){var e=this,r=XB(A,t);if(!r.contentWindow)return Promise.reject("Unable to find iframe window");var n=A.defaultView.pageXOffset,B=A.defaultView.pageYOffset,s=r.contentWindow,o=s.document,i=JB(r).then(function(){return a(e,void 0,void 0,function(){var e;return S(this,function(A){switch(A.label){case 0:return this.scrolledElements.forEach(YB),s&&(s.scrollTo(t.left,t.top),!/(iPad|iPhone|iPod)/g.test(navigator.userAgent)||s.scrollY===t.top&&s.scrollX===t.left||(o.documentElement.style.top=-t.top+"px",o.documentElement.style.left=-t.left+"px",o.documentElement.style.position="absolute")),e=this.options.onclone,void 0===this.clonedReferenceElement?[2,Promise.reject("Error finding the "+this.referenceElement.nodeName+" in the cloned document")]:o.fonts&&o.fonts.ready?[4,o.fonts.ready]:[3,2];case 1:A.sent(),A.label=2;case 2:return"function"==typeof e?[2,Promise.resolve().then(function(){return e(o)}).then(function(){return r})]:[2,r]}})})});return o.open(),o.write(kB(document.doctype)+"<html></html>"),WB(this.referenceElement.ownerDocument,n,B),o.replaceChild(o.adoptNode(this.documentElement),o.documentElement),o.close(),i},xB.prototype.createElementClone=function(A){return FB(A)?this.createCanvasClone(A):nB(A)?this.createStyleClone(A):A.cloneNode(!1)},xB.prototype.createStyleClone=function(A){try{var e=A.sheet;if(e&&e.cssRules){var t=[].slice.call(e.cssRules,0).reduce(function(A,e){return e&&"string"==typeof e.cssText?A+e.cssText:A},""),r=A.cloneNode(!1);return r.textContent=t,r}}catch(A){if(De.getInstance(this.options.id).error("Unable to access cssRules property",A),"SecurityError"!==A.name)throw A}return A.cloneNode(!1)},xB.prototype.createCanvasClone=function(A){if(this.options.inlineImages&&A.ownerDocument){var e=A.ownerDocument.createElement("img");try{return e.src=A.toDataURL(),e}catch(A){De.getInstance(this.options.id).info("Unable to clone canvas contents, canvas is tainted")}}var t=A.cloneNode(!1);try{t.width=A.width,t.height=A.height;var r=A.getContext("2d"),n=t.getContext("2d");return n&&(r?n.putImageData(r.getImageData(0,0,A.width,A.height),0,0):n.drawImage(A,0,0)),t}catch(A){}return t},xB.prototype.cloneNode=function(A){if(QB(A))return document.createTextNode(A.data);if(!A.ownerDocument)return A.cloneNode(!1);var e=A.ownerDocument.defaultView;if(uB(A)&&e){var t=this.createElementClone(A),r=e.getComputedStyle(A),n=e.getComputedStyle(A,":before"),B=e.getComputedStyle(A,":after");this.referenceElement===A&&(this.clonedReferenceElement=t),EB(t)&&$B(t);for(var s=this.counters.parse(new un(r)),o=this.resolvePseudoContent(A,t,n,LB.BEFORE),i=A.firstChild;i;i=i.nextSibling)wB(i)&&("SCRIPT"===i.tagName||i.hasAttribute(_B)||"function"==typeof this.options.ignoreElements&&this.options.ignoreElements(i))||this.options.copyStyles&&wB(i)&&nB(i)||t.appendChild(this.cloneNode(i));o&&t.insertBefore(o,t.firstChild);var a=this.resolvePseudoContent(A,t,B,LB.AFTER);return a&&t.appendChild(a),this.counters.pop(s),r&&this.options.copyStyles&&!HB(A)&&GB(r,t),0===A.scrollTop&&0===A.scrollLeft||this.scrolledElements.push([t,A.scrollLeft,A.scrollTop]),(dB(A)||fB(A))&&(dB(t)||fB(t))&&(t.value=A.value),t}return A.cloneNode(!1)},xB.prototype.resolvePseudoContent=function(U,A,e,t){var l=this;if(e){var r=e.content,C=A.ownerDocument;if(C&&r&&"none"!==r&&"-moz-alt-content"!==r&&"none"!==e.display){this.counters.parse(new un(e));var g=new wn(e),E=C.createElement("html2canvaspseudoelement");GB(e,E),g.content.forEach(function(A){if(A.type===sA.STRING_TOKEN)E.appendChild(C.createTextNode(A.value));else if(A.type===sA.URL_TOKEN){var e=C.createElement("img");e.src=A.value,e.style.opacity="1",E.appendChild(e)}else if(A.type===sA.FUNCTION){if("attr"===A.name){var t=A.values.filter(zA);t.length&&E.appendChild(C.createTextNode(U.getAttribute(t[0].value)||""))}else if("counter"===A.name){var r=A.values.filter(kA),n=r[0],B=r[1];if(n&&zA(n)){var s=l.counters.getCounterValue(n.value),o=B&&zA(B)?ir.parse(B.value):tr.DECIMAL;E.appendChild(C.createTextNode(yB(s,o,!1)))}}else if("counters"===A.name){var i=A.values.filter(kA),a=(n=i[0],i[1]);if(B=i[2],n&&zA(n)){var c=l.counters.getCounterValues(n.value),Q=B&&zA(B)?ir.parse(B.value):tr.DECIMAL,w=a&&a.type===sA.STRING_TOKEN?a.value:"",u=c.map(function(A){return yB(A,Q,!1)}).join(w);E.appendChild(C.createTextNode(u))}}}else if(A.type===sA.IDENT_TOKEN)switch(A.value){case"open-quote":E.appendChild(C.createTextNode(en(g.quotes,l.quoteDepth++,!0)));break;case"close-quote":E.appendChild(C.createTextNode(en(g.quotes,--l.quoteDepth,!1)));break;default:E.appendChild(C.createTextNode(A.value))}}),E.className=qB+" "+ZB;var n=t===LB.BEFORE?" "+qB:" "+ZB;return function(A){return"object"==typeof A.className}(A)?A.className.baseValue+=n:A.className+=n,E}}},xB.destroy=function(A){return!!A.parentNode&&(A.parentNode.removeChild(A),!0)},xB);function xB(A,e){if(this.options=e,this.scrolledElements=[],this.referenceElement=A,this.counters=new pB,this.quoteDepth=0,!A.ownerDocument)throw new Error("Cloned element does not have an owner document");this.documentElement=this.cloneNode(A.ownerDocument.documentElement)}(vB=LB||(LB={}))[vB.BEFORE=0]="BEFORE",vB[vB.AFTER=1]="AFTER";var VB,zB,XB=function(A,e){var t=A.createElement("iframe");return t.className="html2canvas-container",t.style.visibility="hidden",t.style.position="fixed",t.style.left="-10000px",t.style.top="0px",t.style.border="0",t.width=e.width.toString(),t.height=e.height.toString(),t.scrolling="no",t.setAttribute(_B,"true"),A.body.appendChild(t),t},JB=function(n){return new Promise(function(e,A){var t=n.contentWindow;if(!t)return A("No window assigned for iframe");var r=t.document;t.onload=n.onload=r.onreadystatechange=function(){t.onload=n.onload=r.onreadystatechange=null;var A=setInterval(function(){0<r.body.childNodes.length&&"complete"===r.readyState&&(clearInterval(A),e(n))},50)}})},GB=function(A,e){for(var t=A.length-1;0<=t;t--){var r=A.item(t);"content"!==r&&e.style.setProperty(r,A.getPropertyValue(r))}return e},kB=function(A){var e="";return A&&(e+="<!DOCTYPE ",A.name&&(e+=A.name),A.internalSubset&&(e+=A.internalSubset),A.publicId&&(e+='"'+A.publicId+'"'),A.systemId&&(e+='"'+A.systemId+'"'),e+=">"),e},WB=function(A,e,t){A&&A.defaultView&&(e!==A.defaultView.pageXOffset||t!==A.defaultView.pageYOffset)&&A.defaultView.scrollTo(e,t)},YB=function(A){var e=A[0],t=A[1],r=A[2];e.scrollLeft=t,e.scrollTop=r},qB="___html2canvas___pseudoelement_before",ZB="___html2canvas___pseudoelement_after",jB='{\n    content: "" !important;\n    display: none !important;\n}',$B=function(A){As(A,"."+qB+":before"+jB+"\n         ."+ZB+":after"+jB)},As=function(A,e){var t=A.ownerDocument;if(t){var r=t.createElement("style");r.textContent=e,A.appendChild(r)}};(zB=VB||(VB={}))[zB.VECTOR=0]="VECTOR",zB[zB.BEZIER_CURVE=1]="BEZIER_CURVE";function es(A,t){return A.length===t.length&&A.some(function(A,e){return A===t[e]})}var ts=(rs.prototype.add=function(A,e){return new rs(this.x+A,this.y+e)},rs);function rs(A,e){this.type=VB.VECTOR,this.x=A,this.y=e}function ns(A,e,t){return new ts(A.x+(e.x-A.x)*t,A.y+(e.y-A.y)*t)}var Bs=(ss.prototype.subdivide=function(A,e){var t=ns(this.start,this.startControl,A),r=ns(this.startControl,this.endControl,A),n=ns(this.endControl,this.end,A),B=ns(t,r,A),s=ns(r,n,A),o=ns(B,s,A);return e?new ss(this.start,t,B,o):new ss(o,s,n,this.end)},ss.prototype.add=function(A,e){return new ss(this.start.add(A,e),this.startControl.add(A,e),this.endControl.add(A,e),this.end.add(A,e))},ss.prototype.reverse=function(){return new ss(this.end,this.endControl,this.startControl,this.start)},ss);function ss(A,e,t,r){this.type=VB.BEZIER_CURVE,this.start=A,this.startControl=e,this.endControl=t,this.end=r}function os(A){return A.type===VB.BEZIER_CURVE}var is,as,cs=function(A){var e=A.styles,t=A.bounds,r=jA(e.borderTopLeftRadius,t.width,t.height),n=r[0],B=r[1],s=jA(e.borderTopRightRadius,t.width,t.height),o=s[0],i=s[1],a=jA(e.borderBottomRightRadius,t.width,t.height),c=a[0],Q=a[1],w=jA(e.borderBottomLeftRadius,t.width,t.height),u=w[0],U=w[1],l=[];l.push((n+o)/t.width),l.push((u+c)/t.width),l.push((B+U)/t.height),l.push((i+Q)/t.height);var C=Math.max.apply(Math,l);1<C&&(n/=C,B/=C,o/=C,i/=C,c/=C,Q/=C,u/=C,U/=C);var g=t.width-o,E=t.height-Q,F=t.width-c,h=t.height-U,H=e.borderTopWidth,d=e.borderRightWidth,f=e.borderBottomWidth,p=e.borderLeftWidth,N=ae(e.paddingTop,A.bounds.width),K=ae(e.paddingRight,A.bounds.width),I=ae(e.paddingBottom,A.bounds.width),T=ae(e.paddingLeft,A.bounds.width);this.topLeftBorderBox=0<n||0<B?us(t.left,t.top,n,B,is.TOP_LEFT):new ts(t.left,t.top),this.topRightBorderBox=0<o||0<i?us(t.left+g,t.top,o,i,is.TOP_RIGHT):new ts(t.left+t.width,t.top),this.bottomRightBorderBox=0<c||0<Q?us(t.left+F,t.top+E,c,Q,is.BOTTOM_RIGHT):new ts(t.left+t.width,t.top+t.height),this.bottomLeftBorderBox=0<u||0<U?us(t.left,t.top+h,u,U,is.BOTTOM_LEFT):new ts(t.left,t.top+t.height),this.topLeftPaddingBox=0<n||0<B?us(t.left+p,t.top+H,Math.max(0,n-p),Math.max(0,B-H),is.TOP_LEFT):new ts(t.left+p,t.top+H),this.topRightPaddingBox=0<o||0<i?us(t.left+Math.min(g,t.width+p),t.top+H,g>t.width+p?0:o-p,i-H,is.TOP_RIGHT):new ts(t.left+t.width-d,t.top+H),this.bottomRightPaddingBox=0<c||0<Q?us(t.left+Math.min(F,t.width-p),t.top+Math.min(E,t.height+H),Math.max(0,c-d),Q-f,is.BOTTOM_RIGHT):new ts(t.left+t.width-d,t.top+t.height-f),this.bottomLeftPaddingBox=0<u||0<U?us(t.left+p,t.top+h,Math.max(0,u-p),U-f,is.BOTTOM_LEFT):new ts(t.left+p,t.top+t.height-f),this.topLeftContentBox=0<n||0<B?us(t.left+p+T,t.top+H+N,Math.max(0,n-(p+T)),Math.max(0,B-(H+N)),is.TOP_LEFT):new ts(t.left+p+T,t.top+H+N),this.topRightContentBox=0<o||0<i?us(t.left+Math.min(g,t.width+p+T),t.top+H+N,g>t.width+p+T?0:o-p+T,i-(H+N),is.TOP_RIGHT):new ts(t.left+t.width-(d+K),t.top+H+N),this.bottomRightContentBox=0<c||0<Q?us(t.left+Math.min(F,t.width-(p+T)),t.top+Math.min(E,t.height+H+N),Math.max(0,c-(d+K)),Q-(f+I),is.BOTTOM_RIGHT):new ts(t.left+t.width-(d+K),t.top+t.height-(f+I)),this.bottomLeftContentBox=0<u||0<U?us(t.left+p+T,t.top+h,Math.max(0,u-(p+T)),U-(f+I),is.BOTTOM_LEFT):new ts(t.left+p+T,t.top+t.height-(f+I))};(as=is||(is={}))[as.TOP_LEFT=0]="TOP_LEFT",as[as.TOP_RIGHT=1]="TOP_RIGHT",as[as.BOTTOM_RIGHT=2]="BOTTOM_RIGHT",as[as.BOTTOM_LEFT=3]="BOTTOM_LEFT";function Qs(A){return[A.topLeftBorderBox,A.topRightBorderBox,A.bottomRightBorderBox,A.bottomLeftBorderBox]}function ws(A){return[A.topLeftPaddingBox,A.topRightPaddingBox,A.bottomRightPaddingBox,A.bottomLeftPaddingBox]}var us=function(A,e,t,r,n){var B=(Math.sqrt(2)-1)/3*4,s=t*B,o=r*B,i=A+t,a=e+r;switch(n){case is.TOP_LEFT:return new Bs(new ts(A,a),new ts(A,a-o),new ts(i-s,e),new ts(i,e));case is.TOP_RIGHT:return new Bs(new ts(A,e),new ts(A+s,e),new ts(i,a-o),new ts(i,a));case is.BOTTOM_RIGHT:return new Bs(new ts(i,e),new ts(i,e+o),new ts(A+s,a),new ts(A,a));case is.BOTTOM_LEFT:default:return new Bs(new ts(i,a),new ts(i-s,a),new ts(A,e+o),new ts(A,e))}},Us=function(A,e,t){this.type=0,this.offsetX=A,this.offsetY=e,this.matrix=t,this.target=6},ls=function(A,e){this.type=1,this.target=e,this.path=A},Cs=function(A){this.element=A,this.inlineLevel=[],this.nonInlineLevel=[],this.negativeZIndex=[],this.zeroOrAutoZIndexOrTransformedOrOpacity=[],this.positiveZIndex=[],this.nonPositionedFloats=[],this.nonPositionedInlineLevel=[]},gs=(Es.prototype.getParentEffects=function(){var A=this.effects.slice(0);if(this.container.styles.overflowX!==sr.VISIBLE){var e=Qs(this.curves),t=ws(this.curves);es(e,t)||A.push(new ls(t,6))}return A},Es);function Es(A,e){if(this.container=A,this.effects=e.slice(0),this.curves=new cs(A),null!==A.styles.transform){var t=A.bounds.left+A.styles.transformOrigin[0].number,r=A.bounds.top+A.styles.transformOrigin[1].number,n=A.styles.transform;this.effects.push(new Us(t,r,n))}if(A.styles.overflowX!==sr.VISIBLE){var B=Qs(this.curves),s=ws(this.curves);es(B,s)?this.effects.push(new ls(B,6)):(this.effects.push(new ls(B,2)),this.effects.push(new ls(s,4)))}}function Fs(A){var e=A.bounds,t=A.styles;return e.add(t.borderLeftWidth,t.borderTopWidth,-(t.borderRightWidth+t.borderLeftWidth),-(t.borderTopWidth+t.borderBottomWidth))}function hs(A){var e=A.styles,t=A.bounds,r=ae(e.paddingLeft,t.width),n=ae(e.paddingRight,t.width),B=ae(e.paddingTop,t.width),s=ae(e.paddingBottom,t.width);return t.add(r+e.borderLeftWidth,B+e.borderTopWidth,-(e.borderRightWidth+e.borderLeftWidth+r+n),-(e.borderTopWidth+e.borderBottomWidth+B+s))}function Hs(A,e,t){var r=function(A,e){return 0===A?e.bounds:2===A?hs(e):Fs(e)}(Ts(A.styles.backgroundOrigin,e),A),n=function(A,e){return A===Ee.BORDER_BOX?e.bounds:A===Ee.CONTENT_BOX?hs(e):Fs(e)}(Ts(A.styles.backgroundClip,e),A),B=Is(Ts(A.styles.backgroundSize,e),t,r),s=B[0],o=B[1],i=jA(Ts(A.styles.backgroundPosition,e),r.width-s,r.height-o);return[ms(Ts(A.styles.backgroundRepeat,e),i,B,r,n),Math.round(r.left+i[0]),Math.round(r.top+i[1]),s,o]}function ds(A){return zA(A)&&A.value===Ut.AUTO}function fs(A){return"number"==typeof A}var ps=function(c,Q,w,u){c.container.elements.forEach(function(A){var e=An(A.flags,4),t=An(A.flags,2),r=new gs(A,c.getParentEffects());An(A.styles.display,2048)&&u.push(r);var n=An(A.flags,8)?[]:u;if(e||t){var B=e||A.styles.isPositioned()?w:Q,s=new Cs(r);if(A.styles.isPositioned()||A.styles.opacity<1||A.styles.isTransformed()){var o=A.styles.zIndex.order;if(o<0){var i=0;B.negativeZIndex.some(function(A,e){return o>A.element.container.styles.zIndex.order?(i=e,!1):0<i}),B.negativeZIndex.splice(i,0,s)}else if(0<o){var a=0;B.positiveZIndex.some(function(A,e){return o>A.element.container.styles.zIndex.order?(a=e+1,!1):0<a}),B.positiveZIndex.splice(a,0,s)}else B.zeroOrAutoZIndexOrTransformedOrOpacity.push(s)}else A.styles.isFloating()?B.nonPositionedFloats.push(s):B.nonPositionedInlineLevel.push(s);ps(r,s,e?s:w,n)}else A.styles.isInlineLevel()?Q.inlineLevel.push(r):Q.nonInlineLevel.push(r),ps(r,Q,w,n);An(A.flags,8)&&Ns(A,n)})},Ns=function(A,e){for(var t=A instanceof Mn?A.start:1,r=A instanceof Mn&&A.reversed,n=0;n<e.length;n++){var B=e[n];B.container instanceof Dn&&"number"==typeof B.container.value&&0!==B.container.value&&(t=B.container.value),B.listValue=yB(t,B.container.styles.listStyleType,!0),t+=r?-1:1}},Ks=function(A,e,t,r){var n=[];return os(A)?n.push(A.subdivide(.5,!1)):n.push(A),os(t)?n.push(t.subdivide(.5,!0)):n.push(t),os(r)?n.push(r.subdivide(.5,!0).reverse()):n.push(r),os(e)?n.push(e.subdivide(.5,!1).reverse()):n.push(e),n},Is=function(A,e,t){var r=e[0],n=e[1],B=e[2],s=A[0],o=A[1];if(qA(s)&&o&&qA(o))return[ae(s,t.width),ae(o,t.height)];var i=fs(B);if(zA(s)&&(s.value===Ut.CONTAIN||s.value===Ut.COVER))return fs(B)?t.width/t.height<B!=(s.value===Ut.COVER)?[t.width,t.width/B]:[t.height*B,t.height]:[t.width,t.height];var a=fs(r),c=fs(n),Q=a||c;if(ds(s)&&(!o||ds(o)))return a&&c?[r,n]:i||Q?Q&&i?[a?r:n*B,c?n:r/B]:[a?r:t.width,c?n:t.height]:[t.width,t.height];if(i){var w=0,u=0;return qA(s)?w=ae(s,t.width):qA(o)&&(u=ae(o,t.height)),ds(s)?w=u*B:o&&!ds(o)||(u=w/B),[w,u]}var U=null,l=null;if(qA(s)?U=ae(s,t.width):o&&qA(o)&&(l=ae(o,t.height)),null===U||o&&!ds(o)||(l=a&&c?U/r*n:t.height),null!==l&&ds(s)&&(U=a&&c?l/n*r:t.width),null!==U&&null!==l)return[U,l];throw new Error("Unable to calculate background-size for element")},Ts=function(A,e){var t=A[e];return void 0===t?A[0]:t},ms=function(A,e,t,r,n){var B=e[0],s=e[1],o=t[0],i=t[1];switch(A){case it.REPEAT_X:return[new ts(Math.round(r.left),Math.round(r.top+s)),new ts(Math.round(r.left+r.width),Math.round(r.top+s)),new ts(Math.round(r.left+r.width),Math.round(i+r.top+s)),new ts(Math.round(r.left),Math.round(i+r.top+s))];case it.REPEAT_Y:return[new ts(Math.round(r.left+B),Math.round(r.top)),new ts(Math.round(r.left+B+o),Math.round(r.top)),new ts(Math.round(r.left+B+o),Math.round(r.height+r.top)),new ts(Math.round(r.left+B),Math.round(r.height+r.top))];case it.NO_REPEAT:return[new ts(Math.round(r.left+B),Math.round(r.top+s)),new ts(Math.round(r.left+B+o),Math.round(r.top+s)),new ts(Math.round(r.left+B+o),Math.round(r.top+s+i)),new ts(Math.round(r.left+B),Math.round(r.top+s+i))];default:return[new ts(Math.round(n.left),Math.round(n.top)),new ts(Math.round(n.left+n.width),Math.round(n.top)),new ts(Math.round(n.left+n.width),Math.round(n.height+n.top)),new ts(Math.round(n.left),Math.round(n.height+n.top))]}},Rs="Hidden Text",Ls=(vs.prototype.parseMetrics=function(A,e){var t=this._document.createElement("div"),r=this._document.createElement("img"),n=this._document.createElement("span"),B=this._document.body;t.style.visibility="hidden",t.style.fontFamily=A,t.style.fontSize=e,t.style.margin="0",t.style.padding="0",B.appendChild(t),r.src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",r.width=1,r.height=1,r.style.margin="0",r.style.padding="0",r.style.verticalAlign="baseline",n.style.fontFamily=A,n.style.fontSize=e,n.style.margin="0",n.style.padding="0",n.appendChild(this._document.createTextNode(Rs)),t.appendChild(n),t.appendChild(r);var s=r.offsetTop-n.offsetTop+2;t.removeChild(n),t.appendChild(this._document.createTextNode(Rs)),t.style.lineHeight="normal",r.style.verticalAlign="super";var o=r.offsetTop-t.offsetTop+2;return B.removeChild(t),{baseline:s,middle:o}},vs.prototype.getMetrics=function(A,e){var t=A+" "+e;return void 0===this._data[t]&&(this._data[t]=this.parseMetrics(A,e)),this._data[t]},vs);function vs(A){this._data={},this._document=A}var Os=(Ds.prototype.applyEffects=function(A,e){for(var t=this;this._activeEffects.length;)this.popEffect();A.filter(function(A){return An(A.target,e)}).forEach(function(A){return t.applyEffect(A)})},Ds.prototype.applyEffect=function(A){this.ctx.save(),function(A){return 0===A.type}(A)&&(this.ctx.translate(A.offsetX,A.offsetY),this.ctx.transform(A.matrix[0],A.matrix[1],A.matrix[2],A.matrix[3],A.matrix[4],A.matrix[5]),this.ctx.translate(-A.offsetX,-A.offsetY)),function(A){return 1===A.type}(A)&&(this.path(A.path),this.ctx.clip()),this._activeEffects.push(A)},Ds.prototype.popEffect=function(){this._activeEffects.pop(),this.ctx.restore()},Ds.prototype.renderStack=function(t){return a(this,void 0,void 0,function(){var e;return S(this,function(A){switch(A.label){case 0:return(e=t.element.container.styles).isVisible()?(this.ctx.globalAlpha=e.opacity,[4,this.renderStackContent(t)]):[3,2];case 1:A.sent(),A.label=2;case 2:return[2]}})})},Ds.prototype.renderNode=function(e){return a(this,void 0,void 0,function(){return S(this,function(A){switch(A.label){case 0:return e.container.styles.isVisible()?[4,this.renderNodeBackgroundAndBorders(e)]:[3,3];case 1:return A.sent(),[4,this.renderNodeContent(e)];case 2:A.sent(),A.label=3;case 3:return[2]}})})},Ds.prototype.renderTextWithLetterSpacing=function(t,A){var r=this;0===A?this.ctx.fillText(t.text,t.bounds.left,t.bounds.top+t.bounds.height):c(t.text).map(function(A){return l(A)}).reduce(function(A,e){return r.ctx.fillText(e,A,t.bounds.top+t.bounds.height),A+r.ctx.measureText(e).width},t.bounds.left)},Ds.prototype.createFontStyle=function(A){var e=A.fontVariant.filter(function(A){return"normal"===A||"small-caps"===A}).join(""),t=A.fontFamily.join(", "),r=xA(A.fontSize)?""+A.fontSize.number+A.fontSize.unit:A.fontSize.number+"px";return[[A.fontStyle,e,A.fontWeight,r,t].join(" "),t,r]},Ds.prototype.renderTextNode=function(r,o){return a(this,void 0,void 0,function(){var e,t,n,B,s=this;return S(this,function(A){return e=this.createFontStyle(o),t=e[0],n=e[1],B=e[2],this.ctx.font=t,r.textBounds.forEach(function(r){s.ctx.fillStyle=te(o.color),s.renderTextWithLetterSpacing(r,o.letterSpacing);var A=o.textShadow;A.length&&r.text.trim().length&&(A.slice(0).reverse().forEach(function(A){s.ctx.shadowColor=te(A.color),s.ctx.shadowOffsetX=A.offsetX.number*s.options.scale,s.ctx.shadowOffsetY=A.offsetY.number*s.options.scale,s.ctx.shadowBlur=A.blur.number,s.ctx.fillText(r.text,r.bounds.left,r.bounds.top+r.bounds.height)}),s.ctx.shadowColor="",s.ctx.shadowOffsetX=0,s.ctx.shadowOffsetY=0,s.ctx.shadowBlur=0),o.textDecorationLine.length&&(s.ctx.fillStyle=te(o.textDecorationColor||o.color),o.textDecorationLine.forEach(function(A){switch(A){case 1:var e=s.fontMetrics.getMetrics(n,B).baseline;s.ctx.fillRect(r.bounds.left,Math.round(r.bounds.top+e),r.bounds.width,1);break;case 2:s.ctx.fillRect(r.bounds.left,Math.round(r.bounds.top),r.bounds.width,1);break;case 3:var t=s.fontMetrics.getMetrics(n,B).middle;s.ctx.fillRect(r.bounds.left,Math.ceil(r.bounds.top+t),r.bounds.width,1)}}))}),[2]})})},Ds.prototype.renderReplacedElement=function(A,e,t){if(t&&0<A.intrinsicWidth&&0<A.intrinsicHeight){var r=hs(A),n=ws(e);this.path(n),this.ctx.save(),this.ctx.clip(),this.ctx.drawImage(t,0,0,A.intrinsicWidth,A.intrinsicHeight,r.left,r.top,r.width,r.height),this.ctx.restore()}},Ds.prototype.renderNodeContent=function(l){return a(this,void 0,void 0,function(){var e,t,r,n,B,s,o,i,a,c,Q,w,u,U;return S(this,function(A){switch(A.label){case 0:this.applyEffects(l.effects,4),e=l.container,t=l.curves,r=e.styles,n=0,B=e.textNodes,A.label=1;case 1:return n<B.length?(s=B[n],[4,this.renderTextNode(s,r)]):[3,4];case 2:A.sent(),A.label=3;case 3:return n++,[3,1];case 4:if(!(e instanceof Nn))return[3,8];A.label=5;case 5:return A.trys.push([5,7,,8]),[4,this.options.cache.match(e.src)];case 6:return w=A.sent(),this.renderReplacedElement(e,t,w),[3,8];case 7:return A.sent(),De.getInstance(this.options.id).error("Error loading image "+e.src),[3,8];case 8:if(e instanceof Tn&&this.renderReplacedElement(e,t,e.canvas),!(e instanceof Ln))return[3,12];A.label=9;case 9:return A.trys.push([9,11,,12]),[4,this.options.cache.match(e.svg)];case 10:return w=A.sent(),this.renderReplacedElement(e,t,w),[3,12];case 11:return A.sent(),De.getInstance(this.options.id).error("Error loading svg "+e.svg.substring(0,255)),[3,12];case 12:return e instanceof tB&&e.tree?[4,new Ds({id:this.options.id,scale:this.options.scale,backgroundColor:e.backgroundColor,x:0,y:0,scrollX:0,scrollY:0,width:e.width,height:e.height,cache:this.options.cache,windowWidth:e.width,windowHeight:e.height}).render(e.tree)]:[3,14];case 13:o=A.sent(),e.width&&e.height&&this.ctx.drawImage(o,0,0,e.width,e.height,e.bounds.left,e.bounds.top,e.bounds.width,e.bounds.height),A.label=14;case 14:if(e instanceof Gn&&(i=Math.min(e.bounds.width,e.bounds.height),e.type===Vn?e.checked&&(this.ctx.save(),this.path([new ts(e.bounds.left+.39363*i,e.bounds.top+.79*i),new ts(e.bounds.left+.16*i,e.bounds.top+.5549*i),new ts(e.bounds.left+.27347*i,e.bounds.top+.44071*i),new ts(e.bounds.left+.39694*i,e.bounds.top+.5649*i),new ts(e.bounds.left+.72983*i,e.bounds.top+.23*i),new ts(e.bounds.left+.84*i,e.bounds.top+.34085*i),new ts(e.bounds.left+.39363*i,e.bounds.top+.79*i)]),this.ctx.fillStyle=te(Jn),this.ctx.fill(),this.ctx.restore()):e.type===zn&&e.checked&&(this.ctx.save(),this.ctx.beginPath(),this.ctx.arc(e.bounds.left+i/2,e.bounds.top+i/2,i/4,0,2*Math.PI,!0),this.ctx.fillStyle=te(Jn),this.ctx.fill(),this.ctx.restore())),bs(e)&&e.value.length){switch(this.ctx.font=this.createFontStyle(r)[0],this.ctx.fillStyle=te(r.color),this.ctx.textBaseline="middle",this.ctx.textAlign=Ms(e.styles.textAlign),U=hs(e),a=0,e.styles.textAlign){case Cr.CENTER:a+=U.width/2;break;case Cr.RIGHT:a+=U.width}c=U.add(a,0,0,-U.height/2+1),this.ctx.save(),this.path([new ts(U.left,U.top),new ts(U.left+U.width,U.top),new ts(U.left+U.width,U.top+U.height),new ts(U.left,U.top+U.height)]),this.ctx.clip(),this.renderTextWithLetterSpacing(new Cn(e.value,c),r.letterSpacing),this.ctx.restore(),this.ctx.textBaseline="bottom",this.ctx.textAlign="left"}if(!An(e.styles.display,2048))return[3,20];if(null===e.styles.listStyleImage)return[3,19];if((Q=e.styles.listStyleImage).type!==xe.URL)return[3,18];w=void 0,u=Q.url,A.label=15;case 15:return A.trys.push([15,17,,18]),[4,this.options.cache.match(u)];case 16:return w=A.sent(),this.ctx.drawImage(w,e.bounds.left-(w.width+10),e.bounds.top),[3,18];case 17:return A.sent(),De.getInstance(this.options.id).error("Error loading list-style-image "+u),[3,18];case 18:return[3,20];case 19:l.listValue&&e.styles.listStyleType!==tr.NONE&&(this.ctx.font=this.createFontStyle(r)[0],this.ctx.fillStyle=te(r.color),this.ctx.textBaseline="middle",this.ctx.textAlign="right",U=new I(e.bounds.left,e.bounds.top+ae(e.styles.paddingTop,e.bounds.width),e.bounds.width,function(A,e){return zA(A)&&"normal"===A.value?1.2*e:A.type===sA.NUMBER_TOKEN?e*A.number:qA(A)?ae(A,e):e}(r.lineHeight,r.fontSize.number)/2+1),this.renderTextWithLetterSpacing(new Cn(l.listValue,U),r.letterSpacing),this.ctx.textBaseline="bottom",this.ctx.textAlign="left"),A.label=20;case 20:return[2]}})})},Ds.prototype.renderStackContent=function(C){return a(this,void 0,void 0,function(){var e,t,r,n,B,s,o,i,a,c,Q,w,u,U,l;return S(this,function(A){switch(A.label){case 0:return[4,this.renderNodeBackgroundAndBorders(C.element)];case 1:A.sent(),e=0,t=C.negativeZIndex,A.label=2;case 2:return e<t.length?(l=t[e],[4,this.renderStack(l)]):[3,5];case 3:A.sent(),A.label=4;case 4:return e++,[3,2];case 5:return[4,this.renderNodeContent(C.element)];case 6:A.sent(),r=0,n=C.nonInlineLevel,A.label=7;case 7:return r<n.length?(l=n[r],[4,this.renderNode(l)]):[3,10];case 8:A.sent(),A.label=9;case 9:return r++,[3,7];case 10:B=0,s=C.nonPositionedFloats,A.label=11;case 11:return B<s.length?(l=s[B],[4,this.renderStack(l)]):[3,14];case 12:A.sent(),A.label=13;case 13:return B++,[3,11];case 14:o=0,i=C.nonPositionedInlineLevel,A.label=15;case 15:return o<i.length?(l=i[o],[4,this.renderStack(l)]):[3,18];case 16:A.sent(),A.label=17;case 17:return o++,[3,15];case 18:a=0,c=C.inlineLevel,A.label=19;case 19:return a<c.length?(l=c[a],[4,this.renderNode(l)]):[3,22];case 20:A.sent(),A.label=21;case 21:return a++,[3,19];case 22:Q=0,w=C.zeroOrAutoZIndexOrTransformedOrOpacity,A.label=23;case 23:return Q<w.length?(l=w[Q],[4,this.renderStack(l)]):[3,26];case 24:A.sent(),A.label=25;case 25:return Q++,[3,23];case 26:u=0,U=C.positiveZIndex,A.label=27;case 27:return u<U.length?(l=U[u],[4,this.renderStack(l)]):[3,30];case 28:A.sent(),A.label=29;case 29:return u++,[3,27];case 30:return[2]}})})},Ds.prototype.mask=function(A){this.ctx.beginPath(),this.ctx.moveTo(0,0),this.ctx.lineTo(this.canvas.width,0),this.ctx.lineTo(this.canvas.width,this.canvas.height),this.ctx.lineTo(0,this.canvas.height),this.ctx.lineTo(0,0),this.formatPath(A.slice(0).reverse()),this.ctx.closePath()},Ds.prototype.path=function(A){this.ctx.beginPath(),this.formatPath(A),this.ctx.closePath()},Ds.prototype.formatPath=function(A){var r=this;A.forEach(function(A,e){var t=os(A)?A.start:A;0===e?r.ctx.moveTo(t.x,t.y):r.ctx.lineTo(t.x,t.y),os(A)&&r.ctx.bezierCurveTo(A.startControl.x,A.startControl.y,A.endControl.x,A.endControl.y,A.end.x,A.end.y)})},Ds.prototype.renderRepeat=function(A,e,t,r){this.path(A),this.ctx.fillStyle=e,this.ctx.translate(t,r),this.ctx.fill(),this.ctx.translate(-t,-r)},Ds.prototype.resizeImage=function(A,e,t){if(A.width===e&&A.height===t)return A;var r=this.canvas.ownerDocument.createElement("canvas");return r.width=e,r.height=t,r.getContext("2d").drawImage(A,0,0,A.width,A.height,0,0,e,t),r},Ds.prototype.renderBackgroundImage=function(b){return a(this,void 0,void 0,function(){var O,e,D,t,r,n;return S(this,function(A){switch(A.label){case 0:O=b.styles.backgroundImage.length-1,e=function(e){var t,r,n,B,s,o,i,a,c,Q,w,u,U,l,C,g,E,F,h,H,d,f,p,N,K,I,T,m,R,L,v;return S(this,function(A){switch(A.label){case 0:if(e.type!==xe.URL)return[3,5];t=void 0,r=e.url,A.label=1;case 1:return A.trys.push([1,3,,4]),[4,D.options.cache.match(r)];case 2:return t=A.sent(),[3,4];case 3:return A.sent(),De.getInstance(D.options.id).error("Error loading background-image "+r),[3,4];case 4:return t&&(n=Hs(b,O,[t.width,t.height,t.width/t.height]),g=n[0],f=n[1],p=n[2],h=n[3],H=n[4],l=D.ctx.createPattern(D.resizeImage(t,h,H),"repeat"),D.renderRepeat(g,l,f,p)),[3,6];case 5:!function(A){return A.type===xe.LINEAR_GRADIENT}(e)?function(A){return A.type===xe.RADIAL_GRADIENT}(e)&&(C=Hs(b,O,[null,null,null]),g=C[0],E=C[1],F=C[2],h=C[3],H=C[4],d=0===e.position.length?[oe]:e.position,f=ae(d[0],h),p=ae(d[d.length-1],H),N=function(A,e,t,r,n){var B=0,s=0;switch(A.size){case Bt.CLOSEST_SIDE:A.shape===rt.CIRCLE?B=s=Math.min(Math.abs(e),Math.abs(e-r),Math.abs(t),Math.abs(t-n)):A.shape===rt.ELLIPSE&&(B=Math.min(Math.abs(e),Math.abs(e-r)),s=Math.min(Math.abs(t),Math.abs(t-n)));break;case Bt.CLOSEST_CORNER:if(A.shape===rt.CIRCLE)B=s=Math.min(Ne(e,t),Ne(e,t-n),Ne(e-r,t),Ne(e-r,t-n));else if(A.shape===rt.ELLIPSE){var o=Math.min(Math.abs(t),Math.abs(t-n))/Math.min(Math.abs(e),Math.abs(e-r)),i=Ke(r,n,e,t,!0),a=i[0],c=i[1];s=o*(B=Ne(a-e,(c-t)/o))}break;case Bt.FARTHEST_SIDE:A.shape===rt.CIRCLE?B=s=Math.max(Math.abs(e),Math.abs(e-r),Math.abs(t),Math.abs(t-n)):A.shape===rt.ELLIPSE&&(B=Math.max(Math.abs(e),Math.abs(e-r)),s=Math.max(Math.abs(t),Math.abs(t-n)));break;case Bt.FARTHEST_CORNER:if(A.shape===rt.CIRCLE)B=s=Math.max(Ne(e,t),Ne(e,t-n),Ne(e-r,t),Ne(e-r,t-n));else if(A.shape===rt.ELLIPSE){o=Math.max(Math.abs(t),Math.abs(t-n))/Math.max(Math.abs(e),Math.abs(e-r));var Q=Ke(r,n,e,t,!1);a=Q[0],c=Q[1],s=o*(B=Ne(a-e,(c-t)/o))}}return Array.isArray(A.size)&&(B=ae(A.size[0],r),s=2===A.size.length?ae(A.size[1],n):B),[B,s]}(e,f,p,h,H),K=N[0],I=N[1],0<K&&0<K&&(T=D.ctx.createRadialGradient(E+f,F+p,0,E+f,F+p,K),fe(e.stops,2*K).forEach(function(A){return T.addColorStop(A.stop,te(A.color))}),D.path(g),D.ctx.fillStyle=T,K!==I?(m=b.bounds.left+.5*b.bounds.width,R=b.bounds.top+.5*b.bounds.height,v=1/(L=I/K),D.ctx.save(),D.ctx.translate(m,R),D.ctx.transform(1,0,0,L,0,0),D.ctx.translate(-m,-R),D.ctx.fillRect(E,v*(F-R)+R,h,H*v),D.ctx.restore()):D.ctx.fill())):(B=Hs(b,O,[null,null,null]),g=B[0],f=B[1],p=B[2],h=B[3],H=B[4],s=pe(e.angle,h,H),o=s[0],i=s[1],a=s[2],c=s[3],Q=s[4],(w=document.createElement("canvas")).width=h,w.height=H,u=w.getContext("2d"),U=u.createLinearGradient(i,c,a,Q),fe(e.stops,o).forEach(function(A){return U.addColorStop(A.stop,te(A.color))}),u.fillStyle=U,u.fillRect(0,0,h,H),0<h&&0<H&&(l=D.ctx.createPattern(w,"repeat"),D.renderRepeat(g,l,f,p))),A.label=6;case 6:return O--,[2]}})},D=this,t=0,r=b.styles.backgroundImage.slice(0).reverse(),A.label=1;case 1:return t<r.length?(n=r[t],[5,e(n)]):[3,4];case 2:A.sent(),A.label=3;case 3:return t++,[3,1];case 4:return[2]}})})},Ds.prototype.renderBorder=function(e,t,r){return a(this,void 0,void 0,function(){return S(this,function(A){return this.path(function(A,e){switch(e){case 0:return Ks(A.topLeftBorderBox,A.topLeftPaddingBox,A.topRightBorderBox,A.topRightPaddingBox);case 1:return Ks(A.topRightBorderBox,A.topRightPaddingBox,A.bottomRightBorderBox,A.bottomRightPaddingBox);case 2:return Ks(A.bottomRightBorderBox,A.bottomRightPaddingBox,A.bottomLeftBorderBox,A.bottomLeftPaddingBox);case 3:default:return Ks(A.bottomLeftBorderBox,A.bottomLeftPaddingBox,A.topLeftBorderBox,A.topLeftPaddingBox)}}(r,t)),this.ctx.fillStyle=te(e),this.ctx.fill(),[2]})})},Ds.prototype.renderNodeBackgroundAndBorders=function(c){return a(this,void 0,void 0,function(){var e,t,r,n,B,s,o,i,a=this;return S(this,function(A){switch(A.label){case 0:return this.applyEffects(c.effects,2),e=c.container.styles,t=!ee(e.backgroundColor)||e.backgroundImage.length,r=[{style:e.borderTopStyle,color:e.borderTopColor},{style:e.borderRightStyle,color:e.borderRightColor},{style:e.borderBottomStyle,color:e.borderBottomColor},{style:e.borderLeftStyle,color:e.borderLeftColor}],n=Ss(Ts(e.backgroundClip,0),c.curves),t||e.boxShadow.length?(this.ctx.save(),this.path(n),this.ctx.clip(),ee(e.backgroundColor)||(this.ctx.fillStyle=te(e.backgroundColor),this.ctx.fill()),[4,this.renderBackgroundImage(c.container)]):[3,2];case 1:A.sent(),this.ctx.restore(),e.boxShadow.slice(0).reverse().forEach(function(A){a.ctx.save();var e=Qs(c.curves),t=A.inset?0:1e4,r=function(A,t,r,n,B){return A.map(function(A,e){switch(e){case 0:return A.add(t,r);case 1:return A.add(t+n,r);case 2:return A.add(t+n,r+B);case 3:return A.add(t,r+B)}return A})}(e,-t+(A.inset?1:-1)*A.spread.number,(A.inset?1:-1)*A.spread.number,A.spread.number*(A.inset?-2:2),A.spread.number*(A.inset?-2:2));A.inset?(a.path(e),a.ctx.clip(),a.mask(r)):(a.mask(e),a.ctx.clip(),a.path(r)),a.ctx.shadowOffsetX=A.offsetX.number+t,a.ctx.shadowOffsetY=A.offsetY.number,a.ctx.shadowColor=te(A.color),a.ctx.shadowBlur=A.blur.number,a.ctx.fillStyle=A.inset?te(A.color):"rgba(0,0,0,1)",a.ctx.fill(),a.ctx.restore()}),A.label=2;case 2:s=B=0,o=r,A.label=3;case 3:return s<o.length?(i=o[s]).style===ht.NONE||ee(i.color)?[3,5]:[4,this.renderBorder(i.color,B,c.curves)]:[3,7];case 4:A.sent(),A.label=5;case 5:B++,A.label=6;case 6:return s++,[3,3];case 7:return[2]}})})},Ds.prototype.render=function(t){return a(this,void 0,void 0,function(){var e;return S(this,function(A){switch(A.label){case 0:return this.options.backgroundColor&&(this.ctx.fillStyle=te(this.options.backgroundColor),this.ctx.fillRect(this.options.x-this.options.scrollX,this.options.y-this.options.scrollY,this.options.width,this.options.height)),e=function(A){var e=new gs(A,[]),t=new Cs(e),r=[];return ps(e,t,t,r),Ns(e.container,r),t}(t),[4,this.renderStack(e)];case 1:return A.sent(),this.applyEffects([],2),[2,this.canvas]}})})},Ds);function Ds(A){this._activeEffects=[],this.canvas=A.canvas?A.canvas:document.createElement("canvas"),this.ctx=this.canvas.getContext("2d"),(this.options=A).canvas||(this.canvas.width=Math.floor(A.width*A.scale),this.canvas.height=Math.floor(A.height*A.scale),this.canvas.style.width=A.width+"px",this.canvas.style.height=A.height+"px"),this.fontMetrics=new Ls(document),this.ctx.scale(this.options.scale,this.options.scale),this.ctx.translate(-A.x+A.scrollX,-A.y+A.scrollY),this.ctx.textBaseline="bottom",this._activeEffects=[],De.getInstance(A.id).debug("Canvas renderer initialized ("+A.width+"x"+A.height+" at "+A.x+","+A.y+") with scale "+A.scale)}var bs=function(A){return A instanceof jn||(A instanceof Yn||A instanceof Gn&&A.type!==zn&&A.type!==Vn)},Ss=function(A,e){switch(A){case Ee.BORDER_BOX:return Qs(e);case Ee.CONTENT_BOX:return function(A){return[A.topLeftContentBox,A.topRightContentBox,A.bottomRightContentBox,A.bottomLeftContentBox]}(e);case Ee.PADDING_BOX:default:return ws(e)}},Ms=function(A){switch(A){case Cr.CENTER:return"center";case Cr.RIGHT:return"right";case Cr.LEFT:default:return"left"}},ys=(_s.prototype.render=function(r){return a(this,void 0,void 0,function(){var e,t;return S(this,function(A){switch(A.label){case 0:return e=Le(Math.max(this.options.windowWidth,this.options.width)*this.options.scale,Math.max(this.options.windowHeight,this.options.height)*this.options.scale,this.options.scrollX*this.options.scale,this.options.scrollY*this.options.scale,r),[4,xs(e)];case 1:return t=A.sent(),this.options.backgroundColor&&(this.ctx.fillStyle=te(this.options.backgroundColor),this.ctx.fillRect(0,0,this.options.width*this.options.scale,this.options.height*this.options.scale)),this.ctx.drawImage(t,-this.options.x*this.options.scale,-this.options.y*this.options.scale),[2,this.canvas]}})})},_s);function _s(A){this.canvas=A.canvas?A.canvas:document.createElement("canvas"),this.ctx=this.canvas.getContext("2d"),this.options=A,this.canvas.width=Math.floor(A.width*A.scale),this.canvas.height=Math.floor(A.height*A.scale),this.canvas.style.width=A.width+"px",this.canvas.style.height=A.height+"px",this.ctx.scale(this.options.scale,this.options.scale),this.ctx.translate(-A.x+A.scrollX,-A.y+A.scrollY),De.getInstance(A.id).debug("EXPERIMENTAL ForeignObject renderer initialized ("+A.width+"x"+A.height+" at "+A.x+","+A.y+") with scale "+A.scale)}function Ps(A){return we(_A.create(A).parseComponentValue())}var xs=function(r){return new Promise(function(A,e){var t=new Image;t.onload=function(){A(t)},t.onerror=e,t.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent((new XMLSerializer).serializeToString(r))})};"undefined"!=typeof window&&Se.setContext(window);var Vs=function(p,N){return a(void 0,void 0,void 0,function(){var e,t,r,n,B,s,o,i,a,c,Q,w,u,U,l,C,g,E,F,h,H,d,f;return S(this,function(A){switch(A.label){case 0:if(!(e=p.ownerDocument))throw new Error("Element is not attached to a Document");if(!(t=e.defaultView))throw new Error("Document is not attached to a Window");return r=(Math.round(1e3*Math.random())+Date.now()).toString(16),n=EB(p)||function(A){return"HTML"===A.tagName}(p)?function(A){var e=A.body,t=A.documentElement;if(!e||!t)throw new Error("Unable to get document size");var r=Math.max(Math.max(e.scrollWidth,t.scrollWidth),Math.max(e.offsetWidth,t.offsetWidth),Math.max(e.clientWidth,t.clientWidth)),n=Math.max(Math.max(e.scrollHeight,t.scrollHeight),Math.max(e.offsetHeight,t.offsetHeight),Math.max(e.clientHeight,t.clientHeight));return new I(0,0,r,n)}(e):T(p),B=n.width,s=n.height,o=n.left,i=n.top,a=K({},{allowTaint:!1,imageTimeout:15e3,proxy:void 0,useCORS:!1},N),c={backgroundColor:"#ffffff",cache:N.cache?N.cache:Se.create(r,a),logging:!0,removeContainer:!0,foreignObjectRendering:!1,scale:t.devicePixelRatio||1,windowWidth:t.innerWidth,windowHeight:t.innerHeight,scrollX:t.pageXOffset,scrollY:t.pageYOffset,x:o,y:i,width:Math.ceil(B),height:Math.ceil(s),id:r},Q=K({},c,a,N),w=new I(Q.scrollX,Q.scrollY,Q.windowWidth,Q.windowHeight),De.create({id:r,enabled:Q.logging}),De.getInstance(r).debug("Starting document clone"),u=new PB(p,{id:r,onclone:Q.onclone,ignoreElements:Q.ignoreElements,inlineImages:Q.foreignObjectRendering,copyStyles:Q.foreignObjectRendering}),(U=u.clonedReferenceElement)?[4,u.toIFrame(e,w)]:[2,Promise.reject("Unable to find element in cloned iframe")];case 1:return l=A.sent(),C=e.documentElement?Ps(getComputedStyle(e.documentElement).backgroundColor):He.TRANSPARENT,g=e.body?Ps(getComputedStyle(e.body).backgroundColor):He.TRANSPARENT,E=N.backgroundColor,F="string"==typeof E?Ps(E):null===E?He.TRANSPARENT:4294967295,h=p===e.documentElement?ee(C)?ee(g)?F:g:C:F,H={id:r,cache:Q.cache,canvas:Q.canvas,backgroundColor:h,scale:Q.scale,x:Q.x,y:Q.y,scrollX:Q.scrollX,scrollY:Q.scrollY,width:Q.width,height:Q.height,windowWidth:Q.windowWidth,windowHeight:Q.windowHeight},Q.foreignObjectRendering?(De.getInstance(r).debug("Document cloned, using foreign object rendering"),[4,new ys(H).render(U)]):[3,3];case 2:return d=A.sent(),[3,5];case 3:return De.getInstance(r).debug("Document cloned, using computed rendering"),Se.attachInstance(Q.cache),De.getInstance(r).debug("Starting DOM parsing"),f=iB(U),Se.detachInstance(),h===f.styles.backgroundColor&&(f.styles.backgroundColor=He.TRANSPARENT),De.getInstance(r).debug("Starting renderer"),[4,new Os(H).render(f)];case 4:d=A.sent(),A.label=5;case 5:return!0===Q.removeContainer&&(PB.destroy(l)||De.getInstance(r).error("Cannot detach cloned iframe as it is not in the DOM anymore")),De.getInstance(r).debug("Finished rendering"),De.destroy(r),Se.destroy(r),[2,d]}})})};return function(A,e){return void 0===e&&(e={}),Vs(A,e)}});!function(){var e=function(){return function e(t,n,r){function o(s,i){if(!n[s]){if(!t[s]){var u="function"==typeof require&&require;if(!i&&u)return u(s,!0);if(a)return a(s,!0);var p=new Error("Cannot find module '"+s+"'");throw p.code="MODULE_NOT_FOUND",p}var h=n[s]={exports:{}};t[s][0].call(h.exports,function(e){var n=t[s][1][e];return o(n||e)},h,h.exports,e,t,n,r)}return n[s].exports}for(var a="function"==typeof require&&require,s=0;s<r.length;s++)o(r[s]);return o}({1:[function(e,t,n){function r(e){return e+(97<=e&&e<=122?-32:65<=e&&e<=90?32:0)}function o(){return!this.randInt(0,1)}function a(e){return e instanceof h?e.index(this.randInt(0,e.length-1)):e[this.randInt(0,e.length-1)]}function s(e){if(e.type===p.types.CHAR)return new h(e.value);if(e.type===p.types.RANGE)return new h(e.from,e.to);for(var t=new h,n=0;n<e.set.length;n++){var o=s.call(this,e.set[n]);if(t.add(o),this.ignoreCase)for(var a=0;a<o.length;a++){var i=o.index(a),u=r(i);i!==u&&t.add(u)}}return e.not?this.defaultRange.clone().subtract(t):t}function i(e,t){"number"==typeof t.max&&(e.max=t.max),t.defaultRange instanceof h&&(e.defaultRange=t.defaultRange),"function"==typeof t.randInt&&(e.randInt=t.randInt)}function u(e,t){var n,i,p,h,c;switch(e.type){case l.ROOT:case l.GROUP:if(e.followedBy||e.notFollowedBy)return"";for(e.remember&&void 0===e.groupNumber&&(e.groupNumber=t.push(null)-1),i="",h=0,c=(n=e.options?a.call(this,e.options):e.stack).length;h<c;h++)i+=u.call(this,n[h],t);return e.remember&&(t[e.groupNumber]=i),i;case l.POSITION:return"";case l.SET:var f=s.call(this,e);return f.length?String.fromCharCode(a.call(this,f)):"";case l.REPETITION:for(p=this.randInt(e.min,e.max===1/0?e.min+this.max:e.max),i="",h=0;h<p;h++)i+=u.call(this,e.value,t);return i;case l.REFERENCE:return t[e.value-1]||"";case l.CHAR:var g=this.ignoreCase&&o.call(this)?r(e.value):e.value;return String.fromCharCode(g)}}var p=e("ret"),h=e("discontinuous-range"),l=p.types,c=t.exports=function(e,t){if(this.defaultRange=this.defaultRange.clone(),e instanceof RegExp)this.ignoreCase=e.ignoreCase,this.multiline=e.multiline,i(this,e),e=e.source;else{if("string"!=typeof e)throw new Error("Expected a regexp or string");this.ignoreCase=t&&-1!==t.indexOf("i"),this.multiline=t&&-1!==t.indexOf("m")}this.tokens=p(e)};c.prototype.max=20,c.prototype.gen=function(){return u.call(this,this.tokens,[])},c.randexp=function(e,t){var n;return void 0===e._randexp?(n=new c(e,t),e._randexp=n):n=e._randexp,i(n,e),n.gen()},c.sugar=function(){RegExp.prototype.gen=function(){return c.randexp(this)}},c.prototype.defaultRange=new h(32,126),c.prototype.randInt=function(e,t){return e+Math.floor(Math.random()*(1+t-e))}},{"discontinuous-range":2,ret:3}],2:[function(e,t,n){function r(e,t){this.low=e,this.high=t,this.length=1+t-e}function o(e,t){if(!(this instanceof o))return new o(e,t);this.ranges=[],this.length=0,void 0!==e&&this.add(e,t)}function a(e){e.length=e.ranges.reduce(function(e,t){return e+t.length},0)}r.prototype.overlaps=function(e){return!(this.high<e.low||this.low>e.high)},r.prototype.touches=function(e){return!(this.high+1<e.low||this.low-1>e.high)},r.prototype.add=function(e){return this.touches(e)&&new r(Math.min(this.low,e.low),Math.max(this.high,e.high))},r.prototype.subtract=function(e){return!!this.overlaps(e)&&(e.low<=this.low&&e.high>=this.high?[]:e.low>this.low&&e.high<this.high?[new r(this.low,e.low-1),new r(e.high+1,this.high)]:e.low<=this.low?[new r(e.high+1,this.high)]:[new r(this.low,e.low-1)])},r.prototype.toString=function(){return this.low==this.high?this.low.toString():this.low+"-"+this.high},r.prototype.clone=function(){return new r(this.low,this.high)},o.prototype.add=function(e,t){function n(e){for(var t=[],n=0;n<s.ranges.length&&!e.touches(s.ranges[n]);)t.push(s.ranges[n].clone()),n++;for(;n<s.ranges.length&&e.touches(s.ranges[n]);)e=e.add(s.ranges[n]),n++;for(t.push(e);n<s.ranges.length;)t.push(s.ranges[n].clone()),n++;s.ranges=t,a(s)}var s=this;return e instanceof o?e.ranges.forEach(n):e instanceof r?n(e):(void 0===t&&(t=e),n(new r(e,t))),this},o.prototype.subtract=function(e,t){function n(e){for(var t=[],n=0;n<s.ranges.length&&!e.overlaps(s.ranges[n]);)t.push(s.ranges[n].clone()),n++;for(;n<s.ranges.length&&e.overlaps(s.ranges[n]);)t=t.concat(s.ranges[n].subtract(e)),n++;for(;n<s.ranges.length;)t.push(s.ranges[n].clone()),n++;s.ranges=t,a(s)}var s=this;return e instanceof o?e.ranges.forEach(n):e instanceof r?n(e):(void 0===t&&(t=e),n(new r(e,t))),this},o.prototype.index=function(e){for(var t=0;t<this.ranges.length&&this.ranges[t].length<=e;)e-=this.ranges[t].length,t++;return t>=this.ranges.length?null:this.ranges[t].low+e},o.prototype.toString=function(){return"[ "+this.ranges.join(", ")+" ]"},o.prototype.clone=function(){return new o(this)},t.exports=o},{}],3:[function(e,t,n){var r=e("./util"),o=e("./types"),a=e("./sets"),s=e("./positions");t.exports=function(e){var t,n,i=0,u={type:o.ROOT,stack:[]},p=u,h=u.stack,l=[],c=function(t){r.error(e,"Nothing to repeat at column "+(t-1))},f=r.strToChars(e);for(t=f.length;i<t;)switch(n=f[i++]){case"\\":switch(n=f[i++]){case"b":h.push(s.wordBoundary());break;case"B":h.push(s.nonWordBoundary());break;case"w":h.push(a.words());break;case"W":h.push(a.notWords());break;case"d":h.push(a.ints());break;case"D":h.push(a.notInts());break;case"s":h.push(a.whitespace());break;case"S":h.push(a.notWhitespace());break;default:/\d/.test(n)?h.push({type:o.REFERENCE,value:parseInt(n,10)}):h.push({type:o.CHAR,value:n.charCodeAt(0)})}break;case"^":h.push(s.begin());break;case"$":h.push(s.end());break;case"[":var g;"^"===f[i]?(g=!0,i++):g=!1;var y=r.tokenizeClass(f.slice(i),e);i+=y[1],h.push({type:o.SET,set:y[0],not:g});break;case".":h.push(a.anyChar());break;case"(":var d={type:o.GROUP,stack:[],remember:!0};"?"===(n=f[i])&&(n=f[i+1],i+=2,"="===n?d.followedBy=!0:"!"===n?d.notFollowedBy=!0:":"!==n&&r.error(e,"Invalid group, character '"+n+"' after '?' at column "+(i-1)),d.remember=!1),h.push(d),l.push(p),p=d,h=d.stack;break;case")":0===l.length&&r.error(e,"Unmatched ) at column "+(i-1)),h=(p=l.pop()).options?p.options[p.options.length-1]:p.stack;break;case"|":p.options||(p.options=[p.stack],delete p.stack);var v=[];p.options.push(v),h=v;break;case"{":var R,C,w=/^(\d+)(,(\d+)?)?\}/.exec(f.slice(i));null!==w?(0===h.length&&c(i),R=parseInt(w[1],10),C=w[2]?w[3]?parseInt(w[3],10):1/0:R,i+=w[0].length,h.push({type:o.REPETITION,min:R,max:C,value:h.pop()})):h.push({type:o.CHAR,value:123});break;case"?":0===h.length&&c(i),h.push({type:o.REPETITION,min:0,max:1,value:h.pop()});break;case"+":0===h.length&&c(i),h.push({type:o.REPETITION,min:1,max:1/0,value:h.pop()});break;case"*":0===h.length&&c(i),h.push({type:o.REPETITION,min:0,max:1/0,value:h.pop()});break;default:h.push({type:o.CHAR,value:n.charCodeAt(0)})}return 0!==l.length&&r.error(e,"Unterminated group"),u},t.exports.types=o},{"./positions":4,"./sets":5,"./types":6,"./util":7}],4:[function(e,t,n){var r=e("./types");n.wordBoundary=function(){return{type:r.POSITION,value:"b"}},n.nonWordBoundary=function(){return{type:r.POSITION,value:"B"}},n.begin=function(){return{type:r.POSITION,value:"^"}},n.end=function(){return{type:r.POSITION,value:"$"}}},{"./types":6}],5:[function(e,t,n){var r=e("./types"),o=function(){return[{type:r.RANGE,from:48,to:57}]},a=function(){return[{type:r.CHAR,value:95},{type:r.RANGE,from:97,to:122},{type:r.RANGE,from:65,to:90}].concat(o())},s=function(){return[{type:r.CHAR,value:9},{type:r.CHAR,value:10},{type:r.CHAR,value:11},{type:r.CHAR,value:12},{type:r.CHAR,value:13},{type:r.CHAR,value:32},{type:r.CHAR,value:160},{type:r.CHAR,value:5760},{type:r.CHAR,value:6158},{type:r.CHAR,value:8192},{type:r.CHAR,value:8193},{type:r.CHAR,value:8194},{type:r.CHAR,value:8195},{type:r.CHAR,value:8196},{type:r.CHAR,value:8197},{type:r.CHAR,value:8198},{type:r.CHAR,value:8199},{type:r.CHAR,value:8200},{type:r.CHAR,value:8201},{type:r.CHAR,value:8202},{type:r.CHAR,value:8232},{type:r.CHAR,value:8233},{type:r.CHAR,value:8239},{type:r.CHAR,value:8287},{type:r.CHAR,value:12288},{type:r.CHAR,value:65279}]},i=function(){return[{type:r.CHAR,value:10},{type:r.CHAR,value:13},{type:r.CHAR,value:8232},{type:r.CHAR,value:8233}]};n.words=function(){return{type:r.SET,set:a(),not:!1}},n.notWords=function(){return{type:r.SET,set:a(),not:!0}},n.ints=function(){return{type:r.SET,set:o(),not:!1}},n.notInts=function(){return{type:r.SET,set:o(),not:!0}},n.whitespace=function(){return{type:r.SET,set:s(),not:!1}},n.notWhitespace=function(){return{type:r.SET,set:s(),not:!0}},n.anyChar=function(){return{type:r.SET,set:i(),not:!0}}},{"./types":6}],6:[function(e,t,n){t.exports={ROOT:0,GROUP:1,POSITION:2,SET:3,RANGE:4,REPETITION:5,REFERENCE:6,CHAR:7}},{}],7:[function(e,t,n){var r=e("./types"),o=e("./sets"),a={0:0,t:9,n:10,v:11,f:12,r:13};n.strToChars=function(e){var t=/(\[\\b\])|(\\)?\\(?:u([A-F0-9]{4})|x([A-F0-9]{2})|(0?[0-7]{2})|c([@A-Z\[\\\]\^?])|([0tnvfr]))/g;return e=e.replace(t,function(e,t,n,r,o,s,i,u){if(n)return e;var p=t?8:r?parseInt(r,16):o?parseInt(o,16):s?parseInt(s,8):i?"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^ ?".indexOf(i):a[u],h=String.fromCharCode(p);return/[\[\]{}\^$.|?*+()]/.test(h)&&(h="\\"+h),h})},n.tokenizeClass=function(e,t){for(var a,s,i=[],u=/\\(?:(w)|(d)|(s)|(W)|(D)|(S))|((?:(?:\\)(.)|([^\]\\]))-(?:\\)?([^\]]))|(\])|(?:\\)?(.)/g;null!=(a=u.exec(e));)if(a[1])i.push(o.words());else if(a[2])i.push(o.ints());else if(a[3])i.push(o.whitespace());else if(a[4])i.push(o.notWords());else if(a[5])i.push(o.notInts());else if(a[6])i.push(o.notWhitespace());else if(a[7])i.push({type:r.RANGE,from:(a[8]||a[9]).charCodeAt(0),to:a[10].charCodeAt(0)});else{if(!(s=a[12]))return[i,u.lastIndex];i.push({type:r.CHAR,value:s.charCodeAt(0)})}n.error(t,"Unterminated character class")},n.error=function(e,t){throw new SyntaxError("Invalid regular expression: /"+e+"/: "+t)}},{"./sets":5,"./types":6}]},{},[1])}()(1);"function"==typeof define&&"object"==typeof define.amd?define("RandExp",function(){return e}):"undefined"!=typeof window&&(window.RandExp=e)}();var _Util={
+!function(A,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):(A=A||self).html2canvas=e()}(this,function(){"use strict";var r=function(A,e){return(r=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(A,e){A.__proto__=e}||function(A,e){for(var t in e)e.hasOwnProperty(t)&&(A[t]=e[t])})(A,e)};function A(A,e){function t(){this.constructor=A}r(A,e),A.prototype=null===e?Object.create(e):(t.prototype=e.prototype,new t)}var K=function(){return(K=Object.assign||function(A){for(var e,t=1,r=arguments.length;t<r;t++)for(var n in e=arguments[t])Object.prototype.hasOwnProperty.call(e,n)&&(A[n]=e[n]);return A}).apply(this,arguments)};function a(B,s,o,i){return new(o||(o=Promise))(function(A,e){function t(A){try{n(i.next(A))}catch(A){e(A)}}function r(A){try{n(i.throw(A))}catch(A){e(A)}}function n(e){e.done?A(e.value):new o(function(A){A(e.value)}).then(t,r)}n((i=i.apply(B,s||[])).next())})}function S(t,r){var n,B,s,A,o={label:0,sent:function(){if(1&s[0])throw s[1];return s[1]},trys:[],ops:[]};return A={next:e(0),throw:e(1),return:e(2)},"function"==typeof Symbol&&(A[Symbol.iterator]=function(){return this}),A;function e(e){return function(A){return function(e){if(n)throw new TypeError("Generator is already executing.");for(;o;)try{if(n=1,B&&(s=2&e[0]?B.return:e[0]?B.throw||((s=B.return)&&s.call(B),0):B.next)&&!(s=s.call(B,e[1])).done)return s;switch(B=0,s&&(e=[2&e[0],s.value]),e[0]){case 0:case 1:s=e;break;case 4:return o.label++,{value:e[1],done:!1};case 5:o.label++,B=e[1],e=[0];continue;case 7:e=o.ops.pop(),o.trys.pop();continue;default:if(!(s=0<(s=o.trys).length&&s[s.length-1])&&(6===e[0]||2===e[0])){o=0;continue}if(3===e[0]&&(!s||e[1]>s[0]&&e[1]<s[3])){o.label=e[1];break}if(6===e[0]&&o.label<s[1]){o.label=s[1],s=e;break}if(s&&o.label<s[2]){o.label=s[2],o.ops.push(e);break}s[2]&&o.ops.pop(),o.trys.pop();continue}e=r.call(t,o)}catch(A){e=[6,A],B=0}finally{n=s=0}if(5&e[0])throw e[1];return{value:e[0]?e[1]:void 0,done:!0}}([e,A])}}}var I=(n.prototype.add=function(A,e,t,r){return new n(this.left+A,this.top+e,this.width+t,this.height+r)},n.fromClientRect=function(A){return new n(A.left,A.top,A.width,A.height)},n);function n(A,e,t,r){this.left=A,this.top=e,this.width=t,this.height=r}for(var T=function(A){return I.fromClientRect(A.getBoundingClientRect())},c=function(A){for(var e=[],t=0,r=A.length;t<r;){var n=A.charCodeAt(t++);if(55296<=n&&n<=56319&&t<r){var B=A.charCodeAt(t++);56320==(64512&B)?e.push(((1023&n)<<10)+(1023&B)+65536):(e.push(n),t--)}else e.push(n)}return e},l=function(){for(var A=[],e=0;e<arguments.length;e++)A[e]=arguments[e];if(String.fromCodePoint)return String.fromCodePoint.apply(String,A);var t=A.length;if(!t)return"";for(var r=[],n=-1,B="";++n<t;){var s=A[n];s<=65535?r.push(s):(s-=65536,r.push(55296+(s>>10),s%1024+56320)),(n+1===t||16384<r.length)&&(B+=String.fromCharCode.apply(String,r),r.length=0)}return B},e="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",Q="undefined"==typeof Uint8Array?[]:new Uint8Array(256),t=0;t<e.length;t++)Q[e.charCodeAt(t)]=t;function B(A,e,t){return A.slice?A.slice(e,t):new Uint16Array(Array.prototype.slice.call(A,e,t))}var s=(o.prototype.get=function(A){var e;if(0<=A){if(A<55296||56319<A&&A<=65535)return e=((e=this.index[A>>5])<<2)+(31&A),this.data[e];if(A<=65535)return e=((e=this.index[2048+(A-55296>>5)])<<2)+(31&A),this.data[e];if(A<this.highStart)return e=2080+(A>>11),e=this.index[e],e+=A>>5&63,e=((e=this.index[e])<<2)+(31&A),this.data[e];if(A<=1114111)return this.data[this.highValueIndex]}return this.errorValue},o);function o(A,e,t,r,n,B){this.initialValue=A,this.errorValue=e,this.highStart=t,this.highValueIndex=r,this.index=n,this.data=B}function C(A,e,t,r){var n=r[t];if(Array.isArray(A)?-1!==A.indexOf(n):A===n)for(var B=t;B<=r.length;){if((i=r[++B])===e)return!0;if(i!==H)break}if(n===H)for(B=t;0<B;){var s=r[--B];if(Array.isArray(A)?-1!==A.indexOf(s):A===s)for(var o=t;o<=r.length;){var i;if((i=r[++o])===e)return!0;if(i!==H)break}if(s!==H)break}return!1}function g(A,e){for(var t=A;0<=t;){var r=e[t];if(r!==H)return r;t--}return 0}function w(A,e,t,r,n){if(0===t[r])return Y;var B=r-1;if(Array.isArray(n)&&!0===n[B])return Y;var s=B-1,o=1+B,i=e[B],a=0<=s?e[s]:0,c=e[o];if(2===i&&3===c)return Y;if(-1!==j.indexOf(i))return"!";if(-1!==j.indexOf(c))return Y;if(-1!==$.indexOf(c))return Y;if(8===g(B,e))return"÷";if(11===q.get(A[B])&&(c===X||c===P||c===x))return Y;if(7===i||7===c)return Y;if(9===i)return Y;if(-1===[H,d,f].indexOf(i)&&9===c)return Y;if(-1!==[p,N,m,O,y].indexOf(c))return Y;if(g(B,e)===v)return Y;if(C(23,v,B,e))return Y;if(C([p,N],L,B,e))return Y;if(C(12,12,B,e))return Y;if(i===H)return"÷";if(23===i||23===c)return Y;if(16===c||16===i)return"÷";if(-1!==[d,f,L].indexOf(c)||14===i)return Y;if(36===a&&-1!==rA.indexOf(i))return Y;if(i===y&&36===c)return Y;if(c===R&&-1!==Z.concat(R,m,D,X,P,x).indexOf(i))return Y;if(-1!==Z.indexOf(c)&&i===D||-1!==Z.indexOf(i)&&c===D)return Y;if(i===M&&-1!==[X,P,x].indexOf(c)||-1!==[X,P,x].indexOf(i)&&c===b)return Y;if(-1!==Z.indexOf(i)&&-1!==AA.indexOf(c)||-1!==AA.indexOf(i)&&-1!==Z.indexOf(c))return Y;if(-1!==[M,b].indexOf(i)&&(c===D||-1!==[v,f].indexOf(c)&&e[1+o]===D)||-1!==[v,f].indexOf(i)&&c===D||i===D&&-1!==[D,y,O].indexOf(c))return Y;if(-1!==[D,y,O,p,N].indexOf(c))for(var Q=B;0<=Q;){if((w=e[Q])===D)return Y;if(-1===[y,O].indexOf(w))break;Q--}if(-1!==[M,b].indexOf(c))for(Q=-1!==[p,N].indexOf(i)?s:B;0<=Q;){var w;if((w=e[Q])===D)return Y;if(-1===[y,O].indexOf(w))break;Q--}if(J===i&&-1!==[J,G,V,z].indexOf(c)||-1!==[G,V].indexOf(i)&&-1!==[G,k].indexOf(c)||-1!==[k,z].indexOf(i)&&c===k)return Y;if(-1!==tA.indexOf(i)&&-1!==[R,b].indexOf(c)||-1!==tA.indexOf(c)&&i===M)return Y;if(-1!==Z.indexOf(i)&&-1!==Z.indexOf(c))return Y;if(i===O&&-1!==Z.indexOf(c))return Y;if(-1!==Z.concat(D).indexOf(i)&&c===v||-1!==Z.concat(D).indexOf(c)&&i===N)return Y;if(41===i&&41===c){for(var u=t[B],U=1;0<u&&41===e[--u];)U++;if(U%2!=0)return Y}return i===P&&c===x?Y:"÷"}function u(t,A){A||(A={lineBreak:"normal",wordBreak:"normal"});var e=function(A,n){void 0===n&&(n="strict");var B=[],s=[],o=[];return A.forEach(function(A,e){var t=q.get(A);if(50<t?(o.push(!0),t-=50):o.push(!1),-1!==["normal","auto","loose"].indexOf(n)&&-1!==[8208,8211,12316,12448].indexOf(A))return s.push(e),B.push(16);if(4!==t&&11!==t)return s.push(e),31===t?B.push("strict"===n?L:X):t===W?B.push(_):29===t?B.push(_):43===t?131072<=A&&A<=196605||196608<=A&&A<=262141?B.push(X):B.push(_):void B.push(t);if(0===e)return s.push(e),B.push(_);var r=B[e-1];return-1===eA.indexOf(r)?(s.push(s[e-1]),B.push(r)):(s.push(e),B.push(_))}),[s,B,o]}(t,A.lineBreak),r=e[0],n=e[1],B=e[2];return"break-all"!==A.wordBreak&&"break-word"!==A.wordBreak||(n=n.map(function(A){return-1!==[D,_,W].indexOf(A)?X:A})),[r,n,"keep-all"===A.wordBreak?B.map(function(A,e){return A&&19968<=t[e]&&t[e]<=40959}):void 0]}var i,U,E,F,h,H=10,d=13,f=15,p=17,N=18,m=19,R=20,L=21,v=22,O=24,D=25,b=26,M=27,y=28,_=30,P=32,x=33,V=34,z=35,X=37,J=38,G=39,k=40,W=42,Y="×",q=(i=function(A){var e,t,r,n,B,s=.75*A.length,o=A.length,i=0;"="===A[A.length-1]&&(s--,"="===A[A.length-2]&&s--);var a="undefined"!=typeof ArrayBuffer&&"undefined"!=typeof Uint8Array&&void 0!==Uint8Array.prototype.slice?new ArrayBuffer(s):new Array(s),c=Array.isArray(a)?a:new Uint8Array(a);for(e=0;e<o;e+=4)t=Q[A.charCodeAt(e)],r=Q[A.charCodeAt(e+1)],n=Q[A.charCodeAt(e+2)],B=Q[A.charCodeAt(e+3)],c[i++]=t<<2|r>>4,c[i++]=(15&r)<<4|n>>2,c[i++]=(3&n)<<6|63&B;return a}("KwAAAAAAAAAACA4AIDoAAPAfAAACAAAAAAAIABAAGABAAEgAUABYAF4AZgBeAGYAYABoAHAAeABeAGYAfACEAIAAiACQAJgAoACoAK0AtQC9AMUAXgBmAF4AZgBeAGYAzQDVAF4AZgDRANkA3gDmAOwA9AD8AAQBDAEUARoBIgGAAIgAJwEvATcBPwFFAU0BTAFUAVwBZAFsAXMBewGDATAAiwGTAZsBogGkAawBtAG8AcIBygHSAdoB4AHoAfAB+AH+AQYCDgIWAv4BHgImAi4CNgI+AkUCTQJTAlsCYwJrAnECeQKBAk0CiQKRApkCoQKoArACuALAAsQCzAIwANQC3ALkAjAA7AL0AvwCAQMJAxADGAMwACADJgMuAzYDPgOAAEYDSgNSA1IDUgNaA1oDYANiA2IDgACAAGoDgAByA3YDfgOAAIQDgACKA5IDmgOAAIAAogOqA4AAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAK8DtwOAAIAAvwPHA88D1wPfAyAD5wPsA/QD/AOAAIAABAQMBBIEgAAWBB4EJgQuBDMEIAM7BEEEXgBJBCADUQRZBGEEaQQwADAAcQQ+AXkEgQSJBJEEgACYBIAAoASoBK8EtwQwAL8ExQSAAIAAgACAAIAAgACgAM0EXgBeAF4AXgBeAF4AXgBeANUEXgDZBOEEXgDpBPEE+QQBBQkFEQUZBSEFKQUxBTUFPQVFBUwFVAVcBV4AYwVeAGsFcwV7BYMFiwWSBV4AmgWgBacFXgBeAF4AXgBeAKsFXgCyBbEFugW7BcIFwgXIBcIFwgXQBdQF3AXkBesF8wX7BQMGCwYTBhsGIwYrBjMGOwZeAD8GRwZNBl4AVAZbBl4AXgBeAF4AXgBeAF4AXgBeAF4AXgBeAGMGXgBqBnEGXgBeAF4AXgBeAF4AXgBeAF4AXgB5BoAG4wSGBo4GkwaAAIADHgR5AF4AXgBeAJsGgABGA4AAowarBrMGswagALsGwwbLBjAA0wbaBtoG3QbaBtoG2gbaBtoG2gblBusG8wb7BgMHCwcTBxsHCwcjBysHMAc1BzUHOgdCB9oGSgdSB1oHYAfaBloHaAfaBlIH2gbaBtoG2gbaBtoG2gbaBjUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHbQdeAF4ANQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQd1B30HNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B4MH2gaKB68EgACAAIAAgACAAIAAgACAAI8HlwdeAJ8HpweAAIAArwe3B14AXgC/B8UHygcwANAH2AfgB4AA6AfwBz4B+AcACFwBCAgPCBcIogEYAR8IJwiAAC8INwg/CCADRwhPCFcIXwhnCEoDGgSAAIAAgABvCHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIhAiLCI4IMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlggwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAANQc1BzUHNQc1BzUHNQc1BzUHNQc1B54INQc1B6II2gaqCLIIugiAAIAAvgjGCIAAgACAAIAAgACAAIAAgACAAIAAywiHAYAA0wiAANkI3QjlCO0I9Aj8CIAAgACAAAIJCgkSCRoJIgknCTYHLwk3CZYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiAAIAAAAFAAXgBeAGAAcABeAHwAQACQAKAArQC9AJ4AXgBeAE0A3gBRAN4A7AD8AMwBGgEAAKcBNwEFAUwBXAF4QkhCmEKnArcCgAHHAsABz4LAAcABwAHAAd+C6ABoAG+C/4LAAcABwAHAAc+DF4MAAcAB54M3gweDV4Nng3eDaABoAGgAaABoAGgAaABoAGgAaABoAGgAaABoAGgAaABoAGgAaABoAEeDqABVg6WDqABoQ6gAaABoAHXDvcONw/3DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DncPAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcAB7cPPwlGCU4JMACAAIAAgABWCV4JYQmAAGkJcAl4CXwJgAkwADAAMAAwAIgJgACLCZMJgACZCZ8JowmrCYAAswkwAF4AXgB8AIAAuwkABMMJyQmAAM4JgADVCTAAMAAwADAAgACAAIAAgACAAIAAgACAAIAAqwYWBNkIMAAwADAAMADdCeAJ6AnuCR4E9gkwAP4JBQoNCjAAMACAABUK0wiAAB0KJAosCjQKgAAwADwKQwqAAEsKvQmdCVMKWwowADAAgACAALcEMACAAGMKgABrCjAAMAAwADAAMAAwADAAMAAwADAAMAAeBDAAMAAwADAAMAAwADAAMAAwADAAMAAwAIkEPQFzCnoKiQSCCooKkAqJBJgKoAqkCokEGAGsCrQKvArBCjAAMADJCtEKFQHZCuEK/gHpCvEKMAAwADAAMACAAIwE+QowAIAAPwEBCzAAMAAwADAAMACAAAkLEQswAIAAPwEZCyELgAAOCCkLMAAxCzkLMAAwADAAMAAwADAAXgBeAEELMAAwADAAMAAwADAAMAAwAEkLTQtVC4AAXAtkC4AAiQkwADAAMAAwADAAMAAwADAAbAtxC3kLgAuFC4sLMAAwAJMLlwufCzAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAApwswADAAMACAAIAAgACvC4AAgACAAIAAgACAALcLMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAvwuAAMcLgACAAIAAgACAAIAAyguAAIAAgACAAIAA0QswADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAANkLgACAAIAA4AswADAAMAAwADAAMAAwADAAMAAwADAAMAAwAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACJCR4E6AswADAAhwHwC4AA+AsADAgMEAwwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMACAAIAAGAwdDCUMMAAwAC0MNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQw1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHPQwwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADUHNQc1BzUHNQc1BzUHNQc2BzAAMAA5DDUHNQc1BzUHNQc1BzUHNQc1BzUHNQdFDDAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAgACAAIAATQxSDFoMMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAF4AXgBeAF4AXgBeAF4AYgxeAGoMXgBxDHkMfwxeAIUMXgBeAI0MMAAwADAAMAAwAF4AXgCVDJ0MMAAwADAAMABeAF4ApQxeAKsMswy7DF4Awgy9DMoMXgBeAF4AXgBeAF4AXgBeAF4AXgDRDNkMeQBqCeAM3Ax8AOYM7Az0DPgMXgBeAF4AXgBeAF4AXgBeAF4AXgBeAF4AXgBeAF4AXgCgAAANoAAHDQ4NFg0wADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAeDSYNMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAIAAgACAAIAAgACAAC4NMABeAF4ANg0wADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAD4NRg1ODVYNXg1mDTAAbQ0wADAAMAAwADAAMAAwADAA2gbaBtoG2gbaBtoG2gbaBnUNeg3CBYANwgWFDdoGjA3aBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gaUDZwNpA2oDdoG2gawDbcNvw3HDdoG2gbPDdYN3A3fDeYN2gbsDfMN2gbaBvoN/g3aBgYODg7aBl4AXgBeABYOXgBeACUG2gYeDl4AJA5eACwO2w3aBtoGMQ45DtoG2gbaBtoGQQ7aBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gZJDjUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B1EO2gY1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQdZDjUHNQc1BzUHNQc1B2EONQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHaA41BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B3AO2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gY1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B2EO2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gZJDtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBkkOeA6gAKAAoAAwADAAMAAwAKAAoACgAKAAoACgAKAAgA4wADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAD//wQABAAEAAQABAAEAAQABAAEAA0AAwABAAEAAgAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAKABMAFwAeABsAGgAeABcAFgASAB4AGwAYAA8AGAAcAEsASwBLAEsASwBLAEsASwBLAEsAGAAYAB4AHgAeABMAHgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAFgAbABIAHgAeAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQABYADQARAB4ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAUABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAkAFgAaABsAGwAbAB4AHQAdAB4ATwAXAB4ADQAeAB4AGgAbAE8ATwAOAFAAHQAdAB0ATwBPABcATwBPAE8AFgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAB4AHgAeAB4AUABQAFAAUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AHgAeAFAATwBAAE8ATwBPAEAATwBQAFAATwBQAB4AHgAeAB4AHgAeAB0AHQAdAB0AHgAdAB4ADgBQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgBQAB4AUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAJAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAkACQAJAAkACQAJAAkABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAeAB4AHgAeAFAAHgAeAB4AKwArAFAAUABQAFAAGABQACsAKwArACsAHgAeAFAAHgBQAFAAUAArAFAAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAEAAQABAAEAAQABAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAUAAeAB4AHgAeAB4AHgArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwAYAA0AKwArAB4AHgAbACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQADQAEAB4ABAAEAB4ABAAEABMABAArACsAKwArACsAKwArACsAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAKwArACsAKwArAFYAVgBWAB4AHgArACsAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AGgAaABoAGAAYAB4AHgAEAAQABAAEAAQABAAEAAQABAAEAAQAEwAEACsAEwATAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABABLAEsASwBLAEsASwBLAEsASwBLABoAGQAZAB4AUABQAAQAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQABMAUAAEAAQABAAEAAQABAAEAB4AHgAEAAQABAAEAAQABABQAFAABAAEAB4ABAAEAAQABABQAFAASwBLAEsASwBLAEsASwBLAEsASwBQAFAAUAAeAB4AUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwAeAFAABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQAUABQAB4AHgAYABMAUAArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAFAABAAEAAQABAAEAFAABAAEAAQAUAAEAAQABAAEAAQAKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAArACsAHgArAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAeAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAFAABAAEAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAAQABAANAA0ASwBLAEsASwBLAEsASwBLAEsASwAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQAKwBQAFAAUABQAFAAUABQAFAAKwArAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAKwArACsAUABQAFAAUAArACsABABQAAQABAAEAAQABAAEAAQAKwArAAQABAArACsABAAEAAQAUAArACsAKwArACsAKwArACsABAArACsAKwArAFAAUAArAFAAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwBQAFAAGgAaAFAAUABQAFAAUABMAB4AGwBQAB4AKwArACsABAAEAAQAKwBQAFAAUABQAFAAUAArACsAKwArAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAUAArAFAAUAArAFAAUAArACsABAArAAQABAAEAAQABAArACsAKwArAAQABAArACsABAAEAAQAKwArACsABAArACsAKwArACsAKwArAFAAUABQAFAAKwBQACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwAEAAQAUABQAFAABAArACsAKwArACsAKwArACsAKwArACsABAAEAAQAKwBQAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAUAArAFAAUABQAFAAUAArACsABABQAAQABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQAKwArAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwAeABsAKwArACsAKwArACsAKwBQAAQABAAEAAQABAAEACsABAAEAAQAKwBQAFAAUABQAFAAUABQAFAAKwArAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQAKwArAAQABAArACsABAAEAAQAKwArACsAKwArACsAKwArAAQABAArACsAKwArAFAAUAArAFAAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwAeAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwAEAFAAKwBQAFAAUABQAFAAUAArACsAKwBQAFAAUAArAFAAUABQAFAAKwArACsAUABQACsAUAArAFAAUAArACsAKwBQAFAAKwArACsAUABQAFAAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwAEAAQABAAEAAQAKwArACsABAAEAAQAKwAEAAQABAAEACsAKwBQACsAKwArACsAKwArAAQAKwArACsAKwArACsAKwArACsAKwBLAEsASwBLAEsASwBLAEsASwBLAFAAUABQAB4AHgAeAB4AHgAeABsAHgArACsAKwArACsABAAEAAQABAArAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArAFAABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQABAArACsAKwArACsAKwArAAQABAArAFAAUABQACsAKwArACsAKwBQAFAABAAEACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAB4AUAAEAAQABAArAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQACsAKwAEAFAABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQABAArACsAKwArACsAKwArAAQABAArACsAKwArACsAKwArAFAAKwBQAFAABAAEACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAFAABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQABABQAB4AKwArACsAKwBQAFAAUAAEAFAAUABQAFAAUABQAFAAUABQAFAABAAEACsAKwBLAEsASwBLAEsASwBLAEsASwBLAFAAUABQAFAAUABQAFAAUABQABoAUABQAFAAUABQAFAAKwArAAQABAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQACsAUAArACsAUABQAFAAUABQAFAAUAArACsAKwAEACsAKwArACsABAAEAAQABAAEAAQAKwAEACsABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArAAQABAAeACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAAqAFwAXAAqACoAKgAqACoAKgAqACsAKwArACsAGwBcAFwAXABcAFwAXABcACoAKgAqACoAKgAqACoAKgAeAEsASwBLAEsASwBLAEsASwBLAEsADQANACsAKwArACsAKwBcAFwAKwBcACsAKwBcAFwAKwBcACsAKwBcACsAKwArACsAKwArAFwAXABcAFwAKwBcAFwAXABcAFwAXABcACsAXABcAFwAKwBcACsAXAArACsAXABcACsAXABcAFwAXAAqAFwAXAAqACoAKgAqACoAKgArACoAKgBcACsAKwBcAFwAXABcAFwAKwBcACsAKgAqACoAKgAqACoAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArAFwAXABcAFwAUAAOAA4ADgAOAB4ADgAOAAkADgAOAA0ACQATABMAEwATABMACQAeABMAHgAeAB4ABAAEAB4AHgAeAB4AHgAeAEsASwBLAEsASwBLAEsASwBLAEsAUABQAFAAUABQAFAAUABQAFAAUAANAAQAHgAEAB4ABAAWABEAFgARAAQABABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAANAAQABAAEAAQABAANAAQABABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsADQANAB4AHgAeAB4AHgAeAAQAHgAeAB4AHgAeAB4AKwAeAB4ADgAOAA0ADgAeAB4AHgAeAB4ACQAJACsAKwArACsAKwBcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqAFwASwBLAEsASwBLAEsASwBLAEsASwANAA0AHgAeAB4AHgBcAFwAXABcAFwAXAAqACoAKgAqAFwAXABcAFwAKgAqACoAXAAqACoAKgBcAFwAKgAqACoAKgAqACoAKgBcAFwAXAAqACoAKgAqAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAKgAqACoAKgAqACoAKgAqACoAXAAqAEsASwBLAEsASwBLAEsASwBLAEsAKgAqACoAKgAqACoAUABQAFAAUABQAFAAKwBQACsAKwArACsAKwBQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAFAAUABQAFAAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQACsAKwBQAFAAUABQAFAAUABQACsAUAArAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUAArACsAUABQAFAAUABQAFAAUAArAFAAKwBQAFAAUABQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwAEAAQABAAeAA0AHgAeAB4AHgAeAB4AHgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AHgAeAB4AHgAeAB4AHgAeACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQACsAKwANAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAA0AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQABYAEQArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAADQANAA0AUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAABAAEAAQAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAA0ADQArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsABAAEACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoADQANABUAXAANAB4ADQAbAFwAKgArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArAB4AHgATABMADQANAA4AHgATABMAHgAEAAQABAAJACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAUABQAFAAUABQAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABABQACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwArACsAKwAeACsAKwArABMAEwBLAEsASwBLAEsASwBLAEsASwBLAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcACsAKwBcAFwAXABcAFwAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcACsAKwArACsAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwBcACsAKwArACoAKgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEACsAKwAeAB4AXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAKgAqACoAKgAqACoAKgArACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgArACsABABLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAKgAqACoAKgAqACoAKgBcACoAKgAqACoAKgAqACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQAUABQAFAAUABQAFAAUAArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsADQANAB4ADQANAA0ADQAeAB4AHgAeAB4AHgAeAB4AHgAeAAQABAAEAAQABAAEAAQABAAEAB4AHgAeAB4AHgAeAB4AHgAeACsAKwArAAQABAAEAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAUABQAEsASwBLAEsASwBLAEsASwBLAEsAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwArACsAKwArACsAHgAeAB4AHgBQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwANAA0ADQANAA0ASwBLAEsASwBLAEsASwBLAEsASwArACsAKwBQAFAAUABLAEsASwBLAEsASwBLAEsASwBLAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAANAA0AUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAeAB4AHgAeAB4AHgArACsAKwArACsAKwArACsABAAEAAQAHgAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAFAAUABQAFAABABQAFAAUABQAAQABAAEAFAAUAAEAAQABAArACsAKwArACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwAEAAQABAAEAAQAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUAArAFAAKwBQACsAUAArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAHgAeAB4AHgAeAB4AHgAeAFAAHgAeAB4AUABQAFAAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAKwArAB4AHgAeAB4AHgAeACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAUABQAFAAKwAeAB4AHgAeAB4AHgAeAA4AHgArAA0ADQANAA0ADQANAA0ACQANAA0ADQAIAAQACwAEAAQADQAJAA0ADQAMAB0AHQAeABcAFwAWABcAFwAXABYAFwAdAB0AHgAeABQAFAAUAA0AAQABAAQABAAEAAQABAAJABoAGgAaABoAGgAaABoAGgAeABcAFwAdABUAFQAeAB4AHgAeAB4AHgAYABYAEQAVABUAFQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgANAB4ADQANAA0ADQAeAA0ADQANAAcAHgAeAB4AHgArAAQABAAEAAQABAAEAAQABAAEAAQAUABQACsAKwBPAFAAUABQAFAAUAAeAB4AHgAWABEATwBQAE8ATwBPAE8AUABQAFAAUABQAB4AHgAeABYAEQArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAGwAbABsAGwAbABsAGwAaABsAGwAbABsAGwAbABsAGwAbABsAGwAbABsAGwAaABsAGwAbABsAGgAbABsAGgAbABsAGwAbABsAGwAbABsAGwAbABsAGwAbABsAGwAbABsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgBQABoAHgAdAB4AUAAeABoAHgAeAB4AHgAeAB4AHgAeAB4ATwAeAFAAGwAeAB4AUABQAFAAUABQAB4AHgAeAB0AHQAeAFAAHgBQAB4AUAAeAFAATwBQAFAAHgAeAB4AHgAeAB4AHgBQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAB4AUABQAFAAUABPAE8AUABQAFAAUABQAE8AUABQAE8AUABPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBQAFAAUABQAE8ATwBPAE8ATwBPAE8ATwBPAE8AUABQAFAAUABQAFAAUABQAFAAHgAeAFAAUABQAFAATwAeAB4AKwArACsAKwAdAB0AHQAdAB0AHQAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAeAB0AHQAeAB4AHgAdAB0AHgAeAB0AHgAeAB4AHQAeAB0AGwAbAB4AHQAeAB4AHgAeAB0AHgAeAB0AHQAdAB0AHgAeAB0AHgAdAB4AHQAdAB0AHQAdAB0AHgAdAB4AHgAeAB4AHgAdAB0AHQAdAB4AHgAeAB4AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAeAB4AHgAdAB4AHgAeAB4AHgAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB4AHgAdAB0AHQAdAB4AHgAdAB0AHgAeAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB0AHgAeAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHgAeAB4AHQAeAB4AHgAeAB4AHgAeAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeABQAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAWABEAFgARAB4AHgAeAB4AHgAeAB0AHgAeAB4AHgAeAB4AHgAlACUAHgAeAB4AHgAeAB4AHgAeAB4AFgARAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBQAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB4AHgAeAB4AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHgAeAB0AHQAdAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB0AHgAdAB0AHQAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAdAB0AHgAeAB0AHQAeAB4AHgAeAB0AHQAeAB4AHgAeAB0AHQAdAB4AHgAdAB4AHgAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAeAB0AHQAeAB4AHQAeAB4AHgAeAB0AHQAeAB4AHgAeACUAJQAdAB0AJQAeACUAJQAlACAAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAHgAeAB4AHgAdAB4AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB4AHQAdAB0AHgAdACUAHQAdAB4AHQAdAB4AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlACUAJQAlACUAHQAdAB0AHQAlAB4AJQAlACUAHQAlACUAHQAdAB0AJQAlAB0AHQAlAB0AHQAlACUAJQAeAB0AHgAeAB4AHgAdAB0AJQAdAB0AHQAdAB0AHQAlACUAJQAlACUAHQAlACUAIAAlAB0AHQAlACUAJQAlACUAJQAlACUAHgAeAB4AJQAlACAAIAAgACAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHgAeABcAFwAXABcAFwAXAB4AEwATACUAHgAeAB4AFgARABYAEQAWABEAFgARABYAEQAWABEAFgARAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAWABEAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AFgARABYAEQAWABEAFgARABYAEQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeABYAEQAWABEAFgARABYAEQAWABEAFgARABYAEQAWABEAFgARABYAEQAWABEAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AFgARABYAEQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeABYAEQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwAeAB4AHgAeAB4AHgAeAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAEAAQABAAeAB4AKwArACsAKwArABMADQANAA0AUAATAA0AUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAUAANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAEAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQACsAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAA0ADQANAA0ADQANAA0ADQAeAA0AFgANAB4AHgAXABcAHgAeABcAFwAWABEAFgARABYAEQAWABEADQANAA0ADQATAFAADQANAB4ADQANAB4AHgAeAB4AHgAMAAwADQANAA0AHgANAA0AFgANAA0ADQANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAKwArACsAKwArACsAKwArACsAKwArACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAlACUAJQAlACUAJQAlACUAJQAlACUAJQArACsAKwArAA0AEQARACUAJQBHAFcAVwAWABEAFgARABYAEQAWABEAFgARACUAJQAWABEAFgARABYAEQAWABEAFQAWABEAEQAlAFcAVwBXAFcAVwBXAFcAVwBXAAQABAAEAAQABAAEACUAVwBXAFcAVwA2ACUAJQBXAFcAVwBHAEcAJQAlACUAKwBRAFcAUQBXAFEAVwBRAFcAUQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFEAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBRAFcAUQBXAFEAVwBXAFcAVwBXAFcAUQBXAFcAVwBXAFcAVwBRAFEAKwArAAQABAAVABUARwBHAFcAFQBRAFcAUQBXAFEAVwBRAFcAUQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFEAVwBRAFcAUQBXAFcAVwBXAFcAVwBRAFcAVwBXAFcAVwBXAFEAUQBXAFcAVwBXABUAUQBHAEcAVwArACsAKwArACsAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwArACUAJQBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArACsAKwArACUAJQAlACUAKwArACsAKwArACsAKwArACsAKwArACsAUQBRAFEAUQBRAFEAUQBRAFEAUQBRAFEAUQBRAFEAUQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACsAVwBXAFcAVwBXAFcAVwBXAFcAVwAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAE8ATwBPAE8ATwBPAE8ATwAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAEcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAADQATAA0AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABLAEsASwBLAEsASwBLAEsASwBLAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAABAAEAAQABAAeAAQABAAEAAQABAAEAAQABAAEAAQAHgBQAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AUABQAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAeAA0ADQANAA0ADQArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAB4AHgAeAB4AHgAeAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAB4AHgAeAB4AHgAeAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAAQAUABQAFAABABQAFAAUABQAAQAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAeAB4AHgAeACsAKwArACsAUABQAFAAUABQAFAAHgAeABoAHgArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAADgAOABMAEwArACsAKwArACsAKwArACsABAAEAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwANAA0ASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABABQAFAAUABQAFAAUAAeAB4AHgBQAA4AUAArACsAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAA0ADQBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwArACsAKwArACsAKwArACsAKwArAB4AWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYACsAKwArAAQAHgAeAB4AHgAeAB4ADQANAA0AHgAeAB4AHgArAFAASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArAB4AHgBcAFwAXABcAFwAKgBcAFwAXABcAFwAXABcAFwAXABcAEsASwBLAEsASwBLAEsASwBLAEsAXABcAFwAXABcACsAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArAFAAUABQAAQAUABQAFAAUABQAFAAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAHgANAA0ADQBcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAXAAqACoAKgBcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAAqAFwAKgAqACoAXABcACoAKgBcAFwAXABcAFwAKgAqAFwAKgBcACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcACoAKgBQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAA0ADQBQAFAAUAAEAAQAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUAArACsAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQADQAEAAQAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAVABVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBUAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVACsAKwArACsAKwArACsAKwArACsAKwArAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAKwArACsAKwBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAKwArACsAKwAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAKwArACsAKwArAFYABABWAFYAVgBWAFYAVgBWAFYAVgBWAB4AVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgArAFYAVgBWAFYAVgArAFYAKwBWAFYAKwBWAFYAKwBWAFYAVgBWAFYAVgBWAFYAVgBWAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAEQAWAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUAAaAB4AKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAGAARABEAGAAYABMAEwAWABEAFAArACsAKwArACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACUAJQAlACUAJQAWABEAFgARABYAEQAWABEAFgARABYAEQAlACUAFgARACUAJQAlACUAJQAlACUAEQAlABEAKwAVABUAEwATACUAFgARABYAEQAWABEAJQAlACUAJQAlACUAJQAlACsAJQAbABoAJQArACsAKwArAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAAcAKwATACUAJQAbABoAJQAlABYAEQAlACUAEQAlABEAJQBXAFcAVwBXAFcAVwBXAFcAVwBXABUAFQAlACUAJQATACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXABYAJQARACUAJQAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwAWACUAEQAlABYAEQARABYAEQARABUAVwBRAFEAUQBRAFEAUQBRAFEAUQBRAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAEcARwArACsAVwBXAFcAVwBXAFcAKwArAFcAVwBXAFcAVwBXACsAKwBXAFcAVwBXAFcAVwArACsAVwBXAFcAKwArACsAGgAbACUAJQAlABsAGwArAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwAEAAQABAAQAB0AKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsADQANAA0AKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAFAAHgAeAB4AKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAKwArAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAAQAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsADQBQAFAAUABQACsAKwArACsAUABQAFAAUABQAFAAUABQAA0AUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUAArACsAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQACsAKwArAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAA0AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAB4AHgBQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsADQBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwBQAFAAUABQAFAABAAEAAQAKwAEAAQAKwArACsAKwArAAQABAAEAAQAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsABAAEAAQAKwArACsAKwAEAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsADQANAA0ADQANAA0ADQANAB4AKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAB4AUABQAFAAUABQAFAAUABQAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEACsAKwArACsAUABQAFAAUABQAA0ADQANAA0ADQANABQAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwANAA0ADQANAA0ADQANAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAHgAeAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwBQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAA0ADQAeAB4AHgAeAB4AKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAeAB4AHgANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAKwArAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsASwBLAEsASwBLAEsASwBLAEsASwANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAeAA4AUAArACsAKwArACsAKwArACsAKwAEAFAAUABQAFAADQANAB4ADQAeAAQABAAEAB4AKwArAEsASwBLAEsASwBLAEsASwBLAEsAUAAOAFAADQANAA0AKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAANAA0AHgANAA0AHgAEACsAUABQAFAAUABQAFAAUAArAFAAKwBQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAA0AKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsABAAEAAQABAArAFAAUABQAFAAUABQAFAAUAArACsAUABQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAArACsABAAEACsAKwAEAAQABAArACsAUAArACsAKwArACsAKwAEACsAKwArACsAKwBQAFAAUABQAFAABAAEACsAKwAEAAQABAAEAAQABAAEACsAKwArAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAQABABQAFAAUABQAA0ADQANAA0AHgBLAEsASwBLAEsASwBLAEsASwBLACsADQArAB4AKwArAAQABAAEAAQAUABQAB4AUAArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEACsAKwAEAAQABAAEAAQABAAEAAQABAAOAA0ADQATABMAHgAeAB4ADQANAA0ADQANAA0ADQANAA0ADQANAA0ADQANAA0AUABQAFAAUAAEAAQAKwArAAQADQANAB4AUAArACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwAOAA4ADgAOAA4ADgAOAA4ADgAOAA4ADgAOACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAArACsAKwAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAXABcAA0ADQANACoASwBLAEsASwBLAEsASwBLAEsASwBQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwBQAFAABAAEAAQABAAEAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAFAABAAEAAQABAAOAB4ADQANAA0ADQAOAB4ABAArACsAKwArACsAKwArACsAUAAEAAQABAAEAAQABAAEAAQABAAEAAQAUABQAFAAUAArACsAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAA0ADQANACsADgAOAA4ADQANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEACsABAAEAAQABAAEAAQABAAEAFAADQANAA0ADQANACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwAOABMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQACsAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAArACsAKwAEACsABAAEACsABAAEAAQABAAEAAQABABQAAQAKwArACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsADQANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAASABIAEgAQwBDAEMAUABQAFAAUABDAFAAUABQAEgAQwBIAEMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAASABDAEMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABIAEMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwANAA0AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAAQABAAEAAQABAANACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAA0ADQANAB4AHgAeAB4AHgAeAFAAUABQAFAADQAeACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAEcARwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwArACsAKwArACsAKwArACsAKwArACsAKwArAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQACsAKwAeAAQABAANAAQABAAEAAQAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAEAAQABAAEAB4AHgAeAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAHgAeAAQABAAEAAQABAAEAAQAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAEAAQABAAEAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAEAAQABAAeACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAFAAUAArACsAUAArACsAUABQACsAKwBQAFAAUABQACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwBQACsAUABQAFAAUABQAFAAUAArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAKwAeAB4AUABQAFAAUABQACsAUAArACsAKwBQAFAAUABQAFAAUABQACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AKwArAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAB4AHgAeAB4ABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAB4AHgAeAB4AHgAeAB4AHgAEAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAeAB4ADQANAA0ADQAeACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAAQABAAEAAQABAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAQABAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsABAAEAAQABAAEAAQABAArAAQABAArAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAEAAQABAAEAAQABAAEACsAKwArACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAFgAWAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUAArAFAAKwArAFAAKwBQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUAArAFAAKwBQACsAKwArACsAKwArAFAAKwArACsAKwBQACsAUAArAFAAKwBQAFAAUAArAFAAUAArAFAAKwArAFAAKwBQACsAUAArAFAAKwBQACsAUABQACsAUAArACsAUABQAFAAUAArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQACsAUABQAFAAUAArAFAAKwBQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwBQAFAAUAArAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwArACsATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwAlACUAJQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAeACUAHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHgAeACUAJQAlACUAHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQAlACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAHgAeACUAJQAlACUAJQAeACUAJQAlACUAJQAgACAAIAAlACUAIAAlACUAIAAgACAAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIQAhACEAIQAhACUAJQAgACAAJQAlACAAIAAgACAAIAAgACAAIAAgACAAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAgACAAIAAlACUAJQAlACAAJQAgACAAIAAgACAAIAAgACAAIAAlACUAJQAgACUAJQAlACUAIAAgACAAJQAgACAAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeACUAHgAlAB4AJQAlACUAJQAlACAAJQAlACUAJQAeACUAHgAeACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAHgAeAB4AHgAeAB4AHgAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAgACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAlACUAJQAlACAAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAIAAgACAAJQAlACUAIAAgACAAIAAgAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AFwAXABcAFQAVABUAHgAeAB4AHgAlACUAJQAgACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAgACAAJQAlACUAJQAlACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAJQAlACUAJQAlACAAIAAgACAAIAAlACAAIAAlACUAJQAlACUAJQAgACUAJQAlACUAJQAlACUAJQAlACAAIAAgACAAIAAgACAAIAAgACAAJQAlACUAIAAgACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACsAKwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAJQAlACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAJQAlACUAJQAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQArAAQAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsA"),U=Array.isArray(i)?function(A){for(var e=A.length,t=[],r=0;r<e;r+=4)t.push(A[r+3]<<24|A[r+2]<<16|A[r+1]<<8|A[r]);return t}(i):new Uint32Array(i),E=Array.isArray(i)?function(A){for(var e=A.length,t=[],r=0;r<e;r+=2)t.push(A[r+1]<<8|A[r]);return t}(i):new Uint16Array(i),F=B(E,12,U[4]/2),h=2===U[5]?B(E,(24+U[4])/2):function(A,e,t){return A.slice?A.slice(e,t):new Uint32Array(Array.prototype.slice.call(A,e,t))}(U,Math.ceil((24+U[4])/4)),new s(U[0],U[1],U[2],U[3],F,h)),Z=[_,36],j=[1,2,3,5],$=[H,8],AA=[M,b],eA=j.concat($),tA=[J,G,k,V,z],rA=[f,d],nA=(BA.prototype.slice=function(){return l.apply(void 0,this.codePoints.slice(this.start,this.end))},BA);function BA(A,e,t,r){this.codePoints=A,this.required="!"===e,this.start=t,this.end=r}var sA,oA;(oA=sA||(sA={}))[oA.STRING_TOKEN=0]="STRING_TOKEN",oA[oA.BAD_STRING_TOKEN=1]="BAD_STRING_TOKEN",oA[oA.LEFT_PARENTHESIS_TOKEN=2]="LEFT_PARENTHESIS_TOKEN",oA[oA.RIGHT_PARENTHESIS_TOKEN=3]="RIGHT_PARENTHESIS_TOKEN",oA[oA.COMMA_TOKEN=4]="COMMA_TOKEN",oA[oA.HASH_TOKEN=5]="HASH_TOKEN",oA[oA.DELIM_TOKEN=6]="DELIM_TOKEN",oA[oA.AT_KEYWORD_TOKEN=7]="AT_KEYWORD_TOKEN",oA[oA.PREFIX_MATCH_TOKEN=8]="PREFIX_MATCH_TOKEN",oA[oA.DASH_MATCH_TOKEN=9]="DASH_MATCH_TOKEN",oA[oA.INCLUDE_MATCH_TOKEN=10]="INCLUDE_MATCH_TOKEN",oA[oA.LEFT_CURLY_BRACKET_TOKEN=11]="LEFT_CURLY_BRACKET_TOKEN",oA[oA.RIGHT_CURLY_BRACKET_TOKEN=12]="RIGHT_CURLY_BRACKET_TOKEN",oA[oA.SUFFIX_MATCH_TOKEN=13]="SUFFIX_MATCH_TOKEN",oA[oA.SUBSTRING_MATCH_TOKEN=14]="SUBSTRING_MATCH_TOKEN",oA[oA.DIMENSION_TOKEN=15]="DIMENSION_TOKEN",oA[oA.PERCENTAGE_TOKEN=16]="PERCENTAGE_TOKEN",oA[oA.NUMBER_TOKEN=17]="NUMBER_TOKEN",oA[oA.FUNCTION=18]="FUNCTION",oA[oA.FUNCTION_TOKEN=19]="FUNCTION_TOKEN",oA[oA.IDENT_TOKEN=20]="IDENT_TOKEN",oA[oA.COLUMN_TOKEN=21]="COLUMN_TOKEN",oA[oA.URL_TOKEN=22]="URL_TOKEN",oA[oA.BAD_URL_TOKEN=23]="BAD_URL_TOKEN",oA[oA.CDC_TOKEN=24]="CDC_TOKEN",oA[oA.CDO_TOKEN=25]="CDO_TOKEN",oA[oA.COLON_TOKEN=26]="COLON_TOKEN",oA[oA.SEMICOLON_TOKEN=27]="SEMICOLON_TOKEN",oA[oA.LEFT_SQUARE_BRACKET_TOKEN=28]="LEFT_SQUARE_BRACKET_TOKEN",oA[oA.RIGHT_SQUARE_BRACKET_TOKEN=29]="RIGHT_SQUARE_BRACKET_TOKEN",oA[oA.UNICODE_RANGE_TOKEN=30]="UNICODE_RANGE_TOKEN",oA[oA.WHITESPACE_TOKEN=31]="WHITESPACE_TOKEN",oA[oA.EOF_TOKEN=32]="EOF_TOKEN";function iA(A){return 48<=A&&A<=57}function aA(A){return iA(A)||65<=A&&A<=70||97<=A&&A<=102}function cA(A){return 10===A||9===A||32===A}function QA(A){return function(A){return function(A){return 97<=A&&A<=122}(A)||function(A){return 65<=A&&A<=90}(A)}(A)||function(A){return 128<=A}(A)||95===A}function wA(A){return QA(A)||iA(A)||45===A}function uA(A,e){return 92===A&&10!==e}function UA(A,e,t){return 45===A?QA(e)||uA(e,t):!!QA(A)||!(92!==A||!uA(A,e))}function lA(A,e,t){return 43===A||45===A?!!iA(e)||46===e&&iA(t):iA(46===A?e:A)}var CA={type:sA.LEFT_PARENTHESIS_TOKEN},gA={type:sA.RIGHT_PARENTHESIS_TOKEN},EA={type:sA.COMMA_TOKEN},FA={type:sA.SUFFIX_MATCH_TOKEN},hA={type:sA.PREFIX_MATCH_TOKEN},HA={type:sA.COLUMN_TOKEN},dA={type:sA.DASH_MATCH_TOKEN},fA={type:sA.INCLUDE_MATCH_TOKEN},pA={type:sA.LEFT_CURLY_BRACKET_TOKEN},NA={type:sA.RIGHT_CURLY_BRACKET_TOKEN},KA={type:sA.SUBSTRING_MATCH_TOKEN},IA={type:sA.BAD_URL_TOKEN},TA={type:sA.BAD_STRING_TOKEN},mA={type:sA.CDO_TOKEN},RA={type:sA.CDC_TOKEN},LA={type:sA.COLON_TOKEN},vA={type:sA.SEMICOLON_TOKEN},OA={type:sA.LEFT_SQUARE_BRACKET_TOKEN},DA={type:sA.RIGHT_SQUARE_BRACKET_TOKEN},bA={type:sA.WHITESPACE_TOKEN},SA={type:sA.EOF_TOKEN},MA=(yA.prototype.write=function(A){this._value=this._value.concat(c(A))},yA.prototype.read=function(){for(var A=[],e=this.consumeToken();e!==SA;)A.push(e),e=this.consumeToken();return A},yA.prototype.consumeToken=function(){var A=this.consumeCodePoint();switch(A){case 34:return this.consumeStringToken(34);case 35:var e=this.peekCodePoint(0),t=this.peekCodePoint(1),r=this.peekCodePoint(2);if(wA(e)||uA(t,r)){var n=UA(e,t,r)?2:1,B=this.consumeName();return{type:sA.HASH_TOKEN,value:B,flags:n}}break;case 36:if(61===this.peekCodePoint(0))return this.consumeCodePoint(),FA;break;case 39:return this.consumeStringToken(39);case 40:return CA;case 41:return gA;case 42:if(61===this.peekCodePoint(0))return this.consumeCodePoint(),KA;break;case 43:if(lA(A,this.peekCodePoint(0),this.peekCodePoint(1)))return this.reconsumeCodePoint(A),this.consumeNumericToken();break;case 44:return EA;case 45:var s=A,o=this.peekCodePoint(0),i=this.peekCodePoint(1);if(lA(s,o,i))return this.reconsumeCodePoint(A),this.consumeNumericToken();if(UA(s,o,i))return this.reconsumeCodePoint(A),this.consumeIdentLikeToken();if(45===o&&62===i)return this.consumeCodePoint(),this.consumeCodePoint(),RA;break;case 46:if(lA(A,this.peekCodePoint(0),this.peekCodePoint(1)))return this.reconsumeCodePoint(A),this.consumeNumericToken();break;case 47:if(42===this.peekCodePoint(0))for(this.consumeCodePoint();;){var a=this.consumeCodePoint();if(42===a&&47===(a=this.consumeCodePoint()))return this.consumeToken();if(-1===a)return this.consumeToken()}break;case 58:return LA;case 59:return vA;case 60:if(33===this.peekCodePoint(0)&&45===this.peekCodePoint(1)&&45===this.peekCodePoint(2))return this.consumeCodePoint(),this.consumeCodePoint(),mA;break;case 64:var c=this.peekCodePoint(0),Q=this.peekCodePoint(1),w=this.peekCodePoint(2);if(UA(c,Q,w))return B=this.consumeName(),{type:sA.AT_KEYWORD_TOKEN,value:B};break;case 91:return OA;case 92:if(uA(A,this.peekCodePoint(0)))return this.reconsumeCodePoint(A),this.consumeIdentLikeToken();break;case 93:return DA;case 61:if(61===this.peekCodePoint(0))return this.consumeCodePoint(),hA;break;case 123:return pA;case 125:return NA;case 117:case 85:var u=this.peekCodePoint(0),U=this.peekCodePoint(1);return 43!==u||!aA(U)&&63!==U||(this.consumeCodePoint(),this.consumeUnicodeRangeToken()),this.reconsumeCodePoint(A),this.consumeIdentLikeToken();case 124:if(61===this.peekCodePoint(0))return this.consumeCodePoint(),dA;if(124===this.peekCodePoint(0))return this.consumeCodePoint(),HA;break;case 126:if(61===this.peekCodePoint(0))return this.consumeCodePoint(),fA;break;case-1:return SA}return cA(A)?(this.consumeWhiteSpace(),bA):iA(A)?(this.reconsumeCodePoint(A),this.consumeNumericToken()):QA(A)?(this.reconsumeCodePoint(A),this.consumeIdentLikeToken()):{type:sA.DELIM_TOKEN,value:l(A)}},yA.prototype.consumeCodePoint=function(){var A=this._value.shift();return void 0===A?-1:A},yA.prototype.reconsumeCodePoint=function(A){this._value.unshift(A)},yA.prototype.peekCodePoint=function(A){return A>=this._value.length?-1:this._value[A]},yA.prototype.consumeUnicodeRangeToken=function(){for(var A=[],e=this.consumeCodePoint();aA(e)&&A.length<6;)A.push(e),e=this.consumeCodePoint();for(var t=!1;63===e&&A.length<6;)A.push(e),e=this.consumeCodePoint(),t=!0;if(t){var r=parseInt(l.apply(void 0,A.map(function(A){return 63===A?48:A})),16),n=parseInt(l.apply(void 0,A.map(function(A){return 63===A?70:A})),16);return{type:sA.UNICODE_RANGE_TOKEN,start:r,end:n}}var B=parseInt(l.apply(void 0,A),16);if(45===this.peekCodePoint(0)&&aA(this.peekCodePoint(1))){this.consumeCodePoint(),e=this.consumeCodePoint();for(var s=[];aA(e)&&s.length<6;)s.push(e),e=this.consumeCodePoint();return n=parseInt(l.apply(void 0,s),16),{type:sA.UNICODE_RANGE_TOKEN,start:B,end:n}}return{type:sA.UNICODE_RANGE_TOKEN,start:B,end:B}},yA.prototype.consumeIdentLikeToken=function(){var A=this.consumeName();return"url"===A.toLowerCase()&&40===this.peekCodePoint(0)?(this.consumeCodePoint(),this.consumeUrlToken()):40===this.peekCodePoint(0)?(this.consumeCodePoint(),{type:sA.FUNCTION_TOKEN,value:A}):{type:sA.IDENT_TOKEN,value:A}},yA.prototype.consumeUrlToken=function(){var A=[];if(this.consumeWhiteSpace(),-1===this.peekCodePoint(0))return{type:sA.URL_TOKEN,value:""};var e,t=this.peekCodePoint(0);if(39===t||34===t){var r=this.consumeStringToken(this.consumeCodePoint());return r.type===sA.STRING_TOKEN&&(this.consumeWhiteSpace(),-1===this.peekCodePoint(0)||41===this.peekCodePoint(0))?(this.consumeCodePoint(),{type:sA.URL_TOKEN,value:r.value}):(this.consumeBadUrlRemnants(),IA)}for(;;){var n=this.consumeCodePoint();if(-1===n||41===n)return{type:sA.URL_TOKEN,value:l.apply(void 0,A)};if(cA(n))return this.consumeWhiteSpace(),-1===this.peekCodePoint(0)||41===this.peekCodePoint(0)?(this.consumeCodePoint(),{type:sA.URL_TOKEN,value:l.apply(void 0,A)}):(this.consumeBadUrlRemnants(),IA);if(34===n||39===n||40===n||0<=(e=n)&&e<=8||11===e||14<=e&&e<=31||127===e)return this.consumeBadUrlRemnants(),IA;if(92===n){if(!uA(n,this.peekCodePoint(0)))return this.consumeBadUrlRemnants(),IA;A.push(this.consumeEscapedCodePoint())}else A.push(n)}},yA.prototype.consumeWhiteSpace=function(){for(;cA(this.peekCodePoint(0));)this.consumeCodePoint()},yA.prototype.consumeBadUrlRemnants=function(){for(;;){var A=this.consumeCodePoint();if(41===A||-1===A)return;uA(A,this.peekCodePoint(0))&&this.consumeEscapedCodePoint()}},yA.prototype.consumeStringSlice=function(A){for(var e="";0<A;){var t=Math.min(6e4,A);e+=l.apply(void 0,this._value.splice(0,t)),A-=t}return this._value.shift(),e},yA.prototype.consumeStringToken=function(A){for(var e="",t=0;;){var r=this._value[t];if(-1===r||void 0===r||r===A)return e+=this.consumeStringSlice(t),{type:sA.STRING_TOKEN,value:e};if(10===r)return this._value.splice(0,t),TA;if(92===r){var n=this._value[t+1];-1!==n&&void 0!==n&&(10===n?(e+=this.consumeStringSlice(t),t=-1,this._value.shift()):uA(r,n)&&(e+=this.consumeStringSlice(t),e+=l(this.consumeEscapedCodePoint()),t=-1))}t++}},yA.prototype.consumeNumber=function(){var A=[],e=4,t=this.peekCodePoint(0);for(43!==t&&45!==t||A.push(this.consumeCodePoint());iA(this.peekCodePoint(0));)A.push(this.consumeCodePoint());t=this.peekCodePoint(0);var r=this.peekCodePoint(1);if(46===t&&iA(r))for(A.push(this.consumeCodePoint(),this.consumeCodePoint()),e=8;iA(this.peekCodePoint(0));)A.push(this.consumeCodePoint());t=this.peekCodePoint(0),r=this.peekCodePoint(1);var n=this.peekCodePoint(2);if((69===t||101===t)&&((43===r||45===r)&&iA(n)||iA(r)))for(A.push(this.consumeCodePoint(),this.consumeCodePoint()),e=8;iA(this.peekCodePoint(0));)A.push(this.consumeCodePoint());return[function(A){var e=0,t=1;43!==A[e]&&45!==A[e]||(45===A[e]&&(t=-1),e++);for(var r=[];iA(A[e]);)r.push(A[e++]);var n=r.length?parseInt(l.apply(void 0,r),10):0;46===A[e]&&e++;for(var B=[];iA(A[e]);)B.push(A[e++]);var s=B.length,o=s?parseInt(l.apply(void 0,B),10):0;69!==A[e]&&101!==A[e]||e++;var i=1;43!==A[e]&&45!==A[e]||(45===A[e]&&(i=-1),e++);for(var a=[];iA(A[e]);)a.push(A[e++]);var c=a.length?parseInt(l.apply(void 0,a),10):0;return t*(n+o*Math.pow(10,-s))*Math.pow(10,i*c)}(A),e]},yA.prototype.consumeNumericToken=function(){var A=this.consumeNumber(),e=A[0],t=A[1],r=this.peekCodePoint(0),n=this.peekCodePoint(1),B=this.peekCodePoint(2);if(UA(r,n,B)){var s=this.consumeName();return{type:sA.DIMENSION_TOKEN,number:e,flags:t,unit:s}}return 37===r?(this.consumeCodePoint(),{type:sA.PERCENTAGE_TOKEN,number:e,flags:t}):{type:sA.NUMBER_TOKEN,number:e,flags:t}},yA.prototype.consumeEscapedCodePoint=function(){var A=this.consumeCodePoint();if(aA(A)){for(var e=l(A);aA(this.peekCodePoint(0))&&e.length<6;)e+=l(this.consumeCodePoint());cA(this.peekCodePoint(0))&&this.consumeCodePoint();var t=parseInt(e,16);return 0===t||function(A){return 55296<=A&&A<=57343}(t)||1114111<t?65533:t}return-1===A?65533:A},yA.prototype.consumeName=function(){for(var A="";;){var e=this.consumeCodePoint();if(wA(e))A+=l(e);else{if(!uA(e,this.peekCodePoint(0)))return this.reconsumeCodePoint(e),A;A+=l(this.consumeEscapedCodePoint())}}},yA);function yA(){this._value=[]}var _A=(PA.create=function(A){var e=new MA;return e.write(A),new PA(e.read())},PA.parseValue=function(A){return PA.create(A).parseComponentValue()},PA.parseValues=function(A){return PA.create(A).parseComponentValues()},PA.prototype.parseComponentValue=function(){for(var A=this.consumeToken();A.type===sA.WHITESPACE_TOKEN;)A=this.consumeToken();if(A.type===sA.EOF_TOKEN)throw new SyntaxError("Error parsing CSS component value, unexpected EOF");this.reconsumeToken(A);for(var e=this.consumeComponentValue();(A=this.consumeToken()).type===sA.WHITESPACE_TOKEN;);if(A.type===sA.EOF_TOKEN)return e;throw new SyntaxError("Error parsing CSS component value, multiple values found when expecting only one")},PA.prototype.parseComponentValues=function(){for(var A=[];;){var e=this.consumeComponentValue();if(e.type===sA.EOF_TOKEN)return A;A.push(e),A.push()}},PA.prototype.consumeComponentValue=function(){var A=this.consumeToken();switch(A.type){case sA.LEFT_CURLY_BRACKET_TOKEN:case sA.LEFT_SQUARE_BRACKET_TOKEN:case sA.LEFT_PARENTHESIS_TOKEN:return this.consumeSimpleBlock(A.type);case sA.FUNCTION_TOKEN:return this.consumeFunction(A)}return A},PA.prototype.consumeSimpleBlock=function(A){for(var e={type:A,values:[]},t=this.consumeToken();;){if(t.type===sA.EOF_TOKEN||Be(t,A))return e;this.reconsumeToken(t),e.values.push(this.consumeComponentValue()),t=this.consumeToken()}},PA.prototype.consumeFunction=function(A){for(var e={name:A.value,values:[],type:sA.FUNCTION};;){var t=this.consumeToken();if(t.type===sA.EOF_TOKEN||t.type===sA.RIGHT_PARENTHESIS_TOKEN)return e;this.reconsumeToken(t),e.values.push(this.consumeComponentValue())}},PA.prototype.consumeToken=function(){var A=this._tokens.shift();return void 0===A?SA:A},PA.prototype.reconsumeToken=function(A){this._tokens.unshift(A)},PA);function PA(A){this._tokens=A}function xA(A){return A.type===sA.DIMENSION_TOKEN}function VA(A){return A.type===sA.NUMBER_TOKEN}function zA(A){return A.type===sA.IDENT_TOKEN}function XA(A){return A.type===sA.STRING_TOKEN}function JA(A,e){return zA(A)&&A.value===e}function GA(A){return A.type!==sA.WHITESPACE_TOKEN}function kA(A){return A.type!==sA.WHITESPACE_TOKEN&&A.type!==sA.COMMA_TOKEN}function WA(A){var e=[],t=[];return A.forEach(function(A){if(A.type===sA.COMMA_TOKEN){if(0===t.length)throw new Error("Error parsing function args, zero tokens for arg");return e.push(t),void(t=[])}A.type!==sA.WHITESPACE_TOKEN&&t.push(A)}),t.length&&e.push(t),e}function YA(A){return A.type===sA.NUMBER_TOKEN||A.type===sA.DIMENSION_TOKEN}function qA(A){return A.type===sA.PERCENTAGE_TOKEN||YA(A)}function ZA(A){return 1<A.length?[A[0],A[1]]:[A[0]]}function jA(A,e,t){var r=A[0],n=A[1];return[ae(r,e),ae(void 0!==n?n:r,t)]}function $A(A){return A.type===sA.DIMENSION_TOKEN&&("deg"===A.unit||"grad"===A.unit||"rad"===A.unit||"turn"===A.unit)}function Ae(A){switch(A.filter(zA).map(function(A){return A.value}).join(" ")){case"to bottom right":case"to right bottom":case"left top":case"top left":return[se,se];case"to top":case"bottom":return Qe(0);case"to bottom left":case"to left bottom":case"right top":case"top right":return[se,ie];case"to right":case"left":return Qe(90);case"to top left":case"to left top":case"right bottom":case"bottom right":return[ie,ie];case"to bottom":case"top":return Qe(180);case"to top right":case"to right top":case"left bottom":case"bottom left":return[ie,se];case"to left":case"right":return Qe(270)}return 0}function ee(A){return 0==(255&A)}function te(A){var e=255&A,t=255&A>>8,r=255&A>>16,n=255&A>>24;return e<255?"rgba("+n+","+r+","+t+","+e/255+")":"rgb("+n+","+r+","+t+")"}function re(A,e){if(A.type===sA.NUMBER_TOKEN)return A.number;if(A.type!==sA.PERCENTAGE_TOKEN)return 0;var t=3===e?1:255;return 3===e?A.number/100*t:Math.round(A.number/100*t)}function ne(A){var e=A.filter(kA);if(3===e.length){var t=e.map(re),r=t[0],n=t[1],B=t[2];return ue(r,n,B,1)}if(4!==e.length)return 0;var s=e.map(re),o=(r=s[0],n=s[1],B=s[2],s[3]);return ue(r,n,B,o)}var Be=function(A,e){return e===sA.LEFT_CURLY_BRACKET_TOKEN&&A.type===sA.RIGHT_CURLY_BRACKET_TOKEN||(e===sA.LEFT_SQUARE_BRACKET_TOKEN&&A.type===sA.RIGHT_SQUARE_BRACKET_TOKEN||e===sA.LEFT_PARENTHESIS_TOKEN&&A.type===sA.RIGHT_PARENTHESIS_TOKEN)},se={type:sA.NUMBER_TOKEN,number:0,flags:4},oe={type:sA.PERCENTAGE_TOKEN,number:50,flags:4},ie={type:sA.PERCENTAGE_TOKEN,number:100,flags:4},ae=function(A,e){if(A.type===sA.PERCENTAGE_TOKEN)return A.number/100*e;if(xA(A))switch(A.unit){case"rem":case"em":return 16*A.number;case"px":default:return A.number}return A.number},ce=function(A){if(A.type===sA.DIMENSION_TOKEN)switch(A.unit){case"deg":return Math.PI*A.number/180;case"grad":return Math.PI/200*A.number;case"rad":return A.number;case"turn":return 2*Math.PI*A.number}throw new Error("Unsupported angle type")},Qe=function(A){return Math.PI*A/180},we=function(A){if(A.type===sA.FUNCTION){var e=he[A.name];if(void 0===e)throw new Error('Attempting to parse an unsupported color function "'+A.name+'"');return e(A.values)}if(A.type===sA.HASH_TOKEN){if(3===A.value.length){var t=A.value.substring(0,1),r=A.value.substring(1,2),n=A.value.substring(2,3);return ue(parseInt(t+t,16),parseInt(r+r,16),parseInt(n+n,16),1)}if(4===A.value.length){t=A.value.substring(0,1),r=A.value.substring(1,2),n=A.value.substring(2,3);var B=A.value.substring(3,4);return ue(parseInt(t+t,16),parseInt(r+r,16),parseInt(n+n,16),parseInt(B+B,16)/255)}if(6===A.value.length){t=A.value.substring(0,2),r=A.value.substring(2,4),n=A.value.substring(4,6);return ue(parseInt(t,16),parseInt(r,16),parseInt(n,16),1)}if(8===A.value.length){t=A.value.substring(0,2),r=A.value.substring(2,4),n=A.value.substring(4,6),B=A.value.substring(6,8);return ue(parseInt(t,16),parseInt(r,16),parseInt(n,16),parseInt(B,16)/255)}}if(A.type===sA.IDENT_TOKEN){var s=He[A.value.toUpperCase()];if(void 0!==s)return s}return He.TRANSPARENT},ue=function(A,e,t,r){return(A<<24|e<<16|t<<8|Math.round(255*r)<<0)>>>0};function Ue(A,e,t){return t<0&&(t+=1),1<=t&&(t-=1),t<1/6?(e-A)*t*6+A:t<.5?e:t<2/3?6*(e-A)*(2/3-t)+A:A}function le(A){var e=A.filter(kA),t=e[0],r=e[1],n=e[2],B=e[3],s=(t.type===sA.NUMBER_TOKEN?Qe(t.number):ce(t))/(2*Math.PI),o=qA(r)?r.number/100:0,i=qA(n)?n.number/100:0,a=void 0!==B&&qA(B)?ae(B,1):1;if(0==o)return ue(255*i,255*i,255*i,1);var c=i<=.5?i*(1+o):i+o-i*o,Q=2*i-c,w=Ue(Q,c,s+1/3),u=Ue(Q,c,s),U=Ue(Q,c,s-1/3);return ue(255*w,255*u,255*U,a)}var Ce,ge,Ee,Fe,he={hsl:le,hsla:le,rgb:ne,rgba:ne},He={ALICEBLUE:4042850303,ANTIQUEWHITE:4209760255,AQUA:16777215,AQUAMARINE:2147472639,AZURE:4043309055,BEIGE:4126530815,BISQUE:4293182719,BLACK:255,BLANCHEDALMOND:4293643775,BLUE:65535,BLUEVIOLET:2318131967,BROWN:2771004159,BURLYWOOD:3736635391,CADETBLUE:1604231423,CHARTREUSE:2147418367,CHOCOLATE:3530104575,CORAL:4286533887,CORNFLOWERBLUE:1687547391,CORNSILK:4294499583,CRIMSON:3692313855,CYAN:16777215,DARKBLUE:35839,DARKCYAN:9145343,DARKGOLDENROD:3095837695,DARKGRAY:2846468607,DARKGREEN:6553855,DARKGREY:2846468607,DARKKHAKI:3182914559,DARKMAGENTA:2332068863,DARKOLIVEGREEN:1433087999,DARKORANGE:4287365375,DARKORCHID:2570243327,DARKRED:2332033279,DARKSALMON:3918953215,DARKSEAGREEN:2411499519,DARKSLATEBLUE:1211993087,DARKSLATEGRAY:793726975,DARKSLATEGREY:793726975,DARKTURQUOISE:13554175,DARKVIOLET:2483082239,DEEPPINK:4279538687,DEEPSKYBLUE:12582911,DIMGRAY:1768516095,DIMGREY:1768516095,DODGERBLUE:512819199,FIREBRICK:2988581631,FLORALWHITE:4294635775,FORESTGREEN:579543807,FUCHSIA:4278255615,GAINSBORO:3705462015,GHOSTWHITE:4177068031,GOLD:4292280575,GOLDENROD:3668254975,GRAY:2155905279,GREEN:8388863,GREENYELLOW:2919182335,GREY:2155905279,HONEYDEW:4043305215,HOTPINK:4285117695,INDIANRED:3445382399,INDIGO:1258324735,IVORY:4294963455,KHAKI:4041641215,LAVENDER:3873897215,LAVENDERBLUSH:4293981695,LAWNGREEN:2096890111,LEMONCHIFFON:4294626815,LIGHTBLUE:2916673279,LIGHTCORAL:4034953471,LIGHTCYAN:3774873599,LIGHTGOLDENRODYELLOW:4210742015,LIGHTGRAY:3553874943,LIGHTGREEN:2431553791,LIGHTGREY:3553874943,LIGHTPINK:4290167295,LIGHTSALMON:4288707327,LIGHTSEAGREEN:548580095,LIGHTSKYBLUE:2278488831,LIGHTSLATEGRAY:2005441023,LIGHTSLATEGREY:2005441023,LIGHTSTEELBLUE:2965692159,LIGHTYELLOW:4294959359,LIME:16711935,LIMEGREEN:852308735,LINEN:4210091775,MAGENTA:4278255615,MAROON:2147483903,MEDIUMAQUAMARINE:1724754687,MEDIUMBLUE:52735,MEDIUMORCHID:3126187007,MEDIUMPURPLE:2473647103,MEDIUMSEAGREEN:1018393087,MEDIUMSLATEBLUE:2070474495,MEDIUMSPRINGGREEN:16423679,MEDIUMTURQUOISE:1221709055,MEDIUMVIOLETRED:3340076543,MIDNIGHTBLUE:421097727,MINTCREAM:4127193855,MISTYROSE:4293190143,MOCCASIN:4293178879,NAVAJOWHITE:4292783615,NAVY:33023,OLDLACE:4260751103,OLIVE:2155872511,OLIVEDRAB:1804477439,ORANGE:4289003775,ORANGERED:4282712319,ORCHID:3664828159,PALEGOLDENROD:4008225535,PALEGREEN:2566625535,PALETURQUOISE:2951671551,PALEVIOLETRED:3681588223,PAPAYAWHIP:4293907967,PEACHPUFF:4292524543,PERU:3448061951,PINK:4290825215,PLUM:3718307327,POWDERBLUE:2967529215,PURPLE:2147516671,REBECCAPURPLE:1714657791,RED:4278190335,ROSYBROWN:3163525119,ROYALBLUE:1097458175,SADDLEBROWN:2336560127,SALMON:4202722047,SANDYBROWN:4104413439,SEAGREEN:780883967,SEASHELL:4294307583,SIENNA:2689740287,SILVER:3233857791,SKYBLUE:2278484991,SLATEBLUE:1784335871,SLATEGRAY:1887473919,SLATEGREY:1887473919,SNOW:4294638335,SPRINGGREEN:16744447,STEELBLUE:1182971135,TAN:3535047935,TEAL:8421631,THISTLE:3636451583,TOMATO:4284696575,TRANSPARENT:0,TURQUOISE:1088475391,VIOLET:4001558271,WHEAT:4125012991,WHITE:4294967295,WHITESMOKE:4126537215,YELLOW:4294902015,YELLOWGREEN:2597139199};(ge=Ce||(Ce={}))[ge.VALUE=0]="VALUE",ge[ge.LIST=1]="LIST",ge[ge.IDENT_VALUE=2]="IDENT_VALUE",ge[ge.TYPE_VALUE=3]="TYPE_VALUE",ge[ge.TOKEN_VALUE=4]="TOKEN_VALUE",(Fe=Ee||(Ee={}))[Fe.BORDER_BOX=0]="BORDER_BOX",Fe[Fe.PADDING_BOX=1]="PADDING_BOX";function de(A){var e=we(A[0]),t=A[1];return t&&qA(t)?{color:e,stop:t}:{color:e,stop:null}}function fe(A,t){var e=A[0],r=A[A.length-1];null===e.stop&&(e.stop=se),null===r.stop&&(r.stop=ie);for(var n=[],B=0,s=0;s<A.length;s++){var o=A[s].stop;if(null!==o){var i=ae(o,t);B<i?n.push(i):n.push(B),B=i}else n.push(null)}var a=null;for(s=0;s<n.length;s++){var c=n[s];if(null===c)null===a&&(a=s);else if(null!==a){for(var Q=s-a,w=(c-n[a-1])/(1+Q),u=1;u<=Q;u++)n[a+u-1]=w*u;a=null}}return A.map(function(A,e){return{color:A.color,stop:Math.max(Math.min(1,n[e]/t),0)}})}function pe(A,e,t){var r="number"==typeof A?A:function(A,e,t){var r=e/2,n=t/2,B=ae(A[0],e)-r,s=n-ae(A[1],t);return(Math.atan2(s,B)+2*Math.PI)%(2*Math.PI)}(A,e,t),n=Math.abs(e*Math.sin(r))+Math.abs(t*Math.cos(r)),B=e/2,s=t/2,o=n/2,i=Math.sin(r-Math.PI/2)*o,a=Math.cos(r-Math.PI/2)*o;return[n,B-a,B+a,s-i,s+i]}function Ne(A,e){return Math.sqrt(A*A+e*e)}function Ke(A,e,B,s,o){return[[0,0],[0,e],[A,0],[A,e]].reduce(function(A,e){var t=e[0],r=e[1],n=Ne(B-t,s-r);return(o?n<A.optimumDistance:n>A.optimumDistance)?{optimumCorner:e,optimumDistance:n}:A},{optimumDistance:o?1/0:-1/0,optimumCorner:null}).optimumCorner}function Ie(A){var n=Qe(180),B=[];return WA(A).forEach(function(A,e){if(0===e){var t=A[0];if(t.type===sA.IDENT_TOKEN&&-1!==["top","left","right","bottom"].indexOf(t.value))return void(n=Ae(A));if($A(t))return void(n=(ce(t)+Qe(270))%Qe(360))}var r=de(A);B.push(r)}),{angle:n,stops:B,type:xe.LINEAR_GRADIENT}}function Te(A){return 0===A[0]&&255===A[1]&&0===A[2]&&255===A[3]}var me={name:"background-clip",initialValue:"border-box",prefix:!(Fe[Fe.CONTENT_BOX=2]="CONTENT_BOX"),type:Ce.LIST,parse:function(A){return A.map(function(A){if(zA(A))switch(A.value){case"padding-box":return Ee.PADDING_BOX;case"content-box":return Ee.CONTENT_BOX}return Ee.BORDER_BOX})}},Re={name:"background-color",initialValue:"transparent",prefix:!1,type:Ce.TYPE_VALUE,format:"color"},Le=function(A,e,t,r,n){var B="http://www.w3.org/2000/svg",s=document.createElementNS(B,"svg"),o=document.createElementNS(B,"foreignObject");return s.setAttributeNS(null,"width",A.toString()),s.setAttributeNS(null,"height",e.toString()),o.setAttributeNS(null,"width","100%"),o.setAttributeNS(null,"height","100%"),o.setAttributeNS(null,"x",t.toString()),o.setAttributeNS(null,"y",r.toString()),o.setAttributeNS(null,"externalResourcesRequired","true"),s.appendChild(o),o.appendChild(n),s},ve=function(r){return new Promise(function(A,e){var t=new Image;t.onload=function(){return A(t)},t.onerror=e,t.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent((new XMLSerializer).serializeToString(r))})},Oe={get SUPPORT_RANGE_BOUNDS(){var A=function(A){if(A.createRange){var e=A.createRange();if(e.getBoundingClientRect){var t=A.createElement("boundtest");t.style.height="123px",t.style.display="block",A.body.appendChild(t),e.selectNode(t);var r=e.getBoundingClientRect(),n=Math.round(r.height);if(A.body.removeChild(t),123===n)return!0}}return!1}(document);return Object.defineProperty(Oe,"SUPPORT_RANGE_BOUNDS",{value:A}),A},get SUPPORT_SVG_DRAWING(){var A=function(A){var e=new Image,t=A.createElement("canvas"),r=t.getContext("2d");if(!r)return!1;e.src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'></svg>";try{r.drawImage(e,0,0),t.toDataURL()}catch(A){return!1}return!0}(document);return Object.defineProperty(Oe,"SUPPORT_SVG_DRAWING",{value:A}),A},get SUPPORT_FOREIGNOBJECT_DRAWING(){var A="function"==typeof Array.from&&"function"==typeof window.fetch?function(r){var A=r.createElement("canvas"),n=100;A.width=n,A.height=n;var B=A.getContext("2d");if(!B)return Promise.reject(!1);B.fillStyle="rgb(0, 255, 0)",B.fillRect(0,0,n,n);var e=new Image,s=A.toDataURL();e.src=s;var t=Le(n,n,0,0,e);return B.fillStyle="red",B.fillRect(0,0,n,n),ve(t).then(function(A){B.drawImage(A,0,0);var e=B.getImageData(0,0,n,n).data;B.fillStyle="red",B.fillRect(0,0,n,n);var t=r.createElement("div");return t.style.backgroundImage="url("+s+")",t.style.height="100px",Te(e)?ve(Le(n,n,0,0,t)):Promise.reject(!1)}).then(function(A){return B.drawImage(A,0,0),Te(B.getImageData(0,0,n,n).data)}).catch(function(){return!1})}(document):Promise.resolve(!1);return Object.defineProperty(Oe,"SUPPORT_FOREIGNOBJECT_DRAWING",{value:A}),A},get SUPPORT_CORS_IMAGES(){var A=void 0!==(new Image).crossOrigin;return Object.defineProperty(Oe,"SUPPORT_CORS_IMAGES",{value:A}),A},get SUPPORT_RESPONSE_TYPE(){var A="string"==typeof(new XMLHttpRequest).responseType;return Object.defineProperty(Oe,"SUPPORT_RESPONSE_TYPE",{value:A}),A},get SUPPORT_CORS_XHR(){var A="withCredentials"in new XMLHttpRequest;return Object.defineProperty(Oe,"SUPPORT_CORS_XHR",{value:A}),A}},De=(be.prototype.debug=function(){for(var A=[],e=0;e<arguments.length;e++)A[e]=arguments[e];this.enabled&&("undefined"!=typeof window&&window.console&&"function"==typeof console.debug?console.debug.apply(console,[this.id,this.getTime()+"ms"].concat(A)):this.info.apply(this,A))},be.prototype.getTime=function(){return Date.now()-this.start},be.create=function(A){be.instances[A.id]=new be(A)},be.destroy=function(A){delete be.instances[A]},be.getInstance=function(A){var e=be.instances[A];if(void 0===e)throw new Error("No logger instance found with id "+A);return e},be.prototype.info=function(){for(var A=[],e=0;e<arguments.length;e++)A[e]=arguments[e];this.enabled&&"undefined"!=typeof window&&window.console&&"function"==typeof console.info&&console.info.apply(console,[this.id,this.getTime()+"ms"].concat(A))},be.prototype.error=function(){for(var A=[],e=0;e<arguments.length;e++)A[e]=arguments[e];this.enabled&&("undefined"!=typeof window&&window.console&&"function"==typeof console.error?console.error.apply(console,[this.id,this.getTime()+"ms"].concat(A)):this.info.apply(this,A))},be.instances={},be);function be(A){var e=A.id,t=A.enabled;this.id=e,this.enabled=t,this.start=Date.now()}var Se=(Me.create=function(A,e){return Me._caches[A]=new ye(A,e)},Me.destroy=function(A){delete Me._caches[A]},Me.open=function(A){var e=Me._caches[A];if(void 0!==e)return e;throw new Error('Cache with key "'+A+'" not found')},Me.getOrigin=function(A){var e=Me._link;return e?(e.href=A,e.href=e.href,e.protocol+e.hostname+e.port):"about:blank"},Me.isSameOrigin=function(A){return Me.getOrigin(A)===Me._origin},Me.setContext=function(A){Me._link=A.document.createElement("a"),Me._origin=Me.getOrigin(A.location.href)},Me.getInstance=function(){var A=Me._current;if(null===A)throw new Error("No cache instance attached");return A},Me.attachInstance=function(A){Me._current=A},Me.detachInstance=function(){Me._current=null},Me._caches={},Me._origin="about:blank",Me._current=null,Me);function Me(){}var ye=(_e.prototype.addImage=function(A){var e=Promise.resolve();return this.has(A)||(Ye(A)||Ge(A))&&(this._cache[A]=this.loadImage(A)),e},_e.prototype.match=function(A){return this._cache[A]},_e.prototype.loadImage=function(s){return a(this,void 0,void 0,function(){var e,r,t,n,B=this;return S(this,function(A){switch(A.label){case 0:return e=Se.isSameOrigin(s),r=!ke(s)&&!0===this._options.useCORS&&Oe.SUPPORT_CORS_IMAGES&&!e,t=!ke(s)&&!e&&"string"==typeof this._options.proxy&&Oe.SUPPORT_CORS_XHR&&!r,e||!1!==this._options.allowTaint||ke(s)||t||r?(n=s,t?[4,this.proxy(n)]:[3,2]):[2];case 1:n=A.sent(),A.label=2;case 2:return De.getInstance(this.id).debug("Added image "+s.substring(0,256)),[4,new Promise(function(A,e){var t=new Image;t.onload=function(){return A(t)},t.onerror=e,(We(n)||r)&&(t.crossOrigin="anonymous"),t.src=n,!0===t.complete&&setTimeout(function(){return A(t)},500),0<B._options.imageTimeout&&setTimeout(function(){return e("Timed out ("+B._options.imageTimeout+"ms) loading image")},B._options.imageTimeout)})];case 3:return[2,A.sent()]}})})},_e.prototype.has=function(A){return void 0!==this._cache[A]},_e.prototype.keys=function(){return Promise.resolve(Object.keys(this._cache))},_e.prototype.proxy=function(B){var s=this,o=this._options.proxy;if(!o)throw new Error("No proxy defined");var i=B.substring(0,256);return new Promise(function(e,t){var r=Oe.SUPPORT_RESPONSE_TYPE?"blob":"text",n=new XMLHttpRequest;if(n.onload=function(){if(200===n.status)if("text"==r)e(n.response);else{var A=new FileReader;A.addEventListener("load",function(){return e(A.result)},!1),A.addEventListener("error",function(A){return t(A)},!1),A.readAsDataURL(n.response)}else t("Failed to proxy resource "+i+" with status code "+n.status)},n.onerror=t,n.open("GET",o+"?url="+encodeURIComponent(B)+"&responseType="+r),"text"!=r&&n instanceof XMLHttpRequest&&(n.responseType=r),s._options.imageTimeout){var A=s._options.imageTimeout;n.timeout=A,n.ontimeout=function(){return t("Timed out ("+A+"ms) proxying "+i)}}n.send()})},_e);function _e(A,e){this.id=A,this._options=e,this._cache={}}function Pe(A){var n=rt.CIRCLE,B=Bt.FARTHEST_CORNER,s=[],o=[];return WA(A).forEach(function(A,e){var t=!0;if(0===e?t=A.reduce(function(A,e){if(zA(e))switch(e.value){case"center":return o.push(oe),!1;case"top":case"left":return o.push(se),!1;case"right":case"bottom":return o.push(ie),!1}else if(qA(e)||YA(e))return o.push(e),!1;return A},t):1===e&&(t=A.reduce(function(A,e){if(zA(e))switch(e.value){case"circle":return n=rt.CIRCLE,!1;case et:return n=rt.ELLIPSE,!1;case tt:case Ze:return B=Bt.CLOSEST_SIDE,!1;case je:return B=Bt.FARTHEST_SIDE,!1;case $e:return B=Bt.CLOSEST_CORNER,!1;case"cover":case At:return B=Bt.FARTHEST_CORNER,!1}else if(YA(e)||qA(e))return Array.isArray(B)||(B=[]),B.push(e),!1;return A},t)),t){var r=de(A);s.push(r)}}),{size:B,shape:n,stops:s,position:o,type:xe.RADIAL_GRADIENT}}var xe,Ve,ze=/^data:image\/svg\+xml/i,Xe=/^data:image\/.*;base64,/i,Je=/^data:image\/.*/i,Ge=function(A){return Oe.SUPPORT_SVG_DRAWING||!qe(A)},ke=function(A){return Je.test(A)},We=function(A){return Xe.test(A)},Ye=function(A){return"blob"===A.substr(0,4)},qe=function(A){return"svg"===A.substr(-3).toLowerCase()||ze.test(A)},Ze="closest-side",je="farthest-side",$e="closest-corner",At="farthest-corner",et="ellipse",tt="contain";(Ve=xe||(xe={}))[Ve.URL=0]="URL",Ve[Ve.LINEAR_GRADIENT=1]="LINEAR_GRADIENT",Ve[Ve.RADIAL_GRADIENT=2]="RADIAL_GRADIENT";var rt,nt,Bt,st;(nt=rt||(rt={}))[nt.CIRCLE=0]="CIRCLE",nt[nt.ELLIPSE=1]="ELLIPSE",(st=Bt||(Bt={}))[st.CLOSEST_SIDE=0]="CLOSEST_SIDE",st[st.FARTHEST_SIDE=1]="FARTHEST_SIDE",st[st.CLOSEST_CORNER=2]="CLOSEST_CORNER",st[st.FARTHEST_CORNER=3]="FARTHEST_CORNER";var ot=function(A){if(A.type===sA.URL_TOKEN){var e={url:A.value,type:xe.URL};return Se.getInstance().addImage(A.value),e}if(A.type!==sA.FUNCTION)throw new Error("Unsupported image type");var t=ct[A.name];if(void 0===t)throw new Error('Attempting to parse an unsupported image function "'+A.name+'"');return t(A.values)};var it,at,ct={"linear-gradient":function(A){var n=Qe(180),B=[];return WA(A).forEach(function(A,e){if(0===e){var t=A[0];if(t.type===sA.IDENT_TOKEN&&"to"===t.value)return void(n=Ae(A));if($A(t))return void(n=ce(t))}var r=de(A);B.push(r)}),{angle:n,stops:B,type:xe.LINEAR_GRADIENT}},"-moz-linear-gradient":Ie,"-ms-linear-gradient":Ie,"-o-linear-gradient":Ie,"-webkit-linear-gradient":Ie,"radial-gradient":function(A){var B=rt.CIRCLE,s=Bt.FARTHEST_CORNER,o=[],i=[];return WA(A).forEach(function(A,e){var t=!0;if(0===e){var r=!1;t=A.reduce(function(A,e){if(r)if(zA(e))switch(e.value){case"center":return i.push(oe),A;case"top":case"left":return i.push(se),A;case"right":case"bottom":return i.push(ie),A}else(qA(e)||YA(e))&&i.push(e);else if(zA(e))switch(e.value){case"circle":return B=rt.CIRCLE,!1;case et:return B=rt.ELLIPSE,!1;case"at":return!(r=!0);case Ze:return s=Bt.CLOSEST_SIDE,!1;case"cover":case je:return s=Bt.FARTHEST_SIDE,!1;case tt:case $e:return s=Bt.CLOSEST_CORNER,!1;case At:return s=Bt.FARTHEST_CORNER,!1}else if(YA(e)||qA(e))return Array.isArray(s)||(s=[]),s.push(e),!1;return A},t)}if(t){var n=de(A);o.push(n)}}),{size:s,shape:B,stops:o,position:i,type:xe.RADIAL_GRADIENT}},"-moz-radial-gradient":Pe,"-ms-radial-gradient":Pe,"-o-radial-gradient":Pe,"-webkit-radial-gradient":Pe,"-webkit-gradient":function(A){var e=Qe(180),s=[],o=xe.LINEAR_GRADIENT,t=rt.CIRCLE,r=Bt.FARTHEST_CORNER;return WA(A).forEach(function(A,e){var t=A[0];if(0===e){if(zA(t)&&"linear"===t.value)return void(o=xe.LINEAR_GRADIENT);if(zA(t)&&"radial"===t.value)return void(o=xe.RADIAL_GRADIENT)}if(t.type===sA.FUNCTION)if("from"===t.name){var r=we(t.values[0]);s.push({stop:se,color:r})}else if("to"===t.name)r=we(t.values[0]),s.push({stop:ie,color:r});else if("color-stop"===t.name){var n=t.values.filter(kA);if(2===n.length){r=we(n[1]);var B=n[0];VA(B)&&s.push({stop:{type:sA.PERCENTAGE_TOKEN,number:100*B.number,flags:B.flags},color:r})}}}),o===xe.LINEAR_GRADIENT?{angle:(e+Qe(180))%Qe(360),stops:s,type:o}:{size:r,shape:t,stops:s,position:[],type:o}}},Qt={name:"background-image",initialValue:"none",type:Ce.LIST,prefix:!1,parse:function(A){if(0===A.length)return[];var e=A[0];return e.type===sA.IDENT_TOKEN&&"none"===e.value?[]:A.filter(function(A){return kA(A)&&function(A){return A.type!==sA.FUNCTION||ct[A.name]}(A)}).map(ot)}},wt={name:"background-origin",initialValue:"border-box",prefix:!1,type:Ce.LIST,parse:function(A){return A.map(function(A){if(zA(A))switch(A.value){case"padding-box":return 1;case"content-box":return 2}return 0})}},ut={name:"background-position",initialValue:"0% 0%",type:Ce.LIST,prefix:!1,parse:function(A){return WA(A).map(function(A){return A.filter(qA)}).map(ZA)}};(at=it||(it={}))[at.REPEAT=0]="REPEAT",at[at.NO_REPEAT=1]="NO_REPEAT",at[at.REPEAT_X=2]="REPEAT_X";var Ut,lt,Ct={name:"background-repeat",initialValue:"repeat",prefix:!(at[at.REPEAT_Y=3]="REPEAT_Y"),type:Ce.LIST,parse:function(A){return WA(A).map(function(A){return A.filter(zA).map(function(A){return A.value}).join(" ")}).map(gt)}},gt=function(A){switch(A){case"no-repeat":return it.NO_REPEAT;case"repeat-x":case"repeat no-repeat":return it.REPEAT_X;case"repeat-y":case"no-repeat repeat":return it.REPEAT_Y;case"repeat":default:return it.REPEAT}};(lt=Ut||(Ut={})).AUTO="auto",lt.CONTAIN="contain";function Et(A){return{name:"border-"+A+"-color",initialValue:"transparent",prefix:!1,type:Ce.TYPE_VALUE,format:"color"}}function Ft(A){return{name:"border-radius-"+A,initialValue:"0 0",prefix:!1,type:Ce.LIST,parse:function(A){return ZA(A.filter(qA))}}}var ht,Ht,dt={name:"background-size",initialValue:"0",prefix:!(lt.COVER="cover"),type:Ce.LIST,parse:function(A){return WA(A).map(function(A){return A.filter(ft)})}},ft=function(A){return zA(A)||qA(A)},pt=Et("top"),Nt=Et("right"),Kt=Et("bottom"),It=Et("left"),Tt=Ft("top-left"),mt=Ft("top-right"),Rt=Ft("bottom-right"),Lt=Ft("bottom-left");(Ht=ht||(ht={}))[Ht.NONE=0]="NONE",Ht[Ht.SOLID=1]="SOLID";function vt(A){return{name:"border-"+A+"-style",initialValue:"solid",prefix:!1,type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"none":return ht.NONE}return ht.SOLID}}}function Ot(A){return{name:"border-"+A+"-width",initialValue:"0",type:Ce.VALUE,prefix:!1,parse:function(A){return xA(A)?A.number:0}}}var Dt,bt,St=vt("top"),Mt=vt("right"),yt=vt("bottom"),_t=vt("left"),Pt=Ot("top"),xt=Ot("right"),Vt=Ot("bottom"),zt=Ot("left"),Xt={name:"color",initialValue:"transparent",prefix:!1,type:Ce.TYPE_VALUE,format:"color"},Jt={name:"display",initialValue:"inline-block",prefix:!1,type:Ce.LIST,parse:function(A){return A.filter(zA).reduce(function(A,e){return A|Gt(e.value)},0)}},Gt=function(A){switch(A){case"block":return 2;case"inline":return 4;case"run-in":return 8;case"flow":return 16;case"flow-root":return 32;case"table":return 64;case"flex":case"-webkit-flex":return 128;case"grid":case"-ms-grid":return 256;case"ruby":return 512;case"subgrid":return 1024;case"list-item":return 2048;case"table-row-group":return 4096;case"table-header-group":return 8192;case"table-footer-group":return 16384;case"table-row":return 32768;case"table-cell":return 65536;case"table-column-group":return 131072;case"table-column":return 262144;case"table-caption":return 524288;case"ruby-base":return 1048576;case"ruby-text":return 2097152;case"ruby-base-container":return 4194304;case"ruby-text-container":return 8388608;case"contents":return 16777216;case"inline-block":return 33554432;case"inline-list-item":return 67108864;case"inline-table":return 134217728;case"inline-flex":return 268435456;case"inline-grid":return 536870912}return 0};(bt=Dt||(Dt={}))[bt.NONE=0]="NONE",bt[bt.LEFT=1]="LEFT",bt[bt.RIGHT=2]="RIGHT",bt[bt.INLINE_START=3]="INLINE_START";var kt,Wt,Yt,qt,Zt={name:"float",initialValue:"none",prefix:!(bt[bt.INLINE_END=4]="INLINE_END"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"left":return Dt.LEFT;case"right":return Dt.RIGHT;case"inline-start":return Dt.INLINE_START;case"inline-end":return Dt.INLINE_END}return Dt.NONE}},jt={name:"letter-spacing",initialValue:"0",prefix:!1,type:Ce.VALUE,parse:function(A){return A.type===sA.IDENT_TOKEN&&"normal"===A.value?0:A.type===sA.NUMBER_TOKEN?A.number:A.type===sA.DIMENSION_TOKEN?A.number:0}},$t={name:"line-break",initialValue:(Wt=kt||(kt={})).NORMAL="normal",prefix:!(Wt.STRICT="strict"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"strict":return kt.STRICT;case"normal":default:return kt.NORMAL}}},Ar={name:"line-height",initialValue:"normal",prefix:!1,type:Ce.TOKEN_VALUE},er={name:"list-style-image",initialValue:"none",type:Ce.VALUE,prefix:!1,parse:function(A){return A.type===sA.IDENT_TOKEN&&"none"===A.value?null:ot(A)}};(qt=Yt||(Yt={}))[qt.INSIDE=0]="INSIDE";var tr,rr,nr={name:"list-style-position",initialValue:"outside",prefix:!(qt[qt.OUTSIDE=1]="OUTSIDE"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"inside":return Yt.INSIDE;case"outside":default:return Yt.OUTSIDE}}};(rr=tr||(tr={}))[rr.NONE=-1]="NONE",rr[rr.DISC=0]="DISC",rr[rr.CIRCLE=1]="CIRCLE",rr[rr.SQUARE=2]="SQUARE",rr[rr.DECIMAL=3]="DECIMAL",rr[rr.CJK_DECIMAL=4]="CJK_DECIMAL",rr[rr.DECIMAL_LEADING_ZERO=5]="DECIMAL_LEADING_ZERO",rr[rr.LOWER_ROMAN=6]="LOWER_ROMAN",rr[rr.UPPER_ROMAN=7]="UPPER_ROMAN",rr[rr.LOWER_GREEK=8]="LOWER_GREEK",rr[rr.LOWER_ALPHA=9]="LOWER_ALPHA",rr[rr.UPPER_ALPHA=10]="UPPER_ALPHA",rr[rr.ARABIC_INDIC=11]="ARABIC_INDIC",rr[rr.ARMENIAN=12]="ARMENIAN",rr[rr.BENGALI=13]="BENGALI",rr[rr.CAMBODIAN=14]="CAMBODIAN",rr[rr.CJK_EARTHLY_BRANCH=15]="CJK_EARTHLY_BRANCH",rr[rr.CJK_HEAVENLY_STEM=16]="CJK_HEAVENLY_STEM",rr[rr.CJK_IDEOGRAPHIC=17]="CJK_IDEOGRAPHIC",rr[rr.DEVANAGARI=18]="DEVANAGARI",rr[rr.ETHIOPIC_NUMERIC=19]="ETHIOPIC_NUMERIC",rr[rr.GEORGIAN=20]="GEORGIAN",rr[rr.GUJARATI=21]="GUJARATI",rr[rr.GURMUKHI=22]="GURMUKHI",rr[rr.HEBREW=22]="HEBREW",rr[rr.HIRAGANA=23]="HIRAGANA",rr[rr.HIRAGANA_IROHA=24]="HIRAGANA_IROHA",rr[rr.JAPANESE_FORMAL=25]="JAPANESE_FORMAL",rr[rr.JAPANESE_INFORMAL=26]="JAPANESE_INFORMAL",rr[rr.KANNADA=27]="KANNADA",rr[rr.KATAKANA=28]="KATAKANA",rr[rr.KATAKANA_IROHA=29]="KATAKANA_IROHA",rr[rr.KHMER=30]="KHMER",rr[rr.KOREAN_HANGUL_FORMAL=31]="KOREAN_HANGUL_FORMAL",rr[rr.KOREAN_HANJA_FORMAL=32]="KOREAN_HANJA_FORMAL",rr[rr.KOREAN_HANJA_INFORMAL=33]="KOREAN_HANJA_INFORMAL",rr[rr.LAO=34]="LAO",rr[rr.LOWER_ARMENIAN=35]="LOWER_ARMENIAN",rr[rr.MALAYALAM=36]="MALAYALAM",rr[rr.MONGOLIAN=37]="MONGOLIAN",rr[rr.MYANMAR=38]="MYANMAR",rr[rr.ORIYA=39]="ORIYA",rr[rr.PERSIAN=40]="PERSIAN",rr[rr.SIMP_CHINESE_FORMAL=41]="SIMP_CHINESE_FORMAL",rr[rr.SIMP_CHINESE_INFORMAL=42]="SIMP_CHINESE_INFORMAL",rr[rr.TAMIL=43]="TAMIL",rr[rr.TELUGU=44]="TELUGU",rr[rr.THAI=45]="THAI",rr[rr.TIBETAN=46]="TIBETAN",rr[rr.TRAD_CHINESE_FORMAL=47]="TRAD_CHINESE_FORMAL",rr[rr.TRAD_CHINESE_INFORMAL=48]="TRAD_CHINESE_INFORMAL",rr[rr.UPPER_ARMENIAN=49]="UPPER_ARMENIAN",rr[rr.DISCLOSURE_OPEN=50]="DISCLOSURE_OPEN";function Br(A){return{name:"margin-"+A,initialValue:"0",prefix:!1,type:Ce.TOKEN_VALUE}}var sr,or,ir={name:"list-style-type",initialValue:"none",prefix:!(rr[rr.DISCLOSURE_CLOSED=51]="DISCLOSURE_CLOSED"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"disc":return tr.DISC;case"circle":return tr.CIRCLE;case"square":return tr.SQUARE;case"decimal":return tr.DECIMAL;case"cjk-decimal":return tr.CJK_DECIMAL;case"decimal-leading-zero":return tr.DECIMAL_LEADING_ZERO;case"lower-roman":return tr.LOWER_ROMAN;case"upper-roman":return tr.UPPER_ROMAN;case"lower-greek":return tr.LOWER_GREEK;case"lower-alpha":return tr.LOWER_ALPHA;case"upper-alpha":return tr.UPPER_ALPHA;case"arabic-indic":return tr.ARABIC_INDIC;case"armenian":return tr.ARMENIAN;case"bengali":return tr.BENGALI;case"cambodian":return tr.CAMBODIAN;case"cjk-earthly-branch":return tr.CJK_EARTHLY_BRANCH;case"cjk-heavenly-stem":return tr.CJK_HEAVENLY_STEM;case"cjk-ideographic":return tr.CJK_IDEOGRAPHIC;case"devanagari":return tr.DEVANAGARI;case"ethiopic-numeric":return tr.ETHIOPIC_NUMERIC;case"georgian":return tr.GEORGIAN;case"gujarati":return tr.GUJARATI;case"gurmukhi":return tr.GURMUKHI;case"hebrew":return tr.HEBREW;case"hiragana":return tr.HIRAGANA;case"hiragana-iroha":return tr.HIRAGANA_IROHA;case"japanese-formal":return tr.JAPANESE_FORMAL;case"japanese-informal":return tr.JAPANESE_INFORMAL;case"kannada":return tr.KANNADA;case"katakana":return tr.KATAKANA;case"katakana-iroha":return tr.KATAKANA_IROHA;case"khmer":return tr.KHMER;case"korean-hangul-formal":return tr.KOREAN_HANGUL_FORMAL;case"korean-hanja-formal":return tr.KOREAN_HANJA_FORMAL;case"korean-hanja-informal":return tr.KOREAN_HANJA_INFORMAL;case"lao":return tr.LAO;case"lower-armenian":return tr.LOWER_ARMENIAN;case"malayalam":return tr.MALAYALAM;case"mongolian":return tr.MONGOLIAN;case"myanmar":return tr.MYANMAR;case"oriya":return tr.ORIYA;case"persian":return tr.PERSIAN;case"simp-chinese-formal":return tr.SIMP_CHINESE_FORMAL;case"simp-chinese-informal":return tr.SIMP_CHINESE_INFORMAL;case"tamil":return tr.TAMIL;case"telugu":return tr.TELUGU;case"thai":return tr.THAI;case"tibetan":return tr.TIBETAN;case"trad-chinese-formal":return tr.TRAD_CHINESE_FORMAL;case"trad-chinese-informal":return tr.TRAD_CHINESE_INFORMAL;case"upper-armenian":return tr.UPPER_ARMENIAN;case"disclosure-open":return tr.DISCLOSURE_OPEN;case"disclosure-closed":return tr.DISCLOSURE_CLOSED;case"none":default:return tr.NONE}}},ar=Br("top"),cr=Br("right"),Qr=Br("bottom"),wr=Br("left");(or=sr||(sr={}))[or.VISIBLE=0]="VISIBLE",or[or.HIDDEN=1]="HIDDEN",or[or.SCROLL=2]="SCROLL";function ur(A){return{name:"padding-"+A,initialValue:"0",prefix:!1,type:Ce.TYPE_VALUE,format:"length-percentage"}}var Ur,lr,Cr,gr,Er={name:"overflow",initialValue:"visible",prefix:!(or[or.AUTO=3]="AUTO"),type:Ce.LIST,parse:function(A){return A.filter(zA).map(function(A){switch(A.value){case"hidden":return sr.HIDDEN;case"scroll":return sr.SCROLL;case"auto":return sr.AUTO;case"visible":default:return sr.VISIBLE}})}},Fr={name:"overflow-wrap",initialValue:(lr=Ur||(Ur={})).NORMAL="normal",prefix:!(lr.BREAK_WORD="break-word"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"break-word":return Ur.BREAK_WORD;case"normal":default:return Ur.NORMAL}}},hr=ur("top"),Hr=ur("right"),dr=ur("bottom"),fr=ur("left");(gr=Cr||(Cr={}))[gr.LEFT=0]="LEFT",gr[gr.CENTER=1]="CENTER";var pr,Nr,Kr={name:"text-align",initialValue:"left",prefix:!(gr[gr.RIGHT=2]="RIGHT"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"right":return Cr.RIGHT;case"center":case"justify":return Cr.CENTER;case"left":default:return Cr.LEFT}}};(Nr=pr||(pr={}))[Nr.STATIC=0]="STATIC",Nr[Nr.RELATIVE=1]="RELATIVE",Nr[Nr.ABSOLUTE=2]="ABSOLUTE",Nr[Nr.FIXED=3]="FIXED";var Ir,Tr,mr={name:"position",initialValue:"static",prefix:!(Nr[Nr.STICKY=4]="STICKY"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"relative":return pr.RELATIVE;case"absolute":return pr.ABSOLUTE;case"fixed":return pr.FIXED;case"sticky":return pr.STICKY}return pr.STATIC}},Rr={name:"text-shadow",initialValue:"none",type:Ce.LIST,prefix:!1,parse:function(A){return 1===A.length&&JA(A[0],"none")?[]:WA(A).map(function(A){for(var e={color:He.TRANSPARENT,offsetX:se,offsetY:se,blur:se},t=0,r=0;r<A.length;r++){var n=A[r];YA(n)?(0===t?e.offsetX=n:1===t?e.offsetY=n:e.blur=n,t++):e.color=we(n)}return e})}};(Tr=Ir||(Ir={}))[Tr.NONE=0]="NONE",Tr[Tr.LOWERCASE=1]="LOWERCASE",Tr[Tr.UPPERCASE=2]="UPPERCASE";var Lr,vr,Or={name:"text-transform",initialValue:"none",prefix:!(Tr[Tr.CAPITALIZE=3]="CAPITALIZE"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"uppercase":return Ir.UPPERCASE;case"lowercase":return Ir.LOWERCASE;case"capitalize":return Ir.CAPITALIZE}return Ir.NONE}},Dr={name:"transform",initialValue:"none",prefix:!0,type:Ce.VALUE,parse:function(A){if(A.type===sA.IDENT_TOKEN&&"none"===A.value)return null;if(A.type!==sA.FUNCTION)return null;var e=br[A.name];if(void 0===e)throw new Error('Attempting to parse an unsupported transform function "'+A.name+'"');return e(A.values)}},br={matrix:function(A){var e=A.filter(function(A){return A.type===sA.NUMBER_TOKEN}).map(function(A){return A.number});return 6===e.length?e:null},matrix3d:function(A){var e=A.filter(function(A){return A.type===sA.NUMBER_TOKEN}).map(function(A){return A.number}),t=e[0],r=e[1],n=(e[2],e[3],e[4]),B=e[5],s=(e[6],e[7],e[8],e[9],e[10],e[11],e[12]),o=e[13];e[14],e[15];return 16===e.length?[t,r,n,B,s,o]:null}},Sr={type:sA.PERCENTAGE_TOKEN,number:50,flags:4},Mr=[Sr,Sr],yr={name:"transform-origin",initialValue:"50% 50%",prefix:!0,type:Ce.LIST,parse:function(A){var e=A.filter(qA);return 2!==e.length?Mr:[e[0],e[1]]}};(vr=Lr||(Lr={}))[vr.VISIBLE=0]="VISIBLE",vr[vr.HIDDEN=1]="HIDDEN";var _r,Pr,xr={name:"visible",initialValue:"none",prefix:!(vr[vr.COLLAPSE=2]="COLLAPSE"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"hidden":return Lr.HIDDEN;case"collapse":return Lr.COLLAPSE;case"visible":default:return Lr.VISIBLE}}};(Pr=_r||(_r={})).NORMAL="normal",Pr.BREAK_ALL="break-all";var Vr,zr,Xr={name:"word-break",initialValue:"normal",prefix:!(Pr.KEEP_ALL="keep-all"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"break-all":return _r.BREAK_ALL;case"keep-all":return _r.KEEP_ALL;case"normal":default:return _r.NORMAL}}},Jr={name:"z-index",initialValue:"auto",prefix:!1,type:Ce.VALUE,parse:function(A){if(A.type===sA.IDENT_TOKEN)return{auto:!0,order:0};if(VA(A))return{auto:!1,order:A.number};throw new Error("Invalid z-index number parsed")}},Gr={name:"opacity",initialValue:"1",type:Ce.VALUE,prefix:!1,parse:function(A){return VA(A)?A.number:1}},kr={name:"text-decoration-color",initialValue:"transparent",prefix:!1,type:Ce.TYPE_VALUE,format:"color"},Wr={name:"text-decoration-line",initialValue:"none",prefix:!1,type:Ce.LIST,parse:function(A){return A.filter(zA).map(function(A){switch(A.value){case"underline":return 1;case"overline":return 2;case"line-through":return 3;case"none":return 4}return 0}).filter(function(A){return 0!==A})}},Yr={name:"font-family",initialValue:"",prefix:!1,type:Ce.LIST,parse:function(A){return A.filter(qr).map(function(A){return A.value})}},qr=function(A){return A.type===sA.STRING_TOKEN||A.type===sA.IDENT_TOKEN},Zr={name:"font-size",initialValue:"0",prefix:!1,type:Ce.TYPE_VALUE,format:"length"},jr={name:"font-weight",initialValue:"normal",type:Ce.VALUE,prefix:!1,parse:function(A){if(VA(A))return A.number;if(zA(A))switch(A.value){case"bold":return 700;case"normal":default:return 400}return 400}},$r={name:"font-variant",initialValue:"none",type:Ce.LIST,prefix:!1,parse:function(A){return A.filter(zA).map(function(A){return A.value})}};(zr=Vr||(Vr={})).NORMAL="normal",zr.ITALIC="italic";function An(A,e){return 0!=(A&e)}function en(A,e,t){if(!A)return"";var r=A[Math.min(e,A.length-1)];return r?t?r.open:r.close:""}var tn={name:"font-style",initialValue:"normal",prefix:!(zr.OBLIQUE="oblique"),type:Ce.IDENT_VALUE,parse:function(A){switch(A){case"oblique":return Vr.OBLIQUE;case"italic":return Vr.ITALIC;case"normal":default:return Vr.NORMAL}}},rn={name:"content",initialValue:"none",type:Ce.LIST,prefix:!1,parse:function(A){if(0===A.length)return[];var e=A[0];return e.type===sA.IDENT_TOKEN&&"none"===e.value?[]:A}},nn={name:"counter-increment",initialValue:"none",prefix:!0,type:Ce.LIST,parse:function(A){if(0===A.length)return null;var e=A[0];if(e.type===sA.IDENT_TOKEN&&"none"===e.value)return null;for(var t=[],r=A.filter(GA),n=0;n<r.length;n++){var B=r[n],s=r[n+1];if(B.type===sA.IDENT_TOKEN){var o=s&&VA(s)?s.number:1;t.push({counter:B.value,increment:o})}}return t}},Bn={name:"counter-reset",initialValue:"none",prefix:!0,type:Ce.LIST,parse:function(A){if(0===A.length)return[];for(var e=[],t=A.filter(GA),r=0;r<t.length;r++){var n=t[r],B=t[r+1];if(zA(n)&&"none"!==n.value){var s=B&&VA(B)?B.number:0;e.push({counter:n.value,reset:s})}}return e}},sn={name:"quotes",initialValue:"none",prefix:!0,type:Ce.LIST,parse:function(A){if(0===A.length)return null;var e=A[0];if(e.type===sA.IDENT_TOKEN&&"none"===e.value)return null;var t=[],r=A.filter(XA);if(r.length%2!=0)return null;for(var n=0;n<r.length;n+=2){var B=r[n].value,s=r[n+1].value;t.push({open:B,close:s})}return t}},on={name:"box-shadow",initialValue:"none",type:Ce.LIST,prefix:!1,parse:function(A){return 1===A.length&&JA(A[0],"none")?[]:WA(A).map(function(A){for(var e={color:255,offsetX:se,offsetY:se,blur:se,spread:se,inset:!1},t=0,r=0;r<A.length;r++){var n=A[r];JA(n,"inset")?e.inset=!0:YA(n)?(0===t?e.offsetX=n:1===t?e.offsetY=n:2===t?e.blur=n:e.spread=n,t++):e.color=we(n)}return e})}},an=(cn.prototype.isVisible=function(){return 0<this.display&&0<this.opacity&&this.visibility===Lr.VISIBLE},cn.prototype.isTransparent=function(){return ee(this.backgroundColor)},cn.prototype.isTransformed=function(){return null!==this.transform},cn.prototype.isPositioned=function(){return this.position!==pr.STATIC},cn.prototype.isPositionedWithZIndex=function(){return this.isPositioned()&&!this.zIndex.auto},cn.prototype.isFloating=function(){return this.float!==Dt.NONE},cn.prototype.isInlineLevel=function(){return An(this.display,4)||An(this.display,33554432)||An(this.display,268435456)||An(this.display,536870912)||An(this.display,67108864)||An(this.display,134217728)},cn);function cn(A){this.backgroundClip=Un(me,A.backgroundClip),this.backgroundColor=Un(Re,A.backgroundColor),this.backgroundImage=Un(Qt,A.backgroundImage),this.backgroundOrigin=Un(wt,A.backgroundOrigin),this.backgroundPosition=Un(ut,A.backgroundPosition),this.backgroundRepeat=Un(Ct,A.backgroundRepeat),this.backgroundSize=Un(dt,A.backgroundSize),this.borderTopColor=Un(pt,A.borderTopColor),this.borderRightColor=Un(Nt,A.borderRightColor),this.borderBottomColor=Un(Kt,A.borderBottomColor),this.borderLeftColor=Un(It,A.borderLeftColor),this.borderTopLeftRadius=Un(Tt,A.borderTopLeftRadius),this.borderTopRightRadius=Un(mt,A.borderTopRightRadius),this.borderBottomRightRadius=Un(Rt,A.borderBottomRightRadius),this.borderBottomLeftRadius=Un(Lt,A.borderBottomLeftRadius),this.borderTopStyle=Un(St,A.borderTopStyle),this.borderRightStyle=Un(Mt,A.borderRightStyle),this.borderBottomStyle=Un(yt,A.borderBottomStyle),this.borderLeftStyle=Un(_t,A.borderLeftStyle),this.borderTopWidth=Un(Pt,A.borderTopWidth),this.borderRightWidth=Un(xt,A.borderRightWidth),this.borderBottomWidth=Un(Vt,A.borderBottomWidth),this.borderLeftWidth=Un(zt,A.borderLeftWidth),this.boxShadow=Un(on,A.boxShadow),this.color=Un(Xt,A.color),this.display=Un(Jt,A.display),this.float=Un(Zt,A.cssFloat),this.fontFamily=Un(Yr,A.fontFamily),this.fontSize=Un(Zr,A.fontSize),this.fontStyle=Un(tn,A.fontStyle),this.fontVariant=Un($r,A.fontVariant),this.fontWeight=Un(jr,A.fontWeight),this.letterSpacing=Un(jt,A.letterSpacing),this.lineBreak=Un($t,A.lineBreak),this.lineHeight=Un(Ar,A.lineHeight),this.listStyleImage=Un(er,A.listStyleImage),this.listStylePosition=Un(nr,A.listStylePosition),this.listStyleType=Un(ir,A.listStyleType),this.marginTop=Un(ar,A.marginTop),this.marginRight=Un(cr,A.marginRight),this.marginBottom=Un(Qr,A.marginBottom),this.marginLeft=Un(wr,A.marginLeft),this.opacity=Un(Gr,A.opacity);var e=Un(Er,A.overflow);this.overflowX=e[0],this.overflowY=e[1<e.length?1:0],this.overflowWrap=Un(Fr,A.overflowWrap),this.paddingTop=Un(hr,A.paddingTop),this.paddingRight=Un(Hr,A.paddingRight),this.paddingBottom=Un(dr,A.paddingBottom),this.paddingLeft=Un(fr,A.paddingLeft),this.position=Un(mr,A.position),this.textAlign=Un(Kr,A.textAlign),this.textDecorationColor=Un(kr,A.textDecorationColor||A.color),this.textDecorationLine=Un(Wr,A.textDecorationLine),this.textShadow=Un(Rr,A.textShadow),this.textTransform=Un(Or,A.textTransform),this.transform=Un(Dr,A.transform),this.transformOrigin=Un(yr,A.transformOrigin),this.visibility=Un(xr,A.visibility),this.wordBreak=Un(Xr,A.wordBreak),this.zIndex=Un(Jr,A.zIndex)}var Qn,wn=function(A){this.content=Un(rn,A.content),this.quotes=Un(sn,A.quotes)},un=function(A){this.counterIncrement=Un(nn,A.counterIncrement),this.counterReset=Un(Bn,A.counterReset)},Un=function(A,e){var t=new MA,r=null!=e?e.toString():A.initialValue;t.write(r);var n=new _A(t.read());switch(A.type){case Ce.IDENT_VALUE:var B=n.parseComponentValue();return A.parse(zA(B)?B.value:A.initialValue);case Ce.VALUE:return A.parse(n.parseComponentValue());case Ce.LIST:return A.parse(n.parseComponentValues());case Ce.TOKEN_VALUE:return n.parseComponentValue();case Ce.TYPE_VALUE:switch(A.format){case"angle":return ce(n.parseComponentValue());case"color":return we(n.parseComponentValue());case"image":return ot(n.parseComponentValue());case"length":var s=n.parseComponentValue();return YA(s)?s:se;case"length-percentage":var o=n.parseComponentValue();return qA(o)?o:se}}throw new Error("Attempting to parse unsupported css format type "+A.format)},ln=function(A){this.styles=new an(window.getComputedStyle(A,null)),this.textNodes=[],this.elements=[],null!==this.styles.transform&&uB(A)&&(A.style.transform="none"),this.bounds=T(A),this.flags=0},Cn=function(A,e){this.text=A,this.bounds=e},gn=function(A){var e=A.ownerDocument;if(e){var t=e.createElement("html2canvaswrapper");t.appendChild(A.cloneNode(!0));var r=A.parentNode;if(r){r.replaceChild(t,A);var n=T(t);return t.firstChild&&r.replaceChild(t.firstChild,t),n}}return new I(0,0,0,0)},En=function(A,e,t){var r=A.ownerDocument;if(!r)throw new Error("Node has no owner document");var n=r.createRange();return n.setStart(A,e),n.setEnd(A,e+t),I.fromClientRect(n.getBoundingClientRect())},Fn=function(A,e){return 0!==e.letterSpacing?c(A).map(function(A){return l(A)}):hn(A,e)},hn=function(A,e){for(var t,r=function(A,e){var t=c(A),r=u(t,e),n=r[0],B=r[1],s=r[2],o=t.length,i=0,a=0;return{next:function(){if(o<=a)return{done:!0,value:null};for(var A=Y;a<o&&(A=w(t,B,n,++a,s))===Y;);if(A===Y&&a!==o)return{done:!0,value:null};var e=new nA(t,A,i,a);return i=a,{value:e,done:!1}}}}(A,{lineBreak:e.lineBreak,wordBreak:e.overflowWrap===Ur.BREAK_WORD?"break-word":e.wordBreak}),n=[];!(t=r.next()).done;)t.value&&n.push(t.value.slice());return n},Hn=function(A,e){this.text=dn(A.data,e.textTransform),this.textBounds=function(A,t,r){var e=Fn(A,t),n=[],B=0;return e.forEach(function(A){if(t.textDecorationLine.length||0<A.trim().length)if(Oe.SUPPORT_RANGE_BOUNDS)n.push(new Cn(A,En(r,B,A.length)));else{var e=r.splitText(A.length);n.push(new Cn(A,gn(r))),r=e}else Oe.SUPPORT_RANGE_BOUNDS||(r=r.splitText(A.length));B+=A.length}),n}(this.text,e,A)},dn=function(A,e){switch(e){case Ir.LOWERCASE:return A.toLowerCase();case Ir.CAPITALIZE:return A.replace(fn,pn);case Ir.UPPERCASE:return A.toUpperCase();default:return A}},fn=/(^|\s|:|-|\(|\))([a-z])/g,pn=function(A,e,t){return 0<A.length?e+t.toUpperCase():A},Nn=(A(Kn,Qn=ln),Kn);function Kn(A){var e=Qn.call(this,A)||this;return e.src=A.currentSrc||A.src,e.intrinsicWidth=A.naturalWidth,e.intrinsicHeight=A.naturalHeight,Se.getInstance().addImage(e.src),e}var In,Tn=(A(mn,In=ln),mn);function mn(A){var e=In.call(this,A)||this;return e.canvas=A,e.intrinsicWidth=A.width,e.intrinsicHeight=A.height,e}var Rn,Ln=(A(vn,Rn=ln),vn);function vn(A){var e=Rn.call(this,A)||this,t=new XMLSerializer;return e.svg="data:image/svg+xml,"+encodeURIComponent(t.serializeToString(A)),e.intrinsicWidth=A.width.baseVal.value,e.intrinsicHeight=A.height.baseVal.value,Se.getInstance().addImage(e.svg),e}var On,Dn=(A(bn,On=ln),bn);function bn(A){var e=On.call(this,A)||this;return e.value=A.value,e}var Sn,Mn=(A(yn,Sn=ln),yn);function yn(A){var e=Sn.call(this,A)||this;return e.start=A.start,e.reversed="boolean"==typeof A.reversed&&!0===A.reversed,e}var _n,Pn=[{type:sA.DIMENSION_TOKEN,flags:0,unit:"px",number:3}],xn=[{type:sA.PERCENTAGE_TOKEN,flags:0,number:50}],Vn="checkbox",zn="radio",Xn="password",Jn=707406591,Gn=(A(kn,_n=ln),kn);function kn(A){var e=_n.call(this,A)||this;switch(e.type=A.type.toLowerCase(),e.checked=A.checked,e.value=function(A){var e=A.type===Xn?new Array(A.value.length+1).join("•"):A.value;return 0===e.length?A.placeholder||"":e}(A),e.type!==Vn&&e.type!==zn||(e.styles.backgroundColor=3739148031,e.styles.borderTopColor=e.styles.borderRightColor=e.styles.borderBottomColor=e.styles.borderLeftColor=2779096575,e.styles.borderTopWidth=e.styles.borderRightWidth=e.styles.borderBottomWidth=e.styles.borderLeftWidth=1,e.styles.borderTopStyle=e.styles.borderRightStyle=e.styles.borderBottomStyle=e.styles.borderLeftStyle=ht.SOLID,e.styles.backgroundClip=[Ee.BORDER_BOX],e.styles.backgroundOrigin=[0],e.bounds=function(A){return A.width>A.height?new I(A.left+(A.width-A.height)/2,A.top,A.height,A.height):A.width<A.height?new I(A.left,A.top+(A.height-A.width)/2,A.width,A.width):A}(e.bounds)),e.type){case Vn:e.styles.borderTopRightRadius=e.styles.borderTopLeftRadius=e.styles.borderBottomRightRadius=e.styles.borderBottomLeftRadius=Pn;break;case zn:e.styles.borderTopRightRadius=e.styles.borderTopLeftRadius=e.styles.borderBottomRightRadius=e.styles.borderBottomLeftRadius=xn}return e}var Wn,Yn=(A(qn,Wn=ln),qn);function qn(A){var e=Wn.call(this,A)||this,t=A.options[A.selectedIndex||0];return e.value=t&&t.text||"",e}var Zn,jn=(A($n,Zn=ln),$n);function $n(A){var e=Zn.call(this,A)||this;return e.value=A.value,e}function AB(A){return we(_A.create(A).parseComponentValue())}var eB,tB=(A(rB,eB=ln),rB);function rB(A){var e=eB.call(this,A)||this;e.src=A.src,e.width=parseInt(A.width,10)||0,e.height=parseInt(A.height,10)||0,e.backgroundColor=e.styles.backgroundColor;try{if(A.contentWindow&&A.contentWindow.document&&A.contentWindow.document.documentElement){e.tree=iB(A.contentWindow.document.documentElement);var t=A.contentWindow.document.documentElement?AB(getComputedStyle(A.contentWindow.document.documentElement).backgroundColor):He.TRANSPARENT,r=A.contentWindow.document.body?AB(getComputedStyle(A.contentWindow.document.body).backgroundColor):He.TRANSPARENT;e.backgroundColor=ee(t)?ee(r)?e.styles.backgroundColor:r:t}}catch(A){}return e}function nB(A){return"STYLE"===A.tagName}var BB=["OL","UL","MENU"],sB=function(A,e,t){for(var r=A.firstChild,n=void 0;r;r=n)if(n=r.nextSibling,QB(r)&&0<r.data.trim().length)e.textNodes.push(new Hn(r,e.styles));else if(wB(r)){var B=oB(r);B.styles.isVisible()&&(aB(r,B,t)?B.flags|=4:cB(B.styles)&&(B.flags|=2),-1!==BB.indexOf(r.tagName)&&(B.flags|=8),e.elements.push(B),dB(r)||gB(r)||fB(r)||sB(r,B,t))}},oB=function(A){return hB(A)?new Nn(A):FB(A)?new Tn(A):gB(A)?new Ln(A):UB(A)?new Dn(A):lB(A)?new Mn(A):CB(A)?new Gn(A):fB(A)?new Yn(A):dB(A)?new jn(A):HB(A)?new tB(A):new ln(A)},iB=function(A){var e=oB(A);return e.flags|=4,sB(A,e,e),e},aB=function(A,e,t){return e.styles.isPositionedWithZIndex()||e.styles.opacity<1||e.styles.isTransformed()||EB(A)&&t.styles.isTransparent()},cB=function(A){return A.isPositioned()||A.isFloating()},QB=function(A){return A.nodeType===Node.TEXT_NODE},wB=function(A){return A.nodeType===Node.ELEMENT_NODE},uB=function(A){return void 0!==A.style},UB=function(A){return"LI"===A.tagName},lB=function(A){return"OL"===A.tagName},CB=function(A){return"INPUT"===A.tagName},gB=function(A){return"svg"===A.tagName},EB=function(A){return"BODY"===A.tagName},FB=function(A){return"CANVAS"===A.tagName},hB=function(A){return"IMG"===A.tagName},HB=function(A){return"IFRAME"===A.tagName},dB=function(A){return"TEXTAREA"===A.tagName},fB=function(A){return"SELECT"===A.tagName},pB=(NB.prototype.getCounterValue=function(A){var e=this.counters[A];return e&&e.length?e[e.length-1]:1},NB.prototype.getCounterValues=function(A){var e=this.counters[A];return e||[]},NB.prototype.pop=function(A){var e=this;A.forEach(function(A){return e.counters[A].pop()})},NB.prototype.parse=function(A){var t=this,e=A.counterIncrement,r=A.counterReset,n=!0;null!==e&&e.forEach(function(A){var e=t.counters[A.counter];e&&0!==A.increment&&(n=!1,e[Math.max(0,e.length-1)]+=A.increment)});var B=[];return n&&r.forEach(function(A){var e=t.counters[A.counter];B.push(A.counter),e||(e=t.counters[A.counter]=[]),e.push(A.reset)}),B},NB);function NB(){this.counters={}}function KB(r,A,e,n,t,B){return r<A||e<r?yB(r,t,0<B.length):n.integers.reduce(function(A,e,t){for(;e<=r;)r-=e,A+=n.values[t];return A},"")+B}function IB(A,e,t,r){for(var n="";t||A--,n=r(A)+n,e<=(A/=e)*e;);return n}function TB(A,e,t,r,n){var B=t-e+1;return(A<0?"-":"")+(IB(Math.abs(A),B,r,function(A){return l(Math.floor(A%B)+e)})+n)}function mB(A,e,t){void 0===t&&(t=". ");var r=e.length;return IB(Math.abs(A),r,!1,function(A){return e[Math.floor(A%r)]})+t}function RB(A,e,t,r,n,B){if(A<-9999||9999<A)return yB(A,tr.CJK_DECIMAL,0<n.length);var s=Math.abs(A),o=n;if(0===s)return e[0]+o;for(var i=0;0<s&&i<=4;i++){var a=s%10;0==a&&An(B,1)&&""!==o?o=e[a]+o:1<a||1==a&&0===i||1==a&&1===i&&An(B,2)||1==a&&1===i&&An(B,4)&&100<A||1==a&&1<i&&An(B,8)?o=e[a]+(0<i?t[i-1]:"")+o:1==a&&0<i&&(o=t[i-1]+o),s=Math.floor(s/10)}return(A<0?r:"")+o}var LB,vB,OB={integers:[1e3,900,500,400,100,90,50,40,10,9,5,4,1],values:["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"]},DB={integers:[9e3,8e3,7e3,6e3,5e3,4e3,3e3,2e3,1e3,900,800,700,600,500,400,300,200,100,90,80,70,60,50,40,30,20,10,9,8,7,6,5,4,3,2,1],values:["Ք","Փ","Ւ","Ց","Ր","Տ","Վ","Ս","Ռ","Ջ","Պ","Չ","Ո","Շ","Ն","Յ","Մ","Ճ","Ղ","Ձ","Հ","Կ","Ծ","Խ","Լ","Ի","Ժ","Թ","Ը","Է","Զ","Ե","Դ","Գ","Բ","Ա"]},bB={integers:[1e4,9e3,8e3,7e3,6e3,5e3,4e3,3e3,2e3,1e3,400,300,200,100,90,80,70,60,50,40,30,20,19,18,17,16,15,10,9,8,7,6,5,4,3,2,1],values:["י׳","ט׳","ח׳","ז׳","ו׳","ה׳","ד׳","ג׳","ב׳","א׳","ת","ש","ר","ק","צ","פ","ע","ס","נ","מ","ל","כ","יט","יח","יז","טז","טו","י","ט","ח","ז","ו","ה","ד","ג","ב","א"]},SB={integers:[1e4,9e3,8e3,7e3,6e3,5e3,4e3,3e3,2e3,1e3,900,800,700,600,500,400,300,200,100,90,80,70,60,50,40,30,20,10,9,8,7,6,5,4,3,2,1],values:["ჵ","ჰ","ჯ","ჴ","ხ","ჭ","წ","ძ","ც","ჩ","შ","ყ","ღ","ქ","ფ","ჳ","ტ","ს","რ","ჟ","პ","ო","ჲ","ნ","მ","ლ","კ","ი","თ","ჱ","ზ","ვ","ე","დ","გ","ბ","ა"]},MB="마이너스",yB=function(A,e,t){var r=t?". ":"",n=t?"、":"",B=t?", ":"",s=t?" ":"";switch(e){case tr.DISC:return"•"+s;case tr.CIRCLE:return"◦"+s;case tr.SQUARE:return"◾"+s;case tr.DECIMAL_LEADING_ZERO:var o=TB(A,48,57,!0,r);return o.length<4?"0"+o:o;case tr.CJK_DECIMAL:return mB(A,"〇一二三四五六七八九",n);case tr.LOWER_ROMAN:return KB(A,1,3999,OB,tr.DECIMAL,r).toLowerCase();case tr.UPPER_ROMAN:return KB(A,1,3999,OB,tr.DECIMAL,r);case tr.LOWER_GREEK:return TB(A,945,969,!1,r);case tr.LOWER_ALPHA:return TB(A,97,122,!1,r);case tr.UPPER_ALPHA:return TB(A,65,90,!1,r);case tr.ARABIC_INDIC:return TB(A,1632,1641,!0,r);case tr.ARMENIAN:case tr.UPPER_ARMENIAN:return KB(A,1,9999,DB,tr.DECIMAL,r);case tr.LOWER_ARMENIAN:return KB(A,1,9999,DB,tr.DECIMAL,r).toLowerCase();case tr.BENGALI:return TB(A,2534,2543,!0,r);case tr.CAMBODIAN:case tr.KHMER:return TB(A,6112,6121,!0,r);case tr.CJK_EARTHLY_BRANCH:return mB(A,"子丑寅卯辰巳午未申酉戌亥",n);case tr.CJK_HEAVENLY_STEM:return mB(A,"甲乙丙丁戊己庚辛壬癸",n);case tr.CJK_IDEOGRAPHIC:case tr.TRAD_CHINESE_INFORMAL:return RB(A,"零一二三四五六七八九","十百千萬","負",n,14);case tr.TRAD_CHINESE_FORMAL:return RB(A,"零壹貳參肆伍陸柒捌玖","拾佰仟萬","負",n,15);case tr.SIMP_CHINESE_INFORMAL:return RB(A,"零一二三四五六七八九","十百千萬","负",n,14);case tr.SIMP_CHINESE_FORMAL:return RB(A,"零壹贰叁肆伍陆柒捌玖","拾佰仟萬","负",n,15);case tr.JAPANESE_INFORMAL:return RB(A,"〇一二三四五六七八九","十百千万","マイナス",n,0);case tr.JAPANESE_FORMAL:return RB(A,"零壱弐参四伍六七八九","拾百千万","マイナス",n,7);case tr.KOREAN_HANGUL_FORMAL:return RB(A,"영일이삼사오육칠팔구","십백천만",MB,B,7);case tr.KOREAN_HANJA_INFORMAL:return RB(A,"零一二三四五六七八九","十百千萬",MB,B,0);case tr.KOREAN_HANJA_FORMAL:return RB(A,"零壹貳參四五六七八九","拾百千",MB,B,7);case tr.DEVANAGARI:return TB(A,2406,2415,!0,r);case tr.GEORGIAN:return KB(A,1,19999,SB,tr.DECIMAL,r);case tr.GUJARATI:return TB(A,2790,2799,!0,r);case tr.GURMUKHI:return TB(A,2662,2671,!0,r);case tr.HEBREW:return KB(A,1,10999,bB,tr.DECIMAL,r);case tr.HIRAGANA:return mB(A,"あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん");case tr.HIRAGANA_IROHA:return mB(A,"いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす");case tr.KANNADA:return TB(A,3302,3311,!0,r);case tr.KATAKANA:return mB(A,"アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヰヱヲン",n);case tr.KATAKANA_IROHA:return mB(A,"イロハニホヘトチリヌルヲワカヨタレソツネナラムウヰノオクヤマケフコエテアサキユメミシヱヒモセス",n);case tr.LAO:return TB(A,3792,3801,!0,r);case tr.MONGOLIAN:return TB(A,6160,6169,!0,r);case tr.MYANMAR:return TB(A,4160,4169,!0,r);case tr.ORIYA:return TB(A,2918,2927,!0,r);case tr.PERSIAN:return TB(A,1776,1785,!0,r);case tr.TAMIL:return TB(A,3046,3055,!0,r);case tr.TELUGU:return TB(A,3174,3183,!0,r);case tr.THAI:return TB(A,3664,3673,!0,r);case tr.TIBETAN:return TB(A,3872,3881,!0,r);case tr.DECIMAL:default:return TB(A,48,57,!0,r)}},_B="data-html2canvas-ignore",PB=(xB.prototype.toIFrame=function(A,t){var e=this,r=XB(A,t);if(!r.contentWindow)return Promise.reject("Unable to find iframe window");var n=A.defaultView.pageXOffset,B=A.defaultView.pageYOffset,s=r.contentWindow,o=s.document,i=JB(r).then(function(){return a(e,void 0,void 0,function(){var e;return S(this,function(A){switch(A.label){case 0:return this.scrolledElements.forEach(YB),s&&(s.scrollTo(t.left,t.top),!/(iPad|iPhone|iPod)/g.test(navigator.userAgent)||s.scrollY===t.top&&s.scrollX===t.left||(o.documentElement.style.top=-t.top+"px",o.documentElement.style.left=-t.left+"px",o.documentElement.style.position="absolute")),e=this.options.onclone,void 0===this.clonedReferenceElement?[2,Promise.reject("Error finding the "+this.referenceElement.nodeName+" in the cloned document")]:o.fonts&&o.fonts.ready?[4,o.fonts.ready]:[3,2];case 1:A.sent(),A.label=2;case 2:return"function"==typeof e?[2,Promise.resolve().then(function(){return e(o)}).then(function(){return r})]:[2,r]}})})});return o.open(),o.write(kB(document.doctype)+"<html></html>"),WB(this.referenceElement.ownerDocument,n,B),o.replaceChild(o.adoptNode(this.documentElement),o.documentElement),o.close(),i},xB.prototype.createElementClone=function(A){return FB(A)?this.createCanvasClone(A):nB(A)?this.createStyleClone(A):A.cloneNode(!1)},xB.prototype.createStyleClone=function(A){try{var e=A.sheet;if(e&&e.cssRules){var t=[].slice.call(e.cssRules,0).reduce(function(A,e){return e&&"string"==typeof e.cssText?A+e.cssText:A},""),r=A.cloneNode(!1);return r.textContent=t,r}}catch(A){if(De.getInstance(this.options.id).error("Unable to access cssRules property",A),"SecurityError"!==A.name)throw A}return A.cloneNode(!1)},xB.prototype.createCanvasClone=function(A){if(this.options.inlineImages&&A.ownerDocument){var e=A.ownerDocument.createElement("img");try{return e.src=A.toDataURL(),e}catch(A){De.getInstance(this.options.id).info("Unable to clone canvas contents, canvas is tainted")}}var t=A.cloneNode(!1);try{t.width=A.width,t.height=A.height;var r=A.getContext("2d"),n=t.getContext("2d");return n&&(r?n.putImageData(r.getImageData(0,0,A.width,A.height),0,0):n.drawImage(A,0,0)),t}catch(A){}return t},xB.prototype.cloneNode=function(A){if(QB(A))return document.createTextNode(A.data);if(!A.ownerDocument)return A.cloneNode(!1);var e=A.ownerDocument.defaultView;if(uB(A)&&e){var t=this.createElementClone(A),r=e.getComputedStyle(A),n=e.getComputedStyle(A,":before"),B=e.getComputedStyle(A,":after");this.referenceElement===A&&(this.clonedReferenceElement=t),EB(t)&&$B(t);for(var s=this.counters.parse(new un(r)),o=this.resolvePseudoContent(A,t,n,LB.BEFORE),i=A.firstChild;i;i=i.nextSibling)wB(i)&&("SCRIPT"===i.tagName||i.hasAttribute(_B)||"function"==typeof this.options.ignoreElements&&this.options.ignoreElements(i))||this.options.copyStyles&&wB(i)&&nB(i)||t.appendChild(this.cloneNode(i));o&&t.insertBefore(o,t.firstChild);var a=this.resolvePseudoContent(A,t,B,LB.AFTER);return a&&t.appendChild(a),this.counters.pop(s),r&&this.options.copyStyles&&!HB(A)&&GB(r,t),0===A.scrollTop&&0===A.scrollLeft||this.scrolledElements.push([t,A.scrollLeft,A.scrollTop]),(dB(A)||fB(A))&&(dB(t)||fB(t))&&(t.value=A.value),t}return A.cloneNode(!1)},xB.prototype.resolvePseudoContent=function(U,A,e,t){var l=this;if(e){var r=e.content,C=A.ownerDocument;if(C&&r&&"none"!==r&&"-moz-alt-content"!==r&&"none"!==e.display){this.counters.parse(new un(e));var g=new wn(e),E=C.createElement("html2canvaspseudoelement");GB(e,E),g.content.forEach(function(A){if(A.type===sA.STRING_TOKEN)E.appendChild(C.createTextNode(A.value));else if(A.type===sA.URL_TOKEN){var e=C.createElement("img");e.src=A.value,e.style.opacity="1",E.appendChild(e)}else if(A.type===sA.FUNCTION){if("attr"===A.name){var t=A.values.filter(zA);t.length&&E.appendChild(C.createTextNode(U.getAttribute(t[0].value)||""))}else if("counter"===A.name){var r=A.values.filter(kA),n=r[0],B=r[1];if(n&&zA(n)){var s=l.counters.getCounterValue(n.value),o=B&&zA(B)?ir.parse(B.value):tr.DECIMAL;E.appendChild(C.createTextNode(yB(s,o,!1)))}}else if("counters"===A.name){var i=A.values.filter(kA),a=(n=i[0],i[1]);if(B=i[2],n&&zA(n)){var c=l.counters.getCounterValues(n.value),Q=B&&zA(B)?ir.parse(B.value):tr.DECIMAL,w=a&&a.type===sA.STRING_TOKEN?a.value:"",u=c.map(function(A){return yB(A,Q,!1)}).join(w);E.appendChild(C.createTextNode(u))}}}else if(A.type===sA.IDENT_TOKEN)switch(A.value){case"open-quote":E.appendChild(C.createTextNode(en(g.quotes,l.quoteDepth++,!0)));break;case"close-quote":E.appendChild(C.createTextNode(en(g.quotes,--l.quoteDepth,!1)));break;default:E.appendChild(C.createTextNode(A.value))}}),E.className=qB+" "+ZB;var n=t===LB.BEFORE?" "+qB:" "+ZB;return function(A){return"object"==typeof A.className}(A)?A.className.baseValue+=n:A.className+=n,E}}},xB.destroy=function(A){return!!A.parentNode&&(A.parentNode.removeChild(A),!0)},xB);function xB(A,e){if(this.options=e,this.scrolledElements=[],this.referenceElement=A,this.counters=new pB,this.quoteDepth=0,!A.ownerDocument)throw new Error("Cloned element does not have an owner document");this.documentElement=this.cloneNode(A.ownerDocument.documentElement)}(vB=LB||(LB={}))[vB.BEFORE=0]="BEFORE",vB[vB.AFTER=1]="AFTER";var VB,zB,XB=function(A,e){var t=A.createElement("iframe");return t.className="html2canvas-container",t.style.visibility="hidden",t.style.position="fixed",t.style.left="-10000px",t.style.top="0px",t.style.border="0",t.width=e.width.toString(),t.height=e.height.toString(),t.scrolling="no",t.setAttribute(_B,"true"),A.body.appendChild(t),t},JB=function(n){return new Promise(function(e,A){var t=n.contentWindow;if(!t)return A("No window assigned for iframe");var r=t.document;t.onload=n.onload=r.onreadystatechange=function(){t.onload=n.onload=r.onreadystatechange=null;var A=setInterval(function(){0<r.body.childNodes.length&&"complete"===r.readyState&&(clearInterval(A),e(n))},50)}})},GB=function(A,e){for(var t=A.length-1;0<=t;t--){var r=A.item(t);"content"!==r&&e.style.setProperty(r,A.getPropertyValue(r))}return e},kB=function(A){var e="";return A&&(e+="<!DOCTYPE ",A.name&&(e+=A.name),A.internalSubset&&(e+=A.internalSubset),A.publicId&&(e+='"'+A.publicId+'"'),A.systemId&&(e+='"'+A.systemId+'"'),e+=">"),e},WB=function(A,e,t){A&&A.defaultView&&(e!==A.defaultView.pageXOffset||t!==A.defaultView.pageYOffset)&&A.defaultView.scrollTo(e,t)},YB=function(A){var e=A[0],t=A[1],r=A[2];e.scrollLeft=t,e.scrollTop=r},qB="___html2canvas___pseudoelement_before",ZB="___html2canvas___pseudoelement_after",jB='{\n    content: "" !important;\n    display: none !important;\n}',$B=function(A){As(A,"."+qB+":before"+jB+"\n         ."+ZB+":after"+jB)},As=function(A,e){var t=A.ownerDocument;if(t){var r=t.createElement("style");r.textContent=e,A.appendChild(r)}};(zB=VB||(VB={}))[zB.VECTOR=0]="VECTOR",zB[zB.BEZIER_CURVE=1]="BEZIER_CURVE";function es(A,t){return A.length===t.length&&A.some(function(A,e){return A===t[e]})}var ts=(rs.prototype.add=function(A,e){return new rs(this.x+A,this.y+e)},rs);function rs(A,e){this.type=VB.VECTOR,this.x=A,this.y=e}function ns(A,e,t){return new ts(A.x+(e.x-A.x)*t,A.y+(e.y-A.y)*t)}var Bs=(ss.prototype.subdivide=function(A,e){var t=ns(this.start,this.startControl,A),r=ns(this.startControl,this.endControl,A),n=ns(this.endControl,this.end,A),B=ns(t,r,A),s=ns(r,n,A),o=ns(B,s,A);return e?new ss(this.start,t,B,o):new ss(o,s,n,this.end)},ss.prototype.add=function(A,e){return new ss(this.start.add(A,e),this.startControl.add(A,e),this.endControl.add(A,e),this.end.add(A,e))},ss.prototype.reverse=function(){return new ss(this.end,this.endControl,this.startControl,this.start)},ss);function ss(A,e,t,r){this.type=VB.BEZIER_CURVE,this.start=A,this.startControl=e,this.endControl=t,this.end=r}function os(A){return A.type===VB.BEZIER_CURVE}var is,as,cs=function(A){var e=A.styles,t=A.bounds,r=jA(e.borderTopLeftRadius,t.width,t.height),n=r[0],B=r[1],s=jA(e.borderTopRightRadius,t.width,t.height),o=s[0],i=s[1],a=jA(e.borderBottomRightRadius,t.width,t.height),c=a[0],Q=a[1],w=jA(e.borderBottomLeftRadius,t.width,t.height),u=w[0],U=w[1],l=[];l.push((n+o)/t.width),l.push((u+c)/t.width),l.push((B+U)/t.height),l.push((i+Q)/t.height);var C=Math.max.apply(Math,l);1<C&&(n/=C,B/=C,o/=C,i/=C,c/=C,Q/=C,u/=C,U/=C);var g=t.width-o,E=t.height-Q,F=t.width-c,h=t.height-U,H=e.borderTopWidth,d=e.borderRightWidth,f=e.borderBottomWidth,p=e.borderLeftWidth,N=ae(e.paddingTop,A.bounds.width),K=ae(e.paddingRight,A.bounds.width),I=ae(e.paddingBottom,A.bounds.width),T=ae(e.paddingLeft,A.bounds.width);this.topLeftBorderBox=0<n||0<B?us(t.left,t.top,n,B,is.TOP_LEFT):new ts(t.left,t.top),this.topRightBorderBox=0<o||0<i?us(t.left+g,t.top,o,i,is.TOP_RIGHT):new ts(t.left+t.width,t.top),this.bottomRightBorderBox=0<c||0<Q?us(t.left+F,t.top+E,c,Q,is.BOTTOM_RIGHT):new ts(t.left+t.width,t.top+t.height),this.bottomLeftBorderBox=0<u||0<U?us(t.left,t.top+h,u,U,is.BOTTOM_LEFT):new ts(t.left,t.top+t.height),this.topLeftPaddingBox=0<n||0<B?us(t.left+p,t.top+H,Math.max(0,n-p),Math.max(0,B-H),is.TOP_LEFT):new ts(t.left+p,t.top+H),this.topRightPaddingBox=0<o||0<i?us(t.left+Math.min(g,t.width+p),t.top+H,g>t.width+p?0:o-p,i-H,is.TOP_RIGHT):new ts(t.left+t.width-d,t.top+H),this.bottomRightPaddingBox=0<c||0<Q?us(t.left+Math.min(F,t.width-p),t.top+Math.min(E,t.height+H),Math.max(0,c-d),Q-f,is.BOTTOM_RIGHT):new ts(t.left+t.width-d,t.top+t.height-f),this.bottomLeftPaddingBox=0<u||0<U?us(t.left+p,t.top+h,Math.max(0,u-p),U-f,is.BOTTOM_LEFT):new ts(t.left+p,t.top+t.height-f),this.topLeftContentBox=0<n||0<B?us(t.left+p+T,t.top+H+N,Math.max(0,n-(p+T)),Math.max(0,B-(H+N)),is.TOP_LEFT):new ts(t.left+p+T,t.top+H+N),this.topRightContentBox=0<o||0<i?us(t.left+Math.min(g,t.width+p+T),t.top+H+N,g>t.width+p+T?0:o-p+T,i-(H+N),is.TOP_RIGHT):new ts(t.left+t.width-(d+K),t.top+H+N),this.bottomRightContentBox=0<c||0<Q?us(t.left+Math.min(F,t.width-(p+T)),t.top+Math.min(E,t.height+H+N),Math.max(0,c-(d+K)),Q-(f+I),is.BOTTOM_RIGHT):new ts(t.left+t.width-(d+K),t.top+t.height-(f+I)),this.bottomLeftContentBox=0<u||0<U?us(t.left+p+T,t.top+h,Math.max(0,u-(p+T)),U-(f+I),is.BOTTOM_LEFT):new ts(t.left+p+T,t.top+t.height-(f+I))};(as=is||(is={}))[as.TOP_LEFT=0]="TOP_LEFT",as[as.TOP_RIGHT=1]="TOP_RIGHT",as[as.BOTTOM_RIGHT=2]="BOTTOM_RIGHT",as[as.BOTTOM_LEFT=3]="BOTTOM_LEFT";function Qs(A){return[A.topLeftBorderBox,A.topRightBorderBox,A.bottomRightBorderBox,A.bottomLeftBorderBox]}function ws(A){return[A.topLeftPaddingBox,A.topRightPaddingBox,A.bottomRightPaddingBox,A.bottomLeftPaddingBox]}var us=function(A,e,t,r,n){var B=(Math.sqrt(2)-1)/3*4,s=t*B,o=r*B,i=A+t,a=e+r;switch(n){case is.TOP_LEFT:return new Bs(new ts(A,a),new ts(A,a-o),new ts(i-s,e),new ts(i,e));case is.TOP_RIGHT:return new Bs(new ts(A,e),new ts(A+s,e),new ts(i,a-o),new ts(i,a));case is.BOTTOM_RIGHT:return new Bs(new ts(i,e),new ts(i,e+o),new ts(A+s,a),new ts(A,a));case is.BOTTOM_LEFT:default:return new Bs(new ts(i,a),new ts(i-s,a),new ts(A,e+o),new ts(A,e))}},Us=function(A,e,t){this.type=0,this.offsetX=A,this.offsetY=e,this.matrix=t,this.target=6},ls=function(A,e){this.type=1,this.target=e,this.path=A},Cs=function(A){this.element=A,this.inlineLevel=[],this.nonInlineLevel=[],this.negativeZIndex=[],this.zeroOrAutoZIndexOrTransformedOrOpacity=[],this.positiveZIndex=[],this.nonPositionedFloats=[],this.nonPositionedInlineLevel=[]},gs=(Es.prototype.getParentEffects=function(){var A=this.effects.slice(0);if(this.container.styles.overflowX!==sr.VISIBLE){var e=Qs(this.curves),t=ws(this.curves);es(e,t)||A.push(new ls(t,6))}return A},Es);function Es(A,e){if(this.container=A,this.effects=e.slice(0),this.curves=new cs(A),null!==A.styles.transform){var t=A.bounds.left+A.styles.transformOrigin[0].number,r=A.bounds.top+A.styles.transformOrigin[1].number,n=A.styles.transform;this.effects.push(new Us(t,r,n))}if(A.styles.overflowX!==sr.VISIBLE){var B=Qs(this.curves),s=ws(this.curves);es(B,s)?this.effects.push(new ls(B,6)):(this.effects.push(new ls(B,2)),this.effects.push(new ls(s,4)))}}function Fs(A){var e=A.bounds,t=A.styles;return e.add(t.borderLeftWidth,t.borderTopWidth,-(t.borderRightWidth+t.borderLeftWidth),-(t.borderTopWidth+t.borderBottomWidth))}function hs(A){var e=A.styles,t=A.bounds,r=ae(e.paddingLeft,t.width),n=ae(e.paddingRight,t.width),B=ae(e.paddingTop,t.width),s=ae(e.paddingBottom,t.width);return t.add(r+e.borderLeftWidth,B+e.borderTopWidth,-(e.borderRightWidth+e.borderLeftWidth+r+n),-(e.borderTopWidth+e.borderBottomWidth+B+s))}function Hs(A,e,t){var r=function(A,e){return 0===A?e.bounds:2===A?hs(e):Fs(e)}(Ts(A.styles.backgroundOrigin,e),A),n=function(A,e){return A===Ee.BORDER_BOX?e.bounds:A===Ee.CONTENT_BOX?hs(e):Fs(e)}(Ts(A.styles.backgroundClip,e),A),B=Is(Ts(A.styles.backgroundSize,e),t,r),s=B[0],o=B[1],i=jA(Ts(A.styles.backgroundPosition,e),r.width-s,r.height-o);return[ms(Ts(A.styles.backgroundRepeat,e),i,B,r,n),Math.round(r.left+i[0]),Math.round(r.top+i[1]),s,o]}function ds(A){return zA(A)&&A.value===Ut.AUTO}function fs(A){return"number"==typeof A}var ps=function(c,Q,w,u){c.container.elements.forEach(function(A){var e=An(A.flags,4),t=An(A.flags,2),r=new gs(A,c.getParentEffects());An(A.styles.display,2048)&&u.push(r);var n=An(A.flags,8)?[]:u;if(e||t){var B=e||A.styles.isPositioned()?w:Q,s=new Cs(r);if(A.styles.isPositioned()||A.styles.opacity<1||A.styles.isTransformed()){var o=A.styles.zIndex.order;if(o<0){var i=0;B.negativeZIndex.some(function(A,e){return o>A.element.container.styles.zIndex.order?(i=e,!1):0<i}),B.negativeZIndex.splice(i,0,s)}else if(0<o){var a=0;B.positiveZIndex.some(function(A,e){return o>A.element.container.styles.zIndex.order?(a=e+1,!1):0<a}),B.positiveZIndex.splice(a,0,s)}else B.zeroOrAutoZIndexOrTransformedOrOpacity.push(s)}else A.styles.isFloating()?B.nonPositionedFloats.push(s):B.nonPositionedInlineLevel.push(s);ps(r,s,e?s:w,n)}else A.styles.isInlineLevel()?Q.inlineLevel.push(r):Q.nonInlineLevel.push(r),ps(r,Q,w,n);An(A.flags,8)&&Ns(A,n)})},Ns=function(A,e){for(var t=A instanceof Mn?A.start:1,r=A instanceof Mn&&A.reversed,n=0;n<e.length;n++){var B=e[n];B.container instanceof Dn&&"number"==typeof B.container.value&&0!==B.container.value&&(t=B.container.value),B.listValue=yB(t,B.container.styles.listStyleType,!0),t+=r?-1:1}},Ks=function(A,e,t,r){var n=[];return os(A)?n.push(A.subdivide(.5,!1)):n.push(A),os(t)?n.push(t.subdivide(.5,!0)):n.push(t),os(r)?n.push(r.subdivide(.5,!0).reverse()):n.push(r),os(e)?n.push(e.subdivide(.5,!1).reverse()):n.push(e),n},Is=function(A,e,t){var r=e[0],n=e[1],B=e[2],s=A[0],o=A[1];if(qA(s)&&o&&qA(o))return[ae(s,t.width),ae(o,t.height)];var i=fs(B);if(zA(s)&&(s.value===Ut.CONTAIN||s.value===Ut.COVER))return fs(B)?t.width/t.height<B!=(s.value===Ut.COVER)?[t.width,t.width/B]:[t.height*B,t.height]:[t.width,t.height];var a=fs(r),c=fs(n),Q=a||c;if(ds(s)&&(!o||ds(o)))return a&&c?[r,n]:i||Q?Q&&i?[a?r:n*B,c?n:r/B]:[a?r:t.width,c?n:t.height]:[t.width,t.height];if(i){var w=0,u=0;return qA(s)?w=ae(s,t.width):qA(o)&&(u=ae(o,t.height)),ds(s)?w=u*B:o&&!ds(o)||(u=w/B),[w,u]}var U=null,l=null;if(qA(s)?U=ae(s,t.width):o&&qA(o)&&(l=ae(o,t.height)),null===U||o&&!ds(o)||(l=a&&c?U/r*n:t.height),null!==l&&ds(s)&&(U=a&&c?l/n*r:t.width),null!==U&&null!==l)return[U,l];throw new Error("Unable to calculate background-size for element")},Ts=function(A,e){var t=A[e];return void 0===t?A[0]:t},ms=function(A,e,t,r,n){var B=e[0],s=e[1],o=t[0],i=t[1];switch(A){case it.REPEAT_X:return[new ts(Math.round(r.left),Math.round(r.top+s)),new ts(Math.round(r.left+r.width),Math.round(r.top+s)),new ts(Math.round(r.left+r.width),Math.round(i+r.top+s)),new ts(Math.round(r.left),Math.round(i+r.top+s))];case it.REPEAT_Y:return[new ts(Math.round(r.left+B),Math.round(r.top)),new ts(Math.round(r.left+B+o),Math.round(r.top)),new ts(Math.round(r.left+B+o),Math.round(r.height+r.top)),new ts(Math.round(r.left+B),Math.round(r.height+r.top))];case it.NO_REPEAT:return[new ts(Math.round(r.left+B),Math.round(r.top+s)),new ts(Math.round(r.left+B+o),Math.round(r.top+s)),new ts(Math.round(r.left+B+o),Math.round(r.top+s+i)),new ts(Math.round(r.left+B),Math.round(r.top+s+i))];default:return[new ts(Math.round(n.left),Math.round(n.top)),new ts(Math.round(n.left+n.width),Math.round(n.top)),new ts(Math.round(n.left+n.width),Math.round(n.height+n.top)),new ts(Math.round(n.left),Math.round(n.height+n.top))]}},Rs="Hidden Text",Ls=(vs.prototype.parseMetrics=function(A,e){var t=this._document.createElement("div"),r=this._document.createElement("img"),n=this._document.createElement("span"),B=this._document.body;t.style.visibility="hidden",t.style.fontFamily=A,t.style.fontSize=e,t.style.margin="0",t.style.padding="0",B.appendChild(t),r.src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",r.width=1,r.height=1,r.style.margin="0",r.style.padding="0",r.style.verticalAlign="baseline",n.style.fontFamily=A,n.style.fontSize=e,n.style.margin="0",n.style.padding="0",n.appendChild(this._document.createTextNode(Rs)),t.appendChild(n),t.appendChild(r);var s=r.offsetTop-n.offsetTop+2;t.removeChild(n),t.appendChild(this._document.createTextNode(Rs)),t.style.lineHeight="normal",r.style.verticalAlign="super";var o=r.offsetTop-t.offsetTop+2;return B.removeChild(t),{baseline:s,middle:o}},vs.prototype.getMetrics=function(A,e){var t=A+" "+e;return void 0===this._data[t]&&(this._data[t]=this.parseMetrics(A,e)),this._data[t]},vs);function vs(A){this._data={},this._document=A}var Os=(Ds.prototype.applyEffects=function(A,e){for(var t=this;this._activeEffects.length;)this.popEffect();A.filter(function(A){return An(A.target,e)}).forEach(function(A){return t.applyEffect(A)})},Ds.prototype.applyEffect=function(A){this.ctx.save(),function(A){return 0===A.type}(A)&&(this.ctx.translate(A.offsetX,A.offsetY),this.ctx.transform(A.matrix[0],A.matrix[1],A.matrix[2],A.matrix[3],A.matrix[4],A.matrix[5]),this.ctx.translate(-A.offsetX,-A.offsetY)),function(A){return 1===A.type}(A)&&(this.path(A.path),this.ctx.clip()),this._activeEffects.push(A)},Ds.prototype.popEffect=function(){this._activeEffects.pop(),this.ctx.restore()},Ds.prototype.renderStack=function(t){return a(this,void 0,void 0,function(){var e;return S(this,function(A){switch(A.label){case 0:return(e=t.element.container.styles).isVisible()?(this.ctx.globalAlpha=e.opacity,[4,this.renderStackContent(t)]):[3,2];case 1:A.sent(),A.label=2;case 2:return[2]}})})},Ds.prototype.renderNode=function(e){return a(this,void 0,void 0,function(){return S(this,function(A){switch(A.label){case 0:return e.container.styles.isVisible()?[4,this.renderNodeBackgroundAndBorders(e)]:[3,3];case 1:return A.sent(),[4,this.renderNodeContent(e)];case 2:A.sent(),A.label=3;case 3:return[2]}})})},Ds.prototype.renderTextWithLetterSpacing=function(t,A){var r=this;0===A?this.ctx.fillText(t.text,t.bounds.left,t.bounds.top+t.bounds.height):c(t.text).map(function(A){return l(A)}).reduce(function(A,e){return r.ctx.fillText(e,A,t.bounds.top+t.bounds.height),A+r.ctx.measureText(e).width},t.bounds.left)},Ds.prototype.createFontStyle=function(A){var e=A.fontVariant.filter(function(A){return"normal"===A||"small-caps"===A}).join(""),t=A.fontFamily.join(", "),r=xA(A.fontSize)?""+A.fontSize.number+A.fontSize.unit:A.fontSize.number+"px";return[[A.fontStyle,e,A.fontWeight,r,t].join(" "),t,r]},Ds.prototype.renderTextNode=function(r,o){return a(this,void 0,void 0,function(){var e,t,n,B,s=this;return S(this,function(A){return e=this.createFontStyle(o),t=e[0],n=e[1],B=e[2],this.ctx.font=t,r.textBounds.forEach(function(r){s.ctx.fillStyle=te(o.color),s.renderTextWithLetterSpacing(r,o.letterSpacing);var A=o.textShadow;A.length&&r.text.trim().length&&(A.slice(0).reverse().forEach(function(A){s.ctx.shadowColor=te(A.color),s.ctx.shadowOffsetX=A.offsetX.number*s.options.scale,s.ctx.shadowOffsetY=A.offsetY.number*s.options.scale,s.ctx.shadowBlur=A.blur.number,s.ctx.fillText(r.text,r.bounds.left,r.bounds.top+r.bounds.height)}),s.ctx.shadowColor="",s.ctx.shadowOffsetX=0,s.ctx.shadowOffsetY=0,s.ctx.shadowBlur=0),o.textDecorationLine.length&&(s.ctx.fillStyle=te(o.textDecorationColor||o.color),o.textDecorationLine.forEach(function(A){switch(A){case 1:var e=s.fontMetrics.getMetrics(n,B).baseline;s.ctx.fillRect(r.bounds.left,Math.round(r.bounds.top+e),r.bounds.width,1);break;case 2:s.ctx.fillRect(r.bounds.left,Math.round(r.bounds.top),r.bounds.width,1);break;case 3:var t=s.fontMetrics.getMetrics(n,B).middle;s.ctx.fillRect(r.bounds.left,Math.ceil(r.bounds.top+t),r.bounds.width,1)}}))}),[2]})})},Ds.prototype.renderReplacedElement=function(A,e,t){if(t&&0<A.intrinsicWidth&&0<A.intrinsicHeight){var r=hs(A),n=ws(e);this.path(n),this.ctx.save(),this.ctx.clip(),this.ctx.drawImage(t,0,0,A.intrinsicWidth,A.intrinsicHeight,r.left,r.top,r.width,r.height),this.ctx.restore()}},Ds.prototype.renderNodeContent=function(l){return a(this,void 0,void 0,function(){var e,t,r,n,B,s,o,i,a,c,Q,w,u,U;return S(this,function(A){switch(A.label){case 0:this.applyEffects(l.effects,4),e=l.container,t=l.curves,r=e.styles,n=0,B=e.textNodes,A.label=1;case 1:return n<B.length?(s=B[n],[4,this.renderTextNode(s,r)]):[3,4];case 2:A.sent(),A.label=3;case 3:return n++,[3,1];case 4:if(!(e instanceof Nn))return[3,8];A.label=5;case 5:return A.trys.push([5,7,,8]),[4,this.options.cache.match(e.src)];case 6:return w=A.sent(),this.renderReplacedElement(e,t,w),[3,8];case 7:return A.sent(),De.getInstance(this.options.id).error("Error loading image "+e.src),[3,8];case 8:if(e instanceof Tn&&this.renderReplacedElement(e,t,e.canvas),!(e instanceof Ln))return[3,12];A.label=9;case 9:return A.trys.push([9,11,,12]),[4,this.options.cache.match(e.svg)];case 10:return w=A.sent(),this.renderReplacedElement(e,t,w),[3,12];case 11:return A.sent(),De.getInstance(this.options.id).error("Error loading svg "+e.svg.substring(0,255)),[3,12];case 12:return e instanceof tB&&e.tree?[4,new Ds({id:this.options.id,scale:this.options.scale,backgroundColor:e.backgroundColor,x:0,y:0,scrollX:0,scrollY:0,width:e.width,height:e.height,cache:this.options.cache,windowWidth:e.width,windowHeight:e.height}).render(e.tree)]:[3,14];case 13:o=A.sent(),e.width&&e.height&&this.ctx.drawImage(o,0,0,e.width,e.height,e.bounds.left,e.bounds.top,e.bounds.width,e.bounds.height),A.label=14;case 14:if(e instanceof Gn&&(i=Math.min(e.bounds.width,e.bounds.height),e.type===Vn?e.checked&&(this.ctx.save(),this.path([new ts(e.bounds.left+.39363*i,e.bounds.top+.79*i),new ts(e.bounds.left+.16*i,e.bounds.top+.5549*i),new ts(e.bounds.left+.27347*i,e.bounds.top+.44071*i),new ts(e.bounds.left+.39694*i,e.bounds.top+.5649*i),new ts(e.bounds.left+.72983*i,e.bounds.top+.23*i),new ts(e.bounds.left+.84*i,e.bounds.top+.34085*i),new ts(e.bounds.left+.39363*i,e.bounds.top+.79*i)]),this.ctx.fillStyle=te(Jn),this.ctx.fill(),this.ctx.restore()):e.type===zn&&e.checked&&(this.ctx.save(),this.ctx.beginPath(),this.ctx.arc(e.bounds.left+i/2,e.bounds.top+i/2,i/4,0,2*Math.PI,!0),this.ctx.fillStyle=te(Jn),this.ctx.fill(),this.ctx.restore())),bs(e)&&e.value.length){switch(this.ctx.font=this.createFontStyle(r)[0],this.ctx.fillStyle=te(r.color),this.ctx.textBaseline="middle",this.ctx.textAlign=Ms(e.styles.textAlign),U=hs(e),a=0,e.styles.textAlign){case Cr.CENTER:a+=U.width/2;break;case Cr.RIGHT:a+=U.width}c=U.add(a,0,0,-U.height/2+1),this.ctx.save(),this.path([new ts(U.left,U.top),new ts(U.left+U.width,U.top),new ts(U.left+U.width,U.top+U.height),new ts(U.left,U.top+U.height)]),this.ctx.clip(),this.renderTextWithLetterSpacing(new Cn(e.value,c),r.letterSpacing),this.ctx.restore(),this.ctx.textBaseline="bottom",this.ctx.textAlign="left"}if(!An(e.styles.display,2048))return[3,20];if(null===e.styles.listStyleImage)return[3,19];if((Q=e.styles.listStyleImage).type!==xe.URL)return[3,18];w=void 0,u=Q.url,A.label=15;case 15:return A.trys.push([15,17,,18]),[4,this.options.cache.match(u)];case 16:return w=A.sent(),this.ctx.drawImage(w,e.bounds.left-(w.width+10),e.bounds.top),[3,18];case 17:return A.sent(),De.getInstance(this.options.id).error("Error loading list-style-image "+u),[3,18];case 18:return[3,20];case 19:l.listValue&&e.styles.listStyleType!==tr.NONE&&(this.ctx.font=this.createFontStyle(r)[0],this.ctx.fillStyle=te(r.color),this.ctx.textBaseline="middle",this.ctx.textAlign="right",U=new I(e.bounds.left,e.bounds.top+ae(e.styles.paddingTop,e.bounds.width),e.bounds.width,function(A,e){return zA(A)&&"normal"===A.value?1.2*e:A.type===sA.NUMBER_TOKEN?e*A.number:qA(A)?ae(A,e):e}(r.lineHeight,r.fontSize.number)/2+1),this.renderTextWithLetterSpacing(new Cn(l.listValue,U),r.letterSpacing),this.ctx.textBaseline="bottom",this.ctx.textAlign="left"),A.label=20;case 20:return[2]}})})},Ds.prototype.renderStackContent=function(C){return a(this,void 0,void 0,function(){var e,t,r,n,B,s,o,i,a,c,Q,w,u,U,l;return S(this,function(A){switch(A.label){case 0:return[4,this.renderNodeBackgroundAndBorders(C.element)];case 1:A.sent(),e=0,t=C.negativeZIndex,A.label=2;case 2:return e<t.length?(l=t[e],[4,this.renderStack(l)]):[3,5];case 3:A.sent(),A.label=4;case 4:return e++,[3,2];case 5:return[4,this.renderNodeContent(C.element)];case 6:A.sent(),r=0,n=C.nonInlineLevel,A.label=7;case 7:return r<n.length?(l=n[r],[4,this.renderNode(l)]):[3,10];case 8:A.sent(),A.label=9;case 9:return r++,[3,7];case 10:B=0,s=C.nonPositionedFloats,A.label=11;case 11:return B<s.length?(l=s[B],[4,this.renderStack(l)]):[3,14];case 12:A.sent(),A.label=13;case 13:return B++,[3,11];case 14:o=0,i=C.nonPositionedInlineLevel,A.label=15;case 15:return o<i.length?(l=i[o],[4,this.renderStack(l)]):[3,18];case 16:A.sent(),A.label=17;case 17:return o++,[3,15];case 18:a=0,c=C.inlineLevel,A.label=19;case 19:return a<c.length?(l=c[a],[4,this.renderNode(l)]):[3,22];case 20:A.sent(),A.label=21;case 21:return a++,[3,19];case 22:Q=0,w=C.zeroOrAutoZIndexOrTransformedOrOpacity,A.label=23;case 23:return Q<w.length?(l=w[Q],[4,this.renderStack(l)]):[3,26];case 24:A.sent(),A.label=25;case 25:return Q++,[3,23];case 26:u=0,U=C.positiveZIndex,A.label=27;case 27:return u<U.length?(l=U[u],[4,this.renderStack(l)]):[3,30];case 28:A.sent(),A.label=29;case 29:return u++,[3,27];case 30:return[2]}})})},Ds.prototype.mask=function(A){this.ctx.beginPath(),this.ctx.moveTo(0,0),this.ctx.lineTo(this.canvas.width,0),this.ctx.lineTo(this.canvas.width,this.canvas.height),this.ctx.lineTo(0,this.canvas.height),this.ctx.lineTo(0,0),this.formatPath(A.slice(0).reverse()),this.ctx.closePath()},Ds.prototype.path=function(A){this.ctx.beginPath(),this.formatPath(A),this.ctx.closePath()},Ds.prototype.formatPath=function(A){var r=this;A.forEach(function(A,e){var t=os(A)?A.start:A;0===e?r.ctx.moveTo(t.x,t.y):r.ctx.lineTo(t.x,t.y),os(A)&&r.ctx.bezierCurveTo(A.startControl.x,A.startControl.y,A.endControl.x,A.endControl.y,A.end.x,A.end.y)})},Ds.prototype.renderRepeat=function(A,e,t,r){this.path(A),this.ctx.fillStyle=e,this.ctx.translate(t,r),this.ctx.fill(),this.ctx.translate(-t,-r)},Ds.prototype.resizeImage=function(A,e,t){if(A.width===e&&A.height===t)return A;var r=this.canvas.ownerDocument.createElement("canvas");return r.width=e,r.height=t,r.getContext("2d").drawImage(A,0,0,A.width,A.height,0,0,e,t),r},Ds.prototype.renderBackgroundImage=function(b){return a(this,void 0,void 0,function(){var O,e,D,t,r,n;return S(this,function(A){switch(A.label){case 0:O=b.styles.backgroundImage.length-1,e=function(e){var t,r,n,B,s,o,i,a,c,Q,w,u,U,l,C,g,E,F,h,H,d,f,p,N,K,I,T,m,R,L,v;return S(this,function(A){switch(A.label){case 0:if(e.type!==xe.URL)return[3,5];t=void 0,r=e.url,A.label=1;case 1:return A.trys.push([1,3,,4]),[4,D.options.cache.match(r)];case 2:return t=A.sent(),[3,4];case 3:return A.sent(),De.getInstance(D.options.id).error("Error loading background-image "+r),[3,4];case 4:return t&&(n=Hs(b,O,[t.width,t.height,t.width/t.height]),g=n[0],f=n[1],p=n[2],h=n[3],H=n[4],l=D.ctx.createPattern(D.resizeImage(t,h,H),"repeat"),D.renderRepeat(g,l,f,p)),[3,6];case 5:!function(A){return A.type===xe.LINEAR_GRADIENT}(e)?function(A){return A.type===xe.RADIAL_GRADIENT}(e)&&(C=Hs(b,O,[null,null,null]),g=C[0],E=C[1],F=C[2],h=C[3],H=C[4],d=0===e.position.length?[oe]:e.position,f=ae(d[0],h),p=ae(d[d.length-1],H),N=function(A,e,t,r,n){var B=0,s=0;switch(A.size){case Bt.CLOSEST_SIDE:A.shape===rt.CIRCLE?B=s=Math.min(Math.abs(e),Math.abs(e-r),Math.abs(t),Math.abs(t-n)):A.shape===rt.ELLIPSE&&(B=Math.min(Math.abs(e),Math.abs(e-r)),s=Math.min(Math.abs(t),Math.abs(t-n)));break;case Bt.CLOSEST_CORNER:if(A.shape===rt.CIRCLE)B=s=Math.min(Ne(e,t),Ne(e,t-n),Ne(e-r,t),Ne(e-r,t-n));else if(A.shape===rt.ELLIPSE){var o=Math.min(Math.abs(t),Math.abs(t-n))/Math.min(Math.abs(e),Math.abs(e-r)),i=Ke(r,n,e,t,!0),a=i[0],c=i[1];s=o*(B=Ne(a-e,(c-t)/o))}break;case Bt.FARTHEST_SIDE:A.shape===rt.CIRCLE?B=s=Math.max(Math.abs(e),Math.abs(e-r),Math.abs(t),Math.abs(t-n)):A.shape===rt.ELLIPSE&&(B=Math.max(Math.abs(e),Math.abs(e-r)),s=Math.max(Math.abs(t),Math.abs(t-n)));break;case Bt.FARTHEST_CORNER:if(A.shape===rt.CIRCLE)B=s=Math.max(Ne(e,t),Ne(e,t-n),Ne(e-r,t),Ne(e-r,t-n));else if(A.shape===rt.ELLIPSE){o=Math.max(Math.abs(t),Math.abs(t-n))/Math.max(Math.abs(e),Math.abs(e-r));var Q=Ke(r,n,e,t,!1);a=Q[0],c=Q[1],s=o*(B=Ne(a-e,(c-t)/o))}}return Array.isArray(A.size)&&(B=ae(A.size[0],r),s=2===A.size.length?ae(A.size[1],n):B),[B,s]}(e,f,p,h,H),K=N[0],I=N[1],0<K&&0<K&&(T=D.ctx.createRadialGradient(E+f,F+p,0,E+f,F+p,K),fe(e.stops,2*K).forEach(function(A){return T.addColorStop(A.stop,te(A.color))}),D.path(g),D.ctx.fillStyle=T,K!==I?(m=b.bounds.left+.5*b.bounds.width,R=b.bounds.top+.5*b.bounds.height,v=1/(L=I/K),D.ctx.save(),D.ctx.translate(m,R),D.ctx.transform(1,0,0,L,0,0),D.ctx.translate(-m,-R),D.ctx.fillRect(E,v*(F-R)+R,h,H*v),D.ctx.restore()):D.ctx.fill())):(B=Hs(b,O,[null,null,null]),g=B[0],f=B[1],p=B[2],h=B[3],H=B[4],s=pe(e.angle,h,H),o=s[0],i=s[1],a=s[2],c=s[3],Q=s[4],(w=document.createElement("canvas")).width=h,w.height=H,u=w.getContext("2d"),U=u.createLinearGradient(i,c,a,Q),fe(e.stops,o).forEach(function(A){return U.addColorStop(A.stop,te(A.color))}),u.fillStyle=U,u.fillRect(0,0,h,H),0<h&&0<H&&(l=D.ctx.createPattern(w,"repeat"),D.renderRepeat(g,l,f,p))),A.label=6;case 6:return O--,[2]}})},D=this,t=0,r=b.styles.backgroundImage.slice(0).reverse(),A.label=1;case 1:return t<r.length?(n=r[t],[5,e(n)]):[3,4];case 2:A.sent(),A.label=3;case 3:return t++,[3,1];case 4:return[2]}})})},Ds.prototype.renderBorder=function(e,t,r){return a(this,void 0,void 0,function(){return S(this,function(A){return this.path(function(A,e){switch(e){case 0:return Ks(A.topLeftBorderBox,A.topLeftPaddingBox,A.topRightBorderBox,A.topRightPaddingBox);case 1:return Ks(A.topRightBorderBox,A.topRightPaddingBox,A.bottomRightBorderBox,A.bottomRightPaddingBox);case 2:return Ks(A.bottomRightBorderBox,A.bottomRightPaddingBox,A.bottomLeftBorderBox,A.bottomLeftPaddingBox);case 3:default:return Ks(A.bottomLeftBorderBox,A.bottomLeftPaddingBox,A.topLeftBorderBox,A.topLeftPaddingBox)}}(r,t)),this.ctx.fillStyle=te(e),this.ctx.fill(),[2]})})},Ds.prototype.renderNodeBackgroundAndBorders=function(c){return a(this,void 0,void 0,function(){var e,t,r,n,B,s,o,i,a=this;return S(this,function(A){switch(A.label){case 0:return this.applyEffects(c.effects,2),e=c.container.styles,t=!ee(e.backgroundColor)||e.backgroundImage.length,r=[{style:e.borderTopStyle,color:e.borderTopColor},{style:e.borderRightStyle,color:e.borderRightColor},{style:e.borderBottomStyle,color:e.borderBottomColor},{style:e.borderLeftStyle,color:e.borderLeftColor}],n=Ss(Ts(e.backgroundClip,0),c.curves),t||e.boxShadow.length?(this.ctx.save(),this.path(n),this.ctx.clip(),ee(e.backgroundColor)||(this.ctx.fillStyle=te(e.backgroundColor),this.ctx.fill()),[4,this.renderBackgroundImage(c.container)]):[3,2];case 1:A.sent(),this.ctx.restore(),e.boxShadow.slice(0).reverse().forEach(function(A){a.ctx.save();var e=Qs(c.curves),t=A.inset?0:1e4,r=function(A,t,r,n,B){return A.map(function(A,e){switch(e){case 0:return A.add(t,r);case 1:return A.add(t+n,r);case 2:return A.add(t+n,r+B);case 3:return A.add(t,r+B)}return A})}(e,-t+(A.inset?1:-1)*A.spread.number,(A.inset?1:-1)*A.spread.number,A.spread.number*(A.inset?-2:2),A.spread.number*(A.inset?-2:2));A.inset?(a.path(e),a.ctx.clip(),a.mask(r)):(a.mask(e),a.ctx.clip(),a.path(r)),a.ctx.shadowOffsetX=A.offsetX.number+t,a.ctx.shadowOffsetY=A.offsetY.number,a.ctx.shadowColor=te(A.color),a.ctx.shadowBlur=A.blur.number,a.ctx.fillStyle=A.inset?te(A.color):"rgba(0,0,0,1)",a.ctx.fill(),a.ctx.restore()}),A.label=2;case 2:s=B=0,o=r,A.label=3;case 3:return s<o.length?(i=o[s]).style===ht.NONE||ee(i.color)?[3,5]:[4,this.renderBorder(i.color,B,c.curves)]:[3,7];case 4:A.sent(),A.label=5;case 5:B++,A.label=6;case 6:return s++,[3,3];case 7:return[2]}})})},Ds.prototype.render=function(t){return a(this,void 0,void 0,function(){var e;return S(this,function(A){switch(A.label){case 0:return this.options.backgroundColor&&(this.ctx.fillStyle=te(this.options.backgroundColor),this.ctx.fillRect(this.options.x-this.options.scrollX,this.options.y-this.options.scrollY,this.options.width,this.options.height)),e=function(A){var e=new gs(A,[]),t=new Cs(e),r=[];return ps(e,t,t,r),Ns(e.container,r),t}(t),[4,this.renderStack(e)];case 1:return A.sent(),this.applyEffects([],2),[2,this.canvas]}})})},Ds);function Ds(A){this._activeEffects=[],this.canvas=A.canvas?A.canvas:document.createElement("canvas"),this.ctx=this.canvas.getContext("2d"),(this.options=A).canvas||(this.canvas.width=Math.floor(A.width*A.scale),this.canvas.height=Math.floor(A.height*A.scale),this.canvas.style.width=A.width+"px",this.canvas.style.height=A.height+"px"),this.fontMetrics=new Ls(document),this.ctx.scale(this.options.scale,this.options.scale),this.ctx.translate(-A.x+A.scrollX,-A.y+A.scrollY),this.ctx.textBaseline="bottom",this._activeEffects=[],De.getInstance(A.id).debug("Canvas renderer initialized ("+A.width+"x"+A.height+" at "+A.x+","+A.y+") with scale "+A.scale)}var bs=function(A){return A instanceof jn||(A instanceof Yn||A instanceof Gn&&A.type!==zn&&A.type!==Vn)},Ss=function(A,e){switch(A){case Ee.BORDER_BOX:return Qs(e);case Ee.CONTENT_BOX:return function(A){return[A.topLeftContentBox,A.topRightContentBox,A.bottomRightContentBox,A.bottomLeftContentBox]}(e);case Ee.PADDING_BOX:default:return ws(e)}},Ms=function(A){switch(A){case Cr.CENTER:return"center";case Cr.RIGHT:return"right";case Cr.LEFT:default:return"left"}},ys=(_s.prototype.render=function(r){return a(this,void 0,void 0,function(){var e,t;return S(this,function(A){switch(A.label){case 0:return e=Le(Math.max(this.options.windowWidth,this.options.width)*this.options.scale,Math.max(this.options.windowHeight,this.options.height)*this.options.scale,this.options.scrollX*this.options.scale,this.options.scrollY*this.options.scale,r),[4,xs(e)];case 1:return t=A.sent(),this.options.backgroundColor&&(this.ctx.fillStyle=te(this.options.backgroundColor),this.ctx.fillRect(0,0,this.options.width*this.options.scale,this.options.height*this.options.scale)),this.ctx.drawImage(t,-this.options.x*this.options.scale,-this.options.y*this.options.scale),[2,this.canvas]}})})},_s);function _s(A){this.canvas=A.canvas?A.canvas:document.createElement("canvas"),this.ctx=this.canvas.getContext("2d"),this.options=A,this.canvas.width=Math.floor(A.width*A.scale),this.canvas.height=Math.floor(A.height*A.scale),this.canvas.style.width=A.width+"px",this.canvas.style.height=A.height+"px",this.ctx.scale(this.options.scale,this.options.scale),this.ctx.translate(-A.x+A.scrollX,-A.y+A.scrollY),De.getInstance(A.id).debug("EXPERIMENTAL ForeignObject renderer initialized ("+A.width+"x"+A.height+" at "+A.x+","+A.y+") with scale "+A.scale)}function Ps(A){return we(_A.create(A).parseComponentValue())}var xs=function(r){return new Promise(function(A,e){var t=new Image;t.onload=function(){A(t)},t.onerror=e,t.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent((new XMLSerializer).serializeToString(r))})};"undefined"!=typeof window&&Se.setContext(window);var Vs=function(p,N){return a(void 0,void 0,void 0,function(){var e,t,r,n,B,s,o,i,a,c,Q,w,u,U,l,C,g,E,F,h,H,d,f;return S(this,function(A){switch(A.label){case 0:if(!(e=p.ownerDocument))throw new Error("Element is not attached to a Document");if(!(t=e.defaultView))throw new Error("Document is not attached to a Window");return r=(Math.round(1e3*Math.random())+Date.now()).toString(16),n=EB(p)||function(A){return"HTML"===A.tagName}(p)?function(A){var e=A.body,t=A.documentElement;if(!e||!t)throw new Error("Unable to get document size");var r=Math.max(Math.max(e.scrollWidth,t.scrollWidth),Math.max(e.offsetWidth,t.offsetWidth),Math.max(e.clientWidth,t.clientWidth)),n=Math.max(Math.max(e.scrollHeight,t.scrollHeight),Math.max(e.offsetHeight,t.offsetHeight),Math.max(e.clientHeight,t.clientHeight));return new I(0,0,r,n)}(e):T(p),B=n.width,s=n.height,o=n.left,i=n.top,a=K({},{allowTaint:!1,imageTimeout:15e3,proxy:void 0,useCORS:!1},N),c={backgroundColor:"#ffffff",cache:N.cache?N.cache:Se.create(r,a),logging:!0,removeContainer:!0,foreignObjectRendering:!1,scale:t.devicePixelRatio||1,windowWidth:t.innerWidth,windowHeight:t.innerHeight,scrollX:t.pageXOffset,scrollY:t.pageYOffset,x:o,y:i,width:Math.ceil(B),height:Math.ceil(s),id:r},Q=K({},c,a,N),w=new I(Q.scrollX,Q.scrollY,Q.windowWidth,Q.windowHeight),De.create({id:r,enabled:Q.logging}),De.getInstance(r).debug("Starting document clone"),u=new PB(p,{id:r,onclone:Q.onclone,ignoreElements:Q.ignoreElements,inlineImages:Q.foreignObjectRendering,copyStyles:Q.foreignObjectRendering}),(U=u.clonedReferenceElement)?[4,u.toIFrame(e,w)]:[2,Promise.reject("Unable to find element in cloned iframe")];case 1:return l=A.sent(),C=e.documentElement?Ps(getComputedStyle(e.documentElement).backgroundColor):He.TRANSPARENT,g=e.body?Ps(getComputedStyle(e.body).backgroundColor):He.TRANSPARENT,E=N.backgroundColor,F="string"==typeof E?Ps(E):null===E?He.TRANSPARENT:4294967295,h=p===e.documentElement?ee(C)?ee(g)?F:g:C:F,H={id:r,cache:Q.cache,canvas:Q.canvas,backgroundColor:h,scale:Q.scale,x:Q.x,y:Q.y,scrollX:Q.scrollX,scrollY:Q.scrollY,width:Q.width,height:Q.height,windowWidth:Q.windowWidth,windowHeight:Q.windowHeight},Q.foreignObjectRendering?(De.getInstance(r).debug("Document cloned, using foreign object rendering"),[4,new ys(H).render(U)]):[3,3];case 2:return d=A.sent(),[3,5];case 3:return De.getInstance(r).debug("Document cloned, using computed rendering"),Se.attachInstance(Q.cache),De.getInstance(r).debug("Starting DOM parsing"),f=iB(U),Se.detachInstance(),h===f.styles.backgroundColor&&(f.styles.backgroundColor=He.TRANSPARENT),De.getInstance(r).debug("Starting renderer"),[4,new Os(H).render(f)];case 4:d=A.sent(),A.label=5;case 5:return!0===Q.removeContainer&&(PB.destroy(l)||De.getInstance(r).error("Cannot detach cloned iframe as it is not in the DOM anymore")),De.getInstance(r).debug("Finished rendering"),De.destroy(r),Se.destroy(r),[2,d]}})})};return function(A,e){return void 0===e&&(e={}),Vs(A,e)}});!function(){var e=function(){return function e(t,n,r){function o(s,i){if(!n[s]){if(!t[s]){var u="function"==typeof require&&require;if(!i&&u)return u(s,!0);if(a)return a(s,!0);var p=new Error("Cannot find module '"+s+"'");throw p.code="MODULE_NOT_FOUND",p}var h=n[s]={exports:{}};t[s][0].call(h.exports,function(e){var n=t[s][1][e];return o(n||e)},h,h.exports,e,t,n,r)}return n[s].exports}for(var a="function"==typeof require&&require,s=0;s<r.length;s++)o(r[s]);return o}({1:[function(e,t,n){function r(e){return e+(97<=e&&e<=122?-32:65<=e&&e<=90?32:0)}function o(){return!this.randInt(0,1)}function a(e){return e instanceof h?e.index(this.randInt(0,e.length-1)):e[this.randInt(0,e.length-1)]}function s(e){if(e.type===p.types.CHAR)return new h(e.value);if(e.type===p.types.RANGE)return new h(e.from,e.to);for(var t=new h,n=0;n<e.set.length;n++){var o=s.call(this,e.set[n]);if(t.add(o),this.ignoreCase)for(var a=0;a<o.length;a++){var i=o.index(a),u=r(i);i!==u&&t.add(u)}}return e.not?this.defaultRange.clone().subtract(t):t}function i(e,t){"number"==typeof t.max&&(e.max=t.max),t.defaultRange instanceof h&&(e.defaultRange=t.defaultRange),"function"==typeof t.randInt&&(e.randInt=t.randInt)}function u(e,t){var n,i,p,h,c;switch(e.type){case l.ROOT:case l.GROUP:if(e.followedBy||e.notFollowedBy)return"";for(e.remember&&void 0===e.groupNumber&&(e.groupNumber=t.push(null)-1),i="",h=0,c=(n=e.options?a.call(this,e.options):e.stack).length;h<c;h++)i+=u.call(this,n[h],t);return e.remember&&(t[e.groupNumber]=i),i;case l.POSITION:return"";case l.SET:var f=s.call(this,e);return f.length?String.fromCharCode(a.call(this,f)):"";case l.REPETITION:for(p=this.randInt(e.min,e.max===1/0?e.min+this.max:e.max),i="",h=0;h<p;h++)i+=u.call(this,e.value,t);return i;case l.REFERENCE:return t[e.value-1]||"";case l.CHAR:var g=this.ignoreCase&&o.call(this)?r(e.value):e.value;return String.fromCharCode(g)}}var p=e("ret"),h=e("discontinuous-range"),l=p.types,c=t.exports=function(e,t){if(this.defaultRange=this.defaultRange.clone(),e instanceof RegExp)this.ignoreCase=e.ignoreCase,this.multiline=e.multiline,i(this,e),e=e.source;else{if("string"!=typeof e)throw new Error("Expected a regexp or string");this.ignoreCase=t&&-1!==t.indexOf("i"),this.multiline=t&&-1!==t.indexOf("m")}this.tokens=p(e)};c.prototype.max=20,c.prototype.gen=function(){return u.call(this,this.tokens,[])},c.randexp=function(e,t){var n;return void 0===e._randexp?(n=new c(e,t),e._randexp=n):n=e._randexp,i(n,e),n.gen()},c.sugar=function(){RegExp.prototype.gen=function(){return c.randexp(this)}},c.prototype.defaultRange=new h(32,126),c.prototype.randInt=function(e,t){return e+Math.floor(Math.random()*(1+t-e))}},{"discontinuous-range":2,ret:3}],2:[function(e,t,n){function r(e,t){this.low=e,this.high=t,this.length=1+t-e}function o(e,t){if(!(this instanceof o))return new o(e,t);this.ranges=[],this.length=0,void 0!==e&&this.add(e,t)}function a(e){e.length=e.ranges.reduce(function(e,t){return e+t.length},0)}r.prototype.overlaps=function(e){return!(this.high<e.low||this.low>e.high)},r.prototype.touches=function(e){return!(this.high+1<e.low||this.low-1>e.high)},r.prototype.add=function(e){return this.touches(e)&&new r(Math.min(this.low,e.low),Math.max(this.high,e.high))},r.prototype.subtract=function(e){return!!this.overlaps(e)&&(e.low<=this.low&&e.high>=this.high?[]:e.low>this.low&&e.high<this.high?[new r(this.low,e.low-1),new r(e.high+1,this.high)]:e.low<=this.low?[new r(e.high+1,this.high)]:[new r(this.low,e.low-1)])},r.prototype.toString=function(){return this.low==this.high?this.low.toString():this.low+"-"+this.high},r.prototype.clone=function(){return new r(this.low,this.high)},o.prototype.add=function(e,t){function n(e){for(var t=[],n=0;n<s.ranges.length&&!e.touches(s.ranges[n]);)t.push(s.ranges[n].clone()),n++;for(;n<s.ranges.length&&e.touches(s.ranges[n]);)e=e.add(s.ranges[n]),n++;for(t.push(e);n<s.ranges.length;)t.push(s.ranges[n].clone()),n++;s.ranges=t,a(s)}var s=this;return e instanceof o?e.ranges.forEach(n):e instanceof r?n(e):(void 0===t&&(t=e),n(new r(e,t))),this},o.prototype.subtract=function(e,t){function n(e){for(var t=[],n=0;n<s.ranges.length&&!e.overlaps(s.ranges[n]);)t.push(s.ranges[n].clone()),n++;for(;n<s.ranges.length&&e.overlaps(s.ranges[n]);)t=t.concat(s.ranges[n].subtract(e)),n++;for(;n<s.ranges.length;)t.push(s.ranges[n].clone()),n++;s.ranges=t,a(s)}var s=this;return e instanceof o?e.ranges.forEach(n):e instanceof r?n(e):(void 0===t&&(t=e),n(new r(e,t))),this},o.prototype.index=function(e){for(var t=0;t<this.ranges.length&&this.ranges[t].length<=e;)e-=this.ranges[t].length,t++;return t>=this.ranges.length?null:this.ranges[t].low+e},o.prototype.toString=function(){return"[ "+this.ranges.join(", ")+" ]"},o.prototype.clone=function(){return new o(this)},t.exports=o},{}],3:[function(e,t,n){var r=e("./util"),o=e("./types"),a=e("./sets"),s=e("./positions");t.exports=function(e){var t,n,i=0,u={type:o.ROOT,stack:[]},p=u,h=u.stack,l=[],c=function(t){r.error(e,"Nothing to repeat at column "+(t-1))},f=r.strToChars(e);for(t=f.length;i<t;)switch(n=f[i++]){case"\\":switch(n=f[i++]){case"b":h.push(s.wordBoundary());break;case"B":h.push(s.nonWordBoundary());break;case"w":h.push(a.words());break;case"W":h.push(a.notWords());break;case"d":h.push(a.ints());break;case"D":h.push(a.notInts());break;case"s":h.push(a.whitespace());break;case"S":h.push(a.notWhitespace());break;default:/\d/.test(n)?h.push({type:o.REFERENCE,value:parseInt(n,10)}):h.push({type:o.CHAR,value:n.charCodeAt(0)})}break;case"^":h.push(s.begin());break;case"$":h.push(s.end());break;case"[":var g;"^"===f[i]?(g=!0,i++):g=!1;var y=r.tokenizeClass(f.slice(i),e);i+=y[1],h.push({type:o.SET,set:y[0],not:g});break;case".":h.push(a.anyChar());break;case"(":var d={type:o.GROUP,stack:[],remember:!0};"?"===(n=f[i])&&(n=f[i+1],i+=2,"="===n?d.followedBy=!0:"!"===n?d.notFollowedBy=!0:":"!==n&&r.error(e,"Invalid group, character '"+n+"' after '?' at column "+(i-1)),d.remember=!1),h.push(d),l.push(p),p=d,h=d.stack;break;case")":0===l.length&&r.error(e,"Unmatched ) at column "+(i-1)),h=(p=l.pop()).options?p.options[p.options.length-1]:p.stack;break;case"|":p.options||(p.options=[p.stack],delete p.stack);var v=[];p.options.push(v),h=v;break;case"{":var R,C,w=/^(\d+)(,(\d+)?)?\}/.exec(f.slice(i));null!==w?(0===h.length&&c(i),R=parseInt(w[1],10),C=w[2]?w[3]?parseInt(w[3],10):1/0:R,i+=w[0].length,h.push({type:o.REPETITION,min:R,max:C,value:h.pop()})):h.push({type:o.CHAR,value:123});break;case"?":0===h.length&&c(i),h.push({type:o.REPETITION,min:0,max:1,value:h.pop()});break;case"+":0===h.length&&c(i),h.push({type:o.REPETITION,min:1,max:1/0,value:h.pop()});break;case"*":0===h.length&&c(i),h.push({type:o.REPETITION,min:0,max:1/0,value:h.pop()});break;default:h.push({type:o.CHAR,value:n.charCodeAt(0)})}return 0!==l.length&&r.error(e,"Unterminated group"),u},t.exports.types=o},{"./positions":4,"./sets":5,"./types":6,"./util":7}],4:[function(e,t,n){var r=e("./types");n.wordBoundary=function(){return{type:r.POSITION,value:"b"}},n.nonWordBoundary=function(){return{type:r.POSITION,value:"B"}},n.begin=function(){return{type:r.POSITION,value:"^"}},n.end=function(){return{type:r.POSITION,value:"$"}}},{"./types":6}],5:[function(e,t,n){var r=e("./types"),o=function(){return[{type:r.RANGE,from:48,to:57}]},a=function(){return[{type:r.CHAR,value:95},{type:r.RANGE,from:97,to:122},{type:r.RANGE,from:65,to:90}].concat(o())},s=function(){return[{type:r.CHAR,value:9},{type:r.CHAR,value:10},{type:r.CHAR,value:11},{type:r.CHAR,value:12},{type:r.CHAR,value:13},{type:r.CHAR,value:32},{type:r.CHAR,value:160},{type:r.CHAR,value:5760},{type:r.CHAR,value:6158},{type:r.CHAR,value:8192},{type:r.CHAR,value:8193},{type:r.CHAR,value:8194},{type:r.CHAR,value:8195},{type:r.CHAR,value:8196},{type:r.CHAR,value:8197},{type:r.CHAR,value:8198},{type:r.CHAR,value:8199},{type:r.CHAR,value:8200},{type:r.CHAR,value:8201},{type:r.CHAR,value:8202},{type:r.CHAR,value:8232},{type:r.CHAR,value:8233},{type:r.CHAR,value:8239},{type:r.CHAR,value:8287},{type:r.CHAR,value:12288},{type:r.CHAR,value:65279}]},i=function(){return[{type:r.CHAR,value:10},{type:r.CHAR,value:13},{type:r.CHAR,value:8232},{type:r.CHAR,value:8233}]};n.words=function(){return{type:r.SET,set:a(),not:!1}},n.notWords=function(){return{type:r.SET,set:a(),not:!0}},n.ints=function(){return{type:r.SET,set:o(),not:!1}},n.notInts=function(){return{type:r.SET,set:o(),not:!0}},n.whitespace=function(){return{type:r.SET,set:s(),not:!1}},n.notWhitespace=function(){return{type:r.SET,set:s(),not:!0}},n.anyChar=function(){return{type:r.SET,set:i(),not:!0}}},{"./types":6}],6:[function(e,t,n){t.exports={ROOT:0,GROUP:1,POSITION:2,SET:3,RANGE:4,REPETITION:5,REFERENCE:6,CHAR:7}},{}],7:[function(e,t,n){var r=e("./types"),o=e("./sets"),a={0:0,t:9,n:10,v:11,f:12,r:13};n.strToChars=function(e){var t=/(\[\\b\])|(\\)?\\(?:u([A-F0-9]{4})|x([A-F0-9]{2})|(0?[0-7]{2})|c([@A-Z\[\\\]\^?])|([0tnvfr]))/g;return e=e.replace(t,function(e,t,n,r,o,s,i,u){if(n)return e;var p=t?8:r?parseInt(r,16):o?parseInt(o,16):s?parseInt(s,8):i?"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^ ?".indexOf(i):a[u],h=String.fromCharCode(p);return/[\[\]{}\^$.|?*+()]/.test(h)&&(h="\\"+h),h})},n.tokenizeClass=function(e,t){for(var a,s,i=[],u=/\\(?:(w)|(d)|(s)|(W)|(D)|(S))|((?:(?:\\)(.)|([^\]\\]))-(?:\\)?([^\]]))|(\])|(?:\\)?(.)/g;null!=(a=u.exec(e));)if(a[1])i.push(o.words());else if(a[2])i.push(o.ints());else if(a[3])i.push(o.whitespace());else if(a[4])i.push(o.notWords());else if(a[5])i.push(o.notInts());else if(a[6])i.push(o.notWhitespace());else if(a[7])i.push({type:r.RANGE,from:(a[8]||a[9]).charCodeAt(0),to:a[10].charCodeAt(0)});else{if(!(s=a[12]))return[i,u.lastIndex];i.push({type:r.CHAR,value:s.charCodeAt(0)})}n.error(t,"Unterminated character class")},n.error=function(e,t){throw new SyntaxError("Invalid regular expression: /"+e+"/: "+t)}},{"./sets":5,"./types":6}]},{},[1])}()(1);"function"==typeof define&&"object"==typeof define.amd?define("RandExp",function(){return e}):"undefined"!=typeof window&&(window.RandExp=e)}();window._Util={
   _setValByString:function(d,k,v){
     d=_Util._exeCode(d)
     d[k]=_Util._exeCode(v)
@@ -5378,6 +860,15 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
   },
   _findLabel:function(f,v,_removeSign){
     let o=_cssHandler._findNodeByTxt(f,v,_removeSign);
+
+    let os=$(f).find(":hidden").toArray()
+    os.forEach(x=>{
+      x=_cssHandler._findNodeByTxt(x,v,_removeSign);
+      if(x.length){
+        o.push(...x)
+      }
+    })
+
     if(o.length>1){
       o.sort((a,b)=>{
         return a.w.length-b.w.length
@@ -7792,7 +3283,9 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
       }else{
         chrome.runtime.sendMessage({keep:1});
       }
-    }catch(ex){}
+    }catch(ex){
+      console.log("BZ-LOG: Block connection between IDE and extension")
+    }
   },
   _isInContentEditable:function(e){
     if($(e).attr("contenteditable")){
@@ -10547,7 +6040,7 @@ tbody td:first-child,tbody td:last-child{
     let _idx=null;
     _paths=_paths.filter(x=>{
       if($.isNumeric(x)){
-        _idx=x
+        _idx=parseInt(x)
       }else{
         return 1
       }
@@ -10657,13 +6150,13 @@ tbody td:first-child,tbody td:last-child{
         _cells=_Util._findChildrenDomFromList(_cells)
         for(var i=0;i<_cells.length;i++){
           var o=_cells[i];
-          _osInHidden.push(o)
           if(_Util._isHidden(o)){
+            _osInHidden.push(o)
             _cells.splice(i--,1)
           }
         }
-        if(!_cells.length && !_errOnHidden){
-          _cells=_osInHidden
+        if(!_errOnHidden){
+          _cells.push(..._osInHidden)
         }
         if(!_cells.length){
           return []
@@ -11274,15 +6767,15 @@ tbody td:first-child,tbody td:last-child{
     }
     v=v.trim()
     if(!v){
-      return []
+      return [];
     }
     
     if(v.replace(/\s/g,"")=="{}"){
       return []
     }
     let vs=[],
-        _left=_bzJSEditor.bd,
-        _right=_bzJSEditor.db,
+        _left=_eval.bd,
+        _right=_eval.db,
         _key,_value,lc=[],rc=[],s="",b,_startIdx
     
     for(let i=0;i<v.length;i++){
@@ -11396,7 +6889,7 @@ tbody td:first-child,tbody td:last-child{
   },
   _isCompleteBlock:function(w){
     w=w.replace(/\\\\/g,"").replace(/(\\\"|\\\'|\\\(|\\\)|\\\[|\\\]|\\\{|\\\})/g,"").replace(/(\"[^\"]*\"|\'[^\']*\')/g,"")
-    let ks=_bzJSEditor._leftKeys;
+    let ks=_eval._leftKeys;
     return !w.match(/[\"\']/)&&!['[','{','('].find(x=>{
       m1=w.match(new RegExp("[\\"+x+"]","g"))||[]
       m2=w.match(new RegExp("[\\"+ks[x]+"]","g"))||[]
@@ -11496,13 +6989,7 @@ tbody td:first-child,tbody td:last-child{
     }
   }
 };
-_Util._init()
-var _console=function(msg,o){
-  console.log(msg)
-  if(o){
-    console.log(o)
-  }
-};var _DialogViewDef={
+_Util._init();var _DialogViewDef={
   //modal cover
   id:"_dialog",
   _tag:"div",
@@ -11724,15 +7211,7 @@ var _Dialog={
   _isSameDlg:function(o){
     return $(this._window).find(o).length
   }
-};
-
-setTimeout(function(){
-  $(document).keydown(function(e){
-    if(_Util._checkKeycode(e)==27){
-      _Util._closeModelWindow(e)
-    }
-  });
-},10);var $util={
+};window.$util={
   extendExtensionScript:function(c,_pos){
     let d={bz:1}
     if(_pos=="end"){
@@ -13535,1376 +9014,11 @@ setTimeout(function(){
     return _cooperatorHandler._data.inService?_cooperatorHandler._data.group:""
   }
 }
-/*******************************************************************************
-//AI Functions
-*******************************************************************************/
-$aiAPI={
-  getModelAlias:function(o){
-    if(o.constructor!=String){
-      o=_descAnalysis._retrieveTextForElementPathItem(_cssHandler._findPath(o))||_descAnalysis._retrieveTextForElementPathItem(_cssHandler._findInputPath(o))||""
-    }
-    return _Util._toCamelWords(_Util._toSingularWord(o))
-  },
-  //updateDataStatus
-  updateDataStatus:function(d,v,m){
-    _aiAPI._updateDataStatus(d,v,m)
-  },
-  //getExeSolutionByParameter
-  getExeSolutionByParameter:function(p,k){
-    return _aiAPI._getExeSolutionByParameter(p,k)||[]
-  },
-  async getExistData(express,takeList,data,key){
-    if(takeList&&takeList.constructor!=Object){
-      takeList={_list:1}
-    }
-    return await _aiAPI._getExistData(express,takeList||{},data,key)
-  },
-  searchData:function(express,takeList,data,key){
-    if(takeList&&takeList.constructor!=Object){
-      takeList={_list:1}
-    }
-    _aiAPI._searchData(express,takeList||{},data,key)
-  },
-  searchOrNewData:function(express,data,key){
-    _aiAPI._searchData(express,{_new:1},data,key)
-  },
-  newData:function(express,data,key){
-    _aiAPI._createData(express,data,key)
-  },
-  async initCurModuleData(fun){
-    let d=_IDE._data._curModule._data
-    return await _aiAPI._getExistData(d.alias||d.code,{_list:1},fun)
-  },
-  //removeToken
-  removeToken:function(){
-    return _aiAPI._removeToken()
-  },
-  //addData
-  addData:function(p,m,k){
-    return _aiAPI._addData(p,m,k)
-  },
-  //updateData
-  updateData:function(p,m,k){
-    return _aiAPI._updateData(p,m,k)
-  },
-  //deleteData
-  deleteData:function(p,m,k){
-    return _aiAPI._deleteData(p,m,k)
-  },
-  //preHandleParameter
-  preHandleParameter:function(p,t,m){
-    return _aiAPI._preHandleParameter(p,t,m)
-  },
-  //getAllDataOfCurModule
-  getAllDataOfCurModule:function(p){
-    return _aiAPI._getAllDataOfCurModule(p)
-  },
-  //stopRegexAction
-  stopRegexAction:function(r,p,k){
-    return _aiAPI._stopRegexAction(r,p,k)
-  },
-  //getCurRefModuleData
-  getCurRefModuleData:function(d,dn,k){
-    return _aiAPI._getCurRefModuleData(d,dn,k)
-  },
-  //assignCurtUser
-  assignCurtUser:function(p){
-    return _aiAPI._assignCurtUser(p)
-  },
-  //getAuthFlowByRole
-  getAuthFlowByRole:function(t){
-    return _aiAPI._getAuthFlowByRole(t)
-  },
-  getAccount:function(d,p){
-    return d.find((x,i)=>{
-      if(!p){
-        return 1
-      }else if(p.constructor==String){
-        return x.role==p
-      }else{
-        for(var k in p){
-          if(p[k]!=x[k]){
-            return
-          }
-        }
-        return 1
-      }
-    })||d.find(x=>x.username==p)
-  },
-  //overwriteExistValue
-  overwriteExistValue:function(d){
-    return _aiAPI._overwriteExistValue(d)
-  },
-  //parseInnerData
-  parseInnerData:function(d){
-    return _aiAPI._parseInnerData(d)
-  },
-  getModuleDataById:function(v,m){
-    return _aiAPI._getModuleDataById(v,m)
-  },
-  retrieveExistData:function(m,f,d){
-    return _aiAPI._retrieveExistData(m,f,d)
-  },
-  toJSONParameter:function(v,fn,_insertIgnoreSubmit){
-    v=v===null||v===undefined?{}:v
-    if(v.constructor!=Object){
-      let vv={}
-      vv[fn]=v
-      v=vv
-    }
-    if(_insertIgnoreSubmit){
-      v.$ignoreSubmit=1
-    }
-    v.$asSubForm=1
-    return v
-  },
-  isTheLastAction:function(){
-    let a=BZ._getCurAction(),
-        t=BZ._getCurTest()
-    let as=t._data.actions
-    return a==as[as.length-1]
-  },
-  getUpdateParameter:function(d,p){
-    let n={}
-    for(let k in p){
-      if(d[k]!=p[k]){
-        n[k]=p[k]
-      }
-    }
-    return n
-  }
-}
-//---------------------------------------------------------------------------------------------//
+
 //Remove output function content
 for(k in $util){
   $util[k].toString=function(){}
-}
-
-for(k in $aiAPI){
-  $aiAPI[k].toString=function(){}
-}
-
-var __=function(v,c,_tab){
-  v=v||_IDE._data._curAction
-
-  BZ._log("_IDE._data._curProject,_curVersion,_curModule,_curTest,_curAction,_Util,_CtrlDriver,_setting")
-  if(!v){
-    var t=_IDE._data._curTest,m=_IDE._data._curModule,s=_IDE._data._curVersion.setting;
-    var k=BZ._data._curPage._key;
-    if(t){
-      t=t._data;
-      switch (k){
-        case "_actions":v=t.actions;break;
-        case "_data":v=t.dataMap;break;
-      }
-    }else if(m){
-      v=m._data.dataMap
-    }else{
-      switch (k){
-        case "_defaultData":v=s.defaultData;break;
-        case "_service":v=s.service;break;
-        // case "_preferences":v=curUser._curProject.setting.subscriptions;break;
-        // case "_dictionary":v=s.dictionary;break;
-        // case "_objectLib":v=s.objectLib;break;
-        case "_contentPolice":v=s.content;break;
-        case "_alias":v=s.aliasMap;break;
-        case "_record":v=s.record;break;
-      }
-    }
-  }
-  if(_tab===undefined){
-    _tab=2
-  }
-  return JSON.stringify(v,c,_tab);
-}
-
-function _extendJQuery(){
-  if(!window.jQuery||jQuery.expr[":"].include){
-    return
-  }
-  var _bzExJQueryFun=/\:(attr|Contains|contains|hidden|show|input|data|link|near|panel|after|before|containCss|css|endContains|endEqual|equal|RowCol|rowcol|bz|textElement|blank|Attr|text) *(=|$)/g;
-  //div:include({div.btn:bz=$field:name:Contains=lws}{div.btn:bz=$field:id}{:equal=23423423})
-  //div:include({div.btn:bz=$field:name:Contains=lws}-{div.btn:bz=$field:id}{:equal=23423423})
-  jQuery.expr[":"].include= function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    m=m[3]
-
-    if(!document._include||document._include.k!=m||Date.now()-document._include._time>1000){
-      document._include={_time:Date.now(),k:m}
-      
-      m=m.replace(/\\:/g,":\r")
-      let s=m.match(/[\-]? *\{[^\}]+\}/g)||[m]
-      s=s.map(x=>{
-        let n=x.match(/^([\-]? *)\{/)||""
-        if(n){
-          n=n[1].trim()
-          if(n){
-            x=x.substring(1)
-          }
-        }
-        x=x.trim()
-        if(x.match(/^\{.+\}$/)){
-          x=x.substring(1,x.length-1)
-        }
-
-        let v=x.match(_bzExJQueryFun),vs=[]
-        if(v){
-          v.forEach(y=>{
-            let i=x.indexOf(y)
-            vs.push(x.substring(0,i))
-            x=x.substring(i+y.length)
-          })
-          vs.push(x)
-          x=vs.map((y,i)=>{
-            y=y.trim().replace(/[:]\r/g,":")
-            if(i){
-              let vv=v[i-1].replace(/=$/,"").trim()
-              if(y){
-                y=vv+"("+y+")"
-              }else{
-                y=vv
-              }
-            }
-            return y
-          }).join("")
-        }
-        x=$(x).toArray()
-        return {n:n,x:x}
-      })
-      document._include.os=s
-    }
-    return !document._include.os.find(x=>{
-      let xx=$(a).find(x.x)[0]
-      return x.n?xx:!xx
-    })
-  }
-
-  jQuery.expr[":"].text=function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    var v2=m[3].toLowerCase().trim();
-    if(!v2){
-      return
-    }
-    v2=v2.replace(/\s+/," ")
-    if(a.nodeType!=1){
-      return
-    }
-
-    if(!document._text||document._text.k!=m[3]||Date.now()-document._text._time>1000){
-      let f=document.body;
-      let o=_Util._findLabel(f,v2)
-
-      if(!o.length&&!_Util._isRegexData(v2)&&!v2.includes("|")){
-        let vv=_Util._removeSign(v2," ")
-        o=_Util._findLabel(f,vv,1)
-      }
-      o=o.map(x=>_cssHandler._findCellElement(x.o))
-      
-      if(!o.length||!o.find(x=>x.innerText.trim().toLowerCase()==v2.toLowerCase())){
-        let ks=_IDE._data._setting.content.contentAttribute.replace("placeholder","").replace(/\|\|/g,"|")
-        let oa=$(`:attr(${ks}=${v2})`).toArray()
-        if(!oa.length){
-          oa=$(`input:attr(value=${v2})`).toArray()
-          ks=["value"]
-        }else{
-          ks=ks.split("|")
-        }
-        if(oa.length){
-          oa.forEach(x=>x._bzWordLength=_findBestAttrValue(x,ks))
-          oa.sort((a,b)=>a._bzWordLength-b._bzWordLength)
-          
-          o=oa.filter(x=>x._bzWordLength==oa[0]._bzWordLength)
-        }
-      }
-
-      document._text={
-        _time:Date.now(),
-        k:m[3],
-        as:o
-      }
-    }
-
-    let as=document._text.as
-    return as.includes(a)||$(as).find(a)[0]||(["A","BUTTON"].includes(a.tagName)&&$(a).find(as)[0])
-    function _findBestAttrValue(a,ks){
-      let aa="";
-      ks.forEach(x=>{
-        x=a.attributes[x]||{}
-        x=x.value
-        if(x){
-          if(x.toLowerCase().includes(v2.toLowerCase())){
-            if(!aa||aa.length>x.length){
-              aa=x
-            }
-          }
-        }
-
-      })
-      a._bzWordLength=aa.length
-      return aa.length
-    }
-  }
-
-  jQuery.expr[":"].attr=function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    return _chkAttr(a,i,m)
-  }
-
-  jQuery.expr[":"].Attr=function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    return _chkAttr(a,i,m,1)
-  }
-
-  function _chkAttr(aa,i,m,_full){
-    var v2=m[3],a=aa;
-    v2=v2.split("=")
-    var v1=v2.shift()
-    v2=v2.join("=")
-
-    v1=v1.replace("*","").trim()
-    v1=v1.split("|")
-    return v1.find(v1=>{
-      if(v1!="value"){
-        a=aa.attributes[v1]
-      }
-      if(a && a.value){
-        try{
-          if(_Util._isRegexData(v2)){
-            eval(`v1=a.value.match(${v2})`)
-            return v1
-          }
-          if(v2.endsWith("\" i")||v2.endsWith("\i i")){
-            v2=v2.substring(1,v2.length-3)
-          }
-          v2=_Util._filterTxt(v2)
-          v2=_Util._trimSpace(v2)
-          v1=_Util._filterTxt(a.value)
-          
-          if(v1==v2||(!_full&&v1.toLowerCase().includes(v2.toLowerCase()))){
-            a._bzJq="attr"
-            a._bzJqVal=v1
-            return true
-          }
-        }catch(e){
-          if(v1==v2){
-            a._bzJq="attr"
-            a._bzJqVal=_Util._filterTxt(a.value)
-            return true
-          }
-        }
-      }
-    })
-  }
-
-  jQuery.expr[":"].Contains = function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    m=m[3]
-
-    if(!document._Contains||document._Contains.k!=m||!document._Contains._tag.includes(a.tagName)||a._Contains||Date.now()-document._Contains._time>1000){
-      // console.log("pre-handle-dom: "+m)
-      // console.log("init Contains: "+a.tagName+","+m)
-      let v2=m;
-      if(!document._Contains||document._Contains.k!=m||Date.now()-document._Contains._time>1000){
-        document._Contains=0
-      }
-      let _inHidden=jQuery._inHidden
-      
-      let _inRegex=window._ideDataManagement&&_Util._isRegexData(v2)
-      if(_inRegex){
-        v2=_Util._getRegexByBZName(v2.substring(1,v2.length-1),1)
-        v2=new RegExp(v2,"im")
-      }else{
-        v2=v2.trim().toLowerCase();
-        v2=_Util._filterTxt(v2)
-        v2=v2.replace(/\*/g,".*")
-      }
-      let os=_Util._getElementsByWord(function(w){
-        w=(w||"").trim().toLowerCase();
-        if(_inRegex){
-          return w.match(v2)
-        }else{
-          w=_Util._filterTxt(w)
-          return _Util._includesWord(w,v2,1)
-        }
-      },a.tagName,document._Contains?document._Contains._inHidden:_inHidden,_Util._getRootDom(a))
-      if(document._Contains){
-        document._Contains._tag.push(a.tagName)
-        document._Contains.os=document._Contains.os.concat(os)
-      }else{
-        document._Contains={
-          _inHidden:_inHidden,
-          _tag:[a.tagName],
-          k:m,
-          os:os,
-          _time:Date.now()
-        }
-        jQuery._inHidden=_inHidden
-      }
-    }
-    return document._Contains.os.includes(a)
-  };
-
-  jQuery.expr[":"].hidden= function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    return _Util._isHidden(a)
-  }
-
-  jQuery.expr[":"].show= function(a,i,m){
-    return true
-  }
-
-  jQuery.expr[":"].panel=function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    var v2=_Util._toTrimSign(m[3].toLowerCase());
-    if(!v2){
-      return
-    }
-    v2=v2.replace(/\s+/," ")
-    if(a.nodeType!=1){
-      return
-    }
-
-    if(!document._panel||document._panel.k!=m[3]||Date.now()-document._panel._time>1000){
-      let os=_cssHandler._findNodeByTxt(document.body,v2),oo=new Set();
-      if(!os.length&&!_Util._isRegexData(v2)&&!v2.includes("|")){
-        let vv=_Util._removeSign(v2," ")
-        os=_cssHandler._findNodeByTxt(document.body,vv,1)
-      }
-      os.forEach(x=>{
-        let ss=[]
-        _findPanelByHeader(x,ss)
-        ss.forEach(y=>oo.add(y))
-      })
-
-      document._panel={
-        _time:Date.now(),
-        k:m[3],
-        as:[...oo],
-        _tags:new Set()
-      }
-    }
-    
-    return document._panel.as.includes(a)
-    function _findPanelByHeader(x,ss){
-      let e=x.e,
-          r=x.o.getBoundingClientRect(),
-  //        c=_cssHandler._getUniqueClass(x.o),
-          f=_cssHandler._retrieveFontInfo(x.o),
-          _start,_hasPreHeader,
-          pp=_cssHandler._getBetterParent(x.e);
-      while(e.parentElement){
-        let p=e.parentElement
-        for(let c of p.children){
-          if(c==e){
-            _start=1
-            ss.push(c)
-          }else if(!_Util._isHidden(c)){
-            if(_start){
-              
-              let os=$(c).find(x.o.tagName).toArray()
-              if(x.o.tagName==c.tagName){
-                os.unshift(c)
-              }
-              if(!os.find(y=>{
-                if(!_Util._isHidden(y)){
-                  y=_cssHandler._retrieveFontInfo(y)
-                  return _Util._isSameObj(f,y)
-                }
-              })){
-                ss.push(c)
-              }else{
-                return ss
-              }
-            }else{
-              _hasPreHeader=1
-            }
-          }
-        }
-        if(p==pp||_cssHandler._isFixedAbsoluteElement(p)||p.previousElementSibling||p.tagName=="BODY"){
-          if(_hasPreHeader){
-            return ss
-          }
-          ss.length=0
-          ss.push(p)
-          return ss
-        }
-        e=p
-      }
-
-    }
-    
-    
-  }
-
-  jQuery.expr[":"].match=function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    m=m[3]
-    if(!_Util._isRegexData(m)){
-      m="/"+m+"/"
-    }
-    m=eval(m)
-    return (a.innerText||"").trim().match(m)
-    
-  }
-  jQuery.expr[":"].input=function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    var v2=m[3].toLowerCase().trim();
-    if(!v2){
-      return
-    }
-    v2=v2.replace(/\s+/," ")
-    if(a.nodeType!=1){
-      return
-    }
-
-    if($util._tmpFormForSearchingInput||!document._input||document._input.k!=m[3]||Date.now()-document._input._time>1000){
-      let f=$util._tmpFormForSearchingInput||_cssHandler._findForm()||document.body;
-      $util._tmpFormForSearchingInput=0
-      let o=_Util._findLabel(f,v2),
-          os=new Set()
-
-      if(!o.length&&!_Util._isRegexData(v2)&&!v2.includes("|")){
-        let vv=_Util._removeSign(v2," ")
-        o=_Util._findLabel(f,vv,1)
-      }
-      o.forEach(x=>{
-        let ss=[]
-        _findInputByLabel(x,ss)
-        ss.forEach(y=>os.add(y))
-      })
-      os=[...os]
-
-      if(!os.length||!os.find(x=>_Util._isStdInputElement(x)||_Util._isInContentEditable(x))){
-        let oos=$(`:attr(${_IDE._data._setting.content.contentAttribute}=${v2})`).toArray()
-        _Util._spliceAll(oos,x=>{
-          if(!_Util._isInputObj(x)||(_Util._isHidden(x)&&!["checkbox","radio"].includes(x.type))){
-            return 1
-          }
-        })
-        if(oos.length){
-          os=oos
-        }
-      }
-
-      let ios=$(os).find("input").toArray().filter(x=>["checkbox","radio"].includes(x.type))
-      if(ios.length){
-        os=ios
-      }
-
-      document._input={
-        _time:Date.now(),
-        k:m[3],
-        as:os,
-        _tags:new Set()
-      }
-    }
-
-    
-    return document._input.as.includes(a)||$(document._input.as).find(a)[0]
-    
-    function _findInputByLabel(o,os){
-      if(o.e&&o.e.tagName=="LABEL"){
-        let k=o.e.attributes.for
-        if(k){
-          k=$("#"+k.value.replace(/([^0-9a-zA-Z\_\-])/g,"\\$1"))[0]
-          if(k){
-            os.push(k)
-            return
-          }
-        }
-        let oo=_Util._findInputs(o.e,1)
-        if(oo.length){
-          os.push(...oo)
-          return
-        }
-      }
-      if(o.ks.length){
-        o.ks.find(x=>{
-          let oo=_Util._findInputs(x,1)
-          if(oo.length){
-            os.push(...oo)
-            return 1
-          }
-        })
-      }
-      if(os.length){
-        return
-      }
-      let e=o.e
-      while(e&&e.tagName!="TD"&&e.nextElementSibling){
-        if(_cssHandler._findSamilarElementByStyle(e.nextElementSibling,o.o).length){
-          break
-        }
-        if(_cssHandler._findSamilarElementByStyle(e.nextElementSibling,o.e).length){
-          break
-        }
-        if(e==o.e){
-          let _chkbox=_findCheckboxInPreviousElement(e)
-          if(_chkbox){
-            os.push(_chkbox)
-            break
-          }
-        }
-        let oo=_Util._findInputs(e.nextElementSibling,1)
-        oo=oo.filter(x=>!_Util._isHidden(x))
-        os.push(...oo);
-        
-        if(!os.length){
-          if(_cssHandler._lookLikeInput(o.e,e.nextElementSibling)){
-            os.push(e.nextElementSibling)
-            break
-          }
-        }else{
-          break
-        }
-        e=e.nextElementSibling
-      }
-      if(os.length){
-        return
-      }
-      if(o.ks.length==1){
-        os.push(...o.ks)
-      }else if(o.ks.length>1){
-        os.push(_Util._getShareParent(o.ks[0],o.ks[1]))
-      }
-      if(!os.length&&o.e){
-        o.e=o.e.parentElement
-        _findInputByLabel(o,os)
-      }
-    }
-    
-    function _findCheckboxInPreviousElement(e){
-      let p=e.previousElementSibling
-      if(p){
-        if(p.tagName=="INPUT"&&p.type=="checkbox"){
-          return p
-        }else if(!p.innerText){
-          let cs=$(p).find("input[type=checkbox]")
-          if(cs.length){
-            return cs[cs.length-1]
-          }else{
-            return _findCheckboxInPreviousElement(p)
-          }
-        }
-      }
-    }
-    
-  }
-
-
-  jQuery.expr[":"].data=function(a,i,m){
-    let r=jQuery.expr[":"].input(a,i,m)
-    if(r){
-      var vv=_Util._removeSign(m[3]).toLowerCase().trim();
-      if(_Util._isInputObj(a)){
-        if(a.type=="checkbox"){
-          a.bzData=a.checked
-        }else if(a.type=="radio"){
-          a.bzData=$(`input[name=${a.value}]:checked`).val()
-        }else if(_Util._isInContentEditable(a)){
-          a.bzData=a.innerText
-        }else{
-          a.bzData=$(a).val()
-        }
-      }else{
-        let v=a.innerText
-        v=v.split(/[:：]/)
-        if(v.length>1){
-          if(vv==_Util._removeSign(v[0].toLowerCase())){
-            a.bzData=v[1]
-          }
-        }else{
-          a.bzData=a.innerText
-        }
-      }
-    }
-    return r
-  }
-
-  jQuery.expr[":"].link=function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    var v2=_Util._toTrimSign(m[3].toLowerCase());
-    if(!v2){
-      return
-    }
-    v2=v2.replace(/\s+/," ")
-    if(a.nodeType!=1){
-      return
-    }
-
-    /******************* New Code start *****************************************/
-    if(!document._link||document._link.k!=v2||Date.now()-document._link._time>1000){
-      let vs=v2.split("|"),oo=[]
-      vs.forEach(v=>{
-        let o=_Util._getTargetElement($(":endContains("+v+")")),os=[],ss=$("*")
-
-        if(!o.length){
-          o=$(":Contains("+v+")").toArray()
-          o=_Util._getCeilDom(o)
-        }
-        if(!o.find(x=>x.innerText==v)){
-          os=$("INPUT").toArray().filter(x=>["image","submit","button","reset"].includes(x.type)&&_Util._toTrimSign(x.value.toLowerCase())==v2)
-          if(!os.length){
-            os=$(`:attr(${_IDE._data._setting.content.contentAttribute}=${v2})`).toArray()
-          }
-          if(!os.length){
-            os=o
-          }
-        }else{
-          os=o
-        }
-        oo=oo.concat(os)
-      })
-      
-      let os=oo.filter(x=>["A","BUTTON","INPUT"].includes(x.tagName))
-      
-      if(!os.length){
-        os=oo.map(x=>_Util._getParentElementByCss("button,a",x)).filter(x=>x)
-        if(!os.length){
-          os=oo
-        }
-      }
-
-      document._link={
-        _time:Date.now(),
-        k:v2,
-        as:os,
-        _tags:new Set()
-      }
-    }
-
-    
-    return document._link.as.includes(a)
-  }
-
-  jQuery.expr[":"].near = function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    let v2=m[3]
-    let _inRegex=window._ideDataManagement&&_Util._isRegexData(v2)
-    if(!v2){
-      return
-    }
-    if(!_inRegex){
-      v2=_Util._toTrimSign(v2.toLowerCase());
-      v2=v2.replace(/\s+/," ")
-    }else{
-      eval("_inRegex="+v2)
-    }
-    if(a.nodeType!=1){
-      return
-    }
-
-    /******************* New Code start *****************************************/
-    if(!document._near||document._near.k!=v2||a._near||Date.now()-document._near._time>1000){
-      let _inHidden=jQuery._inHidden
-      let o=_Util._getTargetElement($(":endContains("+v2+")"))
-      _Util._spliceAll(o,x=>{
-        return _Util._isHidden(x)
-      })
-      if(!o.length){
-        o=$(":Contains("+v2+")").toArray()
-        o=_Util._getCeilDom(o)
-        _Util._spliceAll(o,x=>{
-          return _Util._isHidden(x)
-        })
-      }
-
-      document._near={
-        _inHidden:_inHidden,
-        o:o,
-        _time:Date.now(),
-        k:v2,
-        as:new Set(),
-        _tags:new Set()
-      }
-    }  
-
-    if(document._near._inHidden){
-      if(!_Util._isHidden(a)){
-        return
-      }
-    }else{
-      if(_Util._isHidden(a)){
-        return
-      }
-    }
-    _searchCandiate(a)
-    if(!document._near.as.has(a)){
-      return
-    }
-    /******************* New Code end *********************************************/
-    v2=_Util._toTrimSign(v2,30)
-    if(BZ._tmpNearRegexKey!=v2){
-      BZ._tmpNearRegexKey=v2
-      v2=_Util._filterTxt(v2);
-      v2=_Util._trimSpace(v2)
-      BZ._tmpNearRegex=v2.replace(/\*/g,".*")
-    }
-    var v1=_Util._findNearTxt(a,BZ._tmpNearRegex)
-    if(v1){
-      if((_inRegex&&v1.match(_inRegex))||(!_inRegex&&_Util._includesWord(v1,BZ._tmpNearRegex,1))){
-        a._bzJq="near"
-        a._bzJqVal=v1
-        return true
-      }
-    }
-    return false
-    
-    function _searchCandiate(a){
-      let d=document._near
-      if(d._tags.has(a.tagName)){
-        return
-      }
-      d._tags.add(a.tagName)
-      let o=Object.assign([],d.o)
-      let oo=o.map(x=>x.getBoundingClientRect()),as=new Set(),_loop=0;
-      while(oo.length&&_loop<3){
-        
-        for(let i=0;i<o.length;i++){
-          let x=o[i]
-          let p=x.parentElement
-          if(!p||p.tagName=="BODY"){
-            return
-          }
-          o[i]=p
-          let os=$(p).find(a.tagName).toArray()
-          if(os.length){
-            os.forEach(y=>as.add(y))
-            if(_Util._isCellElement(a)){
-              o.splice(i,1)
-              oo.splice(i--,1)
-            }
-          }
-        }
-        if(!o[0]||o[0].tagName=="BODY"){
-          break
-        }
-        if(as.size){
-          if(d._inHidden){
-            break
-          }
-          _loop++
-          for(let i=0;i<oo.length;i++){
-            let or=o[i].getBoundingClientRect()
-            if(or.width- oo[i].width>100&&or.height- oo[i].height>100){
-              oo.splice(i,1)
-              o.splice(i--,1)
-            }
-          }
-        }
-      }
-      as=[...as]
-      as.forEach(x=>d.as.add(x))
-    }
-  };
-
-  jQuery.expr[":"].next= function(a,i,m){
-    return a.nextElementSibling
-  }
-
-  jQuery.expr[":"].previous= function(a,i,m){
-    return a.previousElementSibling
-  }
-
-  jQuery.expr[":"].parent= function(a,i,m){
-    return a.parentNode
-  }
-
-  jQuery.expr[":"].after= function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    m=m[3]
-    if(a.nodeType!=1 ||a.type=="hidden"){
-      return
-    }
-
-    if(!document._after||document._after.k!=m||a._after||Date.now()-document._after._time>1000){
-      let _inHidden=jQuery._inHidden,_panel=document._after?document._after._panel:(jQuery.tmpPanel&&$(jQuery.tmpPanel))
-      let o=_Util._getTargetElement($(":endContains("+m+")")),
-          os=_inHidden?$("*"):_Util._getAllVisableElementsInJQ()
-      
-      _Util._spliceAll(o,x=>{
-        return (_panel&&!_panel.find(x)[0])||_Util._isHidden(x)
-      })
-      if(!o.length){
-        o=$(":Contains("+m+")").toArray()
-        _Util._spliceAll(o,x=>{
-          return (_panel&&!_panel.find(x)[0])||_Util._isHidden(x)
-        })
-        o=o.pop()
-      }else{
-        o=o[0]
-      }
-      jQuery._inHidden=_inHidden
-      document._after={
-        _panel:_panel,
-        _inHidden:_inHidden,
-        o:o,
-        _time:Date.now(),
-        k:m,
-        os:os,
-        _idx:os.index(o)
-      }
-    }
-    if(!document._after._inHidden&&_Util._isHidden(a)){
-      return
-    }
-    if(document._after.os.index(a)>document._after._idx){
-      return 1
-    }
-  };
-
-  jQuery.expr[":"].before= function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    return _findBeforeElement(a,i,m)
-  };
-
-  function _findBeforeElement(a,i,m){
-    m=m[3]
-    if(a.nodeType!=1 ||a.type=="hidden"){
-      return
-    }
-    let _timer=Date.now()
-
-    if(!document._before||document._before.k!=m||a._before||Date.now()-document._before._time>1000){
-      let _inHidden=jQuery._inHidden
-      let o=$(":endEqual("+m+")").toArray(),
-          os=_inHidden?$("*"):_Util._getAllVisableElementsInJQ()
-          
-      if(!o.length){
-        o=_Util._getTargetElement($(":endContains("+m+")"))
-        _Util._spliceAll(o,x=>{
-          return _Util._isHidden(x)
-        })
-      }
-      if(!o.length){
-        o=$(":Contains("+m+")").toArray()
-        _Util._spliceAll(o,x=>{
-          return _Util._isHidden(x)
-        })
-        o=_Util._getSameTextDom(_Util._getCeilDom(o),m)
-      }
-      jQuery._inHidden=_inHidden
-      document._before={
-        _inHidden:_inHidden,
-        _time:Date.now(),
-        k:m,
-        os:os,
-        o:o.map(x=>{
-          return {
-            o:x,
-            _idx:os.index(x),
-            r:x.getBoundingClientRect()
-          }
-        })
-      }
-    }
-    if(!document._before._inHidden&&_Util._isHidden(a)){
-      return
-    }
-    let n=document._before.os.index(a)
-    return document._before.o.find(x=>{
-      let _idx=x._idx
-      if(a.tagName=="INPUT"&&a.type=="checkbox"&&$(x.o).find(a.tagName)[0]){
-        return !!$(x.o).find(a)[0]
-      }
-      if(_idx>n){
-        if(x._idx-n==1){
-          return 1
-        }
-        for(let j=n+1;j<_idx;j++){
-          let c=document._before.os[j]
-          if((c.innerText||"").trim()&&!_Util._isHidden(c)){
-            if($(c).find(x.o)[0]){
-              continue
-            }
-            return
-          }else if(c.tagName==a.tagName&&c.type!=="hidden"){
-            return
-          }else{
-            c=c.getBoundingClientRect()
-
-            if(c.top>x.r.bottom||c.right>x.r.right){
-              return
-            }
-          }
-        }
-        return 1
-      }else if(n-x._idx==1){
-        return _Util._positionAfterElement(x.o,a)
-      }
-    })
-  }
-  jQuery.expr[":"].containCss = function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    return $(a).find(m[3].trim()).length>0;
-  };
-
-  jQuery.expr[":"].css=function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    let v=m[3].toLowerCase().split("|"),
-        c=""
-    return v.find(vv=>{
-      if(vv[0]=="."){
-        if(a.className&&a.className.constructor==String){
-          return _includes(a.className,vv)
-        }
-      }else if(vv[0]=="#"){
-        if(a.id&&a.id.constructor==String){
-          return _includes(a.id,vv)
-        }
-      }
-    })&&true
-    
-    function _includes(c,vv){
-      c=c.toLowerCase()
-      vv=vv.substring(1)
-      let v2=vv.split(/[^a-z0-9]/)
-      if(v2.length==1){
-        return c.split(/[^a-z0-9]/).includes(vv)
-      }else{
-        return c.includes(vv)
-      }
-    }
-    return $(a).find(m[3].trim()).length>0;
-  };
-
-  jQuery.expr[":"].endContains = function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    let o= _checkEndContains(a,i,m)
-    if(o){
-      a._bzJq="endContains"
-    }
-    return o
-  };
-
-  function _checkEndContains(a,i,m){
-    m=m[3]
-
-    if(!document._endContains||document._endContains.k!=m||!document._endContains._tag.includes(a.tagName)||a._endContains||Date.now()-document._endContains._time>1000){
-      let _inHidden=jQuery._inHidden
-      // console.log("init endContains:"+a.tagName+","+m)
-      let v2=m;
-      if(!document._endContains||document._endContains.k!=m||Date.now()-document._endContains._time>1000){
-        document._endContains=0
-      }
-      let _inRegex=window._ideDataManagement&&_Util._isRegexData(v2)
-      if(_inRegex){
-        v2=_Util._getRegexByBZName(v2.substring(1,v2.length-1),1)
-        v2=new RegExp(v2,"im")
-      }else{
-        v2=v2.trim().toLowerCase();
-        v2=_Util._filterTxt(v2)
-        v2=v2.replace(/\*/g,".*")
-      }
-      let os=_Util._getEndElementsByWord(function(w){
-        w=(w||"").trim().toLowerCase();
-        if(_inRegex){
-          return w.match(v2)
-        }else{
-          w=_Util._filterTxt(w)
-          return _Util._includesWord(w,v2,1)
-        }
-      },a.tagName,document._Contains?document._Contains._inHidden:_inHidden,a)
-      if(document._endContains){
-        document._endContains._tag.push(a.tagName)
-        document._endContains.os=document._endContains.os.concat(os)
-      }else{
-        document._endContains={
-          _inHidden:_inHidden,
-          _tag:[a.tagName],
-          k:m,
-          os:os,
-          _time:Date.now()
-        }
-        jQuery._inHidden=_inHidden
-      }
-    }
-    return document._endContains.os.includes(a)
-  }
-
-  jQuery.expr[":"].endEqual = function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    if(_Util._isNoTextElement(a)){
-      return
-    }
-    var os=a.childNodes;
-    var v2=m[3],_inRegex=window._ideDataManagement&&_Util._isRegexData(v2)
-    if(_inRegex){
-      v2=_Util._getRegexByBZName(v2.substring(1,v2.length-1),1)
-      v2=new RegExp(v2,"i")
-    }else{
-      v2=v2.trim().toLowerCase();
-      v2=_Util._trimSpace(v2)
-    }
-    for(var i=0;i<os.length;i++){
-      var o=os[i];
-      if(o.nodeType==3){
-        var t=_Util._pickTextFromNode(os,i);
-        i=t.i;
-        var v1=_Util._trimSpace(t.t.toLowerCase())
-        if(_inRegex){
-          if(v1.match(v2)){
-            a._bzJq="endEqual"
-            a._bzJqVal=t.t
-            return true
-          }else{
-            return 
-          }
-        }else{
-          try{
-            if(v1==v2){
-              a._bzJq="endEqual"
-              a._bzJqVal=t.t
-              return true;
-    //          return $(a.ownerDocument.body).find(a).length;
-    //          return !_Util._isHidden(a);
-            }
-          }catch(e){
-            if(v1.includes(v2)){
-              a._bzJq="endEqual"
-              a._bzJqVal=t.t
-              return true;
-    //          return $(a.ownerDocument.body).find(a).length;
-    //          return !_Util._isHidden(a);
-            }
-          }
-        }
-      }
-    }
-  };
-
-  jQuery.expr[":"].equal = function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    if(_Util._isNoTextElement(a)){
-      return
-    }
-    let t=jQuery(a).text().trim().toLowerCase(),_match
-    m=m[3].trim().toLowerCase()
-    return t==m
-    // if(_Util._isRegexData(m)){
-      // eval(`m=${m}`)
-      // _match=t.match(m)
-    // }else{
-      // _match=t.includes(m)
-    // }
-    // if(_match){
-    // if(t.includes(m)){
-      // let r=t.replace(m,"").replace(_Util._matchAllSign,"").trim()
-      // if(!r){
-        // a._bzJq="equal"
-        // a._bzJqVal=t
-        // return true
-      // }
-    // }
-  };
-
-  //simplar(include)
-  jQuery.expr[":"].RowCol=function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    return _findRowCol(a,i,m,(v1,v2)=>{
-      return v1.toLowerCase()==v2.toLowerCase()
-    })
-  }
-
-  jQuery.expr[":"].rowcol=function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    return _findRowCol(a,i,m,(v1,v2)=>{
-      return v1==v2
-    })
-  }
-
-  function _findRowCol(a,i,m,_fun){
-    m=m[3].replace(/^\[(.+)\]$/,"$1")
-    let rs,cs,k=m;
-    let _timer=Date.now()
-
-    if(!document._rowcol||document._rowcol.k!=m||a._rowcol||Date.now()-document._rowcol._time>1000){
-
-      m=m.split("|")
-      rs=_Util._findTextBox(m[0],_fun)||[]
-      rs=[...new Set(rs)]
-      cs=_Util._findTextBox(m[1],_fun)||[]
-      cs=[...new Set(cs)]
-      let _founds=[]
-      if(rs.length&&cs.length){
-        rs.find((x,i)=>{
-          let os1=_getCloser(x,cs,1),cc=[]
-          os1.forEach(y=>{
-            let os2=_getCloser(y,rs)
-            if(os2.includes(x)){
-              cc.push(y)
-            }
-          })
-          if(cc.length){
-            rs[i]={
-              o:x,
-              r:x.getBoundingClientRect(),
-              cs:cc.map(y=>y.getBoundingClientRect()),
-              cc:cc
-            }
-          }
-        })
-        rs.forEach(r=>{
-          if(r.cs){
-            let xo=r.o,_chkRow
-            while(1){
-              let os=$(xo).find(a.tagName).toArray(),_found=[]
-              if(!os.length){
-                if($(xo).is(a.tagName)){
-                  os=[xo]
-                }
-              }
-              os.find(o=>{
-                let or=o.getBoundingClientRect();
-                if(_match([r],or)){
-                  _found.push(o)
-                }else if(_found.length){
-                  return 1
-                }
-              })
-              _chkRow=os.length
-              _founds=_founds.concat(_found)
-              if(_found.length||r.cs.find(c=>{return c.right-5<=xo.getBoundingClientRect().right})){
-                break
-              }
-              xo=xo.parentElement
-            }
-          }
-        })
-      }
-
-      document._rowcol=a._rowcol={
-        _time:Date.now(),
-        rs:rs,
-        k:k,
-        _founds:_founds
-      }
-    }
-    return document._rowcol._founds.includes(a)
-
-    function _match(rs,ar,_chkRow){
-      return rs&&rs.find(y=>{
-        return (y.r.right<=ar.left||y.r.left<=ar.left)
-              &&(!_chkRow||(y.r.top-5<ar.top&&y.r.bottom+5>ar.bottom))
-              &&y.cs.find(x=>{
-                  return x.bottom<=ar.top&&x.left-5<ar.left&&x.right+5>ar.right
-                })
-      })
-    }
-    
-    function _getCloser(x,os,_before){
-      let xr=x.getBoundingClientRect(),
-          vs=[]
-      os.forEach(o=>{
-        if(o.getBoundingClientRect){
-          let or=o.getBoundingClientRect()
-          if(_before){
-            if(or.bottom<xr.top+5&&xr.left<=or.left+5){
-              vs.push(o)
-            }
-          }else{
-            if(or.top+5>xr.bottom&&xr.left+5>or.left){
-              vs.push(o)
-            }
-          }
-        }
-      })
-      while(vs.length){
-        let cs=$(x).find(vs).toArray()
-        if(!cs.length){
-          x=x.parentElement
-        }else{
-          return cs
-        }
-      }
-      return []
-    }
-  }
-
-  jQuery.expr[":"].textElement=function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    if(a.tagName!="CANVAS"){
-      return
-    }
-    if(_TWHandler._getCanvasTextElement(a,m[3])){
-      return true
-    }
-  }
-
-  jQuery.expr[":"].blank=function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    m=m[3]||0
-    return m==_identifyIFrameHandler._getBlankIFrameID(a)
-    
-  }
-
-  jQuery.expr[":"].bz=function(a,i,m){
-    let v=a.dataset.bz
-    if(!v){
-      return
-    }
-
-    m=m[3]
-    m=m.split("=")
-    a=_cssHandler._getBzPath(a)
-    return a.bz.find(x=>x.k==m[0]&&(x.v==m[1]||!m[1]))
-  }
-
-  for(var k in jQuery.expr[":"]){
-    jQuery.expr[":"][k].toString=function(){}
-  }
-
-  //get sub iframe
-  jQuery.fn.findIframe=function(a){
-    return $util.findIFrame(arguments)
-  }
-}
-
-_extendJQuery();var _BZDocumentsHandler={
+};var _BZDocumentsHandler={
   find:function(_jPath){
     var _result=null;
     this._documents.each(function(i,d){
@@ -16699,436 +10813,1153 @@ _extendJQuery();var _BZDocumentsHandler={
     }
     return _result;
   }
-};var _eval={
-  _parseCode:function(c){
-
+};window._eval={
+  _leftKeys:{"{":"}","[":"]","(":")"},
+  bd:{"{":"}","[":"]","(":")","'":"'",'"':'"','`':'`'},
+  db:{"}":"{","]":"[",")":"(","'":"'",'"':'"','`':'`'},
+  _tmpNum:1,
+  exeGroupCode:function(d){
+    if(!d||![String,Array].includes(d.constructor)){
+      return d
+    }
+    if(d.constructor==String){
+      return _eval._exeCode(d)
+    }else if(d)
+    d.forEach(x=>{
+      if(x.f){
+        x.ps=x.ps||[]
+        let xx=_eval._exeCode(x.f,0,0,1)
+        if(xx.n){
+          xx.d[xx.n](...x.ps)
+        }else{
+          xx.v(...x.ps)
+        }
+      }else if(x.k){
+        let xx=_eval._exeCode(x.k,0,0,1)
+        if(xx.n){
+          xx.d[xx.n]=x.v
+        }else{
+          window[xx.k]=x.v
+        }
+      }else{
+        _eval._exeCode(x.c)
+      }
+    })
+  },
+  _getTmpDataName:function(){
+    return "f"+(this._tmpNum++)
   },
   _throwErr:function(s){
     alert(_bzMessage._system._error._syntaxError+s)
   },
-  _exeBlock:function(d){
-    if(d._express){
-      if(d.k=="for"){
-
-      }else{
-        let v=_eval._exeCode(d._express,d._map)
-        if(v){
-          v=_eval._exeCode(d._content,d._map)
-          if(d.k=="while"){
-            return _eval._exeBlock(d)||v
-          }
-          return v
+  _exeFun:function(f,p,_outMap,_inMap){
+    p=p.map(x=>_eval._getFinalValue(x))
+    if(f.constructor!=Function){
+      if(f.v.constructor==Function){
+        if(f.n){
+          p=_buildTF(p)
+          return f.d[f.n](...p)
+        }else{
+          f=f.v
         }
+      }else if(f.v&&(f.v.k=="function"||f.v.k=="=>")){
+        return _exe(f.v,f.d,p)
+      }else{
+        _eval._throwErr()
+      }
+    }
+    p=_buildTF(p)
+    p= f(...p)
+    return p
+
+    function _buildTF(p){
+      p=p.map(x=>{
+        if(x&&x._bzFun=="_bzFun"){
+          return function(){
+            return _exe(x,window,[...arguments])
+          }
+        }
+        return x
+      })
+      return p
+    }
+
+    function _exe(f,d,p){
+      let _map=_eval._buildScopeDataMap(_outMap,_inMap),
+      _tmpMap={}
+      f.e.forEach((x,i)=>{
+        _tmpMap[x]=p[i]
+      })
+      _tmpMap.arguments=[...p]
+      _tmpMap.this=d
+      f=_eval._exeCode(f.c,_map,_tmpMap)
+      _eval._mergedataMap(_outMap,_inMap,_map)
+      if(f&&f._throw=="_return"){
+        f=_eval._getFinalValue(f)
+        return f
       }
     }
   },
-  _exeIf:function(c){
+  _exeIfElse:function(v,vs,_map,_tmpMap){
+    let r;
+    if(v.k!="else"){
+      r=_eval._exeCode(v.e,_map,_tmpMap)
+    }
+    if(v.k=="else"||r){
+      r=_eval._exeCode(v.c,_map,_tmpMap)
+      
+      while(vs[0]&&["else","else if"].includes(vs[0].k)){
+        vs.shift()
+      }
+
+    }
+    return r
+  },
+  _exeLoop:function(v,_map,_tmpMap){
+    let _first=1,r,rr;
+    while(1){
+      if(v.k=="for"&&_first){
+        _eval._exeCode(v.e[0],_map,_tmpMap)
+      }
+      if(v.k=="for"){
+        rr=_eval._exeCode(v.e[1],_map,_tmpMap)
+      }else if(v.k!=="do"||!_first){
+        rr=_eval._exeCode(v.e,_map,_tmpMap)
+      }
+      if((v.k=="do"&&_first)||rr){
+        _first=0
+        r=_eval._exeCode(v.c,_map,_tmpMap)
+        if(r&&r._throw){
+          if(r._throw!="_continue"){
+            if(r._throw=="_break"){
+              r=undefined
+            }
+            break
+          }
+          r._throw=0
+        }
+        if(v.k=="for"){
+          _eval._exeCode(v.e[2],_map,_tmpMap)
+        }
+      }else{
+        break
+      }
+    }
+    return r
+  },
+  _exeTry:function(v,_map,_tmpMap){
+    let r;
+    try{
+      r=_eval._exeCode(v.c,_map,_tmpMap)
+      return r
+    }catch(e){
+      _tmpMap={}
+      _tmpMap[v.e[0]]=e
+      r=_eval._exeCode(v.ec,_map,_tmpMap)
+      return r
+    }finally{
+      if(v.f){
+        _tmpMap={}
+        r=_eval._exeCode(v.f,_map,_tmpMap)
+      }
+      return r
+    }
+  },
+  _exeSwitch:function(v,_map,_tmpMap){
+    let vv=_eval._exeCode(v.e,_map,_tmpMap),_continue,r
+    v.c.find(x=>{
+      if(_continue||x.k=="default"||vv==_eval._getFinalValue(_eval._exeCode(x.v,_map,_tmpMap))){
+        r=_eval._exeCode(x.cs,_map,_tmpMap)
+        if(r&&_eval._isBzData(r)&&r._throw){
+          if(r._throw!="_continue"){
+            if(r._throw=="_break"){
+              r._throw=0
+            }
+            return 1
+          }
+          _eval._throwErr()
+        }
+        _continue=1
+      }
+    })
+    return r
+  },
+  _exeCode:function(vs,_outMap,_inMap,_inBzData){
+    _outMap=_outMap||{
+      $parameter:window.$parameter,
+      $module:window.$module,
+      $project:window.$project,
+      $test:window.$test,
+      $loop:window.$loop,
+      $result:window.$result,
+      $element:window.$element
+    },_inMap=_inMap||{};
+    if(vs.constructor==String){
+      vs=_eval._parseCode(vs)
+    }else if(vs.constructor!=Array){
+      vs=[vs]
+    }
+    let vvs=[],r,d,rs=[],_tmpFun
+    vs.forEach(x=>{
+      if(x.k=="function"||x.k=="=>"){
+        if(x.n){
+          _outMap[x.n]=x
+        }else{
+          _tmpFun=x
+        }
+        x._bzFun="_bzFun"
+      }else{
+        vvs.push(x)
+      }
+    })
+    if(!vvs.length&&_tmpFun){
+      return _tmpFun
+    }
+    while(vvs.length){
+      let v=vvs.shift()
+      if(["let","const","var","=","+=","-=","*=","/=","^=","%=","&=","|=","&&=","||="].includes(v.k)){
+        rs=[]
+        v.c=v.c||[]
+        v.c=v.c.constructor==Array?v.c.map(y=>y.constructor==Array?y[0]:y):v.c;
+        let vr=_eval._exeCode(v.c,_outMap,_inMap)
+        if(v.k=="var"){
+          _eval._setValue(v.n,_outMap,_inMap,_outMap,vr)
+        }else if(["let","const"].includes(v.k)){
+          _eval._setValue(v.n,_inMap,_inMap,_inMap,vr)
+        }else{
+          rs=[_eval._setValue(v.n,_outMap,_inMap,0,vr,v.k)]
+        }
+      }else if(["if","else if","else","for","while","do","try","switch"].includes(v.k)){
+        rs=[]
+        let _map=_eval._buildScopeDataMap(_outMap,_inMap),
+            _tmpMap={}
+        if(["if","else if","else"].includes(v.k)){
+          r=_eval._exeIfElse(v,vvs,_map,_tmpMap)
+        }else if(["for","while","do"].includes(v.k)){
+          r=_eval._exeLoop(v,_map,_tmpMap)
+        }else if(v.k=="try"){
+          r=_eval._exeTry(v,_map,_tmpMap)
+        }else{
+          r=_eval._exeSwitch(v,_map,_tmpMap)
+        }
+        _eval._mergedataMap(_outMap,_inMap,_map)
+        if(r&&_eval._isBzData(r)&&r._throw){
+          return r
+        }
+        if(r){
+          rs.push(r)
+        }
+      }else if(v.k=="..."){
+        r=_eval._getFinalValue(_eval._exeCode(v.c,_outMap,_inMap))
+        rs.push([...r])
+      }else if(v.k=="return"){
+        r=_eval._buildBzData(_eval._exeCode(v.c,_outMap,_inMap))
+        r._throw="_return"
+        return r
+      }else if(v.k=="break"){
+        r= _eval._buildBzData()
+        r._throw="_break"
+        return r
+      }else if(v.k=="continue"){
+        r= _eval._buildBzData()
+        r._throw="_continue"
+        return r
+      }else if(v.k=="throw"){
+        r=_eval._exeCode(v.c,_outMap,_inMap)
+        throw r
+      }else if(v.k=="delete"){
+        r=_eval._exeCode(v.c,_outMap,_inMap,1)
+        delete r.d[r.n]
+        rs.push(true)
+      }else if(v.k=="new"){
+        let x=v.c[0]
+        r=x.cs[0].ps.map(y=>_eval._exeCode(y,_outMap,_inMap))
+        r=new window[x.dd](...r)
+        rs.push(r)
+      }else if(v.k=="typeof"){
+        r=_eval._exeCode(v.c,_outMap,_inMap,1)
+        r=typeof _eval._getFinalValue(r)
+
+        rs.push(r)
+      }else if(v.dd){
+        let on=v.dd,nn;
+        if(v.dd[0]=="."){
+          r=_eval._getFinalValue(rs.pop())
+          nn=_eval._getTmpDataName()
+          _outMap[nn]=r
+          v.dd=nn+v.dd
+        }
+        rs.push(_eval._getRefData(v,_outMap,_inMap))
+        if(nn){
+          v.dd=on
+        }
+      }else{
+        if(v.k=="["){
+          r=[];
+          v.ps.forEach(x=>{
+            x=x.constructor==Array?x.map(y=>y.constructor==Array?y[0]:y):x;
+            let y=_eval._exeCode(x,_outMap,_inMap)
+            if(x.k=="..."){
+              r.push(...y)
+            }else{
+              r.push(y)
+            }
+          })
+          if(rs.length){
+            let rr=rs[rs.length-1]
+            if(!_eval._isSign(rr)){
+              r=r.pop()
+              if(_eval._isBzData(rr)){
+                if(rr.d&&r.n){
+                  rr.d=rr.v
+                  rr.n=r
+                  rr.v=rr.d[rr.n]
+                }else{
+                  rr.v=rr.v[r]
+                }
+              }else{
+                rr=rr[r]
+                rs[rs.length-1]=rr
+              }
+              continue
+            }
+          }
+          rs.push(_eval._buildBzData(r))
+        }else if(v.k=="{"){
+          r={}
+          v.ps.forEach(x=>{
+            Object.keys(x).forEach(y=>r[y]=_eval._exeCode(x[y],_outMap,_inMap))
+          })
+          rs.push(_eval._buildBzData(r))
+        }else if(v.k=="("){
+          if(rs.length){
+            let rr=rs[rs.length-1]
+            let fr=_eval._getFinalValue(rr)
+            if(_eval._isFun(fr)){
+              r=v.ps.map(x=>_eval._exeCode(x,_outMap,_inMap));
+              rs[rs.length-1]=_eval._exeFun(rr,r,_outMap,_inMap)
+              continue
+            }
+          }
+          r=_eval._exeCode(v.ps,_outMap,_inMap)
+          rs.push(_eval._buildBzData(r))
+        }else if(v.constructor==Array){
+          rs=[_eval._exeCode(v,_outMap,_inMap,_inBzData)]
+        }else if("'\"\`".includes(v[0])){
+          rs.push(_eval._buildBzData(v.substring(1,v.length-1)))
+        }else if(v[0]=="/"&&v.length>1){
+          let _idx=v.lastIndexOf("/"),op=v.substring(_idx+1)
+          r=new RegExp(v.substring(1,_idx),op)
+          rs.push(r)
+        }else if($.isNumeric(v)){
+          rs.push(JSON.parse(v))
+        }else if(_eval._isSign(v[0])){
+          rs.push(v)
+        }else if(v=="undefined"){
+          rs.push(_eval._buildBzData(undefined))
+        }else if(v=="null"){
+          rs.push(_eval._buildBzData(null))
+        }else if(v=="true"){
+          rs.push(_eval._buildBzData(true))
+        }else if(v=="false"){
+          rs.push(_eval._buildBzData(false))
+        }else if(v[0]=="."){
+          v=v.split(".").filter(x=>x)
+          r=rs[rs.length-1]
+          v.forEach(x=>{
+            r.d=_eval._getFinalValue(r.v)
+            r.n=x
+            r.v=r.d[x]
+          })
+        }else{
+          rs.push(_eval._getValue(v,_outMap,_inMap))
+        }
+      }
+    }
+    if(rs.find(x=>_eval._isSign(x))){
+      r=_eval._countItems(rs)
+    }else{
+      r=rs.pop()
+    }
+    if(_eval._isBzData(r)&&r._throw){
+      return r
+    }else if(_eval._isFun(r)){
+      return r
+    }
+    return _inBzData?_eval._buildBzData(r):_eval._getFinalValue(r)
 
   },
-  _exeFor:function(c){
+  _isFun:function(fr){
+    return fr&&(fr.constructor==Function||fr._bzFun=="_bzFun")
+  },
+  _getRefData:function(v,_outMap,_inMap){
+    let r=_eval._getValue(v.dd,_outMap,_inMap)
+    v.cs.forEach(x=>{
+      if(x.k){
+        let d=x.ps.find(y=>_eval._isSign(y)||y[0]==".")?_eval._exeCode(x.ps,_outMap,_inMap):x.ps.map(y=>_eval._exeCode(y,_outMap,_inMap))
+        if(x.k=="("){
+          if(!d||d.constructor!=Array){
+            d=[d]
+          }
+          if(r.n){
+            r.v=_eval._exeFun(r,d,_outMap,_inMap)
+            r.n=r.d=0
+          }else{
+            r.v=_eval._exeFun(r,d,_outMap,_inMap)
+          }
+        }else{
+          if(d&&d.constructor==Array){
+            d=d.pop()
+          }
+          r.d=r.v
+          r.n=d
+          r.v=r.d[d]
+        }
+      }else{
+        x=x.split(".").filter(x=>x)
+        x.forEach(y=>{
+          r.d=r.v
+          r.n=y
+          r.v=r.d[y]
+        })
+      }
+    })
+    return r
+  },
+  _countItems:function(ps,c){
+    let vs=[],r,s,prs,ss;
+    ps.find((x,q)=>{
+      if(x=="?"){
+        vs=_eval._getFinalValue(_countGroup(vs))
+        let qs=_eval._findKeyOuterBlock(ps,":",q+1,{"?":":"})
+        if(vs){
+          r=_eval._countItems(qs.p)
+        }else{
+          r=_eval._countItems(qs.e)
+        }
+        return 1
+      }
+      if(!["&&","||",">","<",">=","<=","==","===","!=","!==","^","&","|"].includes(x)){
+        if(ss){
+          if(_eval._isBzData(x)&&x.n){
+            vs.push(x)
+            if(ss=="++"){
+              x.v+=1
+            }else if(ss=="--"){
+              x.v-=1
+            }else if(ss=="!"){
+              x.v=!x.v
+            }else if(ss=="!!"){
+              x.v=!!x.v
+            }else{
+              x.v=~x.v
+            }
+            x.d[x.n]=x.v            
+            ss=0
+          }else{
+            if(ss=="!"){
+              vs.push(!x)
+              ss=0
+            }else if(ss=="!!"){
+              vs.push(!!x)
+              ss=0
+            }else if(ss=="~"){
+              vs.push(~x)
+              ss=0
+            }else{
+              _eval._throwErr()
+            }
+          }
+          return
+        }
+        if(x=="*"||x=="/"||x=="%"){
+            s=x
+        }else if(s){
+          vs[vs.length-1]=_eval._count(vs[vs.length-1],s,x)
+          s=""
+        }else if(x=="++"||x=="--"||x=="!"||x=="~"||x=="!!"){
+          if(s||!vs.length||_eval._isSign(vs[vs.length-1])){
+            ss=x
+          }else{
+            let rv=vs[vs.length-1]
+            if(x=="++"){
+              rv.d[rv.n]+=1
+            }else{
+              rv.d[rv.n]-=1
+            }
+          }
+        }else{
+          vs.push(x)
+        }
+      }else{
+        vs=_eval._getFinalValue(_countGroup(vs))
+        if(x=="&&"){
+          if(!vs){
+            r=_eval._buildBzData(v)
+            return 1
+          }
+        }else if(x=="||"){
+          if(vs){
+            r=_eval._buildBzData(v)
+            return 1
+          }
+        }else{
+          prs={v:vs,c:x}
+        }
+        vs=[]
+      }
+    })
+    if(!r){
+      if(vs.length){
+        r=_countGroup(vs)
+      }
+    }
+    return _eval._getFinalValue(r)
+    function _countGroup(vs){
+      [["+","-"],[">>","<<"]].forEach(x=>vs=_countPs(vs,x))
+      vs=vs[0]
+      if(prs){
+        vs=_eval._count(prs.v,prs.c,vs)
+        prs=0
+      }
+      return vs
+    }
+    function _countPs(vs,c){
+      let rs=[],s;
+      for(let i=0;i<vs.length;i++){
+        let v=vs[i]
+        if(c.includes(v)){
+          if(!i){
+            if("+-".includes(v)){
+              rs=[0]
+              s=v
+            }else if(_eval._isSign(v)){
+              _eval._throwErr()
+            }
+          }else{
+            if(s){
+              _eval._throwErr()
+            }
+            s=v
+          }
+        }else if(s){
+          let v1=_eval._getFinalValue(rs[rs.length-1])
+          v=_eval._getFinalValue(v)
+          rs[rs.length-1]=_eval._count(v1,s,v)
+          s=""
+        }else{
+          rs.push(v)
+        }
+      }
+      return rs
+    }
+  },
+  _buildBzData:function(v,d,n){
+    if(_eval._isBzData(v)){
+      return v
+    }
+    return {
+      _bzData:"_bzData",
+      v:v,
+      d:d,
+      n:n
+    }
+  },
+  _isBzData:function(v){
+    return v&&v._bzData=="_bzData"
+  },
+  _getFinalValue:function(r){
+    if(_eval._isBzData(r)){
+      return r.v
+    }
+    return r
+  },
+  _isSign:function(c){
+    return c&&"~!=><+-*/%^&|?:".includes(c[0])
+  },
+  _count:function(d1,c,d2){
+    d1=_eval._getFinalValue(d1)
+    d2=_eval._getFinalValue(d2)
+    switch(c){
+      case "+": return d1+d2
+      case "-": return d1-d2
+      case "*": return d1*d2
+      case "/": return d1/d2
+      case "==": return d1==d2
+      case "===": return d1===d2
+      case ">": return d1>d2
+      case "<": return d1<d2
+      case ">>": return d1>>d2
+      case "<<": return d1<<d2
+      case ">=": return d1>=d2
+      case "<=": return d1<=d2
+      case "&": return d1&d2
+      case "|": return d1|d2
+      case "&&": return d1&&d2
+      case "||": return d1||d2
+      case "%": return d1%d2
+      case "^": return d1^d2
+    }
+  },
+  _mergedataMap:function(_outMap,_inMap,_map){
+    Object.keys(_map).forEach(k=>{
+      if(Object.keys(_inMap).includes(k)){
+        _inMap[k]=_map[k]
+      }else{
+        _outMap[k]=_map[k]
+      }
+    })
+  },
+  _getValue:function(n,_outMap,_inMap){
+    let ns=n.split("."),_map;
+    n=ns.shift()
+    if(n=="eval"){
+      return _eval._buildBzData(_eval._exeCode,_eval,"_exeCode");
+    }
+    if(Object.keys(_inMap).includes(n)){
+      _map=_inMap
+    }else if(Object.keys(_outMap).includes(n)){
+      _map=_outMap
+    }else{
+      _map=window
+    }
+    while(ns.length){
+      _map=_map[n]
+      n=ns.shift()
+    }
+
+    return {
+      d:_map,
+      n:n,
+      v:_map[n],
+      _bzData:"_bzData"
+    }
+  },
+  _setValue:function(n,_outMap,_inMap,_defMap,v,_sign){
+    let _map,ns;
+    if(n.constructor==String){
+      ns=n.split(".")
+      n=ns.shift()
+  
+      _map=_eval._getDataMap(n,_outMap,_inMap,_defMap)
+    }else{
+      _map=_eval._getRefData(n,_outMap,_inMap)
+    }
+    if(n.constructor!=String||!_defMap||_map==_defMap){
+      if(n.constructor==String){
+        while(ns.length){
+          _map=_map[n]
+          n=ns.shift()
+        }
+      }else{
+        n=_map.n
+        _map=_map.d
+      }
+      switch(_sign){
+        case "+=":return _map[n]+=v;
+        case "-=":return _map[n]-=v;
+        case "*=":return _map[n]*=v;
+        case "/=":return _map[n]/=v;
+        case "%=":return _map[n]%=v;
+        case "^=":return _map[n]^=v;
+        case "&=":return _map[n]&=v;
+        case "|=":return _map[n]|=v;
+        case "&&=":return _map[n]&&=v;
+        case "||=":return _map[n]||=v;
+      }
+      return _map[n]=v
+    }else{
+      throw new Error("")
+    }
 
   },
-  _exeWhile:function(c){
-
-  }, 
-  _exeCode:function(v,_map){
-    let c,cc=[],c0="",s="",k,kk,d,b,ps=[],ks=[],ok,df,_set=[];
-    _map=_map||{}
-    ps._parameter=1
-    for(let i=0;i<v.length;i++){
-      c=v[i]
-      let p=ps[0]
+  _getDataMap:function(n,_outMap,_inMap,_defMap){
+    if(Object.keys(_inMap).includes(n)){
+      return _inMap
+    }
+    if(Object.keys(_outMap).includes(n)){
+      return _outMap
+    }
+    return _defMap||window
+  },
+  _buildScopeDataMap:function(_outMap,_inMap){
+    let _map=Object.assign({},_outMap)
+    _map=Object.assign(_map,_inMap)
+    return _map
+  },
+  _findKeyOuterBlock:function(vs,tk,_start,bs,_noRegex){
+    bs=bs||_eval.bd
+    let k,b,c,s;
+    _init()
+    if(vs.push){
+      vs=[...vs]
+    }
+    if(_start){
+      vs=vs.push?vs.splice(_start):vs
+    }
+    for(let i=0;i<vs.length;i++){
+      c=vs[i]
       if(c=="\\"){
         b=!b
       }else if(b){
-      }else if(k){
-        if(k==c){
-          ks.shift()
-          if(!ks.length){
-            if('\'"`'.includes(c)){
-              if(cc.length){
-                d=_count(s)
-              }else{
-                if(i==v.length-1&&!ps.length){
-                  return s
-                }
-                d=s
-              }
-            }else if(k==")"){
-              if(ok){
-                ok._express=s
-              }else{
-                let pps=_eval._exeCode(s,_map)
-                if(d&&d.constructor==Function){
-                  if(pps&&pps.constructor==Array&&pps._parameter){
-                    d=d._this[d._name](...pps)
-                  }else if(pps!==undefined){
-                    d=d._this[d._name](pps)
-                  }else{
-                    d=d._this[d._name]()
-                  }
-                }else{
-                  d=pps
-                }
-              }
-            }else if(k=="]"){
-              ps[0].s=s
-            }else if(k=="}"){
-              if(ok){
-                ok._content=s
-                _eval._exeBlock(ok,_map)
-              }else{
-                d=_parseObj(s)
-              }
-            }
-            k=""
-            s=""
-            continue
-          }else{
-            k=ks[0]
-          }
-        }else if(kk==c){
-          ks.unshift(k)
-        }
-      }else if(df&&!df._name){
-        if(c=="="){
-          df._name=s.trim()
-          s=""
-          continue
-        }
-      }else if('[{('.includes(c)){
-        p.p=c
-        _addItem(p)
-        if(c=="["){
-          k="]"
-        }else if(c=="("){
-          k=")"
-        }else if(c=="{"){
-          k="}"
-        }
-        ks.unshift(k)
-        s=""
-        continue
-      }else if(ok){
-        if(!s&&(c==" "||c=="\n")){
-          continue
-        }else if(c=="\n"){
-          ok._content=s
-          _eval._exeBlock(ok,_map)
-        }
-      }else if(c=="."){
-        _addItem(p,1)       
-      }else if(c=="'"||c=='"'||c=="`"){
-        k=c
-        ks.unshift(k)
-        continue
-      }else if(c==" "){
-        if("+-*/|&><!.({[=".includes(v.substring(i).trim()[0])){
-          continue
-        }
-        _addItem(p)
-        continue
-      }else if(c=="\n"){
-        if(!"+-*/|&><!.({=".includes(v.substring(i).trim()[0])||!p||!'+-*/&&||.>>=<<=!==='.includes(p.c1)){
-          _addItem(p)
-          if(df){
-            _setValue(df)
-          }else{
-            _exeItmes()
-          }
-          _init()
-        }
-        continue
-      }else if(c==";"){
-        _toData()
-        if(df){
-          _setValue(df)
-        }else{
-          _exeItmes()
-        }
+        b=0
+      }else if(!_noRegex&&k=="/"&&c=="/"){
         _init()
-        
         continue
-      }else if(c==","){
-        _addItem(p)
-        if(df){
-          _setValue(df)
-          df={k:df.k}
-        }else{
-          ps.push(d)
-        }
-        d=undefined
+      }else if(!_noRegex&&!k&&c=="/"&&(!s||s.trim().match(/[\(\[\=\?\:]$/))){
+        k="/"
         continue
-      }else if("~=+-*/<>&|!".includes(c)){
-        if(s){
-          if(p&&!p.s){
-            p.s=s
-            p.c1=c
+      }else if(k){
+        if(k.r==c){
+          if(k.n){
+            k.n--
           }else{
-            ps.unshift({
-              c1:c,
-              s:s
-            })
+            _init()
           }
-          s=""
-        }else if(!ps.length){
-          ps.unshift({c0:c})
-        }else if(p.c0&&!p.s){
-          p.c0+=c
-        }else{
-          if(c=="="&&["=","!","==","!=","+","-","*","/","&","&&","|","||"].includes(p.c1)){
-          }else if(p.c1==c&&"+-*/|&".includes(c)){
-          }else{
-            ps.unshift({
-              c0:c
-            })
-            continue
-          }
-          p.c1+=c
+        }else if(k.l==c){
+          k.n++
         }
         continue
+      }else if(bs[c]){ //([{
+        k={l:c,r:bs[c],n:0,p:{k:c}}
       }
-      if(!b){
-        s+=c
+      s.push?s.push(c):s+=c;
+
+      let kk=_isKey(s,c)
+      if(kk){
+        if(vs.pop){
+          return {
+            e:vs.splice(i+1),
+            p:vs.splice(0,i),
+            k:kk
+          }
+        }
+        return {
+          p:vs.substring(0,i-kk.length+1),
+          k:kk,
+          e:vs.substring(i+1)
+        }
       }
-    }
-    if(s){
-      _toData()
-      if(!cc.length&&ps.length){
-        ps.push(d)
-        return ps
-      }
-    }
-    while(cc.length){
-      d=_count(d)
     }
 
-    if(!ps.length||(d==ps[0]&&ps.length==1)){
-      return d
-    }else if(d!==undefined){
-      ps.push(d)
+    function _init(){
+      k=0
+      s=vs.constructor==Array?[]:"";
+    }
+
+    function _isKey(s,c){
+      if(tk.constructor==Function){
+        return tk(s)
+      }else if(tk.constructor==RegExp){
+        s=s.match(tk)
+        return s&&s[0]
+      }
+      return (tk==s||tk==c)&&tk
+    }
+  },
+  _parseCode:function(v,_case){
+    let vs=_eval._parseLine(v)
+    if(_case){
+      let ss=[]
+      vs.forEach(x=>{
+        while(1){
+          let k=x.match(/^(case|default)(:|\s|\'\"\`\{)/)
+          if(k){
+            k=k[1]
+            x=x.substring(k.length).trim()
+            v=_eval._findKeyOuterBlock(x,":")
+
+            if(v.e.match(/^(case|default)(:|\s|\'\"\`\{)/)){
+              x=v.e
+              ss.push({k:k,v:v.p.trim(),cs:[]})
+              continue
+            }
+            ss.push({k:k,v:v.p.trim(),cs:[v.e]})
+          }else if(ss[0]){
+            ss[ss.length-1].cs.push(x)
+          }
+          break
+        }
+      })
+      ss.forEach(x=>{
+        x.cs=x.cs.map(y=>_eval._parseItem(y))
+      })
+
+      return ss
+    }
+    vs=vs.map(x=>_eval._parseItem(x))
+
+    return vs
+  },
+  _parseItem:function(v){
+    let ps=[],pps=[],
+        b,p,
+        c,cc=[],
+        s="",
+        k,kk,
+        df, //var, let, const
+        ok, //for, if, whilte, do, function,switch
+        op; //delete, continue, break
+
+    v=v.trim()
+
+    ok=v.match(/^(if|for|while|function|do|try|switch|else +if|else)(\s|\(|\{)/)
+    if(ok){
+      ok={
+        k:ok[1]
+      }
+      v=v.substring(ok.k.length).trim()
+      if(ok.k=="function"){
+        ok.n=v.substring(0,v.indexOf("("))
+        v=v.substring(ok.n.length)
+        ok.n=ok.n.trim()
+      }
+    }else{
+      ok=v.match(/^\(?([^=,\(\)\{\}\[\]]*)\)?=>/)
+
+      if(ok){
+        let vv=v.substring(ok[0].length).trim();
+        let e=_eval._findKeyOuterBlock(vv,")")
+        if(!e){
+          v=vv
+          if(v[0]!="{"){
+            v="return "+v
+          }
+          ok={
+            k:"=>",
+            e:_eval._parseItem(ok[1]||" ")
+          }
+        }else{
+          ok=0
+        }
+      }else{
+        let vv=v.match(/^(let|var|const)\s+([^=,\s]+)(\=|\,|$|;)/)
+        if(vv){
+          v=v.substring(vv[0].length)
+          df={
+            k:vv[1],
+            n:vv[2]
+          }
+          ps.push(df)
+        }else{
+          df=v.match(/^([^=\{\[\("'`\!><\s]+\=)[^>=]/);
+          if(df){
+            v=v.substring(df[1].length)
+            df={
+              k:"=",
+              n:df[1].replace("=","").trim()
+            }
+            k=df.n.match(/[\+\-\*\/\%\^]$/)
+            if(k){
+              k=k[0]
+              df.k=k+df.k
+              df.n=df.n.replace(k,"").trim()
+            }
+            ps.push(df)
+          }else{
+            df=v.match(/^(return|delete|throw|typeof|break|continue|new)(\s|$|\[|\{|\()/)||v.match(/^(\.\.\.)/)
+            if(df){
+              v=v.substring(df[1].length).trim()
+              df={
+                k:df[1]
+              }
+              if(["return","break","continue","throw"].includes(df.k)){
+                df.c=_eval._parseCode(v)
+                return df
+              }
+              op=df
+              ps.push(op)
+              df=0
+            }else{
+              df=v.match(/^(function)(\s|\()/)
+              if(df){
+                ok={
+                  k:df[1]
+                }
+                v=v.substring(0,df[1].length).trim()
+                df=v.match(/^([^\(]+)/)
+                if(df){
+                  ok.n=df[1].trim()
+                  v=v.substring(0,ok.n.length).trim()
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    for(let i=0;i<v.length;i++){
+      c=v[i]
+      let p=ps[ps.length-1]
+      if(c=="\\"){
+        b=!b
+      }else if(b){
+        b=0
+      }else if(kk){
+        if(kk==c){
+          kk=0
+        }
+      }else if("`'\"".includes(c)){
+        kk=c
+      }else if(k=="/"&&c=="/"){
+        k=0
+      }else if(!k&&!ps.length&&c=="/"&&(!s||s.trim().match(/[\(\[\=\?\:]$/))){
+        k="/"
+      }else if(!s&&(c==" "||c=="\n")){
+        continue
+      }else if(k){
+        if(k.r==c){
+          if(k.n){
+            k.n--
+          }else{
+            if(ok){
+              if(ok.k=="do"){
+                if(ok.c){
+                  ok.e=_eval._parseItem(s)
+                  return ok
+                }else if(s[0]=="{"){
+                  ok.c=_eval._parseCode(s.substring(1))
+                }else{
+                  k=0
+                  s+=c
+                  continue
+                }
+              }else if(ok.k=="try"){
+                if(!ok.c){
+                  ok.c=_eval._parseCode(s)
+                }else if(!ok.e){
+                  ok.e=_eval._parseItem(s)
+                }else if(!ok.ec){
+                  ok.ec=_eval._parseCode(s)
+                }else{
+                  ok.f=_eval._parseCode(s)
+                }
+                if(i==v.length-1){
+                  return ok
+                }
+                s=""
+                k=0
+                continue
+              }else if(ok.k=="=>"){
+                if(k.l=="{"){
+                }else{
+                  s+=c
+                }
+                k=0
+                continue
+              }else if(k.l=="("){
+                if(ok.k=="for"){
+                  ok.e=_eval._parseCode(s)
+                }else{
+                  ok.e=_eval._parseItem(s)
+                }
+                v=v.substring(i+1).trim()
+                if(["for","if","else if"].includes(ok.k)){
+                  if(v.match(/^\{.*\}$/s)){
+                    v=v.substring(1,v.length-1)
+                  }
+                  ok.c=_eval._parseCode(v,ok.k=="switch")
+                  return ok
+                }else{
+                  if(v.match(/^\{.*\}$/s)){
+                    v=v.substring(1,v.length-1)
+                    ok.c=_eval._parseCode(v,ok.k=="switch")
+                    return ok
+                  }
+                }
+                i=-1
+              }else if(ok.k=="function"){
+                k=0
+                continue
+              }else{
+                ok.c=_eval._parseCode(s)
+                return ok
+              }
+            }else if(df||op){
+              s+=c
+              k=0
+              continue
+            }else{
+              k.p.ps=k.l=="{"?_parseObj(s):s?_eval._parseItem(s):[]
+              if(k.p.ps.constructor!=Array){
+                k.p.ps=[k.p.ps]
+              }
+            }
+            k=0
+            s=""
+            continue
+          }
+        }else if(k.l==c){
+          k.n++
+        }
+      }else if(_eval.bd[c]){ //([{
+        k={l:c,r:_eval.bd[c],n:0,p:{k:c}}
+        s=s.trim()
+        if(ok&&ok.k=="do"){
+          if(ok.c){
+            s=""
+            continue
+          }
+        }else if(ok&&["=>","function"].includes(ok.k)){
+          if(s){
+            s+=c
+          }
+          continue
+        }else if(df||op){
+        }else if(p&&p.cs){
+          if(s){
+            p.cs.push(s)
+            s=""
+          }
+          k.p.d=1
+          p.cs.push(k.p)
+          continue
+        }else if(s){
+          k.p.d=1
+          ps.push({
+            dd:s,
+            cs:[k.p]
+          })
+          s=""
+          continue
+        }else{
+          ps.push(k.p)
+          continue
+        }
+      }else if(c=="\n"){
+        if(!df||op){
+          _init()
+          continue
+        }
+      // }else if(c==";"){
+      //   if(df){
+      //     df.c=_eval._parseItem(s)
+      //     s=""
+      //     ps.push(..._eval._parseItem(v.substring(i+1)))
+      //     ps=ps.filter(x=>x)
+      //     ps.forEach(x=>x.k=ps[0].k)
+      //     return ps
+      //   }else if(op){
+      //     op.c=_eval._parseItem(s)
+          
+      //   }else if(ok&&(ok.k=="=>"||ok.k=="function")){
+      //     ok.c=_eval._parseCode(s)
+      //     ps.push(ok)
+      //     ps.push(..._eval._parseItem(v.substring(i+1)))
+      //     return ps
+      //   }
+      //   _init()
+      //   continue
+      }else if(c==","){
+        if(df){
+          df.c=_eval._parseItem(s)
+          ps.push(..._eval._parseItem(v.substring(i+1)))
+          ps=ps.filter(x=>x)
+          ps.forEach(x=>x.k=ps[0].k)
+          return ps
+        }else if(op){
+          op.c=_eval._parseItem(s)
+          ps.push(..._eval._parseItem(v.substring(i+1)))
+          return ps
+        }else if(ok&&(ok.k=="=>"||ok.k=="function")){
+          ok.c=_eval._parseCode(s)
+          ps.push(ok)
+          ps.push(..._eval._parseItem(v.substring(i+1)))
+          return ps
+        }else if(!s.trim()){
+          if(v.substring(0,i).trim().endsWith(",")){
+            ps.push([])
+          }
+          ps.push(..._eval._parseItem(v.substring(i+1)))
+          return ps
+        }else{
+          p=_eval._parseItem(s)
+          if(p.constructor==Array&&!ps.length){
+            ps=p
+          }else{
+            ps.push(p)
+          }
+          if(ps.find(x=>_eval._isSign(x))){
+            ps=[ps]
+          }
+          ps.push(..._eval._parseItem(v.substring(i+1)))
+          return ps
+        }
+      }else if(df||ok||op){
+      }else if(_eval._isSign(c)){
+        if(df||op){
+          s+=c
+          continue
+        }
+        _init()
+        p=ps[ps.length-1]
+        if(!p||p.constructor!=String){
+          ps.push(c)
+        }else if("~=+-*/<>&|!".includes(p)){
+          p+=c
+          if(["--","++","==","===","!=","!==","+=","-=","*=","/=","&&","||",">=","<=",">>","<<","^=","&=","|=","!!","%="].includes(p)){
+            ps[ps.length-1]=p
+          }else{
+            ps.push(c)
+          }
+        }else{
+          ps.push(c)
+        }
+        p=ps[ps.length-1]
+        if(v[i+1]!="="&&["=","+=","-=","/=","*=","^=","%=","&=","|=","&&=","||="].includes(p)){
+          ps.pop()
+          df={
+            k:p,
+            n:ps.pop()
+          }
+          ps.push(df)
+        }
+        continue
+      }
+      s+=c
+    }
+    _init()
+    if(pps.length){
+      if(!pps.includes(ps)){
+        pps.push(ps)
+      }
+      return pps
+    }
+    if(!ps.length&&ok){
+      return ok
     }
     return ps
 
     function _init(){
-      df=0
-      _set=[]
-      ps=[]
-      cc=[]
-    }
-
-    function _addItem(p,_dot){
-      if(p&&p._dot){
-        if(p.d){
-          p.d=p.d[p.s]
-        }else if(d.s){
-          p.d=_toData(d.s)
-        }
-        p.s=s
-      }else{
-        ps.unshift({
-          s:s,
-          _dot:!$.isNumeric(s)&&_dot
-        })
-      }
-    }
-
-    function _setValue(df){
-      while(cc.length){
-        d=_count(d)
-      }
-
-      _map[df._name]=d
-      d=undefined
-    }
-
-    function _toData(){
-      let ss=s
-      s=""
-      if(ss!==s){
-        if($.isNumeric(ss)){
-          ss=ss.constructor==String?JSON.parse(ss):ss;
-          if(d===undefined){
-            d=ss
-            return d
+      s=s.trim()
+      if(s){
+        if(ok&&ok.k=="do"){
+          ok.c=_eval._parseCode(s)
+        }else if(ok&&ok.k=="else"){
+          if(!ok.c){
+            ok.c=_eval._parseItem(s)
+            s=""
           }
-        }
-        if(!d){
-          if(Object.keys(_map).includes(ss)){
-            d=_map[ss]
-            return d
-          }else if(ss=="null"){
-            return d=null
-          }else if(ss=="undefined"){
-            return d=undefined
-          }else if(["if","for","while"].includes(ss)){
-            ok={k:ss,_map:_map}
-            d=undefined
-            return
-          }else if(["var","let","const"].includes(ss)){
-            df={k:ss}
-            d=undefined
-            return
+        }else if(ok&&(ok.k=="=>"||ok.k=="function")){
+          ok.c=_eval._parseCode(s)
+          ps.push(ok)
+        }else if(df){
+          df.c=_eval._parseItem(s)
+        }else if(op){
+          op.c=_eval._parseItem(s)
+        }else if(s.match(/^(delete|typeof)\s/)||s.match(/^\.\.\./)){
+          ps.push(_eval._parseItem(s))
+        }else if(s.match(/^\./)){
+          if(ps.length&&ps[ps.length-1].ps){
+            ps[ps.length-1].ps.push(s)
+          }else{
+            ps.push(s)
           }
-        }
-        
-        d=d||window
-        let dd=d[ss]
-        if(dd&&dd.constructor==Function){
-          dd._this=d
-          dd._name=ss
-        }
-        d=dd
-        return dd
-      }
-    }
-
-    function _exeItmes(){
-      let r,dfs=[];
-      ps.reverse()
-      let j=ps.findIndex(x=>{
-        if(x.d&&x.s&&x.c1!="="){
-          x.d=x.d[x.s]
-        }
-        if(x.c0=="!"){
-          x.d=!x.d
-        }
-        if(x.c0=="++"){
-          d.d+=1
-        }
-        if(x.c0=="--"){
-          d.d-=1
-        }
-        if(x.c1=="||"){
-          if(x.d){
-            r=x.d
-            return 1
-          }
-        }
-        
-        if(x.c1=="&&"){
-          if(!x.d){
-            r=x.d
-            return 1
-          }
-        }
-        if(x.c1=="++"){
-          d.nd=d.d+1
-        }
-        if(x.c1=="--"){
-          d.nd=d.d-1
-        }
-
-        if(["=",">=","<="].includes(x.c1)){
-          dfs.push({
-            _name:x.s,
-            d:x.d,
-            c:x.c1
-          })
         }else{
-          _toData(x)
-          x.d=x.d[x.s]
+          ps.push(s)
         }
-      })
-      if(j>=0){
-        ps.splice(j+1)
-      }
-      for(j=0;j<ps.length;j++){
-        let o=ps[j],
-            n=ps[j+1]
-        if(o.c1=="*"){
-          o.d*=n.d
-          o.c1=n.c1
-          ps.splice(j+1,1)
-        }else if(o.c1=="/"){
-          o.d/=n.d
-          o.c1=n.c1
-          ps.splice(j+1,1)
-        }
-      }
-      for(j=0;j<ps.length;j++){
-        let o=ps[j],
-            n=ps[j+1]
-        if(o.c1=="+"){
-          o.d+=n.d
-          o.c1=n.c1
-          ps.splice(j+1,1)
-        }else if(o.c1=="-"){
-          o.d-=n.d
-          o.c1=n.c1
-          ps.splice(j+1,1)
-        }
-      }
-
-      for(j=0;j<ps.length;j++){
-        let o=ps[j],
-            n=ps[j+1]
-        if(o.c1=="&"){
-          o.d&=n.d
-          o.c1=n.c1
-          ps.splice(j+1,1)
-        }else if(o.c1=="|"){
-          o.d-=n.d
-          o.c1=n.c1
-          ps.splice(j+1,1)
-        }else if(o.c1=="^"){
-          o.d^=n.d
-          o.c1=n.c1
-          ps.splice(j+1,1)
-        }
-      }
-      r=ps[0].d;
-      dfs.forEach(x=>{
-        if(x.d){
-          x.d[x._name]=r
-        }else{
-          _map[x._name]=r
-        }
-      })
-    }
-
-    function _count(d2){
-      let d1=ps.pop(),
-          c=cc.shift()
-
-      if(c=="+"){
-        return d1+d2
-      }
-      if(c=="-"){
-        return d1-d2
-      }
-      if(c=="*"){
-        return d1*d2
-      }
-      if(c=="/"){
-        return d1/d2
-      }
-      if(c=="=="){
-        return d1==d2
-      }
-      if(c=="==="){
-        return d1===d2
-      }
-      if(c==">"){
-        return d1>d2
-      }
-      if(c=="<"){
-        return d1<d2
-      }
-      if(c==">>"){
-        return d1>>d2
-      }
-      if(c=="<<"){
-        return d1<<d2
-      }
-      if(c==">="){
-        return d1>=d2
-      }
-      if(c=="<="){
-        return d1<=d2
-      }
-      if(c=="&"){
-        return d1&d2
+        s=""
       }
     }
 
@@ -17150,6 +11981,10 @@ _extendJQuery();var _BZDocumentsHandler={
               k=[null]
             }else if(s=="undefined"){
               k=[undefined]
+            }else if(s=="false"){
+              k=[false]
+            }else if(s=="true"){
+              k=[true]
             }else{
               s=s.trim().replace(/^['"]|['"]$/g,"")
               k=[s]
@@ -17157,23 +11992,15 @@ _extendJQuery();var _BZDocumentsHandler={
             s=""
             continue
           }
-        }else if(!s&&c==" "){
+        }else if(!s&&c.match(/\s/)){
           continue
         }else if(c==ks[0]){
           ks.shift()
         }else if("\"'`".includes(ks[0])){
         }else if("({['\"`".includes(c)){
-          let ck=c;
-          if("["==c){
-            ck="]"
-          }else if(c=="{"){
-            ck="}"
-          }else if(c=="("){
-            ck=")"
-          }
-          ks.unshift(ck)
+          ks.unshift(_eval.bd[c])
         }else if(c==","&&!ks.length){
-          d[k[0]]=_eval._exeCode(s,_map)
+          d[k[0]]=_eval._parseItem(s)
           k=""
           s=""
           continue
@@ -17181,11 +12008,168 @@ _extendJQuery();var _BZDocumentsHandler={
         s+=c
       }
       if(s){
-        d[k[0]]=_eval._exeCode(s,_map)
+        d[k[0]]=_eval._parseItem(s)
       }
       return d
     }
-  },/**/
+  },
+  _parseLine:function(v){
+    let s="",ps=[],b,k,kk,_endExpress=[],_comment,_inDo,_oneLine=[];
+    v=v.trim()
+
+    for(let i=0;i<v.length;i++){
+      let c=v[i]
+
+      if(_comment=="/"+"/"){
+        if(c=="\n"){
+          _comment=0
+        }else{
+          continue
+        }
+      }else if(_comment=="/"+"*"){
+        if(c=="/"&&v[i-1]=="*"){
+          _comment=0
+        }
+        continue
+      }
+      if(!s&&c.match(/\s/)){
+        continue
+      }else if(c=="\\"){
+        b=!b
+      }else if(b){
+        b=0
+      }else if(kk){
+        if(kk==c){
+          kk=0
+        }
+      }else if("`'\"".includes(c)){
+        kk=c
+      }else if(k=="/"&&c=="/"){
+        k=0
+      }else if(c=="/"&&s.trim().match(/[\(\[\=\?\:]$/)){
+        k="/"
+      }else if(c==" "&&("+-*/([{%!\?\:".includes(v[i+1])||s.match(/([\s\(\{\[\+\-\*\?\:\/\%\&\|\^\~])$/))){
+        continue
+      }else if((c=="/"||c=="*")&&s.match(/[^\\]\/$/)){
+        _comment="/"+c
+        s=s.replace(/[\/]$/,"")
+        continue
+      }else if(k){
+        if(k.r==c){
+          if(k.n){
+            k.n--
+          }else{
+            if(_endExpress[0]&&s.includes(_endExpress[0])&&s.substring(_endExpress[0].length).trim()[0]!="{"){
+            }else if(k.l=="{"){
+              if(s.match(/^(for|if|while|switch|function|else|do|try)[\s\(\{]/)){
+                s+=c
+                if(!s.match(/^(do|try)/)){
+                  _init()
+                }
+                k=0
+                continue
+              }
+            }else if(k.l=="("&&s.match(/^(if|for|while|switch|function|else if)[\s|\(]/)){
+              _endExpress.unshift(s+")")
+              let vv=v.substring(i+1).trim();
+              if(vv.match(/^(for|if|while|do|try)(\s|\{|\(|$)/)){
+                v=vv
+                i=-1
+                _oneLine.push(_endExpress[0])
+                _endExpress=[]
+                s=""
+                continue
+              }
+            }
+            k=0
+          }
+        }else if(k.l==c){
+          k.n++
+        }else if(c.match(/\s/)){
+          let vr=v.substring(i+1).trim(),
+              vl=v.substring(0,i)
+          if(_uselessSpace(vr,vl,c)){
+            continue
+          }
+        }
+      }else if(c=="\n"){
+        if((_endExpress[0]||"").replace(/ /g,"")==(s||"").replace(/ /g,"")){
+          continue
+        }
+        s=s.trim()
+        if(s.match(/^do([\s\{]|$)/)&&!_inDo){
+          if(!s.match(/^do\s*\{.+while.+\)/s)){
+            s+=c
+            _inDo=1
+          }else{
+            _init()
+          }
+          continue
+        }
+
+
+        let vr=v.substring(i+1).trim(),
+            vl=v.substring(0,i)
+        if(_uselessSpace(vr,vl,c)){
+          continue
+        }
+        if(_inDo==1){
+          if(!vr.match(/^while(\s|\()/)){
+            _inDo=0
+            _init()
+          }else{
+            s+=c
+          }
+          continue
+        }
+        if(vl.endsWith("}")&&vr.match(/^(catch|while)(\s|\()/)){
+          continue
+        }else if(s.trim()=="else"){
+          s="else "
+          continue
+        }
+        _init()
+        continue
+      }else if(c==";"){
+        let vr=v.substring(i+1).trim()
+        if((!_inDo||!vr.match(/^while(\s|\()/))&&_endExpress[0]!=s){
+          ps.push(s.trim())
+          s=""
+          _init()
+          continue
+        }
+      }else if(_eval.bd[c]){
+        s=s.trim()
+        k={l:c,r:_eval.bd[c],n:0}
+      }
+      s+=c
+    }
+    _init()
+    return ps
+
+    function _uselessSpace(vr,vl,c){
+      if(vl.match(/([^-]-|[^+]\+|[^\/]\/|[\*=~!&\|\^%><?:,;\.\(\[\{])$/)||vr.match(/^(-[^-]|\!\=|\+[^+]|\/[^\/\*]|[\*%\^&|=><?:,;\.\(\)\[\]\}])/)||vl.match(/([\+][\+][\+]|---)$/)){
+        return 1
+      }else if(vr[0]=="{"){
+        return c!="\n"
+      }
+    }
+
+    function _init(){
+      s=s.trim()
+      if(_oneLine.length){
+        s=_oneLine.join(" ")+s
+        _oneLine=[]
+      }
+      if(s){
+        ps.push(s)
+        s=""
+      }
+      _endExpress.shift()
+      _inDo=0
+    }
+  },
+  /**/
   _chkParameter:function(){
     let vs=[]
     for(let i=0;i<arguments.length;i++){
@@ -17193,12 +12177,16 @@ _extendJQuery();var _BZDocumentsHandler={
     }
     return vs
   },
-  _testCode:function(){
+  _testCode:function(_simpleExe,_repeat){
     let vs=[
+      {c:`let a=/[a-z]+\\/[0-9]+/ig,b="89a/999B/3d2c/4";b.match(a)`,r:['a/999', 'B/3', 'c/4']},
+      {c:"!1+2*3+(~4+5)/3*6+7%2+3^4+!!2<<2+3>>2",r:34},
+      {c:"1<2*3&&(4+5)/3*6+7%2>3^4+2<<2+3>>2",r:49},
+      {c:"let a=1;!a",r:false},
+      {c:"let a=1;~a+5",r:3},
       {c:"_IDE._data._curTest._data.name",r:"demo"},
       {c:"_IDE._data._curTest._data.name+(9+6)*10+'px'",r:"demo150px"},
       {c:"_IDE._data._curTest._data.name+(9+6)*10+1",r:"demo1501"},
-      {c:"{a:33,b:'lws',c:{d:\"aa\",'e':[33,334,34]}}",r:{a:33,b:'lws',c:{d:"aa",'e':[33,334,34]}}},
       {c:"[1,2,3,null,undefined,0]",r:[1,2,3,null,undefined,0]},
       {c:"({a:2}).a",r:2},
       {c:"[1,2,3][0]",r:1},
@@ -17208,7 +12196,7 @@ _extendJQuery();var _BZDocumentsHandler={
       {c:"_ideTestManagement._getStdDescription(_IDE._data._curTest)+' '+_ideTestManagement._getStdDescription(_IDE._data._curTest)",r:"[m5.t4] demo [m5.t4] demo"},
       {c:"_ideTestManagement._getStdDescription(_IDE._data._curTest).length+10*10",r:112},
       {c:"_eval._chkParameter(0)",r:[0]},
-      {c:"_eval._chkParameter(undefined)",r:[]},
+      {c:"_eval._chkParameter(undefined)",r:[undefined]},
       {c:"_eval._chkParameter()",r:[]},
       {c:"_eval._chkParameter(1,2,3)",r:[1,2,3]},
       {c:"_eval._chkParameter({})",r:[{}]},
@@ -17220,18 +12208,1688 @@ _extendJQuery();var _BZDocumentsHandler={
       {c:"''",r:""},
       {c:"undefined",r:undefined},
       {c:"null",r:null},
-      {c:"let a=3;a*_IDE._data._curTest._data.actions.length;",r:9},
-      {c:"{a:0,b:undefined,c:null,'':1,null:2,undefined:2}",r:{a:0,b:undefined,c:null,'':1,null:2,undefined:2}}
+      {c:"true",r:true},
+      {c:"false",r:false},
+      {c:`let a=true
+        if(a){
+          a=11
+        }
+      `,r:11},
+      {c:"(1,2,3)",r:3},
+      {c:"let a=3;a*_IDE._data._curTest._data.actions.length;",r:6},
+      {c:`let a="lws",b="w",c=3;_Util._replaceAll(a,b,c)+5`,r:"l3s5"},
+      {c:`let a={a:3},b=3,c=5;b=3+delete a.a+5,b`,r:9},
+      {c:`let a={a:3},b=3,c=5;b=3+typeof a.a+5,b`,r:"3number5"},
+      {
+        c:`let a=1
+        if(a){
+          a=3
+        }`,
+        r:3
+      },
+      {
+        c:`let a=1
+        for (let i = 0; i < 10; i++) {
+            a+=1
+        }`,
+        r:11
+      },
+      {
+        c:`let a=1
+        for (let i = 0; i < 10; i++) 
+            a+=1
+        `,
+        r:11
+      },
+      {
+        c:`let a=1,i=0
+        do{
+            a+=7
+            i++
+        }while(a<100)`,
+        r:14
+      },
+      {
+        c:`let a=1
+        do
+            a+=7
+        while(a<100)`,
+        r:106
+      },
+      {
+        c:`
+        let a=2,b=3;
+        if(a){
+          let b=222
+          a+=b
+        }
+        `,
+        r:224
+      },
+      {
+        c:`
+        let a=2,b=3;
+        if(a)
+          a+=b
+        `,
+        r:5
+      },
+      {
+        c:`let a=3,b=34;
+        lws(3,a,b)+lws(3,b,a)
+        function lws(v,a,b) {
+          if(a>b){
+            a+=1
+          }else{
+            a+=b
+          }
+          return v+2+a*b
+        }
+        `,
+        r:1373
+      },
+      {
+        c:`let a=3,b=34;
+        lws(3,a,b)+lws(3,b,a)
+        function lws(v,a,b) {
+          if(a>b)
+            a+=1
+          else
+            a+=b
+          
+          return v+2+a*b
+        }
+        `,
+        r:1373
+      },
+      {
+        c:`let a=3,b=34;
+        lws(function(x){return x*10},a,b)
+        function lws(v,a,b) {
+          if(a>b){
+            a+=1
+          }else{
+            a+=b
+          }
+          v=v(a)
+          return v+2+a*b
+        }`,
+        r:1630
+      },
+      {
+        c:`let a=3,b=34;
+        lws(x=>x*10,a,b)
+        function lws(v,a,b) {
+          if(a>b){
+            a+=1
+          }else{
+            a+=b
+          }
+          v=v(a)
+          return v+2+a*b
+        }
+        `,
+        r:1630
+      },
+      {
+        c:`let a=3,b=34;
+        lws((x)=>x*10,a,b)
+        function lws(v,a,b) {
+          if(a>b){
+            a+=1
+          }else{
+            a+=b
+          }
+          v=v(a)
+          return v+2+a*b
+        }
+        `,
+        r:1630
+      },
+      {
+        c:`let a=3,b=34;
+        lws(()=>10,a,b)
+        function lws(v,a,b) {
+          if(a>b){
+            a+=1
+          }else{
+            a+=b
+          }
+          v=v(a)
+          return v+2+a*b
+        }
+        `,
+        r:1270
+      },
+      {
+        c:`let lws=function(x){return x+9};lws(3)`,
+        r:12
+      // },
+      // {
+      //   c:`let lws=${_Util._replaceAll.toString()};lws(_eval._testCode.toString(),"a","999")`
+      },
+      {
+        c:`b={c:33,d:334},a={a:function(){
+          return b
+        }}
+        delete a.a().c
+        b`,
+        r:{d:334}
+      },
+      {c:"let a=[1,2,3];[a][0][1]",r:2},
+      {c:"let a={a:3},b=3,c=5;b=[3+delete a.a+5,b,a];b",r:[9, 3, {}]},
+      {c:"let a={a:3},b=3,c=5;b=[3+typeof a.a+5,b,a];b",r:["3number5", 3, {a:3}]},
+      {c:`let a=function(){
+              arguments[1]+=100;
+              return [...arguments]
+          }
+          a(1,2,3)`,r:[1,102,3]
+      },
+      {c:"let a=new Date();a.getTime()>100",r:true},
+      {
+        c:`
+        let i,j=10;
+        for(i=0;i<10;i++){
+          j++
+          if(i>3){
+            if(i){
+               continue
+            }
+          }
+          j++
+        }
+        j`,
+        r:24
+      },
+      {
+        c:`
+        let i,j=10;
+        for(i=0;i<10;i++){
+          j++
+          if(i>3){
+            if(i){
+               break
+            }
+          }
+          j++
+        }
+        j`,
+        r:19
+      },
+      {
+        c:`let a=function(){
+            let msg;
+            try{
+                let a=2;
+            if(a){
+              throw new Error("lws")
+            }
+                return 1
+            }catch(ex){
+                msg=ex.message
+            }finally{
+                return msg+3
+            }
+          }
+          a()`,
+        r:"lws3"
+      },
+      {
+        c:`let a={
+          v:"lws",
+          a:function(v){
+            return v+this.v+this.b(3)
+          },
+          b:function(v){
+            return v*10
+          }
+        }
+        a.a(10)`,
+        r:"10lws30"
+      },
+      {
+        c:`[0,1,2].filter(x=>x).map(x=>x*12)`,
+        r:[12, 24]
+      },
+      {
+        c:`let lws=function(a){
+          let c;
+          switch(a){
+          case 1:c="+";break;
+          case 2:c="-";break;
+          case 3:
+          case 4:c="*";break;
+          default:c="%"
+          }
+          return eval(10+c+3)
+          };
+          ([0,1,2,3,4]).map(x=>lws(x))`,
+        r:[1, 13, 7, 30, 30]
+      },
+      {
+        c:`a=1,b=0;if(a)for(;a<10;a++)
+        b+=3
+        b`,
+        r:27
+      },
+      {
+        c:"(v=>v+1)(1)",
+        r:2
+      },
+      {
+        c:`[lws(10),lws(9),lws(2),lws(7)]
+        function lws(v) {
+            return v%2?v%3?11:21:v%5?111:112
+        }`,
+        r:[112, 21, 111, 11]
+      }
     ]
-    let v=vs.forEach(x=>{
-      let c=JSON.stringify(_eval._exeCode(x.c))
-      if(c!=JSON.stringify(x.r)){
-        console.log("Failed on:"+x.c+" ==> "+c)
-        return 1
+    let t=Date.now()
+    if(!_simpleExe){
+      vs.push(
+        {
+          c:`let a={a:3,b:3}
+          debugger
+  
+          delete a.a
+          a
+          `,
+          r:{b:3}
+        },
+        {c:"{a:33,b:'lws',c:{d:\"aa\",'e':[33,334,34],f:true,g:false}}",r:{a:33,b:'lws',c:{d:"aa",'e':[33,334,34],f:true,g:false}}},
+        {c:"{a:0,b:undefined,c:null,'':1,null:2,undefined:2}",r:{a:0,b:undefined,c:null,'':1,null:2,undefined:2}}
+      )
+    }else if(_simpleExe=="bz"){
+      vs.forEach(x=>x.c=_eval._parseCode(x.c))
+      t=Date.now()
+    }
+    _repeat=_repeat||1
+    for(let j=0;j<_repeat;j++){
+      let v=vs.forEach(x=>{
+        try{
+          if(_simpleExe=="js"){
+            eval(x.c)
+          }else{
+            let c=JSON.stringify(_eval._exeCode(x.c))
+            if(!_simpleExe&&_repeat<2){
+              if(c!=JSON.stringify(x.r)){
+                console.log("Failed on:"+x.c+" ==> "+c)
+                return 1
+              }
+            }else{
+
+            }
+          }
+        }catch(ex){
+          console.log("Get Error: "+ex.message+"\n\n"+x.c)
+        }
+      })
+    }
+    console.log("Spent time: "+(Date.now()-t))
+  }
+};/*******************************************************************************
+ //AI Functions
+ *******************************************************************************/
+ $aiAPI={
+   getModelAlias:function(o){
+     if(o.constructor!=String){
+       o=_descAnalysis._retrieveTextForElementPathItem(_cssHandler._findPath(o))||_descAnalysis._retrieveTextForElementPathItem(_cssHandler._findInputPath(o))||""
+     }
+     return _Util._toCamelWords(_Util._toSingularWord(o))
+   },
+   //updateDataStatus
+   updateDataStatus:function(d,v,m){
+     _aiAPI._updateDataStatus(d,v,m)
+   },
+   //getExeSolutionByParameter
+   getExeSolutionByParameter:function(p,k){
+     return _aiAPI._getExeSolutionByParameter(p,k)||[]
+   },
+   async getExistData(express,takeList,data,key){
+     if(takeList&&takeList.constructor!=Object){
+       takeList={_list:1}
+     }
+     return await _aiAPI._getExistData(express,takeList||{},data,key)
+   },
+   searchData:function(express,takeList,data,key){
+     if(takeList&&takeList.constructor!=Object){
+       takeList={_list:1}
+     }
+     _aiAPI._searchData(express,takeList||{},data,key)
+   },
+   searchOrNewData:function(express,data,key){
+     _aiAPI._searchData(express,{_new:1},data,key)
+   },
+   newData:function(express,data,key){
+     _aiAPI._createData(express,data,key)
+   },
+   async initCurModuleData(fun){
+     let d=_IDE._data._curModule._data
+     return await _aiAPI._getExistData(d.alias||d.code,{_list:1},fun)
+   },
+   //removeToken
+   removeToken:function(){
+     return _aiAPI._removeToken()
+   },
+   //addData
+   addData:function(p,m,k){
+     return _aiAPI._addData(p,m,k)
+   },
+   //updateData
+   updateData:function(p,m,k){
+     return _aiAPI._updateData(p,m,k)
+   },
+   //deleteData
+   deleteData:function(p,m,k){
+     return _aiAPI._deleteData(p,m,k)
+   },
+   //preHandleParameter
+   preHandleParameter:function(p,t,m){
+     return _aiAPI._preHandleParameter(p,t,m)
+   },
+   //getAllDataOfCurModule
+   getAllDataOfCurModule:function(p){
+     return _aiAPI._getAllDataOfCurModule(p)
+   },
+   //stopRegexAction
+   stopRegexAction:function(r,p,k){
+     return _aiAPI._stopRegexAction(r,p,k)
+   },
+   //getCurRefModuleData
+   getCurRefModuleData:function(d,dn,k){
+     return _aiAPI._getCurRefModuleData(d,dn,k)
+   },
+   //assignCurtUser
+   assignCurtUser:function(p){
+     return _aiAPI._assignCurtUser(p)
+   },
+   //getAuthFlowByRole
+   getAuthFlowByRole:function(t){
+     return _aiAPI._getAuthFlowByRole(t)
+   },
+   getAccount:function(d,p){
+     return d.find((x,i)=>{
+       if(!p){
+         return 1
+       }else if(p.constructor==String){
+         return x.role==p
+       }else{
+         for(var k in p){
+           if(p[k]!=x[k]){
+             return
+           }
+         }
+         return 1
+       }
+     })||d.find(x=>x.username==p)
+   },
+   //overwriteExistValue
+   overwriteExistValue:function(d){
+     return _aiAPI._overwriteExistValue(d)
+   },
+   //parseInnerData
+   parseInnerData:function(d){
+     return _aiAPI._parseInnerData(d)
+   },
+   getModuleDataById:function(v,m){
+     return _aiAPI._getModuleDataById(v,m)
+   },
+   retrieveExistData:function(m,f,d){
+     return _aiAPI._retrieveExistData(m,f,d)
+   },
+   toJSONParameter:function(v,fn,_insertIgnoreSubmit){
+     v=v===null||v===undefined?{}:v
+     if(v.constructor!=Object){
+       let vv={}
+       vv[fn]=v
+       v=vv
+     }
+     if(_insertIgnoreSubmit){
+       v.$ignoreSubmit=1
+     }
+     v.$asSubForm=1
+     return v
+   },
+   isTheLastAction:function(){
+     let a=BZ._getCurAction(),
+         t=BZ._getCurTest()
+     let as=t._data.actions
+     return a==as[as.length-1]
+   },
+   getUpdateParameter:function(d,p){
+     let n={}
+     for(let k in p){
+       if(d[k]!=p[k]){
+         n[k]=p[k]
+       }
+     }
+     return n
+   }
+ }
+ //---------------------------------------------------------------------------------------------//
+ 
+ for(k in $aiAPI){
+   $aiAPI[k].toString=function(){}
+ };var __=function(v,c,_tab){
+  v=v||_IDE._data._curAction
+
+  BZ._log("_IDE._data._curProject,_curVersion,_curModule,_curTest,_curAction,_Util,_CtrlDriver,_setting")
+  if(!v){
+    var t=_IDE._data._curTest,m=_IDE._data._curModule,s=_IDE._data._curVersion.setting;
+    var k=BZ._data._curPage._key;
+    if(t){
+      t=t._data;
+      switch (k){
+        case "_actions":v=t.actions;break;
+        case "_data":v=t.dataMap;break;
+      }
+    }else if(m){
+      v=m._data.dataMap
+    }else{
+      switch (k){
+        case "_defaultData":v=s.defaultData;break;
+        case "_service":v=s.service;break;
+        // case "_preferences":v=curUser._curProject.setting.subscriptions;break;
+        // case "_dictionary":v=s.dictionary;break;
+        // case "_objectLib":v=s.objectLib;break;
+        case "_contentPolice":v=s.content;break;
+        case "_alias":v=s.aliasMap;break;
+        case "_record":v=s.record;break;
+      }
+    }
+  }
+  if(_tab===undefined){
+    _tab=2
+  }
+  return JSON.stringify(v,c,_tab);
+}
+
+function _extendJQuery(){
+  if(!window.jQuery||jQuery.expr[":"].include){
+    return
+  }
+  var _bzExJQueryFun=/\:(attr|Contains|contains|hidden|show|input|data|link|near|panel|after|before|containCss|css|endContains|endEqual|equal|RowCol|rowcol|bz|textElement|blank|Attr|text) *(=|$)/g;
+  //div:include({div.btn:bz=$field:name:Contains=lws}{div.btn:bz=$field:id}{:equal=23423423})
+  //div:include({div.btn:bz=$field:name:Contains=lws}-{div.btn:bz=$field:id}{:equal=23423423})
+  jQuery.expr[":"].include= function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    m=m[3]
+
+    if(!document._include||document._include.k!=m||Date.now()-document._include._time>1000){
+      document._include={_time:Date.now(),k:m}
+      
+      m=m.replace(/\\:/g,":\r")
+      let s=m.match(/[\-]? *\{[^\}]+\}/g)||[m]
+      s=s.map(x=>{
+        let n=x.match(/^([\-]? *)\{/)||""
+        if(n){
+          n=n[1].trim()
+          if(n){
+            x=x.substring(1)
+          }
+        }
+        x=x.trim()
+        if(x.match(/^\{.+\}$/)){
+          x=x.substring(1,x.length-1)
+        }
+
+        let v=x.match(_bzExJQueryFun),vs=[]
+        if(v){
+          v.forEach(y=>{
+            let i=x.indexOf(y)
+            vs.push(x.substring(0,i))
+            x=x.substring(i+y.length)
+          })
+          vs.push(x)
+          x=vs.map((y,i)=>{
+            y=y.trim().replace(/[:]\r/g,":")
+            if(i){
+              let vv=v[i-1].replace(/=$/,"").trim()
+              if(y){
+                y=vv+"("+y+")"
+              }else{
+                y=vv
+              }
+            }
+            return y
+          }).join("")
+        }
+        x=$(x).toArray()
+        return {n:n,x:x}
+      })
+      document._include.os=s
+    }
+    return !document._include.os.find(x=>{
+      let xx=$(a).find(x.x)[0]
+      return x.n?xx:!xx
+    })
+  }
+
+  jQuery.expr[":"].text=function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    var v2=m[3].toLowerCase().trim();
+    if(!v2){
+      return
+    }
+    v2=v2.replace(/\s+/," ")
+    if(a.nodeType!=1){
+      return
+    }
+
+    if(!document._text||document._text.k!=m[3]||Date.now()-document._text._time>1000){
+      let f=document.body;
+      let o=_Util._findLabel(f,v2)
+
+      if(!o.length&&!_Util._isRegexData(v2)&&!v2.includes("|")){
+        let vv=_Util._removeSign(v2," ")
+        o=_Util._findLabel(f,vv,1)
+      }
+      o=o.map(x=>_cssHandler._findCellElement(x.o))
+      
+      if(!o.length||!o.find(x=>x.innerText.trim().toLowerCase()==v2.toLowerCase())){
+        let ks=_IDE._data._setting.content.contentAttribute.replace("placeholder","").replace(/\|\|/g,"|")
+        let oa=$(`:attr(${ks}=${v2})`).toArray()
+        if(!oa.length){
+          oa=$(`input:attr(value=${v2})`).toArray()
+          ks=["value"]
+        }else{
+          ks=ks.split("|")
+        }
+        if(oa.length){
+          oa.forEach(x=>x._bzWordLength=_findBestAttrValue(x,ks))
+          oa.sort((a,b)=>a._bzWordLength-b._bzWordLength)
+          
+          o=oa.filter(x=>x._bzWordLength==oa[0]._bzWordLength)
+        }
+      }
+
+      document._text={
+        _time:Date.now(),
+        k:m[3],
+        as:o
+      }
+    }
+
+    let as=document._text.as
+    return as.includes(a)||$(as).find(a)[0]||(["A","BUTTON"].includes(a.tagName)&&$(a).find(as)[0])
+    function _findBestAttrValue(a,ks){
+      let aa="";
+      ks.forEach(x=>{
+        x=a.attributes[x]||{}
+        x=x.value
+        if(x){
+          if(x.toLowerCase().includes(v2.toLowerCase())){
+            if(!aa||aa.length>x.length){
+              aa=x
+            }
+          }
+        }
+
+      })
+      a._bzWordLength=aa.length
+      return aa.length
+    }
+  }
+
+  jQuery.expr[":"].attr=function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    return _chkAttr(a,i,m)
+  }
+
+  jQuery.expr[":"].Attr=function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    return _chkAttr(a,i,m,1)
+  }
+
+  function _chkAttr(aa,i,m,_full){
+    var v2=m[3],a=aa;
+    v2=v2.split("=")
+    var v1=v2.shift()
+    v2=v2.join("=")
+
+    v1=v1.replace("*","").trim()
+    v1=v1.split("|")
+    return v1.find(v1=>{
+      if(v1!="value"){
+        a=aa.attributes[v1]
+      }
+      if(a && a.value){
+        try{
+          if(_Util._isRegexData(v2)){
+            eval(`v1=a.value.match(${v2})`)
+            return v1
+          }
+          if(v2.endsWith("\" i")||v2.endsWith("\i i")){
+            v2=v2.substring(1,v2.length-3)
+          }
+          v2=_Util._filterTxt(v2)
+          v2=_Util._trimSpace(v2)
+          v1=_Util._filterTxt(a.value)
+          
+          if(v1==v2||(!_full&&v1.toLowerCase().includes(v2.toLowerCase()))){
+            a._bzJq="attr"
+            a._bzJqVal=v1
+            return true
+          }
+        }catch(e){
+          if(v1==v2){
+            a._bzJq="attr"
+            a._bzJqVal=_Util._filterTxt(a.value)
+            return true
+          }
+        }
       }
     })
   }
-};var _infoManagement={
+
+  jQuery.expr[":"].Contains = function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    m=m[3]
+
+    if(!document._Contains||document._Contains.k!=m||!document._Contains._tag.includes(a.tagName)||a._Contains||Date.now()-document._Contains._time>1000){
+      // console.log("pre-handle-dom: "+m)
+      // console.log("init Contains: "+a.tagName+","+m)
+      let v2=m;
+      if(!document._Contains||document._Contains.k!=m||Date.now()-document._Contains._time>1000){
+        document._Contains=0
+      }
+      let _inHidden=jQuery._inHidden
+      
+      let _inRegex=window._ideDataManagement&&_Util._isRegexData(v2)
+      if(_inRegex){
+        v2=_Util._getRegexByBZName(v2.substring(1,v2.length-1),1)
+        v2=new RegExp(v2,"im")
+      }else{
+        v2=v2.trim().toLowerCase();
+        v2=_Util._filterTxt(v2)
+        v2=v2.replace(/\*/g,".*")
+      }
+      let os=_Util._getElementsByWord(function(w){
+        w=(w||"").trim().toLowerCase();
+        if(_inRegex){
+          return w.match(v2)
+        }else{
+          w=_Util._filterTxt(w)
+          return _Util._includesWord(w,v2,1)
+        }
+      },a.tagName,document._Contains?document._Contains._inHidden:_inHidden,_Util._getRootDom(a))
+      if(document._Contains){
+        document._Contains._tag.push(a.tagName)
+        document._Contains.os=document._Contains.os.concat(os)
+      }else{
+        document._Contains={
+          _inHidden:_inHidden,
+          _tag:[a.tagName],
+          k:m,
+          os:os,
+          _time:Date.now()
+        }
+        jQuery._inHidden=_inHidden
+      }
+    }
+    return document._Contains.os.includes(a)
+  };
+
+  jQuery.expr[":"].hidden= function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    return _Util._isHidden(a)
+  }
+
+  jQuery.expr[":"].show= function(a,i,m){
+    return true
+  }
+
+  jQuery.expr[":"].panel=function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    var v2=_Util._toTrimSign(m[3].toLowerCase());
+    if(!v2){
+      return
+    }
+    v2=v2.replace(/\s+/," ")
+    if(a.nodeType!=1){
+      return
+    }
+
+    if(!document._panel||document._panel.k!=m[3]||Date.now()-document._panel._time>1000){
+      let os=_cssHandler._findNodeByTxt(document.body,v2),oo=new Set();
+      if(!os.length&&!_Util._isRegexData(v2)&&!v2.includes("|")){
+        let vv=_Util._removeSign(v2," ")
+        os=_cssHandler._findNodeByTxt(document.body,vv,1)
+      }
+      os.forEach(x=>{
+        let ss=[]
+        _findPanelByHeader(x,ss)
+        ss.forEach(y=>oo.add(y))
+      })
+
+      document._panel={
+        _time:Date.now(),
+        k:m[3],
+        as:[...oo],
+        _tags:new Set()
+      }
+    }
+    
+    return document._panel.as.includes(a)
+    function _findPanelByHeader(x,ss){
+      let e=x.e,
+          r=x.o.getBoundingClientRect(),
+  //        c=_cssHandler._getUniqueClass(x.o),
+          f=_cssHandler._retrieveFontInfo(x.o),
+          _start,_hasPreHeader,
+          pp=_cssHandler._getBetterParent(x.e);
+      while(e.parentElement){
+        let p=e.parentElement
+        for(let c of p.children){
+          if(c==e){
+            _start=1
+            ss.push(c)
+          }else if(!_Util._isHidden(c)){
+            if(_start){
+              
+              let os=$(c).find(x.o.tagName).toArray()
+              if(x.o.tagName==c.tagName){
+                os.unshift(c)
+              }
+              if(!os.find(y=>{
+                if(!_Util._isHidden(y)){
+                  y=_cssHandler._retrieveFontInfo(y)
+                  return _Util._isSameObj(f,y)
+                }
+              })){
+                ss.push(c)
+              }else{
+                return ss
+              }
+            }else{
+              _hasPreHeader=1
+            }
+          }
+        }
+        if(p==pp||_cssHandler._isFixedAbsoluteElement(p)||p.previousElementSibling||p.tagName=="BODY"){
+          if(_hasPreHeader){
+            return ss
+          }
+          ss.length=0
+          ss.push(p)
+          return ss
+        }
+        e=p
+      }
+
+    }
+    
+    
+  }
+
+  jQuery.expr[":"].match=function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    m=m[3]
+    if(!_Util._isRegexData(m)){
+      m="/"+m+"/"
+    }
+    m=eval(m)
+    return (a.innerText||"").trim().match(m)
+    
+  }
+  jQuery.expr[":"].input=function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    var v2=m[3].toLowerCase().trim();
+    if(!v2){
+      return
+    }
+    v2=v2.replace(/\s+/," ")
+    if(a.nodeType!=1){
+      return
+    }
+
+    if($util._tmpFormForSearchingInput||!document._input||document._input.k!=m[3]||Date.now()-document._input._time>1000){
+      let f=$util._tmpFormForSearchingInput||_cssHandler._findForm()||document.body;
+      $util._tmpFormForSearchingInput=0
+      let o=_Util._findLabel(f,v2),
+          os=new Set()
+
+      if(!o.length&&!_Util._isRegexData(v2)&&!v2.includes("|")){
+        let vv=_Util._removeSign(v2," ")
+        o=_Util._findLabel(f,vv,1)
+      }
+      o.forEach(x=>{
+        let ss=[]
+        _findInputByLabel(x,ss)
+        ss.forEach(y=>os.add(y))
+      })
+      os=[...os]
+
+      if(!os.length||!os.find(x=>_Util._isStdInputElement(x)||_Util._isInContentEditable(x))){
+        let oos=$(`:attr(${_IDE._data._setting.content.contentAttribute}=${v2})`).toArray()
+        _Util._spliceAll(oos,x=>{
+          if(!_Util._isInputObj(x)||(_Util._isHidden(x)&&!["checkbox","radio"].includes(x.type))){
+            return 1
+          }
+        })
+        if(oos.length){
+          os=oos
+        }
+      }
+
+      let ios=$(os).find("input").toArray().filter(x=>["checkbox","radio"].includes(x.type))
+      if(ios.length){
+        os=ios
+      }
+
+      document._input={
+        _time:Date.now(),
+        k:m[3],
+        as:os,
+        _tags:new Set()
+      }
+    }
+
+    
+    return document._input.as.includes(a)||$(document._input.as).find(a)[0]
+    
+    function _findInputByLabel(o,os){
+      if(o.e&&o.e.tagName=="LABEL"){
+        let k=o.e.attributes.for
+        if(k){
+          k=$("#"+k.value.replace(/([^0-9a-zA-Z\_\-])/g,"\\$1"))[0]
+          if(k){
+            os.push(k)
+            return
+          }
+        }
+        let oo=_Util._findInputs(o.e,1)
+        if(oo.length){
+          os.push(...oo)
+          return
+        }
+      }
+      if(o.ks.length){
+        o.ks.find(x=>{
+          let oo=_Util._findInputs(x,1)
+          if(oo.length){
+            os.push(...oo)
+            return 1
+          }
+        })
+      }
+      if(os.length){
+        return
+      }
+      let e=o.e
+      while(e&&e.tagName!="TD"&&e.nextElementSibling){
+        if(_cssHandler._findSamilarElementByStyle(e.nextElementSibling,o.o).length){
+          break
+        }
+        if(_cssHandler._findSamilarElementByStyle(e.nextElementSibling,o.e).length){
+          break
+        }
+        if(e==o.e){
+          let _chkbox=_findCheckboxInPreviousElement(e)
+          if(_chkbox){
+            os.push(_chkbox)
+            break
+          }
+        }
+        let oo=_Util._findInputs(e.nextElementSibling,1)
+        oo=oo.filter(x=>!_Util._isHidden(x))
+        os.push(...oo);
+        
+        if(!os.length){
+          if(_cssHandler._lookLikeInput(o.e,e.nextElementSibling)){
+            os.push(e.nextElementSibling)
+            break
+          }
+        }else{
+          break
+        }
+        e=e.nextElementSibling
+      }
+      if(os.length){
+        return
+      }
+      if(o.ks.length==1){
+        os.push(...o.ks)
+      }else if(o.ks.length>1){
+        os.push(_Util._getShareParent(o.ks[0],o.ks[1]))
+      }
+      if(!os.length&&o.e){
+        o.e=o.e.parentElement
+        _findInputByLabel(o,os)
+      }
+    }
+    
+    function _findCheckboxInPreviousElement(e){
+      let p=e.previousElementSibling
+      if(p){
+        if(p.tagName=="INPUT"&&p.type=="checkbox"){
+          return p
+        }else if(!p.innerText){
+          let cs=$(p).find("input[type=checkbox]")
+          if(cs.length){
+            return cs[cs.length-1]
+          }else{
+            return _findCheckboxInPreviousElement(p)
+          }
+        }
+      }
+    }
+    
+  }
+
+
+  jQuery.expr[":"].data=function(a,i,m){
+    let r=jQuery.expr[":"].input(a,i,m)
+    if(r){
+      var vv=_Util._removeSign(m[3]).toLowerCase().trim();
+      if(_Util._isInputObj(a)){
+        if(a.type=="checkbox"){
+          a.bzData=a.checked
+        }else if(a.type=="radio"){
+          a.bzData=$(`input[name=${a.value}]:checked`).val()
+        }else if(_Util._isInContentEditable(a)){
+          a.bzData=a.innerText
+        }else{
+          a.bzData=$(a).val()
+        }
+      }else{
+        let v=a.innerText
+        v=v.split(/[:：]/)
+        if(v.length>1){
+          if(vv==_Util._removeSign(v[0].toLowerCase())){
+            a.bzData=v[1]
+          }
+        }else{
+          a.bzData=a.innerText
+        }
+      }
+    }
+    return r
+  }
+
+  jQuery.expr[":"].link=function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    var v2=_Util._toTrimSign(m[3].toLowerCase());
+    if(!v2){
+      return
+    }
+    v2=v2.replace(/\s+/," ")
+    if(a.nodeType!=1){
+      return
+    }
+
+    /******************* New Code start *****************************************/
+    if(!document._link||document._link.k!=v2||Date.now()-document._link._time>1000){
+      let vs=v2.split("|"),oo=[]
+      vs.forEach(v=>{
+        let o=_Util._getTargetElement($(":endContains("+v+")")),os=[],ss=$("*")
+
+        if(!o.length){
+          o=$(":Contains("+v+")").toArray()
+          o=_Util._getCeilDom(o)
+        }
+        if(!o.find(x=>x.innerText==v)){
+          os=$("INPUT").toArray().filter(x=>["image","submit","button","reset"].includes(x.type)&&_Util._toTrimSign(x.value.toLowerCase())==v2)
+          if(!os.length){
+            os=$(`:attr(${_IDE._data._setting.content.contentAttribute}=${v2})`).toArray()
+          }
+          if(!os.length){
+            os=o
+          }
+        }else{
+          os=o
+        }
+        oo=oo.concat(os)
+      })
+      
+      let os=oo.filter(x=>["A","BUTTON","INPUT"].includes(x.tagName))
+      
+      if(!os.length){
+        os=oo.map(x=>_Util._getParentElementByCss("button,a",x)).filter(x=>x)
+        if(!os.length){
+          os=oo
+        }
+      }
+
+      document._link={
+        _time:Date.now(),
+        k:v2,
+        as:os,
+        _tags:new Set()
+      }
+    }
+
+    
+    return document._link.as.includes(a)
+  }
+
+  jQuery.expr[":"].near = function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    let v2=m[3]
+    let _inRegex=window._ideDataManagement&&_Util._isRegexData(v2)
+    if(!v2){
+      return
+    }
+    if(!_inRegex){
+      v2=_Util._toTrimSign(v2.toLowerCase());
+      v2=v2.replace(/\s+/," ")
+    }else{
+      eval("_inRegex="+v2)
+    }
+    if(a.nodeType!=1){
+      return
+    }
+
+    /******************* New Code start *****************************************/
+    if(!document._near||document._near.k!=v2||a._near||Date.now()-document._near._time>1000){
+      let _inHidden=jQuery._inHidden
+      let o=_Util._getTargetElement($(":endContains("+v2+")"))
+      _Util._spliceAll(o,x=>{
+        return _Util._isHidden(x)
+      })
+      if(!o.length){
+        o=$(":Contains("+v2+")").toArray()
+        o=_Util._getCeilDom(o)
+        _Util._spliceAll(o,x=>{
+          return _Util._isHidden(x)
+        })
+      }
+
+      document._near={
+        _inHidden:_inHidden,
+        o:o,
+        _time:Date.now(),
+        k:v2,
+        as:new Set(),
+        _tags:new Set()
+      }
+    }  
+
+    if(document._near._inHidden){
+      if(!_Util._isHidden(a)){
+        return
+      }
+    }else{
+      if(_Util._isHidden(a)){
+        return
+      }
+    }
+    _searchCandiate(a)
+    if(!document._near.as.has(a)){
+      return
+    }
+    /******************* New Code end *********************************************/
+    v2=_Util._toTrimSign(v2,30)
+    if(BZ._tmpNearRegexKey!=v2){
+      BZ._tmpNearRegexKey=v2
+      v2=_Util._filterTxt(v2);
+      v2=_Util._trimSpace(v2)
+      BZ._tmpNearRegex=v2.replace(/\*/g,".*")
+    }
+    var v1=_Util._findNearTxt(a,BZ._tmpNearRegex)
+    if(v1){
+      if((_inRegex&&v1.match(_inRegex))||(!_inRegex&&_Util._includesWord(v1,BZ._tmpNearRegex,1))){
+        a._bzJq="near"
+        a._bzJqVal=v1
+        return true
+      }
+    }
+    return false
+    
+    function _searchCandiate(a){
+      let d=document._near
+      if(d._tags.has(a.tagName)){
+        return
+      }
+      d._tags.add(a.tagName)
+      let o=Object.assign([],d.o)
+      let oo=o.map(x=>x.getBoundingClientRect()),as=new Set(),_loop=0;
+      while(oo.length&&_loop<3){
+        
+        for(let i=0;i<o.length;i++){
+          let x=o[i]
+          let p=x.parentElement
+          if(!p||p.tagName=="BODY"){
+            return
+          }
+          o[i]=p
+          let os=$(p).find(a.tagName).toArray()
+          if(os.length){
+            os.forEach(y=>as.add(y))
+            if(_Util._isCellElement(a)){
+              o.splice(i,1)
+              oo.splice(i--,1)
+            }
+          }
+        }
+        if(!o[0]||o[0].tagName=="BODY"){
+          break
+        }
+        if(as.size){
+          if(d._inHidden){
+            break
+          }
+          _loop++
+          for(let i=0;i<oo.length;i++){
+            let or=o[i].getBoundingClientRect()
+            if(or.width- oo[i].width>100&&or.height- oo[i].height>100){
+              oo.splice(i,1)
+              o.splice(i--,1)
+            }
+          }
+        }
+      }
+      as=[...as]
+      as.forEach(x=>d.as.add(x))
+    }
+  };
+
+  jQuery.expr[":"].next= function(a,i,m){
+    return a.nextElementSibling
+  }
+
+  jQuery.expr[":"].previous= function(a,i,m){
+    return a.previousElementSibling
+  }
+
+  jQuery.expr[":"].parent= function(a,i,m){
+    return a.parentNode
+  }
+
+  jQuery.expr[":"].after= function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    m=m[3]
+    if(a.nodeType!=1 ||a.type=="hidden"){
+      return
+    }
+
+    if(!document._after||document._after.k!=m||a._after||Date.now()-document._after._time>1000){
+      let _inHidden=jQuery._inHidden,_panel=document._after?document._after._panel:(jQuery.tmpPanel&&$(jQuery.tmpPanel))
+      let o=_Util._getTargetElement($(":endContains("+m+")")),
+          os=_inHidden?$("*"):_Util._getAllVisableElementsInJQ()
+      
+      _Util._spliceAll(o,x=>{
+        return (_panel&&!_panel.find(x)[0])||_Util._isHidden(x)
+      })
+      if(!o.length){
+        o=$(":Contains("+m+")").toArray()
+        _Util._spliceAll(o,x=>{
+          return (_panel&&!_panel.find(x)[0])||_Util._isHidden(x)
+        })
+        o=o.pop()
+      }else{
+        o=o[0]
+      }
+      jQuery._inHidden=_inHidden
+      document._after={
+        _panel:_panel,
+        _inHidden:_inHidden,
+        o:o,
+        _time:Date.now(),
+        k:m,
+        os:os,
+        _idx:os.index(o)
+      }
+    }
+    if(!document._after._inHidden&&_Util._isHidden(a)){
+      return
+    }
+    if(document._after.os.index(a)>document._after._idx){
+      return 1
+    }
+  };
+
+  jQuery.expr[":"].before= function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    return _findBeforeElement(a,i,m)
+  };
+
+  function _findBeforeElement(a,i,m){
+    m=m[3]
+    if(a.nodeType!=1 ||a.type=="hidden"){
+      return
+    }
+    let _timer=Date.now()
+
+    if(!document._before||document._before.k!=m||a._before||Date.now()-document._before._time>1000){
+      let _inHidden=jQuery._inHidden
+      let o=$(":endEqual("+m+")").toArray(),
+          os=_inHidden?$("*"):_Util._getAllVisableElementsInJQ()
+          
+      if(!o.length){
+        o=_Util._getTargetElement($(":endContains("+m+")"))
+        _Util._spliceAll(o,x=>{
+          return _Util._isHidden(x)
+        })
+      }
+      if(!o.length){
+        o=$(":Contains("+m+")").toArray()
+        _Util._spliceAll(o,x=>{
+          return _Util._isHidden(x)
+        })
+        o=_Util._getSameTextDom(_Util._getCeilDom(o),m)
+      }
+      jQuery._inHidden=_inHidden
+      document._before={
+        _inHidden:_inHidden,
+        _time:Date.now(),
+        k:m,
+        os:os,
+        o:o.map(x=>{
+          return {
+            o:x,
+            _idx:os.index(x),
+            r:x.getBoundingClientRect()
+          }
+        })
+      }
+    }
+    if(!document._before._inHidden&&_Util._isHidden(a)){
+      return
+    }
+    let n=document._before.os.index(a)
+    return document._before.o.find(x=>{
+      let _idx=x._idx
+      if(a.tagName=="INPUT"&&a.type=="checkbox"&&$(x.o).find(a.tagName)[0]){
+        return !!$(x.o).find(a)[0]
+      }
+      if(_idx>n){
+        if(x._idx-n==1){
+          return 1
+        }
+        for(let j=n+1;j<_idx;j++){
+          let c=document._before.os[j]
+          if((c.innerText||"").trim()&&!_Util._isHidden(c)){
+            if($(c).find(x.o)[0]){
+              continue
+            }
+            return
+          }else if(c.tagName==a.tagName&&c.type!=="hidden"){
+            return
+          }else{
+            c=c.getBoundingClientRect()
+
+            if(c.top>x.r.bottom||c.right>x.r.right){
+              return
+            }
+          }
+        }
+        return 1
+      }else if(n-x._idx==1){
+        return _Util._positionAfterElement(x.o,a)
+      }
+    })
+  }
+  jQuery.expr[":"].containCss = function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    return $(a).find(m[3].trim()).length>0;
+  };
+
+  jQuery.expr[":"].css=function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    let v=m[3].toLowerCase().split("|"),
+        c=""
+    return v.find(vv=>{
+      if(vv[0]=="."){
+        if(a.className&&a.className.constructor==String){
+          return _includes(a.className,vv)
+        }
+      }else if(vv[0]=="#"){
+        if(a.id&&a.id.constructor==String){
+          return _includes(a.id,vv)
+        }
+      }
+    })&&true
+    
+    function _includes(c,vv){
+      c=c.toLowerCase()
+      vv=vv.substring(1)
+      let v2=vv.split(/[^a-z0-9]/)
+      if(v2.length==1){
+        return c.split(/[^a-z0-9]/).includes(vv)
+      }else{
+        return c.includes(vv)
+      }
+    }
+    return $(a).find(m[3].trim()).length>0;
+  };
+
+  jQuery.expr[":"].endContains = function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    let o= _checkEndContains(a,i,m)
+    if(o){
+      a._bzJq="endContains"
+    }
+    return o
+  };
+
+  function _checkEndContains(a,i,m){
+    m=m[3]
+
+    if(!document._endContains||document._endContains.k!=m||!document._endContains._tag.includes(a.tagName)||a._endContains||Date.now()-document._endContains._time>1000){
+      let _inHidden=jQuery._inHidden
+      // console.log("init endContains:"+a.tagName+","+m)
+      let v2=m;
+      if(!document._endContains||document._endContains.k!=m||Date.now()-document._endContains._time>1000){
+        document._endContains=0
+      }
+      let _inRegex=window._ideDataManagement&&_Util._isRegexData(v2)
+      if(_inRegex){
+        v2=_Util._getRegexByBZName(v2.substring(1,v2.length-1),1)
+        v2=new RegExp(v2,"im")
+      }else{
+        v2=v2.trim().toLowerCase();
+        v2=_Util._filterTxt(v2)
+        v2=v2.replace(/\*/g,".*")
+      }
+      let os=_Util._getEndElementsByWord(function(w){
+        w=(w||"").trim().toLowerCase();
+        if(_inRegex){
+          return w.match(v2)
+        }else{
+          w=_Util._filterTxt(w)
+          return _Util._includesWord(w,v2,1)
+        }
+      },a.tagName,document._Contains?document._Contains._inHidden:_inHidden,a)
+      if(document._endContains){
+        document._endContains._tag.push(a.tagName)
+        document._endContains.os=document._endContains.os.concat(os)
+      }else{
+        document._endContains={
+          _inHidden:_inHidden,
+          _tag:[a.tagName],
+          k:m,
+          os:os,
+          _time:Date.now()
+        }
+        jQuery._inHidden=_inHidden
+      }
+    }
+    return document._endContains.os.includes(a)
+  }
+
+  jQuery.expr[":"].endEqual = function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    if(_Util._isNoTextElement(a)){
+      return
+    }
+    var os=a.childNodes;
+    var v2=m[3],_inRegex=window._ideDataManagement&&_Util._isRegexData(v2)
+    if(_inRegex){
+      v2=_Util._getRegexByBZName(v2.substring(1,v2.length-1),1)
+      v2=new RegExp(v2,"i")
+    }else{
+      v2=v2.trim().toLowerCase();
+      v2=_Util._trimSpace(v2)
+    }
+    for(var i=0;i<os.length;i++){
+      var o=os[i];
+      if(o.nodeType==3){
+        var t=_Util._pickTextFromNode(os,i);
+        i=t.i;
+        var v1=_Util._trimSpace(t.t.toLowerCase())
+        if(_inRegex){
+          if(v1.match(v2)){
+            a._bzJq="endEqual"
+            a._bzJqVal=t.t
+            return true
+          }else{
+            return 
+          }
+        }else{
+          try{
+            if(v1==v2){
+              a._bzJq="endEqual"
+              a._bzJqVal=t.t
+              return true;
+    //          return $(a.ownerDocument.body).find(a).length;
+    //          return !_Util._isHidden(a);
+            }
+          }catch(e){
+            if(v1.includes(v2)){
+              a._bzJq="endEqual"
+              a._bzJqVal=t.t
+              return true;
+    //          return $(a.ownerDocument.body).find(a).length;
+    //          return !_Util._isHidden(a);
+            }
+          }
+        }
+      }
+    }
+  };
+
+  jQuery.expr[":"].equal = function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    if(_Util._isNoTextElement(a)){
+      return
+    }
+    let t=jQuery(a).text().trim().toLowerCase(),_match
+    m=m[3].trim().toLowerCase()
+    return t==m
+    // if(_Util._isRegexData(m)){
+      // eval(`m=${m}`)
+      // _match=t.match(m)
+    // }else{
+      // _match=t.includes(m)
+    // }
+    // if(_match){
+    // if(t.includes(m)){
+      // let r=t.replace(m,"").replace(_Util._matchAllSign,"").trim()
+      // if(!r){
+        // a._bzJq="equal"
+        // a._bzJqVal=t
+        // return true
+      // }
+    // }
+  };
+
+  //simplar(include)
+  jQuery.expr[":"].RowCol=function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    return _findRowCol(a,i,m,(v1,v2)=>{
+      return v1.toLowerCase()==v2.toLowerCase()
+    })
+  }
+
+  jQuery.expr[":"].rowcol=function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    return _findRowCol(a,i,m,(v1,v2)=>{
+      return v1==v2
+    })
+  }
+
+  function _findRowCol(a,i,m,_fun){
+    m=m[3].replace(/^\[(.+)\]$/,"$1")
+    let rs,cs,k=m;
+    let _timer=Date.now()
+
+    if(!document._rowcol||document._rowcol.k!=m||a._rowcol||Date.now()-document._rowcol._time>1000){
+
+      m=m.split("|")
+      rs=_Util._findTextBox(m[0],_fun)||[]
+      rs=[...new Set(rs)]
+      cs=_Util._findTextBox(m[1],_fun)||[]
+      cs=[...new Set(cs)]
+      let _founds=[]
+      if(rs.length&&cs.length){
+        rs.find((x,i)=>{
+          let os1=_getCloser(x,cs,1),cc=[]
+          os1.forEach(y=>{
+            let os2=_getCloser(y,rs)
+            if(os2.includes(x)){
+              cc.push(y)
+            }
+          })
+          if(cc.length){
+            rs[i]={
+              o:x,
+              r:x.getBoundingClientRect(),
+              cs:cc.map(y=>y.getBoundingClientRect()),
+              cc:cc
+            }
+          }
+        })
+        rs.forEach(r=>{
+          if(r.cs){
+            let xo=r.o,_chkRow
+            while(1){
+              let os=$(xo).find(a.tagName).toArray(),_found=[]
+              if(!os.length){
+                if($(xo).is(a.tagName)){
+                  os=[xo]
+                }
+              }
+              os.find(o=>{
+                let or=o.getBoundingClientRect();
+                if(_match([r],or)){
+                  _found.push(o)
+                }else if(_found.length){
+                  return 1
+                }
+              })
+              _chkRow=os.length
+              _founds=_founds.concat(_found)
+              if(_found.length||r.cs.find(c=>{return c.right-5<=xo.getBoundingClientRect().right})){
+                break
+              }
+              xo=xo.parentElement
+            }
+          }
+        })
+      }
+
+      document._rowcol=a._rowcol={
+        _time:Date.now(),
+        rs:rs,
+        k:k,
+        _founds:_founds
+      }
+    }
+    return document._rowcol._founds.includes(a)
+
+    function _match(rs,ar,_chkRow){
+      return rs&&rs.find(y=>{
+        return (y.r.right<=ar.left||y.r.left<=ar.left)
+              &&(!_chkRow||(y.r.top-5<ar.top&&y.r.bottom+5>ar.bottom))
+              &&y.cs.find(x=>{
+                  return x.bottom<=ar.top&&x.left-5<ar.left&&x.right+5>ar.right
+                })
+      })
+    }
+    
+    function _getCloser(x,os,_before){
+      let xr=x.getBoundingClientRect(),
+          vs=[]
+      os.forEach(o=>{
+        if(o.getBoundingClientRect){
+          let or=o.getBoundingClientRect()
+          if(_before){
+            if(or.bottom<xr.top+5&&xr.left<=or.left+5){
+              vs.push(o)
+            }
+          }else{
+            if(or.top+5>xr.bottom&&xr.left+5>or.left){
+              vs.push(o)
+            }
+          }
+        }
+      })
+      while(vs.length){
+        let cs=$(x).find(vs).toArray()
+        if(!cs.length){
+          x=x.parentElement
+        }else{
+          return cs
+        }
+      }
+      return []
+    }
+  }
+
+  jQuery.expr[":"].textElement=function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    if(a.tagName!="CANVAS"){
+      return
+    }
+    if(_TWHandler._getCanvasTextElement(a,m[3])){
+      return true
+    }
+  }
+
+  jQuery.expr[":"].blank=function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    m=m[3]||0
+    return m==_identifyIFrameHandler._getBlankIFrameID(a)
+    
+  }
+
+  jQuery.expr[":"].bz=function(a,i,m){
+    let v=a.dataset.bz
+    if(!v){
+      return
+    }
+
+    m=m[3]
+    m=m.split("=")
+    a=_cssHandler._getBzPath(a)
+    return a.bz.find(x=>x.k==m[0]&&(x.v==m[1]||!m[1]))
+  }
+
+  for(var k in jQuery.expr[":"]){
+    jQuery.expr[":"][k].toString=function(){}
+  }
+
+  //get sub iframe
+  jQuery.fn.findIframe=function(a){
+    return $util.findIFrame(arguments)
+  }
+}
+_extendJQuery();var _infoManagement={
   _data:_CtrlDriver._buildProxy({
     _map:{},
     _read:{},
@@ -25037,7 +21695,7 @@ const _uiHandler={
                     return;
                   }
                   let o=_Util._getClosestElement(this,this,".bz-js-editor")
-                  _Util._copyText(_ideActionData._functions[this._data._key]._code)
+                  _Util._copyText(_ideActionData._functions()[this._data._key]._code)
                   // _Util._flashElement(this)
                 //  _Util._insertTxtToEditor(o,_ideActionData._functions[this._data._key]._code);
                   BZ._data._uiSwitch._showBaseFunMenu=0
@@ -26155,7 +22813,7 @@ const _uiHandler={
     }
     return _input
   }
-};var _uploadHandler={
+};window._uploadHandler={
   _retrieveBase64ValueFromLink:function(url){
     return url.substring(url.indexOf("base64,")+7); 
   },
@@ -27474,7 +24132,7 @@ var _elementMonitor={
     }
     return m
   }
-};var _TWHandler={
+};window._TWHandler={
   _resetTime:60000,
   _lastPageInfo:{},
   _curRequestList:[],
@@ -27486,6 +24144,16 @@ var _elementMonitor={
     this._lastPageInfo={};
     this._popExpected={alert:[],confirm:[],prompt:[],onbeforeunload:[]};
     this._popActual={alert:[],confirm:[],prompt:[],onbeforeunload:[]};
+  },
+  startInit:function(){
+    $(document.body).on("mouseover","a",function(){
+      _Util._removeLinkTarget(this)
+    })
+    _TWHandler._takeoverLink();
+    _TWHandler._takeoverOpenWin();
+    if(window.extensionContent){
+      bzTwComm._postToMaster({_fun:"_infoPageReady",_data:0,_scope:"_extensionComm"});
+    }
   },
   _uiSync:function(){
     
@@ -27662,7 +24330,7 @@ var _elementMonitor={
   },
   _takeoverCanvas:function(w){
     w=w||window
-    if(window.name=="bz-master"){
+    if(window.name.includes("bz-client")){
       return
     }
     let _CanvasRenderingContext2D="Ca"+"nvas"+"Render"+"ingCont"+"ext2D",
@@ -28850,7 +25518,7 @@ var _elementMonitor={
       if(window.inPlugIn){
         _extensionComm._openURL(_enterPointValue,ws);
       }else{
-        BZ.TW=window.open(_enterPointValue,"bz-client",ws);
+        BZ.TW=window.open(_enterPointValue,_TWHandler._getClientName(),ws);
       }
       return _callBack&&_callBack()
     }
@@ -28887,7 +25555,7 @@ var _elementMonitor={
       }
       this._setUnload();
       // // console.log("BZ-LOG: openUrl - "+_enterPointValue);
-      BZ.TW=window.open(_enterPointValue,"bz-client",ws);
+      BZ.TW=window.open(_enterPointValue,_TWHandler._getClientName(),ws);
       _TWHandler._curLoadingURL=_enterPointValue;
       BZ._checkPopBlocking(_enterPointValue);
       BZ._prepareDocument(function(){
@@ -28933,6 +25601,13 @@ var _elementMonitor={
       //   _callBack=0
       // }
     }
+  },
+  _getClientName:function(){
+    let n="bz-client"
+    if(BZ._isPlaying()){
+      n+="-playing"
+    }
+    return n
   },
   // _checkTWData:function(_fun){
   //   if(!BZ._isPlaying()&&!_fun){
@@ -29076,16 +25751,7 @@ var _elementMonitor={
     }catch(e){}
     return {};
   }
-};
-setTimeout(function(){
-  if(window.name=="bz-client"){
-    _TWHandler._takeoverLink();
-    _TWHandler._takeoverOpenWin();
-    if(window.extensionContent){
-      bzTwComm._postToMaster({_fun:"_infoPageReady",_data:0,_scope:"_extensionComm"});
-    }
-  }
-},0);var _ideDataHandler={
+};var _ideDataHandler={
   _urlDataMap:{},
 /*
 data structure
@@ -29522,17 +26188,29 @@ data structure
     return( _arrData );
     
   },
-  _setFun:function(c,_name){
-    let cc=_Util._parseToExeCode(c,1)
-    if(!window.extensionContent){
-      return eval("cc="+cc)
-    }else{
-      let k="_tmp"+_aiAPI._newId()
-      setTimeout("try{window."+k+"="+cc+"}catch(ex){alert(_bzMessage._dataBind._funErr+'\"'+ex.message+'\"\\n\\n"+_name+"');}")
-      return function(){
-        return window[k](...arguments)
-      }    
+  _setFun:function(cc,_name){
+    var c=cc.trim()
+    if(!c.startsWith("function")){
+      if(c.includes("return ")){
+        c="function(){"+c+"}";
+      }
+    }else if(c.match(/^(function)( +)([a-z])/i)){
+      return alert(_bzMessage._dataBind._funNameErr)
     }
+    try{
+      if(window.extensionContent){
+        c=_eval._exeCode(c);
+      }else{
+        eval("c="+c);
+      }
+      return c;
+    }catch(e){
+      if(_name&&cc){
+        debugger
+        return alert(_bzMessage._dataBind._funErr+'"'+e.message+'"\n\n'+_name+" = "+cc);
+      }
+    }
+    
   },
   _getDataPositionPath:function(m,t,n){
     if(m){
@@ -30393,11 +27071,21 @@ data structure
           _ideDataManagement._tmpTaskDataMap[k]=d._tmpTaskDataMap[k]
         }
       }
-      let kkk=_IDE._getShortcutKey("",m,t)
-      $loop=d._tmpTaskDataMap._loop[kkk]||$loop
+      let kkk=_IDE._getShortcutKey("",m,t);
+      [[""],[m],[m,t]].forEach(xx=>{
+        let x=$data(...xx);
+        xx=xx[0]?_IDE._getShortcutKey("",...xx):""
+        xx=d._tmpTaskDataMap._app[xx]
+        Object.keys(x).forEach(y=>{
+          if(x[y]&&x[y].constructor==Function){
+            xx[y]=x[y]
+          }
+        })
+      });
+      $loop=d._tmpTaskDataMap._loop[kkk]||$loop;
       $test=d._tmpTaskDataMap._app[kkk]||$test
       $module=d._tmpTaskDataMap._app[_IDE._getShortcutModuleCode(m)]||$module
-      $project=d._tmpTaskDataMap._app[""]
+      $project=d._tmpTaskDataMap._app[""];
     }
   },
   _updateDataMap:function(o,d){
@@ -30591,7 +27279,7 @@ var $data=function(m,t,init){
      // _ideDataManagement._initRandomValue(td)
     }else{
       for(var kk in td){
-        if(td[kk] &&td[kk].constructor==Function){
+        if(_eval._isFun(td[kk])){
           dd[kk]=td[kk]
         }
       }
@@ -30602,7 +27290,7 @@ var $data=function(m,t,init){
     }
     return dd;
   }
-};var _domRecorder={
+};window._domRecorder={
   _uploadFileTypes:["avi","bat", "css", "docx", "epub", "gif", "html", "jpg", "js", "json", "odt","ogv","pdf", "png", "rtf", "sh", "txt", "zip"],
   _tmpPath:[],
   _curAPI:0,
@@ -34870,19 +31558,12 @@ var $data=function(m,t,init){
       window.$element=$element
 
       c=_Util._parseToExeCode(c)
-      window.r=r
-      setTimeout("delete window.r;window.r="+c)
-      return _doIt()
-    }
-    _fun&&_fun()
-    function _doIt(){
-      setTimeout(()=>{
-        if(window.r!=r){
-          _fun&&_fun(window.r)
-        }else{
-          _doIt()
-        }
-      },2)
+      if(window.extensionContent){
+        c=_eval._exeCode(c)
+      }else{
+        c=eval(c)
+      }
+      return c
     }
   },
   _validateScreenshot:function(_data,_force,_fun){
@@ -35026,6 +31707,7 @@ var $data=function(m,t,init){
     return _result;
   },
   _validateHtml:function(_data,_force){
+    debugger
     var _result=_domActionTask._extractDataByHtml(_data);
     for(var i=0;i<_domActionTask._taskQueue.length;i++){
       var t=_domActionTask._taskQueue[i];
@@ -36523,7 +33205,7 @@ var $data=function(m,t,init){
         if(!_text.includes(vv)){
           _result._type=_taskInfo._type._failed;
 
-          _result._msg=_bzMessage._task.UnMatch+": \n\n"+_domActionTask._getCurDataExpress(v);
+          _result._msg=_bzMessage._task.UnMatch+": \n\n"+v+` (${vv})`;
           _result._errSou=_taskInfo._errSou._exp;
           break;
         }
@@ -37610,316 +34292,6 @@ var _tmpLoopDatahandler={
     }
   }
 };var _aiAuthHandler={
-  _testActionMap:{
-    _tokenMap:{},
-    _verifyTokenExistAction:{
-      description:_bzMessage._auth._testDesc._verifyTokenExist,
-      "compareMark": "==",
-      "type": 0,
-      "method": 1,
-      "refOfFailed": "./s/",
-      "inGroup": "",
-      "script": "$util.getTokenByHostId()",
-      "refOfSuccess": "../",
-      "runInIDE": "on",
-      "refOfError": "./s/"
-    },
-    token:[
-      {
-        "type": 4,
-        "refOfSuccess": "m1.t3/",
-        "inGroup": ""
-      },
-      {
-        description:_bzMessage._auth._testDesc._clickTriggerRequest,
-        type: 1,
-        element: [
-          "BZ.TW.document",
-          "A",
-          0
-        ],
-        event: {
-          type: "mouse",
-          action: "click"
-        },
-        token: "Authorization",
-        tokenHost: "0",
-        todo:"on",
-        note:_bzMessage._auth._testDesc._todoToken
-      }
-    ],
-    hasSign:[
-      {
-        description:_bzMessage._auth._testDesc._setSignStatus,
-        type: 4,
-        loopData: "$aiAPI.getAuthFlowByRole($parameter)",
-        refOfSuccess: "{{$action.code}}",
-        successParameter: "$action.parameter"
-      }
-    ],
-    signIn:[
-      //Handler parameter
-      {
-        description:_bzMessage._setting._objectLib._handleParameter,
-        type:3,
-        runInIDE:"on",
-        script:`$parameter = $aiAPI.getAccount($module.data, $parameter)`
-      },
-      //Check if you are already logged in.
-      {
-        description:_bzMessage._auth._testDesc._chkSignIn,
-        type: 0,
-        method: 0,
-        content: {
-          type: "exist"
-        },
-        element: [
-          "BZ.TW.document",
-          "DIV:Contains({{$parameter.identifier}})",
-          0
-        ],
-        errOnHidden: "on",
-        failedReaction: 1,
-        refOfSuccess: "../",
-        refOfFailed: "m1.t5/s/./",
-        resultscript: "(function(){\n  if($result.status=='success'){\n    $aiAPI.assignCurtUser($parameter);\n  }\n})()",
-        successParameter: "",
-        todo:"on",
-        note:_bzMessage._auth._testDesc._todoChkSignIn
-      },
-      //Fill username
-      {
-        type: 1,
-        element: [
-          "BZ.TW.document",
-          `:input(${_bzMessage._auth._username})`,
-          0
-        ],
-        event: {
-          type: "change",
-          value: "{{$parameter.username}}",
-          autoBlur: "on"
-        },
-        todo:"on",
-        note:_bzMessage._auth._testDesc._todoUsername
-      },
-      //Fill password
-      {
-        type: 1,
-        element: [
-          "BZ.TW.document",
-          `:input(${_bzMessage._auth._password})`,
-          0
-        ],
-        event: {
-          type: "change",
-          value: "{{$parameter.password}}",
-          autoBlur: "on"
-        },
-        todo:"on",
-        note:_bzMessage._auth._testDesc._todoPassword
-      },
-      //Click login button
-      {
-        type: 1,
-        element: [
-          "BZ.TW.document",
-          `BUTTON:Contains(${_bzMessage._auth._login})`,
-          0
-        ],
-        event: {
-          type: "mouse",
-          action: "click"
-        },
-        resultscript: "(function(){\n  if($result.status==\"success\"){\n    $aiAPI.assignCurtUser($parameter);\n  }\n})()",
-        todo:"on",
-        note:_bzMessage._auth._testDesc._todoLogin
-      },
-      //Check if you have successfully logged in
-      {
-        description:_bzMessage._auth._testDesc._chkSignInSuccess,
-        compareMark: "==",
-        type: 0,
-        method: 0,
-        content: {
-          type: "exist"
-        },
-        refOfFailed: "..../",
-        element: [
-          "BZ.TW.document",
-          "BODY:Contains({{$parameter.identifier}})",
-          0
-        ],
-        errOnHidden: "on",
-        failedReaction: 1,
-        todo:"on",
-        note:_bzMessage._auth._testDesc._todoChkSignInOption
-      }
-    ],
-    signInApi:[
-      {
-        type: 1,
-        apiReplaceEvent: "on",
-        requests: [
-          {
-            url: "/api/signin",
-            method: "POST",
-            host: 0,
-            data: {
-              username: "{{$parameter.username}}",
-              password: "{{$parameter.password}}"
-            },
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            headers: "{\"Accept\":\"*/*\"}",
-            responseStatus: 200
-          }
-        ],
-        todo:"on",
-        note:_bzMessage._auth._testDesc._todoSignInApi,
-        resultscript: "(function(){\n  if($result.status==\"success\"){\n    $aiAPI.assignCurtUser($parameter);\n  }\n})()"
-      },
-      {
-        type: 6,
-        note:_bzMessage._auth._testDesc._todoRefresh
-      },
-      {
-        description:_bzMessage._auth._testDesc._chkSignInSuccess,
-        compareMark: "==",
-        type: 0,
-        method: 0,
-        content: {
-          type: "exist"
-        },
-        refOfFailed: "..../",
-        element: [
-          "BZ.TW.document",
-          "BODY:Contains({{$parameter.identifier}})",
-          0
-        ],
-        todo:"on",
-        note:_bzMessage._auth._testDesc._todoChkSignInOption,
-        errOnHidden: "on",
-        failedReaction: 1
-      }
-    ],
-    signOut:[
-      //Check if you are already logged in.
-      // {
-        // description:_bzMessage._auth._testDesc._chkSignOut,
-        // compareMark: "==",
-        // type: 0,
-        // method: 0,
-        // content: {
-          // type: "exist"
-        // },
-        // refOfFailed: "../w/",
-        // element: [
-          // "BZ.TW.document",
-          // `:link(${_bzMessage._common._home})`,
-          // 0
-        // ],
-        // todo:"on",
-        // note:_bzMessage._auth._testDesc._todoSigninStatus,
-        // refOfError: "../w/",
-        // failedReaction: 1
-      // },
-      //Click sign-out
-      {
-        type: 1,
-        element: [
-          "BZ.TW.document",
-          `:link(${_bzMessage._auth._logout})`,
-          0
-        ],
-        event: {
-          type: "mouse",
-          action: "click"
-        },
-        todo:"on",
-        refOfError:"../w",
-        failedReaction:1,
-        note:_bzMessage._auth._testDesc._todoSignout,
-        resultscript: "(function(){\n  if($result.status=='success'){\n    $aiAPI.assignCurtUser();\n  }\n})()"
-      },
-      //Confirm sign-out (Maybe no need)
-      {
-        description:_bzMessage._auth._testDesc._confirmSignout,
-        type: 1,
-        element: [
-          "BZ.TW.document",
-          `:link(${_bzMessage._method._yes})`,
-          0
-        ],
-        event: {
-          type: "mouse",
-          action: "click"
-        },
-        todo:"on",
-        note:_bzMessage._auth._testDesc._todoConfirmSignout,
-        refOfError: "./w/",
-        failedReaction: 1
-      },
-      //Check if signout success
-      // {
-        // description:_bzMessage._auth._testDesc._chkSignoutSuccess,
-        // compareMark: "==",
-        // type: 0,
-        // method: 0,
-        // content: {
-          // type: "unexist"
-        // },
-        // element: [
-          // "BZ.TW.document",
-          // `:link(${_bzMessage._common._home})`,
-          // 0
-        // ],
-        // todo:"on",
-        // note:_bzMessage._auth._testDesc._todoSignOutSuccessOption,
-        // failedReaction: 1
-      // }
-    ],
-    signOutApi:[
-      {
-        type: 1,
-        apiReplaceEvent: "on",
-        requests: [
-          {
-            url: "/api/signout",
-            method: "POST",
-            host: 0,
-            headers: "{\"Accept\":\"*/*\"}",
-            responseStatus: 200
-          }
-        ],
-        todo:"on",
-        note:_bzMessage._auth._testDesc._todoSignOutApi,
-        resultscript: "(function(){\n  if($result.status=='success'){\n    $aiAPI.assignCurtUser();\n  }\n})()"
-      },
-      //Refresh page
-      {
-        type: 6,
-        note:_bzMessage._auth._testDesc._todoRefresh
-      },
-      //Check if signout success
-      {
-        description:_bzMessage._auth._testDesc._chkSignoutSuccess,
-        compareMark: "==",
-        type: 0,
-        method: 0,
-        content: {
-          type: "unexist"
-        },
-        todo:"on",
-        note:_bzMessage._auth._testDesc._todoSignOutSuccessOption,
-        element: [
-          "BZ.TW.document",
-          `A:endContains(${_bzMessage._common._home})`,
-          0
-        ],
-        failedReaction: 1
-      }
-    ]
-  },
   _getCurSetting:function(i){
     if(i===undefined){
       i=_aiAuthHandler._getCurHostIdx()
@@ -37991,6 +34363,316 @@ var _tmpLoopDatahandler={
     }
   ],
   _init:function(_fun,_reload){
+    _aiAuthHandler._testActionMap={
+      _tokenMap:{},
+      _verifyTokenExistAction:{
+        description:_bzMessage._auth._testDesc._verifyTokenExist,
+        "compareMark": "==",
+        "type": 0,
+        "method": 1,
+        "refOfFailed": "./s/",
+        "inGroup": "",
+        "script": "$util.getTokenByHostId()",
+        "refOfSuccess": "../",
+        "runInIDE": "on",
+        "refOfError": "./s/"
+      },
+      token:[
+        {
+          "type": 4,
+          "refOfSuccess": "m1.t3/",
+          "inGroup": ""
+        },
+        {
+          description:_bzMessage._auth._testDesc._clickTriggerRequest,
+          type: 1,
+          element: [
+            "BZ.TW.document",
+            "A",
+            0
+          ],
+          event: {
+            type: "mouse",
+            action: "click"
+          },
+          token: "Authorization",
+          tokenHost: "0",
+          todo:"on",
+          note:_bzMessage._auth._testDesc._todoToken
+        }
+      ],
+      hasSign:[
+        {
+          description:_bzMessage._auth._testDesc._setSignStatus,
+          type: 4,
+          loopData: "$aiAPI.getAuthFlowByRole($parameter)",
+          refOfSuccess: "{{$action.code}}",
+          successParameter: "$action.parameter"
+        }
+      ],
+      signIn:[
+        //Handler parameter
+        {
+          description:_bzMessage._setting._objectLib._handleParameter,
+          type:3,
+          runInIDE:"on",
+          script:`$parameter = $aiAPI.getAccount($module.data, $parameter)`
+        },
+        //Check if you are already logged in.
+        {
+          description:_bzMessage._auth._testDesc._chkSignIn,
+          type: 0,
+          method: 0,
+          content: {
+            type: "exist"
+          },
+          element: [
+            "BZ.TW.document",
+            "DIV:Contains({{$parameter.identifier}})",
+            0
+          ],
+          errOnHidden: "on",
+          failedReaction: 1,
+          refOfSuccess: "../",
+          refOfFailed: "m1.t5/s/./",
+          resultscript: "(function(){\n  if($result.status=='success'){\n    $aiAPI.assignCurtUser($parameter);\n  }\n})()",
+          successParameter: "",
+          todo:"on",
+          note:_bzMessage._auth._testDesc._todoChkSignIn
+        },
+        //Fill username
+        {
+          type: 1,
+          element: [
+            "BZ.TW.document",
+            `:input(${_bzMessage._auth._username})`,
+            0
+          ],
+          event: {
+            type: "change",
+            value: "{{$parameter.username}}",
+            autoBlur: "on"
+          },
+          todo:"on",
+          note:_bzMessage._auth._testDesc._todoUsername
+        },
+        //Fill password
+        {
+          type: 1,
+          element: [
+            "BZ.TW.document",
+            `:input(${_bzMessage._auth._password})`,
+            0
+          ],
+          event: {
+            type: "change",
+            value: "{{$parameter.password}}",
+            autoBlur: "on"
+          },
+          todo:"on",
+          note:_bzMessage._auth._testDesc._todoPassword
+        },
+        //Click login button
+        {
+          type: 1,
+          element: [
+            "BZ.TW.document",
+            `BUTTON:Contains(${_bzMessage._auth._login})`,
+            0
+          ],
+          event: {
+            type: "mouse",
+            action: "click"
+          },
+          resultscript: "(function(){\n  if($result.status==\"success\"){\n    $aiAPI.assignCurtUser($parameter);\n  }\n})()",
+          todo:"on",
+          note:_bzMessage._auth._testDesc._todoLogin
+        },
+        //Check if you have successfully logged in
+        {
+          description:_bzMessage._auth._testDesc._chkSignInSuccess,
+          compareMark: "==",
+          type: 0,
+          method: 0,
+          content: {
+            type: "exist"
+          },
+          refOfFailed: "..../",
+          element: [
+            "BZ.TW.document",
+            "BODY:Contains({{$parameter.identifier}})",
+            0
+          ],
+          errOnHidden: "on",
+          failedReaction: 1,
+          todo:"on",
+          note:_bzMessage._auth._testDesc._todoChkSignInOption
+        }
+      ],
+      signInApi:[
+        {
+          type: 1,
+          apiReplaceEvent: "on",
+          requests: [
+            {
+              url: "/api/signin",
+              method: "POST",
+              host: 0,
+              data: {
+                username: "{{$parameter.username}}",
+                password: "{{$parameter.password}}"
+              },
+              contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+              headers: "{\"Accept\":\"*/*\"}",
+              responseStatus: 200
+            }
+          ],
+          todo:"on",
+          note:_bzMessage._auth._testDesc._todoSignInApi,
+          resultscript: "(function(){\n  if($result.status==\"success\"){\n    $aiAPI.assignCurtUser($parameter);\n  }\n})()"
+        },
+        {
+          type: 6,
+          note:_bzMessage._auth._testDesc._todoRefresh
+        },
+        {
+          description:_bzMessage._auth._testDesc._chkSignInSuccess,
+          compareMark: "==",
+          type: 0,
+          method: 0,
+          content: {
+            type: "exist"
+          },
+          refOfFailed: "..../",
+          element: [
+            "BZ.TW.document",
+            "BODY:Contains({{$parameter.identifier}})",
+            0
+          ],
+          todo:"on",
+          note:_bzMessage._auth._testDesc._todoChkSignInOption,
+          errOnHidden: "on",
+          failedReaction: 1
+        }
+      ],
+      signOut:[
+        //Check if you are already logged in.
+        // {
+          // description:_bzMessage._auth._testDesc._chkSignOut,
+          // compareMark: "==",
+          // type: 0,
+          // method: 0,
+          // content: {
+            // type: "exist"
+          // },
+          // refOfFailed: "../w/",
+          // element: [
+            // "BZ.TW.document",
+            // `:link(${_bzMessage._common._home})`,
+            // 0
+          // ],
+          // todo:"on",
+          // note:_bzMessage._auth._testDesc._todoSigninStatus,
+          // refOfError: "../w/",
+          // failedReaction: 1
+        // },
+        //Click sign-out
+        {
+          type: 1,
+          element: [
+            "BZ.TW.document",
+            `:link(${_bzMessage._auth._logout})`,
+            0
+          ],
+          event: {
+            type: "mouse",
+            action: "click"
+          },
+          todo:"on",
+          refOfError:"../w",
+          failedReaction:1,
+          note:_bzMessage._auth._testDesc._todoSignout,
+          resultscript: "(function(){\n  if($result.status=='success'){\n    $aiAPI.assignCurtUser();\n  }\n})()"
+        },
+        //Confirm sign-out (Maybe no need)
+        {
+          description:_bzMessage._auth._testDesc._confirmSignout,
+          type: 1,
+          element: [
+            "BZ.TW.document",
+            `:link(${_bzMessage._method._yes})`,
+            0
+          ],
+          event: {
+            type: "mouse",
+            action: "click"
+          },
+          todo:"on",
+          note:_bzMessage._auth._testDesc._todoConfirmSignout,
+          refOfError: "./w/",
+          failedReaction: 1
+        },
+        //Check if signout success
+        // {
+          // description:_bzMessage._auth._testDesc._chkSignoutSuccess,
+          // compareMark: "==",
+          // type: 0,
+          // method: 0,
+          // content: {
+            // type: "unexist"
+          // },
+          // element: [
+            // "BZ.TW.document",
+            // `:link(${_bzMessage._common._home})`,
+            // 0
+          // ],
+          // todo:"on",
+          // note:_bzMessage._auth._testDesc._todoSignOutSuccessOption,
+          // failedReaction: 1
+        // }
+      ],
+      signOutApi:[
+        {
+          type: 1,
+          apiReplaceEvent: "on",
+          requests: [
+            {
+              url: "/api/signout",
+              method: "POST",
+              host: 0,
+              headers: "{\"Accept\":\"*/*\"}",
+              responseStatus: 200
+            }
+          ],
+          todo:"on",
+          note:_bzMessage._auth._testDesc._todoSignOutApi,
+          resultscript: "(function(){\n  if($result.status=='success'){\n    $aiAPI.assignCurtUser();\n  }\n})()"
+        },
+        //Refresh page
+        {
+          type: 6,
+          note:_bzMessage._auth._testDesc._todoRefresh
+        },
+        //Check if signout success
+        {
+          description:_bzMessage._auth._testDesc._chkSignoutSuccess,
+          compareMark: "==",
+          type: 0,
+          method: 0,
+          content: {
+            type: "unexist"
+          },
+          todo:"on",
+          note:_bzMessage._auth._testDesc._todoSignOutSuccessOption,
+          element: [
+            "BZ.TW.document",
+            `A:endContains(${_bzMessage._common._home})`,
+            0
+          ],
+          failedReaction: 1
+        }
+      ]
+    }
     if(!_aiAuthHandler._data||_reload){
       console.log("BZ-LOG: init auth data")
       var s=_IDE._data._setting;
@@ -58626,7 +55308,7 @@ var _testCaseBodyHandler={
                 if(x.pin||x==BZ._data._uiSwitch._curModelPanel||x==BZ._data._uiSwitch._curRefModel){
                   return 1
                 }
-                x=_aiGeneratorDataHandler._getContentByCode(x.code)
+                x=_aiGeneratorDataHandler._getContentByCode(x.code,x.module)
                 return x.type!="form"
               }
             })
@@ -58951,7 +55633,7 @@ var _testCaseBodyHandler={
                     if(!o.module){
                       c+="bz-module bz-disabled-icon"
                     }else{
-                      c+="bz-ao-model"
+                      c+="bz-ai-model"
                     }
                   }else if(["form"].includes(pd.type)){
                     c+="bz-keyboard"
@@ -64596,7 +61278,7 @@ var _aiPageHandler={
               _items:[{
                 _tag:"option",
                 _attr:{value:""},
-                _text:_bzMessage._method._newForm
+                _text:"_bzMessage._method._newForm"
               }]
             })
             return fs
@@ -66609,6 +63291,9 @@ var _aiPageHandler={
         {
           _src:{
             _tag:"div",
+            _attr:{
+              style:"float:left;width:100%;"
+            },
             _items:function(){
               return _aiPageHandler._getPathViewDef(pd,0,rm)
             }
@@ -67370,7 +64055,7 @@ _aiPageHandler._contentViewDef={
           _attr:{
             class:"btn btn-icon bz-small-btn bz-icon-text bz-dompicker"
           },
-          _text:_bzMessage._method._pickElement,
+          _text:"_bzMessage._method._pickElement",
           _jqext:{
             click:function(c){
               _aiModelHandler._addItemFromUI(BZ._data._uiSwitch._curModelPanel)
@@ -69864,7 +66549,7 @@ var _aiWordHandler={
     }else{
       v=v.toLowerCase()
     }
-    let _txt=p.innerText.replace(/[ \xa0]+/g," ")
+    let _txt=(p.innerText||"").replace(/[ \xa0]+/g," ")
     if(_removeSign){
       _txt=_Util._removeSign(_txt," ")
     }
@@ -76254,105 +72939,6 @@ String.prototype.plural = function(revert){
       }
     },1)
   }
-};var $$$={
-  i:function(v){
-    $$$.sm={}
-    for(var k in $$$.m){
-      $$$.sm[$$$.m[k]]=k
-    }
-    _extensionComm._setShareData({"$$$.m":$$$.m,"$$$.sm":$$$.sm})
-  },
-  t:function(c,m){
-    var s=c.split(/[^a-zA-Z0-9_]/);
-    s=[...new Set(s)]
-    s.forEach(function(n){
-      var v=m[n]
-      if(v && v!=n){
-        c=c.replace(new RegExp("("+n+")([^a-zA-Z0-9]|$)","g"),v+"$2")
-      }
-    })
-    return c
-  },
-  ca:function(c){
-    return $$$.t(c,$$$.sm)
-  },
-  //alias to code
-  ac:function(c){
-    return $$$.t(c,$$$.m)
-  },
-  //alias to data
-  ad:function(c){
-    eval("c="+$$$.ac(c))
-    return c
-  },
-  //exe alias
-  e:function(c){
-    eval($$$.ac(c))
-  },
-  //test page
-  tp:function(f){
-    var os=document.body.children,_list=[],z=0,w=0;
-    console.log("Start collect cell elements ......")
-    gac(os,_list);
-    console.log("End collection")
-    console.log("Start checking: "+_list.length)
-    var err=0;
-    ck(0)
-    return "bzCallBack"
-    //Check
-    function ck(i){
-      var o=_list[i];
-      if(o){
-        var p=_cssHandler._findPath(o);
-        if($util.findDom(p)!=o&&!_Util._isHidden(o)){
-          window.lws=o
-          window.lwsx=p
-          //lws.bzShortCut=0;_cssHandler._findPath(lws)
-          err++;
-          console.log("Get exception on element: "+i)
-          console.log(o)
-          console.log(0,"Error path:"+p.toString())
-          console.assert(0,"Error path:"+p.toString())
-          console.log("-------------------------------")
-        }else{
-          if(p[p.length-1]==0){
-            z++
-          }else if(o.textContent.trim()){
-            w++
-          }
-          console.log("success "+(1+i)+"/"+_list.length+")")
-        }
-        setTimeout(function(){
-          ck(++i)
-        },1)
-      }else{
-        var _info="best: "+z+", warning:"+w+", error:"+err+", total:"+_list.length+"\n"
-        console.log(_info);
-        f(_info)
-      }
-      return err
-    }
-    //get All Cell element
-    function gac(os,_list){
-      for(var i=0;i<os.length;i++){
-        var o=os[i];
-        if(!_Util._isHidden(o) && !$(o).hasClass("BZIgnore")){
-          if(o.tagName=="SVG" || !o.children.length){
-            
-            var c=_cssHandler._findCellElement(o)
-            if(!_list.includes(c)){
-              _list.push(c)
-            }
-            if(c!=o){
-              return 
-            }
-          }else{
-            gac(o.children,_list)
-          }
-        }
-      }
-    }
-  }
 };var BZ={
   _debug:0,
   _timeoutMap:{},
@@ -76390,9 +72976,6 @@ String.prototype.plural = function(revert){
     }catch(e){}
   },
   _focusTW:function(){
-    if(!window.name){
-      window.name="bz-client"
-    }
     window.open("",window.name).focus()
   },
   _isPlugIn:function(){
@@ -76762,12 +73345,6 @@ var _cooperatorHandler={}
 var _appWordHandler={_wordMap:{}}
 if(window.name!="bz-master"){
   console.log("")
-  $(document.body).keydown(function(e){
-    var _keyCode=e.keyCode;
-    if(_keyCode==27 && BZ._isPlaying()){
-      chrome.runtime.sendMessage({bz:1,_fun:"_setStatus",_scope:"BZ",_data:"pause"})
-    }
-  })
   window.onhashchange=function(){
     chrome.runtime.sendMessage({bz:1,ctrlInfo:1,ready:1,url:location.href,from:"hash"})
   }
@@ -79000,7 +75577,7 @@ var _pickerTemplate={
           _tag:"button",
           _attr:{
             style:"bz-dompicker-btn",
-            title:_bzMessage._picker._name,
+            title:"_bzMessage._picker._name",
             class:"btn btn-none pull-left btn-icon bz-dompicker bz-dompicker-btn",
             onmouseout:"$(this).addClass('bz-dompicker');$(this).removeClass('bz-dompicker-white');"
           },
@@ -81215,19 +77792,21 @@ _IDE._innerWin._viewDef={
     _script:1,
     _data:2
   },
-  _functions:{
-    _loadPage:{_code:"var newLink=\"{0}\";\nBZ.TW.location.href=newLink;\n",_parameters:[_bzMessage._common._url]},
-    _browserBack:{_code:"BZ.TW.history.back();\n"},
-    _browserForward:{_code:"BZ.TW.history.forward();\n"},
-    _scrollTop:{_code:"$element=$element||BZ.TW.document.documentElement;\n$element.scrollTop=0;\n"},
-    _scrollBottom:{_code:"$element=$element||BZ.TW.document.documentElement;\n$element.scrollTop=$element.scrollHeight;\n"},
-    _scrollPageDown:{_code:"$element=$element||BZ.TW.document.documentElement;\n$element.scrollBy($element.clientWidth,$element.clientHeight);"},
-    _scrollPageUp:{_code:"$element=$element||BZ.TW.document.documentElement;\n$element.scrollBy(-$element.clientWidth,-$element.clientHeight);"},
-    _retrieveUrl:{_code:"$test.curUrl=BZ.TW.location.href;"},
-    _gotoFlag:{_code:"$util.gotoFlag()"},
-    // _takeScreenshot:{_code:"$util.takeScreenshot()"},
-    _asynFun:{_code:"(function(){\n  return function(callFun){\n    setTimeout(()=>{\n      console.log('ok');\n      /"+"/"+_bzMessage._task._callAtEnd+"\n      callFun();\n    },5000)\n  }\n})()"},
-    _stdApiResponseScript:{_code:""}
+  _functions:function(){
+    return {
+      _loadPage:{_code:"var newLink=\"{0}\";\nBZ.TW.location.href=newLink;\n",_parameters:["URL"]},
+      _browserBack:{_code:"BZ.TW.history.back();\n"},
+      _browserForward:{_code:"BZ.TW.history.forward();\n"},
+      _scrollTop:{_code:"$element=$element||BZ.TW.document.documentElement;\n$element.scrollTop=0;\n"},
+      _scrollBottom:{_code:"$element=$element||BZ.TW.document.documentElement;\n$element.scrollTop=$element.scrollHeight;\n"},
+      _scrollPageDown:{_code:"$element=$element||BZ.TW.document.documentElement;\n$element.scrollBy($element.clientWidth,$element.clientHeight);"},
+      _scrollPageUp:{_code:"$element=$element||BZ.TW.document.documentElement;\n$element.scrollBy(-$element.clientWidth,-$element.clientHeight);"},
+      _retrieveUrl:{_code:"$test.curUrl=BZ.TW.location.href;"},
+      _gotoFlag:{_code:"$util.gotoFlag()"},
+      // _takeScreenshot:{_code:"$util.takeScreenshot()"},
+      _asynFun:{_code:"(function(){\n  return function(callFun){\n    setTimeout(()=>{\n      console.log('ok');\n      /"+"/"+_bzMessage._task._callAtEnd+"\n      callFun();\n    },5000)\n  }\n})()"},
+      _stdApiResponseScript:{_code:""}
+    }
   },
   _failedReaction:{
     _default:0,
@@ -84932,8 +81511,9 @@ var _ideActionManagement={
 };/*
   For get customer app info from extension
 */
-var bzTwComm={
-  _init:function(i){
+window.bzTwComm={
+  _init:function(){
+    let i=chrome.runtime.id
     console.log("_init ..")
     bzTwComm._buildMsgArea()
     if(window.name!="bz-master"){
@@ -84970,6 +81550,11 @@ var bzTwComm={
   },
   _buildMsgArea:function(){
     //for content send code to app page
+    if(!document.body){
+      return setTimeout(()=>{
+        bzTwComm._buildMsgArea()
+      },1)
+    }
     let o=document.getElementById("bz-app-area")
     if(!o){
       o=document.createElement("div")
@@ -85007,6 +81592,11 @@ var bzTwComm={
     bzTwComm._insertData(d)
   },
   _insertData:function(d){
+    if(!document.body){
+      return setTimeout(()=>{
+        bzTwComm._insertData(d)
+      },1)
+    }
     var o = document.getElementById("bz-area");
 
     if(!o){
@@ -85050,9 +81640,6 @@ var bzTwComm={
     }
     return vv
   }
-};
-if(window.name!="bz-master"&&!window.BZ&&!window._IDE){
-  bzTwComm._init()
 };var _ideDataBind={
   _data:(window._CtrlDriver&&_CtrlDriver._buildProxy({_suggestList:[],_key:"",_scope:"$parameter"}))||{_suggestList:[],_key:"",_scope:"$parameter"},
   value:0,
@@ -86420,4 +83007,11 @@ if(window.name!="bz-master"&&!window.BZ&&!window._IDE){
     // }
   // ]
 // }
-*/;
+*/;function initCode(){
+  bzTwComm._init()
+
+  _TWHandler.startInit();
+}
+if(window.name.includes("bz-client")){
+  initCode()
+};

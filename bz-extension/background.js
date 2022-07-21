@@ -1,4 +1,6 @@
-let _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_ctrlWindowId,curElement,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
+let _appUrl="https:/"+"/ai.boozang.com",inReload,
+    _masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_ctrlWindowId,curElement,_frameIds={},
+    _bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
 let _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId,_uncodeFrames=[];
 let _ignoreList=["https://vars.hotjar.com"],_lastIframeRequest=0,_dblCheckTime=0,extendTopScript="",extendEndScript="";
 let funMap={
@@ -336,14 +338,18 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"window",fun:"close"},r=>{});
       chrome.tabs.sendMessage(_ctrlTabId, {tab:"master",scope:"window",fun:"close"},r=>{});
     }
+    
     _shareData={}
     _masterTabId=_sender.tab.id;
     _masterFrameId=_sender.frameId
     _masterUrl=_sender.url;
-    _plugInCode=_req.bzCode;
     _lastExeActionReq=0;
     ignoreReqs="";
     _callback(1)
+    // if(inReload){
+    //   inReload=0
+    //   rebuildTabs(_masterTabId)
+    // }
   //Set CSS file path from BZ master page
   }else if(_req.bzCss){
     _css=_req.bzCss;
@@ -596,7 +602,7 @@ let pop={
 //get message from app extension content
 chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
   if(_msg.pop){
-    _sendResponse("ok")
+    _sendResponse(1)
     return pop[_msg.fun](_msg.data,function(d){
       _sendResponse(d)
     })
@@ -606,7 +612,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     _msg.requestSendResponse=_sendResponse
   }
   if(_msg.keep){
-    _sendResponse("ok")
+    _sendResponse(1)
     return;
   }
   //_console("background (content): ",_msg)
@@ -634,14 +640,31 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       }
       //to tell master the current client tab id
       chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,topFrame:t.frameId,tab:"master"},r=>{});
+    }else{
+      chrome.scripting.executeScript(
+        {
+          target: {tabId: t.tab.id},
+          func: enableAppCode,
+          args:[1],
+          world: 'MAIN'
+        },
+        ()=>{}
+      )
+      chrome.scripting.executeScript(
+        {
+          target: {tabId: t.tab.id},
+          func: enableExtensionCode
+        },
+        ()=>{}
+      )
     }
     _topFrameId=_msg.name=="bz-client"||_msg.name=="bz-manager"?t.frameId:_topFrameId;
     _setCodeToContent([{
-      key:"bzIframeId",
-      code:t.frameId
+      k:"bzIframeId",
+      v:t.frameId
     },{
-      key:"topFrame",
-      code:_msg.name=="bz-client"?1:0
+      k:"topFrame",
+      v:_msg.name=="bz-client"?1:0
     }],t.frameId)
 /*
     if(_topFrameId!=t.frameId&&_status=="play"){
@@ -679,30 +702,52 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     _msg.tab="master"
     chrome.tabs.sendMessage(_masterTabId, _msg,r=>{});
   }
-  _sendResponse("ok")
+  _sendResponse(1)
 });
-function getPlugCode(){
-  return (extendTopScript||"")+"\n"+_plugInCode+"\n"+(extendEndScript||"")
+
+function enableAppCode(){
+  insertBzCode(1)
 }
+
+function enableExtensionCode(){
+  initCode(1)
+}
+
 function _initFrame(frameId,rep){
-  let c=getPlugCode()+";"
+  let c=[]
   if(_status!="play"){
     if(_curAction){
-      c+="_IDE._data._curAction="+JSON.stringify(_curAction)+";"
-      // chrome.tabs.sendMessage(_ctrlTabId,{curAction:_curAction});
+      c.push({
+        k:"_IDE._data._curAction",
+        v:_curAction
+      })
     }
     if(_curTest){
-      c+="_IDE._data._curTest="+JSON.stringify(_curTest)+";"
-      // chrome.tabs.sendMessage(_ctrlTabId,{curTest:_curTest});
+      c.push({
+        k:"_IDE._data._curTest",
+        v:_curTest
+      })
     }
   }
   if(_shareData){
-    c+="BZ._setShareData("+JSON.stringify(_shareData)+");"
-    // chrome.tabs.sendMessage(_ctrlTabId,{shareData:_shareData});
+    c.push({
+      f:"BZ._setShareData",
+      ps:[_shareData]
+    })
   }
-  c+=_bzEnvCode+";window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:bzIframeId})};"
-    +"_insertCssAndClientCode("+JSON.stringify({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data})+");"
-  rep(c)
+  c.push(..._bzEnvCode)
+  c.push({
+    f:"insertCssAndClientCode",
+    ps:[{_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data}]
+  })
+  if(rep){
+    rep(c)
+  }else{
+    chrome.tabs.sendMessage(_ctrlTabId, {
+      acceptData:1,
+      code:c
+    },r=>{});
+  }
 
   if(_lastExeActionReq && _status=="play"){
     if(_lastExeActionReq.exeAction.token){
@@ -751,13 +796,6 @@ chrome.tabs.onCreated.addListener(function(_tab, info) {
     chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,tab:"master"},r=>{});
   }
 });
-
-var _console=function(msg,o){
-  console.log(msg)
-  if(o){
-    console.log(o)
-  }
-}
 
 chrome.runtime.onUpdateAvailable.addListener(function(details) {
   console.log("updating to version " + details.version);
@@ -907,3 +945,58 @@ chrome.webRequest.onActionIgnored.addListener(function(v){
 })
 
 
+chrome.runtime.onInstalled.addListener(addPageScript);
+
+async function addPageScript() {
+  const scripts = [{
+    id: 'override',
+    js: ['override.js'],
+    matches: ['<all_urls>'],
+    runAt: 'document_start',
+    world: 'MAIN',
+    allFrames:true
+  }];
+  const ids = scripts.map(s => s.id);
+  await chrome.scripting.unregisterContentScripts({ ids }).catch(() => {});
+  await chrome.scripting.registerContentScripts(scripts);
+}
+
+async function rebuildTabs(ignoreId){
+  let tabs = await chrome.tabs.query({status:"complete"})
+  tabs.forEach(x=>{
+    if(x.id==ignoreId){
+      return
+    }
+    chrome.scripting.executeScript(
+      {
+        target: {tabId: x.id},
+        files: ['plug.js','content'],
+      },
+      () => {}
+    )
+  })
+}
+
+async function rebuildIDE(){
+  let tabs = await chrome.tabs.query({status:"complete"});
+  inReload=1
+  setTimeout(()=>{
+    inReload=0
+  },2000)
+  tabs.forEach(x=>{
+    chrome.scripting.executeScript(
+      {
+        target: {tabId: x.id},
+        func: reloadIDE,
+        world:"MAIN"
+      },
+      (a,b,c) => {
+        console.log(a)
+      }
+    )
+  })
+}
+//rebuildIDE()
+function reloadIDE(){
+  BZ.reloadIDE()
+}
