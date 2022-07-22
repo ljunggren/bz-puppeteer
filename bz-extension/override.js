@@ -266,9 +266,31 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
         delete r.d[r.n]
         rs.push(true)
       }else if(v.k=="new"){
-        let x=v.c[0]
-        r=x.cs[0].ps.map(y=>_eval._exeCode(y,_outMap,_inMap))
-        r=new window[x.dd](...r)
+        let x=v.c[0],rrs=[...x.cs]
+        r=rrs.shift().ps.map(y=>_eval._exeCode(y,_outMap,_inMap))
+        
+        if(x.dd.includes(".")){
+          let dd=x.dd.split(".")
+          let rr=window[dd.shift()]
+          while(dd.length>1){
+            rr=rr[dd.shift()]
+          }
+          r=new rr[dd[0]](...r)
+        }else{
+          r=new window[x.dd](...r)
+        }
+
+        while(rrs.length){
+          let rr=rrs.shift()
+          rr=rr.substring(1)
+          if(rrs.length){
+            let pp=rrs.shift().ps.map(y=>_eval._exeCode(y,_outMap,_inMap))
+            
+            r=r[rr](...pp)
+          }else{
+            r-r[rr]
+          }
+        }
         rs.push(r)
       }else if(v.k=="typeof"){
         r=_eval._exeCode(v.c,_outMap,_inMap,1)
@@ -691,7 +713,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
       vs=[...vs]
     }
     if(_start){
-      vs=vs.push?vs.splice(_start):vs
+      vs=vs.push?vs.splice(_start):vs.substring(_start)
     }
     for(let i=0;i<vs.length;i++){
       c=vs[i]
@@ -791,7 +813,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
     let ps=[],pps=[],
         b,p,
         c,cc=[],
-        s="",
+        s="",_inpp,
         k,kk,
         df, //var, let, const
         ok, //for, if, whilte, do, function,switch
@@ -895,6 +917,30 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
       }else if(kk){
         if(kk==c){
           kk=0
+          if(_inpp){
+            _inpp=0
+            if(s){
+              ps.push("+")
+              ps.push('"'+s+'"')
+            }
+            continue
+          }
+        }else if(kk=="`"&&s.match(/\$\{$/)){
+          let ss=_eval._findKeyOuterBlock(v,"}",i)
+          if(ss){
+            ps.push('"'+s.substring(1,s.length-2)+'"')
+            ps.push("+")
+            v=_eval._parseItem(ss.p)
+            if(v.constructor==Array){
+              v=v[0]
+            }
+            ps.push(v)
+            v=ss.e
+            i=-1
+            _inpp=1
+            s=""
+            continue
+          }
         }
       }else if("`'\"".includes(c)){
         kk=c
@@ -1686,6 +1732,14 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
             return v%2?v%3?11:21:v%5?111:112
         }`,
         r:[112, 21, 111, 11]
+      },
+      {
+        c:`\`lws-\${_Util._replaceAll(name,'bz','123')}\``,
+        r:"lws-123-master"
+      },
+      {
+        c:"new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(22);",
+        r:"$22.00"
       }
     ]
     let t=Date.now()
@@ -13898,7 +13952,8 @@ _Util._init();window._TWHandler={
   _compareWithDataExpection:function(d,o,_force){
     var _result={_type:_taskInfo._type._success,_msg:""};
     _domActionTask._setErrorPos(_result,"_expection","_actionDetailsGeneral");
-    var vs=_ideDataHandler._parseToExeCode(d.expection||"").split("\n");
+    let vs=(d.expection||"").split("\n");
+    vs=vs.map(x=>_eval._exeCode(x));
     var _text=$util.getElementText(o)
     var _inputs=_cssHandler._findAllInputs(d.e)
     _inputs&&_inputs.forEach(u=>{
