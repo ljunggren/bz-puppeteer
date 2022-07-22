@@ -1,22 +1,26 @@
 window.bzIframeId=null
 let curContentExeAction=0,topFrame=0,initEnv=0;
 
-//Register
-window.extensionContent=1;
 
-rebuild()
+reloadContent(1)
 function registerTab(){
   //_console("content register")
   chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ),name:window.name},function(_msg){
     if(_msg){
       window[ecMap.ev].exeGroupCode(_msg)
+    }else{
+      chrome.runtime.onMessage.removeListener()
     }
   });
 }
 let waitCodeTimer,assignedData
 chrome.runtime.onMessage.addListener(handleMsg);
-function rebuild(){
+function reloadContent(v){
   if(name!=="bz-master"){
+    if(!v){
+      chrome.runtime.onMessage.removeListener();
+      chrome.runtime.onMessage.addListener(handleMsg);
+    }
     registerTab()
   }else{
     console.log("BZ-LOG: Extension version: "+chrome.runtime.getManifest().version)
@@ -24,22 +28,23 @@ function rebuild(){
     window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
   }
 }
-function assignStdData(){
-  if(!assignedData){
-    assignedData=1
-    $("<button onclick='o=document.createElement(\"script\");o.id=\"bz\";o.src=\"/"+"/localhost/ide/js/std/app\";document.body.append(o);' style='display:none'></button>").appendTo(document.body).click().remove();
-    setTimeout(function(){
-      _Util._removeAllLinkTarget()
-      $(document.body).on("mouseover","a",function(){
-        _Util._removeLinkTarget(this)
-      })
-    },1000)
-  }
-}
+
+// function assignStdData(){
+//   if(!assignedData){
+//     assignedData=1
+//     $("<button onclick='o=document.createElement(\"script\");o.id=\"bz\";o.src=\"/"+"/localhost/ide/js/std/app\";document.body.append(o);' style='display:none'></button>").appendTo(document.body).click().remove();
+//     setTimeout(function(){
+//       _Util._removeAllLinkTarget()
+//       $(document.body).on("mouseover","a",function(){
+//         _Util._removeLinkTarget(this)
+//       })
+//     },1000)
+//   }
+// }
 function handleMsg(_event, _, sendResponse, codeTime) {  
   //_console("content get message: ",_event)
   if(_event.acceptData){
-    assignStdData()
+    // assignStdData()
     sendResponse(1)
     try{
       return window[ecMap.ev].exeGroupCode(_event.code)
@@ -96,7 +101,8 @@ function handleMsg(_event, _, sendResponse, codeTime) {
         window.postMessage(_event,"*");
       }else{
         try{
-          chrome.runtime.sendMessage(_event)
+          chrome.runtime.sendMessage(_event,(a)=>{
+          })
         }catch(e){}
         return;
       }
@@ -281,7 +287,7 @@ function insertCssAndClientCode(_msg,_time){
     // document.body.parentNode.append(o);
     
     BZ[ecMap.ss](_msg._newStatus,_msg.data);
-    window[ecMap.u][ecMap.k]()
+    // window[ecMap.u][ecMap.k]()
     initEnv=1
   }else{
     setTimeout(function(){
@@ -375,5 +381,6 @@ function exeCodeInApp(c){
   $("<div style='display:none' onclick='eval(this.innerText.replace(/\&lt\;/g,\"<\"))'>"+c+"</div>").appendTo(document.body.parentElement).click().remove()
 
 }
-
-window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:bzIframeId})}
+if(window.name.includes("bz-client")){
+  window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:bzIframeId})}
+}

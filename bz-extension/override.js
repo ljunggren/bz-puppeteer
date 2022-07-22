@@ -38,8 +38,12 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
     alert(_bzMessage._system._error._syntaxError+s)
   },
   _exeFun:function(f,p,_outMap,_inMap){
-    p=p.map(x=>_eval._getFinalValue(x))
+    _outMap=_eval._initOutMap(_outMap),_inMap=_inMap||{};
+    p=(p||[]).map(x=>_eval._getFinalValue(x))
     if(f.constructor!=Function){
+      if(_eval._isFun(f)){
+        f={v:f}
+      }
       if(f.v.constructor==Function){
         if(f.n){
           p=_buildTF(p)
@@ -169,7 +173,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
     })
     return r
   },
-  _exeCode:function(vs,_outMap,_inMap,_inBzData){
+  _initOutMap:function(_outMap){
     _outMap=_outMap||{
       $parameter:window.$parameter,
       $module:window.$module,
@@ -178,7 +182,11 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
       $loop:window.$loop,
       $result:window.$result,
       $element:window.$element
-    },_inMap=_inMap||{};
+    }
+    return _outMap
+  },
+  _exeCode:function(vs,_outMap,_inMap,_inBzData){
+    _outMap=_eval._initOutMap(_outMap),_inMap=_inMap||{};
     if(vs.constructor==String){
       vs=_eval._parseCode(vs)
     }else if(vs.constructor!=Array){
@@ -480,12 +488,12 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
         vs=_eval._getFinalValue(_countGroup(vs))
         if(x=="&&"){
           if(!vs){
-            r=_eval._buildBzData(v)
+            r=_eval._buildBzData(vs)
             return 1
           }
         }else if(x=="||"){
           if(vs){
-            r=_eval._buildBzData(v)
+            r=_eval._buildBzData(vs)
             return 1
           }
         }else{
@@ -578,6 +586,8 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
       case "<<": return d1<<d2
       case ">=": return d1>=d2
       case "<=": return d1<=d2
+      case "!=": return d1!=d2
+      case "!==": return d1!==d2
       case "&": return d1&d2
       case "|": return d1|d2
       case "&&": return d1&&d2
@@ -1231,7 +1241,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
         kk=c
       }else if(k=="/"&&c=="/"){
         k=0
-      }else if(c=="/"&&s.trim().match(/[\(\[\=\?\:]$/)){
+      }else if(!k&&c=="/"&&s.trim().match(/[\(\[\=\?\:]$/)){
         k="/"
       }else if(c==" "&&("+-*/([{%!\?\:".includes(v[i+1])||s.match(/([\s\(\{\[\+\-\*\?\:\/\%\&\|\^\~])$/))){
         continue
@@ -1713,6 +1723,13 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
     console.log("Spent time: "+(Date.now()-t))
   }
 };window._Util={
+  _eval:function(v){
+    if(_eval._isBzData(v)||window.extensionContent){
+      return _eval._exeCode(v)
+    }else{
+      return eval(v)
+    }
+  },
   _setValByString:function(d,k,v){
     d=_Util._exeCode(d)
     d[k]=_Util._exeCode(v)
@@ -4302,7 +4319,8 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
     return ["OPTION","IFRAME","SVG","LINK","TITLE","META","SCRIPT","STYLE","HTML","HEAD"].includes(e.tagName.toUpperCase())
   },
   _keepConnection:function(id){
-    setTimeout(function(){
+    clearTimeout(_Util._keepconnectionTimer)
+    _Util._keepconnectionTimer=setTimeout(function(){
       _Util._keepConnection(id)
     },3000)
     try{
@@ -8031,12 +8049,14 @@ _Util._init();window._TWHandler={
     this._popActual={alert:[],confirm:[],prompt:[],onbeforeunload:[]};
   },
   startInit:function(){
+    console.log("call startInit ...."+window.extensionContent)
     $(document.body).on("mouseover","a",function(){
       _Util._removeLinkTarget(this)
     })
     _TWHandler._takeoverLink();
     _TWHandler._takeoverOpenWin();
     if(window.extensionContent){
+      console.log("page is ready")
       bzTwComm._postToMaster({_fun:"_infoPageReady",_data:0,_scope:"_extensionComm"});
     }
   },
@@ -8707,7 +8727,6 @@ _Util._init();window._TWHandler={
     };
   },
   _takeoverAjax:function(_win){
-    console.log("_TWHandler._takeoverAjax ....")
     var p=_win.XMLHttpRequest.prototype
     if(!p.BZ_Ajax||p.open==p.BZ_Ajax){
       _TWHandler._setBZSent({i:0,_root:_win.parent==_win});
@@ -9931,22 +9950,11 @@ _Util._init();window._TWHandler={
     }
   },
   _clickElement:function(o,_fun){
-    if($.isNumeric(_domActionTask._getLoadingFun())){
-      return setTimeout(()=>{
-        _domActionTask._clickElement(o,_fun);
-      },10)
-    }
     _domActionTask._isLoading(function(){
       $util.triggerMouseEvents(o,1,0,0,0,0,0,_fun)
     })
   },
   _dblclickElement:function(o,_fun){
-    if($.isNumeric(_domActionTask._getLoadingFun())){
-      return setTimeout(()=>{
-        _domActionTask._dblclickElement(o,_fun);
-      },10)
-    }
-
     _domActionTask._isLoading(function(){
       $util.triggerDblClickEvents(o,1,0,0,0,0,0,_fun);
     })
@@ -10841,7 +10849,7 @@ _Util._init();window._TWHandler={
         _domActionTask._curOneActionList=_leaveActions
       }
     }
-
+    $group=null
     _doIt()
     
     function _doIt(a){
@@ -10879,11 +10887,18 @@ _Util._init();window._TWHandler={
         
         if(!a||a.type==7){
           if(_curGroup){
-            _handleResult(_result,_curGroup)
-            _curGroup=0
-            ss=[]
-            if(a){
-              return _doIt(a)
+            if(_curGroup.loopGroup||!_chkEndGroup()){
+              a&&_domActionTask._curOneActionList.unshift(a)
+              _domActionTask._curOneActionList=ss.concat(_domActionTask._curOneActionList)
+              ss=[]
+              return _doIt()
+            }else{
+              _handleResult(_result,_curGroup)
+              _curGroup=0
+              ss=[]
+              if(a){
+                return _doIt(a)
+              }
             }
           }else if(a){
             if(a.elseGroup&&!_enableElse){
@@ -10899,6 +10914,8 @@ _Util._init();window._TWHandler={
 
             _enableElse=0
             _curGroup=a
+            //Handle group data
+            a&&_tmpLoopDatahandler._handleGroupData(a,_setting)
             return _doIt()
           }else if(_result){
             return _backFun(_result)
@@ -10954,7 +10971,7 @@ _Util._init();window._TWHandler={
             }else{
               _retry=0
             }
-            if(_domActionTask._curOneActionList.length){
+            if(_domActionTask._curOneActionList.length||(_curGroup&&(_curGroup.loopGroup||window.$group!=null))){
               return _doIt()
             }else{
               return _final()
@@ -11042,6 +11059,31 @@ _Util._init();window._TWHandler={
       return v
     }
 
+    function _chkEndGroup(){
+      var ga=_curGroup
+      window._tmpGroupLoopData=window._tmpGroupLoopData||{}
+      let k=_tmpLoopDatahandler._getActionKey(ga)
+      if(_tmpGroupLoopData[k]){
+        if(_tmpGroupLoopData[k]&&_tmpGroupLoopData[k].d){
+          if(_tmpGroupLoopData[k].d.constructor==Number){
+            $group=_tmpGroupLoopData[k].i++
+            if($group>=_tmpGroupLoopData[k].d){
+              _tmpGroupLoopData[k]=$group=undefined
+              return 1
+            }
+          }else{
+            $group=_tmpGroupLoopData[k].d[_tmpGroupLoopData[k].i++]
+            if(!$group){
+              _tmpGroupLoopData[k]=$group=undefined
+              return 1
+            }
+          }
+        }
+      }else{
+        return 1
+      }
+    }
+
     function _final(_inError,r){
       if(_inError){
         _result._msg=r._msg
@@ -11087,6 +11129,7 @@ _Util._init();window._TWHandler={
         return 1
       }
       _curGroup=0
+      $group=null
       ss=[]
     }
     
@@ -11105,6 +11148,7 @@ _Util._init();window._TWHandler={
           }
           
           _curGroup=0
+          $group=null
           ss=[]
           _result=r
   
@@ -11113,39 +11157,27 @@ _Util._init();window._TWHandler={
       },1000)
     }
   },
-  _getLoadingFun:function(){
-    if(_domActionTask._tmpLoadingFun!==undefined){
-      if(_domActionTask._tmpLoadingFun){
-        delete _domActionTask._tmpLoadingFun
-        delete _domActionTask._loadingFunTimer
-        return 1
-      }
-      return _domActionTask._tmpLoadingFun
-    }else if(_domActionTask._loadingFunTimer){
-      return _domActionTask._loadingFunTimer
-    }
+  _isLoading:function(_fun){
     let s=_IDE._data._setting.content.loadingElement
     if(s){
       if(_Util._isFunction(s)){
-        _domActionTask._loadingFunTimer= setTimeout("try{_domActionTask._tmpLoadingFun="+s+"||''}catch(ex){_domActionTask._tmpLoadingFun=''}",0)
-        return _domActionTask._loadingFunTimer
-      }
-      _domActionTask._tmpLoadingFun=s
-    }
-  },
-  _isLoading:function(_fun){
-    let s=_domActionTask._tmpLoadingFun
-    delete _domActionTask._tmpLoadingFun
-    _domActionTask._loadingFunTimer=0
+        try{
+          s=_eval._exeCode(s)
 
-    if(s){
-      if(s.constructor==Function){
-        return _end(s())
-      }
+          if(s&&_eval._isFun(s)){
+            return _end(_eval._exeFun(s))
+          }
 
-      s=$util.findDom(s)
-      if(s&&!_Util._isHidden(s)){
-        return _end(1)
+          return _end(s)
+        }catch(e){
+          alert(e.message)
+          return
+        }
+      }else{
+        s=$util.findDom(s)
+        if(s&&!_Util._isHidden(s)){
+          return _end(1)
+        }
       }
     }
     s=$util.findDom(":bz($loading)")
@@ -11166,11 +11198,6 @@ _Util._init();window._TWHandler={
     }
   },
   _exeAction:function(_data,_setting,_backFun,_descDelay){
-    if($.isNumeric(_domActionTask._getLoadingFun())){
-      return setTimeout(()=>{
-        _domActionTask._exeAction(_data,_setting,_backFun,_descDelay);
-      },2)
-    }
     _domActionTask._doLog("Exe Action ...")
     _domActionTask._reportAppInfo("Exe action "+_data.description)
     if(_domActionTask._isLoading()){
@@ -11221,6 +11248,11 @@ _Util._init();window._TWHandler={
         if(window.extensionContent||!BZ._hasExtension()){
           r._url=BZ.TW.location.href
         }
+        if(_data.type!=4&&_tmpLoopDatahandler._handleActionLoopData(_data,r)){
+          return setTimeout(()=>{
+            _domActionTask._exeAction(_orgData,_setting,_backFun,_descDelay)
+          },(BZ._getCurTest()&&BZ._getCurTest()._data.speed)||_orgData.min||50)
+        }
 
         BZ._lastResult=r;
         r._errorPos=_domActionTask._errorPos;
@@ -11267,6 +11299,12 @@ _Util._init();window._TWHandler={
     if(!BZ._isAutoRunning()&&_data._applyTmpData){
       _data._applyTmpData()
       $parameter=_aiAPI._preHandleParameter($parameter,0,_data._supData?_data._supData._supData:0)
+    }
+    if(_doApiRegister()){
+      return
+    }
+    if((_data.type!=7||_data.asOneAction)&&!_tmpLoopDatahandler._initActionData(_data,_fun)){
+      return
     }
     if(_doApiRegister()){
       return
@@ -11330,33 +11368,35 @@ _Util._init();window._TWHandler={
       _domActionTask._notReadyTime=0
       _result._data=_data;
 
-      if(_apiHandler._isRequestAction(_data)){
-        _result._type=4
-        _result._msg=""
-        _data.requests.forEach(r=>{
-          _ideDataManagement._initRandomValue(r.body)
-          _ideDataManagement._initRandomValue(r.headers)
-        })
-        if(_data.rampUp){
-          $parameter.$result=[]
-          return _domActionTask._exeRampUp(_data,function(r){
-            _fun&&_fun(r)
-          },1)
-        }else if(_data.repeatTimes){
-          $parameter.$result=[]
-          return _domActionTask._exeLoad(_data,function(r){
-            _fun(r)
-          },0)
+      _waitData(function(){
+        if(_apiHandler._isRequestAction(_data)){
+          _result._type=4
+          _result._msg=""
+          _data.requests.forEach(r=>{
+            _ideDataManagement._initRandomValue(r.body)
+            _ideDataManagement._initRandomValue(r.headers)
+          })
+          if(_data.rampUp){
+            $parameter.$result=[]
+            return _domActionTask._exeRampUp(_data,function(r){
+              _fun&&_fun(r)
+            },1)
+          }else if(_data.repeatTimes){
+            $parameter.$result=[]
+            return _domActionTask._exeLoad(_data,function(r){
+              _fun(r)
+            },0)
+          }else{
+            return _domActionTask._exeAPI(_data.requests,0,0,function(r){
+              _fun(r)
+            },_result)
+          }
+        }else if (!_force) {
+          _waitOverWin()
         }else{
-          return _domActionTask._exeAPI(_data.requests,0,0,function(r){
-            _fun(r)
-          },_result)
+          _doIt(0)
         }
-      }else if (!_force) {
-        _waitOverWin()
-      }else{
-        _doIt(0)
-      }
+      })
     }catch(ex){
       BZ._log(ex.stack)
       if(_fun){
@@ -11366,6 +11406,39 @@ _Util._init();window._TWHandler={
       }
     }
 
+    function _waitData(_fun){
+      let d=[$parameter,$test,$module,$project,window.$action,window.$group]
+      _chkData()
+      function _chkData(){
+        if(_hasWaitData(d)){
+          return setTimeout(()=>{
+            _chkData()
+          },100)
+        }
+        _fun()
+      }
+    }
+
+    function _hasWaitData(d,_fun){
+      let _has;
+      if(d&&_Util._isObjOrArray(d)){
+        for(let k in d){
+          let v=d[k]
+          if(v&&v.constructor==Promise){
+            if(!v._has){
+              v.then(x=>{
+                d[k]=x
+                _hasWaitData(d,_fun)
+              })
+            }
+            _has=1
+          }else if(_Util._isObjOrArray(v)){
+            _has=_has||_hasWaitData(v)
+          }
+        }
+      }
+      return _has
+    }
     function _doApiRegister(){
       if(!window.extensionContent){
         if(!_aiAuthHandler._isAuthItem(BZ._getCurModule())){
@@ -12067,7 +12140,7 @@ _Util._init();window._TWHandler={
   },
   _fetchFileDataFromURL:function(uri,_fun) {
     try{
-      let v=JSON.parse(uri)
+      let v=_eval._exeCode(uri)
       if(v.constructor==Array && v[0].base64Link){
         return _fun(v)
       }
@@ -12252,12 +12325,8 @@ _Util._init();window._TWHandler={
       window.$element=$element
 
       c=_Util._parseToExeCode(c)
-      if(window.extensionContent){
-        c=_eval._exeCode(c)
-      }else{
-        c=eval(c)
-      }
-      return c
+      c=_Util._eval(c)
+      _fun(c)
     }
   },
   _validateScreenshot:function(_data,_force,_fun){
@@ -13819,17 +13888,16 @@ _Util._init();window._TWHandler={
     return d;
   },
   _compareWithDataExpection:function(d,o,_force){
-    debugger
     var _result={_type:_taskInfo._type._success,_msg:""};
     _domActionTask._setErrorPos(_result,"_expection","_actionDetailsGeneral");
-    var vs=(d.expection||"").split("\n");
+    var vs=_ideDataHandler._parseToExeCode(d.expection||"").split("\n");
     var _text=$util.getElementText(o)
     var _inputs=_cssHandler._findAllInputs(d.e)
     _inputs&&_inputs.forEach(u=>{
       if(u==o&&u.tagName=="SELECT"){
         for(var i=0;i<vs.length;i++){
           try{
-            var v=vs[i]
+            var v=_Util._eval(vs[i])
             for(var j=0;j<o.options.length;j++){
               if(o.options[j].value==v){
                 vs.splice(i--,1)
@@ -13851,7 +13919,7 @@ _Util._init();window._TWHandler={
           }
           for(var i=0;i<vs.length;i++){
             if(vs[i].endsWith("."+w)){
-              var v=vs[i],_found=0
+              var v=eval(vs[i]),_found=0
               if(v=="bz-skip"){
                 vs.splice(i,1)
                 return
@@ -13884,7 +13952,11 @@ _Util._init();window._TWHandler={
       if(!v.trim()){
         continue;
       }
-      vv=v
+      try{
+        var vv=eval(v);
+      }catch(e){
+        vv=v
+      }
 
       try{
         if(!vv&&vv!==0&&vv!==false){
@@ -17799,8 +17871,10 @@ for(k in $util){
   For get customer app info from extension
 */
 window.bzTwComm={
-  _init:function(){
-    let i=chrome.runtime.id
+  init:function(i){
+    return this._init()
+  },
+  _init:function(i){
     console.log("_init ..")
     bzTwComm._buildMsgArea()
     if(window.name!="bz-master"){
@@ -17829,7 +17903,6 @@ window.bzTwComm={
 
     bzTwComm.bzExtensionId=i;
     _Util._init()
-    _Util._keepConnection(i)
     
     bzTwComm._postToMaster({_fun:"_setBZSent",_data:{i:0,_root:1},_scope:"_TWHandler"});
     _TWHandler._takeoverOpenWin()

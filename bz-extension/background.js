@@ -267,9 +267,9 @@ let funMap={
   }
 }
 let _list={},_responseList={}
-
 chrome.action.setBadgeText({text: chrome.runtime.getManifest().version=="1.2"?"TEST":"AI"});
 /*Get Message from IDE*/
+/******************* call ide *************************************************** */
 chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) {
   //_console("background (web page): ",_req)
   //check whether the request from BZ pages. If not from BZ do nothing.
@@ -339,17 +339,16 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
       chrome.tabs.sendMessage(_ctrlTabId, {tab:"master",scope:"window",fun:"close"},r=>{});
     }
     
-    _shareData={}
     _masterTabId=_sender.tab.id;
     _masterFrameId=_sender.frameId
     _masterUrl=_sender.url;
     _lastExeActionReq=0;
     ignoreReqs="";
     _callback(1)
-    // if(inReload){
-    //   inReload=0
-    //   rebuildTabs(_masterTabId)
-    // }
+    if(inReload){
+      inReload=0
+      rebuildTabs(_masterTabId)
+    }
   //Set CSS file path from BZ master page
   }else if(_req.bzCss){
     _css=_req.bzCss;
@@ -393,8 +392,9 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
         _curAction=_req.curAction;
       }
     }else if(_req.shareData){
-      for(var k in _req.shareData){
-        _shareData[k]=_req.shareData[k];
+      let d=_req.shareData
+      for(var k in d){
+        _shareData[k]=d[k];
       }
     }else if(_req.updateExpection&&_req.updateExpection.element){
       _req.frameId=[_topFrameId];
@@ -451,7 +451,7 @@ function _addFrameId(_req,_element,_fun,_retry){
   }
   let v=getIframePath(_element)
   if(v){
-    return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v,element:_element,retry:_appRetry},function(r){
+    return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v,element:_element,retry:_appRetry},r=>{
       if(r!==undefined&&r!==null){
         clearTimeout(_badRequest)
         if(_element[0]!="BZ.TW.document"){
@@ -486,7 +486,7 @@ function _addFrameId(_req,_element,_fun,_retry){
         console.log("error:")
         console.log(JSON.stringify(_element))
       }
-    },r=>{})
+    })
   }
   clearTimeout(_badRequest)
   _fun()
@@ -599,6 +599,7 @@ let pop={
   }
 }
 
+/******************* call APP *************************************************** */
 //get message from app extension content
 chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
   if(_msg.pop){
@@ -641,9 +642,17 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       //to tell master the current client tab id
       chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,topFrame:t.frameId,tab:"master"},r=>{});
     }else{
+      // chrome.scripting.executeScript(
+      //   {
+      //     target: {tabId: t.tab.id,frameIds:[t.frameId]},
+      //     files: ["override.js"],
+      //     world: 'MAIN'
+      //   },
+      //   ()=>{}
+      // )
       chrome.scripting.executeScript(
         {
-          target: {tabId: t.tab.id},
+          target: {tabId: t.tab.id,frameIds:[t.frameId]},
           func: enableAppCode,
           args:[1],
           world: 'MAIN'
@@ -665,7 +674,18 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     },{
       k:"topFrame",
       v:_msg.name=="bz-client"?1:0
-    }],t.frameId)
+    }],_ctrlTabId,t.frameId)
+
+    chrome.scripting.executeScript(
+      {
+        target: {tabId: t.tab.id},
+        func: initTWComm,
+        world:"MAIN"
+      },
+      (a,b,c) => {
+        
+      }
+    )
 /*
     if(_topFrameId!=t.frameId&&_status=="play"){
       _uncodeFrames.push(t.frameId)
@@ -961,16 +981,20 @@ async function addPageScript() {
   await chrome.scripting.registerContentScripts(scripts);
 }
 
+function initTWComm(){
+  bzTwComm.init(chrome.runtime.id)
+}
+
 async function rebuildTabs(ignoreId){
   let tabs = await chrome.tabs.query({status:"complete"})
   tabs.forEach(x=>{
-    if(x.id==ignoreId){
+    if(x.id<=ignoreId){
       return
     }
     chrome.scripting.executeScript(
       {
         target: {tabId: x.id},
-        files: ['plug.js','content'],
+        func: toReloadContent,
       },
       () => {}
     )
@@ -996,7 +1020,11 @@ async function rebuildIDE(){
     )
   })
 }
-//rebuildIDE()
+rebuildIDE()
 function reloadIDE(){
   BZ.reloadIDE()
 }
+function toReloadContent(){
+  reloadContent()
+}
+console.clear()
