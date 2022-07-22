@@ -35,6 +35,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
     return "f"+(this._tmpNum++)
   },
   _throwErr:function(s){
+    debugger
     alert(_bzMessage._system._error._syntaxError+s)
   },
   _exeFun:function(f,p,_outMap,_inMap){
@@ -1049,24 +1050,24 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
       }else if(c==","){
         if(df){
           df.c=_eval._parseItem(s)
-          ps.push(..._eval._parseItem(v.substring(i+1)))
+          _parsePartItem(v.substring(i+1),ps)
           ps=ps.filter(x=>x)
           ps.forEach(x=>x.k=ps[0].k)
           return ps
         }else if(op){
           op.c=_eval._parseItem(s)
-          ps.push(..._eval._parseItem(v.substring(i+1)))
+          _parsePartItem(v.substring(i+1),ps)
           return ps
         }else if(ok&&(ok.k=="=>"||ok.k=="function")){
           ok.c=_eval._parseCode(s)
           ps.push(ok)
-          ps.push(..._eval._parseItem(v.substring(i+1)))
+          _parsePartItem(v.substring(i+1),ps)
           return ps
         }else if(!s.trim()){
           if(v.substring(0,i).trim().endsWith(",")){
             ps.push([])
           }
-          ps.push(..._eval._parseItem(v.substring(i+1)))
+          _parsePartItem(v.substring(i+1),ps)
           return ps
         }else{
           p=_eval._parseItem(s)
@@ -1078,7 +1079,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
           if(ps.find(x=>_eval._isSign(x))){
             ps=[ps]
           }
-          ps.push(..._eval._parseItem(v.substring(i+1)))
+          _parsePartItem(v.substring(i+1),ps)
           return ps
         }
       }else if(df||ok||op){
@@ -1125,6 +1126,14 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
       return ok
     }
     return ps
+
+    function _parsePartItem(v,ps){
+      p=_eval._parseItem(v)
+      if(!p||p.constructor!=Array){
+        p=[p]
+      }
+      ps.push(...p)
+    }
 
     function _init(){
       s=s.trim()
@@ -12470,7 +12479,6 @@ _Util._init();window._TWHandler={
     return _result;
   },
   _validateHtml:function(_data,_force){
-    debugger
     var _result=_domActionTask._extractDataByHtml(_data);
     for(var i=0;i<_domActionTask._taskQueue.length;i++){
       var t=_domActionTask._taskQueue[i];
@@ -13992,6 +14000,7 @@ _Util._init();window._TWHandler={
     $test=$test||window.$test
     $module=$module||window.$module
     $loop=$loop||window.$loop
+    let $element=window.$element
 
     if(_data.script){
       var element;
@@ -16763,7 +16772,9 @@ _Util._init();window._TWHandler={
         }else if(_std[0]&&_std[0].startsWith("{random")){
           return _return(_getRandom(_std[0]))
         }else if(_std[0]&&_std[0].startsWith("{exist")){
-          console.log("BZ-LOG: "+_std[0])
+          if(window.extensionContent){
+            return ""
+          }
           let v= _return(_getExist(_std[0]))
           return v
         }else if(_std[0]&&_std[0].startsWith("{new")){

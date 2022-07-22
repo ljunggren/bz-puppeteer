@@ -1,7 +1,7 @@
 let _appUrl="https:/"+"/ai.boozang.com",inReload,
-    _masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_ctrlWindowId,curElement,_frameIds={},
+    _masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_ctrlWindowId,curElement,_frameIds={0:1},
     _bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
-let _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId,_uncodeFrames=[];
+let _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId=0,_uncodeFrames=[];
 let _ignoreList=["https://vars.hotjar.com"],_lastIframeRequest=0,_dblCheckTime=0,extendTopScript="",extendEndScript="";
 let funMap={
   cleanMaster:function(){
@@ -453,6 +453,7 @@ function _addFrameId(_req,_element,_fun,_retry){
   if(v){
     return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v,element:_element,retry:_appRetry},r=>{
       if(r!==undefined&&r!==null){
+        console.log("get iframe: "+r)
         clearTimeout(_badRequest)
         if(_element[0]!="BZ.TW.document"){
           if(_req.exeAction){
@@ -485,6 +486,8 @@ function _addFrameId(_req,_element,_fun,_retry){
         }
         console.log("error:")
         console.log(JSON.stringify(_element))
+      }else{
+        console.log("not frame")
       }
     })
   }
@@ -535,46 +538,23 @@ function _isExistTab(id,_fun){
   });
 }
 //set code to chrome extension content
-function _setCodeToContent(c,id,tabId,chkFrameId){
-  tabId=tabId||_ctrlTabId
+function _setCodeToContent(c,iFrameId){
   //for set dynamic code to current controled client tab, 
-  if(tabId && !_lastErrPage){
-    try{
-      chrome.tabs.sendMessage(_masterTabId, {
-        scope:"console",
-        fun:"log",
-        data:"BZ-LOG:set code to client:"+c.length,
-        twPage:1,
-        tab:"master",
-        bz:1
-      },r=>{});
-
-      if(id!==undefined){
-        if(!id&&_topFrameId){
-          id=_topFrameId
-        }
-        // chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code 1 to client:"+c.length,twPage:1,tab:"master",bz:1});
-        chrome.tabs.sendMessage(tabId, {code: c,acceptData:1,frameId:id},_=>{
-          //let e = chrome.runtime.lastError;
-          //if(e !== undefined){
-            //console.log(tabId, _, e);
-          //}
-        });
-      }else{
-        chrome.tabs.sendMessage(tabId, {code: c,acceptData:1,allFrames:true},_=>{
-          let e = chrome.runtime.lastError;
-          if(e !== undefined){
-            chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code to client get error1:"+e,twPage:1,tab:"master",bz:1});
-            console.log(tabId, _, e);
-          }
-        });
-      }
-    }catch(e){
-      chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG: Set code to extension failed: "+e.message+"\n"+e.stock,twPage:1,tab:"master",bz:1},r=>{});
-      console.log(e.stock)
-      
-      // chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code to client get error2:"+e.message,twPage:1,tab:"master",bz:1});
-    }
+  try{
+    chrome.tabs.sendMessage(_masterTabId, {
+      scope:"console",
+      fun:"log",
+      data:"BZ-LOG:set code to client:"+c.length,
+      twPage:1,
+      tab:"master",
+      bz:1
+    },r=>{});
+    trigger(c,_ctrlTabId,iFrameId)
+  }catch(e){
+    chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG: Set code to extension failed: "+e.message+"\n"+e.stock,twPage:1,tab:"master",bz:1},r=>{});
+    console.log(e.stock)
+    
+    // chrome.tabs.sendMessage(_masterTabId, {scope:"console",fun:"log",data:"BZ-LOG:set code to client get error2:"+e.message,twPage:1,tab:"master",bz:1});
   }
 }
 function isIgnoreFrame(v){
@@ -639,6 +619,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       if(_ctrlTabId==_masterTabId){
         _ctrlFrameId=t.frameId
       }
+      _frameIds[0]=1
       //to tell master the current client tab id
       chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,topFrame:t.frameId,tab:"master"},r=>{});
     }else{
@@ -650,6 +631,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       //   },
       //   ()=>{}
       // )
+      _frameIds[t.frameId]=1
       chrome.scripting.executeScript(
         {
           target: {tabId: t.tab.id,frameIds:[t.frameId]},
@@ -661,7 +643,7 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
       )
       chrome.scripting.executeScript(
         {
-          target: {tabId: t.tab.id},
+          target: {tabId: t.tab.id,frameIds:[t.frameId]},
           func: enableExtensionCode
         },
         ()=>{}
@@ -674,11 +656,11 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     },{
       k:"topFrame",
       v:_msg.name=="bz-client"?1:0
-    }],_ctrlTabId,t.frameId)
+    }],t.frameId)
 
     chrome.scripting.executeScript(
       {
-        target: {tabId: t.tab.id},
+        target: {tabId: t.tab.id,frameIds:[t.frameId]},
         func: initTWComm,
         world:"MAIN"
       },
@@ -704,18 +686,12 @@ chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
     //  }
     }else if(_msg[ecMap.ua]){
       _setCodeToContent(ecMap.dp+"."+ecMap.er+"()")
-    }else if(_msg[ecMap.f]==ecMap.rca){
-      if(t.frameId&&_frameIds[t.frameId]){
-        if(_msg[ecMap.d][ecMap.a].element){
-          _msg[ecMap.d][ecMap.a].element[0]=_frameIds[t.frameId].path;
-        }
-      }
     }else if(_msg._fun==ecMap.pe){
       if(t.frameId&&_frameIds[t.frameId]){
         _msg[ecMap.d][0]=_frameIds[t.frameId].path
       }
     }else if(_msg._fun==ecMap.lnp){
-      _frameIds={}
+      _frameIds={0:1}
     }else if(_msg.unloadFrame){
       delete _frameIds[_msg.id]
     }
@@ -799,7 +775,7 @@ chrome.tabs.onRemoved.addListener(function(_tab, info) {
     return
   }
   
-  _frameIds={}
+  _frameIds={0:1}
 });
 
 chrome.tabs.onCreated.addListener(function(_tab, info) {
@@ -811,7 +787,7 @@ chrome.tabs.onCreated.addListener(function(_tab, info) {
       chrome.tabs.sendMessage(_ctrlTabId, {close:1},r=>{})
     }
     _ctrlTabId=_tab.id;
-    _frameIds={};
+    _frameIds={0:1};
     //to tell master the current client tab id
     chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,tab:"master"},r=>{});
   }
@@ -846,7 +822,7 @@ function _isDownloading(rs){
 
 function cleanMaster(){
   var tabId=_ctrlTabId
-  _setCodeToContent("window.close()",_topFrameId,tabId);
+  _setCodeToContent("window.close()");
   _status=""
   _masterTabId=0;
   _masterFrameId=0;
@@ -1015,7 +991,6 @@ async function rebuildIDE(){
         world:"MAIN"
       },
       (a,b,c) => {
-        console.log(a)
       }
     )
   })
@@ -1027,4 +1002,59 @@ function reloadIDE(){
 function toReloadContent(){
   reloadContent()
 }
+/*
+function trigger(v,tabId,iframeId){
+  let t={tabId: tabId}
+  if(iframeId!==undefined){
+    iframeId=[iframeId]
+  }else{
+    iframeId=Object.keys(_frameIds).map(x=>parseInt(x))
+  }
+  for(let i=0;i<iframeId.length;i++){
+    let j=iframeId[i]
+    t.frameIds=[j]
+    try{
+      chrome.scripting.executeScript(
+        {
+          target: t,
+          func: triggerFun,
+          args:[v]
+        },
+        (a,b,c) => {
+          console.log(a)
+        }
+      )
+    }catch(e){
+      debugger
+      delete _frameIds[j]
+    }
+  }
+
+  function triggerFun(v){
+    BZ.trigger(v)
+  }
+}
+*/
+function trigger(v,tabId,iframeId){
+  let t={tabId: tabId}
+  if(iframeId){
+    t.frameIds=[iframeId]
+  }else if(iframeId===undefined){
+    t.frameIds=Object.keys(_frameIds).map(x=>parseInt(x))
+  }
+  chrome.scripting.executeScript(
+    {
+      target: t,
+      func: triggerFun,
+      args:[v]
+    },
+    () => {}
+  )
+
+  function triggerFun(v){
+    BZ.trigger(v)
+  }
+}
+
+
 console.clear()

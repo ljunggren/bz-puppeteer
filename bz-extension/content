@@ -43,6 +43,9 @@ function reloadContent(v){
 // }
 function handleMsg(_event, _, sendResponse, codeTime) {  
   //_console("content get message: ",_event)
+  if(_event.frameId!==undefined&&_event.frameId!=bzIframeId){
+    return
+  }
   if(_event.acceptData){
     // assignStdData()
     sendResponse(1)
@@ -78,7 +81,6 @@ function handleMsg(_event, _, sendResponse, codeTime) {
     return
   }
   if(_event.findFrameId){
-    debugger
     return responseIFrameId(_event.findFrameId,sendResponse,_event.element,_event.retry)
   }else if(_event.findOffset){
     return responseIframeOffset(_event.findOffset,sendResponse)
@@ -313,30 +315,25 @@ function showCode(v){
 }
 
 function responseIFrameId(vs,_sendResponse,element,retry){
-  var p=parent,w=window;
-  var r=w.document.body.getBoundingClientRect()
-  
-  while(vs.length){
-    var v=parseInt(vs.pop());_found=0
-    
-    if(p.frames[v]!=w){
-      for(var i=0;retry&&i<p.frames.length;i++){
-        if(w==p.frames[i]){
-          if(i>v&&r.width&&r.height){
-            _found=1
-          }
-        }
-      }
-      if(!_found){
-        return
-      }
+  if(!bzIframeId||(window.innerHeight<10||window.innerWidth<10)){
+    return
+  }
+  if(vs[0]=="*"){
+    console.log("responseIFrameId *: "+bzIframeId)
+    return _sendResponse(bzIframeId)
+  }
+  if(vs.find(x=>{
+    if(!(""+x).match(/^[0-9]+$/)){
+      return location.href.includes(x)
     }
-    if(vs.length){
-      w=p
-      p=p.parent
-    }else if(r.width&&r.height){
-      _sendResponse(bzIframeId)
-    }
+  })){
+    console.log("responseIFrameId url: "+bzIframeId)
+    return _sendResponse(bzIframeId)
+  }
+  let v=BZ._findIframePath()
+  if(vs.join(",")==v){
+    console.log("responseIFrameId ids: "+bzIframeId)
+    _sendResponse(bzIframeId)
   }
 }
 
@@ -381,6 +378,9 @@ function exeCodeInApp(c){
   $("<div style='display:none' onclick='eval(this.innerText.replace(/\&lt\;/g,\"<\"))'>"+c+"</div>").appendTo(document.body.parentElement).click().remove()
 
 }
-if(window.name.includes("bz-client")){
-  window.onunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:bzIframeId})}
+if(window.name!="bz-master"){
+  window.onunload=function(){
+    console.log("remove:"+bzIframeId)
+    chrome.runtime.sendMessage({unloadFrame:1,id:bzIframeId})
+  }
 }

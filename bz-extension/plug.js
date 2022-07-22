@@ -28,7 +28,6 @@ var ecMap={
   e:"_element",
   c:"_css",
   co:"_code",
-  rca:"_replaceCurAction",
   ua:"_updateAction",
   a:"_action",
   init:"_init",
@@ -7922,7 +7921,9 @@ var _Dialog={
         }else if(_std[0]&&_std[0].startsWith("{random")){
           return _return(_getRandom(_std[0]))
         }else if(_std[0]&&_std[0].startsWith("{exist")){
-          console.log("BZ-LOG: "+_std[0])
+          if(window.extensionContent){
+            return ""
+          }
           let v= _return(_getExist(_std[0]))
           return v
         }else if(_std[0]&&_std[0].startsWith("{new")){
@@ -10858,6 +10859,7 @@ for(k in $util){
     return "f"+(this._tmpNum++)
   },
   _throwErr:function(s){
+    debugger
     alert(_bzMessage._system._error._syntaxError+s)
   },
   _exeFun:function(f,p,_outMap,_inMap){
@@ -11872,24 +11874,24 @@ for(k in $util){
       }else if(c==","){
         if(df){
           df.c=_eval._parseItem(s)
-          ps.push(..._eval._parseItem(v.substring(i+1)))
+          _parsePartItem(v.substring(i+1),ps)
           ps=ps.filter(x=>x)
           ps.forEach(x=>x.k=ps[0].k)
           return ps
         }else if(op){
           op.c=_eval._parseItem(s)
-          ps.push(..._eval._parseItem(v.substring(i+1)))
+          _parsePartItem(v.substring(i+1),ps)
           return ps
         }else if(ok&&(ok.k=="=>"||ok.k=="function")){
           ok.c=_eval._parseCode(s)
           ps.push(ok)
-          ps.push(..._eval._parseItem(v.substring(i+1)))
+          _parsePartItem(v.substring(i+1),ps)
           return ps
         }else if(!s.trim()){
           if(v.substring(0,i).trim().endsWith(",")){
             ps.push([])
           }
-          ps.push(..._eval._parseItem(v.substring(i+1)))
+          _parsePartItem(v.substring(i+1),ps)
           return ps
         }else{
           p=_eval._parseItem(s)
@@ -11901,7 +11903,7 @@ for(k in $util){
           if(ps.find(x=>_eval._isSign(x))){
             ps=[ps]
           }
-          ps.push(..._eval._parseItem(v.substring(i+1)))
+          _parsePartItem(v.substring(i+1),ps)
           return ps
         }
       }else if(df||ok||op){
@@ -11948,6 +11950,14 @@ for(k in $util){
       return ok
     }
     return ps
+
+    function _parsePartItem(v,ps){
+      p=_eval._parseItem(v)
+      if(!p||p.constructor!=Array){
+        p=[p]
+      }
+      ps.push(...p)
+    }
 
     function _init(){
       s=s.trim()
@@ -31776,7 +31786,6 @@ var $data=function(m,t,init){
     return _result;
   },
   _validateHtml:function(_data,_force){
-    debugger
     var _result=_domActionTask._extractDataByHtml(_data);
     for(var i=0;i<_domActionTask._taskQueue.length;i++){
       var t=_domActionTask._taskQueue[i];
@@ -33298,6 +33307,7 @@ var $data=function(m,t,init){
     $test=$test||window.$test
     $module=$module||window.$module
     $loop=$loop||window.$loop
+    let $element=window.$element
 
     if(_data.script){
       var element;
@@ -49310,7 +49320,6 @@ var _aiAPI={
   async _getExistData(v,_existOpt,_data,_key){
     let vv,_list=[],ks,m,_initMap=_aiAPI._initMap;
     if(!BZ._isAutoRunning()&&v.constructor==String){
-      debugger
       return _apiDataHandler._askUseTmpData(0,async function(){
         return await _doIt(v)
       })
@@ -73014,6 +73023,9 @@ String.prototype.plural = function(revert){
 };var BZ={
   _debug:0,
   _timeoutMap:{},
+  trigger:function(v){
+    _eval.exeGroupCode(v)
+  },
   _getCurTestPath:function(){
     return BZ._curTestPath||""
   },
