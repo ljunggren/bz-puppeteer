@@ -1793,10 +1793,6 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
       return eval(v)
     }
   },
-  _setValByString:function(d,k,v){
-    d=_Util._exeCode(d)
-    d[k]=_Util._exeCode(v)
-  },
   _isAPISucessStatus:function(v){
     return v&&v<400
   },
@@ -1823,7 +1819,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
   _isFileData:function(v){
     try{
       if(v && v.constructor==String){
-        eval("var v="+v);
+        v=_Util._eval("v="+v);
         v=v[0]
       }
       return v.base64Link
@@ -1884,8 +1880,8 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
     }
 
     if(_match){
-      let g=eval(_match._regex+"g"),
-      s=eval(_match._regex)
+      let g=_Util._eval(_match._regex+"g"),
+      s=_Util._eval(_match._regex)
       w=w.split("\n")
       w=w.map(x=>{
         let xx=x.match(g)
@@ -2679,7 +2675,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
     function _isErr(v){
       try{
         let x;
-        eval("x="+v)
+        x=_Util._eval("x="+v)
       }catch(ex){
         return 1
       }
@@ -3039,7 +3035,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
       }catch(ex){}
       try{
         if(v.match(_Util._dataRegex)){
-          eval("v="+v)
+          v=_Util._eval("v="+v)
         }
       }catch(ex){}
       return v
@@ -3072,7 +3068,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
           n=_Util._strToJson(v)
         }else{
           if(_Util._isFunction(v)){
-            eval("n="+v)
+            n=_Util._eval("n="+v)
           }else{
             let vv=v.trim().split("\n")
             while(vv.length&&!vv[vv.length-1].trim().replace(/;/g,"")){
@@ -3081,7 +3077,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
             if(!_Util._isEmpty(vv)){
               vv[vv.length-1]="return "+vv[vv.length-1]
               vv=vv.join("\n")
-              eval(`n=(()=>{\n${vv}\n})()`)
+              n=_Util._eval(`n=(()=>{\n${vv}\n})()`)
             }
           }
         }
@@ -3363,7 +3359,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
   _stringToObj:function(s){
     if(s&&s.constructor==String){
       try{
-        eval("s="+s)
+        s=_Util._eval("s="+s)
       }catch(e){}
     }
     return s
@@ -3408,7 +3404,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
   },
   _formatStrAsJson:function(w){
     try{
-      eval("v="+w)
+      v=_Util._eval("v="+w)
       if(JSON.stringify(v)==w){
         return JSON.stringify(v,0,2)
       }
@@ -3429,7 +3425,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
           if(window.extensionContent){
             s=JSON.parse(s)
           }else{
-            eval("s="+s)
+            s=_Util._eval("s="+s)
           }
           if(s&&s.constructor==RegExp){
             s=s.toString()
@@ -3513,7 +3509,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
     if(v&&v.constructor==String){
       v=v.trim()
       try{
-        eval("v="+v)
+        v=_Util._eval("v="+v)
       }catch(e){
         if(v.includes("=")){
           v=v.split("&")
@@ -4111,7 +4107,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
         v="/"+v+"/"
       }
       try{
-        eval("v="+v)
+        v=_Util._eval("v="+v)
         return v
       }catch(e){
         alert(e.message)
@@ -6714,7 +6710,7 @@ tbody td:first-child,tbody td:last-child{
       v=v.trim()
       if(v.match(/(^\[.*\]$)|(^\{.*\}$)/s)){
         try{
-          eval("v="+v)
+          v=_Util._eval("v="+v)
           return v
         }catch(e){}
       }
@@ -7218,7 +7214,7 @@ tbody td:first-child,tbody td:last-child{
             if(os=="BZ.TW.document"){
               os=_root=$(document);
             }else{
-              os=_root=$(_Util._exeCode(os))
+              os=_root=$(_Util._eval(os))
             }
             if(_paths[1]&&_paths[1].toUpperCase().startsWith("IFRAME")){
               os=_root=$(os).find(_paths[1])
@@ -7619,9 +7615,9 @@ tbody td:first-child,tbody td:last-child{
         let _std=r.match(/\{data\:(.+)\}/)
         try{
           if(_std){
-            return eval("d"+_std)
+            return _Util._eval("d"+_std)
           }else if(r){
-            return eval("d.match("+r+")")
+            return _Util._eval("d.match("+r+")")
           }
         }catch(e){}
       }
@@ -13953,7 +13949,12 @@ _Util._init();window._TWHandler={
     var _result={_type:_taskInfo._type._success,_msg:""};
     _domActionTask._setErrorPos(_result,"_expection","_actionDetailsGeneral");
     let vs=(d.expection||"").split("\n");
-    vs=vs.map(x=>_eval._exeCode(x));
+    vs=vs.map(x=>{
+      if(_Util._hasCode(x)){
+        return _eval._exeCode(x)
+      }
+      return x
+    });
     var _text=$util.getElementText(o)
     var _inputs=_cssHandler._findAllInputs(d.e)
     _inputs&&_inputs.forEach(u=>{
