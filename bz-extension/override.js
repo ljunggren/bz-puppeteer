@@ -360,7 +360,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
           r=_eval._exeCode(v.ps,_outMap,_inMap)
           rs.push(_eval._buildBzData(r))
         }else if(v.constructor==Array){
-          rs=[_eval._exeCode(v,_outMap,_inMap,_inBzData)]
+          rs=[_eval._exeCode(v,_outMap,_inMap,1)]
         }else if("'\"\`".includes(v[0])){
           rs.push(_eval._buildBzData(v.substring(1,v.length-1)))
         }else if(v[0]=="/"&&v.length>1){
@@ -1138,7 +1138,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
         p=ps[ps.length-1]
         if(!p||p.constructor!=String){
           ps.push(c)
-        }else if("~=+-*/<>&|!".includes(p)){
+        }else if("~!==+-*/<>&|".includes(p)){
           p+=c
           if(["--","++","==","===","!=","!==","+=","-=","*=","/=","&&","||",">=","<=",">>","<<","^=","&=","|=","!!","%="].includes(p)){
             ps[ps.length-1]=p
