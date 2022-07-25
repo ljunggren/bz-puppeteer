@@ -1786,10 +1786,28 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
     console.log("Spent time: "+(Date.now()-t))
   }
 };window._Util={
-  _eval:function(v){
+  _attrRegex:/\[(.+)\=('|)(\$label|\$header)('|)\]/,
+  _bzJQFun:/\:(near|input|data|panel|Contains|textElement|after|before|endContains|contains|endEqual|equal|RowCol|rowcol|text)\((\$label|\$header)\)/,
+  _allLetterAndNumber:/[\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+/,
+  _allPrintableChr:/[\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC !"#$%&'()*+,.\/:;<=>?@\[\] ^_`{|}~-]+/,
+  _allSign:/[^\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+/,
+  _jsNameRegex:/[\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC\_\$]/,
+  _jsData:/([\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC\_\$]+|\.|\[\"|\[\'|\'\]|\"\])+/g,
+  _matchAllLetterAndNumber:/[\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+/g,
+  _matchAllSign:/[^\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+/g,
+  _trimSign:/(^[^\(\[\{\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+|[^\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC\)\]\}]+$)/g,
+  _dataRegex:/(((\$(project|module|test|loop|data|group|action|parameter)((\.|\[|$)([a-zA-Z0-9\u4E00-\u9FCC_\$\'\"\(\)]+[\.|\[|\]]*)*)*|(\'|\").*(\'|\"))+( *(\+|\-|\*|\/) *)*)+)/g,
+  _eval:function(v,_map){
     if(_eval._isBzData(v)||window.extensionContent){
-      return _eval._exeCode(v)
+      return _eval._exeCode(v,_map)
     }else{
+      _map=_map||{}
+      let ks=Object.keys(_map)
+      for(let i=0;i<ks.length;i++){
+          let k=ks[i]
+          eval("var "+k+"=_map."+k)
+      }
+  
       return eval(v)
     }
   },
@@ -1936,23 +1954,6 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
       }).join("")
     }
     return `<div>${w}</div>`
-  },
-  _init:function(){
-    //all letters + number
-    //[\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC] 
-    Object.assign(_Util,{
-      _attrRegex:/\[(.+)\=('|)(\$label|\$header)('|)\]/,
-      _bzJQFun:/\:(near|input|data|panel|Contains|textElement|after|before|endContains|contains|endEqual|equal|RowCol|rowcol|text)\((\$label|\$header)\)/,
-      _allLetterAndNumber:/[\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+/,
-      _allPrintableChr:/[\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC !"#$%&'()*+,.\/:;<=>?@\[\] ^_`{|}~-]+/,
-      _allSign:/[^\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+/,
-      _jsNameRegex:/[\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC\_\$]/,
-      _jsData:/([\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC\_\$]+|\.|\[\"|\[\'|\'\]|\"\])+/g,
-      _matchAllLetterAndNumber:/[\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+/g,
-      _matchAllSign:/[^\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+/g,
-      _trimSign:/(^[^\(\[\{\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+|[^\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC\)\]\}]+$)/g,
-      _dataRegex:/(((\$(project|module|test|loop|data|group|action|parameter)((\.|\[|$)([a-zA-Z0-9\u4E00-\u9FCC_\$\'\"\(\)]+[\.|\[|\]]*)*)*|(\'|\").*(\'|\"))+( *(\+|\-|\*|\/) *)*)+)/g,
-    })
   },
   _waitElement:function(e,_fun){
     if($(e)[0]){
@@ -3077,7 +3078,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
             if(!_Util._isEmpty(vv)){
               vv[vv.length-1]="return "+vv[vv.length-1]
               vv=vv.join("\n")
-              n=_Util._eval(`n=(()=>{\n${vv}\n})()`)
+              n=_Util._eval("n=(()=>{\n"+vv+"\n})()")
             }
           }
         }
@@ -4389,7 +4390,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
         chrome.runtime.sendMessage({keep:1});
       }
     }catch(ex){
-      console.log("BZ-LOG: Block connection between IDE and extension")
+      clearTimeout(_Util._keepconnectionTimer)
     }
   },
   _isInContentEditable:function(e){
@@ -8093,8 +8094,7 @@ tbody td:first-child,tbody td:last-child{
       return gs
     }
   }
-};
-_Util._init();window._TWHandler={
+};;window._TWHandler={
   _resetTime:60000,
   _lastPageInfo:{},
   _curRequestList:[],
@@ -8116,7 +8116,7 @@ _Util._init();window._TWHandler={
     _TWHandler._takeoverOpenWin();
     if(window.extensionContent){
       console.log("page is ready")
-      bzTwComm._postToMaster({_fun:"_infoPageReady",_data:0,_scope:"_extensionComm"});
+      bzTwComm._postToIDE({_fun:"_infoPageReady",_args:[0],_scope:"_extensionComm"});
     }
   },
   _uiSync:function(){
@@ -8638,7 +8638,7 @@ _Util._init();window._TWHandler={
   },
   _getCanvasData:function(_map){
     if(window.bzTwComm && bzTwComm.bzExtensionId){
-      bzTwComm._postToCtrl({_fun:"_getCanvasData",_data:_TWHandler._canvasDataMap,_scope:"_TWHandler"})
+      bzTwComm._postToExt({_fun:"_getCanvasData",_args:[_TWHandler._canvasDataMap],_scope:"_TWHandler"})
     }else if(_map){
       _TWHandler._canvasDataMap=_map
     }else{
@@ -8804,7 +8804,7 @@ _Util._init();window._TWHandler={
         this.BZ_ReceiveAjax=function(url){
           if((o.readyState==4 || o._time && Date.now()-o._time>1000) && url==o.url){
             _TWHandler._setBZSent({i:-1,_root:_win.parent==_win,url:b});
-            bzTwComm._postToCtrl({_fun:"_setRequestCount",_data:{_url:o.url,i:-1},_scope:"_TWHandler"});
+            bzTwComm._postToExt({_fun:"_setRequestCount",_args:[{_url:o.url,i:-1}],_scope:"_TWHandler"});
             _TWHandler._setResponse({data:o.response,url:o.url,m:o.m,status:o.status,host:_host});
           }else{
             if(o._send && o.readyState==0 && !o._time){
@@ -8841,7 +8841,7 @@ _Util._init();window._TWHandler={
       if(!p.BZ_AjaxSend||p.BZ_AjaxSend==p.send){
         p.BZ_AjaxSend=p.send;
         p.send=function(a,b,c){
-          bzTwComm._postToCtrl({_fun:"_setRequestCount",_data:{_url:this.url,i:1},_scope:"_TWHandler"});
+          bzTwComm._postToExt({_fun:"_setRequestCount",_args:[{_url:this.url,i:1}],_scope:"_TWHandler"});
           _TWHandler._setBZSent({i:1,_root:_win.parent==_win,url:this.url,m:this.m});
           this._send=1;
           _TWHandler._setAjaxRequest(a,this._headers)
@@ -8857,7 +8857,7 @@ _Util._init();window._TWHandler={
         let _body=(a&&a.body)||(b&&b.body)||b
         let _headers=(a&&a.headers)||(b&&b.headers)||b||{}
         _TWHandler._curAPI={url:_url,method:m,host:_host}
-        bzTwComm._postToCtrl({_fun:"_setRequestCount",_data:{_url:_url,i:1},_scope:"_TWHandler"});
+        bzTwComm._postToExt({_fun:"_setRequestCount",_args:[{_url:_url,i:1}],_scope:"_TWHandler"});
         _TWHandler._setBZSent({i:1,_root:_win.parent==_win,url:_url,m:m});
 
         let _featchResult=_bzFetch(a,b,c)
@@ -8866,7 +8866,7 @@ _Util._init();window._TWHandler={
           _TWHandler._setAjaxRequest(_body,_headers)
           setTimeout(()=>{
             _TWHandler._setBZSent({i:-1,_root:_win.parent==_win,url:_url});
-            bzTwComm._postToCtrl({_fun:"_setRequestCount",_data:{_url:_url,i:-1},_scope:"_TWHandler"});
+            bzTwComm._postToExt({_fun:"_setRequestCount",_data:[{_url:_url,i:-1}],_scope:"_TWHandler"});
             try{
               let _contentType=x.headers.get('content-type')||""
               if(_contentType.includes("json")){
@@ -8887,7 +8887,7 @@ _Util._init();window._TWHandler={
       _TWHandler._ajaxReady=1
       if(!window.BZ && window.bzTwComm){
         console.log("set ajax to control")
-        bzTwComm._postToCtrl({_fun:"_setAjaxReady",_data:1,_scope:"_TWHandler"});
+        bzTwComm._postToExt({_fun:"_setAjaxReady",_data:[1],_scope:"_TWHandler"});
       }
     }
   },
@@ -8948,7 +8948,7 @@ _Util._init();window._TWHandler={
   _setResponse:function(o){
     o.url=_Util._mergeURL(location.protocol+"/"+"/"+location.host,o.url)
     if(!window.BZ && window.bzTwComm){
-      bzTwComm._postToCtrl({_fun:"_setResponse",_data:o,_scope:"_TWHandler"});
+      bzTwComm._postToExt({_fun:"_setResponse",_args:[o],_scope:"_TWHandler"});
     }else if(!window.extensionContent){
       _appReqRepHandler._attachRepData(o);
     }else{
@@ -8973,7 +8973,7 @@ _Util._init();window._TWHandler={
       _TWHandler._curAPI=0
     }
     if(!window.BZ && window.bzTwComm){
-      bzTwComm._postToCtrl({_fun:"_setAjaxRequest",_data:v,_scope:"_TWHandler"});
+      bzTwComm._postToExt({_fun:"_setAjaxRequest",_args:[v],_scope:"_TWHandler"});
     }else{
       _TWHandler._postAPIData(v)
     }
@@ -9105,7 +9105,7 @@ _Util._init();window._TWHandler={
       _TWHandler.BZ_sent=0;
     }
     if(window.bzTwComm){
-      bzTwComm._postToMaster({_fun:"_setBZSent",_data:d,_scope:"_TWHandler"});      
+      bzTwComm._postToIDE({_fun:"_setBZSent",_args:[d],_scope:"_TWHandler"});      
     }else if(window.BZ && BZ._hasExtension()&&!BZ._isPlaying()){
       _extensionComm._exeFun("_setUIData","_IDE._innerWin",{_dataBind:{_showDataBind:_IDE._innerWin._data._dataBind._showDataBind}});
     }
@@ -9118,7 +9118,7 @@ _Util._init();window._TWHandler={
     BZ._data._hasTW=0;
     BZ.TW.bzReloading=1;
     //if(window.bzTwComm){
-      bzTwComm._postToMaster({_fun:"_infoLoadingNewPage",_data:1,_scope:"_extensionComm"});
+      bzTwComm._postToIDE({_fun:"_infoLoadingNewPage",_args:[1],_scope:"_extensionComm"});
     //}
   },
   _bzUnload:function(){
@@ -9249,7 +9249,7 @@ _Util._init();window._TWHandler={
   },
   _setAlert:function(_msg){
     if(window.bzTwComm && bzTwComm.bzExtensionId){
-      bzTwComm._postToCtrl({_fun:"_setAlert",_data:_msg,_scope:"_TWHandler"})
+      bzTwComm._postToExt({_fun:"_setAlert",_args:[_msg],_scope:"_TWHandler"})
     }else{
       _TWHandler._popActual.alert.push(_msg+"");
     }
@@ -9257,7 +9257,7 @@ _Util._init();window._TWHandler={
   _setOnbeforeunload:function(_msg){
     if(_msg){
       if(window.bzTwComm && bzTwComm.bzExtensionId){
-        bzTwComm._postToCtrl({_fun:"_setOnbeforeunload",_data:_msg,_scope:"_TWHandler"})
+        bzTwComm._postToExt({_fun:"_setOnbeforeunload",_args:[_msg],_scope:"_TWHandler"})
       }else{
         _TWHandler._popActual.onbeforeunload.push(_msg+"");
       }
@@ -9265,7 +9265,7 @@ _Util._init();window._TWHandler={
   },
   _triggerConfirm:function(_msg){
     if(window.bzTwComm && bzTwComm.bzExtensionId){
-      bzTwComm._postToCtrl({_fun:"_triggerConfirm",_data:_msg,_scope:"_TWHandler"})
+      bzTwComm._postToExt({_fun:"_triggerConfirm",_args:[_msg],_scope:"_TWHandler"})
       return true
     }
     var a = _TWHandler._popActual.confirm;
@@ -9281,7 +9281,7 @@ _Util._init();window._TWHandler={
   },
   _triggerPrompt:function(_msg){
     if(window.bzTwComm && bzTwComm.bzExtensionId){
-      bzTwComm._postToCtrl({_fun:"_triggerPrompt",_data:_msg,_scope:"_TWHandler"});
+      bzTwComm._postToExt({_fun:"_triggerPrompt",_args:[_msg],_scope:"_TWHandler"});
       if(document.getElementById("bzPopReturnData")){
         var v= document.getElementById("bzPopReturnData").innerText;
         try{
@@ -13954,7 +13954,7 @@ _Util._init();window._TWHandler={
         return _eval._exeCode(x)
       }
       return x
-    });
+    }).filter(x=>x!==undefined&&x!==null&&x!==""&&x!="bz-skip");
     var _text=$util.getElementText(o)
     var _inputs=_cssHandler._findAllInputs(d.e)
     _inputs&&_inputs.forEach(u=>{
@@ -14888,7 +14888,7 @@ _Util._init();window._TWHandler={
     _popMsg=_popMsg||_domRecorder._curPopMsg;
     _domRecorder._curPopMsg=null;
     if(!window.BZ && window.bzTwComm){
-      bzTwComm._postToCtrl({_fun:"_setPopMsg",_data:_popMsg,_scope:"_domRecorder"});
+      bzTwComm._postToExt({_fun:"_setPopMsg",_args:[_popMsg],_scope:"_domRecorder"});
     }else if(window.extensionContent){
       setTimeout(function(){
         chrome.runtime.sendMessage({_fun:"_setPopInfo",_scope:"_domRecorder",_data:_popMsg})
@@ -16001,33 +16001,6 @@ _Util._init();window._TWHandler={
   _submitCurForm:function(){
     _uploadHandler._curForm.submit();
   },
-  /*
-  _setFakeFileForExtWebPage:function(v){
-    this._fakeFileId=v.bzId;
-    var o=document.querySelector("div[value='"+v.value+"']");
-    if(o){
-      for(var k in v){
-        if(k=="value"){
-          o.value=v.value;
-        }else if(k=="files"){
-          o.files=_uploadHandler._buildUploadBold(v.files)
-        }else{
-          var vv=document.createAttribute(k);
-          vv.value=v[k];
-          o.setAttributeNode(vv);
-        }
-      }
-      var p=_Util._getParentNode(o,"FORM");
-      p.submit=function(){
-        bzTwComm._postToCtrl({_fun:"_submitCurForm",_scope:"_uploadHandler"})
-        return false;
-      }
-      if(o.onchange){
-        o.onchange()
-      }
-    }
-  },
-  */
   //p:path
   _keepChangeFileFun:function(p){
     //p[0]="window.document";
@@ -16332,11 +16305,11 @@ _Util._init();window._TWHandler={
           let c=(a.event.value||"").match(_IDE._insertJSOnlyRegex)
           if(c){
             c=c[0]
-            eval("delete "+c)
+            _Util._eval("delete "+c)
             let e=$util.findDom(a.element)
             if(e){
               let v=$util.getElementValue(e)
-              eval(c+"=v")
+              c=_Util._eval(c+"=v",{v:v})
             }
           }          
         }
@@ -16539,7 +16512,7 @@ _Util._init();window._TWHandler={
           _fun(v)
         })
       }else{
-        eval("v="+v)
+        v=_Util._eval("v="+v)
         return v
       }
     }catch(e){
@@ -16710,16 +16683,16 @@ _Util._init();window._TWHandler={
     if(d){
       try{
         if(d.constructor==String){
-          eval("d="+d)
+          d=_Util._eval("d="+d)
           _ideDataManagement._initRandomValue(d)
         }
         if(p.length>1){
           for(let i=1;i<p.length;i++){
             d=d[p[i]]
           }
-          eval(pp+"=d")
+          _Util._eval(pp+"=d",{d:d})
         }else{
-          eval("pp="+pp)
+          _Util._eval("pp="+pp)
           for(var k in d){
             pp[k]=d[k]
           }
@@ -16810,7 +16783,7 @@ _Util._init();window._TWHandler={
         r=_JSHandler._prepareData(r)
         return _return(r)
       }else if(_Util._hasCode(r)){
-        eval("r="+r)
+        r=_Util._eval("r="+r)
         return _return(r)
       }
       
@@ -17642,7 +17615,7 @@ _Util._init();window._TWHandler={
           }
         }else if(o.type=="file"){
           _uploadHandler._setFileValue(o,v);
-    //        eval("ff="+v);
+    //        ff=_Util._eval("ff="+v);
     //        v=_uploadHandler._buildUploadBold(ff);
         }else if(o.value!=v){
     //        o.value=v;
@@ -17938,85 +17911,165 @@ for(k in $util){
   For get customer app info from extension
 */
 window.bzTwComm={
+  //_world,_frameId,d,ev, _scope, _fun, _args, _bktg, _bkfun, _bkscope
+  // tg (target):
+  //    1, app: page, 
+  //    2, ext: extension
+  //    3, ide: 
+  // frameId:0: top, element path: iframe, *: all
+  // operation options:
+  //    1, d: to set data
+  //    2, ev: to eval script
+  //    3, scope, fun, args
+  // bt (callback target): bt
+  // _bkfun (callback function): 
+  //    1, Function
+  //    2, script
+  // _bkscope (callback function scope)
+  _postRequest:function(v,_retry){
+    _retry=_retry||0
+    v.bz=1
+    v.bktg=bzTwComm._getWorld()
+    try{
+      if(v._bkfun&&v._bkfun.constructor==Function){
+        let f="f"+_aiAPI._newId()
+        window[f]=v._bkfun
+        v._bkfun=f
+      }
+      chrome.runtime.sendMessage(_extensionComm._bzExtensionId, v,r=>{
+        // if()
+      });
+    }catch(ex){
+      setTimeout(()=>{
+        BZ._callApp(v,_retry+1)
+      },100)
+    }
+  },
+  _getWorld:function(){
+    bzTwComm._world=bzTwComm._world||(bzTwComm._isIDE()?"ide":bzTwComm._isExtension()?"ext":"app")
+  },
   init:function(i){
     return this._init()
   },
-  _init:function(i){
-    console.log("_init ..")
-    bzTwComm._buildMsgArea()
-    if(window.name!="bz-master"){
-     _TWHandler._takeoverAjax(window)
+  getRequest:function(v){
+    if(v.tg=="ext"){
+      return bzTwComm._postRequestToExtension(v)
+    }else{
+      return bzTwComm._exeRequest(v)
     }
-    window.addEventListener("message", function(_event) {
-      //_console("ctrl page get message:",_event.data)
-      if(!_event || !_event.data || !_event.data.bz){
-        return;
-      }
-      _event=_event.data;
-      if(_event._setBackTestPage){
-        _TWHandler._setBackTestPage(window)
-      }else if(_event._takeoverWin){
-        _TWHandler._takeoverWin()
-      }else if(_event._takeoverPopMsg){
-        _domRecorder._takeoverPopMsg(window)
-      }else if(_event._setBackPopMsg){
-        _domRecorder._setBackPopMsg(window)
-      }else if(_event._fun){
-        window[_event._scope][_event._fun](_event._data)
-      }else if(_event._script){
-        eval(_event._script)
-      }
-    });
-
-    bzTwComm.bzExtensionId=i;
-    _Util._init()
-    
-    bzTwComm._postToMaster({_fun:"_setBZSent",_data:{i:0,_root:1},_scope:"_TWHandler"});
-    _TWHandler._takeoverOpenWin()
-    _TWHandler._takeoverCanvas()
   },
-  _buildMsgArea:function(){
+  _isIDE:function(){
+    return window.name=="bz-master"&&!window.extensionContent
+  },
+  _isExtension:function(){
+    return window.name!="bz-master"&&window.extensionContent
+  },
+  _isApp:function(){
+    return bzTwComm._isTopApp()||bzTwComm.bzIframeId
+  },
+  _isTopApp:function(){
+    return window.name.includes("bz-client")
+  },
+  _getExtensionId:function(){
+    return bzTwComm.bzExtensionId=bzTwComm.bzExtensionId||window.extensionContent||document.documentElement.getAttribute("bz-id")
+  },
+  _init:function(i){
+    bzTwComm.bzExtensionId=bzTwComm._getExtensionId();
+    if(!bzTwComm._isIDE()){
+      bzTwComm.bzIframeId=i
+      console.log("_init comm ..")
+      if(bzTwComm._isApp()){
+       _TWHandler._takeoverAjax(window)
+       _TWHandler._takeoverOpenWin()
+       _TWHandler._takeoverCanvas()
+      }
+      bzTwComm._monitorInfo()
+      if(bzTwComm._isTopApp()){
+        bzTwComm._postToIDE({_fun:"_setBZSent",_args:[{i:0,_root:1}],_scope:"_TWHandler"});
+      }
+    }
+  },
+  _monitorInfo:function(){
     //for content send code to app page
-    if(!document.body){
-      return setTimeout(()=>{
-        bzTwComm._buildMsgArea()
-      },1)
+    if(!bzTwComm._infoObserver){
+      bzTwComm._infoObserver= new MutationObserver(function(vs) {
+        vs.forEach(function(v) {
+          let d=document.documentElement.getAttribute(v)
+          if(d){
+            let vv=v.attributeName.match(/^bz-to-(app|ext)-)$/)
+            if(vv&&((vv[1]=="app"&&bzTwComm._isApp())||(vv[1]=="ext"&&bzTwComm._isExtension()))){
+              document.documentElement.removeAttribute(v)
+              try{
+                bzTwComm.exeRequest(JSON.parse(d))
+              }catch(e){
+                $util.log(e.stack)
+              }
+            }
+          }
+        });
+      })
+      bzTwComm._infoObserver.observe(document.documentElement,{attributes: true});
     }
-    let o=document.getElementById("bz-app-area")
-    if(!o){
-      o=document.createElement("div")
-      o.id="bz-app-area"
-      o.style.display="none"
-      document.body.parentElement.append(o)
-    }
-    let _infoObserver= new MutationObserver(function(_mutations) {
-      _mutations.forEach(function(_mutation) {
-        var v=_mutation.addedNodes[0]
-        if(v&&v.data){
-          debugger
-          v=v.data.replace(/&lt;/g,"<")
-          o.innerHTML=""
-          eval(v)
+  },
+  _exeRequest:function(v){
+    let r;
+    if(v._scope){
+      v._args=v._args||[]
+      let d=_getPathData(v._scope+"."+v._fun)
+      if(v._bkfun){
+        r=d.d[d.k](...v._args,()=>{
+          v={
+            _scope:v._bkscope||"window",
+            _fun:v._bkfun,
+            _args:[...arguments],
+            _world:v._bktg
+          }
+          bzTwComm._postRequest(v)
+        })
+      }else{
+        r=d.d[d.k](...v._args)
+      }
+    }else if(v.d){
+      Object.keys(v.d).forEach(k=>{
+        let vv=v.d[k],
+            d=_getPathData(k)
+        let o=d.d[d.k]
+        if(!o||o.constructor!=Object||!vv||vv.constructor!=Object){
+          d.d[d.k]=vv
+        }else{
+          Object.keys(vv).forEach(k=>{
+            d.d[d.k]=vv[k]
+          })
         }
-      });
-    })
-    _infoObserver.observe(o,{characterData: true});
+      })
+    }else{
+      r=_Util._eval(v.c)
+    }
+    return r
+
+    function _getPathData(k){
+      let ks=k.split(".")
+      k=ks.pop()
+      let d=window
+      ks.forEach(x=>{
+        d=d[x]||{}
+      })
+      return {d:d,k:k}
+    }
   },
   _exeCodeInApp:function(v){
-    $("#bz-app-area").innerText=v.replace(/[<]/g,"&lt;")
+    $("#bz-app-area")[0].innerText=v.replace(/[<]/g,"&lt;")
   },
   //For recording alert/confirm message
-  _postToMaster:function(d){
+  _postToIDE:function(d){
     d.bz=1;
-    d.twPage=1;
-    d.tab="master";
-    bzTwComm._insertData(d)
+    d.tg="ide";
+    bzTwComm._postRequest(d)
   },
-  _postToCtrl:function(d){
-    d.twPage=1;
+  _postToExt:function(d){
     d.bz=1;
-    d.tab="ctrl";
-    bzTwComm._insertData(d)
+    d.tg="ext";
+    bzTwComm._postRequest(d)
   },
   _insertData:function(d){
     if(!document.body){

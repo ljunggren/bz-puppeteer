@@ -1,4 +1,4 @@
-let _appUrl="https:/"+"/ai.boozang.com",inReload,
+let _appUrl="https:/"+"/ai.boozang.com",
     _masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_ctrlWindowId,curElement,_frameIds={0:1},
     _bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
 let _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId=0,_uncodeFrames=[];
@@ -12,7 +12,7 @@ let funMap={
       // _lastExeActionReq[k]=data[k]
     // }
   // },
-  getExtensions:function(bkScope,bkFun,v,_callback){
+  getExtensions:function(_callback){
     // let blockExtensions={
       // "kbfnbcaeplbcioakkpcpgfkobkghlhen":"Grammarly"
     // }
@@ -22,27 +22,6 @@ let funMap={
         return x.enabled
       }))
     })
-  },
-  loadImg:function(s,f,v,t,e,bkFun){
-    let img=document.createElement("img")
-//    document.body.append(img)
-    img.src=v
-
-    let c=document.createElement("canvas")
-//    document.body.append(c)
-    c.width=img.width
-    c.height=img.height
-    let cc=c.getContext("2d")
-    cc.drawImage(img,0,0)
-
-    img.onload=function(x){
-      x=c.toDataURL()
-      console.log(x)
-      bkFun(x)
-//      chrome.tabs.sendMessage(t.id, {scope:s,fun:f,data:{url:c.toDataURL()}});
-      c.remove()
-      img.remove()
-    }
   },
   openWindow:function(s,f,d){
     chrome.windows.create(d)
@@ -82,9 +61,18 @@ let funMap={
       method:v.method
     }
   },
-  enableAllIframe:function(){
-    _initFrame(0)
-    _uncodeFrames.forEach(f=>{_initFrame(f)})
+  getAppInfo:async function(){
+    if(!_ctrlTabId){
+      let tabs = await chrome.tabs.query({status:"complete"})
+      tabs.forEach(x=>{
+        trigger
+
+      })
+    }
+    return {
+      tab:_ctrlTabId,
+      frames:frameIds
+    }
   },
   ajax:function(scope,fun,data,_callback,element,responseFun){
     let asFile=data.notDownloadAsFile
@@ -267,7 +255,7 @@ let funMap={
   }
 }
 let _list={},_responseList={}
-chrome.action.setBadgeText({text: chrome.runtime.getManifest().version=="1.2"?"TEST":"AI"});
+chrome.action.setBadgeText({text:"AI"});
 /*Get Message from IDE*/
 /******************* call ide *************************************************** */
 chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) {
@@ -275,6 +263,21 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   //check whether the request from BZ pages. If not from BZ do nothing.
   if(!_req.bz){
     return;
+  }
+  if(_req.tg=="bg"){
+    let scope=_req[ecMap.s]=="funMap"?funMap:chrome
+    let args=_req[ecMap.ar]||[]
+    scope[_req[ecMap.f]](...args)
+  }else if(_req.tg=="ide"){
+    trigger(_req,_masterTabId)
+  }else{
+    if(_req[ecMap.e]){
+      findFrameId(_req[ecMap.e],function(v){
+        trigger(_req,_ctrlTabId,v)
+      })
+    }else{
+      trigger(_req,_ctrlTabId)
+    }
   }
   //check whether the request from BZ client web page
   if(_req.bg){
@@ -313,9 +316,6 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
         if(_req.data){
           _data=_req.data;
         }
-        if(_newStatus=="record"){
-          //funMap.enableAllIframe()
-        }
         chrome.tabs.sendMessage(_ctrlTabId, {_newStatus:_newStatus,data:_req.data},r=>{});
         _newStatus=0;
       }
@@ -335,7 +335,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   //Dynamic code from BZ master page
   }else if(_req.bzCode){
     if(_masterTabId&&_masterTabId!=_sender.tab.id){
-      chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"window",fun:"close"},r=>{});
+      chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"BZ",fun:"close"},r=>{});
       chrome.tabs.sendMessage(_ctrlTabId, {tab:"master",scope:"window",fun:"close"},r=>{});
     }
     
@@ -345,10 +345,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
     _lastExeActionReq=0;
     ignoreReqs="";
     _callback(1)
-    if(inReload){
-      inReload=0
-      rebuildTabs(_masterTabId)
-    }
+    // rebuildTabs(_masterTabId)
   //Set CSS file path from BZ master page
   }else if(_req.bzCss){
     _css=_req.bzCss;
@@ -523,10 +520,6 @@ function dblCheckForIframe(){
       console.log("dblCheckForIframe doesn't work....")
     }
   },3000)
-}
-//to get frame ids by element path
-function _getFrameIds(_root){
-  
 }
 function _isExistTab(id,_fun){
   chrome.tabs.query({}, function(tabs) {
@@ -822,7 +815,9 @@ function _isDownloading(rs){
 
 function cleanMaster(){
   var tabId=_ctrlTabId
-  _setCodeToContent("window.close()");
+  if(_ctrlTabId){
+    _setCodeToContent("window.close()");
+  }
   _status=""
   _masterTabId=0;
   _masterFrameId=0;
@@ -951,6 +946,12 @@ async function addPageScript() {
     runAt: 'document_start',
     world: 'MAIN',
     allFrames:true
+  },{
+    id: 'content',
+    js: ['plug.js',"content"],
+    matches: ['<all_urls>'],
+    runAt: 'document_start',
+    allFrames:true
   }];
   const ids = scripts.map(s => s.id);
   await chrome.scripting.unregisterContentScripts({ ids }).catch(() => {});
@@ -967,86 +968,38 @@ async function rebuildTabs(ignoreId){
     if(x.id<=ignoreId){
       return
     }
-    chrome.scripting.executeScript(
-      {
-        target: {tabId: x.id},
-        func: toReloadContent,
-      },
-      () => {}
-    )
+    chrome.tabs.sendMessage(x.id,{reportBZStatus:1},(m)=>{
+      if(m){
+        chrome.scripting.executeScript(
+          {
+            target: {tabId: x.id},
+            func: toReloadContent,
+          },
+          () => {}
+        )
+      }
+    })
   })
 }
 
-async function rebuildIDE(){
-  let tabs = await chrome.tabs.query({status:"complete"});
-  inReload=1
-  setTimeout(()=>{
-    inReload=0
-  },2000)
-  tabs.forEach(x=>{
-    chrome.scripting.executeScript(
-      {
-        target: {tabId: x.id},
-        func: reloadIDE,
-        world:"MAIN"
-      },
-      (a,b,c) => {
-      }
-    )
-  })
-}
-rebuildIDE()
-function reloadIDE(){
-  BZ.reloadIDE()
-}
 function toReloadContent(){
   reloadContent()
 }
-/*
-function trigger(v,tabId,iframeId){
-  let t={tabId: tabId}
-  if(iframeId!==undefined){
-    iframeId=[iframeId]
-  }else{
-    iframeId=Object.keys(_frameIds).map(x=>parseInt(x))
-  }
-  for(let i=0;i<iframeId.length;i++){
-    let j=iframeId[i]
-    t.frameIds=[j]
-    try{
-      chrome.scripting.executeScript(
-        {
-          target: t,
-          func: triggerFun,
-          args:[v]
-        },
-        (a,b,c) => {
-          console.log(a)
-        }
-      )
-    }catch(e){
-      debugger
-      delete _frameIds[j]
-    }
-  }
 
-  function triggerFun(v){
-    BZ.trigger(v)
-  }
-}
-*/
-function trigger(v,tabId,iframeId){
+function trigger(v,tabId,iframeId,page){
   let t={tabId: tabId}
   if(iframeId){
     t.frameIds=[iframeId]
   }else if(iframeId===undefined){
-    t.frameIds=Object.keys(_frameIds).map(x=>parseInt(x))
+    t.allFrames=true
+    // t.frameIds=Object.keys(_frameIds).map(x=>parseInt(x))
   }
   chrome.scripting.executeScript(
     {
       target: t,
       func: triggerFun,
-      args:[v]
+      args:[v],
+      world:"MAIN"
     },
     () => {}
   )

@@ -1,12 +1,12 @@
 window.bzIframeId=null
 let curContentExeAction=0,topFrame=0,initEnv=0;
 
-
 reloadContent(1)
 function registerTab(){
   //_console("content register")
   chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ),name:window.name},function(_msg){
     if(_msg){
+      document.documentElement.setAttribute("bz-id",chrome.runtime.id)
       window[ecMap.ev].exeGroupCode(_msg)
     }else{
       chrome.runtime.onMessage.removeListener()
@@ -18,13 +18,13 @@ chrome.runtime.onMessage.addListener(handleMsg);
 function reloadContent(v){
   if(name!=="bz-master"){
     if(!v){
-      chrome.runtime.onMessage.removeListener();
+      chrome.runtime.onMessage.removeListener(handleMsg);
       chrome.runtime.onMessage.addListener(handleMsg);
     }
     registerTab()
   }else{
     console.log("BZ-LOG: Extension version: "+chrome.runtime.getManifest().version)
-    document.body.setAttribute("bz-id",chrome.runtime.id)
+    document.documentElement.setAttribute("bz-id",chrome.runtime.id)
     window.postMessage({bz:1,bzExtensionId:chrome.runtime.id}, "*");
   }
 }
@@ -45,6 +45,9 @@ function handleMsg(_event, _, sendResponse, codeTime) {
   //_console("content get message: ",_event)
   if(_event.frameId!==undefined&&_event.frameId!=bzIframeId){
     return
+  }
+  if(_event.reportBZStatus){
+    return BZ.reportBZStatus(sendResponse)
   }
   if(_event.acceptData){
     // assignStdData()

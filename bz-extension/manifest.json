@@ -48,14 +48,14 @@
     //   "all_frames":true,
     //   "matchAboutBlank":true
     // },
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "matchAboutBlank":true,
-      "all_frames":true,
-      "js": ["plug.js","content"]
-    }
+    // {
+    //   "matches": [
+    //     "<all_urls>"
+    //   ],
+    //   "matchAboutBlank":true,
+    //   "all_frames":true,
+    //   "js": ["plug.js","content"]
+    // }
   ],
   "icons": { 
     "16": "img/boozang16.png",
