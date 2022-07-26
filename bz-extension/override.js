@@ -1,4 +1,6 @@
-function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('call for client')}window._eval={
+function insertBzCode(curIframeId){
+  if(v){console.log('call be bg ...')}else{console.log('call for client')}
+  window._eval={
   _leftKeys:{"{":"}","[":"]","(":")"},
   bd:{"{":"}","[":"]","(":")","'":"'",'"':'"','`':'`'},
   db:{"}":"{","]":"[",")":"(","'":"'",'"':'"','`':'`'},
@@ -18120,4 +18122,7 @@ window.bzTwComm={
     }
     return vv
   }
-};}if(window.name.includes("bz-client")){insertBzCode()}
+};
+  bzTwComm.init(curIframeId)
+}
+if(window.name.includes("bz-client")){insertBzCode()}

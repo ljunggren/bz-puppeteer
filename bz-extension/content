@@ -1,17 +1,16 @@
+chrome.runtime.sendMessage({registerTab: 1,name:window.name},function(_msg){
+  if(_msg){
+    bzTwComm.setAppInfo(_msg)
+  }
+});
+
 window.bzIframeId=null
 let curContentExeAction=0,topFrame=0,initEnv=0;
 
 reloadContent(1)
 function registerTab(){
   //_console("content register")
-  chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ),name:window.name},function(_msg){
-    if(_msg){
-      document.documentElement.setAttribute("bz-id",chrome.runtime.id)
-      window[ecMap.ev].exeGroupCode(_msg)
-    }else{
-      chrome.runtime.onMessage.removeListener()
-    }
-  });
+  
 }
 let waitCodeTimer,assignedData
 chrome.runtime.onMessage.addListener(handleMsg);
@@ -320,10 +319,6 @@ function showCode(v){
 function responseIFrameId(vs,_sendResponse,element,retry){
   if(!bzIframeId||(window.innerHeight<10||window.innerWidth<10)){
     return
-  }
-  if(vs[0]=="*"){
-    console.log("responseIFrameId *: "+bzIframeId)
-    return _sendResponse(bzIframeId)
   }
   if(vs.find(x=>{
     if(!(""+x).match(/^[0-9]+$/)){
