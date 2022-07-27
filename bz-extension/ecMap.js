@@ -1,5 +1,9 @@
 //extension code map
 var ecMap={
+  rc:"_ideRecorder",
+  tu:"_twUpdate",
+  ec:"_extensionComm",
+  har:"_handleAfterResponse",
   idm:"_ideDataManagement",
   ttmd:"_tmpTaskDataMap",
   css:"_cssHandler",

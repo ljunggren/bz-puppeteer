@@ -1,9 +1,8 @@
 importScripts('/ecMap.js');
-
-let _appUrl="https:/"+"/ai.boozang.com",
-    ideId,appId,_ctrlWindowId,
-    _bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
-let _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId=0;
+let list={},responseList={},appListenerMap={}
+let ideId,appId,_ctrlWindowId,initAppScript=[],
+    _status=newStatus=0,_lastExeActionReq,doingPopCtrl,_curTest,_data,_curAction,shareData={},_ctrlFrameId;
+let lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="";
 let _lastIframeRequest=0,_dblCheckTime=0,extendTopScript="",extendEndScript="";
 let funMap={
   exeFun:function(c,t,bk){
@@ -20,43 +19,33 @@ let funMap={
     let ar=c[ecMap.ar]||[],
         bf=c[ecMap.bf]
     if(bf){
-      let idx=ar.includes(bf);
+      let idx=ar.indexOf(bf);
       if(idx>=0){
         ar[idx]=function(){
           callback(...arguments)
         }
       }
     }
-    r=r[ecMap.f](...ar,t,bk)
+    
+    r=r[c[ecMap.f]](...ar,t,bk)
     if(idx==-1&&bf){
       callback(r)
     }
 
     function callback(){
       if(c[ecMap.bf]){
-        let v=funMap.buildAjaxData(c.bktg,c[ecMap.bs]||"window",c[ecMap.bf],[...arguments])
+        let v=funMap.buildBZRequestData(c.bktg,c[ecMap.bs]||"window",c[ecMap.bf],[...arguments])
         trigger(v,c.fromId,c.fromFrameId)
       }
     }
   },
-  setData:function(d){
-    Object.assign(_shareData,d)
-    let sent=0;
-    exeFun.getAppId((v)=>{
-      if(v&&!sent){
-        sent=1
-        let dd={bz:1}
-        dd[ecMap.s]="BZ"
-        dd[ecMap.f]=c[ecMap.sd]
-        dd[ecMap.ar]=[d]
-        trigger(dd,v.id)
-      }
-    })
+  setShareData:function(d){
+    Object.assign(shareData,d)
   },
-  getExtensions:function(_callback){
+  getExtensions:function(callback){
     //try to find extension: Grammarly, it cause performance issue!
     chrome.management.getAll(vs=>{
-      _callback(vs.filter(x=>{
+      callback(vs.filter(x=>{
         return x.enabled
       }))
     })
@@ -66,32 +55,22 @@ let funMap={
   },
   isRequestCompleted:function(_rList,fun){
     _rList.forEach((r,i)=>{
-      var v=_responseList[r]
+      var v=responseList[r]
       if(v){
-        delete _responseList[r]
+        delete responseList[r]
         _rList[i]=funMap.buildAjaxData(v)
       }else{
         _rList[i]=null
       }
     })
-    fun({result:!Object.keys(_list).length,data:_rList})
+    fun({result:!Object.keys(list).length,data:_rList})
   },
   postRequestInfo:function(v){
     if(["main_frame","xmlhttprequest"].includes(v.type)){
       v=funMap.buildAjaxData(v)
-      var id=v.requestId
-      if(fun=="addReq"){
-        _list[id]=v
-      }else{
-        delete _list[id]
-        _responseList[id]=v
-      }
-      trigger(funMap.buildBZRequestData("ide","BZ","addReq",[v]))
+      list[v.requestId]=v
+      trigger(funMap.buildBZRequestData("ide","BZ","addReq",[v]),ideId)
     }
-  },
-  postToIDE:function(r){
-    r.tg="ide"
-    trigger(r,ideId)
   },
   buildAjaxData:function(v){
     return {
@@ -109,21 +88,14 @@ let funMap={
       tabs.forEach(x=>{
         trigger({tg:"ext",c:"window.reportBZInfo&&window.reportBZInfo()"},x.id,undefined,function(d){
           appId=d.id
-          if(d.frameId){
-            frameIds.push(d.frameId)
-          }
-          fun(d)
+          fun(appId)
         })
       })
     }else{
-      v={
-        id:appId,
-        frames:frameIds
-      }
       if(fun){
-        fun(v)
+        fun(appId)
       }else{
-        return v
+        return appId
       }
     }
   },
@@ -139,12 +111,17 @@ let funMap={
     dd.tg=tg
     return dd
   },
+  setAppInitScript:function(d){
+    initAppScript=d
+  },
   postRequestToElement:function(req,_element,fun,failFun){
     curReq=req
     let v=getIframePath(_element)
     if(v){
       v=funMap.buildBZRequestData("ext","BZ","findFrameId",[v])
       findFrame(v,req.toId,req)
+    }else{
+      fun(0)
     }
     
 
@@ -284,6 +261,8 @@ let funMap={
         return alert("Testing on Boozang sites not supported!");
       }
 
+      // appListenerMap[t.frameId]=funMap.addListener()
+
       if(_msg.name=="bz-client"){
         appId=t.tab.id;
         _ctrlWindowId=t.tab.windowId;
@@ -302,79 +281,91 @@ let funMap={
       _sendResponse(d)
       v=funMap.buildBZRequestData("app","bzTwComm","setAppInfo",[d])
       trigger(v,appId,t.frameId)
+      funMap.postPreScriptToApp(appId,t.frameId)
+      trigger(funMap.buildBZRequestData("ext","BZ",ecMap.sd,[shareData]),appId,t.frameId)
+      initAppScript.forEach(x=>{
+        trigger(funMap.buildBZRequestData(x.tg,x[ecMap.s],x[ecMap.f],x[ecMap.ar],x.c,x.d),appId,t.frameId)
+      })
+      trigger(funMap.buildBZRequestData("ext","BZ",ecMap.ss,[_status]),appId,t.frameId)
+    }else{
+      _sendResponse(1)
     }
+  },
+  postAppRequestInfoToIDE:function(d){
+    trigger(funMap.buildBZRequestData("ide",ecMap.ec,ecMap.har,[d]))
+  },
+  postPreScriptToApp:function(id,fid){
+    if(extendTopScript||extendEndScript){
+      let s= (extendTopScript||"")+"\n"+(extendEndScript||"")
+      trigger(funMap.buildBZRequestData("app",ecMap.u,ecMap.ev,[s]),id,fid)
+    }
+  },
+  addListener:function(){
+    return chrome.runtime.onMessageExternal.addListener(function(req, sender, callback) {
+      //_console("background (web page): ",req)
+      //check whether the request from BZ pages. If not from BZ do nothing.
+      let tg=req.tg||""
+      if(req.status!==undefined){
+        //master tab set status before start pop client win
+        if(req.status=="popwin-start"){
+          doingPopCtrl=1
+        //master tab set status after end pop client win
+        }else if(req.status=="popwin-end"){
+          doingPopCtrl=0
+        }else{
+          newStatus=_status=req.status;
+    
+          trigger(req,req.toId);
+          newStatus=0;
+        }
+      //Set BZ code mapping data to unecrypt code from https://ai.boozang.com
+      }else if(req.extendTopScript){
+        extendTopScript=req.extendTopScript
+      }else if(req.extendEndScript){
+        extendEndScript=req.extendEndScript
+      }else if(tg.includes("bg")){
+        if(req.bzCode){
+          if(ideId&&ideId!=sender.tab.id){
+            trigger(funMap.buildBZRequestData("ide","BZ","close"),ideId,0);
+          }
+          if(appId){
+            trigger(funMap.buildBZRequestData("app","window","close"),appId,0);
+          }
+          
+          ideId=sender.tab.id;
+          _lastExeActionReq=0;
+          ignoreReqs="";
+          callback(ideId)
+        //Set CSS file path from BZ master page
+        }else{
+          funMap.exeFun(req,sender,callback)
+        }
+        return
+      }else if(tg.includes("ide")){
+        trigger(req,req.toId||ideId)
+      }else if(tg.match(/ext|app/)){
+        if(req[ecMap.e]){
+          funMap.postRequestToElement(req,req[ecMap.e],function(v){
+            trigger(req,req.toId||appId,v)
+          },function(){
+            callback({bzErr:1})
+          })
+        }else{
+          if(req[ecMap.f]==ecMap.sd){
+            funMap.setShareData(...req[ecMap.ar])
+          }
+          trigger(req,req.toId||appId)
+        }
+      }
+      callback(1)
+    });
   }
 }
-let _list={},_responseList={}
+let ideListener=funMap.addListener()
 chrome.action.setBadgeText({text:"AI"});
 /*Get Message from IDE*/
 /******************* call ide *************************************************** */
-chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) {
-  //_console("background (web page): ",_req)
-  //check whether the request from BZ pages. If not from BZ do nothing.
-  if(!_req.bz){
-    return;
-  }
-  let tg=_req.tg
-  if(tg.includes("bg")){
-    funMap.exeFun(_req,_sender,_callback)
-  }else if(tg.includes("ide")){
-    trigger(_req,ideId)
-  }else if(tg.match(/ext|app/)){
-    if(_req[ecMap.e]){
-      funMap.postRequestToElement(_req,_req[ecMap.e],function(v){
-        trigger(_req,_req.toId,v)
-      },function(){
-        _callback({bzErr:1})
-      })
-    }else{
-      trigger(_req,appId)
-    }
-  }else if(_req.status!==undefined){
-    //master tab set status before start pop client win
-    if(_req.status=="popwin-start"){
-      _doingPopCtrl=1
-    //master tab set status after end pop client win
-    }else if(_req.status=="popwin-end"){
-      _doingPopCtrl=0
-    }else{
-      _newStatus=_status=_req.status;
-      if(appId){
-        if(_req.data){
-          _data=_req.data;
-        }
-        chrome.tabs.sendMessage(appId, {_newStatus:_newStatus,data:_req.data},r=>{});
-        _newStatus=0;
-      }
-    }
-  //Set BZ code mapping data to unecrypt code from https://ai.boozang.com
-  }else if(_req.extendTopScript){
-    extendTopScript=_req.extendTopScript
-    return
-  }else if(_req.extendEndScript){
-    extendEndScript=_req.extendEndScript
-    return
-  //Dynamic code from BZ master page
-  }else if(_req.bzCode){
-    if(ideId&&ideId!=_sender.tab.id){
-      trigger({tab:"master",scope:"BZ",fun:"close"},ideId,0);
-    }
-    if(appId){
-      trigger({tab:"master",scope:"window",fun:"close"},appId);
-    }
-    
-    ideId=_sender.tab.id;
-    _lastExeActionReq=0;
-    ignoreReqs="";
-    _callback(1)
-  //Set CSS file path from BZ master page
-  }else if(_req.bzCss){
-    _css=_req.bzCss;
-  //Dynamic data from BZ master page
-  }else if(_req.bzEnvCode){
-    _bzEnvCode=_req.bzEnvCode;
-  }
-});
+
 
 let pop={
   formatLog:function(tab) {
@@ -383,44 +374,40 @@ let pop={
   updateFormatLogSetting:function(tab){
     chrome.tabs.executeScript(tab.id, {code: `window.formatter&&window.formatter.updateFormatLogSetting(${JSON.stringify(tab.data)})`,matchAboutBlank:true,allFrames:true},_=>{})
   },
-  getPageInfo:function(tab,_fun){
+  getPageInfo:function(tab,fun){
     chrome.tabs.sendMessage(tab, {scope:"formatter",fun:"getPageInfo"},d=>{
-      _fun(d)
+      fun(d)
     });
   }
 }
 
 /******************* call APP *************************************************** */
 //get message from app extension content
-chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
-  if(_msg.pop){
-    _sendResponse(1)
-    return pop[_msg.fun](_msg.data,function(d){
-      _sendResponse(d)
+chrome.runtime.onMessage.addListener(function(msg, t, sendResponse) {
+  if(msg.pop){
+    sendResponse(1)
+    return pop[msg.fun](msg.data,function(d){
+      sendResponse(d)
     })
-  }else if(!_msg.requestSendResponse){
+  }else if(!msg.requestSendResponse){
     
   }else{
-    _msg.requestSendResponse=_sendResponse
+    msg.requestSendResponse=sendResponse
   }
 
-  //_console("background (content): ",_msg)
-  /*****************************************************************************************************
-  //For REGISTER tab, it only work for new pop window. The new window must pop up from master window.
-  *****************************************************************************************************/
-  if(_msg.registerTab){
-    funMap.registerTab(_msg,t,_sendResponse)
+  if(msg.registerTab){
+    funMap.registerTab(msg,t,sendResponse)
   }
 });
 
-chrome.tabs.onRemoved.addListener(function(_tab, info) {
+chrome.tabs.onRemoved.addListener(function(t, info) {
   //_console("background: remove tab")
   //clear data when master tab close
-  if(ideId==_tab){
+  if(ideId==t){
     //_console("background: remove master")
     cleanMaster()
   //clear client info
-  }else if(appId==_tab){
+  }else if(appId==t){
     //_console("background: remove ctrl")
     appId=0;
     let v=funMap.buildBZRequestData("ide","bzTwComm","setAppInfo",[{appId:0}])
@@ -431,7 +418,7 @@ chrome.tabs.onRemoved.addListener(function(_tab, info) {
 chrome.tabs.onCreated.addListener(function(t, info) {
   //_console("background add tab")
   //only register the poping up client win
-  if(_doingPopCtrl){
+  if(doingPopCtrl){
     //_console("background add ctrl tab")
     if(appId && appId!=t.id){
       let v=funMap.buildBZRequestData("app","window","close",[]), id=appId
@@ -464,16 +451,17 @@ function cleanMaster(){
   _status=""
   ideId=0;
   appId=0;
-  _shareData={}
+  shareData={}
+  initAppScript=[]
   ignoreReqs=0
-  _newStatus=_status=_topFrameId=0
+  newStatus=_status=0
 }
 
 chrome.webRequest.onBeforeRequest.addListener(function(a,b){
   if(a.tabId==appId&&appId){
     if(a.type=="main_frame"){
-      _list={}
-      _responseList={}
+      list={}
+      responseList={}
     }
     funMap.postRequestInfo(a)
   }
@@ -493,21 +481,21 @@ chrome.webRequest.onCompleted.addListener(function(v){
 
   funMap.postRequestInfo(v)
   
-  funMap.postToIDE({c:"_ideRecorder._twUpdate()"})
+  trigger(funMap.buildBZRequestData("ide",ecMap.rc,ecMap.tu),ideId)
   var r={ctrlInfo:1,url:v.url,from:"complete"}
   if(v.statusCode>=400){
     r.failed=1;
     r.code=v.statusCode
   }
-  if(v.type=="main_frame"||(v.type=="sub_frame"&&v.frameId==_topFrameId)){
+  if(v.type=="main_frame"){
     if(_isDownloading(v.responseHeaders)){
       r.download=1
     }else{
       r.ready=1;//mainPage
-      _lastErrPage=0
+      lastErrPage=0
       r.tab="master"
       r.type=v.type
-      funMap._postToIDE(r)
+      funMap.postAppRequestInfoToIDE(r)
       return
     }
   }else if(v.type=="other"){
@@ -521,7 +509,7 @@ chrome.webRequest.onCompleted.addListener(function(v){
   }else{
     return;
   }
-  funMap._postToIDE(r)
+  funMap.postAppRequestInfoToIDE(r)
 },{urls: ["<all_urls>"]},["responseHeaders"]);
 
 chrome.webRequest.onErrorOccurred.addListener(function(v){
@@ -532,18 +520,18 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
   var r={url:v.url,error:v.error};
   funMap.postRequestInfo(v)
   
-  if(v.type=="main_frame"||(v.type=="sub_frame"&&((_masterFrameId&&!appId)||v.frameId==_topFrameId))){
+  if(v.type=="main_frame"){
     if(_isDownloading(v.responseHeaders)){
       r.download=1
     }else{
       r.ready=1
     }
-    if(_lastErrPage && _lastErrPage.url==r.url && Date.now()-_lastErrPage.time<1000){
-      _lastErrPage.time=Date.now()
+    if(lastErrPage && lastErrPage.url==r.url && Date.now()-lastErrPage.time<1000){
+      lastErrPage.time=Date.now()
       return;
     }
-    _lastErrPage={url:r.url,time:Date.now(),type:v.type}
-    console.log(_lastErrPage)
+    lastErrPage={url:r.url,time:Date.now(),type:v.type}
+    console.log(lastErrPage)
   }else if(v.type=="other"){
     r.download=1
   }else{
@@ -551,7 +539,7 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
     r.extraFile=1;
     r.initUrl=v.initiator
   }
-  funMap._postToIDE(r)
+  funMap.postAppRequestInfoToIDE(r)
 
 },{urls: ["<all_urls>"]});
 
@@ -573,19 +561,16 @@ async function addPageScript() {
     runAt: 'document_start',
     world: 'MAIN',
     allFrames:true
-  },{
-    id: 'content',
-    js: ['plug.js',"content"],
-    matches: ['<all_urls>'],
-    runAt: 'document_start',
-    allFrames:true
   }];
   const ids = scripts.map(s => s.id);
   await chrome.scripting.unregisterContentScripts({ ids }).catch(() => {});
   await chrome.scripting.registerContentScripts(scripts);
 }
 
-function trigger(v,tabId,iframeId,page){
+function trigger(v,tabId,iframeId,fun){
+  if(!tabId){
+    return
+  }
   let t={tabId: tabId}
   if(iframeId){
     t.frameIds=[iframeId]
@@ -595,14 +580,16 @@ function trigger(v,tabId,iframeId,page){
   let d={
     target: t,
     func: triggerFun,
-    args:v[ecMap.ar],
+    args:[v],
   }
   if(v.tg!="ext"){
     d.world="MAIN"
   }
   chrome.scripting.executeScript(
     d,
-    () => {}
+    a => {
+      fun&&fun(a)
+    }
   )
 
   function triggerFun(v){
@@ -610,5 +597,17 @@ function trigger(v,tabId,iframeId,page){
   }
 }
 
-
+(async ()=>{
+  let tabs = await chrome.tabs.query({})
+  tabs.forEach(x=>{
+    if(x.url.includes("/extension?id=")){
+      trigger({tg:"ide",c:"bzTwComm.touchIDE()"},x.id,undefined,function(d){
+        d=d.result
+        if(d){
+          appId=d
+        }
+      })
+    }
+  })
+})()
 console.clear()

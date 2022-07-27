@@ -1,48 +1,4 @@
-window.extensionContent=chrome.runtime.id;document.documentElement.setAttribute('bz-id',chrome.runtime.id)//extension code map
-var ecMap={
-  idm:"_ideDataManagement",
-  ttmd:"_tmpTaskDataMap",
-  css:"_cssHandler",
-  i:"_IDE",
-  ss:"_setStatus",
-  st:"_status",
-  d:"_data",
-  f:"_fun",
-  s:"_scope",
-  que:"_quickUpdateExpection",
-  ca:"_curAction",
-  ct:"_curTest",
-  tw:"_TWHandler",
-  dr:"_domRecorder",
-  dat:"_domActionTask",
-  ea:"_exeAction",
-  dp:"_bzDomPicker",
-  ftc:"_flashTmpCover",
-  iam:"_ideActionManagement",
-  sca:"_setCurAction",
-  pe:"_pickElement",
-  u:"_Util",
-  ts:"_toString",
-  cd:"_CtrlDriver",
-  bp:"_buildProxy",
-  e:"_element",
-  c:"_css",
-  co:"_code",
-  ua:"_updateAction",
-  a:"_action",
-  init:"_init",
-  k:"_keepConnection",
-  bm:"_bzMessage",
-  er:"_endRequire",
-  uh:"_uploadHandler",
-  jh:"_JSHandler",
-  sd:"_setShareData",
-  inn:"_innerWin",
-  r:"_refresh",
-  ev:"_eval",
-  ex:"_exeCode",
-  lnp:"_infoLoadingNewPage"
-};var _compressJSON={
+window.extensionContent=chrome.runtime.id;document.documentElement.setAttribute('bz-id',chrome.runtime.id);var _compressJSON={
   _version:"BZ-0.001",
   _CHAR:"",
   _string:"",
@@ -696,7 +652,7 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
   _trimSign:/(^[^\(\[\{\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+|[^\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC\)\]\}]+$)/g,
   _dataRegex:/(((\$(project|module|test|loop|data|group|action|parameter)((\.|\[|$)([a-zA-Z0-9\u4E00-\u9FCC_\$\'\"\(\)]+[\.|\[|\]]*)*)*|(\'|\").*(\'|\"))+( *(\+|\-|\*|\/) *)*)+)/g,
   _eval:function(v,_map){
-    if(_eval._isBzData(v)||window.extensionContent){
+    if(_eval._isBzData(v)||bzTwComm._isExtension()){
       return _eval._exeCode(v,_map)
     }else{
       _map=_map||{}
@@ -772,8 +728,8 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
       ps.unshift(p)
       p=ps.join("\n")
     }
-    if(window.extensionContent){
-      chrome.runtime.sendMessage({_scope:"_Util",_fun:"_log",_data:p});
+    if(!bzTwComm._isIDE()){
+      bzTwComm._postToIDE({_scope:"_Util",_fun:"_log",_args:[p]});
       return p
     }
     if(p.startsWith("video-img:")){
@@ -1635,10 +1591,10 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
       })){
         if(!BZ.TW||BZ.TW.closed){
           BZ._launchCurEnvUrl(_IDE._data._setting.curEnvironment,function(){
-            _Util._originAJax(a.complete,a)
+            _Util._originAJax(a,a.complete)
           })
         }else{
-          _Util._originAJax(a.complete,a)
+          _Util._originAJax(a,a.complete)
         }
         return
       }
@@ -1655,7 +1611,7 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
       
       
       
-      if(BZ._hasExtension()){
+      if(bzTwComm._isIDE()){
         XMLHttpRequest.prototype._XMLHttpRequestSend=XMLHttpRequest.prototype.send
         XMLHttpRequest.prototype.send=function(v){
           a.data=v
@@ -1746,18 +1702,10 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
       return buf;
     }
   },
-  _originAJax:function(_fun,d){
-    if(BZ._hasExtension()){
-      if(_fun.constructor==Function){
-        _Util._originAJaxCallback=_fun
-        _extensionComm._exeFun("_originAJax","_Util",d);
-      }else{
-        _Util._originAJaxCallback(_fun)
-      }
+  _originAJax:function(d,_fun){
+    if(bzTwComm._isIDE()){
+      bzTwComm._postToIDE({_fun:"_originAJax",_scope:"_Util",_args:[d,_fun]});
       return
-    }
-    if(!d&&_fun&&_fun.constructor!=Function){
-      d=_fun
     }
     if(Object.keys(d.headers||{}).find(x=>{
       if(x.toLowerCase()=="origin"){
@@ -1772,16 +1720,13 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
         d.data=JSON.stringify(d.data)
       }
       d.complete=function(r){
-        if(window.extensionContent){
-          r.headers=d.headers
-          r.request=d.request
-          if(_jsonData){
-            d.request.data=_jsonData
-          }
-          return chrome.runtime.sendMessage({bz:1,_fun:"_originAJax",_scope:"_Util",_data:r})
-        }else{
-          _fun(d)
+        r.headers=d.headers
+        r.request=d.request
+        if(_jsonData){
+          d.request.data=_jsonData
         }
+
+        _fun(d)
       }
       $.ajax(d)
     }
@@ -2321,7 +2266,7 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
     if(s&&s.constructor==String&&(_Util._hasCode(s)||s.match(/^[\{\[].*[\]\}]$/s))){
       try{
         if(s.constructor==String){
-          if(window.extensionContent){
+          if(bzTwComm._isExtension()){
             s=JSON.parse(s)
           }else{
             s=_Util._eval("s="+s)
@@ -3275,21 +3220,6 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
   },
   _isNoVisibleElement:function(e){
     return ["OPTION","IFRAME","SVG","LINK","TITLE","META","SCRIPT","STYLE","HTML","HEAD"].includes(e.tagName.toUpperCase())
-  },
-  _keepConnection:function(id){
-    clearTimeout(_Util._keepconnectionTimer)
-    _Util._keepconnectionTimer=setTimeout(function(){
-      _Util._keepConnection(id)
-    },3000)
-    try{
-      if(id){
-        chrome.runtime.sendMessage(id,{keep:1});
-      }else{
-        chrome.runtime.sendMessage({keep:1});
-      }
-    }catch(ex){
-      clearTimeout(_Util._keepconnectionTimer)
-    }
   },
   _isInContentEditable:function(e){
     if($(e).attr("contenteditable")){
@@ -4599,7 +4529,7 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
     var d=w.document;
     w.focus();
     var _host=SERVER_HOST;
-    if(window.extensionContent&&_host.match(/^\/\/[0-9\.]+$/)){
+    if(bzTwComm._isExtension()&&_host.match(/^\/\/[0-9\.]+$/)){
       _host="/"+"/ai.boozang.com"
     }
 
@@ -5983,7 +5913,7 @@ tbody td:first-child,tbody td:last-child{
     if(_paths.constructor==String){
       _paths=_paths.split("\n")
     }
-    if(window.extensionContent){
+    if(bzTwComm._isExtension()){
       let p=_paths[0]
       if(p&&p.constructor==String&&p.includes("frame")){
         _paths[0]="BZ.TW.document"
@@ -6697,12 +6627,6 @@ tbody td:first-child,tbody td:last-child{
     }
     return 1
   },
-  _sendChromeData:function(d){
-    if(window.chrome){
-      _Util._removeNoJSONData(d)
-      chrome.runtime.sendMessage(d);
-    }
-  },
   _removeStringSign:function(v){
     return v?v.replace(/(^["'`])|(["'`]$)/,""):v
   },
@@ -6998,7 +6922,7 @@ tbody td:first-child,tbody td:last-child{
   _tag:"div",
   _attr:{
     "class":function(d){
-      var c=window.extensionContent?"BZIgnore":""
+      var c=bzTwComm._isExtension()?"BZIgnore":""
       return d._modal?"bz-modal-bg "+c:"bz-bg "+c
     }
   },
@@ -7228,11 +7152,6 @@ var _Dialog={
   extendExceptionScript:function(c,_pos){
     return $util.extendExtensionScript(c,_pos)
   },
-  setScriptToApp:function(v){
-    let o=document.createElement("script")
-    o.innerHTML=v;
-    document.body.parentNode.append(o);
-  },
   removeDuplicateData:function(d){
     if(d&&d.constructor==Array){
       let v,_idx=d.length-1;
@@ -7296,13 +7215,6 @@ var _Dialog={
     }
     return _xml
   },
-  resetClient:function(){
-    //ask background to send std-script to app
-    chrome.runtime.sendMessage(
-      _extensionComm._bzExtensionId, 
-      {bz:1,bg:1,fun:"enableAllIframe"}
-    );
-  },
   getHostIdxByUrl:function(_url){
     _url=_url||location.href
     return _IDE._data._setting.environments[_IDE._data._setting.curEnvironment].items.findIndex(x=>_Util._isSameHost(x.host,_url))
@@ -7312,25 +7224,6 @@ var _Dialog={
   },
   toErgodicList:function(v){
     return _Util._toErgodicList(v)
-  },
-  //setLanguage
-  setLanguage:function(d){
-    if(BZ._data._uiSwitch._curAppLanguage==d||(!BZ._data._uiSwitch._curAppLanguage&&!d)){
-      return
-    }
-    if(_IDE._data._setting.appLanguages.includes(d)){
-      BZ._data._uiSwitch._curAppLanguage=d
-    }else{
-      BZ._data._uiSwitch._curAppLanguage=d=""
-    }
-    
-    _ideDataManagement._updateDataValueOnSwitchLanguage(_IDE._data._setting.appLanguages)
-    
-    if(window.extensionContent){
-      chrome.runtime.sendMessage({bz:1,_fun:"setLanguage",_scope:"$util",_data:d})
-    }else{
-      _extensionComm._exeFun("setLanguage","$util",d)
-    }
   },
   isMatchParameter:function(p,d){
     return _aiAPI._isMatchParameter(p,d)
@@ -7513,16 +7406,15 @@ var _Dialog={
   //log
   log:function(){
     let v=_Util._log(...arguments)
-    if(window.extensionContent){
-      chrome.runtime.sendMessage({_scope:"$console",_fun:"output",_data:"App: "+v});
+    if(!bzTwComm._isIDE()){
+      bzTwComm._postToIDE({_scope:"$console",_fun:"output",_args:["App: "+v]});
       return
     }
     $console.output(v)
   },
   //takeScreenshot
   takeScreenshot:function(o,_fun){
-    let _bkFun
-    if(window.extensionContent&&!o.element){
+    if(bzTwComm._isExtension()&&!o.element){
       return _screenshotHandler._elementImgMd5(o,1,_fun)
     }
     if(!BZ.TW||BZ.TW.closed){
@@ -7530,34 +7422,18 @@ var _Dialog={
       if(BZ._isAutoRunning()){
         throw new Error(_msg)
       }else{
-        alert(_msg)
+        return alert(_msg)
       }
     }
-    if(!_fun&&$util._takeScreenshotBkFun){
-      $util._takeScreenshotBkFun(o)
-      $util._takeScreenshotBkFun=0
-      return
-    }
     
-    if(window.extensionContent||!BZ._hasExtension()){
+    if(bzTwComm._isExtension()){
       _domActionTask._takeScreenshot(o,function(v){
-        chrome.runtime.sendMessage({_fun:"takeScreenshot",_scope:"$util",_data:v});
+        _fun(v)
       })
     }else{
-      if(_fun&&_fun.constructor==Function){
-        $util._takeScreenshotBkFun=_fun
-      }else{
-        $util._takeScreenshotBkFun=function(v){
-          $util._canvas=v
-          _bkFun&&_bkFun()
-        }
-      }
-      _extensionComm._exeFun("takeScreenshot","$util",{element:o||"BZ.TW.document.body"},o)
+      bzTwComm._postToExt({_fun:"takeScreenshot",_scope:"$util",_args:[{element:o||"BZ.TW.document.body"},_fun],_element:o||["BZ.TW.document"]})
     }
-    
-    return (f)=>{
-      _bkFun=f
-    }
+
   },
   //findDataInMap
   findDataInMap:function(map,o){
@@ -7609,7 +7485,7 @@ var _Dialog={
   //for check client app variable value
   takeAPPValue:function(v,_fun){
     try{
-      if(window.extensionContent){
+      if(bzTwComm._isExtension()){
         if(!$("#bz-val")[0]){
           $("<div id='bz-val' style='display:none'></div>").insertAfter(document.body)
         }
@@ -7829,7 +7705,7 @@ var _Dialog={
         }else{
           d=s.match(/\{\{.+\}\}/)?_JSHandler._prepareData(s):s
         }
-        if(d&&!window.extensionContent&&d.constructor==BZApiDataPicker){
+        if(d&&!bzTwComm._isExtension()&&d.constructor==BZApiDataPicker){
           _apiData=d
         }
       }else if([Object,Array].includes(d.constructor)){
@@ -7917,7 +7793,7 @@ var _Dialog={
         }else if(_std[0]&&_std[0].startsWith("{random")){
           return _return(_getRandom(_std[0]))
         }else if(_std[0]&&_std[0].startsWith("{exist")){
-          if(window.extensionContent){
+          if(bzTwComm._isExtension()){
             return ""
           }
           let v= _return(_getExist(_std[0]))
@@ -8541,11 +8417,6 @@ var _Dialog={
     
     let _jsPath
     if(document.activeElement!=o){
-      console.log(1)
-      console.log(o)
-      console.log(2)
-      console.log(document.activeElement)
-      
       o.bzTmp=_cssHandler._findPath(o)
       _Util._setFindDomJS(o)
       _jsPath=o._jsPath
@@ -8563,7 +8434,7 @@ var _Dialog={
          +"Object.defineProperty(k, 'composed', {get:function(){return true;}});"
          +"k.charCodeVal = "+(ch||0)+";"
          +"o.dispatchEvent(k);},0);"
-    bzTwComm._exeCodeInApp(s)
+    bzTwComm._postToApp({c:s})
     
   },
   //o:element, e:event, b:button, x, y, c:ctrlKey, a:alt, s:shift, t:target,tr:dataTransfer
@@ -8861,7 +8732,7 @@ var _Dialog={
           // return
         // }
       // }
-      if(window.extensionContent){
+      if(bzTwComm._isExtension()){
         _Util._getWindowFromDom(o).focus();
         var _path=_Util._getQuickPath(o)
         window.postMessage({bz:1,_script:"var bzBlur=_Util._getElementByQuickPath('"+_path+"');try{$(bzBlur).blur()}catch(e){bzBlur&&bzBlur.blur()}"}, "*");
@@ -9043,7 +8914,7 @@ for(k in $util){
     }
   },
   _buildMe:function(_preDoc){
-    if(window.extensionContent){
+    if(bzTwComm._isExtension()){
       this._documents=$(window.document);
       return this;
     }
@@ -14114,7 +13985,7 @@ _extendJQuery();var _infoManagement={
     });
   },
   _showImportantInfo:function(_text,_type,_extra,_main,_timer){
-    if(BZ._hasExtension()){
+    if(bzTwComm._isIDE()){
       // if(!curUser._curProject.setting.infoRunningTest){
         // return
       // }
@@ -14122,8 +13993,8 @@ _extendJQuery();var _infoManagement={
       if(!_main){
         return;
       }
-    }else if(window.extensionContent){
-      if(window.bzIframeId){
+    }else if(bzTwComm._isExtension()){
+      if(window.frameId){
         return
       }
       if(BZ._data._dock&&parent.parent!=parent){
@@ -15753,16 +15624,7 @@ if(!window.extensionContent){
     }
     // var _element = _force?_result._data.element:_domActionTask._showIssueInComment(_result);
     let _element=_result._data.element||["BZ.TW.document.BODY"]
-    // if(!_element&&!_fun){
-    //   if(window.extensionContent){
-    //     chrome.runtime.sendMessage({bz:1,_fun:"_finishScreenshotResult",_scope:"_ideReport",_data:_result})
-    //   }else{
-    //     _ideReport._finishScreenshotResult(_result)
-    //   }
-    //   return 
-    // }else if(window.extensionContent){
-    //   _element[0]="BZ.TW.document.BODY";
-    // }
+
     _element=($util.findDom(_element)||[])[0]||window.document.body;
     _doIt(Date.now())
     function _doIt(_time){
@@ -15803,8 +15665,8 @@ if(!window.extensionContent){
     function _final(){
       if(_fun){
         _fun(c)
-      }else if(window.extensionContent){
-        chrome.runtime.sendMessage({bz:1,_fun:"_finishScreenshotResult",_scope:"_ideReport",_data:_result})
+      }else if(bzTwComm._isExtension()){
+        bzTwComm._postToIDE({_fun:"_finishScreenshotResult",_scope:"_ideReport",_args:[_result]})
       }else{
         _ideReport._finishScreenshotResult(_result)
       }
@@ -15971,7 +15833,7 @@ if(!window.extensionContent){
     let _fun=0,o=e,_highlight=_withArea&&_withArea.outerHTML?_withArea:e;
     if(e.constructor!=Object){
       // setTimeout(()=>{
-        if(window.extensionContent){
+        if(bzTwComm._isExtension()){
           if(_highlight==BZ.TW.document.body){
             o=o._orgDom
             _doIt()
@@ -16019,33 +15881,16 @@ if(!window.extensionContent){
     
     function _doIt(){
       _domActionTask._doLog("Current url: "+location.href)
-      if(window.extensionContent&&(chrome.runtime.getManifest().version=="1.2"||parseFloat(chrome.runtime.getManifest().version)>=3.7)){
+      if(bzTwComm._isExtension()){
         _screenshotHandler._bkScreenshotFun=function(c){
-          // if(o.getBoundingClientRect){
-          //   o=o.getBoundingClientRect()
-          //   o={
-          //     _left:o.left,
-          //     _top:o.top,
-          //     _width:o.width,
-          //     _height:o.height
-          //   }
-          // }
-          
-          // o._top+=c.offset.top
-          // o._left+=c.offset.left
           _final(c.imgUrl,o)
         }
-        chrome.runtime.sendMessage({
-          bz:1,
-          bg:1,
-          fun:"getScreenshot",
-          bkFun:"_bkScreenshotFun",
-          bkScope:"_screenshotHandler",
-          element:e.bzTmp
-        })
-      }else if(window.extensionContent){
-        html2canvas(BZ.TW.document.body).then((c)=>{
-          _final(c.toDataURL(),o)
+        bzTwComm._postToGb({
+          _fun:"getScreenshot",
+          _scope:"funMap",
+          _bkfun:"_bkScreenshotFun",
+          _bkscope:"_screenshotHandler",
+          _args:[e.bzTmp]
         })
       }else{
         html2canvas(document.body).then((c)=>{
@@ -16057,68 +15902,6 @@ if(!window.extensionContent){
     function _final(c,o){
       clearTimeout(_screenshotHandler._callBackTimer)
       _bkFun(c)
-      // let _canvas=document.createElement("canvas")
-      // _canvas.width=screen.width
-      // _canvas.height=screen.height
-      // let _ctx = _canvas.getContext("2d");
-
-      // var image = new Image();
-      // image.onload = function() {
-        // try{
-          // if(_withArea){
-          //   let _width=600,_height=360
-          //   if((o._width<_width||o._height<_width)){
-          //     if(o._width<_width){
-          //       o._left-=(_width-o._width)/2
-          //       if(o._left<0){
-          //         o._left=0
-          //       }
-          //       if(o._left+_width>image.width){
-          //         o._left=image.width-_width
-          //       }
-          //       o._width=_width;
-          //     }
-          //     if(o._height<_height){
-          //       o._top-=(_height-o._height)/2
-          //       if(o._top<0){
-          //         o._top=0
-          //       }
-          //       if(o._top+_height>image.height){
-          //         o._top=image.height-_height
-          //       }
-          //       o._height=_height;
-          //     }
-          //   }
-          // }
-          
-          // let z=Math.pow((1024*1024)/(image.width*image.height),0.5)
-
-          // let w=Math.min(o._width,image.width)*z,
-          //     h=Math.min(o._height,image.height)*z
-
-          // _ctx.drawImage(image, 0, 0,image.width*z,image.height*z);
-          // let _imgData=_ctx.getImageData(o._left*z,o._top*z,w,h)
-
-          // _canvas.width=w;
-          // _canvas.height=h;
-          // _ctx.putImageData(_imgData, 0, 0);
-          // // _ctx.putImageData(_imgData, 0, 0,0,0,w/2,h/2);
-
-          // if(window.extensionContent){
-          //   if(!_withArea&&e.constructor!=Object){
-          //     //_bzDomPicker._flashTmpCover(e)
-          //   }else{
-          //     _bzDomPicker._removeTmpCover();
-          //   }
-          // }
-          // clearTimeout(_screenshotHandler._callBackTimer)
-          //_bkFun(_canvas.toDataURL())
-        // }catch(ex){
-        //   clearTimeout(_screenshotHandler._callBackTimer)
-        //   _bkFun("")
-        // }
-      // };
-      // image.src = c
     }
   }
 };var $script={
@@ -18018,10 +17801,10 @@ var _scriptActionHandler={
     }
   },
   _setCmd:function(s){
-    if(BZ._hasExtension()){
+    if(bzTwComm._isIDE()){
       _extensionComm._setCmd(s);
       return 1;
-    }else if(window.extensionContent && parent!=window){
+    }else if(bzTwComm._isExtension() && parent!=window){
       return 1;
     }
   },
@@ -18069,7 +17852,7 @@ var _scriptActionHandler={
       }
       return
     }
-    if(window.extensionContent||_timingInfo._blockOnIframe()){
+    if(bzTwComm._isExtension()||_timingInfo._blockOnIframe()){
       return
     }
     //remove realtime execute action info
@@ -18141,7 +17924,7 @@ var _scriptActionHandler={
     if(_timingInfo._blockOnIframe()){
       return
     }
-    if(window.extensionContent && parent!=window){
+    if(bzTwComm._isExtension() && parent!=window){
       return ;
     }
     var m=_test._supData.name+" / "+_test.name;
@@ -18163,7 +17946,7 @@ var _scriptActionHandler={
   _removeLast:function(){
     //TODO:Remove for tmp
     return
-    if(window.extensionContent && parent!=window){
+    if(bzTwComm._isExtension() && parent!=window){
       return ;
     }
     this._message.pop();
@@ -22974,56 +22757,6 @@ const _uiHandler={
     
     
   },
-  /*
-  _fakeInputFile:function(_input,_files,_fileData){
-    this._overWriteSubmitForm(_input);
-    var _fakeInput=$("<div></div>").insertBefore(_input)[0];
-    var _angularScope=null;
-    var _curWin=_Util._getWindowFromDom(_input);
-    var _data={}
-    if(_curWin.angular){
-      _angularScope=_curWin.angular.element(_input).scope();
-    }
-    for(var i=0;i<_input.attributes.length;i++){
-      var a = _input.attributes[i];
-      $(_fakeInput).attr(a.name,a.value);
-      _data[a.name]=a.value;
-      if(_angularScope){
-        try{
-          var tmp=null;
-          eval("tmp=_angularScope."+a.value+"._"+"directives.select");
-          for(var x=0;x<tmp.length;x++){
-            var _element=tmp[x].element;
-            for(var y=0;y<_element.length;y++){
-              if(_element[y]==_input){
-                _element[y]=_fakeInput;
-                break;
-              }
-            }
-          }
-        }catch(e){}
-      }
-    }
-    
-    _fakeInput.files=_files;
-    _data.files=_fileData;
-    _data.value=_fakeInput.value=_files[0].name;
-    $(_fakeInput).attr("value",_files[0].name);
-    var n="bzFile"+Date.now()
-    $(_fakeInput).attr("bzId",n);
-    _data.bzId=n;
-
-    if(window.extensionContent){
-      window.postMessage({bz:1,_fun:"_setFakeFileForExtWebPage",_scope:"_uploadHandler",_data:_data}, "*");
-    }
-    
-    $(_input).remove();
-    if(_input.onchange){
-      _fakeInput.onchange=_input.onchange
-    }
-    return _fakeInput;
-  },
-  */
   _outputSubmitResult:function(data,_target){
     var w=BZ.TW.open('',_target||"_"+"self");
     w.location.reload();
@@ -23340,7 +23073,7 @@ var _elementMonitor={
         pm._subModules.push(m);
       }
     }
-    if(!window.extensionContent){
+    if(!bzTwComm._isExtension()){
       if(BZ._isInDemo()){
         _ideObjHandler._mergeDemoData(_IDE._data._curVersion);
       }else{
@@ -23899,7 +23632,7 @@ var _elementMonitor={
   _getIDEURL:function(_module,_test,_version){
     _version=_version||_IDE._data._curVersion.code
     let p=BZ._data._curProject.code
-    let e=BZ._hasExtension()?SERVER_HOST+"/extension?id="+p:("/"+"/"+location.host+location.pathname)
+    let e=bzTwComm._isIDE()?SERVER_HOST+"/extension?id="+p:("/"+"/"+location.host+location.pathname)
     var v=e+"#"+p+"/"+_version;
     if(_module){
       v+="/";
@@ -24201,11 +23934,10 @@ var _elementMonitor={
     $(document.body).on("mouseover","a",function(){
       _Util._removeLinkTarget(this)
     })
-    _TWHandler._takeoverLink();
     _TWHandler._takeoverOpenWin();
     if(window.extensionContent){
       console.log("page is ready")
-      bzTwComm._postToIDE({_fun:"_infoPageReady",_args:[0],_scope:"_extensionComm"});
+      bzTwComm._postToIDE({_fun:"_infoPageReady",_scope:"_extensionComm"});
     }
   },
   _uiSync:function(){
@@ -24234,20 +23966,12 @@ var _elementMonitor={
   },
   _setPlayMode:function(v){
     _TWHandler._curMode=v
-    if(window.extensionContent){
-      bzTwComm._exeCodeInApp("window._TWHandler&&(window._TWHandler._curMode='"+v+"')")
+
+    if(bzTwComm._isExtension()){
+      bzTwComm._postToApp({c:"_TWHandler._curMode='"+v+"'"})
     }
   },
   _setBackTestPage:function(w){
-    //_console("set back twhandler")
-    if(window.BZ && BZ._hasExtension()){
-      return;
-    }else if(window.extensionContent){
-      return window.postMessage({bz:1,_setBackTestPage:1}, "*");
-    }
-    if(!w){
-      return;
-    }
     this._init()
     if(w.BZ_Alert){
       w.alert=w.BZ_Alert;
@@ -24265,35 +23989,13 @@ var _elementMonitor={
       w.BZ_Onbeforeunload=0;
       delete w.BZ_Onbeforeunload_fun;
     }
-/*
-    if(w.BZ_Ajax){
-      w.eval("window.XMLHttpRequest.prototype.open=window.XMLHttpRequest.prototype.BZ_Ajax");
-      w.eval("window.XMLHttpRequest.prototype.send=window.XMLHttpRequest.prototype.BZ_AjaxSend");
-      w.eval("window.XMLHttpRequest.prototype.setRequestHeader=window.XMLHttpRequest.prototype.BZ_SetHeader");
-      // w.eval("window.XMLHttpRequest.prototype.open=function(a,b,c){return window.BZ_Ajax.apply(this, [a,b,c]);}");
-      // w.eval("window.XMLHttpRequest.prototype.send=function(a,b,c){return window.BZ_AjaxSend.apply(this, [a,b,c]);}");
-      // w.eval("window.XMLHttpRequest.prototype.setRequestHeader=function(a,b,c){return window.BZ_SetHeader.apply(this, [a,b,c]);}");
-    }
-*/    
-    // if(w.BZ_PopOpen){
-      // w.open=w.BZ_PopOpen;
-      // w.BZ_PopOpen=0;
-    // }
+
     //take off outer link
     w.document._handledForOutDomain=false;
     if(window.BZ){
       $(w.document).off("click","a");
     }
-    
-    if(window._extensionComm){
-      var ws=$(w.document.body).find("IFRAME");
-      ws.each(function(i,v){
-        try{
-          _TWHandler._setBackTestPage(v.contentWindow);
-        }catch(e){}
-      })
-    }
-  },
+ },
   _takeoverFileInput:function(w){
     w=w.HTMLInputElement?w.HTMLInputElement.prototype:0;
     
@@ -24308,7 +24010,7 @@ var _elementMonitor={
     }
   },
   _takeoverWin:function(keepPopMsg,_data){
-    if(window.extensionContent){
+    if(bzTwComm._isExtension()){
       if(_data.event && _data.event.popType){
         $("#bzPopReturnData").remove();
         var v=document.createElement("div");
@@ -24321,7 +24023,7 @@ var _elementMonitor={
         }
       }
       return window.postMessage({bz:1,_takeoverWin:1}, "*");
-    }else if(window.BZ && BZ._hasExtension()){
+    }else if(bzTwComm._isIDE()){
       return;
     }
     try{
@@ -24359,7 +24061,6 @@ var _elementMonitor={
       _TWHandler._takeoverConsole(w);
       _TWHandler._takeoverFileInput(w);
       _TWHandler._setUnload();
-      _TWHandler._takeoverLink(w);
       _TWHandler._takeoverOpenWin(w);
       _TWHandler._takeoverCanvas(w)
       _TWHandler._takeoverSocket(w);
@@ -24726,12 +24427,10 @@ var _elementMonitor={
     return _min
   },
   _getCanvasData:function(_map){
-    if(window.bzTwComm && bzTwComm.bzExtensionId){
+    if(bzTwComm._isApp()){
       bzTwComm._postToExt({_fun:"_getCanvasData",_args:[_TWHandler._canvasDataMap],_scope:"_TWHandler"})
-    }else if(_map){
-      _TWHandler._canvasDataMap=_map
     }else{
-      return _TWHandler._canvasDataMap
+      return _TWHandler._canvasDataMap=_map||_TWHandler._canvasDataMap
     }
   },
   _getCanvasTextElement:function(c,t,i){
@@ -24974,9 +24673,11 @@ var _elementMonitor={
       }
       
       _TWHandler._ajaxReady=1
-      if(!window.BZ && window.bzTwComm){
+      if(bzTwComm._isApp()){
         console.log("set ajax to control")
-        bzTwComm._postToExt({_fun:"_setAjaxReady",_data:[1],_scope:"_TWHandler"});
+        let d={_fun:"_setAjaxReady",_args:[1],_scope:"_TWHandler"}
+        bzTwComm._postToExt(d);
+        bzTwComm._postToIDE(d);
       }
     }
   },
@@ -25024,9 +24725,6 @@ var _elementMonitor={
   },
   _setAjaxReady:function(v){
     _TWHandler._ajaxReady=v
-    if(window.extensionContent){
-      chrome.runtime.sendMessage({bz:1,_fun:"_setAjaxReady",_scope:"_TWHandler",_data:v})
-    }
   },
   _isTakeoverReady:function(){
     return _TWHandler._ajaxReady
@@ -25036,16 +24734,14 @@ var _elementMonitor={
   },
   _setResponse:function(o){
     o.url=_Util._mergeURL(location.protocol+"/"+"/"+location.host,o.url)
-    if(!window.BZ && window.bzTwComm){
-      bzTwComm._postToExt({_fun:"_setResponse",_args:[o],_scope:"_TWHandler"});
-    }else if(!window.extensionContent){
+    if(bzTwComm._isApp()){
+      bzTwComm._postToIDE({_fun:"_attachRepData",_args:[o],_scope:"_appReqRepHandler"});
+    }else if(bzTwComm._isIDE()){
       _appReqRepHandler._attachRepData(o);
-    }else{
-      chrome.runtime.sendMessage({bz:1,_fun:"_attachRepData",_scope:"_appReqRepHandler",_data:o})
     }
   },
   _setAjaxRequest:function(v,_headers){
-    if(!window.extensionContent){
+    if(bzTwComm._isApp()){
       if(v){
         if(_TWHandler._curAPI){
           _TWHandler._curAPI.data=v
@@ -25060,11 +24756,8 @@ var _elementMonitor={
         v.headers=JSON.stringify(_headers)
       }
       _TWHandler._curAPI=0
-    }
-    if(!window.BZ && window.bzTwComm){
-      bzTwComm._postToExt({_fun:"_setAjaxRequest",_args:[v],_scope:"_TWHandler"});
-    }else{
-      _TWHandler._postAPIData(v)
+
+      bzTwComm._postToExt({_fun:"_postAPIData",_args:[v],_scope:"_TWHandler"});
     }
   },
   _takeoverForm:function(w){
@@ -25105,11 +24798,7 @@ var _elementMonitor={
 
       v.url=_Util._mergeURL(location.protocol+"/"+"/"+location.host,v.url)
       
-      if(!window.extensionContent){
-        _appReqRepHandler._attachReqData(v);
-      }else{
-        chrome.runtime.sendMessage({bz:1,_fun:"_attachReqData",_scope:"_appReqRepHandler",_data:v})
-      }
+      bzTwComm._postToIDE({_fun:"_attachReqData",_scope:"_appReqRepHandler",_args:[v]})
     }
   },
   _setToken:function(v){
@@ -25140,11 +24829,7 @@ var _elementMonitor={
         }
         _TWHandler._token=r
 
-        // r._msg=_bzMessage._action.token+": "+JSON.stringify(r.tokenValue)
-        // if(r._msg.length>200){
-          // r._msg=r._msg.substring(0,200)+" ..."
-        // }
-        chrome.runtime.sendMessage({bz:1,_fun:"_setToken",_scope:"_aiAuthHandler",_data:r})
+        bzTwComm._postToIDE({_fun:"_setToken",_scope:"_aiAuthHandler",_args:[r]})
       }catch(e){}
     }
   },
@@ -25195,7 +24880,7 @@ var _elementMonitor={
     }
     if(window.bzTwComm){
       bzTwComm._postToIDE({_fun:"_setBZSent",_args:[d],_scope:"_TWHandler"});      
-    }else if(window.BZ && BZ._hasExtension()&&!BZ._isPlaying()){
+    }else if(bzTwComm._isIDE()&&!BZ._isPlaying()){
       _extensionComm._exeFun("_setUIData","_IDE._innerWin",{_dataBind:{_showDataBind:_IDE._innerWin._data._dataBind._showDataBind}});
     }
     //_console(" ------------- "+d.i+":"+d.m+":"+d.url+":"+_TWHandler.BZ_sent);
@@ -25253,7 +24938,7 @@ var _elementMonitor={
   },
   _isAfterRequest:function(){
     var v=0,t=60000;
-    if(window.BZ && BZ._hasExtension()){
+    if(bzTwComm._isIDE()){
       v= !_TWHandler.BZ_sent || _TWHandler.BZ_sent<0;
       t=6000;
     }else{
@@ -25274,11 +24959,11 @@ var _elementMonitor={
     // let _key=performance.now()
     // console.log("_takeoverOpenWin:"+_key)
     _win=_win||window
-    if(window.extensionContent){
+    if(bzTwComm._isExtension()){
       // console.log("1:"+_key)
       window.postMessage({bz:1,_takeoverOpenWin:1}, "*");
       return
-    }else if(window.BZ && BZ._hasExtension()){
+    }else if(bzTwComm._isIDE()){
       // console.log("2:"+_key)
       return;
     }
@@ -25289,12 +24974,6 @@ var _elementMonitor={
     }
     _win.BZ_PopOpen=_win.open;
     _win.open=function(_url,_name,_option,_replace){
-      // console.log("BZ open: "+_key)
-      if(!_TWHandler._isSameDomain(_url) && !window.extensionContent && window.BZ){
-        if(!confirm(_bzMessage._system._info._outDomainWarning)){
-          return;
-        }
-      }
       if(_name!="BZ-In-Testing" && !window.BZ){
         var fs=window.document.getElementsByTagName("IFRAME");
         for(var i=0;i<fs.length;i++){
@@ -25315,29 +24994,8 @@ var _elementMonitor={
       return _pop
     }
   },
-  _takeoverLink:function(w){
-    w=w||window
-    if(w.BZ && w.BZ._autoRecording){
-      return
-    }
-    //ignore on extension client win
-    if(!window.BZ || BZ._isPlaying()){
-      return;
-    }
-    if(!w.document._handledForOutDomain){
-      w.document._handledForOutDomain=true;
-      $(w.document.body).on("click","a",function(a){
-        if(!_TWHandler._isSameDomain(this.href) && !window.extensionContent){
-          if(!this.ownerDocument.defaultView.confirm(_bzMessage._system._info._outDomainWarning)){
-            return false;
-          }
-        }
-        return true;
-      });
-    }
-  },
   _setAlert:function(_msg){
-    if(window.bzTwComm && bzTwComm.bzExtensionId){
+    if(bzTwComm._isApp()){
       bzTwComm._postToExt({_fun:"_setAlert",_args:[_msg],_scope:"_TWHandler"})
     }else{
       _TWHandler._popActual.alert.push(_msg+"");
@@ -25345,7 +25003,7 @@ var _elementMonitor={
   },
   _setOnbeforeunload:function(_msg){
     if(_msg){
-      if(window.bzTwComm && bzTwComm.bzExtensionId){
+      if(bzTwComm._isApp()){
         bzTwComm._postToExt({_fun:"_setOnbeforeunload",_args:[_msg],_scope:"_TWHandler"})
       }else{
         _TWHandler._popActual.onbeforeunload.push(_msg+"");
@@ -25353,7 +25011,7 @@ var _elementMonitor={
     }
   },
   _triggerConfirm:function(_msg){
-    if(window.bzTwComm && bzTwComm.bzExtensionId){
+    if(bzTwComm._isApp()){
       bzTwComm._postToExt({_fun:"_triggerConfirm",_args:[_msg],_scope:"_TWHandler"})
       return true
     }
@@ -25369,7 +25027,7 @@ var _elementMonitor={
     return rv;
   },
   _triggerPrompt:function(_msg){
-    if(window.bzTwComm && bzTwComm.bzExtensionId){
+    if(bzTwComm._isApp()){
       bzTwComm._postToExt({_fun:"_triggerPrompt",_args:[_msg],_scope:"_TWHandler"});
       if(document.getElementById("bzPopReturnData")){
         var v= document.getElementById("bzPopReturnData").innerText;
@@ -25500,7 +25158,7 @@ var _elementMonitor={
       }else if(BZ.TW.closed){
         _crash()
       }else{
-        if(BZ._hasExtension()){
+        if(bzTwComm._isIDE()){
           _startErrorProcess()
           _extensionComm._retrieveDataFromTW("name",function(v){
             _clearErrProcess()
@@ -25542,23 +25200,11 @@ var _elementMonitor={
   //_again: try again,
   _openUrl:function(_enterPointValue,_callBack,h,_again){
     window.$project&&(window.$project.$flag="")
-    // console.log("BZ-LOG: openUrl: "+_enterPointValue)
-    // console.warn("BZ-LOG: openUrl: "+_enterPointValue)
+
     let _final=0
 
-    // if(_enterPointValue&&(!_enterPointValue.match||_enterPointValue.match.constructor!=Function)){
-      // console.log(_enterPointValue)
-    // }
     if(_enterPointValue){
       _enterPointValue=_domActionTask._setCurValue(_enterPointValue)
-    }
-    // console.log("BZ-LOG: popup app window - "+_enterPointValue)
-    try{
-      if(!BZ._hasExtension()&&BZ.TW&&!BZ.TW.closed){
-        BZ.TW.document
-      }
-    }catch(e){
-      BZ._closePopWindow()
     }
     if(h===undefined&&!_ideTestManagement._getCurHost()){
       BZ._setStatus("")
@@ -25661,50 +25307,16 @@ var _elementMonitor={
     }
     return n
   },
-  // _checkTWData:function(_fun){
-  //   if(!BZ._isPlaying()&&!_fun){
-  //     return
-  //   }
-  //   let _time=_time2=0
-
-  //   if(BZ._hasExtension()){
-  //     console.log("BZ-LOG: check TW data")
-  //     _extensionComm._retrieveDataFromTW("!!(_IDE&&_IDE._data&&_IDE._data._curVersion&&_IDE._data._curVersion.setting&&_IDE._data._curVersion.setting.attributeMap)",function(v){
-  //       console.log("BZ-LOG: GET TW DATA: "+v)
-  //       if(v){
-  //         _extensionComm._retrieveDataFromTW("!!(_cssHandler._keyMap)",function(v){
-  //           if(v){
-  //             _fun()
-  //           }else{
-  //             _aiDataHandler._sendData()
-  //             setTimeout(()=>{
-  //               _TWHandler._checkTWData(_fun)
-  //             },100)
-  //           }
-  //         },1)
-  //       }else{
-  //         setTimeout(()=>{
-  //           _extensionComm._setShareData({"_IDE._data._curVersion.setting":_IDE._data._curVersion.setting})
-  //           setTimeout(()=>{
-  //             _TWHandler._checkTWData(_fun)
-  //           },100)
-  //         },100)
-  //       }
-  //     },1)
-  //   }else{
-  //     _fun()
-  //   }
-  // },
   _checkTWReady:function(_fun,_enterPointValue){
     // if(!BZ._isPlaying()){
       // return
     // }
     setTimeout(()=>{
-      let _time=_time2=0,_resetClient
+      let _time=_time2=0
       let t=BZ._getCurHost
       let _loadPageTime=_IDE._data._setting.advanced[_ideTestManagement._getCurServerId()].loadPageTime||60000
   
-      if(BZ._hasExtension()){
+      if(bzTwComm._isIDE()){
         let i=0;
         _TWHandler._reloadPageOnCheckTWReady=0
         let _timer=setInterval(function(){
@@ -25737,10 +25349,6 @@ var _elementMonitor={
               console.log("BZ-LOG: TWHandler 2")
               return _TWHandler._openUrl(_enterPointValue,_fun)
             }
-          }else if(_time2>10000&&!_resetClient){
-            _resetClient=1
-            console.log("BZ-LOG: reset client code")
-            $util.resetClient()
           }
         },50)      
       }else{
@@ -25748,32 +25356,6 @@ var _elementMonitor={
       }
     },0)
   },
-  // _checkErrPage:function(_success,_error,_times){
-    // if(!_times){
-      // _TWHandler._windowReady=0
-    // }
-    // _times=_times||0
-    // if(_times>30){
-      // return _error()
-    // }
-    // var _timer
-    // if(BZ._hasExtension()){
-      // _extensionComm._retrieveDataFromTW("window.noCrash()",function(v){
-        // clearTimeout(_timer)
-        // if(v&&!_TWHandler._windowReady){
-          // _TWHandler._windowReady=1
-          // _success()
-        // }
-      // },1)
-      // _timer=setTimeout(function(){
-        // if(!_TWHandler._windowReady){
-          // _TWHandler._checkErrPage(_success,_error,++_times)
-        // }
-      // },100)
-    // }else{
-      // _error()
-    // }
-  // },
   _responseReady:function(){
     return location.href
   },
@@ -26250,7 +25832,7 @@ data structure
       return alert(_bzMessage._dataBind._funNameErr)
     }
     try{
-      if(window.extensionContent){
+      if(bzTwComm._isExtension()){
         c=_eval._exeCode(c);
       }else{
         eval("c="+c);
@@ -26315,7 +25897,7 @@ data structure
         }
         var u=_ideDataHandler._getReqData(v.value.url);
         if(u){
-          if(!BZ._hasExtension()||v.value.type!="file"){
+          if(!bzTwComm._isIDE()||v.value.type!="file"){
             nd[n]=u;
           }else{
             nd[n]=v.value.url
@@ -26323,11 +25905,11 @@ data structure
         }else{
           nd[n]=_ideDataHandler._loadingFlag;
           //Directly load file not in extension side
-          if((!window.extensionContent)){
+          if((!bzTwComm._isExtension())){
             let x=v.value
             _ideDataHandler._loadData(x.url,x.type,function(v,o,k,t,_url){
               //don't set on extension way
-              if(!BZ._hasExtension()||t!="file"){
+              if(!bzTwComm._isIDE()||t!="file"){
                 o[k]=v;
                 _extensionComm._setShareData({"_ideDataManagement._tmpTaskDataMap":_ideDataManagement._tmpTaskDataMap})
               }else{
@@ -26964,7 +26546,7 @@ data structure
     window.$TW=BZ.TW;
     $project=$data(0,0,_force)
     
-    if(window.extensionContent){
+    if(bzTwComm._isExtension()){
       m=_ideDataManagement._tmpTaskDataMap._curModule;
       t=_ideDataManagement._tmpTaskDataMap._curTest;
       _IDE._data._curTest=_CtrlDriver._buildProxy(t);
@@ -27394,12 +26976,10 @@ var $data=function(m,t,init){
   _handleFileInput:function(){
     $("input[type=file]").on("click",function(e){
       if(BZ._isRecording()){
-        chrome.runtime.sendMessage({tab:"master",scope:"_domRecorder",fun:"_setClickFileInput"});
-        if(!window._uiSwitch||!window._uiSwitch._uploadFileFrom){
-          e.stopPropagation()
-          e.preventDefault()
-          _domRecorder._selectUploadFileOption(this)
-        }
+        bzTwComm._postToIDE({scope:"_domRecorder",fun:"_setClickFileInput"});
+        e.stopPropagation()
+        e.preventDefault()
+        _domRecorder._selectUploadFileOption(this)
       }else if(BZ._isPlaying()){
         e.stopPropagation()
         e.preventDefault()
@@ -27752,7 +27332,7 @@ var $data=function(m,t,init){
     }
   },
   _setBackPopMsg:function(){
-    if(window.extensionContent){
+    if(bzTwComm._isExtension()){
       return window.postMessage({bz:1,_setBackPopMsg:1}, "*");
     }
     if(window.BZ){
@@ -27809,7 +27389,7 @@ var $data=function(m,t,init){
           //set event listener
           BZ._documents.each(function(i,_document){
             _domRecorder._setDomEventListener(_document)
-            if(window.extensionContent){
+            if(bzTwComm._isExtension()){
               var os=$("IFRAME");
               os.each(function(i,v){
                 if(!v.src.startsWith("http")){
@@ -27820,7 +27400,6 @@ var $data=function(m,t,init){
           });
         }
       });
-//      if(!window.extensionContent){
       if(!_inTime){
         setTimeout(function(){
           _domRecorder._setEventListenerOnAllDoms()
@@ -27835,7 +27414,7 @@ var $data=function(m,t,init){
     if(_document._inListening && (_document.body&&_document._body==_document.body)){
       return;
     }
-    if(window.extensionContent){
+    if(bzTwComm._isExtension()){
       window.postMessage({bz:1,_takeoverPopMsg:1}, "*");
     }else{
       _domRecorder._takeoverPopMsg(_document.defaultView);
@@ -28042,13 +27621,10 @@ var $data=function(m,t,init){
   _setPopMsg:function(_popMsg){
     _popMsg=_popMsg||_domRecorder._curPopMsg;
     _domRecorder._curPopMsg=null;
-    if(!window.BZ && window.bzTwComm){
+    if(bzTwComm._isApp()){
       bzTwComm._postToExt({_fun:"_setPopMsg",_args:[_popMsg],_scope:"_domRecorder"});
-    }else if(window.extensionContent){
-      setTimeout(function(){
-        chrome.runtime.sendMessage({_fun:"_setPopInfo",_scope:"_domRecorder",_data:_popMsg})
-      },500)
-    }else{
+      bzTwComm._postToIDE({_fun:"_setPopInfo",_args:[_popMsg],_scope:"_domRecorder"});
+    }else if(!bzTwComm._isIDE()){
       _domRecorder._curPopMsg=_popMsg;
     }
   },
@@ -28237,10 +27813,10 @@ var $data=function(m,t,init){
                 as._data._name=p
               }
             }
-            if(!window.extensionContent){
+            if(!bzTwComm._isExtension()){
               _ideActionManagement._mergeToSetAction(as);
             }else{
-              _Util._sendChromeData({_data: as,_scope:"_ideActionManagement",_fun:"_mergeToSetAction"});
+              bzTwComm._postToIDE({_args: [as],_scope:"_ideActionManagement",_fun:"_mergeToSetAction"});
             }
           }
           _this._lastAction=_this._curMonitorElement=0
@@ -28609,7 +28185,7 @@ var $data=function(m,t,init){
     }
     if(BZ._autoRecording){
       BZ._storeData(a)
-    }else if(!window.extensionContent){
+    }else if(!bzTwComm._isExtension()){
       _ideActionManagement._addItem(a);
     }else{
       //Call background to set back recording action
@@ -28660,14 +28236,16 @@ var $data=function(m,t,init){
   _sendData:function(a){
     this._lastData=a;
     BZ._formatInIFramePath(a.element)
-    _domRecorder._sendDataList.push({action: a})
+    _domRecorder._sendDataList.push({_args:[a,function(){
+      _doIt()
+    }],_scope:"_ideRecorder",_fun:"_addNewItem"})
     _doIt()
     function _doIt(){
       if(!_domRecorder._waitSendData){
         let o=_domRecorder._sendDataList.shift()
         if(o){
           _domRecorder._waitSendData=1
-          _Util._sendChromeData(o);
+          bzTwComm._postToIDE(o);
           
           setTimeout(()=>{
             _domRecorder._waitSendData=0
@@ -28912,63 +28490,7 @@ var $data=function(m,t,init){
         }
       }
     }
-  },
-  // _generateAIValidation:function(es,_loadPage,_wait){
-    // //Ignore on Bug report lib
-    // if(!window.curUser||!curUser._curProject){
-      // return
-    // }
-    // if(!curUser._curProject.setting.record.autoAIValidation || !_IDE._data._curAction || !_IDE._data._curAction.type){
-      // return
-    // }
-    // var t=BZ._getCurTest(),
-        // a=this._lastData||_IDE._data._curAction;
-    // if(!t || (t._data.actions.length && !a)){
-      // if(!_wait){
-        // return setTimeout(function(){
-          // _domRecorder._generateAIValidation(es,_loadPage,1);
-        // },100)
-      // }
-    // }
-    // if(!a || a.type!=_ideActionData._type._triggerEvent || a.event.action!="click"){
-      // return
-    // }
-    
-    // var _area=curUser._curProject.setting.record.ignoreAIValidateArea;
-    // for(var i=0;i<es.length;i++){
-      // var dom=es[i];
-      // if(_area){
-        // if($(BZ.TW.document).find(_area).find(dom).length || $(BZ.TW.document).find(_area).is(dom)){
-          // continue;
-        // }
-      // }
-      // var d=_ideDataBind._bindValidationData(dom);
-      // if(!d){
-        // continue
-      // }
-      // var a =_ideActionManagement._getNewValidationAction();
-      // var _css=_cssHandler._findPath(dom,1);
-      // a.element=_css._elementPath;
-      // if(!a.element){
-        // continue;
-      // }else{
-        // _ideDataBind._bindDataOnElement(a,"element")
-      // }
-      // a.css=_css.W
-      // a.content.type="data"
-      // a.expection=d
-      
-      // if(!window.extensionContent){
-        // _ideActionManagement._addItem(a);
-      // }else{
-        // //Call background to set back recording action
-        // _domRecorder._sendData(a)
-      // }
-    // }
-    // setTimeout(function(){
-      // _descAnalysis._clearTmpPath(1);
-    // },200)
-  // }
+  }
 };var _taskInfo={
   _type:{
     _notReady:5,
@@ -29088,7 +28610,7 @@ var $data=function(m,t,init){
     a._supData=t;
     a._path=_ideLocation._getPath(0,t._supData,t)+(i+1)+"/";
     a._idx=i;
-    if(!window.extensionContent){
+    if(!bzTwComm._isExtension()){
       a._level=_ideTask._level;
     }
 
@@ -29102,7 +28624,7 @@ var $data=function(m,t,init){
           m=BZ._getCurModule()._data.code,
           a,vs=[];
           
-      if(!as&&!window.extensionContent){
+      if(!as&&!bzTwComm._isExtension()){
         as=_ideTask._data._taskQueue
       }
       while(a=as.shift()){
@@ -29536,7 +29058,7 @@ var $data=function(m,t,init){
       
       if(!e){
         _domActionTask._reportAppInfo("Prepare action: element-1 not found. HTML size: "+(((document.body||{}).innerHTML||{}).length||0))
-        chrome.runtime.sendMessage({_fun:"_end",_scope:"_timingInfo",_data:""});
+        bzTwComm._postToIDE({_fun:"_end",_scope:"_timingInfo",_args:[""]});
         e=_Util._getRandomSelection(a.element)
         
         if(e&&a.event&&a.event.value&&a.event.value.startsWith("/{random")){
@@ -30155,20 +29677,20 @@ var $data=function(m,t,init){
     }
   },
   _reportAppInfo:function(v){
-    if(window.extensionContent){
-      chrome.runtime.sendMessage({
+    if(bzTwComm._isExtension()){
+      bzTwComm._postToIDE({
         _fun:"_receiveAPPInfo",
         _scope:"_ideTask",
-        _data:v
+        _args:[v]
       })
     }
   },
   _doLog:function(v){
-    if(window.extensionContent){
-      chrome.runtime.sendMessage({
+    if(bzTwComm._isExtension()){
+      bzTwComm._postToIDE({
         _fun:"log",
         _scope:"console",
-        _data:"BZ-LOG: "+v
+        _args:["BZ-LOG: "+v]
       })
     }else{
       console.log(v+" (APP)")
@@ -30584,7 +30106,7 @@ var $data=function(m,t,init){
           delete _data.e.bzTxtElement
         }
         r._img=_data._img
-        if(window.extensionContent||!BZ._hasExtension()){
+        if(bzTwComm._isExtension()){
           r._url=BZ.TW.location.href
         }
         if(_data.type!=4&&_tmpLoopDatahandler._handleActionLoopData(_data,r)){
@@ -30606,7 +30128,7 @@ var $data=function(m,t,init){
         _ideDataManagement._tmpTaskDataMap._group=$group
         r.$returnValue=window.$returnValue
         _fun=0
-        if(window.extensionContent){
+        if(bzTwComm._isExtension()){
           r._newScriptList=$script.newList
           $script.newList=[]
         }
@@ -30671,7 +30193,7 @@ var $data=function(m,t,init){
       }
       _domActionTask.TW=_setting.TW;
       //for cross-domain extension
-      if(window.extensionContent){
+      if(bzTwComm._isExtension()){
         _domActionTask.TW=window;
         BZ._prepareDocument();
       }
@@ -30739,7 +30261,7 @@ var $data=function(m,t,init){
     }catch(ex){
       BZ._log(ex.stack)
       if(_fun){
-        _result._type=window.extensionContent?_taskInfo._type._error:_taskInfo._type._crash;
+        _result._type=bzTwComm._isExtension()?_taskInfo._type._error:_taskInfo._type._crash;
         _result._msg=ex.message;
         _fun(_result)
       }
@@ -30779,7 +30301,7 @@ var $data=function(m,t,init){
       return _has
     }
     function _doApiRegister(){
-      if(!window.extensionContent){
+      if(bzTwComm._isIDE()){
         if(!_aiAuthHandler._isAuthItem(BZ._getCurModule())){
           return (!_data.apiReplaceEvent||_apiDataHandler._hasWaitingData([window.$parameter,window.$group,window.$action]))&&_apiDataHandler._registerExeFun(()=>{
             _domActionTask._exeAction(_data,_setting,_backFun,_descDelay)
@@ -30788,7 +30310,7 @@ var $data=function(m,t,init){
       }
     }
     function _waitOverWin(){
-      if(window.extensionContent){
+      if(bzTwComm._isExtension()){
         BZ._setTimeout(function(){
           var w=window.$TW||window;
           if($(w.document).find("#bzOverrideMark").length){
@@ -30862,7 +30384,7 @@ var $data=function(m,t,init){
         //Group
         }else if(_data.type==T._group){
           _result._type=_taskInfo._type._success;
-          if(!BZ._isAutoRunning()&&!window.extensionContent){
+          if(!BZ._isAutoRunning()&&!bzTwComm._isExtension()){
             _ideActionGroup._switchGroupOpen(_data._orgData,true)
           }
           // if(_data.singleAction){
@@ -30871,7 +30393,7 @@ var $data=function(m,t,init){
         //Script
         }else if(_data.type==T._script){
           _domActionTask._setErrorPos(_result,"_script","_actionDetailsGeneral");
-          if(window.extensionContent){
+          if(bzTwComm._isExtension()){
             _TWHandler._takeoverConsole(window)
           }
           return _domActionTask._doScript(_data,function(r){
@@ -30910,7 +30432,7 @@ var $data=function(m,t,init){
             if(!BZ.TW||BZ.TW.closed){
               _url=_Util._mergeURL(_ideTestManagement._getCurHost(), _JSHandler._prepareData("/",0,2))
             }else{
-              if(BZ._hasExtension()){
+              if(bzTwComm._isIDE()){
                 _extensionComm._setCmd("location.reload()");
               }else{
                 BZ.TW.location.reload()
@@ -31485,29 +31007,20 @@ var $data=function(m,t,init){
       }
     }catch(e){}
     if(extensionContent){
-      BZ._retrieveDataFromMaster({_scope:"_ideDataHandler",_fun:"_loadData",_parameters:[uri,"file"],_callBack:1},function(v){
+      bzTwComm._postToIDE({_scope:"_ideDataHandler",_fun:"_loadData",_args:[uri,"file"],_async:1,_bkfun:function(v){
         if(v && v.constructor==String){
           _ideDataHandler._loadData(uri,"file",_fun)
         }else{
           _fun(v)
         }
-      })
+      }})
     }else{
       _ideDataHandler._loadData(uri,"file",_fun)
     }
   },
   _postData:function(_data,_fun){
-    if(_fun){
-      _domActionTask._backPostDataFun=_fun
-      if(BZ._hasExtension()){
-        _extensionComm._exeFun("_postData","_domActionTask",_data,0);
-        return
-      }
-    }else if(BZ._hasExtension()){
-      if(_data._result=="_failed"){
-        alert(_data._msg)
-      }
-      _domActionTask._backPostDataFun()
+    if(bzTwComm._isIDE()){
+      bzTwComm._postToExt({_fun:"_postData",_scope:"_domActionTask",_args:[_data,_fun]})
       return
     }
     if(_data.contentType&&_data.contentType.toLowerCase().includes("application/json")){
@@ -31515,21 +31028,11 @@ var $data=function(m,t,init){
     }
     
     _data.success=function(v,r,rs){
-      _data={_result:"_success"}
-      if(window.extensionContent){
-        chrome.runtime.sendMessage({bz:1,_fun:"_postData",_scope:"_domActionTask",_data:_data})
-      }else{
-        _domActionTask._postData(_data)
-      }
+      _fun({_result:"_success"})
     }
     _data.error=function(v,a,b){
       let _value=v.responseText?v.responseText.trim():v.statusText||"";
-      _data={_result:"_failed",_msg:_value}
-      if(window.extensionContent){
-        chrome.runtime.sendMessage({bz:1,_fun:"_postData",_scope:"_domActionTask",_data:_data})
-      }else{
-        _domActionTask._postData(_data)
-      }
+      _fun({_result:"_failed",_msg:_value})
     }
     $.ajax(_data)
   },
@@ -31634,7 +31137,7 @@ var $data=function(m,t,init){
       }
     });
     function _doIt(w){
-      if(!window.extensionContent){
+      if(bzTwComm._isIDE()){
         _apiDataHandler._registerExeFun(()=>{
           _final(w)
         },0,0,d)
@@ -32205,7 +31708,7 @@ var $data=function(m,t,init){
           })
         }else{
           try{
-            if(dom.tagName=="INPUT" && dom.type=="file" && window.extensionContent){
+            if(dom.tagName=="INPUT" && dom.type=="file" && bzTwComm._isExtension()){
               if(v && v.constructor==String){
                 if(v.match(/^[\/]?example\..+$/)){
                   v=SERVER_HOST+"/file/"+v.replace("/","")
@@ -33461,7 +32964,7 @@ var $data=function(m,t,init){
     }
   },
   _setErrorPos:function(_result,_value,_key){
-    if(!window.extensionContent){
+    if(bzTwComm._isIDE()){
       _ideTask._setErrorPos(_result,_value,_key);
     }else{
       this._errorPos={_value:_value,_key:_key}
@@ -36121,8 +35624,8 @@ var _tmpLoopDatahandler={
   },
   _bindAndGenerateData:function(_value,_tmpValue,_replace,_funMain,_delayStoreData,_noAsk){
     
-    if(window.extensionContent){
-      chrome.runtime.sendMessage({bz:1,_fun:"_bindAndGenerateData",_scope:"_aiDataUpdateHandler",_data:{_value:_value,_tmpValue:_tmpValue}});
+    if(bzTwComm._isExtension()){
+      bzTwComm._postToIDE({_fun:"_bindAndGenerateData",_scope:"_aiDataUpdateHandler",_args:[{_value:_value,_tmpValue:_tmpValue}]});
       return 
     }else if(_value._value){
       _tmpValue=_value._tmpValue
@@ -37263,9 +36766,9 @@ var _aiElementHandler={
 //        console.log("--------------")
         c._upgradeList=_aiElementUpgrade._buildUpgradeStrategy(_oldPath,_path)
         _bzDomPicker._showTmpCover([_path])
-        if(window.extensionContent){
+        if(bzTwComm._isExtension()){
           BZ._formatInIFramePath(c._path)
-          chrome.runtime.sendMessage({_scope:"_aiElementUpgrade",_fun:"_setUpgradeElement",_data:c});
+          bzTwComm._postToIDE({_scope:"_aiElementUpgrade",_fun:"_setUpgradeElement",_args:[c]});
         }else{
           _aiElementUpgrade._setUpgradeElement(c);
         }
@@ -37702,7 +37205,7 @@ var _aiElementHandler={
           _done: 1
         }
 
-        if(BZ._hasExtension()){
+        if(bzTwComm._isIDE()){
           _extensionComm._setShareData({$project:$project||{}})
           _extensionComm._setShareData({$parameter:{}})
           _extensionComm._setShareData({"_IDE._data._curVersion.modules":[_moduleData]})
@@ -37744,7 +37247,7 @@ var _aiElementHandler={
       if(_fun.constructor==Function){
         _aiFlagHandler._identifyPageCallback=_fun
 
-        if(BZ._hasExtension()){
+        if(bzTwComm._isIDE()){
           $project=$project||{}
           $parameter=$parameter||{}
           _extensionComm._setShareData({"$project":$project})
@@ -38126,12 +37629,11 @@ var _aiElementHandler={
         $project:$project,
         $parameter:$parameter
       }
-      if(window.extensionContent){
-        return chrome.runtime.sendMessage({
-          bz:1,
+      if(bzTwComm._isExtension()){
+        return bzTwComm._postToIDE({
           _fun:"_identifyPage",
           _scope:"_aiFlagHandler",
-          _data:_page
+          _args:[_page]
         })
       }else{
         _fun(_page)
@@ -39127,7 +38629,7 @@ var _aiElementHandler={
     
     function _updatePath(c,o,m,g,cc){
       if(c.path){
-        if(!BZ._hasExtension()||window.extensionContent){
+        if(bzTwComm._isExtension()){
           let oo=$util.findDom(c.path)
           if(!_Util._isSameArray(c.path,o._path)&&!c.path.find(x=>_Util._hasInsertCode(x))){
             if(!oo||(oo!=o._element&&(oo.type!="radio"||oo.name!=o._element.name))){
@@ -42697,7 +42199,7 @@ var _aiElementHandler={
     function _doIt(s){
       if(s){
         _aiFlagHandler._data._tmpFlagScript=s
-        if(BZ._hasExtension()&&!window.extensionContent){
+        if(bzTwComm._isIDE()){
           _extensionComm._setShareData({"_aiFlagHandler._data.tmpFlagScript":s})
           return setTimeout(()=>{
             _extensionComm._setCmd("_aiFlagHandler._assignFlagByScript("+_cleanFirst+")")
@@ -49275,7 +48777,7 @@ var _aiAPI={
       return
     }
 
-    return !window.extensionContent&& await _return()
+    return bzTwComm._isIDE()&& await _return()
 
     async function _return(){
       let d=new BZApiDataPicker({
@@ -49324,7 +48826,7 @@ var _aiAPI={
 
     async function _return(){
       let _new;
-      if(!window.extensionContent&&BZApiDataPicker){
+      if(bzTwComm._isIDE()&&BZApiDataPicker){
         _new=new BZApiDataPicker({
           _data:_data,
           _key:_key,
@@ -49382,7 +48884,7 @@ var _aiAPI={
       if(_Util._isEmpty(_list)){
         let iv=_initMap[v.m]||_existOpt._afterSearch
 
-        if(!iv&&!window.extensionContent&&BZApiDataPicker){
+        if(!iv&&bzTwComm._isIDE()&&BZApiDataPicker){
           _initMap[v.m]=_list=new BZApiDataPicker({
             _data:_data,
             _key:_key,
@@ -49399,7 +48901,7 @@ var _aiAPI={
               })
             })
           })
-        }else if(!window.extensionContent&&iv.constructor==BZApiDataPicker){
+        }else if(bzTwComm._isIDE()&&iv.constructor==BZApiDataPicker){
           iv._addItem(_data,_key,v,_existOpt)
           _list=iv
         }else{
@@ -49407,7 +48909,7 @@ var _aiAPI={
         }
       }
       _setData(_data,_key,_list)
-      if(!_list||(!window.extensionContent&&_list.constructor!=BZApiDataPicker)){
+      if(!_list||(bzTwComm._isIDE()&&_list.constructor!=BZApiDataPicker)){
         if(!BZ._isAutoRunning()){
           m=_aiGeneratorDataHandler._getModuleObject(v.m)
           console.log("BZ-LOG: "+m._data.name+":"+(_list||[]).length)
@@ -49421,7 +48923,7 @@ var _aiAPI={
       if(_data){
         if(_data.constructor!=Function){
           _data[_key]=_list
-        }else if(!window.extensionContent&&(!_list||_list.constructor!=BZApiDataPicker)){
+        }else if(bzTwComm._isIDE()&&(!_list||_list.constructor!=BZApiDataPicker)){
           try{
             _data(_list)
           }catch(e){
@@ -51078,7 +50580,7 @@ var _aiGeneratorDataHandler={
       m=m.code||m
       if(m.match(/^(m[0-9]+|com|bug|ctrl)(\.[0-9]+)?$/)){
         let mm=_ideObjHandler._getDataByPath(m)
-        if(!mm&&window.extensionContent){
+        if(!mm&&bzTwComm._isExtension()){
           mm=_IDE._data._curVersion.modules.find(x=>x.code==m)
           if(mm){
             mm={
@@ -63800,7 +63302,7 @@ var _aiPageHandler={
     if(window._extensionComm && _extensionComm._curTWId){
       _bzDomPicker._back=_fun
       _path=_path||[]
-      _extensionComm._exeFun("_pickElement","_bzDomPicker",_Util._isEmpty(_path)?"":_path,0,_path[0]);
+      _extensionComm._exeFun("_pickElement","_bzDomPicker",_path,_path[0]);
     }else{
       var d={_type:_path};
       if(_path.constructor==Object){
@@ -65851,7 +65353,7 @@ var _aiWordHandler={
   },
 /*  */
   _setCurPanel:function(v){
-    if(BZ._hasExtension()){
+    if(bzTwComm._isIDE()){
       _extensionComm._setShareData({"_cssHandler._curPanel":v})
     }else{
       _cssHandler._curPanel=v
@@ -69696,12 +69198,8 @@ var _aiWordHandler={
   *     _data({dataName:{_element:[],_css:"",_type:"error/success/info",_value:""}})
   */
   _checkFillFormMsg:function(_setting,_fun){
-    if(!_fun&&!window.extensionContent){
-      return this._callBackCheckFillFormMsg(_setting)
-    }
-    this._callBackCheckFillFormMsg=_fun
-    if(BZ._hasExtension()){
-      _extensionComm._exeFun("_checkFillFormMsg","_cssHandler",_setting);
+    if(bzTwComm._isIDE()){
+      bzTwComm._postToExt({_fun:"_checkFillFormMsg",_scope:"_cssHandler",_args:[_setting,_fun],_element:_setting.element});
       return
     }
     
@@ -69738,9 +69236,6 @@ var _aiWordHandler={
       
       let os=_Util._getVisibleElements(_setting._css)
       _setting._data={_result:1}
-    }
-    if(window.extensionContent){
-      return chrome.runtime.sendMessage({bz:1,_fun:"_checkFillFormMsg",_scope:"_cssHandler",_data:_setting._data})
     }
     _fun(_setting._data)
     
@@ -69854,12 +69349,8 @@ var _aiWordHandler={
     return 1
   },
   _chkNoElement:function(ts,_fun){
-    if(!_fun&&!window.extensionContent){
-      return this._callbackChkNoElement(ts)
-    }
-    this._callbackChkNoElement=_fun
-    if(BZ._hasExtension()){
-      _extensionComm._exeFun("_chkNoElement","_cssHandler",ts);
+    if(bzTwComm._isIDE()){
+      bzTwComm._postToExt({_fun:"_chkNoElement",_scope:"_cssHandler",_args:[ts,_fun],_element:ts.element});
       return
     }
     
@@ -69871,25 +69362,17 @@ var _aiWordHandler={
       }
     }    
     let os=_Util._getVisibleElements(_area,ts._css);
-
-    if(window.extensionContent){
-      return chrome.runtime.sendMessage({bz:1,_fun:"_chkNoElement",_scope:"_cssHandler",_data:os.length})
-    }
     _fun(t) 
   },
   _isElementReady:function(ts,_fun){
-    if(!_fun&&!window.extensionContent){
-      return this._callbackIsElementReady(ts)
-    }
-    this._callbackIsElementReady=_fun
-    if(BZ._hasExtension()){
-      _extensionComm._exeFun("_isElementReady","_cssHandler",ts);
+    if(bzTwComm._isIDE()){
+      bzTwComm._postToExt({_fun:"_isElementReady",_scope:"_cssHandler",_args:[ts,_fun],_element:ts.ts[0]});
       return
     }
     var rs=[],_withElement=ts._withElement
     ts=ts.ts
     ts.forEach(t=>{
-      var s="",_element=t
+      var s=""
 
       t=$util.findDom(t)
       if(!t||_Util._isOpacity(t)){
@@ -69913,120 +69396,20 @@ var _aiWordHandler={
         rs.push(t+s)
       }
     })
-    if(window.extensionContent){
-      return chrome.runtime.sendMessage({bz:1,_fun:"_isElementReady",_scope:"_cssHandler",_data:rs})
-    }
-    _fun(t) 
+    _fun(rs)
   },
-  /*
-  _findButton:function(t,_fun){
-    if(!_fun&&!window.extensionContent){
-      return this._callbackFindButton(t)
-    }
-    this._callbackFindButton=_fun
-    if(BZ._hasExtension()){
-      _extensionComm._exeFun("_findButton","_cssHandler",t);
-      return
-    }
-    var tn;
-    
-    if(t.constructor!=Array){
-      tn=t[1]
-      t=t[0]
-    }
-    var w=_dictionaryHandler._getRegexValueByKey(t),gr=0,gb;
-    var os=$(BZ.TW.document).find("button,a,input").toArray(),
-        _list={_enable:[],_disable:[],_button:[],_submit:[],_simiplar:[]}
-    os.forEach(function(v){
-      if(!_Util._isHidden(v)){
-        let btn=0
-        var vw=v.tagName=="INPUT"?v.value:$(v).text(),g=0,r=0;
-        if(!vw.match(w)){
-          if(tn){
-            r=_glossaryHandler._getSimilarityRate(tn,vw)
-            if(r._type==1){
-            }else if(v.tagName=="A"){
-              return
-            }else if(r._size>gr){
-              g="_simiplar"
-              gr=r._size;
-              gb=v
-              _list[g]=[]
-            }
-          }else if(v.tagName=="A"){
-            return
-          }
-          if(!r||(r._type==2&&!r._size)){
-            if(v.disabled){
-              return
-            }else if(v.tagName!="INPUT"||v.type!="submit"){
-              if(v.tagName!="BUTTON"){
-                return
-              }else{
-                g="_button"
-              }
-            }else{
-              g="_submit"
-            }
-            if(_dictionaryHandler._findWordDefine(vw)){
-              return
-            }
-          }
-        }else{
-          if(v.disabled){
-            _list._disable=[]
-          }else{
-            _list._enable=[]
-          }
-        }
-        
-        btn=_cssHandler._findPath(v)
-        if(g){
-          _list[g].push(btn)
-        }else if(v.disabled){
-          _list._disable.push(btn)
-        }else{
-          _list._enable.push(btn)
-        }
-      }
-    })
-    if(gb){
-      if(!gb.disabled&&!_list._enable.length){
-        _list._enable.push(_list._simiplar[0])
-      }else if(gb.disabled&&!_list._disable.length){
-        _list._disable.push(_list._simiplar[0])
-      }
-    }
-    delete _list._simiplar
-    if(window.extensionContent){
-      return chrome.runtime.sendMessage({bz:1,_fun:"_findButton",_scope:"_cssHandler",_data:_list})
-    }
-    _fun(_list);
-  },
-  */
   _cleanCache:function(a,_fun){
-    if(!_fun&&!window.extensionContent){
-      return this._callbackCleanCache()
-    }
-    this._callbackCleanCache=_fun;
-    if(BZ._hasExtension()){
-      _extensionComm._exeFun("_cleanCache","_cssHandler",a);
+    if(bzTwComm._isIDE()){
+      bzTwComm._postToExt({_fun:"_cleanCache",_scope:"_cssHandler"});
       return
     }
     _timingInfo._end();
     _cssHandler._lastAllInputs=_cssHandler._lastAllInputsMap=0
-    if(window.extensionContent){
-      return chrome.runtime.sendMessage({bz:1,_fun:"_cleanCache",_scope:"_cssHandler"})
-    }
     _fun()
   },
   _findNewInputsPath:function(a,_fun){
-    if(!_fun&&!window.extensionContent){
-      return this._callbackFindNewInputsPath(a)
-    }
-    this._callbackFindNewInputsPath=_fun
-    if(BZ._hasExtension()){
-      _extensionComm._exeFun("_findNewInputsPath","_cssHandler",a);
+    if(bzTwComm._isIDE()){
+      bzTwComm._postToExt({_fun:"_findNewInputsPath",_scope:"_cssHandler",_args:[a,_fun],_element:a?a.element:0});
       return
     }
     var _area=a?$util.findDom(a.element):0
@@ -70047,93 +69430,8 @@ var _aiWordHandler={
         }
       }
     }
-    if(window.extensionContent){
-      return chrome.runtime.sendMessage({bz:1,_fun:"_findNewInputsPath",_scope:"_cssHandler",_data:vs})
-    }
     _fun(vs);
   },
-  /*
-  _validateFilledForm:function(pm,_fun){
-    if(!_fun&&!window.extensionContent){
-      return this._callbackValidateFilledForm(pm)
-    }
-    this._callbackValidateFilledForm=_fun
-    if(BZ._hasExtension()){
-      _extensionComm._exeFun("_validateFilledForm","_cssHandler",pm);
-      return
-    }
-
-    var fs=[]
-    pm=pm.pm;
-    for(var k in pm){
-      var v=pm[k],o=0;
-      if(v.constructor==Object){
-        v=v.value
-      }
-      if(_cssHandler._lastAllInputsMap){
-        o=_cssHandler._lastAllInputsMap[k]
-      }
-      if(_Util._isHidden(o)){
-        var ks=_Util._elementTxtToPath(k)
-        ks=$util.findDom(ks)
-        if(ks){
-          fs.push({k:k})
-        }else{
-          fs.push({k:k,_lost:1})
-        }
-      }else{
-        if(["INPUT","TEXTAREA"].includes(o.tagName)){
-          if(o.type=="radio"){
-            var rv=$("[name="+o.name+"]:checked").val()
-            if(rv!=v){
-              fs.push({k:k})
-            }
-          }else if(o.type!="checkbox"){
-            if((o.value||"")!=(v||"")){
-              fs.push({k:k})
-            }
-          }else{
-            if((v&&!o.checked)||(!v&&o.checked)){
-              fs.push({k:k})
-            }
-          }
-        }else if(o.tagName=="SELECT"){
-          if(!o.selectedOptions[0].text.toLowerCase().includes(v.toLowerCase())){
-            fs.push({k:k})
-          }
-        }
-      }
-    }
-    if(window.extensionContent){
-      return chrome.runtime.sendMessage({bz:1,_fun:"_validateFilledForm",_scope:"_cssHandler",_data:fs})
-    }
-    _fun(fs);
-  },
-  _findAllInputsPath:function(a,_fun){
-    if(!_fun&&!window.extensionContent){
-      return this._callbackFindAllInputsPath(a)
-    }
-    this._callbackFindAllInputsPath=_fun
-    if(BZ._hasExtension()){
-      _extensionComm._exeFun("_findAllInputsPath","_cssHandler",a);
-      return
-    }
-    var _area=a?$util.findDom(a.element):BZ.TW.document.body
-    let os=_cssHandler._lastAllInputs=_cssHandler._findAllInputs(_area),vs=[];
-    _area=_area?$(_area):0;
-    _cssHandler._lastAllInputsMap={}
-    for(var i=0;i<os.length;i++){
-      var o=os[i]
-      var p=_cssHandler._findPath(o,0,3);
-      _cssHandler._lastAllInputsMap[p.join(" ")]=o
-      vs.push(p)
-    }
-    if(window.extensionContent){
-      return chrome.runtime.sendMessage({bz:1,_fun:"_findAllInputsPath",_scope:"_cssHandler",_data:vs})
-    }
-    _fun(vs);
-  },
-  */
   _findInputByLabel:function(_panel,_name){
     if(_panel.constructor==Array){
       _panel=$util.findDom(_panel)
@@ -72994,9 +72292,6 @@ String.prototype.plural = function(revert){
       this._userHabit=_CtrlDriver._buildProxy(JSON.parse(localStorage.getItem("bz-extension-habit"))||{toolbarPos:{}})
     }catch(e){}
   },
-  _focusTW:function(){
-    window.open("",window.name).focus()
-  },
   _isPlugIn:function(){
     return 1
   },
@@ -73004,21 +72299,18 @@ String.prototype.plural = function(revert){
     return v.match(/\$(loop|parameter|parentModule|test|module|project|data|util|script)/)
   },
   _findIframePath:function(){
-    var p=parent,w=window,v="";
+    var p=parent,w=window,v=[];
     while(p!=w){
       for(var i=0;i<p.frames.length;i++){
         if(p.frames[i]==w){
-          if(v){
-            v=","+v
-          }
-          v=i+v
+          v.unshift(i)
           break
         }
       }
       w=p
       p=p.parent
     }
-    return v||""
+    return v.join(",")
   },
   _formatInIFramePath:function(e){
     let v=BZ._findIframePath()
@@ -73031,9 +72323,6 @@ String.prototype.plural = function(revert){
   },
   _removeDemoWin:function(){
     _IDE._innerWin._removeDemoWin()
-  },
-  _focusMaster:function(){
-    chrome.runtime.sendMessage({bz:1,_fun:"_focusMaster",_scope:"BZ",_data:{}})
   },
   _storeUserHabit:function(){
     localStorage.setItem("bz-extension-habit",JSON.stringify(this._userHabit));
@@ -73050,6 +72339,20 @@ String.prototype.plural = function(revert){
   _getCurAction:function(){
     return _IDE._data._curAction;
   },
+  _insertCss:function(_msg,_time){
+    _time=_time||Date.now()
+    if(document && document.body && document.body.innerHTML && (["complete","interactive"].includes(document.readyState) || Date.now()-_time>10000)){
+      var o=document.createElement("style");
+      o.id="bz-css"
+  
+      o.innerHTML=_msg;
+      document.body.parentNode.append(o);
+    }else{
+      setTimeout(function(){
+        BZ._insertCss(_msg,_time)
+      },0)
+    }
+  },  
   _setShareData:function(d){
     if(_ideDataBind._autoFillTime){
       return
@@ -73123,7 +72426,6 @@ String.prototype.plural = function(revert){
       }
     }
   },
-  _hasExtension:function(){},
   _getDocPath:function(_doc){
     if(BZ.TW.document==_doc){
       return "BZ.TW.document"
@@ -73253,12 +72555,12 @@ String.prototype.plural = function(revert){
   _triggerSetStatus:function(s){
     if(!s){
       if(BZ._isPlaying()){
-        return chrome.runtime.sendMessage({bz:1,_fun:"_end",_scope:"_ideTask",_data:1})
+        return bzTwComm._postToIDE({_fun:"_end",_scope:"_ideTask",_args:[1]})
       }else if(BZ._isRecording()){
-        return chrome.runtime.sendMessage({bz:1,_fun:"_end",_scope:"_ideRecorder",_data:s})
+        return bzTwComm._postToIDE({_fun:"_end",_scope:"_ideRecorder",_args:[s]})
       }
     }
-    chrome.runtime.sendMessage({bz:1,_fun:"_setStatus",_scope:"BZ",_data:s})
+    bzTwComm._postToIDE({_fun:"_setStatus",_scope:"BZ",_args:[s]})
   },
   _setStatus:function(s){
     var cs=BZ._data._status;
@@ -73315,9 +72617,7 @@ String.prototype.plural = function(revert){
   },
   _prepareDocument:function(_fun){
     this._documents=_BZDocumentsHandler._buildMe()
-    if(_fun){
-      _fun()
-    }
+    _fun&&_fun()
   },
   exeFun:function(_fun,_scope,_data,_bkFun){
     let v;
@@ -73330,14 +72630,6 @@ String.prototype.plural = function(revert){
     if(_bkFun){
       _bkFun(v)
     }
-  },
-  _retrieveDataFromMaster:function(v,_fun){
-    this._retrieveDataBackFun=_fun
-    chrome.runtime.sendMessage({bz:1,_fun:"_retrieveData",_scope:"_extensionComm",_data:{_value:v,_frameId:bzIframeId}})
-  },
-  _setBackRetrieveData:function(v){
-    this._retrieveDataBackFun(v)
-    this._retrieveDataBackFun=0
   }
 };
 
@@ -73362,11 +72654,10 @@ var _IDE={
 var _apiDataHandler={}
 var _cooperatorHandler={}
 var _appWordHandler={_wordMap:{}}
-if(window.name!="bz-master"){
-  console.log("")
-  window.onhashchange=function(){
-    chrome.runtime.sendMessage({bz:1,ctrlInfo:1,ready:1,url:location.href,from:"hash"})
-  }
+
+console.log("")
+window.onhashchange=function(){
+  bzTwComm._postToIDE({_fun:"_infoPageReady",_scope:"_extensionComm"})
 }
 
 setTimeout(function(){
@@ -73394,7 +72685,7 @@ var _identifyIFrameHandler={
         }
       })
       let d={
-        _bzIframeId:bzIframeId,
+        _bzIframeId:bzTwComm.frameId,
         _path:_identifyIFrameHandler._iframePath,
         fs:fs,
         _requestFlag:_requestFlag,
@@ -73408,7 +72699,7 @@ var _identifyIFrameHandler={
         d._width=Math.round(window.innerWidth)
         d._height=Math.round(window.innerHeight)
       }
-      chrome.runtime.sendMessage({bz:1,_scope:"_iframeManagement",_fun:"_registerIframe",_data:d})
+      bzTwComm._postToIDE({_scope:"_iframeManagement",_fun:"_registerIframe",_args:[d]})
     }
   },
   _getIFrameSize:function(x){
@@ -73432,9 +72723,6 @@ var _identifyIFrameHandler={
   _setJudgeIFrameFlag:function(v){
     _identifyIFrameHandler._curJudgeIFrameFlag=v
   },
-  // _reportIFrameUpdata:function(){
-    // // chrome.runtime.sendMessage({bz:1,_scope:"_iframeManagement",_fun:"_updateIFrame"})
-  // },
   _setPath:function(v){
     _identifyIFrameHandler._iframePath=v
   },
@@ -73459,7 +72747,7 @@ var _identifyIFrameHandler={
     }
   },
   _showInfo:function(){
-    document.body.children[0].innerText=bzIframeId+":"+_identifyIFrameHandler._iframePath
+    document.body.children[0].innerText=bzTwComm.frameId+":"+_identifyIFrameHandler._iframePath
   },
   _judgeIFrameByChangeSize:function(v){
     v=v||0
@@ -73495,78 +72783,49 @@ if(window!=parent){
   _identifyIFrameHandler._reportIFrame()
 
   let o=document.createElement("div")
-  o.innerText=bzIframeId
+  o.innerText=bzTwComm.frameId
   document.body.insertBefore(o,document.body.childNodes[0])
 }
 */;//Response on send data from client web page to BZ extension package
 var _transferMonitor={
   _config:{ attributes: true, childList: true, characterData: true,subtree:true,attributeOldValue:true,characterDataOldValue:true },
-  _docs:[],
-  _curMutations:[],
-  _infoObserver: new MutationObserver(function(_mutations) {
-    _mutations.forEach(function(_mutation) {
-      var v=_mutation.addedNodes[0]
-      if(v&&v.data){
-        v=JSON.parse(v.data)
-        _transferMonitor._bzArea.innerHTML=""
-        //in extension content.js file
-        handleMsg(v)
-      }
-    });
-  }),
   _init:function(){
-    var o=$("#bz-area")[0]
-    if(!o){
-      o=$("<div id='bz-area' style='display:none'></div>").insertAfter(document.body)[0]
-    }else if(o.innerText){
-      let v=JSON.parse(o.innerText);
-      o.innerHTML=""
-      handleMsg(v)
-    }
-    _transferMonitor._bzArea=o
-    this._infoObserver.observe(o,this._config);
-    if(_IDE._data._curVersion.setting.content.completeActionOnRender){
-      this._pageObserver.observe(BZ.TW.document.body,this._config);
+    if(_IDE._data._curVersion.setting.content.completeActionOnRender&&!_transferMonitor._pageObserver){
+      _transferMonitor._pageObserver=new MutationObserver(function(_mutations) {
+        var s=_IDE._data._curVersion.setting.content.ignoreRenderElement||""
+        if(s){
+          s=$(BZ.TW.document.body).find(s)
+          for(var i=0;i<_mutations.length;i++){
+            var o=_mutations[i].target
+            
+            if(!s.is(o)&&!s.find(o)[0]&&o.getBoundingClientRect){
+              o=o.getBoundingClientRect()
+              if(o.width&&o.height){
+                return _transferMonitor._lastUIUpdate=Date.now()
+              }
+            }
+          }
+        }else{
+          _transferMonitor._lastUIUpdate=Date.now()
+        }
+      })
+
+      _transferMonitor._pageObserver.observe(BZ.TW.document.body,this._config);
       _transferMonitor._lastUIUpdate=Date.now()
     }
   },
-  _pageObserver:new MutationObserver(function(_mutations) {
-    var s=_IDE._data._curVersion.setting.content.ignoreRenderElement||""
-    if(s){
-      s=$(BZ.TW.document.body).find(s)
-      for(var i=0;i<_mutations.length;i++){
-        var o=_mutations[i].target
-        
-        if(!s.is(o)&&!s.find(o)[0]&&o.getBoundingClientRect){
-          o=o.getBoundingClientRect()
-          if(o.width&&o.height){
-            return _transferMonitor._lastUIUpdate=Date.now()
-          }
-        }
-      }
-    }else{
-      _transferMonitor._lastUIUpdate=Date.now()
-    }
-  }),
   _chkUITimer:0,
   _reChkTimer:0,
   _getUICompleteTime:function(_fun,_retry){
     setTimeout(()=>{
-      if(_fun&&_fun.constructor!=Function&&!window.extensionContent){
-        if(_fun._token==_transferMonitor._chkUITimer){
-          clearTimeout(_transferMonitor._reChkTimer)
-          _transferMonitor._chkUITimer=0
-          return this._callbackCleanCache(_fun._time)
-        }else{
-          return
-        }
-      }
-      if(_fun&&_fun.constructor==Function){
-        this._callbackCleanCache=_fun;
-      }
-      if(BZ._hasExtension()){
+      if(bzTwComm._isIDE()){
         _transferMonitor._chkUITimer=Date.now()
-        _extensionComm._exeFun("_getUICompleteTime","_transferMonitor",_transferMonitor._chkUITimer,["BZ.TW.document"]);
+        bzTwComm._postToExt({_fun:"_getUICompleteTime",_scope:"_transferMonitor",_args:[function(v){
+          clearTimeout(_transferMonitor._reChkTimer)
+          _transferMonitor._reChkTimer=0
+          _fun(v)
+        }],_element:["BZ.TW.document"]})
+
         _transferMonitor._reChkTimer=setTimeout(()=>{
           if(_transferMonitor._chkUITimer){
             _transferMonitor._chkUITimer=0
@@ -73576,23 +72835,14 @@ var _transferMonitor={
               _fun()
             }
           }
-          
         },2000)
         return
-      }else if(!window.extensionContent){
-        return _fun()
       }
 
       _transferMonitor._lastUIUpdate=_transferMonitor._lastUIUpdate||Date.now()
       var t=_transferMonitor._lastUIUpdate
       if(Date.now()-t>500){
-        if(window.extensionContent){
-          // setTimeout(()=>{
-          chrome.runtime.sendMessage({bz:1,_fun:"_getUICompleteTime",_scope:"_transferMonitor",_data:{_time:t,_token:_fun}})
-          // },5000)
-        }else{
-          _fun(t)
-        }
+        _fun(t)
       }else{
         setTimeout(function(){
           _transferMonitor._getUICompleteTime(_fun)
@@ -73608,20 +72858,12 @@ var _transferMonitor={
   _selectedCover:null,
   _curDom:null,
   _getTWElementPathByCSS:function(c,_fun,_reTry){
-    if(!_fun&&!window.extensionContent){
-      if(_bzDomPicker._getTWElementPathByCSSCallback){
-        _bzDomPicker._getTWElementPathByCSSCallback(c)
-        _bzDomPicker._getTWElementPathByCSSCallback=0
-      }
-      return 
-    }
-    _bzDomPicker._getTWElementPathByCSSCallback=_fun
-    if(BZ._hasExtension()){
-      _extensionComm._exeFun("_getTWElementPathByCSS","_bzDomPicker",c);
+    if(bzTwComm._isIDE()){
+      bzTwComm._postToExt({_fun:"_getTWElementPathByCSS",_scope:"_bzDomPicker",_args:[c,_fun]});
       return
     }
     
-    if(window.innerWidth>100&&window.innerWidth>100){
+    if(window.innerWidth>10&&window.innerWidth>10){
       let cc=c?$util.findDom(["BZ.TW.document",c,0]):0
       if(cc){
         c=_cssHandler._findPath(cc)
@@ -73634,9 +72876,6 @@ var _transferMonitor={
       }
     }else{
       return
-    }
-    if(window.extensionContent){
-      return chrome.runtime.sendMessage({bz:1,_fun:"_getTWElementPathByCSS",_scope:"_bzDomPicker",_data:c})
     }
     _fun(c);
   },
@@ -73784,7 +73023,7 @@ var _transferMonitor={
         if(this.children.length){
           return
         }
-        chrome.runtime.sendMessage({bz:1,_fun:"_cancel",_scope:"_bzDomPicker"})
+        bzTwComm._postToIDE({_fun:"_cancel",_scope:"_bzDomPicker"})
         _bzDomPicker._cancel()
         e.preventDefault();
         e.stopPropagation()
@@ -73842,22 +73081,18 @@ var _transferMonitor={
         _bzDomPicker._pickDetails(d,_fun)
       })
     }
-    if(window._extensionComm && _extensionComm._curTWId){
-      if(_fun){
-        _bzDomPicker._back=_fun
-        _extensionComm._exeFun("_pickDetails","_bzDomPicker",d);
-      }else{
-        _bzDomPicker._back(d)
-      }
+    let _element=d&&d.constructor==Array&&d
+    if(window._extensionComm){
+      bzTwComm._postToExt({_fun:"_pickDetails",_scope:"_bzDomPicker",_args:[d,_fun],_element:_element});
     }else{
-      _bzDomPicker._start({_id:"_element",_back:_fun||_back,_type:d=="_pageAnalysis"||d=="_path"?"":d});
+      _bzDomPicker._start({_id:"_element",_back:_back,_type:d=="_pageAnalysis"||d=="_path"?"":d});
     }
     function _back(_path,_pos,_element){
       var vs;
       //TODO: 2019-05-12
       if(d=="_pageAnalysis"){
         _aiPageHandler._parseContent(_path,_element,function(d){
-          if(window.extensionContent){
+          if(bzTwComm._isExtension()){
             for(var k in d){
               d[k].forEach&&d[k].forEach(e=>{
                 if(e.name){
@@ -73867,11 +73102,10 @@ var _transferMonitor={
                 BZ._formatInIFramePath(e.path)
               })
             }
-            chrome.runtime.sendMessage({_fun:"_pickDetails",_scope:"_bzDomPicker",_data:d});
-          }else{
-            _fun(d)
           }
+          _fun(d)
         })
+        _bzDomPicker._endRequire()
         return 
       }else if(d=="_path"){
         vs=_cssHandler._findPath(_element)
@@ -73898,30 +73132,23 @@ var _transferMonitor={
           vs.push({_css:":Contains("+_Util._toTrimSign($util.getElementText(_element),100)+")"})
         }
       }
-      
-      if(window.extensionContent){
-        chrome.runtime.sendMessage({_fun:"_pickDetails",_scope:"_bzDomPicker",_data:vs});
-      }else{
-        _fun(d)
-      }
+      _fun(vs)
       _bzDomPicker._endRequire()
     }
   },
   _pickElement:function(_path,_fun,_url){
     _path=_path||""
-    if(window._extensionComm && _extensionComm._curTWId){
-      if(_fun){
-        _bzDomPicker._back=_fun
-        _extensionComm._exeFun("_pickElement","_bzDomPicker",_path);
-      }else{
-        _bzDomPicker._back(_path)
-      }
+    var d={_type:_path},e;
+    if(_path.constructor==Object){
+      d=_Util._clone(_path)
+      d._type=_path._path
+    }
+    if(d._type&&d._type.constructor==Array){
+      e=d._type
+    }
+    if(bzTwComm._isIDE()){
+      bzTwComm._postToIDE({_fun:"_pickElement",_scope:"_bzDomPicker",_element:e,_args:[_path]});
     }else{
-      var d={_type:_path};
-      if(_path.constructor==Object){
-        d=_Util._clone(_path)
-        d._type=_path._path
-      }
       d._id="_element"
       d._back=_fun||_back
       
@@ -73941,9 +73168,9 @@ var _transferMonitor={
       if(BZ._data._uiSwitch._tmpPath){
         BZ._data._uiSwitch._tmpPath=0
       }
-      if(window.extensionContent){
+      if(bzTwComm._isExtension()){
         BZ._formatInIFramePath(p._path||p)
-        chrome.runtime.sendMessage({_fun:"_pickElement",_scope:"_bzDomPicker",_data:p});
+        bzTwComm._postToIDE({_fun:"_pickElement",_scope:"_bzDomPicker",_args:[p]});
       }else{
         _fun(p)
       }
@@ -73999,20 +73226,15 @@ var _transferMonitor={
     });
   },
   _editPath:function(_path,_fun){
-    if(BZ._hasExtension()){
-      if(_fun){
-        _bzDomPicker._tmpBackFun=_fun
-        _extensionComm._exeFun("_editPath","_bzDomPicker",_path);
-      }else{
-        _bzDomPicker._tmpBackFun(_path)
-      }
+    if(bzTwComm._isIDE()){
+      bzTwComm._postToExt({_fun:"_editPath",_scope:"_bzDomPicker",_args:[_path,_fun],_element:_path});
     }else{
       _bzDomPicker._start({_id:"_editPath",_back:_back,_type:_path});
     }
     function _back(p){
-      if(window.extensionContent){
+      if(bzTwComm._isExtension()){
         BZ._formatInIFramePath(p)
-        chrome.runtime.sendMessage({bz:1,_fun:"_editPath",_scope:"_bzDomPicker",_data:p})
+        _fun(d)
       }
     }
   },
@@ -74127,7 +73349,7 @@ var _transferMonitor={
   _defineDocMouseover:function(){
     BZ._documents.find("body").unbind("mouseover");
     BZ._documents.find("body").bind("mouseover",_bzDomPicker._mouseoverEvent);
-    if(window.extensionContent){
+    if(bzTwComm._isExtension()){
       $("IFRAME").each(function(i,o){
         if(!o.src.startsWith("http")){
           $(o.contentDocument).find("body").bind("mouseover",_bzDomPicker._mouseoverEvent);
@@ -74251,7 +73473,6 @@ var _transferMonitor={
       if(!BZ._data._uiSwitch._tmpPath&&!this._isDomRootElementPicking() && this._curRequire._id!="_domRoot" && !this._data._filter && (!this._curRequire._type || this._curRequire._type.constructor!=Array)){
         _bzDomPicker._curRequire._back(_path,_pos,o);
         _bzDomPicker._endRequire();
-        BZ._focusMaster()
         return 1
       }
       BZ._data._uiSwitch._tmpPath=BZ._data._uiSwitch._tmpPath||1
@@ -74370,7 +73591,7 @@ var _transferMonitor={
   },
   _removeTmpCover:function(){
     try{
-      if(BZ._hasExtension()){
+      if(bzTwComm._isIDE()){
         _extensionComm._setCmd("_bzDomPicker._removeTmpCover()")
       }
       $(window.document).find(".BZCover,.ErrBZCover").remove();
@@ -74398,7 +73619,7 @@ var _transferMonitor={
       return;
     }else if(window.name!="bz-master" && BZ.TW && BZ.TW.document && (o==BZ.TW || o==BZ.TW.document)){
       o=BZ.TW.document.body;
-    }else if(window.extensionContent && o.tagName=="IFRAME" && o.src.startsWith("http")){
+    }else if(bzTwComm._isExtension() && o.tagName=="IFRAME" && o.src.startsWith("http")){
       return;
     }
     if(o.tagName=="IFRAME"){
@@ -74479,8 +73700,8 @@ var _transferMonitor={
     if(_path.constructor==String){
       _path=["BZ.TW.document",_path]
     }
-    if(!window.extensionContent && BZ._hasExtension()){
-      return _extensionComm._exeFun("_flashMutipleTmpCover","_bzDomPicker",_path);
+    if(bzTwComm._isIDE()){
+      return _extensionComm._exeFun("_flashMutipleTmpCover","_bzDomPicker",_path,_path[0]);
     }
     _bzDomPicker._removeTmpCover();
     let os=_Util._findDoms(_path)
@@ -74489,7 +73710,7 @@ var _transferMonitor={
   //os: elements, t, flash times, _fun: update cover and element, 
   _showTmpCover:function(os,t,_fun,_keep){
     var _elementPath=0;
-    if(!window.extensionContent){
+    if(!bzTwComm._isExtension()){
       _elementPath=os[0]
       if(!_elementPath){
         return
@@ -74510,8 +73731,8 @@ var _transferMonitor={
         _elementPath=_elementPath.path[0]
       }
     }
-    if(BZ._hasExtension()){
-      return _extensionComm._exeFun("_showTmpCover","_bzDomPicker",os,null,_elementPath);
+    if(bzTwComm._isIDE()){
+      return _extensionComm._exeFun("_showTmpCover","_bzDomPicker",os,_elementPath);
     }
     if(!_keep){
       _bzDomPicker._removeTmpCover()
@@ -74565,14 +73786,14 @@ var _transferMonitor={
   },
   //d:{_path, offset}
   _showOffset:function(d){
-    if(!window.extensionContent){
+    if(!bzTwComm._isExtension()){
       d={
         _element:_Util._clone(d._element),
         _offset:d._offset
       }
       _aiPageHandler._updateElementPathByDemoValue(d._element)
     }
-    if(!window.extensionContent && BZ._hasExtension()){
+    if(bzTwComm._isIDE()){
       return _extensionComm._exeFun("_showOffset","_bzDomPicker",d);
     }
     let c=_bzDomPicker._flashTmpCover(d._element,1)
@@ -74641,7 +73862,7 @@ var _transferMonitor={
     if(!_path){
       return
     }
-    if(!window.extensionContent&&!BZ._isPlaying()&&_IDE._data._curAction){
+    if(!bzTwComm._isExtension()&&!BZ._isPlaying()&&_IDE._data._curAction){
       _extensionComm._setCmd("_bzDomPicker._removeTmpCover()")
       _ideActionManagement._applyTmpValue()
     }
@@ -74670,7 +73891,7 @@ var _transferMonitor={
     if(_ideDataBind._data._inSelectFillField){
       return
     }
-    if(!window.extensionContent && BZ._hasExtension()){
+    if(bzTwComm._isIDE()){
       if(_elementPath){
         return _extensionComm._setSelectElement(_path,_elementPath);
       }
@@ -74797,7 +74018,7 @@ var _transferMonitor={
     }
   },
   _cancel:function(e){
-    if(!window.extensionContent){
+    if(!bzTwComm._isExtension()){
       return _extensionComm._setCmd("_bzDomPicker._cancel()")
     }
     _bzDomPicker._endRequire()
@@ -75733,8 +74954,8 @@ var _pickerTemplate={
   ]
 };var _tipHandler={
   _doAfterComment:function(d){
-    if(window.extensionContent){
-      return chrome.runtime.sendMessage({_fun:"_doAfterComment",_scope:"_tipHandler",_data:d});
+    if(bzTwComm._isExtension()){
+      return bzTwComm._postExt({_fun:"_doAfterComment",_scope:"_tipHandler",_args:[d]});
     }
     
     if(d>0){
@@ -75742,9 +74963,7 @@ var _pickerTemplate={
       BZ._setStatus("play")
       _ideTask._doRefCall(_ideTask._data._lastResult,0,1);
     }else{
-      setTimeout(function(){
-        _ideTestManagement._play();
-      },1);
+      _ideTestManagement._play();
     }
   },
   _removeAll:function(){
@@ -76175,7 +75394,7 @@ _tipHandler._viewDef={
       },
       _jqext:{
         keyup:function(){
-          if(window.extensionContent){
+          if(bzTwComm._isExtension()){
             _ideActionManagement._updateActionCommentDesc(this._data._action)
           }
         },
@@ -76380,17 +75599,12 @@ _IDE._innerWin={
   }),
   _switchUI:function(){
     _IDE._innerWin._data._pos._inMin=!_IDE._innerWin._data._pos._inMin;
-    _IDE._innerWin._initOperation();
     setTimeout(function(){
       _IDE._innerWin._setDrag();
     },100);
   },
   _exeTool:function(k){
-    if(window.extensionContent){
-      chrome.runtime.sendMessage({bz:1,_fun:"_exeTool",_scope:"_ideTask",_data:k})
-    }else{
-      _ideTask._exeTool(k)
-    }
+    bzTwComm._postToIDE({_fun:"_exeTool",_scope:"_ideTask",_args:[k]})
   },
   _updatePosition:function(){
     try{
@@ -76411,29 +75625,15 @@ _IDE._innerWin={
   },
   _insertCtrls:function(bSwitch,bMax){ //insert controls into customer application window
     // console.log("Call page ready")
-    if(window.extensionContent){
-      bzTwComm._postToIDE({_fun:"_infoPageReady",_args:[0],_scope:"_extensionComm"});
+    if(bzTwComm._isExtension()){
       if(BZ._isRecording()){
         setTimeout(()=>{
           _domRecorder._handleFileInput()
         },100)
       }
-    }else if(!BZ._isPlugIn()){
-      _extensionComm._infoPageReady()
     }
-    if(BZ._isAutoRunning() || (window._extensionComm && BZ._isPlugIn())){
-      return;
-    }
-    if(BZ._isPlugIn()){
-      if(BZ._data._dock){
-        if(parent.parent!=parent){
-          return
-        }
-      }else{
-        if(parent!=window){
-          return
-        }
-      }
+    if(BZ._isAutoRunning()||parent!=window){
+      return
     }
 
     if(!BZ._documents){
@@ -76444,16 +75644,7 @@ _IDE._innerWin={
     this._document=BZ.TW.document;
     //Insert BZ-Style.css
     BZ.TW._rootWin=window;
-    if(window._extensionComm && !BZ._hasExtension()){
-      var os=$(BZ.TW.document).find("IFRAME");
-      for(var i=0;i<os.length;i++){
-        try{
-          os[i].contentWindow._rootWin=window;
-        }catch(ex){}
-      }
-    }else{
-      BZ._retrieveUserHabit();
-    }
+    BZ._retrieveUserHabit();
     var _win;
     if(BZ.TW && BZ.TW.document && BZ.TW.document.defaultView && !BZ.TW.closed){
       _win=$(BZ.TW.document).find("#BZ_Win");
@@ -76500,7 +75691,6 @@ _IDE._innerWin={
     _IDE._innerWin._curDom=_CtrlDriver._execute(this,this._data,this._viewDef,BZ.TW.document.body.parentNode);
     
     this._setDrag();
-    _IDE._innerWin._initOperation()
     
     if(bMax){
       if(_IDE._innerWin._data._pos._inMin){
@@ -76516,7 +75706,6 @@ _IDE._innerWin={
       _IDE._innerWin._curDom.remove();
     }
     _IDE._innerWin._insertCtrls();
-    _IDE._innerWin._initOperation();
   },
   _setDrag:function(){
     _Util._setDrag([_IDE._innerWin._comps.BZ_Header,_IDE._innerWin._comps.BZ_Info],_IDE._innerWin._curDom)
@@ -76534,13 +75723,7 @@ _IDE._innerWin={
           if(_this._lastFocus){
             $(_this._lastFocus).focus()
           }
-          setTimeout(()=>{
-            if(window.extensionContent){
-              chrome.runtime.sendMessage({_scope:"_ideTask._demoHandler",_fun:"_exeNextStep"});
-            }else{
-              _ideTask._demoHandler._exeNextStep()
-            }
-          },10)
+          bzTwComm._postToIDE({c:"_ideTask._demoHandler._exeNextStep()"});
         },10)
       })
       w.mouseover(function(e){
@@ -76549,11 +75732,7 @@ _IDE._innerWin={
       $(BZ.TW.document.body).keydown(function(e){
         if(!_did&&(e.keyCode==40||e.keyCode==39||e.ctrlKey)){
           _did=1
-          if(window.extensionContent){
-            chrome.runtime.sendMessage({_scope:"_ideTask._demoHandler",_fun:"_exeNextStep"});
-          }else{
-            _ideTask._demoHandler._exeNextStep()
-          }
+          bzTwComm._postToIDE({c:"_ideTask._demoHandler._exeNextStep()"});
         }
       })
       $(BZ.TW.document.body).keyup(function(e){
@@ -76756,113 +75935,12 @@ _IDE._innerWin={
       },1)
     })
   },
-  //set operations for extension
-  _initOperation:function(){
-    return
-    if(window.extensionContent){
-      setTimeout(function(){
-        _Util._setFun(".bz-tb-header","ondblclick",function(){
-          _IDE._innerWin._switchUI()
-        });
-        _Util._setFun(".bz-tb-header","onclick",function(){
-          _IDE._innerWin._updatePosition()
-        });
-        _Util._setFun(".bz-tb-header .bz-minimize-white,.bz-tb-header .bz-plus-white","onclick",function(){
-          _IDE._innerWin._switchUI()
-        });
-        
-        _Util._setFun(".bz-stop,.bz-stop-red","onclick",function(){
-          BZ._triggerSetStatus(0)
-        });
-        
-        _Util._setFun(".bz-record","onclick",function(){
-          BZ._triggerSetStatus("record")
-        });
-        
-        _Util._setFun(".bz_playBtn","onclick",function(){
-          
-          chrome.runtime.sendMessage({bz:1,_fun:"_play",_scope:"_ideTestManagement",_data:1})
-        });
-        _Util._setFun(".bz-do-filter","onclick",function(){
-          _IDE._innerWin._data._tools._scope="body"
-          _IDE._innerWin._doFilterElement();
-          _IDE._innerWin._initOperation()
-        });
-        _Util._setFun(".bz-do-dark","onclick",function(){
-          _IDE._innerWin._doDark();
-          _IDE._innerWin._doFilterElement();
-        });
-        _Util._setFun(".bz-assign-script","onclick",function(){
-          _aiFlagHandler._assignFlagByScript(2);
-          _IDE._innerWin._doFilterElement();
-        });
-        _Util._setFun(".bz-remove-filter","onclick",function(){
-          _IDE._innerWin._removeFilterElement();
-          _IDE._innerWin._initOperation()
-        });
-        _Util._setFun(".bz-btn-tb-icon-half","onclick",function(){
-          _IDE._innerWin._showPlayMenu();
-          _IDE._innerWin._initOperation()
-        });
-        _Util._setFun(".bz-show-attribute","onclick",function(){
-          _IDE._innerWin._showElementFilter()
-          
-          _IDE._innerWin._doFilterElement()
-          _IDE._innerWin._showElementFilterSetting($(".bz-element-filter-setting")[0])
-          
-//          _IDE._innerWin._showToolsMenu();
-          
-          _IDE._innerWin._initOperation()
-        });
-        _Util._setFun(".bz-element-filter","onclick",function(){
-          _IDE._innerWin._showElementFilter();
-          _IDE._innerWin._initOperation()
-        });
-        _Util._setFun(".bz-tool-item","onclick",function(){
-          _IDE._innerWin._exeTool(this.attributes.value.value);
-          _IDE._innerWin._initOperation()
-        });
-        _Util._setFun(".bz-element-filter-setting","onclick",function(){
-          _IDE._innerWin._showElementFilterSetting(this);
-          _IDE._innerWin._initOperation()
-        });
-        _Util._setFun(".bz-pause","onclick",function(){
-          chrome.runtime.sendMessage({bz:1,_fun:"_pause",_scope:"_ideTask"})
-        });
-        _Util._setFun(".bz-play-item","onclick",function(){
-          var _this=this;
-          setTimeout(function(){
-            chrome.runtime.sendMessage({bz:1,_fun:"_setPlayMode",_scope:"BZ",_data:_this._data._item._curMode})
-            chrome.runtime.sendMessage({bz:1,_fun:"_play",_scope:"_ideTestManagement",_data:1});
-          },200)
-        });
-        _Util._setFun(".bz-validate","onclick",function(){
-          if(this.className.includes("bz-active")){
-            chrome.runtime.sendMessage({bz:1,_fun:"_removeCurItem",_scope:"_ideActionManagement",_data:_ideActionData._type._validation})
-            $(this).removeClass("bz-active")
-            this.blur()
-          }else{
-            chrome.runtime.sendMessage({bz:1,_fun:"_newItem",_scope:"_ideActionManagement",_data:_ideActionData._type._validation})
-          }
-        });
-        _Util._setFun(".bz-comment","onclick",function(){
-          if(this.className.includes("bz-active")){
-            chrome.runtime.sendMessage({bz:1,_fun:"_removeCurItem",_scope:"_ideActionManagement",_data:_ideActionData._type._comment})
-            $(this).removeClass("bz-active")
-            this.blur()
-          }else{
-            chrome.runtime.sendMessage({bz:1,_fun:"_newItem",_scope:"_ideActionManagement",_data:_ideActionData._type._comment})
-          }
-        });
-      },100)
-      
-    }
-  },
   _storePersonData:function(v){
-    if(window.extensionContent){
-      chrome.runtime.sendMessage({bz:1,_fun:"_storePersonData",_scope:"_IDE._innerWin",_data:curUser._curProject.setting.elementFilters})
-    }else{
-      _personalSetting.elementFilters=_IDE._data._setting.elementFilters=curUser._curProject.setting.elementFilters=v||curUser._curProject.setting.elementFilters
+    let vv=curUser._curProject.setting.elementFilters
+    if(bzTwComm._isExtension()){
+      bzTwComm._postToIDE({_fun:"_storePersonData",_scope:"_IDE._innerWin",_args:[vv]})
+    }else if(v){
+      _personalSetting.elementFilters=_IDE._data._setting.elementFilters=curUser._curProject.setting.elementFilters=v||vv
       _ideVersionManagement._save()
     }
     if(_IDE._innerWin._data._tools._autoFilterElement&&!v){
@@ -76934,13 +76012,10 @@ _IDE._innerWin._viewDef={
             {
               _tag:"div",
               _attr:{
-                "class":function(){
-                  return "bz-btn-tb-icon bz-boozang-logo-small"
-                },
+                "class":"bz-btn-tb-icon bz-boozang-logo-small",
                 style:function(){
                   return "width:19px;height:19px;cursor:pointer;float:left;margin:4px;padding:0;border:0;background-position:25px 25px;background-size: 34px !important;margin-bottom:0;";
-                },
-                onclick:"window.open('','bz-master')"
+                }
               }
             },
             //reload
@@ -77074,12 +76149,7 @@ _IDE._innerWin._viewDef={
                         //Play
                         {
                           _tag:"div",_attr:{
-                            "class":"bz-play-item",
-                            "onclick":function(){
-                              if(!window.extensionContent){
-                                return "_rootWin.BZ._setPlayMode(this._data._item._curMode);setTimeout('_rootWin._ideTestManagement._play(1);',200)"
-                              }
-                            }
+                            "class":"bz-play-item"
                           },
                           _items:[
                             {
@@ -77270,54 +76340,6 @@ _IDE._innerWin._viewDef={
                       }
                     }
                   ]
-                },
-                {
-                  _if:function(){
-                    return _IDE._innerWin._data._dataBind._showDataBind&&_IDE._data._curTest
-                  },
-                  _tag:"div",
-                  _attr:{
-                    style:"background-color:#F9F9F9;width: 100%;float: left;"
-                  },
-                  _items:[
-                    //data path
-                    {
-                      _if:function(){
-                        return !_ideDataBind._data._limit&&['$test','$module','$project'].includes(_ideDataBind._data._scope)&&BZ._isRecording()
-                      },
-                      _tag:"div",_attr:{"class":"BZIgnore",style:"padding-top:5px;width:100%;margin:0;padding:2px;"},
-                      _items:[
-                        {
-                          _tag:"div",_attr:{"class":"bz-key-menu-toggle"},
-                          _items:[
-                            {
-                              _tag:"label",_attr:{style:"width:40%;color:#000;font-size:10pt;float:left;margin-top:5px;padding-left:4px;"},
-                              _text:function(d){
-                                return _bzMessage._dataBind._objData
-                              }
-                            },
-                            {
-                              _tag:"input",
-                              _attr:{
-                                style:"display:block;opacity: 1;width:60%;margin-bottom:5px;height:25px;color:#000;float:left;padding:3px;"
-                              },
-                              _dataModel:"_ideDataBind._data._key",
-                              _jqext:{
-                                change:function(){
-                                  setTimeout(_ideDataBind._setEventFun,100)
-                                  // _ideDataBind._showMe(_ideDataBind._curInput,1)
-                                  //_ideDataBind._data._showKeyMenu=0;
-                                  if(window.extensionContent){
-                                    chrome.runtime.sendMessage({bz:1,_fun:"setDataBindDataKey",_scope:"BZ",_data:this.value})
-                                  }
-                                }
-                              }
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
                 }
               ]
             },
@@ -77396,9 +76418,6 @@ _IDE._innerWin._viewDef={
                   _tag:"div",
                   _attr:{
                     "class":"bz-tb-buttons",style:function(){
-                      setTimeout(function(){
-                        _IDE._innerWin._initOperation();
-                      },100)
                       return "padding-left:2px;"
                     }
                   },
@@ -78840,7 +77859,7 @@ var _ideActionManagement={
       if(window._extensionComm && a){
         BZ._data._uiSwitch._selectedItems=[a];
       }
-      if(BZ._hasExtension()){
+      if(bzTwComm._isIDE()){
         _extensionComm._setCurAction(a||0);
       }else if(a && a.element){
         if(a.type==_ideActionData._type._comment && !BZ._isPlaying()){
@@ -79130,8 +78149,8 @@ var _ideActionManagement={
     if(_IDE._data._curAction.type==_type&&!_IDE._data._curAction.element){
       _ideActionManagement._deleteItems(BZ._data._uiSwitch._selectedItems)
     }
-    if(BZ._hasExtension()){
-      _extensionComm._exeFun("_endRequire","_bzDomPicker",{});
+    if(bzTwComm._isIDE()){
+      _extensionComm._exeFun("_endRequire","_bzDomPicker");
     }else{
       _bzDomPicker._endRequire()
     }
@@ -79888,7 +78907,7 @@ var _ideActionManagement={
     if(window._extensionComm && _extensionComm._curTWId){
       this._setCurAction(_IDE._data._curAction)
       let d=_pick||{element:_IDE._data._curAction.element}
-      _extensionComm._exeFun("_pickElement","_ideActionManagement",d,null,d.element&&d.element[0]);
+      _extensionComm._exeFun("_pickElement","_ideActionManagement",d,(d.element||[])[0]);
 //      _extensionComm._exePickElement(_IDE._data._curAction)
     }else if(_IDE._data._curAction){
       _descAnalysis._clearTmpPath(1);
@@ -79961,9 +78980,9 @@ var _ideActionManagement={
     }
     
     function _sendData(a){
-      if(window.extensionContent){
+      if(bzTwComm._isExtension()){
         BZ._formatInIFramePath(a.panel||a.element)
-        chrome.runtime.sendMessage({_updateAction:a});
+        bzTwComm._postToIDE({_fun:"_updateAction",_args:[a],_scope:"_ideActionManagement"});
       }else{
         _ideTestManagement._save()
       }
@@ -81141,14 +80160,11 @@ var _ideActionManagement={
     }
   },
   _updateActionCommentDesc:function(a){
-    if(window.extensionContent){
-      chrome.runtime.sendMessage({_fun:"_updateActionCommentDesc",_scope:"_ideActionManagement",_data:a});
+    if(bzTwComm._isExtension()){
+      bzTwComm._postToIDE({_fun:"_updateActionCommentDesc",_scope:"_ideActionManagement",_args:[a]});
     }else if(_IDE._data._curAction.type==_ideActionData._type._comment){
       _IDE._data._curAction.description=a.description;
-      clearTimeout(this._descTimer)
-      this._descTimer=setTimeout(()=>{
-        _ideTestManagement._save()
-      },1000)
+      _ideTestManagement._save()
     }
   },
   _quickUpdateExpection:function(a){
@@ -81156,26 +80172,16 @@ var _ideActionManagement={
       a=_IDE._data._curAction;
     }
     if(a.method==_ideActionData._method._html){
-/*
-      if(a.expection && a.expection.constructor==Array){
-        return;
-      }
-*/
-//      if($util.findDom(a.element)){
-      if(BZ._hasExtension()){
-        _extensionComm._updateExpection(a)
+      if(bzTwComm._isIDE()){
+        bzTwComm._postToExt({_fun:"_quickUpdateExpection",_scope:"_ideActionManagement",_args:[a]})
       }else{
         _domActionTask._exeAction(a,{_force:1,_taskQueue:[]},function(){
-          if(window.extensionContent){
+          if(bzTwComm._isExtension()){
             BZ._formatInIFramePath(a.element)
-            chrome.runtime.sendMessage({_updateAction:a});
+            bzTwComm._postToIDE({_fun:"_updateAction",_scope:"_ideActionManagement",_args:[a]})
           }
         })
-//        _ideActionManagement._exeCurTask(a);
       }
-//      }
-    }else if(a.method==_ideActionData._method._data && a.api.httpMethod=="GET"){
-      _ideActionManagement._exeCurTask(a);
     }
   },
   _getMissElement:function(d){
@@ -81239,8 +80245,8 @@ var _ideActionManagement={
            || d.type==tt._fillForm);
   },
   _showMissingElement:function(s){
-    if(window.extensionContent){
-      return chrome.runtime.sendMessage({_fun:"_showMissingElement",_scope:"_ideActionManagement",_data:s});
+    if(bzTwComm._isExtension()){
+      return bzTwComm._postToIDE({_fun:"_showMissingElement",_scope:"_ideActionManagement",_args:[s]});
     }
     if(_ideActionManagement._callBackMissingElementFun){
       _ideActionManagement._callBackMissingElementFun(s)
@@ -81508,7 +80514,8 @@ var _ideActionManagement={
   For get customer app info from extension
 */
 window.bzTwComm={
-  //_world,_frameId,d,ev, _scope, _fun, _args, _bktg, _bkfun, _bkscope
+  _tmpId:0,
+  //_world,_frameId,d,ev, _scope, _fun, _args, bktg, _bkfun, _bkscope
   // tg (target):
   //    1, app: page, 
   //    2, ext: extension
@@ -81519,41 +80526,89 @@ window.bzTwComm={
   //    2, ev: to eval script
   //    3, scope, fun, args
   // bt (callback target): bt
+  // _bkscope (callback function scope)
   // _bkfun (callback function): 
   //    1, Function
   //    2, script
-  // _bkscope (callback function scope)
+  // _async:
   _postRequest:function(v,_retry){
     _retry=_retry||0
     v.bz=1
     v.bktg=bzTwComm._getWorld()
+
+    let k,_ckTimer
+    v._args=v._args||[]
     try{
+      v._bkfun=v._bkfun||v._args.find(x=>x&&x.constructor==Function)
       if(v._bkfun&&v._bkfun.constructor==Function){
-        let f="f"+_aiAPI._newId()
-        window[f]=v._bkfun
+        let _idx=v._args.indexOf(v._bkfun)
+        let f="f"+bzTwComm._newId()
+        let ff=v._bkfun
+        window[f]=function(){
+          clearTimeout(_ckTimer)
+          delete window[f]
+          ff(...arguments)          
+        }
         v._bkfun=f
+        if(_idx>=0){
+          v._args[_idx]=f
+        }
+        if(v._ckTimer){
+          _ckTimer=setTimeout(()=>{
+            if(window[f]){
+              delete window[f]
+            }
+          },v._ckTimer)
+        }
       }
-      chrome.runtime.sendMessage(_extensionComm._bzExtensionId, v,r=>{
-        // if()
-      });
+      if(bzTwComm._isIDE()||(bzTwComm._isApp()&&v.tg=="ide")){
+        if(bzTwComm._isIDE()){
+          v.toId=bzTwComm.appId
+          v.fromId=bzTwComm.ideId
+        }else{
+          v.toId=bzTwComm.ideId
+          v.fromId=v.appId
+          v.fromFrameId=bzTwComm.frameId
+        }
+    
+        chrome.runtime.sendMessage(bzTwComm._getExtensionId(), v,r=>{});
+      }else{
+        k=bzTwComm._isExtension()?"app":"ext"
+        document.documentElement.setAttribute("bz-to-"+k+"-"+bzTwComm._newId(),JSON.stringify(v))
+      }
     }catch(ex){
+      if(_retry>10){
+        return console.log(ex.stack)
+      }
       setTimeout(()=>{
-        BZ._callApp(v,_retry+1)
+        bzTwComm._postRequest(v,_retry+1)
       },100)
     }
+  },
+  touchIDE:function(){
+    if(!BZ._closed){
+      _extensionComm._setStartScript()
+      _extensionComm._setShareData()
+      chrome.runtime.sendMessage(bzTwComm._getExtensionId(),{status:BZ._data._status},r=>{})
+      chrome.runtime.sendMessage(bzTwComm._getExtensionId(),{bzCode:1},r=>{})
+      return bzTwComm.ideId
+    }
+  },
+  _newId:function(){
+    return bzTwComm._tmpId++
+  },
+  setAppInfo:function(d){
+    Object.assign(bzTwComm,d)
   },
   _getWorld:function(){
     bzTwComm._world=bzTwComm._world||(bzTwComm._isIDE()?"ide":bzTwComm._isExtension()?"ext":"app")
   },
   init:function(i){
-    return this._init()
+    return this._init(i)
   },
-  getRequest:function(v){
-    if(v.tg=="ext"){
-      return bzTwComm._postRequestToExtension(v)
-    }else{
-      return bzTwComm._exeRequest(v)
-    }
+  setRequest:function(v){
+    bzTwComm._exeRequest(v)
+    return 1
   },
   _isIDE:function(){
     return window.name=="bz-master"&&!window.extensionContent
@@ -81562,7 +80617,7 @@ window.bzTwComm={
     return window.name!="bz-master"&&window.extensionContent
   },
   _isApp:function(){
-    return bzTwComm._isTopApp()||bzTwComm.bzIframeId
+    return bzTwComm._isTopApp()||bzTwComm.frameId
   },
   _isTopApp:function(){
     return window.name.includes("bz-client")
@@ -81571,18 +80626,20 @@ window.bzTwComm={
     return bzTwComm.bzExtensionId=bzTwComm.bzExtensionId||window.extensionContent||document.documentElement.getAttribute("bz-id")
   },
   _init:function(i){
-    bzTwComm.bzExtensionId=bzTwComm._getExtensionId();
-    if(!bzTwComm._isIDE()){
-      bzTwComm.bzIframeId=i
-      console.log("_init comm ..")
-      if(bzTwComm._isApp()){
-       _TWHandler._takeoverAjax(window)
-       _TWHandler._takeoverOpenWin()
-       _TWHandler._takeoverCanvas()
-      }
-      bzTwComm._monitorInfo()
-      if(bzTwComm._isTopApp()){
-        bzTwComm._postToIDE({_fun:"_setBZSent",_args:[{i:0,_root:1}],_scope:"_TWHandler"});
+    if(!bzTwComm.bzExtensionId){
+      bzTwComm.bzExtensionId=bzTwComm._getExtensionId();
+      if(!bzTwComm._isIDE()){
+        bzTwComm.frameId=i||0
+        console.log("_init comm ..")
+        if(bzTwComm._isApp()){
+         _TWHandler._takeoverAjax(window)
+         _TWHandler._takeoverOpenWin()
+         _TWHandler._takeoverCanvas()
+        }
+        bzTwComm._monitorInfo()
+        if(bzTwComm._isTopApp()){
+          bzTwComm._postToIDE({_fun:"_setBZSent",_args:[{i:0,_root:1}],_scope:"_TWHandler"});
+        }
       }
     }
   },
@@ -81593,7 +80650,7 @@ window.bzTwComm={
         vs.forEach(function(v) {
           let d=document.documentElement.getAttribute(v)
           if(d){
-            let vv=v.attributeName.match(/^bz-to-(app|ext)-)$/)
+            let vv=v.attributeName.match(/^bz-to-(app|ext)-/)
             if(vv&&((vv[1]=="app"&&bzTwComm._isApp())||(vv[1]=="ext"&&bzTwComm._isExtension()))){
               document.documentElement.removeAttribute(v)
               try{
@@ -81614,18 +80671,15 @@ window.bzTwComm={
       v._args=v._args||[]
       let d=_getPathData(v._scope+"."+v._fun)
       if(v._bkfun){
-        r=d.d[d.k](...v._args,()=>{
-          v={
-            _scope:v._bkscope||"window",
-            _fun:v._bkfun,
-            _args:[...arguments],
-            _world:v._bktg
+        let _idx=v._args.indexOf(v._bkfun)
+        if(_idx>=0){
+          v._args[_idx]=function(){
+            _doCallback(...arguments)
           }
-          bzTwComm._postRequest(v)
-        })
-      }else{
-        r=d.d[d.k](...v._args)
+          return d.d[d.k](...v._args)
+        }
       }
+      r=d.d[d.k](...v._args)
     }else if(v.d){
       Object.keys(v.d).forEach(k=>{
         let vv=v.d[k],
@@ -81642,7 +80696,20 @@ window.bzTwComm={
     }else{
       r=_Util._eval(v.c)
     }
-    return r
+    return _doCallback(r)
+
+    function _doCallback(){
+      if(v._bkfun){
+        v={
+          _scope:v._bkscope||"window",
+          _fun:v._bkfun,
+          _args:[...arguments],
+          tg:v.bktg
+        }
+        bzTwComm._postRequest(v)
+      }
+      return arguments[0]
+    }
 
     function _getPathData(k){
       let ks=k.split(".")
@@ -81654,18 +80721,25 @@ window.bzTwComm={
       return {d:d,k:k}
     }
   },
-  _exeCodeInApp:function(v){
-    $("#bz-app-area")[0].innerText=v.replace(/[<]/g,"&lt;")
+  _postToApp:function(d){
+    d.tg="app"
+    bzTwComm._postRequest(d)
   },
   //For recording alert/confirm message
   _postToIDE:function(d){
-    d.bz=1;
     d.tg="ide";
     bzTwComm._postRequest(d)
   },
   _postToExt:function(d){
-    d.bz=1;
     d.tg="ext";
+    bzTwComm._postRequest(d)
+  },
+  _postToBg:function(d){
+    d.tg="bg"
+    bzTwComm._postRequest(d)
+  },
+  _postToPage:function(d){
+    d.tg="app,ide"
     bzTwComm._postRequest(d)
   },
   _insertData:function(d){
@@ -81691,32 +80765,10 @@ window.bzTwComm={
         o.innerText=JSON.stringify(d)
       }
     }
-  },
-  _retrieveData:function(v){
-    var vv;
-    if(!v){
-      return v
-    }else if(v.constructor==Object){
-      vv={}
-    }else if(v.constructor==Array){
-      vv=[]
-    }else if([String,Number].includes(v.constructor)){
-      return v
-    }else{
-      return v.constructor.name
-    }
-    
-    for(var k in v){
-      if(!v[k]){
-        vv[k]=v[k]
-      }else if([Array,Object].includes(v[k].constructor)){
-        vv[k]=bzTwComm._retrieveData(v[k])
-      }else if([String,Number].includes(v[k].constructor)){
-        vv[k]=v[k]
-      }
-    }
-    return vv
   }
+};
+if(window.name=="bz-master"||window.name.includes("bz-client")){
+  bzTwComm._init()
 };var _ideDataBind={
   _data:(window._CtrlDriver&&_CtrlDriver._buildProxy({_suggestList:[],_key:"",_scope:"$parameter"}))||{_suggestList:[],_key:"",_scope:"$parameter"},
   value:0,
@@ -81806,7 +80858,7 @@ window.bzTwComm={
       // this._curUI=_CtrlDriver._execute(this,this._data,_ideDataBind._viewDef);
       
       // _setMenuPos()
-      // if(window.extensionContent){
+      // if(bzTwComm._isExtension()){
         // setTimeout(function(){
           // _ideDataBind._setEventFun()
         // },100)
@@ -81855,7 +80907,7 @@ window.bzTwComm={
     }else{
       this._data._filterWord="";
     }
-    if(window.extensionContent){
+    if(bzTwComm._isExtension()){
       setTimeout(function(){
         _ideDataBind._setEventFun()
       },100)
@@ -82313,7 +81365,7 @@ window.bzTwComm={
     }
     if(_domRecorder._lastAction && ["change","key"].includes(_domRecorder._lastAction.event.type) && _domRecorder._lastElement==e){
       _domRecorder._lastBindElement=0
-      if(window.extensionContent){
+      if(bzTwComm._isExtension()){
         if(_domRecorder._lastAction.event.type=="change"){
           _domRecorder._lastAction.event.value=n||_value;
         }else{
@@ -82322,7 +81374,7 @@ window.bzTwComm={
         _domRecorder._lastAction.event.tmpValue=_value;
         _domRecorder._lastAction.replace=_ideDataBind._data._replaceKeyByParameter;
         BZ._formatInIFramePath(_domRecorder._lastAction.element)
-        chrome.runtime.sendMessage({_updateAction:_domRecorder._lastAction});
+        bzTwComm._postToIDE({_fun:"_updateAction",_args:[_domRecorder._lastAction],_scope:"_ideActionManagement"});
         var $d=_code.startsWith("$test")?$test:_code.startsWith("$module")?$module:_code.startsWith("$project")?$project:$parameter||{};
         _code=_code.split(".");
         if(_code.length>1 && _code.length<4){
@@ -82414,7 +81466,7 @@ window.bzTwComm={
         }else if(_code){
           if(e.tagName=="INPUT"&&["checkbox","radio"].includes(e.type)){
             a.event.value=_code="{{"+_code+"}}"
-            if(!window.extensionContent){
+            if(!bzTwComm._isExtension()){
               _ideActionManagement._addItem(a);
             }else{
               //Call background to set back recording action
@@ -82435,7 +81487,7 @@ window.bzTwComm={
           _ideDataBind._bindEvent(_orgCode,_value,_afterAutoFill)
         }else if(_afterAutoFill){
           if(_sendAction){
-            if(!window.extensionContent){
+            if(!bzTwComm._isExtension()){
               _ideActionManagement._addItem(a);
             }else{
               //Call background to set back recording action
@@ -82498,8 +81550,8 @@ window.bzTwComm={
   _autoFillContinue:function(){
     if(_ideDataBind._data._inSelectFillField){
       _ideDataBind._data._inSelectFillField=0
-      if(window.extensionContent){
-        chrome.runtime.sendMessage({bz:1,_fun:"_updateData",_scope:"_aiDataUpdateHandler",_data:{_data:_ideDataBind._getCurBindData(),_path:_ideDataBind._getCurBindDataPath()}});
+      if(bzTwComm._isExtension()){
+        bzTwComm._postToIDE({_fun:"_updateData",_scope:"_aiDataUpdateHandler",_args:[{_data:_ideDataBind._getCurBindData(),_path:_ideDataBind._getCurBindDataPath()}]});
         return setTimeout(function(){
           _doIt()
         },100)
@@ -82523,12 +81575,8 @@ window.bzTwComm={
     return os
   },
   _generateFillFormActionData:function(a,_fun){
-    if(!_fun&&!window.extensionContent){
-      return this._callBackCheckFillFormMsg(a)
-    }
-    this._callBackCheckFillFormMsg=_fun
-    if(BZ._hasExtension()){
-      _extensionComm._exeFun("_generateFillFormActionData","_ideDataBind",a);
+    if(bzTwComm._isIDE()){
+      bzTwComm._postToExt({_fun:"_generateFillFormActionData",_scope:"_ideDataBind",_element:a.element,_args:[a,_fun]});
       return
     }
     let _element=$util.findDom(a.element)
@@ -82545,9 +81593,6 @@ window.bzTwComm={
           ds.push({key:d._name})
         }
       })
-    }
-    if(window.extensionContent){
-      return chrome.runtime.sendMessage({bz:1,_fun:"_generateFillFormActionData",_scope:"_ideDataBind",_data:ds})
     }
     _fun(ds)
   },
@@ -82710,8 +81755,8 @@ window.bzTwComm={
             _bzDomPicker._removeTmpCover();
             vs.length=0
           },2000)
-          if(window.extensionContent){
-            chrome.runtime.sendMessage({bz:1,_fun:"_setInAutoFill",_scope:"_ideTestManagement",_data:1});
+          if(bzTwComm._isExtension()){
+            bzTwComm._postToIDE({_fun:"_setInAutoFill",_scope:"_ideTestManagement",_args:[1]});
           }else{
             _ideTestManagement._setInAutoFill(1)
           }
@@ -82821,7 +81866,7 @@ window.bzTwComm={
           // _tag:"a",_attr:{"class":"bz-skip"},
           // _text:"_bzMessage._innerWin._skip",
           // onclick:function(){
-            // if(!window.extensionContent){
+            // if(!bzTwComm._isExtension()){
               // return "_rootWin._ideDataBind._hideMe(_rootWin._ideDataBind._curInput)";
             // }
           // }
@@ -82831,17 +81876,17 @@ window.bzTwComm={
             // "class":"bz-btn-tb-icon bz-close bz-small-icon bz-db-close-btn BZIgnore",
             // // title:"_bzMessage._dataBind._autoClose",
             // onclick:function(){
-              // if(!window.extensionContent){
+              // if(!bzTwComm._isExtension()){
                 // return "_rootWin._ideDataBind._hideMe();_rootWin.clearTimeout(_rootWin._ideDataBind._closeTime)";
               // }
             // },
             // onmouseover:function(){
-              // if(!window.extensionContent){
+              // if(!bzTwComm._isExtension()){
                 // return "_rootWin._ideDataBind._closeTime=setTimeout(_rootWin._ideDataBind._hideMe(),500);";
               // }
             // },
             // onmouseout:function(){
-              // if(!window.extensionContent){
+              // if(!bzTwComm._isExtension()){
                 // return "_rootWin.clearTimeout(_rootWin._ideDataBind._closeTime)"
               // }
             // }
@@ -82862,7 +81907,7 @@ window.bzTwComm={
                 // href:"javascript:",style:"font-weight:bold;",
                 // "class":"bz-db-item-value BZIgnore",
                 // onclick:function(){
-                  // if(!window.extensionContent){
+                  // if(!bzTwComm._isExtension()){
                     // return "_rootWin._ideDataBind._bindEvent(this._data._item.p,this._data._item.v)";
                   // }
                 // }
@@ -82875,7 +81920,7 @@ window.bzTwComm={
                 // "class":"bz-db-item-value2 BZIgnore",
                 // style:"margin-left:5px;",
                 // onclick:function(){
-                  // if(!window.extensionContent){
+                  // if(!bzTwComm._isExtension()){
                     // return "_rootWin._ideDataBind._bindEvent(this._data._item.p,'off')";
                   // }
                 // }
@@ -82909,7 +81954,7 @@ window.bzTwComm={
                     // href:"javascript:",
                     // "class":"bz-db-item-value BZIgnore",
                     // onclick:function(){
-                      // if(!window.extensionContent){
+                      // if(!bzTwComm._isExtension()){
                         // return "_rootWin._ideDataBind._bindEvent(this._data._item.p,this._data._item.v)";
                       // }
                     // }
@@ -83054,7 +82099,7 @@ window.bzTwComm={
                 // href:"javascript:",
                 // "class":"bz-db-item-value BZIgnore",
                 // onclick:function(){
-                  // if(!window.extensionContent){
+                  // if(!bzTwComm._isExtension()){
                     // return "_rootWin._ideDataBind._bindEvent('$parameter',this._data._item.v)";
                   // }
                 // }
@@ -83084,11 +82129,16 @@ window.bzTwComm={
     // }
   // ]
 // }
-*/;function initCode(){
-  _Util._keepConnection(chrome.runtime.id)
-
-  _TWHandler.startInit();
+*/;function initExtCode(i){
+  if(!window._started){
+    window._started=1
+    if(!window.name.includes("bz-client")){
+      bzTwComm._init(i)
+    }
+    _TWHandler.startInit();
+    BZ._prepareDocument();
+  }
 }
 if(window.name.includes("bz-client")){
-  initCode()
+  initExtCode()
 };
