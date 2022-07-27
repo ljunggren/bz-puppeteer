@@ -300,68 +300,69 @@ let funMap={
       trigger(funMap.buildBZRequestData("app",ecMap.u,ecMap.ev,[s]),id,fid)
     }
   },
-  addListener:function(){
-    return chrome.runtime.onMessageExternal.addListener(function(req, sender, callback) {
-      //_console("background (web page): ",req)
-      //check whether the request from BZ pages. If not from BZ do nothing.
-      let tg=req.tg||""
-      if(req.status!==undefined){
-        //master tab set status before start pop client win
-        if(req.status=="popwin-start"){
-          doingPopCtrl=1
-        //master tab set status after end pop client win
-        }else if(req.status=="popwin-end"){
-          doingPopCtrl=0
-        }else{
-          newStatus=_status=req.status;
-    
-          trigger(req,req.toId);
-          newStatus=0;
-        }
-      //Set BZ code mapping data to unecrypt code from https://ai.boozang.com
-      }else if(req.extendTopScript){
-        extendTopScript=req.extendTopScript
-      }else if(req.extendEndScript){
-        extendEndScript=req.extendEndScript
-      }else if(tg.includes("bg")){
-        if(req.bzCode){
-          if(ideId&&ideId!=sender.tab.id){
-            trigger(funMap.buildBZRequestData("ide","BZ","close"),ideId,0);
-          }
-          if(appId){
-            trigger(funMap.buildBZRequestData("app","window","close"),appId,0);
-          }
-          
-          ideId=sender.tab.id;
-          _lastExeActionReq=0;
-          ignoreReqs="";
-          callback(ideId)
-        //Set CSS file path from BZ master page
-        }else{
-          funMap.exeFun(req,sender,callback)
-        }
-        return
-      }else if(tg.includes("ide")){
-        trigger(req,req.toId||ideId)
-      }else if(tg.match(/ext|app/)){
-        if(req[ecMap.e]){
-          funMap.postRequestToElement(req,req[ecMap.e],function(v){
-            trigger(req,req.toId||appId,v)
-          },function(){
-            callback({bzErr:1})
-          })
-        }else{
-          if(req[ecMap.f]==ecMap.sd){
-            funMap.setShareData(...req[ecMap.ar])
-          }
-          trigger(req,req.toId||appId)
-        }
+  listener:function(req, sender, callback) {
+    //_console("background (web page): ",req)
+    //check whether the request from BZ pages. If not from BZ do nothing.
+    let tg=req.tg||""
+    console.log(req)
+    if(req.status!==undefined){
+      //master tab set status before start pop client win
+      if(req.status=="popwin-start"){
+        doingPopCtrl=1
+      //master tab set status after end pop client win
+      }else if(req.status=="popwin-end"){
+        doingPopCtrl=0
+      }else{
+        newStatus=_status=req.status;
+  
+        trigger(req,req.toId);
+        newStatus=0;
       }
-      callback(1)
-    });
+    //Set BZ code mapping data to unecrypt code from https://ai.boozang.com
+    }else if(req.extendTopScript){
+      extendTopScript=req.extendTopScript
+    }else if(req.extendEndScript){
+      extendEndScript=req.extendEndScript
+    }else if(tg.includes("bg")){
+      if(req.bzCode){
+        if(ideId&&ideId!=sender.tab.id){
+          trigger(funMap.buildBZRequestData("ide","BZ","close"),ideId,0);
+        }
+        if(appId){
+          trigger(funMap.buildBZRequestData("app","window","close"),appId,0);
+        }
+        
+        ideId=sender.tab.id;
+        _lastExeActionReq=0;
+        ignoreReqs="";
+        callback(ideId)
+      //Set CSS file path from BZ master page
+      }else{
+        funMap.exeFun(req,sender,callback)
+      }
+      return
+    }else if(tg.includes("ide")){
+      trigger(req,req.toId||ideId)
+    }else if(tg.match(/ext|app/)){
+      if(req[ecMap.e]){
+        funMap.postRequestToElement(req,req[ecMap.e],function(v){
+          trigger(req,req.toId||appId,v)
+        },function(){
+          callback({bzErr:1})
+        })
+      }else{
+        if(req[ecMap.f]==ecMap.sd){
+          funMap.setShareData(...req[ecMap.ar])
+        }
+        trigger(req,req.toId||appId)
+      }
+    }
+    callback(1)
   }
 }
-let ideListener=funMap.addListener()
+chrome.runtime.onMessageExternal.addListener(funMap.listener);
+chrome.runtime.onMessageExternal.addListener(funMap.listener);
+chrome.runtime.onMessageExternal.addListener(funMap.listener);
 chrome.action.setBadgeText({text:"AI"});
 /*Get Message from IDE*/
 /******************* call ide *************************************************** */
