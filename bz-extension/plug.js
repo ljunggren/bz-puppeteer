@@ -77140,7 +77140,7 @@ _IDE._innerWin._viewDef={
                       },
                       _tag:"button",
                       _attr:{
-                        "class":"'bz-btn-tb-icon bz-pause'",
+                        "class":"bz-btn-tb-icon bz-pause",
                         title:function(){
                           return _bzMessage._method._pause
                         }
@@ -77436,7 +77436,7 @@ _IDE._innerWin._viewDef={
                       },
                       _tag:"button",
                       _attr:{
-                        "class":"'bz-btn-tb-icon bz-pause'",
+                        class:"bz-btn-tb-icon bz-pause",
                         title:function(){
                           return _bzMessage._method._pause
                         }
