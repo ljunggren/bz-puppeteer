@@ -255,7 +255,7 @@ let funMap={
     })
   },
   registerTab:function(_msg,t,_sendResponse){
-    if(_msg.name=="bz-client"||appId==t.tab.id){
+    if(_msg.name.includes("bz-client")||appId==t.tab.id){
       let v
       if(t.url.includes("boozang.com")){
         return alert("Testing on Boozang sites not supported!");
@@ -263,7 +263,7 @@ let funMap={
 
       // appListenerMap[t.frameId]=funMap.addListener()
 
-      if(_msg.name=="bz-client"){
+      if(_msg.name.includes("bz-client")){
         appId=t.tab.id;
         _ctrlWindowId=t.tab.windowId;
         //to tell master the current client tab id
@@ -361,8 +361,6 @@ let funMap={
   }
 }
 chrome.runtime.onMessageExternal.addListener(funMap.listener);
-chrome.runtime.onMessageExternal.addListener(funMap.listener);
-chrome.runtime.onMessageExternal.addListener(funMap.listener);
 chrome.action.setBadgeText({text:"AI"});
 /*Get Message from IDE*/
 /******************* call ide *************************************************** */
@@ -398,6 +396,8 @@ chrome.runtime.onMessage.addListener(function(msg, t, sendResponse) {
 
   if(msg.registerTab){
     funMap.registerTab(msg,t,sendResponse)
+  }else{
+    funMap.listener(msg,t,sendResponse)
   }
 });
 

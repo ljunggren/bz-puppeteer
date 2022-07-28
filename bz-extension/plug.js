@@ -14712,7 +14712,7 @@ _extendJQuery();var _infoManagement={
 };
 if(!window.extensionContent){
   _localStorageManagement._cleanOldBZVersion();
-};const _mainMenuHandler={
+};window._mainMenuHandler={
   _data:_CtrlDriver._buildProxy({
     _selectedItems:[]
   }),
@@ -18063,7 +18063,7 @@ var _scriptActionHandler={
   ]
 }
 
-const _uiHandler={
+window._uiHandler={
   _sysBtnMap:{},
   _initBZSysBtn:function(){
     let _uiSwitch=BZ._data._uiSwitch;
@@ -23972,6 +23972,7 @@ var _elementMonitor={
     }
   },
   _setBackTestPage:function(w){
+    w=w||window
     this._init()
     if(w.BZ_Alert){
       w.alert=w.BZ_Alert;
@@ -26795,7 +26796,7 @@ data structure
 
 /*****************************************************/
 // KEEP! for avoid duplicate call and good on toolbar//
-const $parentModule=function(){
+window.$parentModule=function(){
   let v=BZ._getCurModule()
   
   if(v){
@@ -30150,7 +30151,12 @@ var $data=function(m,t,init){
           }
           delete r._data.e
           _domActionTask._doLog("Send result 2")
-          _finalFun&&_finalFun(r);
+
+          var d={$newElement:window.$newElement};
+          //d["_tmpTaskDataMap"]=_ideDataManagement._tmpTaskDataMap
+          d._tmpTaskDataMap=_ideDataManagement._tmpTaskDataMap
+
+          _finalFun&&_finalFun(r,d);
           _finalFun=0
         }
       }
@@ -75627,6 +75633,9 @@ _IDE._innerWin={
     }
   },
   _insertCtrls:function(bSwitch,bMax){ //insert controls into customer application window
+    if(BZ._isAutoRunning()||parent!=window||bzTwComm._isIDE()){
+      return
+    }
     // console.log("Call page ready")
     if(bzTwComm._isExtension()){
       if(BZ._isRecording()){
@@ -75634,9 +75643,6 @@ _IDE._innerWin={
           _domRecorder._handleFileInput()
         },100)
       }
-    }
-    if(BZ._isAutoRunning()||parent!=window){
-      return
     }
 
     if(!BZ._documents){
@@ -80518,293 +80524,7 @@ var _ideActionManagement={
       return a.refComParameter
     }
   }
-};/*
-  For get customer app info from extension
-*/
-window.bzTwComm={
-  _tmpId:0,
-  _list:[],
-  _doing:0,
-  //_world,_frameId,d,ev, _scope, _fun, _args, bktg, _bkfun, _bkscope
-  // tg (target):
-  //    1, app: page, 
-  //    2, ext: extension
-  //    3, ide: 
-  // frameId:0: top, element path: iframe, *: all
-  // operation options:
-  //    1, d: to set data
-  //    2, ev: to eval script
-  //    3, scope, fun, args
-  // bt (callback target): bt
-  // _bkscope (callback function scope)
-  // _bkfun (callback function): 
-  //    1, Function
-  //    2, script
-  // _async:
-  _postRequest:function(v){
-    bzTwComm._list.push(v)
-    if(!bzTwComm._getExtensionId()){
-      $util.log("Missing extension id")
-    }else if(!bzTwComm.ideId){
-      $util.log("Missing ide id")
-    }else{
-      return _doIt()
-    }
-
-    return setTimeout(()=>{
-      _doIt()
-    },100)
-
-    function _doIt(){
-      if(bzTwComm._doing){
-        return
-      }
-      bzTwComm._doing=v=bzTwComm._list.shift()
-      if(!v){
-        return
-      }
-      let vv=v
-      v.bz=1
-      v.bktg=bzTwComm._getWorld()
-  
-      let k,_ckTimer
-      v._args=v._args||[]
-      try{
-        v._bkfun=v._bkfun||v._args.find(x=>x&&x.constructor==Function)
-        if(v._bkfun&&v._bkfun.constructor==Function){
-          let _idx=v._args.indexOf(v._bkfun)
-          let f="f"+bzTwComm._newId()
-          let ff=v._bkfun
-          window[f]=function(){
-            clearTimeout(_ckTimer)
-            delete window[f]
-            ff(...arguments)          
-          }
-          v._bkfun=f
-          if(_idx>=0){
-            v._args[_idx]=f
-          }
-          if(v._ckTimer){
-            _ckTimer=setTimeout(()=>{
-              if(window[f]){
-                delete window[f]
-              }
-            },v._ckTimer)
-          }
-        }
-
-        if(bzTwComm._isIDE()){
-          v.toId=bzTwComm.appId
-          v.fromId=bzTwComm.ideId
-        }else{
-          v.toId=bzTwComm.ideId
-          v.fromId=v.appId
-          v.fromFrameId=bzTwComm.frameId
-        }
-        if(bzTwComm._isIDE()){
-          return chrome.runtime.sendMessage(bzTwComm._getExtensionId(), v,r=>{
-            // console.log("response: "+r)
-            // console.log(vv)
-          });
-        }else if(bzTwComm._isExtension&&v.tg=="ide"){
-          return chrome.runtime.sendMessage(v,r=>{});
-        }
-        k=bzTwComm._isExtension()?"app":"ext"
-        document.documentElement.setAttribute("bz-to-"+k+"-"+bzTwComm._newId(),JSON.stringify(v))
-      }catch(ex){
-        console.log(ex.stack)
-        bzTwComm._list.unshift(vv)
-      }finally{
-        bzTwComm._doing=0
-        _doIt()
-      }
-    }
-  },
-  touchIDE:function(){
-    if(!BZ._closed){
-      _extensionComm._setStartScript()
-      _extensionComm._setShareData()
-      chrome.runtime.sendMessage(bzTwComm._getExtensionId(),{status:BZ._data._status},r=>{})
-      chrome.runtime.sendMessage(bzTwComm._getExtensionId(),{bzCode:1},r=>{})
-      return bzTwComm.ideId
-    }
-  },
-  _newId:function(){
-    return bzTwComm._tmpId++
-  },
-  setAppInfo:function(d){
-    Object.assign(bzTwComm,d)
-  },
-  _getWorld:function(){
-    bzTwComm._world=bzTwComm._world||(bzTwComm._isIDE()?"ide":bzTwComm._isExtension()?"ext":"app")
-  },
-  init:function(i){
-    return this._init(i)
-  },
-  setRequest:function(v){
-    bzTwComm._exeRequest(v)
-    return 1
-  },
-  _isIDE:function(){
-    return window.name=="bz-master"&&!window.extensionContent
-  },
-  _isExtension:function(){
-    return window.name!="bz-master"&&window.extensionContent
-  },
-  _isApp:function(){
-    return bzTwComm._isTopApp()||bzTwComm.frameId
-  },
-  _isTopApp:function(){
-    return window.name.includes("bz-client")
-  },
-  _getExtensionId:function(){
-    return bzTwComm.bzExtensionId=bzTwComm.bzExtensionId||window.extensionContent||document.documentElement.getAttribute("bz-id")
-  },
-  _init:function(i){
-    if(!bzTwComm.bzExtensionId){
-      bzTwComm.bzExtensionId=bzTwComm._getExtensionId();
-      if(!bzTwComm._isIDE()){
-        bzTwComm.frameId=i||0
-        console.log("_init comm ..")
-        if(bzTwComm._isApp()){
-         _TWHandler._takeoverAjax(window)
-         _TWHandler._takeoverOpenWin()
-         _TWHandler._takeoverCanvas()
-        }
-        bzTwComm._monitorInfo()
-        if(bzTwComm._isTopApp()){
-          bzTwComm._postToIDE({_fun:"_setBZSent",_args:[{i:0,_root:1}],_scope:"_TWHandler"});
-        }
-      }
-    }
-  },
-  _monitorInfo:function(){
-    //for content send code to app page
-    if(!bzTwComm._infoObserver){
-      bzTwComm._infoObserver= new MutationObserver(function(vs) {
-        vs.forEach(function(v) {
-          let d=document.documentElement.getAttribute(v)
-          if(d){
-            let vv=v.attributeName.match(/^bz-to-(app|ext)-/)
-            if(vv&&((vv[1]=="app"&&bzTwComm._isApp())||(vv[1]=="ext"&&bzTwComm._isExtension()))){
-              document.documentElement.removeAttribute(v)
-              try{
-                bzTwComm.exeRequest(JSON.parse(d))
-              }catch(e){
-                $util.log(e.stack)
-              }
-            }
-          }
-        });
-      })
-      bzTwComm._infoObserver.observe(document.documentElement,{attributes: true});
-    }
-  },
-  _exeRequest:function(v){
-    let r;
-    if(v._scope){
-      v._args=v._args||[]
-      let d=_getPathData(v._scope+"."+v._fun)
-      if(v._bkfun){
-        let _idx=v._args.indexOf(v._bkfun)
-        if(_idx>=0){
-          v._args[_idx]=function(){
-            _doCallback(...arguments)
-          }
-          return d.d[d.k](...v._args)
-        }
-      }
-      r=d.d[d.k](...v._args)
-    }else if(v.d){
-      Object.keys(v.d).forEach(k=>{
-        let vv=v.d[k],
-            d=_getPathData(k)
-        let o=d.d[d.k]
-        if(!o||o.constructor!=Object||!vv||vv.constructor!=Object){
-          d.d[d.k]=vv
-        }else{
-          Object.keys(vv).forEach(k=>{
-            d.d[d.k]=vv[k]
-          })
-        }
-      })
-    }else{
-      r=_Util._eval(v.c)
-    }
-    return _doCallback(r)
-
-    function _doCallback(){
-      if(v._bkfun){
-        v={
-          _scope:v._bkscope||"window",
-          _fun:v._bkfun,
-          _args:[...arguments],
-          tg:v.bktg
-        }
-        bzTwComm._postRequest(v)
-      }
-      return arguments[0]
-    }
-
-    function _getPathData(k){
-      let ks=k.split(".")
-      k=ks.pop()
-      let d=window
-      ks.forEach(x=>{
-        d=d[x]||{}
-      })
-      return {d:d,k:k}
-    }
-  },
-  _postToApp:function(d){
-    d.tg="app"
-    bzTwComm._postRequest(d)
-  },
-  //For recording alert/confirm message
-  _postToIDE:function(d){
-    d.tg="ide";
-    bzTwComm._postRequest(d)
-  },
-  _postToExt:function(d){
-    d.tg="ext";
-    bzTwComm._postRequest(d)
-  },
-  _postToBg:function(d){
-    d.tg="bg"
-    bzTwComm._postRequest(d)
-  },
-  _postToPage:function(d){
-    d.tg="app,ide"
-    bzTwComm._postRequest(d)
-  },
-  _insertData:function(d){
-    if(!document.body){
-      return setTimeout(()=>{
-        bzTwComm._insertData(d)
-      },1)
-    }
-    var o = document.getElementById("bz-area");
-
-    if(!o){
-      o=document.createElement("div")
-      o.id="bz-area"
-      o.style.display="none"
-      document.body.parentElement.append(o)
-    }
-    if(o){
-      if(o.innerHTML){
-        setTimeout(()=>{
-          bzTwComm._insertData(d)
-        },0)
-      }else{
-        o.innerText=JSON.stringify(d)
-      }
-    }
-  }
-};
-if(window.name=="bz-master"||window.name.includes("bz-client")){
-  bzTwComm._init()
-};var _ideDataBind={
+};window._ideDataBind={
   _data:(window._CtrlDriver&&_CtrlDriver._buildProxy({_suggestList:[],_key:"",_scope:"$parameter"}))||{_suggestList:[],_key:"",_scope:"$parameter"},
   value:0,
   _buildDefParameter:function(df,d){
@@ -82164,7 +81884,313 @@ if(window.name=="bz-master"||window.name.includes("bz-client")){
     // }
   // ]
 // }
-*/;function initExtCode(i){
+*/;/*
+  For get customer app info from extension
+*/
+window.bzTwComm={
+  _tmpId:0,
+  _list:[],
+  _doing:0,
+  //_world,_frameId,d,ev, _scope, _fun, _args, bktg, _bkfun, _bkscope
+  // tg (target):
+  //    1, app: page, 
+  //    2, ext: extension
+  //    3, ide: 
+  // frameId:0: top, element path: iframe, *: all
+  // operation options:
+  //    1, d: to set data
+  //    2, ev: to eval script
+  //    3, scope, fun, args
+  // bt (callback target): bt
+  // _bkscope (callback function scope)
+  // _bkfun (callback function): 
+  //    1, Function
+  //    2, script
+  // _async:
+  _postRequest:function(v){
+    bzTwComm._list.push(v)
+    if(!bzTwComm._getExtensionId()){
+      console.log("BZ-LOG:Missing extension id")
+    }else if(!bzTwComm.ideId){
+      console.log("BZ-LOG:Missing ide id")
+    }else if(!bzTwComm.appId&&bzTwComm._isExtension()){
+      console.log("BZ-LOG:Missing app id")
+    }else{
+      return _doIt()
+    }
+
+    return setTimeout(()=>{
+      _doIt()
+    },100)
+
+    function _doIt(){
+      if(bzTwComm._doing){
+        return
+      }
+      bzTwComm._doing=v=bzTwComm._list.shift()
+      if(!v){
+        return
+      }
+      let vv=v
+      v.bz=1
+      v.bktg=bzTwComm._getWorld()
+  
+      let k,_ckTimer
+      v._args=v._args||[]
+      try{
+        v._bkfun=v._bkfun||v._args.find(x=>x&&x.constructor==Function)
+        if(v._bkfun&&v._bkfun.constructor==Function){
+          let _idx=v._args.indexOf(v._bkfun)
+          let f="f"+bzTwComm._newId()
+          let ff=v._bkfun
+          window[f]=function(){
+            clearTimeout(_ckTimer)
+            delete window[f]
+            ff(...arguments)          
+          }
+          v._bkfun=f
+          if(_idx>=0){
+            v._args[_idx]=f
+          }
+          if(v._ckTimer){
+            _ckTimer=setTimeout(()=>{
+              if(window[f]){
+                delete window[f]
+              }
+            },v._ckTimer)
+          }
+        }
+
+        if(bzTwComm._isIDE()){
+          v.toId=bzTwComm.appId
+          v.fromId=bzTwComm.ideId
+        }else{
+          v.toId=bzTwComm.ideId
+          v.fromId=v.appId
+          v.fromFrameId=bzTwComm.frameId
+        }
+        if(bzTwComm._isIDE()){
+          return chrome.runtime.sendMessage(bzTwComm._getExtensionId(), v,r=>{
+            if(!r){
+              console.log("Missing response: "+r)
+              console.log(vv)
+            }
+
+            bzTwComm._doing=0
+            _doIt()
+          });
+        }else if(bzTwComm._isExtension()&&v.tg=="ide"){
+          chrome.runtime.sendMessage(v,r=>{
+            if(!r){
+              console.log("Missing response: "+r)
+              console.log(vv)
+            }
+            bzTwComm._doing=0
+            _doIt()
+          });
+          return
+        }
+        k=bzTwComm._isExtension()?"app":"ext"
+        document.documentElement.setAttribute("bz-to-"+k+"-"+bzTwComm._newId(),JSON.stringify(v))
+        bzTwComm._doing=0
+        _doIt()
+      }catch(ex){
+        console.log(ex.stack)
+        bzTwComm._list.unshift(vv)
+        bzTwComm._doing=0
+        _doIt()
+      }
+    }
+  },
+  touchIDE:function(){
+    if(!BZ._closed){
+      _extensionComm._setStartScript()
+      _extensionComm._setShareData()
+      chrome.runtime.sendMessage(bzTwComm._getExtensionId(),{status:BZ._data._status},r=>{})
+      chrome.runtime.sendMessage(bzTwComm._getExtensionId(),{bzCode:1},r=>{})
+      return bzTwComm.ideId
+    }
+  },
+  _newId:function(){
+    return bzTwComm._tmpId++
+  },
+  setAppInfo:function(d){
+    Object.assign(bzTwComm,d)
+  },
+  _getWorld:function(){
+    return bzTwComm._world=bzTwComm._world||(bzTwComm._isIDE()?"ide":bzTwComm._isExtension()?"ext":"app")
+  },
+  init:function(i){
+    return this._init(i)
+  },
+  setRequest:function(v){
+    bzTwComm._exeRequest(v)
+    return 1
+  },
+  _isIDE:function(){
+    return window.name=="bz-master"&&!window.extensionContent
+  },
+  _isExtension:function(){
+    return window.name!="bz-master"&&window.extensionContent
+  },
+  _isApp:function(){
+    return bzTwComm._isTopApp()||bzTwComm.frameId
+  },
+  _isTopApp:function(){
+    return window.name.includes("bz-client")
+  },
+  _getExtensionId:function(){
+    return bzTwComm.bzExtensionId=bzTwComm.bzExtensionId||window.extensionContent||document.documentElement.getAttribute("bz-id")
+  },
+  _init:function(i){
+    if(!bzTwComm.bzExtensionId){
+      bzTwComm.bzExtensionId=bzTwComm._getExtensionId();
+      if(!bzTwComm._isIDE()){
+        bzTwComm.frameId=i||0
+        console.log("_init comm ..")
+        if(bzTwComm._isApp()){
+         _TWHandler._takeoverAjax(window)
+         _TWHandler._takeoverOpenWin()
+         _TWHandler._takeoverCanvas()
+        }
+        bzTwComm._monitorInfo()
+        if(bzTwComm._isTopApp()){
+          bzTwComm._postToIDE({_fun:"_setBZSent",_args:[{i:0,_root:1}],_scope:"_TWHandler"});
+        }
+      }
+    }
+  },
+  _monitorInfo:function(){
+    //for content send code to app page
+    if(!bzTwComm._infoObserver){
+      bzTwComm._infoObserver= new MutationObserver(function(vs) {
+        vs.forEach(function(v) {
+          let d=document.documentElement.getAttribute(v)
+          if(d){
+            let vv=v.attributeName.match(/^bz-to-(app|ext)-/)
+            if(vv&&((vv[1]=="app"&&bzTwComm._isApp())||(vv[1]=="ext"&&bzTwComm._isExtension()))){
+              document.documentElement.removeAttribute(v)
+              try{
+                bzTwComm.exeRequest(JSON.parse(d))
+              }catch(e){
+                $util.log(e.stack)
+              }
+            }
+          }
+        });
+      })
+      bzTwComm._infoObserver.observe(document.documentElement,{attributes: true});
+    }
+  },
+  _exeRequest:function(v){
+    let r;
+    if(v._scope){
+      v._args=v._args||[]
+      let d=_getPathData(v._scope+"."+v._fun)
+      if(v._bkfun){
+        let _idx=v._args.indexOf(v._bkfun)
+        if(_idx>=0){
+          v._args[_idx]=function(){
+            _doCallback(...arguments)
+          }
+          return d.d[d.k](...v._args)
+        }
+      }
+      if(!d.d[d.k]||d.d[d.k].constructor!=Function){
+        console.log("Missing function")
+        console.log(d)
+      }
+      r=d.d[d.k](...v._args)
+    }else if(v.d){
+      Object.keys(v.d).forEach(k=>{
+        let vv=v.d[k],
+            d=_getPathData(k)
+        let o=d.d[d.k]
+        if(!o||o.constructor!=Object||!vv||vv.constructor!=Object){
+          d.d[d.k]=vv
+        }else{
+          Object.keys(vv).forEach(k=>{
+            d.d[d.k]=vv[k]
+          })
+        }
+      })
+    }else{
+      r=_Util._eval(v.c)
+    }
+    return _doCallback(r)
+
+    function _doCallback(){
+      if(v._bkfun){
+        v={
+          _scope:v._bkscope||"window",
+          _fun:v._bkfun,
+          _args:[...arguments],
+          tg:v.bktg
+        }
+        bzTwComm._postRequest(v)
+      }
+      return arguments[0]
+    }
+
+    function _getPathData(k){
+      let ks=k.split(".")
+      k=ks.pop()
+      let d=window
+      ks.forEach(x=>{
+        d=d[x]||{}
+      })
+      return {d:d,k:k}
+    }
+  },
+  _postToApp:function(d){
+    d.tg="app"
+    bzTwComm._postRequest(d)
+  },
+  //For recording alert/confirm message
+  _postToIDE:function(d){
+    d.tg="ide";
+    bzTwComm._postRequest(d)
+  },
+  _postToExt:function(d){
+    d.tg="ext";
+    bzTwComm._postRequest(d)
+  },
+  _postToBg:function(d){
+    d.tg="bg"
+    bzTwComm._postRequest(d)
+  },
+  _postToPage:function(d){
+    d.tg="app,ide"
+    bzTwComm._postRequest(d)
+  },
+  _insertData:function(d){
+    if(!document.body){
+      return setTimeout(()=>{
+        bzTwComm._insertData(d)
+      },1)
+    }
+    var o = document.getElementById("bz-area");
+
+    if(!o){
+      o=document.createElement("div")
+      o.id="bz-area"
+      o.style.display="none"
+      document.body.parentElement.append(o)
+    }
+    if(o){
+      if(o.innerHTML){
+        setTimeout(()=>{
+          bzTwComm._insertData(d)
+        },0)
+      }else{
+        o.innerText=JSON.stringify(d)
+      }
+    }
+  }
+};
+if(window.name=="bz-master"||window.name.includes("bz-client")){
+  bzTwComm._init()
+};function initExtCode(i){
   if(!window._started){
     window._started=1
     if(!window.name.includes("bz-client")){

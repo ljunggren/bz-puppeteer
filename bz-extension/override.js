@@ -8119,6 +8119,7 @@ tbody td:first-child,tbody td:last-child{
     }
   },
   _setBackTestPage:function(w){
+    w=w||window
     this._init()
     if(w.BZ_Alert){
       w.alert=w.BZ_Alert;
@@ -11166,7 +11167,12 @@ tbody td:first-child,tbody td:last-child{
           }
           delete r._data.e
           _domActionTask._doLog("Send result 2")
-          _finalFun&&_finalFun(r);
+
+          var d={$newElement:window.$newElement};
+          //d["_tmpTaskDataMap"]=_ideDataManagement._tmpTaskDataMap
+          d._tmpTaskDataMap=_ideDataManagement._tmpTaskDataMap
+
+          _finalFun&&_finalFun(r,d);
           _finalFun=0
         }
       }
@@ -17569,9 +17575,11 @@ window.bzTwComm={
   _postRequest:function(v){
     bzTwComm._list.push(v)
     if(!bzTwComm._getExtensionId()){
-      $util.log("Missing extension id")
+      console.log("BZ-LOG:Missing extension id")
     }else if(!bzTwComm.ideId){
-      $util.log("Missing ide id")
+      console.log("BZ-LOG:Missing ide id")
+    }else if(!bzTwComm.appId&&bzTwComm._isExtension()){
+      console.log("BZ-LOG:Missing app id")
     }else{
       return _doIt()
     }
@@ -17628,18 +17636,32 @@ window.bzTwComm={
         }
         if(bzTwComm._isIDE()){
           return chrome.runtime.sendMessage(bzTwComm._getExtensionId(), v,r=>{
-            // console.log("response: "+r)
-            // console.log(vv)
+            if(!r){
+              console.log("Missing response: "+r)
+              console.log(vv)
+            }
+
+            bzTwComm._doing=0
+            _doIt()
           });
-        }else if(bzTwComm._isExtension&&v.tg=="ide"){
-          return chrome.runtime.sendMessage(v,r=>{});
+        }else if(bzTwComm._isExtension()&&v.tg=="ide"){
+          chrome.runtime.sendMessage(v,r=>{
+            if(!r){
+              console.log("Missing response: "+r)
+              console.log(vv)
+            }
+            bzTwComm._doing=0
+            _doIt()
+          });
+          return
         }
         k=bzTwComm._isExtension()?"app":"ext"
         document.documentElement.setAttribute("bz-to-"+k+"-"+bzTwComm._newId(),JSON.stringify(v))
+        bzTwComm._doing=0
+        _doIt()
       }catch(ex){
         console.log(ex.stack)
         bzTwComm._list.unshift(vv)
-      }finally{
         bzTwComm._doing=0
         _doIt()
       }
@@ -17661,7 +17683,7 @@ window.bzTwComm={
     Object.assign(bzTwComm,d)
   },
   _getWorld:function(){
-    bzTwComm._world=bzTwComm._world||(bzTwComm._isIDE()?"ide":bzTwComm._isExtension()?"ext":"app")
+    return bzTwComm._world=bzTwComm._world||(bzTwComm._isIDE()?"ide":bzTwComm._isExtension()?"ext":"app")
   },
   init:function(i){
     return this._init(i)
@@ -17738,6 +17760,10 @@ window.bzTwComm={
           }
           return d.d[d.k](...v._args)
         }
+      }
+      if(!d.d[d.k]||d.d[d.k].constructor!=Function){
+        console.log("Missing function")
+        console.log(d)
       }
       r=d.d[d.k](...v._args)
     }else if(v.d){
