@@ -2,7 +2,6 @@ if(window.name!="bz-master"){
   chrome.runtime.sendMessage({registerTab: 1,name:window.name},function(_msg){
     if(_msg){
       bzTwComm.setAppInfo(_msg)
-    window[ecMap.i][ecMap.inn][ecMap.r]()
     }
   });
 }
