@@ -25905,7 +25905,7 @@ data structure
         }else{
           nd[n]=_ideDataHandler._loadingFlag;
           //Directly load file not in extension side
-          if((!bzTwComm._isExtension())){
+          if((bzTwComm._isIDE())){
             let x=v.value
             _ideDataHandler._loadData(x.url,x.type,function(v,o,k,t,_url){
               //don't set on extension way
@@ -80523,6 +80523,8 @@ var _ideActionManagement={
 */
 window.bzTwComm={
   _tmpId:0,
+  _list:[],
+  _doing:0,
   //_world,_frameId,d,ev, _scope, _fun, _args, bktg, _bkfun, _bkscope
   // tg (target):
   //    1, app: page, 
@@ -80539,40 +80541,58 @@ window.bzTwComm={
   //    1, Function
   //    2, script
   // _async:
-  _postRequest:function(v,_retry){
-    _retry=_retry||0
-    v.bz=1
-    v.bktg=bzTwComm._getWorld()
+  _postRequest:function(v){
+    bzTwComm._list.push(v)
+    if(!bzTwComm._getExtensionId()){
+      $util.log("Missing extension id")
+    }else if(!bzTwComm.ideId){
+      $util.log("Missing ide id")
+    }else{
+      return _doIt()
+    }
 
-    let k,_ckTimer
-    v._args=v._args||[]
-    try{
-      v._bkfun=v._bkfun||v._args.find(x=>x&&x.constructor==Function)
-      if(v._bkfun&&v._bkfun.constructor==Function){
-        let _idx=v._args.indexOf(v._bkfun)
-        let f="f"+bzTwComm._newId()
-        let ff=v._bkfun
-        window[f]=function(){
-          clearTimeout(_ckTimer)
-          delete window[f]
-          ff(...arguments)          
-        }
-        v._bkfun=f
-        if(_idx>=0){
-          v._args[_idx]=f
-        }
-        if(v._ckTimer){
-          _ckTimer=setTimeout(()=>{
-            if(window[f]){
-              delete window[f]
-            }
-          },v._ckTimer)
-        }
+    return setTimeout(()=>{
+      _doIt()
+    },100)
+
+    function _doIt(){
+      if(bzTwComm._doing){
+        return
       }
-      // if(v.tg=="ide"){
-      //   return
-      // }
-      if(bzTwComm._isIDE()||(bzTwComm._isApp()&&v.tg=="ide")){
+      bzTwComm._doing=v=bzTwComm._list.shift()
+      if(!v){
+        return
+      }
+      let vv=v
+      v.bz=1
+      v.bktg=bzTwComm._getWorld()
+  
+      let k,_ckTimer
+      v._args=v._args||[]
+      try{
+        v._bkfun=v._bkfun||v._args.find(x=>x&&x.constructor==Function)
+        if(v._bkfun&&v._bkfun.constructor==Function){
+          let _idx=v._args.indexOf(v._bkfun)
+          let f="f"+bzTwComm._newId()
+          let ff=v._bkfun
+          window[f]=function(){
+            clearTimeout(_ckTimer)
+            delete window[f]
+            ff(...arguments)          
+          }
+          v._bkfun=f
+          if(_idx>=0){
+            v._args[_idx]=f
+          }
+          if(v._ckTimer){
+            _ckTimer=setTimeout(()=>{
+              if(window[f]){
+                delete window[f]
+              }
+            },v._ckTimer)
+          }
+        }
+
         if(bzTwComm._isIDE()){
           v.toId=bzTwComm.appId
           v.fromId=bzTwComm.ideId
@@ -80581,25 +80601,23 @@ window.bzTwComm={
           v.fromId=v.appId
           v.fromFrameId=bzTwComm.frameId
         }
-    
-    if(!bzTwComm._getExtensionId()){
-      console.log(v)
-      return
-    }
-
-        chrome.runtime.sendMessage(bzTwComm._getExtensionId(), v,r=>{});
-      }else{
+        if(bzTwComm._isIDE()){
+          return chrome.runtime.sendMessage(bzTwComm._getExtensionId(), v,r=>{
+            // console.log("response: "+r)
+            // console.log(vv)
+          });
+        }else if(bzTwComm._isExtension&&v.tg=="ide"){
+          return chrome.runtime.sendMessage(v,r=>{});
+        }
         k=bzTwComm._isExtension()?"app":"ext"
         document.documentElement.setAttribute("bz-to-"+k+"-"+bzTwComm._newId(),JSON.stringify(v))
+      }catch(ex){
+        console.log(ex.stack)
+        bzTwComm._list.unshift(vv)
+      }finally{
+        bzTwComm._doing=0
+        _doIt()
       }
-    }catch(ex){
-      return console.log(ex.stack)
-      if(_retry>10){
-        return console.log(ex.stack)
-      }
-      setTimeout(()=>{
-        bzTwComm._postRequest(v,_retry+1)
-      },100)
     }
   },
   touchIDE:function(){

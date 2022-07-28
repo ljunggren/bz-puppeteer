@@ -18,24 +18,24 @@ let funMap={
     })
     let ar=c[ecMap.ar]||[],
         bf=c[ecMap.bf]
+        
     if(bf){
-      let idx=ar.indexOf(bf);
+      idx=ar.indexOf(bf);
       if(idx>=0){
         ar[idx]=function(){
-          callback(...arguments)
+          callback(...arguments,t,bk)
         }
       }
     }
     
     r=r[c[ecMap.f]](...ar,t,bk)
     if(idx==-1&&bf){
-      callback(r)
+      callback(r,t,bk)
     }
-
-    function callback(){
+    function callback(d,t,bk){
       if(c[ecMap.bf]){
-        let v=funMap.buildBZRequestData(c.bktg,c[ecMap.bs]||"window",c[ecMap.bf],[...arguments])
-        trigger(v,c.fromId,c.fromFrameId)
+        let v=funMap.buildBZRequestData(c.bktg,c[ecMap.bs]||"window",c[ecMap.bf],[d])
+        trigger(v,c.fromId||t.tab.id,c.frameId)
       }
     }
   },
@@ -50,7 +50,7 @@ let funMap={
       }))
     })
   },
-  openWindow:function(s,f,d){
+  openWindow:function(d){
     chrome.windows.create(d)
   },
   isRequestCompleted:function(_rList,fun){
@@ -336,11 +336,11 @@ let funMap={
         _lastExeActionReq=0;
         ignoreReqs="";
         callback(ideId)
-      //Set CSS file path from BZ master page
+        return
+        //Set CSS file path from BZ master page
       }else{
         funMap.exeFun(req,sender,callback)
       }
-      return
     }else if(tg.includes("ide")){
       trigger(req,req.toId||ideId)
     }else if(tg.match(/ext|app/)){
