@@ -1786,10 +1786,17 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
     console.log("Spent time: "+(Date.now()-t))
   }
 };window._Util={
-  _eval:function(v){
+  _eval:function(v,_map){
     if(_eval._isBzData(v)||window.extensionContent){
-      return _eval._exeCode(v)
+      return _eval._exeCode(v,_map)
     }else{
+      _map=_map||{}
+      let ks=Object.keys(_map)
+      for(let i=0;i<ks.length;i++){
+          let k=ks[i]
+          eval("var "+k+"=_map."+k)
+      }
+  
       return eval(v)
     }
   },
@@ -3077,7 +3084,7 @@ function insertBzCode(v){if(v){console.log('call be bg ...')}else{console.log('c
             if(!_Util._isEmpty(vv)){
               vv[vv.length-1]="return "+vv[vv.length-1]
               vv=vv.join("\n")
-              n=_Util._eval(`n=(()=>{\n${vv}\n})()`)
+              n=_Util._eval("n=(()=>{\n"+vv+"\n})()")
             }
           }
         }
@@ -13954,7 +13961,7 @@ _Util._init();window._TWHandler={
         return _eval._exeCode(x)
       }
       return x
-    });
+    }).filter(x=>x!==undefined&&x!==null&&x!==""&&x!="bz-skip");
     var _text=$util.getElementText(o)
     var _inputs=_cssHandler._findAllInputs(d.e)
     _inputs&&_inputs.forEach(u=>{
@@ -16332,11 +16339,11 @@ _Util._init();window._TWHandler={
           let c=(a.event.value||"").match(_IDE._insertJSOnlyRegex)
           if(c){
             c=c[0]
-            eval("delete "+c)
+            _Util._eval("delete "+c)
             let e=$util.findDom(a.element)
             if(e){
               let v=$util.getElementValue(e)
-              eval(c+"=v")
+              c=_Util._eval(c+"=v",{v:v})
             }
           }          
         }
@@ -16539,7 +16546,7 @@ _Util._init();window._TWHandler={
           _fun(v)
         })
       }else{
-        eval("v="+v)
+        v=_Util._eval("v="+v)
         return v
       }
     }catch(e){
@@ -16710,16 +16717,16 @@ _Util._init();window._TWHandler={
     if(d){
       try{
         if(d.constructor==String){
-          eval("d="+d)
+          d=_Util._eval("d="+d)
           _ideDataManagement._initRandomValue(d)
         }
         if(p.length>1){
           for(let i=1;i<p.length;i++){
             d=d[p[i]]
           }
-          eval(pp+"=d")
+          _Util._eval(pp+"=d",{d:d})
         }else{
-          eval("pp="+pp)
+          _Util._eval("pp="+pp)
           for(var k in d){
             pp[k]=d[k]
           }
@@ -16810,7 +16817,7 @@ _Util._init();window._TWHandler={
         r=_JSHandler._prepareData(r)
         return _return(r)
       }else if(_Util._hasCode(r)){
-        eval("r="+r)
+        r=_Util._eval("r="+r)
         return _return(r)
       }
       
@@ -17642,7 +17649,7 @@ _Util._init();window._TWHandler={
           }
         }else if(o.type=="file"){
           _uploadHandler._setFileValue(o,v);
-    //        eval("ff="+v);
+    //        ff=_Util._eval("ff="+v);
     //        v=_uploadHandler._buildUploadBold(ff);
         }else if(o.value!=v){
     //        o.value=v;
@@ -17964,7 +17971,7 @@ window.bzTwComm={
       }else if(_event._fun){
         window[_event._scope][_event._fun](_event._data)
       }else if(_event._script){
-        eval(_event._script)
+        _Util._eval(_event._script)
       }
     });
 
@@ -17988,22 +17995,22 @@ window.bzTwComm={
       o.id="bz-app-area"
       o.style.display="none"
       document.body.parentElement.append(o)
+      bzTwComm._infoObserver= new MutationObserver(function(_mutations) {
+        _mutations.forEach(function(_mutation) {
+          var v=_mutation.addedNodes[0]
+          if(v&&v.data){
+            v=v.data.replace(/&lt;/g,"<")
+            o.innerHTML=""
+            _Util._eval(v)
+          }
+        });
+      })
+      bzTwComm._infoObserver.observe(o,{ attributes: true, childList: true, characterData: true,subtree:true,attributeOldValue:true,characterDataOldValue:true });
+  
     }
-    let _infoObserver= new MutationObserver(function(_mutations) {
-      _mutations.forEach(function(_mutation) {
-        var v=_mutation.addedNodes[0]
-        if(v&&v.data){
-          debugger
-          v=v.data.replace(/&lt;/g,"<")
-          o.innerHTML=""
-          eval(v)
-        }
-      });
-    })
-    _infoObserver.observe(o,{characterData: true});
   },
   _exeCodeInApp:function(v){
-    $("#bz-app-area").innerText=v.replace(/[<]/g,"&lt;")
+    $("#bz-app-area")[0].innerText=v.replace(/[<]/g,"&lt;")
   },
   //For recording alert/confirm message
   _postToMaster:function(d){

@@ -264,164 +264,284 @@ let funMap={
         },r=>{});
       }
     }
+  },
+  conIde:function(_req, _sender, _callback) {
+    //_console("background (web page): ",_req)
+    //check whether the request from BZ pages. If not from BZ do nothing.
+    if(!_req.bz){
+      return;
+    }
+    //check whether the request from BZ client web page
+    if(_req.bg){
+      return funMap[_req.fun](_req.bkScope,_req.bkFun,_req.data,_callback)
+    }else if(_req.twPage){
+      if(_req.tab=="master"){
+  //      _req.frameId=[0];
+        delete _req.twPage
+        _req.twPage2=1
+        chrome.tabs.sendMessage(_masterTabId, _req,r=>{});
+      }else{
+        _req.frameId=[_sender.frameId];
+        chrome.tabs.sendMessage(_ctrlTabId, _req,r=>{});
+      }
+    //Master tab send dynamic code to background to forward to content
+    }else if(_req.bzExeCode){
+      if(_req.element){
+        let v=getIframePath(_req.element)
+        return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v,element:_req.element,retry:0},function(r){
+          _setCodeToContent(_req.bzExeCode,r);
+        })
+      }else{
+        _setCodeToContent(_req.bzExeCode,_req.id);
+      }
+    //Master send current status
+    }else if(_req.status!==undefined){
+      //master tab set status before start pop client win
+      if(_req.status=="popwin-start"){
+        _doingPopCtrl=1
+      //master tab set status after end pop client win
+      }else if(_req.status=="popwin-end"){
+        _doingPopCtrl=0
+      }else{
+        _newStatus=_status=_req.status;
+        if(_ctrlTabId){
+          if(_req.data){
+            _data=_req.data;
+          }
+          if(_newStatus=="record"){
+            //funMap.enableAllIframe()
+          }
+          chrome.tabs.sendMessage(_ctrlTabId, {_newStatus:_newStatus,data:_req.data},r=>{});
+          _newStatus=0;
+        }
+      }
+    }else if(_req.open){
+      window.open(req.url,req.name,req.size);
+    //Set BZ code mapping data to unecrypt code from https://ai.boozang.com
+    }else if(_req.ecMap){
+      ecMap=_req.ecMap;
+      _callback("background get ecMap")
+    }else if(_req.extendTopScript){
+      extendTopScript=_req.extendTopScript
+      return
+    }else if(_req.extendEndScript){
+      extendEndScript=_req.extendEndScript
+      return
+    //Dynamic code from BZ master page
+    }else if(_req.bzCode){
+      if(_masterTabId&&_masterTabId!=_sender.tab.id){
+        chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"window",fun:"close"},r=>{});
+        chrome.tabs.sendMessage(_ctrlTabId, {tab:"master",scope:"window",fun:"close"},r=>{});
+      }
+      
+      _masterTabId=_sender.tab.id;
+      _masterFrameId=_sender.frameId
+      _masterUrl=_sender.url;
+      _lastExeActionReq=0;
+      ignoreReqs="";
+      _callback(1)
+      if(inReload){
+        inReload=0
+        rebuildTabs(_masterTabId)
+      }
+    //Set CSS file path from BZ master page
+    }else if(_req.bzCss){
+      _css=_req.bzCss;
+    //Dynamic data from BZ master page
+    }else if(_req.bzEnvCode){
+      _bzEnvCode=_req.bzEnvCode;
+    //check whether BZ client tab ready
+    }else{
+      //for request execution a BZ testing action
+      if(_req.exeAction){
+        _req.frameId=[_topFrameId];
+        _lastExeActionReq=_req;
+        if(_req.exeAction.element){
+          return _addFrameId(_req,_req.exeAction.element,function(r){
+            _doIt(r||_req)
+          })
+        }else if(_req.exeAction[ecMap.co]){
+          //_req.exeAction.code._element
+          var e=_req.exeAction[ecMap.co][ecMap.e];
+          if(e){
+            //_req.exeAction.code._element[0]._css
+            e=e[0][ecMap.c];
+            return _addFrameId(_req,e,function(r){
+              _doIt(r||_req)
+            })
+          }
+        }
+      //for request highlight a BZ action element
+      }else if(_req.element!==undefined){
+        return _addFrameId(_req,_req.element,function(r){
+          _doIt(r||_req)
+        })
+      }else if(_req.data&&_req.data.element){
+        _req.frameId=[_topFrameId];
+        return _addFrameId(_req,_req.data.element,function(r){
+          _doIt(r||_req)
+        })
+      }else if(_req.curTest!==undefined){
+        _curTest=_req.curTest
+        if(_req.curAction!==undefined){
+          _curAction=_req.curAction;
+        }
+      }else if(_req.shareData){
+        let d=_req.shareData
+        for(var k in d){
+          _shareData[k]=d[k];
+        }
+      }else if(_req.updateExpection&&_req.updateExpection.element){
+        _req.frameId=[_topFrameId];
+        return _addFrameId(_req,_req.updateExpection.element,function(r){
+          _doIt(r||_req)
+        })
+      }
+      _doIt(_req)
+      function _doIt(_req){
+        if(!_ctrlTabId){
+          if(_req.exeAction){
+            if(_ctrlTabId){
+              chrome.tabs.get(_ctrlTabId,function(o){
+                chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",data:_lastErrPage,twPage:1,tab:"master",bz:1},r=>{});
+              })
+            }else{
+              chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",twPage:1,tab:"master",bz:1},r=>{});
+            }
+          }
+        }else{
+          chrome.tabs.sendMessage(_ctrlTabId, _req,function(v){
+            _callback&&_callback(v)
+          });
+        }
+      }
+    }
+  },
+  conApp:function(_msg, t, _sendResponse) {
+    if(_msg.pop){
+      _sendResponse(1)
+      return pop[_msg.fun](_msg.data,function(d){
+        _sendResponse(d)
+      })
+    }else if(!_msg.requestSendResponse){
+      
+    }else{
+      _msg.requestSendResponse=_sendResponse
+    }
+    if(_msg.keep){
+      _sendResponse(1)
+      return;
+    }
+    //_console("background (content): ",_msg)
+    /*****************************************************************************************************
+    //For REGISTER tab, it only work for new pop window. The new window must pop up from master window.
+    *****************************************************************************************************/
+    if(_msg.bg){
+      funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data,t,_msg.element,_msg.requestSendResponse)
+      return !!_msg.requestSendResponse
+    }else if(_msg._registerTab && (_msg.name=="bz-client"||_ctrlTabId==t.tab.id)){
+      if(t.url.startsWith(_appUrl)){
+        return alert("Testing on Boozang sites not supported!");
+      }
+      if(isIgnoreFrame(t.url)){
+        return
+      }
+      if(_msg.name=="bz-client"){
+        // if(!_plugInCode){
+        //   chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"_extensionComm",fun:"_loadPlugCode"},r=>{});
+        // }
+        _ctrlTabId=t.tab.id;
+        _ctrlWindowId=t.tab.windowId;
+        if(_ctrlTabId==_masterTabId){
+          _ctrlFrameId=t.frameId
+        }
+        _frameIds[0]=1
+        //to tell master the current client tab id
+        chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,topFrame:t.frameId,tab:"master"},r=>{});
+      }else{
+        // chrome.scripting.executeScript(
+        //   {
+        //     target: {tabId: t.tab.id,frameIds:[t.frameId]},
+        //     files: ["override.js"],
+        //     world: 'MAIN'
+        //   },
+        //   ()=>{}
+        // )
+        _frameIds[t.frameId]=1
+        chrome.scripting.executeScript(
+          {
+            target: {tabId: t.tab.id,frameIds:[t.frameId]},
+            func: enableAppCode,
+            args:[1],
+            world: 'MAIN'
+          },
+          ()=>{}
+        )
+        chrome.scripting.executeScript(
+          {
+            target: {tabId: t.tab.id,frameIds:[t.frameId]},
+            func: enableExtensionCode
+          },
+          ()=>{}
+        )
+      }
+      _topFrameId=_msg.name=="bz-client"||_msg.name=="bz-manager"?t.frameId:_topFrameId;
+      _setCodeToContent([{
+        k:"bzIframeId",
+        v:t.frameId
+      },{
+        k:"topFrame",
+        v:_msg.name=="bz-client"?1:0
+      }],t.frameId)
+  
+      chrome.scripting.executeScript(
+        {
+          target: {tabId: t.tab.id,frameIds:[t.frameId]},
+          func: initTWComm,
+          world:"MAIN"
+        },
+        (a,b,c) => {
+          
+        }
+      )
+  /*
+      if(_topFrameId!=t.frameId&&_status=="play"){
+        _uncodeFrames.push(t.frameId)
+        return
+      }
+  */
+      _initFrame(t.frameId,_sendResponse)
+    //only work after master window is ready, and the requestion will send to master
+    }else if(_masterTabId){
+      _msg.ctrlInfo=1;
+      if(_msg.result){
+        _lastExeActionReq=0;
+      }else if(_msg.action){
+  //      if(t.frameId&&_frameIds[t.frameId]){
+    //      _msg.action.element[0]=_frameIds[t.frameId].path;
+      //  }
+      }else if(_msg[ecMap.ua]){
+        _setCodeToContent(ecMap.dp+"."+ecMap.er+"()")
+      }else if(_msg._fun==ecMap.pe){
+        if(t.frameId&&_frameIds[t.frameId]){
+          _msg[ecMap.d][0]=_frameIds[t.frameId].path
+        }
+      }else if(_msg._fun==ecMap.lnp){
+        _frameIds={0:1}
+      }else if(_msg.unloadFrame){
+        delete _frameIds[_msg.id]
+      }
+      _msg.tab="master"
+      chrome.tabs.sendMessage(_masterTabId, _msg,r=>{});
+    }
+    _sendResponse(1)
   }
 }
 let _list={},_responseList={}
 chrome.action.setBadgeText({text: chrome.runtime.getManifest().version=="1.2"?"TEST":"AI"});
 /*Get Message from IDE*/
 /******************* call ide *************************************************** */
-chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) {
-  //_console("background (web page): ",_req)
-  //check whether the request from BZ pages. If not from BZ do nothing.
-  if(!_req.bz){
-    return;
-  }
-  //check whether the request from BZ client web page
-  if(_req.bg){
-    return funMap[_req.fun](_req.bkScope,_req.bkFun,_req.data,_callback)
-  }else if(_req.twPage){
-    if(_req.tab=="master"){
-//      _req.frameId=[0];
-      delete _req.twPage
-      _req.twPage2=1
-      chrome.tabs.sendMessage(_masterTabId, _req,r=>{});
-    }else{
-      _req.frameId=[_sender.frameId];
-      chrome.tabs.sendMessage(_ctrlTabId, _req,r=>{});
-    }
-  //Master tab send dynamic code to background to forward to content
-  }else if(_req.bzExeCode){
-    if(_req.element){
-      let v=getIframePath(_req.element)
-      return chrome.tabs.sendMessage(_ctrlTabId,{bz:1,findFrameId:v,element:_req.element,retry:0},function(r){
-        _setCodeToContent(_req.bzExeCode,r);
-      })
-    }else{
-      _setCodeToContent(_req.bzExeCode,_req.id);
-    }
-  //Master send current status
-  }else if(_req.status!==undefined){
-    //master tab set status before start pop client win
-    if(_req.status=="popwin-start"){
-      _doingPopCtrl=1
-    //master tab set status after end pop client win
-    }else if(_req.status=="popwin-end"){
-      _doingPopCtrl=0
-    }else{
-      _newStatus=_status=_req.status;
-      if(_ctrlTabId){
-        if(_req.data){
-          _data=_req.data;
-        }
-        if(_newStatus=="record"){
-          //funMap.enableAllIframe()
-        }
-        chrome.tabs.sendMessage(_ctrlTabId, {_newStatus:_newStatus,data:_req.data},r=>{});
-        _newStatus=0;
-      }
-    }
-  }else if(_req.open){
-    window.open(req.url,req.name,req.size);
-  //Set BZ code mapping data to unecrypt code from https://ai.boozang.com
-  }else if(_req.ecMap){
-    ecMap=_req.ecMap;
-    _callback("background get ecMap")
-  }else if(_req.extendTopScript){
-    extendTopScript=_req.extendTopScript
-    return
-  }else if(_req.extendEndScript){
-    extendEndScript=_req.extendEndScript
-    return
-  //Dynamic code from BZ master page
-  }else if(_req.bzCode){
-    if(_masterTabId&&_masterTabId!=_sender.tab.id){
-      chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"window",fun:"close"},r=>{});
-      chrome.tabs.sendMessage(_ctrlTabId, {tab:"master",scope:"window",fun:"close"},r=>{});
-    }
-    
-    _masterTabId=_sender.tab.id;
-    _masterFrameId=_sender.frameId
-    _masterUrl=_sender.url;
-    _lastExeActionReq=0;
-    ignoreReqs="";
-    _callback(1)
-    if(inReload){
-      inReload=0
-      rebuildTabs(_masterTabId)
-    }
-  //Set CSS file path from BZ master page
-  }else if(_req.bzCss){
-    _css=_req.bzCss;
-  //Dynamic data from BZ master page
-  }else if(_req.bzEnvCode){
-    _bzEnvCode=_req.bzEnvCode;
-  //check whether BZ client tab ready
-  }else{
-    //for request execution a BZ testing action
-    if(_req.exeAction){
-      _req.frameId=[_topFrameId];
-      _lastExeActionReq=_req;
-      if(_req.exeAction.element){
-        return _addFrameId(_req,_req.exeAction.element,function(r){
-          _doIt(r||_req)
-        })
-      }else if(_req.exeAction[ecMap.co]){
-        //_req.exeAction.code._element
-        var e=_req.exeAction[ecMap.co][ecMap.e];
-        if(e){
-          //_req.exeAction.code._element[0]._css
-          e=e[0][ecMap.c];
-          return _addFrameId(_req,e,function(r){
-            _doIt(r||_req)
-          })
-        }
-      }
-    //for request highlight a BZ action element
-    }else if(_req.element!==undefined){
-      return _addFrameId(_req,_req.element,function(r){
-        _doIt(r||_req)
-      })
-    }else if(_req.data&&_req.data.element){
-      _req.frameId=[_topFrameId];
-      return _addFrameId(_req,_req.data.element,function(r){
-        _doIt(r||_req)
-      })
-    }else if(_req.curTest!==undefined){
-      _curTest=_req.curTest
-      if(_req.curAction!==undefined){
-        _curAction=_req.curAction;
-      }
-    }else if(_req.shareData){
-      let d=_req.shareData
-      for(var k in d){
-        _shareData[k]=d[k];
-      }
-    }else if(_req.updateExpection&&_req.updateExpection.element){
-      _req.frameId=[_topFrameId];
-      return _addFrameId(_req,_req.updateExpection.element,function(r){
-        _doIt(r||_req)
-      })
-    }
-    _doIt(_req)
-    function _doIt(_req){
-      if(!_ctrlTabId){
-        if(_req.exeAction){
-          if(_ctrlTabId){
-            chrome.tabs.get(_ctrlTabId,function(o){
-              chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",data:_lastErrPage,twPage:1,tab:"master",bz:1},r=>{});
-            })
-          }else{
-            chrome.tabs.sendMessage(_masterTabId, {scope:"commAdapter",fun:"crash",twPage:1,tab:"master",bz:1},r=>{});
-          }
-        }
-      }else{
-        chrome.tabs.sendMessage(_ctrlTabId, _req,function(v){
-          _callback&&_callback(v)
-        });
-      }
-    }
-  }
-});
+chrome.runtime.onMessageExternal.addListener(funMap.conIde);
 var _appRetry=0
 function _addFrameId(_req,_element,_fun,_retry){
   curElement=[_element[0]]
@@ -524,19 +644,7 @@ function dblCheckForIframe(){
     }
   },3000)
 }
-//to get frame ids by element path
-function _getFrameIds(_root){
-  
-}
-function _isExistTab(id,_fun){
-  chrome.tabs.query({}, function(tabs) {
-    for(var i=0;i<tabs.length;i++){
-      if(tabs[i].windowId==id){
-        return _fun()
-      }
-    }
-  });
-}
+
 //set code to chrome extension content
 function _setCodeToContent(c,iFrameId){
   //for set dynamic code to current controled client tab, 
@@ -581,125 +689,7 @@ let pop={
 
 /******************* call APP *************************************************** */
 //get message from app extension content
-chrome.runtime.onMessage.addListener(function(_msg, t, _sendResponse) {
-  if(_msg.pop){
-    _sendResponse(1)
-    return pop[_msg.fun](_msg.data,function(d){
-      _sendResponse(d)
-    })
-  }else if(!_msg.requestSendResponse){
-    
-  }else{
-    _msg.requestSendResponse=_sendResponse
-  }
-  if(_msg.keep){
-    _sendResponse(1)
-    return;
-  }
-  //_console("background (content): ",_msg)
-  /*****************************************************************************************************
-  //For REGISTER tab, it only work for new pop window. The new window must pop up from master window.
-  *****************************************************************************************************/
-  if(_msg.bg){
-    funMap[_msg.fun](_msg.bkScope,_msg.bkFun,_msg.data,t,_msg.element,_msg.requestSendResponse)
-    return !!_msg.requestSendResponse
-  }else if(_msg._registerTab && (_msg.name=="bz-client"||_ctrlTabId==t.tab.id)){
-    if(t.url.startsWith(_appUrl)){
-      return alert("Testing on Boozang sites not supported!");
-    }
-    if(isIgnoreFrame(t.url)){
-      return
-    }
-    if(_msg.name=="bz-client"){
-      // if(!_plugInCode){
-      //   chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"_extensionComm",fun:"_loadPlugCode"},r=>{});
-      // }
-      _ctrlTabId=t.tab.id;
-      _ctrlWindowId=t.tab.windowId;
-      if(_ctrlTabId==_masterTabId){
-        _ctrlFrameId=t.frameId
-      }
-      _frameIds[0]=1
-      //to tell master the current client tab id
-      chrome.tabs.sendMessage(_masterTabId, {tw:_ctrlTabId,topFrame:t.frameId,tab:"master"},r=>{});
-    }else{
-      // chrome.scripting.executeScript(
-      //   {
-      //     target: {tabId: t.tab.id,frameIds:[t.frameId]},
-      //     files: ["override.js"],
-      //     world: 'MAIN'
-      //   },
-      //   ()=>{}
-      // )
-      _frameIds[t.frameId]=1
-      chrome.scripting.executeScript(
-        {
-          target: {tabId: t.tab.id,frameIds:[t.frameId]},
-          func: enableAppCode,
-          args:[1],
-          world: 'MAIN'
-        },
-        ()=>{}
-      )
-      chrome.scripting.executeScript(
-        {
-          target: {tabId: t.tab.id,frameIds:[t.frameId]},
-          func: enableExtensionCode
-        },
-        ()=>{}
-      )
-    }
-    _topFrameId=_msg.name=="bz-client"||_msg.name=="bz-manager"?t.frameId:_topFrameId;
-    _setCodeToContent([{
-      k:"bzIframeId",
-      v:t.frameId
-    },{
-      k:"topFrame",
-      v:_msg.name=="bz-client"?1:0
-    }],t.frameId)
-
-    chrome.scripting.executeScript(
-      {
-        target: {tabId: t.tab.id,frameIds:[t.frameId]},
-        func: initTWComm,
-        world:"MAIN"
-      },
-      (a,b,c) => {
-        
-      }
-    )
-/*
-    if(_topFrameId!=t.frameId&&_status=="play"){
-      _uncodeFrames.push(t.frameId)
-      return
-    }
-*/
-    _initFrame(t.frameId,_sendResponse)
-  //only work after master window is ready, and the requestion will send to master
-  }else if(_masterTabId){
-    _msg.ctrlInfo=1;
-    if(_msg.result){
-      _lastExeActionReq=0;
-    }else if(_msg.action){
-//      if(t.frameId&&_frameIds[t.frameId]){
-  //      _msg.action.element[0]=_frameIds[t.frameId].path;
-    //  }
-    }else if(_msg[ecMap.ua]){
-      _setCodeToContent(ecMap.dp+"."+ecMap.er+"()")
-    }else if(_msg._fun==ecMap.pe){
-      if(t.frameId&&_frameIds[t.frameId]){
-        _msg[ecMap.d][0]=_frameIds[t.frameId].path
-      }
-    }else if(_msg._fun==ecMap.lnp){
-      _frameIds={0:1}
-    }else if(_msg.unloadFrame){
-      delete _frameIds[_msg.id]
-    }
-    _msg.tab="master"
-    chrome.tabs.sendMessage(_masterTabId, _msg,r=>{});
-  }
-  _sendResponse(1)
-});
+chrome.runtime.onMessage.addListener(funMap.conApp);
 
 function enableAppCode(){
   insertBzCode(1)
