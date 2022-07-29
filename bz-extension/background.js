@@ -598,10 +598,10 @@ function trigger(v,tabId,iframeId,fun){
   )
 
   function triggerFun(v){
-    doIt()
+    return doIt()
     function doIt(){
       try{
-        bzTwComm.setRequest(v)
+        return bzTwComm.setRequest(v)
       }catch(e){
         console.log(e.stack)
         // if(!window._TWHandler||!window._TWHandler._appReady){
@@ -620,9 +620,12 @@ function trigger(v,tabId,iframeId,fun){
   tabs.forEach(x=>{
     if(x.url.includes("/extension?id=")){
       trigger({tg:"ide",c:"bzTwComm.touchIDE()"},x.id,undefined,function(d){
-        d=d.result
+        d=d&&d[0]
         if(d){
-          appId=d
+          d=d.result
+          if(d){
+            ideId=d
+          }
         }
       })
     }

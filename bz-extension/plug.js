@@ -82032,8 +82032,7 @@ window.bzTwComm={
     return this._init(i)
   },
   setRequest:function(v){
-    bzTwComm._exeRequest(v)
-    return 1
+    return bzTwComm._exeRequest(v)||1
   },
   _isIDE:function(){
     return window.name=="bz-master"&&!window.extensionContent
