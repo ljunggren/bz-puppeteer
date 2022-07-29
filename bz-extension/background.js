@@ -53,23 +53,27 @@ let funMap={
   openWindow:function(d){
     chrome.windows.create(d)
   },
-  isRequestCompleted:function(_rList,fun){
-    _rList.forEach((r,i)=>{
+  isRequestCompleted:function(rList,fun){
+    rList.forEach((r,i)=>{
       var v=responseList[r]
       if(v){
         delete responseList[r]
-        _rList[i]=funMap.buildAjaxData(v)
+        rList[i]=funMap.buildAjaxData(v)
       }else{
-        _rList[i]=null
+        rList[i]=null
       }
     })
-    fun({result:!Object.keys(list).length,data:_rList})
+    fun({result:!Object.keys(list).length,data:rList})
   },
-  postRequestInfo:function(v){
+  postRequestInfo:function(v,fun){
     if(["main_frame","xmlhttprequest"].includes(v.type)){
       v=funMap.buildAjaxData(v)
-      list[v.requestId]=v
-      trigger(funMap.buildBZRequestData("ide","BZ","addReq",[v]),ideId)
+      if(fun=="addReq"){
+        list[v.requestId]=v
+      }else{
+        delete list[v.requestId]
+      }
+      trigger(funMap.buildBZRequestData("ide","BZ",fun,[v]),ideId)
     }
   },
   buildAjaxData:function(v){
@@ -464,14 +468,14 @@ chrome.webRequest.onBeforeRequest.addListener(function(a,b){
       list={}
       responseList={}
     }
-    funMap.postRequestInfo(a)
+    funMap.postRequestInfo(a,"addReq")
   }
 },{urls: ["<all_urls>"]})
 
 
 chrome.webRequest.onBeforeRedirect.addListener(function(a,b){
   if(a.tabId==appId&&appId){
-    funMap.postRequestInfo(a)
+    funMap.postRequestInfo(a,"addRep")
   }
 },{urls: ["<all_urls>"]})
 
@@ -480,7 +484,7 @@ chrome.webRequest.onCompleted.addListener(function(v){
     return
   }
 
-  funMap.postRequestInfo(v)
+  funMap.postRequestInfo(v,"addRep")
   
   trigger(funMap.buildBZRequestData("ide",ecMap.rc,ecMap.tu),ideId)
   var r={ctrlInfo:1,url:v.url,from:"complete"}
@@ -519,7 +523,7 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
   }
 
   var r={url:v.url,error:v.error};
-  funMap.postRequestInfo(v)
+  funMap.postRequestInfo(v,"addRep")
   
   if(v.type=="main_frame"){
     if(_isDownloading(v.responseHeaders)){
@@ -548,7 +552,7 @@ chrome.webRequest.onActionIgnored.addListener(function(v){
   if(v.tabId!=appId){
     return
   }
-  funMap.postRequestInfo(v)
+  funMap.postRequestInfo(v,"addRep")
 })
 
 
@@ -594,7 +598,20 @@ function trigger(v,tabId,iframeId,fun){
   )
 
   function triggerFun(v){
-    bzTwComm.setRequest(v)
+    doIt()
+    function doIt(){
+      try{
+        bzTwComm.setRequest(v)
+      }catch(e){
+        console.log(e.stack)
+        // if(!window._TWHandler||!window._TWHandler._appReady){
+        //   setTimeout(()=>{
+        //     console.log("Re-do")
+        //     doIt()
+        //   },100)
+        // }
+      }
+    }
   }
 }
 

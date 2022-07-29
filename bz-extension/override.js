@@ -36,7 +36,6 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
     return "f"+(this._tmpNum++)
   },
   _throwErr:function(s){
-    debugger
     alert(_bzMessage._system._error._syntaxError+s)
   },
   _exeFun:function(f,p,_outMap,_inMap){
@@ -8083,6 +8082,16 @@ tbody td:first-child,tbody td:last-child{
     })
     _TWHandler._takeoverOpenWin();
     if(window.extensionContent){
+      _postReady()
+    }
+
+    function _postReady(){
+      if(!window.curUser||!window.bzTwComm||!bzTwComm.ideId||!window._IDE._data._setting||!window._IDE._data._setting.content){
+        return setTimeout(()=>{
+          _postReady()
+        },100)
+      }
+      _TWHandler._appReady=1
       console.log("page is ready")
       bzTwComm._postToIDE({_fun:"_infoPageReady",_scope:"_extensionComm"});
     }
@@ -8170,7 +8179,7 @@ tbody td:first-child,tbody td:last-child{
           $(v).text(_data.event.returnValue)
         }
       }
-      return window.postMessage({bz:1,_takeoverWin:1}, "*");
+      return bzTwComm._postToApp({_fun:"_takeoverWin",_scope:"_TWHandler"})
     }else if(bzTwComm._isIDE()){
       return;
     }
@@ -9109,7 +9118,7 @@ tbody td:first-child,tbody td:last-child{
     _win=_win||window
     if(bzTwComm._isExtension()){
       // console.log("1:"+_key)
-      window.postMessage({bz:1,_takeoverOpenWin:1}, "*");
+      bzTwComm._postToApp({_fun:"_takeoverOpenWin",_scope:"_domRecorder"})
       return
     }else if(bzTwComm._isIDE()){
       // console.log("2:"+_key)
@@ -9403,7 +9412,7 @@ tbody td:first-child,tbody td:last-child{
       // // console.log("BZ-LOG: openUrl - "+_enterPointValue);
       BZ.TW=window.open(_enterPointValue,_TWHandler._getClientName(),ws);
       _TWHandler._curLoadingURL=_enterPointValue;
-      BZ._checkPopBlocking(_enterPointValue);
+      BZ._checkPopBlocking(_enterPointValue,_callBack);
       BZ._prepareDocument(function(){
         _TWHandler._exeAfterLoad(true,_finalFun);
       },_doc);
@@ -11076,6 +11085,8 @@ tbody td:first-child,tbody td:last-child{
     }
   },
   _exeAction:function(_data,_setting,_backFun,_descDelay){
+    console.log("get action")
+    console.log(_data)
     _domActionTask._doLog("Exe Action ...")
     _domActionTask._reportAppInfo("Exe action "+_data.description)
     if(_domActionTask._isLoading()){
@@ -12816,11 +12827,8 @@ tbody td:first-child,tbody td:last-child{
     }
     function _setFileFun(d,dom,v,_fun){
       var p=_Util._getQuickPath(dom)
-      // window.postMessage({bz:1,_fun:"_keepChangeFileFun",_scope:"_uploadHandler",_data:p}, "*");
       return BZ._setTimeout(function(){
         $util.triggerChangeEvent(dom,v,d.event.autoBlur);
-        // p=_Util._getQuickPath(dom)
-        // window.postMessage({bz:1,_fun:"_exeKeepChangeFileFun",_scope:"_uploadHandler",_data:p}, "*");
         if(_fun){
           BZ._setTimeout(()=>{
             _fun(_result)
@@ -14401,7 +14409,7 @@ tbody td:first-child,tbody td:last-child{
   },
   _setBackPopMsg:function(){
     if(bzTwComm._isExtension()){
-      return window.postMessage({bz:1,_setBackPopMsg:1}, "*");
+      return bzTwComm._postToApp({_fun:"_setBackPopMsg",_scope:"_domRecorder"})
     }
     if(window.BZ){
       if(BZ._documents){
@@ -14483,7 +14491,7 @@ tbody td:first-child,tbody td:last-child{
       return;
     }
     if(bzTwComm._isExtension()){
-      window.postMessage({bz:1,_takeoverPopMsg:1}, "*");
+      bzTwComm._postToApp({_fun:"_takeoverPopMsg",_scope:"_domRecorder"})
     }else{
       _domRecorder._takeoverPopMsg(_document.defaultView);
     }
@@ -14628,6 +14636,7 @@ tbody td:first-child,tbody td:last-child{
     return p;
   },
   _takeoverPopMsg:function(w){
+    w=w||window
     try{
       var _beforeunload=w.onbeforeunload || (_checkJQueryEvent().beforeunload?_checkJQueryEvent().beforeunload[0].handler:null);
       if((!w.BZ_Recording_Onbeforeunload && _beforeunload) || (w.BZ_Recording_Onbeforeunload_fun && w.BZ_Recording_Onbeforeunload_fun!=_beforeunload)){
@@ -17390,7 +17399,7 @@ tbody td:first-child,tbody td:last-child{
       if(bzTwComm._isExtension()){
         _Util._getWindowFromDom(o).focus();
         var _path=_Util._getQuickPath(o)
-        window.postMessage({bz:1,_script:"var bzBlur=_Util._getElementByQuickPath('"+_path+"');try{$(bzBlur).blur()}catch(e){bzBlur&&bzBlur.blur()}"}, "*");
+        bzTwComm._postToApp({c:"var bzBlur=_Util._getElementByQuickPath('"+_path+"');try{$(bzBlur).blur()}catch(e){bzBlur&&bzBlur.blur()}"})
       }else{
         var _curWin=_Util._getWindowFromDom(o);
         $(o).blur();
@@ -17718,6 +17727,8 @@ window.bzTwComm={
          _TWHandler._takeoverOpenWin()
          _TWHandler._takeoverCanvas()
         }
+        console.log("monitor ...")
+        console.log(bzTwComm._isExtension()?"ext":"app")
         bzTwComm._monitorInfo()
         if(bzTwComm._isTopApp()){
           bzTwComm._postToIDE({_fun:"_setBZSent",_args:[{i:0,_root:1}],_scope:"_TWHandler"});
@@ -17730,21 +17741,35 @@ window.bzTwComm={
     if(!bzTwComm._infoObserver){
       bzTwComm._infoObserver= new MutationObserver(function(vs) {
         vs.forEach(function(v) {
-          let d=document.documentElement.getAttribute(v)
-          if(d){
-            let vv=v.attributeName.match(/^bz-to-(app|ext)-/)
-            if(vv&&((vv[1]=="app"&&bzTwComm._isApp())||(vv[1]=="ext"&&bzTwComm._isExtension()))){
-              document.documentElement.removeAttribute(v)
-              try{
-                bzTwComm.exeRequest(JSON.parse(d))
-              }catch(e){
-                $util.log(e.stack)
-              }
-            }
-          }
+          v=v.attributeName
+          _handle(v)
         });
       })
       bzTwComm._infoObserver.observe(document.documentElement,{attributes: true});
+      let os=document.documentElement.attributes
+      for(let i=os.length-1;i>=0;i--){
+        _handle(os[i].name)
+      }
+    }
+
+    function _handle(v){
+      let d=document.documentElement.getAttribute(v)
+      if(d){
+        let vv=v.match(/^bz-to-(app|ext)-/)
+        if(vv&&((vv[1]=="app"&&!bzTwComm._isExtension())||(vv[1]=="ext"&&bzTwComm._isExtension()))){
+          document.documentElement.removeAttribute(v)
+          try{
+            d=JSON.parse(d)
+            if(d.tg=="ide"){
+              bzTwComm._postToIDE(d)
+            }else{
+              bzTwComm._exeRequest(d)
+            }
+          }catch(e){
+            $util.log(JSON.stringify(d)+"\n\n"+e.stack)
+          }
+        }
+      }
     }
   },
   _exeRequest:function(v){
@@ -17809,6 +17834,10 @@ window.bzTwComm={
   },
   _postToApp:function(d){
     d.tg="app"
+    bzTwComm._postRequest(d)
+  },
+  _postToGb:function(d){
+    d.tg="bg"
     bzTwComm._postRequest(d)
   },
   //For recording alert/confirm message
