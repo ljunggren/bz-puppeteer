@@ -118,30 +118,47 @@ let funMap={
   setAppInitScript:function(d){
     initAppScript=d
   },
-  postRequestToElement:function(req,_element,fun,failFun){
+  postRequestToElement:function(req,_element,fun,failFun,_retry){
     curReq=req
     let v=getIframePath(_element)
+    console.log(JSON.stringify(_element))
     if(v){
-      v=funMap.buildBZRequestData("ext","BZ","findFrameId",[v])
-      findFrame(v,req.toId,req)
+      let findFrameTimer=setTimeout(()=>{
+        findFrameTimer=0
+        failFun("Missing iframe")
+      },1000)
+
+      chrome.scripting.executeScript(
+        {
+          target:{
+            tabId:appId||req.toId,
+            allFrames:true
+          },
+          func:findFrameId,
+          args:[v]
+        },
+        r => {
+          if(findFrameTimer){
+            clearTimeout(findFrameTimer)
+            if(!r.find(x=>{
+              if(x.result){
+                _element[0]="BZ.TW.document";
+                fun(x.result)
+                return 1
+              }
+            })){
+              fun({_type:1})
+            }
+          }
+        }
+      )
     }else{
       fun(0)
     }
     
 
-    function findFrame(v,id){
-      let findFrameTimer=setTimeout(()=>{
-        findFrameTimer=0
-        failFun("Missing iframe")
-      },1000)
-      triggerApp(v,id,undefined,r=>{
-        if(r&&findFrameTimer){
-          clearTimeout(findFrameTimer)
-          findFrameTimer=0
-          _element[0]="BZ.TW.document";
-          return fun(r)
-        }
-      })
+    function findFrameId(v){
+      return BZ.responseIFrameId(v)
     }
 
     function getIframePath(_element){
@@ -253,8 +270,8 @@ let funMap={
       }
     }
   },
-  getScreenshot:function(bkScope,bkFun,d,t,element){
-    chrome.tabs.captureVisibleTab(_ctrlWindowId,(img) => {
+  getScreenshot:function(fun,t){
+    chrome.tabs.captureVisibleTab(t.tab.windowId,(img) => {
       fun({imgUrl:img})
     })
   },
@@ -274,10 +291,29 @@ let funMap={
         v=funMap.buildBZRequestData("ide","bzTwComm","setAppInfo",[{appId:appId,appUrl:t.url}])
         trigger(v,ideId);
       }else{
-        v=funMap.buildBZRequestData("app","window","insertAppCode",[t.frameId])
-        trigger(v,appId,t.frameId)
-        v=funMap.buildBZRequestData("ext","window","initExtCode",[t.frameId])
-        trigger(v,appId,t.frameId)
+        chrome.scripting.executeScript(
+          {
+            target:{
+              tabId:appId,
+              frameIds:[t.frameId]
+            },
+            func:toInsertAppCode,
+            args:[t.frameId],
+            world:"MAIN"
+          },
+          r => {}
+        )
+        chrome.scripting.executeScript(
+          {
+            target:{
+              tabId:appId,
+              frameIds:[t.frameId]
+            },
+            func:toInitExtCode,
+            args:[t.frameId]
+          },
+          r => {}
+        )
       }
       
       let d={appId:appId,frameId:t.frameId,ideId:ideId};
@@ -308,7 +344,6 @@ let funMap={
     //_console("background (web page): ",req)
     //check whether the request from BZ pages. If not from BZ do nothing.
     let tg=req.tg||""
-    console.log(req)
     if(req.status!==undefined){
       //master tab set status before start pop client win
       if(req.status=="popwin-start"){
@@ -350,6 +385,7 @@ let funMap={
     }else if(tg.match(/ext|app/)){
       if(req[ecMap.e]){
         funMap.postRequestToElement(req,req[ecMap.e],function(v){
+          console.log(JSON.stringify((req.toId||appId)+":"+v))
           trigger(req,req.toId||appId,v)
         },function(){
           callback({bzErr:1})
@@ -573,6 +609,9 @@ async function addPageScript() {
 }
 
 function trigger(v,tabId,iframeId,fun){
+  if(tabId==appId){
+    console.log(v)
+  }
   if(!tabId){
     return
   }
@@ -603,6 +642,11 @@ function trigger(v,tabId,iframeId,fun){
       try{
         return bzTwComm.setRequest(v)
       }catch(e){
+        if(!window.bzTwComm||!bzTwComm.appReady){
+          return setTimeout(()=>{
+            return doIt()
+          })
+        }
         console.log(e.stack)
         // if(!window._TWHandler||!window._TWHandler._appReady){
         //   setTimeout(()=>{
@@ -615,6 +659,13 @@ function trigger(v,tabId,iframeId,fun){
   }
 }
 
+function toInsertAppCode(v){
+  insertAppCode(v)
+}
+
+function toInitExtCode(v){
+  initExtCode(v)
+}
 (async ()=>{
   let tabs = await chrome.tabs.query({})
   tabs.forEach(x=>{
@@ -624,7 +675,8 @@ function trigger(v,tabId,iframeId,fun){
         if(d){
           d=d.result
           if(d){
-            ideId=d
+            ideId=d.ideId
+            appId=d.appId
           }
         }
       })
