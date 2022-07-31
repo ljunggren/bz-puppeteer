@@ -11323,6 +11323,10 @@ for(k in $util){
     n=ns.shift()
     if(n=="eval"){
       return _eval._buildBzData(_eval._exeCode,_eval,"_exeCode");
+    }else if($.isNumeric(n)||n.match(/^['"`].*[`"']$/)){
+      let nn=_eval._getTmpDataName()
+      _outMap[nn]=_eval._exeCode(n)
+      n=nn
     }
     if(Object.keys(_inMap).includes(n)){
       _map=_inMap
@@ -11806,17 +11810,24 @@ for(k in $util){
           _parsePartItem(v.substring(i+1),ps)
           return ps
         }else{
+          s=`(${s})`
           p=_eval._parseItem(s)
           if(p.constructor==Array&&!ps.length){
             ps=p
           }else{
             ps.push(p)
           }
-          if(ps.find(x=>_eval._isSign(x))){
-            ps=[ps]
+          v=v.substring(i+1)
+          while(1){
+            let vv=_eval._findKeyOuterBlock(v,",")
+            if(vv){
+              ps.push(_eval._parseItem(`(${vv.p})`)[0])
+              v=vv.e
+            }else{
+              ps.push(_eval._parseItem(`(${v})`)[0])
+              return ps
+            }
           }
-          _parsePartItem(v.substring(i+1),ps)
-          return ps
         }
       }else if(df||ok||op){
       }else if(_eval._isSign(c)){
@@ -23931,20 +23942,6 @@ var _elementMonitor={
       _Util._removeLinkTarget(this)
     })
     _TWHandler._takeoverOpenWin();
-    if(window.extensionContent){
-      _postReady()
-    }
-
-    function _postReady(){
-      if(!window.curUser||!window.bzTwComm||!bzTwComm.ideId||!window._IDE._data._setting||!window._IDE._data._setting.content||(!window.BZ&&bzTwComm._isExtension())){
-        return setTimeout(()=>{
-          _postReady()
-        },100)
-      }
-      bzTwComm.appReady=1
-      console.log("page is ready")
-      bzTwComm._postToIDE({_fun:"_infoPageReady",_scope:"_extensionComm"});
-    }
   },
   _uiSync:function(){
     
@@ -24661,7 +24658,7 @@ var _elementMonitor={
           _TWHandler._setAjaxRequest(_body,_headers)
           setTimeout(()=>{
             _TWHandler._setBZSent({i:-1,_root:_win.parent==_win,url:_url});
-            bzTwComm._postToExt({_fun:"_setRequestCount",_data:[{_url:_url,i:-1}],_scope:"_TWHandler"});
+            bzTwComm._postToExt({_fun:"_setRequestCount",_args:[{_url:_url,i:-1}],_scope:"_TWHandler"});
             try{
               let _contentType=x.headers.get('content-type')||""
               if(_contentType.includes("json")){
@@ -24968,7 +24965,7 @@ var _elementMonitor={
     _win=_win||window
     if(bzTwComm._isExtension()){
       // console.log("1:"+_key)
-      bzTwComm._postToApp({_fun:"_takeoverOpenWin",_scope:"_domRecorder"})
+      bzTwComm._postToApp({_fun:"_takeoverOpenWin",_scope:"_TWHandler"})
       return
     }else if(bzTwComm._isIDE()){
       // console.log("2:"+_key)
@@ -30090,7 +30087,11 @@ var $data=function(m,t,init){
         _result.exeTime=_data.exeTime
         delete window.$returnValue
 
-        _backFun(_result)
+        var d={$newElement:window.$newElement};
+        //d["_tmpTaskDataMap"]=_ideDataManagement._tmpTaskDataMap
+        d._tmpTaskDataMap=_ideDataManagement._tmpTaskDataMap
+
+        _backFun(_result,d)
       },_descDelay)
     }
     var _fun,_orgData=_data._timestamp?_data:_data._orgData==_data||(_data._supData&&_data._orgData&&_data._supData==_data._orgData._supData)?_data._orgData:_Util._clone(_data),_result={};
@@ -81914,7 +81915,7 @@ var _ideActionManagement={
 */
 window.bzTwComm={
   _tmpId:0,
-  _list:[],
+  _list:[],_exeList:[],
   _doing:0,
   appReady:window.name.includes("bz-master"),
   //_world,_frameId,d,ev, _scope, _fun, _args, bktg, _bkfun, _bkscope
@@ -82085,6 +82086,20 @@ window.bzTwComm={
         if(bzTwComm._isTopApp()){
           bzTwComm._postToIDE({_fun:"_setBZSent",_args:[{i:0,_root:1}],_scope:"_TWHandler"});
         }
+
+        _postReady()
+    
+        function _postReady(){
+          if(!window._domRecorder||!bzTwComm.ideId||(bzTwComm._isExtension()&&(!window.curUser||!window.BZ||!window._IDE||!window._IDE._data._setting||!window._IDE._data._setting.content))){
+            return setTimeout(()=>{
+              _postReady()
+            },100)
+          }
+          bzTwComm.appReady=1
+          console.log("page is ready")
+          bzTwComm._postToIDE({_fun:"_infoPageReady",_scope:"_extensionComm"});
+        }
+    
       }
     }
   },
@@ -82105,6 +82120,16 @@ window.bzTwComm={
     }
 
     function _handle(v){
+      if(v){
+        bzTwComm._exeList.push(v)
+      }
+      if(!bzTwComm.appReady){
+        return setTimeout(()=>{
+          _handle()
+        },10)
+      }
+      v=bzTwComm._exeList.shift()
+  
       let d=document.documentElement.getAttribute(v)
       if(d){
         let vv=v.match(/^bz-to-(app|ext)-/)

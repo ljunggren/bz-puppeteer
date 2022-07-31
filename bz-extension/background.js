@@ -121,7 +121,7 @@ let funMap={
   postRequestToElement:function(req,_element,fun,failFun,_retry){
     curReq=req
     let v=getIframePath(_element)
-    console.log(JSON.stringify(_element))
+    // console.log(JSON.stringify(_element))
     if(v){
       let findFrameTimer=setTimeout(()=>{
         findFrameTimer=0
@@ -320,13 +320,13 @@ let funMap={
 
       _sendResponse(d)
       v=funMap.buildBZRequestData("app","bzTwComm","setAppInfo",[d])
-      trigger(v,appId,t.frameId)
+      trigger(v,appId,t.frameId,0,1)
       funMap.postPreScriptToApp(appId,t.frameId)
-      trigger(funMap.buildBZRequestData("ext","BZ",ecMap.sd,[shareData]),appId,t.frameId)
+      trigger(funMap.buildBZRequestData("ext","BZ",ecMap.sd,[shareData]),appId,t.frameId,0,1)
       initAppScript.forEach(x=>{
-        trigger(funMap.buildBZRequestData(x.tg,x[ecMap.s],x[ecMap.f],x[ecMap.ar],x.c,x.d),appId,t.frameId)
+        trigger(funMap.buildBZRequestData(x.tg,x[ecMap.s],x[ecMap.f],x[ecMap.ar],x.c,x.d),appId,t.frameId,0,1)
       })
-      trigger(funMap.buildBZRequestData("ext","BZ",ecMap.ss,[_status]),appId,t.frameId)
+      trigger(funMap.buildBZRequestData("ext","BZ",ecMap.ss,[_status]),appId,t.frameId,0,1)
     }else{
       _sendResponse(1)
     }
@@ -385,7 +385,7 @@ let funMap={
     }else if(tg.match(/ext|app/)){
       if(req[ecMap.e]){
         funMap.postRequestToElement(req,req[ecMap.e],function(v){
-          console.log(JSON.stringify((req.toId||appId)+":"+v))
+          // console.log(JSON.stringify((req.toId||appId)+":"+v))
           trigger(req,req.toId||appId,v)
         },function(){
           callback({bzErr:1})
@@ -608,10 +608,7 @@ async function addPageScript() {
   await chrome.scripting.registerContentScripts(scripts);
 }
 
-function trigger(v,tabId,iframeId,fun){
-  if(tabId==appId){
-    console.log(v)
-  }
+function trigger(v,tabId,iframeId,fun,init){
   if(!tabId){
     return
   }
@@ -624,7 +621,7 @@ function trigger(v,tabId,iframeId,fun){
   let d={
     target: t,
     func: triggerFun,
-    args:[v],
+    args:[{v:v,i:init}],
   }
   if(v.tg!="ext"){
     d.world="MAIN"
@@ -639,21 +636,17 @@ function trigger(v,tabId,iframeId,fun){
   function triggerFun(v){
     return doIt()
     function doIt(){
+      if(!v.i&&(!window.bzTwComm||!bzTwComm.appReady)){
+        console.log("deloy on:")
+        console.log(v.v)
+        return setTimeout(()=>{
+          return doIt()
+        })
+      }
       try{
-        return bzTwComm.setRequest(v)
+        return bzTwComm.setRequest(v.v)
       }catch(e){
-        if(!window.bzTwComm||!bzTwComm.appReady){
-          return setTimeout(()=>{
-            return doIt()
-          })
-        }
         console.log(e.stack)
-        // if(!window._TWHandler||!window._TWHandler._appReady){
-        //   setTimeout(()=>{
-        //     console.log("Re-do")
-        //     doIt()
-        //   },100)
-        // }
       }
     }
   }
