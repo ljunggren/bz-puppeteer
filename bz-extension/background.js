@@ -641,7 +641,7 @@ function trigger(v,tabId,iframeId,fun,init){
         console.log(v.v)
         return setTimeout(()=>{
           return doIt()
-        })
+        },10)
       }
       try{
         return bzTwComm.setRequest(v.v)
@@ -659,6 +659,21 @@ function toInsertAppCode(v){
 function toInitExtCode(v){
   initExtCode(v)
 }
+function resetApp(d){
+  chrome.scripting.executeScript(
+    {
+      target:{
+        tabId:appId,
+        allFrames:true
+      },
+      func:()=>{
+        registerTab()
+      },
+      args:[]
+    },
+    r => {}
+  )
+}
 (async ()=>{
   let tabs = await chrome.tabs.query({})
   tabs.forEach(x=>{
@@ -670,6 +685,7 @@ function toInitExtCode(v){
           if(d){
             ideId=d.ideId
             appId=d.appId
+            resetApp()
           }
         }
       })

@@ -1,7 +1,15 @@
 if(window.name.includes("bz-client")||parent!=window){
-  chrome.runtime.sendMessage({registerTab: 1,name:window.name},function(_msg){
-    if(_msg){
-      bzTwComm.setAppInfo(_msg)
-    }
-  });
+  registerTab()
+}
+
+function registerTab(){
+  try{
+    chrome.runtime.sendMessage({registerTab: 1,name:window.name},function(_msg){
+      if(_msg){
+        bzTwComm.setAppInfo(_msg)
+      }
+    });
+  }catch(ex){
+    alert("Register failed:"+ex.message)
+  }
 }

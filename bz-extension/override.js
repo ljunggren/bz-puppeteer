@@ -78,7 +78,11 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
       let _map=_eval._buildScopeDataMap(_outMap,_inMap),
       _tmpMap={}
       f.e.forEach((x,i)=>{
-        _tmpMap[x]=p[i]
+        if(x.ps){
+          _tmpMap[x.ps[0]]=p[i]
+        }else{
+          _tmpMap[x]=p[i]
+        }
       })
       _tmpMap.arguments=[...p]
       _tmpMap.this=d
@@ -1126,6 +1130,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
             ps=p
           }else{
             ps.push(p)
+            ps=[ps]
           }
           v=v.substring(i+1)
           while(1){
@@ -5276,10 +5281,9 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
     return ks
   },
   _alertMessage:function(_msg){
-    // try{
-      // let _stack=new Error().stack
-      // console.log("BZ-LOG:"+_stack.replace("Error","End"));
-    // }catch(e){}
+    if(_msg.includes("The data was updated/locked by other team member")){
+      debugger
+    }
     if(BZ._isAutoRunning()){
       console.log("BZ-LOG:"+_msg)
       return
@@ -17563,6 +17567,7 @@ for(k in $util){
   For get customer app info from extension
 */
 window.bzTwComm={
+  _reloadTime:0,
   _tmpId:0,
   _list:[],_exeList:[],
   _doing:0,
@@ -17681,6 +17686,7 @@ window.bzTwComm={
   },
   touchIDE:function(){
     if(!BZ._closed){
+      bzTwComm._reloadTime++
       _extensionComm._setStartScript()
       _extensionComm._setShareData()
       chrome.runtime.sendMessage(bzTwComm._getExtensionId(),{status:BZ._data._status},r=>{})
@@ -17704,7 +17710,7 @@ window.bzTwComm={
     return bzTwComm._exeRequest(v)||1
   },
   _isIDE:function(){
-    return window.name=="bz-master"&&!window.extensionContent
+    return window.name=="bz-master"
   },
   _isExtension:function(){
     return window.name!="bz-master"&&window.extensionContent
@@ -17909,6 +17915,6 @@ window.bzTwComm={
     }
   }
 };
-if(window.name=="bz-master"||window.name.includes("bz-client")){
+if((window.name=="bz-master"&&!window.extensionContent)||(window.extensionContent&&window.name.includes("bz-client"))){
   bzTwComm._init()
 };;bzTwComm.init(curIframeId);}if(window.name.includes("bz-client")){insertAppCode()}
