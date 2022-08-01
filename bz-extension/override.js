@@ -462,19 +462,21 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
       if(!["&&","||",">","<",">=","<=","==","===","!=","!==","^","&","|"].includes(x)){
         if(ss){
           if(_eval._isBzData(x)&&x.n){
-            vs.push(x)
             if(ss=="++"){
+              vs.push(x)
               x.v+=1
+              x.d[x.n]=x.v            
             }else if(ss=="--"){
+              vs.push(x)
               x.v-=1
+              x.d[x.n]=x.v            
             }else if(ss=="!"){
-              x.v=!x.v
+              vs.push(!x.v)
             }else if(ss=="!!"){
-              x.v=!!x.v
+              vs.push(!!x.v)
             }else{
-              x.v=~x.v
+              vs.push(~x.v)
             }
-            x.d[x.n]=x.v            
             ss=0
           }else{
             if(ss=="!"){
@@ -17710,7 +17712,7 @@ window.bzTwComm={
     return bzTwComm._exeRequest(v)||1
   },
   _isIDE:function(){
-    return window.name=="bz-master"
+    return window.name=="bz-master"&&!window.extensionContent
   },
   _isExtension:function(){
     return window.name!="bz-master"&&window.extensionContent

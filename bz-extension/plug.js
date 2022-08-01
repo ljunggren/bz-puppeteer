@@ -9311,7 +9311,7 @@ for(k in $util){
       }else{
         try{
           if(_exe && (_exe.includes(".") || (_exe.endsWith("'") && _exe[0]=="'")) && !_exe.endsWith(".")){
-            eval("_result="+_exe);
+            _result=_Util._eval("_result="+_exe,{_data:_data});
           }else{
             _result=_exe;
           }
@@ -9483,7 +9483,7 @@ for(k in $util){
     }
     if(d){
       if(d.constructor==String){
-        eval("d="+d)
+        d=_Util._eval("d="+d,{_data:_data})
       }else{
         d=d._data[d._key]
       }
@@ -9551,7 +9551,7 @@ for(k in $util){
     }
 
     var _value="";
-    eval("_value=_viewDef"+u._attr);
+    _value=_Util._eval("_value=_viewDef"+u._attr,{_viewDef:_viewDef,_data:_data});
     var _result=_CtrlDriver._retrieveResult(_value,_data,u._dom._ctrl,u._dom);
     _result=_result===undefined?"":_result;
     if(u._attr=="['_attr']['style']"){
@@ -9629,10 +9629,10 @@ for(k in $util){
       var _box=_doc==document?_doc.body:_CtrlDriver._createBZArea(_doc);
       try{
         if(_dom.tagName=="SCRIPT"){
-          eval(d);
+          _Util._eval(d);
         }else{
           //The loading file is a viewDef json file
-          eval("dd="+d);
+          dd=_Util._eval("dd="+d);
           if(!_dom._viewDef._noCache){
             delete _dom._viewDef._load
             Object.assign(_dom._viewDef,dd)
@@ -9925,13 +9925,13 @@ for(k in $util){
             if(_this.type=="checkbox"){
               if(_this.checked){
                 if(_bind.constructor==String){
-                  eval(_bind+"=_this._orgValue||_this.value");
+                  _Util._eval(_bind+"=_this._orgValue||_this.value",{_this:_this,_data:_data});
                 }else{
                   _bind._data[_bind._key]=_this._orgValue||_this.value
                 }
               }else{
                 if(_bind.constructor==String){
-                  eval(_bind+"=null;delete "+_bind);
+                  _Util._eval(_bind+"=null;delete "+_bind,{_data:_data});
                 }else{
                   _bind._data[_bind._key]=null
                   delete _bind._data[_bind._key]
@@ -9958,7 +9958,7 @@ for(k in $util){
                 _value=_this._viewDef._formatSet(_value,_data,_this);
               }
               if(_bind.constructor==String){
-                eval(_bind+"=_value");
+                _Util._eval(_bind+"=_value",{_value:_value,_data:_data});
               }else{
                 _bind._data[_bind._key]=_value
               }
@@ -9984,7 +9984,7 @@ for(k in $util){
                 if(_update.constructor==Function){
                   _update(_data,_dom,_this)
                 }else{
-                  eval(_update)
+                  _Util._eval(_update,{_data:_data})
                 }
               },100)
             }
@@ -10492,7 +10492,7 @@ for(k in $util){
   _bindJqExt:function(_jqext,_jq,_data){
     if(_jqext){
       if(_jqext.constructor==String){
-        _jqext=eval(_jqext)
+        _jqext=_Util._eval(_jqext,{_data:_data})
       }
       _jq=$(_jq);
       for(var k in _jqext){
@@ -10500,7 +10500,7 @@ for(k in $util){
           continue
         }
         if(_jqext[k].constructor==String){
-          eval("_jqext[k]="+_jqext[k]);
+          _jqext[k]=_Util._eval("_jqext[k]="+_jqext[k],{_jqext:_jqext,k:k,_data:_data,_jq:_jq});
         }
         
         if($.isArray(_jqext[k])){
@@ -11151,19 +11151,21 @@ for(k in $util){
       if(!["&&","||",">","<",">=","<=","==","===","!=","!==","^","&","|"].includes(x)){
         if(ss){
           if(_eval._isBzData(x)&&x.n){
-            vs.push(x)
             if(ss=="++"){
+              vs.push(x)
               x.v+=1
+              x.d[x.n]=x.v            
             }else if(ss=="--"){
+              vs.push(x)
               x.v-=1
+              x.d[x.n]=x.v            
             }else if(ss=="!"){
-              x.v=!x.v
+              vs.push(!x.v)
             }else if(ss=="!!"){
-              x.v=!!x.v
+              vs.push(!!x.v)
             }else{
-              x.v=~x.v
+              vs.push(~x.v)
             }
-            x.d[x.n]=x.v            
             ss=0
           }else{
             if(ss=="!"){
@@ -36756,7 +36758,7 @@ var _aiElementHandler={
     return s;
   },
   _pickElement:function(_pick){
-    if(window._extensionComm && _extensionComm._curTWId){
+    if(bzTwComm._isIDE()){
       _extensionComm._exeFun("_pickElement","_aiElementUpgrade",_pick);
     }else if(_IDE._data._curAction){
       _descAnalysis._clearTmpPath(1);
@@ -63315,7 +63317,7 @@ var _aiPageHandler={
   },
   _pickElement:function(_path,_fun){
     _path=_path||""
-    if(window._extensionComm && _extensionComm._curTWId){
+    if(bzTwComm._isIDE()){
       _bzDomPicker._back=_fun
       _path=_path||[]
       _extensionComm._exeFun("_pickElement","_bzDomPicker",_path,_path[0]);
@@ -72275,6 +72277,12 @@ String.prototype.plural = function(revert){
     console.log("called BZ.trigger:"+location.href)
     return _eval.exeGroupCode(v)
   },
+  _focusTW:function(){
+    if(!window.name){
+      window.name="bz-client"
+    }
+    window.open("",window.name).focus()
+  },
   responseIFrameId:function(vs,_sendResponse,element,retry){
     let id=bzTwComm.frameId
     if(!bzTwComm.appReady||!id||(window.innerHeight<10||window.innerWidth<10)){
@@ -73242,9 +73250,6 @@ var _transferMonitor={
     var _this=this;
 
     BZ._prepareDocument(function(){
-      if(!BZ._documents){
-        return alert("Application window missing");
-      }
       BZ.TW.focus();
       _this._curRequire=_require;
       BZ._data._domPickerStatus=_require._id;
@@ -73532,7 +73537,7 @@ var _transferMonitor={
   },
   _getAllLayerElements:function(o,ps){
     var _paths=[];
-    var _body=$(eval(ps[0]));
+    var _body=$(_Util._eval(ps[0]));
     while(o.parentNode){
       if(o.tagName!="BODY"){
         _paths.unshift({_dom:o,_selected:false,_opened:true,_value:""});
@@ -75977,6 +75982,9 @@ _IDE._innerWin={
     })
   },
   _storePersonData:function(v){
+    if(!window.curUser){
+      return
+    }
     let vv=curUser._curProject.setting.elementFilters
     if(bzTwComm._isExtension()){
       bzTwComm._postToIDE({_fun:"_storePersonData",_scope:"_IDE._innerWin",_args:[vv]})
@@ -77398,7 +77406,7 @@ var _ideActionManagement={
       }
       h.find((x,i)=>{
         if(x._key=="Content-Type"){
-          eval("d.contentType="+x._value)
+          _Util._eval("d.contentType="+x._value,{d:d})
           h.splice(i,1)
           return 1
         }
@@ -78949,7 +78957,7 @@ var _ideActionManagement={
     }
   },
   _pickElement:function(_pick){
-    if(window._extensionComm && _extensionComm._curTWId){
+    if(bzTwComm._isIDE()){
       this._setCurAction(_IDE._data._curAction)
       let d=_pick||{element:_IDE._data._curAction.element}
       _extensionComm._exeFun("_pickElement","_ideActionManagement",d,(d.element||[])[0]);
@@ -80190,13 +80198,13 @@ var _ideActionManagement={
           let n=x._name.split(".")
           n.forEach(y=>{
             if(!o){
-              eval(`o=window.${y}||{}`)
+              _Util._eval(`o=window.${y}||{}`)
             }else{
               o[y]=o[y]||{}
               o=o[y]
             }
           })
-          eval(x._name+"=x._value")
+          _Util._eval(x._name+"=x._value",{x:x})
           oo[n[0]]=eval(n[0])
         }catch(e){}
       })
@@ -80333,7 +80341,7 @@ var _ideActionManagement={
     }
     _this._data._item=g[_this._data._idx]
       
-    eval(dv+"=g")
+    _Util._eval(dv+"=g")
     return _this._data._item
 
   },
@@ -80480,7 +80488,7 @@ var _ideActionManagement={
         vs[k]=_value
         vs=JSON.stringify(vs,0,2).replace("\\"+_value.replace(/\"$/,"\\\""),_value.replace(/(^"|"$)/g,""))
         
-        eval(_curParameter+"=vs")
+        _Util._eval(_curParameter+"=vs",{vs:vs})
         
         return
       }
@@ -80523,7 +80531,7 @@ var _ideActionManagement={
   },
   _generateStringParameterWithRefData:function(vs,_curParameter){
     vs=_Util._refDataToJSON(vs)
-    eval(_curParameter+"=vs")
+    _Util._eval(_curParameter+"=vs",{vs:vs})
   },
   _getComDataFromElement:function(a){
     if(a.refCom&&BZ._isPlaying()){
@@ -80754,7 +80762,7 @@ var _ideActionManagement={
     _best=_ideDataBind._getMatchData(o,n,_path,_chkExistDataOnly)
     if(_best){
       try{
-        eval("v="+_best._path)
+        v=_Util._eval("v="+_best._path)
         if(v=="on"&&e&&e.type!="checkbox"){
           _best=0
         }else if(e&&e.tagName=="SELECT"){
@@ -81055,7 +81063,7 @@ var _ideActionManagement={
   _insertCode:function(w){
     var vs=_ideDataBind._buildParameterOptions();
     for(let p of vs){
-      eval("var o="+p);
+      var o=_Util._eval("o="+p);
       var vv=_doIt(w,o,p);
       if(vv!=w){
         return vv
@@ -81093,7 +81101,7 @@ var _ideActionManagement={
   _findDataPath:function(w){
     var vs=_ideDataBind._buildParameterOptions();
     for(let p of vs){
-      eval("var o="+p);
+      var o=_Util._eval(p);
       var vv=_doIt(w,o,p);
       if(vv){
         return vv
@@ -81236,7 +81244,7 @@ var _ideActionManagement={
       return _domActionTask._trigger(a,function(r){
         if(r._customizeInputAction){
           if(_code){
-            eval(_code+"=r._customizeInputAction._value")
+            _Util._eval(_code+"=r._customizeInputAction._value")
             _code="{{"+_code+"}}"
             r._customizeInputAction._orgPath.event.value=_code
           }
@@ -81323,7 +81331,7 @@ var _ideActionManagement={
     }
   },
   _getCurBindData:function(){
-    return eval(_ideDataBind._getCurBindDataPath())
+    return _Util._eval(_ideDataBind._getCurBindDataPath())
   },
   _getCurBindDataPath:function(){
     var s=_ideDataBind._data._scope,
@@ -81509,7 +81517,7 @@ var _ideActionManagement={
                 _doBind(o)
               });
             }else{
-              v=eval(p);
+              v=_Util._eval(p);
               if(!v&&o.type=='radio'){
                 o.bzReady=1
                 return _doBind(o)
@@ -81639,283 +81647,7 @@ var _ideActionManagement={
       return _observer
     }
   }
-};
-/*
-// _ideDataBind._viewDef={
-  // _if:"BZ._isRecording()",
-  // _tag:"div",_attr:{"class":"BZIgnore bz-db-menu",style:"max-width:300px"},
-  // _items:[
-    // {
-      // _tag:"div",_attr:{"class":"BZIgnore bz-db-options"},
-      // _items:[
-        // {
-          // _tag:"a",_attr:{"class":"bz-skip"},
-          // _text:"_bzMessage._innerWin._skip",
-          // onclick:function(){
-            // if(!bzTwComm._isExtension()){
-              // return "_rootWin._ideDataBind._hideMe(_rootWin._ideDataBind._curInput)";
-            // }
-          // }
-        // },
-        // {
-          // _tag:"a",_attr:{
-            // "class":"bz-btn-tb-icon bz-close bz-small-icon bz-db-close-btn BZIgnore",
-            // // title:"_bzMessage._dataBind._autoClose",
-            // onclick:function(){
-              // if(!bzTwComm._isExtension()){
-                // return "_rootWin._ideDataBind._hideMe();_rootWin.clearTimeout(_rootWin._ideDataBind._closeTime)";
-              // }
-            // },
-            // onmouseover:function(){
-              // if(!bzTwComm._isExtension()){
-                // return "_rootWin._ideDataBind._closeTime=setTimeout(_rootWin._ideDataBind._hideMe(),500);";
-              // }
-            // },
-            // onmouseout:function(){
-              // if(!bzTwComm._isExtension()){
-                // return "_rootWin.clearTimeout(_rootWin._ideDataBind._closeTime)"
-              // }
-            // }
-          // }
-        // },
-        // {
-          // _if:function(){
-            // var v=_ideDataBind._suggestValue;
-            // if(v.constructor!=String){
-              // v=v.toString().toLowerCase()
-            // }
-            // return (!_ideDataBind._data._filterWord || v.includes(_ideDataBind._data._filterWord.toLowerCase()))
-          // },
-          // _tag:"div",_attr:{"class":"bz-db-menu-item",style:"line-height: 13px;"},
-          // _items:[
-            // {
-              // _tag:"a",_attr:{
-                // href:"javascript:",style:"font-weight:bold;",
-                // "class":"bz-db-item-value BZIgnore",
-                // onclick:function(){
-                  // if(!bzTwComm._isExtension()){
-                    // return "_rootWin._ideDataBind._bindEvent(this._data._item.p,this._data._item.v)";
-                  // }
-                // }
-              // },_text:"_data._item.v || _bzMessage._dataBind._empty"
-            // },
-            // {
-              // _if:"_data._item.v2",
-              // _tag:"a",_attr:{
-                // href:"javascript:",style:"font-weight:bold;",
-                // "class":"bz-db-item-value2 BZIgnore",
-                // style:"margin-left:5px;",
-                // onclick:function(){
-                  // if(!bzTwComm._isExtension()){
-                    // return "_rootWin._ideDataBind._bindEvent(this._data._item.p,'off')";
-                  // }
-                // }
-              // },_text:"_data._item.v2"
-            // },
-            // {
-              // _tag:"i",_attr:{"class":"bz-db-item-data BZIgnore"},_text:"_data._item.p"
-            // }
-          // ],
-          // _dataRepeat:function(){
-            // if(!_ideDataBind._data._limit){
-              // return [{
-                // p:_ideDataBind._suggestPath,
-                // v:_ideDataBind._suggestValue,
-                // v2:_ideDataBind._suggestValue2
-              // }]
-            // }
-          // }
-        // },
-        // {
-          // _tag:"fieldset",_attr:{"class":"bz-db-menu-group",style:"opacity: 1;display: inline-block;width:100%;padding:0;"},
-          // _items:[
-            // {
-              // _tag:"legend",_text:"_data._item"
-            // },
-            // {
-              // _tag:"div",_attr:{"class":"bz-db-menu-item"},
-              // _items:[
-                // {
-                  // _tag:"a",_attr:{
-                    // href:"javascript:",
-                    // "class":"bz-db-item-value BZIgnore",
-                    // onclick:function(){
-                      // if(!bzTwComm._isExtension()){
-                        // return "_rootWin._ideDataBind._bindEvent(this._data._item.p,this._data._item.v)";
-                      // }
-                    // }
-                  // },_text:function(d){
-                    // if(_ideDataHandler._isPasswordKey(d._item.p)){
-                      // return d._item.v.replace(/./g,"*") || _bzMessage._dataBind._empty
-                    // }else{
-                      // return d._item.v || _bzMessage._dataBind._empty
-                    // }
-                  // }
-                // },
-                // {
-                  // _tag:"i",_attr:{"class":"bz-db-item-data BZIgnore"},_text:"_data._item.p"
-                // }
-              // ],
-              // _dataRepeat:function(d){
-                // var g=d._item;
-                // var vs=[];
-                // eval("var v="+g);
-                // var p=g;
-                // if(g!="$parameter"&&g!="$loop"){
-                  // if(_ideDataBind._data._replaceKeyByParameter){
-                    // p+="[$parameter]"
-                  // }else if(_ideDataBind._data._key){
-                    // p+="."+_ideDataBind._data._key
-                  // }
-                // }
-                // p+="."+_ideDataBind._data._tmpName
-                // if(_ideDataBind._data._tmpName && _ideDataBind._data._filterWord && g!="$loop"){
-                  // _buildList(vs,{t:1,v:_ideDataBind._data._filterWord, p:p,g:g},1);
-                // }else if(g=="$loop"){
-                  // if(v && v.constructor==Object){
-                    // if(v[_ideDataBind._data._tmpName]){
-                      // vs.push({t:1,v:_ideDataBind._data._filterWord, p:p,g:g})
-                    // }
-                    // for(var k in v){
-                      // if(k!=_ideDataBind._data._tmpName){
-                        // vs.push({t:1,v:$loop[k], p:"$loop."+k,g:g})
-                      // }
-                    // }
-                  // }else{
-                    // vs.push({t:1,v:$loop, p:"$loop",g:g})
-                  // }
-                  // return vs;
-                // }
-                // if(v && v.constructor==Object){
-                  // for(var k in v){
-                    // if(v[k]===null || v[k]===undefined){
-                      // continue;
-                    // }
-                    // var c=v[k].constructor
-                    // if(c==Array){
-                      // continue
-                    // }
-                    // try{
-                      // if(v[k].constructor==String && v[k].trim().startsWith("function") && v[k].includes("return ")){
-                        // eval("var vv="+v[k]);
-                        // v[k]=vv;
-                        // c=vv.constructor;
-                      // }
-                    // }catch(e){}
-                    // var p=g+"."+k;
-                    // if(c==Object){
-                      // for(var kk in v[k]){
-                        // var vv=v[k][kk];
-                        // if(vv.constructor==Object){
-                          // for(var kkk in vv){
-                            // _buildList(vs,{v:vv[kkk],p:p+"."+kk+"."+kkk,g:g})
-                          // }
-                          // break;
-                        // }else{
-                          // _buildList(vs,{v:vv,p:p+"."+kk,g:g})
-                        // }
-                      // }
-                      // continue;
-                    // }else if(c==Function){
-                      // var f=""
-                      // try{
-                        // f=eval(p+"()")
-                      // }catch(e){
-                        // f=e.message;
-                      // }
-                      // _buildList(vs,{v:f,f:1,p:p+"()",t:"f",g:g});
-                      // continue;
-                    // }else if(c==String){
-                      // var s=v[k];
-                      // if(s.includes('"base64Link"') && s.includes(";base64,")){
-                        // continue;
-                      // }
-                    // }
-                    // _buildList(vs,{v:v[k],p:p,g:g});
-                  // }
-                // }
-                // return _CtrlDriver._buildProxy(vs);
-                
-                // function _buildList(vs,p,_force){
-                  // if(p.v && p.v.constructor!=String){
-                    // p.v=p.v.toString()
-                  // }
-                  // if(_ideDataBind._data._limit){
-                    // return vs.push(p)
-                  // }
-                  // if(_ideDataBind._data._filterWord && p.v && !p.v.toLowerCase().includes(_ideDataBind._data._filterWord.toLowerCase())){
-                    // return;
-                  // }
-                  
-                  // if(_force || (p.p!=_ideDataBind._suggestPath && p.p!=_ideDataBind._suggestPath+"()")){
-                    // vs.push(p);
-                  // }
-                // }
-              // }
-            // }
-          // ],
-          // _dataRepeat:"[_ideDataBind._data._scope]"
-          // 
-          // _dataRepeat:function(){
-            // var vs=["$parameter"];
-            // if(window.$loop && Object.keys($loop).length){
-              // vs.push("$loop")
-            // }
-            // var b=_ideDataBind._data._tmpName && _ideDataBind._data._filterWord;
-            // if(Object.keys(window.$test).length || b){
-              // vs.push("$test")
-            // }
-            // if(Object.keys(window.$module).length || b){
-              // vs.push("$module")
-            // }
-            // if(Object.keys(window.$project).length || b){
-              // vs.push("$project")
-            // }
-            // return vs;
-          // }
-          // 
-        // },
-        // {
-          // _if:"_ideDataBind._data._scope=='$parameter'",
-          // _tag:"div",_attr:{"class":"bz-db-menu-item",style:"line-height: 13px;"},
-          // _items:[
-            // {
-              // _tag:"a",
-              // _attr:{
-                // href:"javascript:",
-                // "class":"bz-db-item-value BZIgnore",
-                // onclick:function(){
-                  // if(!bzTwComm._isExtension()){
-                    // return "_rootWin._ideDataBind._bindEvent('$parameter',this._data._item.v)";
-                  // }
-                // }
-              // },
-              // _text:function(d){
-                // return d._item.v || _bzMessage._dataBind._empty
-              // },
-            // },
-            // {
-              // _tag:"i",_attr:{"class":"bz-db-item-data BZIgnore"},_text:"_data._item.p.substring(1)"
-            // },
-            // {
-              // _tag:"i",_attr:{"class":"bz-db-item-data BZIgnore"},_text:"$"
-            // }
-          // ],
-          // _dataRepeat:function(){
-            // var v=_ideDataBind._data._filterWord||"";
-            // if(!v){
-              // if($parameter && $parameter.constructor==String){
-                // v=$parameter
-              // }
-            // }
-            // return [{p:"$parameter",v:v}]
-          // }
-        // }
-      // ]
-    // }
-  // ]
-// }
-*/;/*
+};/*
   For get customer app info from extension
 */
 window.bzTwComm={
@@ -82062,7 +81794,7 @@ window.bzTwComm={
     return bzTwComm._exeRequest(v)||1
   },
   _isIDE:function(){
-    return window.name=="bz-master"
+    return window.name=="bz-master"&&!window.extensionContent
   },
   _isExtension:function(){
     return window.name!="bz-master"&&window.extensionContent
