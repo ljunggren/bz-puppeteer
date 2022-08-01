@@ -636,6 +636,9 @@ function trigger(v,tabId,iframeId,fun,init){
   function triggerFun(v){
     return doIt()
     function doIt(){
+      if(window.document.body.classList[0]=="BZIgnore"){
+        return
+      }
       if(!v.i&&(!window.bzTwComm||!bzTwComm.appReady)){
         console.log("deloy on:")
         console.log(v.v)

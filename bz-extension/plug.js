@@ -7043,7 +7043,7 @@ tbody td:first-child,tbody td:last-child{
                     if(d._item._if.constructor==Function){
                       return !d._item._if()
                     }else if(d._item._if.constructor==String){
-                      eval("var v="+d._item._if)
+                      let v=_Util._eval("v="+d._item._if)
                       return !v
                     }
                     return !d._item._if
@@ -12829,7 +12829,7 @@ function _extendJQuery(){
       if(a && a.value){
         try{
           if(_Util._isRegexData(v2)){
-            eval(`v1=a.value.match(${v2})`)
+            v1=_Util._eval(`v1=a.value.match(${v2})`,{a:a})
             return v1
           }
           if(v2.endsWith("\" i")||v2.endsWith("\i i")){
@@ -13009,7 +13009,7 @@ function _extendJQuery(){
     if(!_Util._isRegexData(m)){
       m="/"+m+"/"
     }
-    m=eval(m)
+    m=_Util._eval(m)
     return (a.innerText||"").trim().match(m)
     
   }
@@ -13261,7 +13261,7 @@ function _extendJQuery(){
       v2=_Util._toTrimSign(v2.toLowerCase());
       v2=v2.replace(/\s+/," ")
     }else{
-      eval("_inRegex="+v2)
+      _inRegex=_Util._eval("_inRegex="+v2)
     }
     if(a.nodeType!=1){
       return
@@ -15941,7 +15941,7 @@ if(!window.extensionContent){
     
     actions.forEach(x=>{
       if(x.constructor==String){
-        eval(x)
+        _Util._eval(x)
       }else if(x.constructor==Function){
         x()
       }else{
@@ -16317,7 +16317,7 @@ var _scriptActionHandler={
       _element=""
     }
     Object.keys(_funMap).forEach(k=>{
-      let kv=eval(`/"${k}":.+/`)
+      let kv=_Util._eval(`/"${k}":.+/`)
       _options=_options.replace(kv,`"${k}": ${_funMap[k].split("\n").join("\n  ")},`)
     })
     return `$script.${_fun}(${_element}${_value}${_options.replace(/\,$/,"}")})`
@@ -17085,7 +17085,7 @@ var _scriptActionHandler={
             let a=_Util._clone(_action[w.shift().toLowerCase()])
             w=w.map(y=>_parseText(y))
             if(!a){
-              return $script.fillform(eval(w[0]))
+              return $script.fillform(_Util._eval(w[0]))
             }
             as.push(a)
 
@@ -17170,11 +17170,11 @@ var _scriptActionHandler={
             d.failedGoto=v[1]
           }else if(x[0].includes(_msg._errorGotoFlag)){
             d.errorGoto=v[1]
-          }else if(x[0].match(eval(`/${_msg._successGotoTest}/`))){
+          }else if(x[0].match(_Util._eval(`/${_msg._successGotoTest}/`))){
             d.refOfSuccess=_getTest(v[1])
-          }else if(x[0].match(eval(`/${_msg._failedGotoTest}/`))){
+          }else if(x[0].match(_Util._eval(`/${_msg._failedGotoTest}/`))){
             d.refOfFailed="./"+_getTest(v[1])
-          }else if(x[0].match(eval(`/${_msg._errorGotoTest}/`))){
+          }else if(x[0].match(_Util._eval(`/${_msg._errorGotoTest}/`))){
             d.refOfError="./"+_getTest(v[1])
           }else if(x[0].includes(_msg._timeout)){
             d.max=parseInt(v[1])
@@ -22747,7 +22747,7 @@ window._uiHandler={
     return _result;
   },
   _setFileValue:function(_input,v){
-    v=eval(v);
+    v=_Util._eval(v);
     for(var i=0;i<v.length;i++){
       v[i].name=decodeURIComponent(v[i].name.split("?")[0]);
     }
@@ -24921,7 +24921,7 @@ var _elementMonitor={
       if(BZ.TW._userUnload.constructor==Function){
         return BZ.TW._userUnload();
       }else{
-        return eval(BZ.TW._userUnload);
+        return _Util._eval(BZ.TW._userUnload);
       }
     }
   },
@@ -25030,7 +25030,8 @@ var _elementMonitor={
     var aa=_TWHandler._popExpected.confirm;
     var rv=true;
     if(aa && aa[a.length-1]!==undefined){
-      eval("rv="+aa[a.length-1].returnValue);
+      // eval("rv="+aa[a.length-1].returnValue);
+      rv=aa[a.length-1].returnValue;
       aa.pop();
       a.pop();
     }
@@ -25843,11 +25844,7 @@ data structure
       return alert(_bzMessage._dataBind._funNameErr)
     }
     try{
-      if(bzTwComm._isExtension()){
-        c=_eval._exeCode(c);
-      }else{
-        eval("c="+c);
-      }
+      c=_Util._eval("c="+c)
       return c;
     }catch(e){
       if(_name&&cc){
@@ -26546,7 +26543,7 @@ data structure
     v=v||""
     if(v&&v.constructor==String&&("{['\"".includes(v.trim()[0]) || _Util._hasCode(v))){
       try{
-        eval("v="+v)
+        v=_Util._eval("v="+v)
       }catch(e){}
     }
     return v
@@ -27066,7 +27063,7 @@ var $data=function(m,t,init){
                   },
                   _text:function(d){
                     d=d._item
-                    let v=eval(d)
+                    let v=_Util._eval(d)
                     if(v.constructor==Function){
                       v=_ideDataHandler._getOrgDataSettingFromNamePath(d).url
                     }
@@ -27300,7 +27297,7 @@ var $data=function(m,t,init){
         }else{
           let _url=_uiSwitch._uploadUrl
           if(_uiSwitch._uploadFileFrom=="_exist"){
-            _url=eval(_url.replace(/[\{\}]/g,""))
+            _url=_Util._eval(_url.replace(/[\{\}]/g,""))
           }
           if(_url.constructor==String){
             _Util._setUrlFileToInput(_url,e)
@@ -28588,12 +28585,12 @@ var $data=function(m,t,init){
     try{
       let f;
       try{
-        eval("f="+r._data.resultscript)
+        f=_Util._eval("f="+r._data.resultscript,{$result:$result})
         if(f&&f.constructor==Function){
           f()
         }
       }catch(ee){
-        eval(`(()=>{\n${r._data.resultscript}\n})()`)
+        _Util._eval(`(()=>{\n${r._data.resultscript}\n})()`,{$result:$result})
         if(f&&f.constructor==Function){
           f()
         }
@@ -28879,7 +28876,7 @@ var $data=function(m,t,init){
           let $result
           $result=_parameter.$result[_result.idx]
           let $parameter={}
-          eval(v._preScript)
+          _Util._eval(v._preScript,{$parameter:$parameter,$result:$result})
           _parameter=$parameter
         }else if(v._defParameter){
           _parameter=v._defParameter
@@ -29155,16 +29152,6 @@ var $data=function(m,t,init){
     }
     return 1
     
-    // function _findFinalElement(e,a){
-    //   let $element=e
-    //   try{
-    //     eval("e="+a.finalElement)
-    //     if(e){
-    //       a.element=_Util._getQuickPath(e)
-    //     }
-    //     return e
-    //   }catch(ex){}
-    // }
     function _isSkip(v,p){
       v=v||""
       if(JSON.stringify(v).match(/bz-skip-group/i)){
@@ -30564,54 +30551,54 @@ var $data=function(m,t,init){
       }
     }
   },
-  _pickBatchRequestData:function(d){
-    let ds=[],v,rs=[]
-    let r=d.requests,qs,us
-    r.forEach(x=>{
-      ds.push(..._debugDataHandler._retrieveBindDataFromAction(x))
-    })
+  // _pickBatchRequestData:function(d){
+  //   let ds=[],v,rs=[]
+  //   let r=d.requests,qs,us
+  //   r.forEach(x=>{
+  //     ds.push(..._debugDataHandler._retrieveBindDataFromAction(x))
+  //   })
     
-    ds=[...new Set(ds)]
+  //   ds=[...new Set(ds)]
     
-    if(d._supData&&d._supData.definition){
-      qs=d._supData.definition.query
-      us=d._supData.definition.path
-    }
+  //   if(d._supData&&d._supData.definition){
+  //     qs=d._supData.definition.query
+  //     us=d._supData.definition.path
+  //   }
     
 
-    ds.forEach(x=>{
-      try{
-        eval("v="+x)
-        if(v&&v.constructor==Array){
-          let k=x.split(".").pop()
-          if(!qs&&!us.length){
-            rs.push({k:x,v:v})
-          }else{
-            if(qs&&qs.find(y=>{
-                if(y.name==k){
-                  if(!y.inArray){
-                    rs.push({k:x,v:v})
-                  }
-                  return 1
-                }
-              })){
+  //   ds.forEach(x=>{
+  //     try{
+  //       eval("v="+x)
+  //       if(v&&v.constructor==Array){
+  //         let k=x.split(".").pop()
+  //         if(!qs&&!us.length){
+  //           rs.push({k:x,v:v})
+  //         }else{
+  //           if(qs&&qs.find(y=>{
+  //               if(y.name==k){
+  //                 if(!y.inArray){
+  //                   rs.push({k:x,v:v})
+  //                 }
+  //                 return 1
+  //               }
+  //             })){
               
-            }else if(us&&us.find(y=>{
-                if(y.name==k){
-                  if(!y.inArray){
-                    rs.push({k:x,v:v})
-                  }
-                  return 1
-                }
-            })){
+  //           }else if(us&&us.find(y=>{
+  //               if(y.name==k){
+  //                 if(!y.inArray){
+  //                   rs.push({k:x,v:v})
+  //                 }
+  //                 return 1
+  //               }
+  //           })){
               
-            }
-          }
-        }
-      }catch(ex){}
-    })
-    return rs
-  },
+  //           }
+  //         }
+  //       }
+  //     }catch(ex){}
+  //   })
+  //   return rs
+  // },
   _exeLoad:function(d,_fun,i){
     i=i||0
     let t=d.period/d.repeatTimes
@@ -32149,9 +32136,9 @@ var $data=function(m,t,init){
               if(vv.match(/^\{\{.+\}\}$/s)){
                 vv=vv.substring(2,vv.length-2)
                 if(_values.length==1){
-                  eval(vv+"=_value")
+                  _Util._eval(vv+"=_value",{_value:_value})
                 }else{
-                  eval(vv+"=_values")
+                  _Util._eval(vv+"=_values",{_values:_values})
                 }
               }
             }catch(e){}
@@ -32317,7 +32304,7 @@ var $data=function(m,t,init){
     if(_Util._hasCode(a._orgData.event.value)){
       try{
         let cc=a._orgData.event.value.replace(/[\{\}]/g,"")
-        eval(cc+"=v")
+        _Util._eval(cc+"=v",{v:v})
       }catch(e){
       }
     }
@@ -32759,69 +32746,16 @@ var $data=function(m,t,init){
     var _text=$util.getElementText(o)
     var _inputs=_cssHandler._findAllInputs(d.e)
     _inputs&&_inputs.forEach(u=>{
-      if(u==o&&u.tagName=="SELECT"){
-        for(var i=0;i<vs.length;i++){
-          try{
-            var v=_Util._eval(vs[i])
-            for(var j=0;j<o.options.length;j++){
-              if(o.options[j].value==v){
-                vs.splice(i--,1)
-                break;
-              }
-            }
-          }catch(e){}
+      vs.find((x,j)=>{
+        if(x==u.value){
+          vs.splice(j,1)
+          return 1
         }
-      }else{
-        var w=_ideDataBind._getBindData(u,1,1)
-        if(w){
-          w=w.split(".")[1]
-          let m=BZ._getCurModule()
-          if(m._data.bt=="data"){
-            let f=_aiGeneratorDataHandler._getFieldByName(w,m)
-            if(f){
-              w=f.data
-            }
-          }
-          for(var i=0;i<vs.length;i++){
-            if(vs[i].endsWith("."+w)){
-              var v=eval(vs[i]),_found=0
-              if(v=="bz-skip"){
-                vs.splice(i,1)
-                return
-              }
-              if(u.type=="checkbox"){
-                if(v&&u.checked&&v!="off"&&v!="false"){
-                  _found=1
-                }else if((!v||v=="off"||v=="false")&&!u.checked){
-                  _found=1
-                }
-              }else if(u.tagName=="SELECT"){
-                if(v==u.selectedOptions[0].text){
-                  _found=1
-                }
-              }else if(u.value==v){
-                _found=1
-              }
-              if(_found){
-                vs.splice(i,1)
-              }
-              return
-            }
-          }
-        }
-      }
+      })
     })
     
     for(var i=0;i<vs.length;i++){
-      var v=vs[i],vv;
-      if(!v.trim()){
-        continue;
-      }
-      try{
-        var vv=eval(v);
-      }catch(e){
-        vv=v
-      }
+      var v=vs[i],vv=v;
 
       try{
         if(!vv&&vv!==0&&vv!==false){
@@ -32917,24 +32851,24 @@ var $data=function(m,t,init){
     }
     return w
   },
-  _getCurDataExpress:function(ss){
-    if(ss){
-      let s=_domActionTask._retrieveBindDataFromString(ss);
-      if(s){
-        s.forEach((v,i)=>{
-          let vv
-          try{
-            eval("vv="+v)
-            s[i]=v+" = "+JSON.stringify(vv)
-          }catch(e){
-            s[i]=v+" ("+_bzMessage._common._error+": "+e.message+")"
-          }
-        })
-        return s.join("\n")
-      }
-    }
-    return ss
-  },
+  // _getCurDataExpress:function(ss){
+  //   if(ss){
+  //     let s=_domActionTask._retrieveBindDataFromString(ss);
+  //     if(s){
+  //       s.forEach((v,i)=>{
+  //         let vv
+  //         try{
+  //           eval("vv="+v)
+  //           s[i]=v+" = "+JSON.stringify(vv)
+  //         }catch(e){
+  //           s[i]=v+" ("+_bzMessage._common._error+": "+e.message+")"
+  //         }
+  //       })
+  //       return s.join("\n")
+  //     }
+  //   }
+  //   return ss
+  // },
   /*
   _maskContent:function(_content,_empty){
     if(_content.constructor==String){
@@ -71534,88 +71468,6 @@ var _aiWordHandler={
     
   }
 };var _glossaryHandler={
-  /*
-    filter:{
-      //content Time
-      ct:"/[0-9]{1,2}:[0-9]{1,2}[:]{0,1}[0-9]{0,2}(.[0-9]{3}){0,1}/",
-      //content Date
-      cd:"/(Mon|Tue|Wed|Thu|Fri|Sat|Sun){0,1}(,){0,1}( |\\/|-){0,1}(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)( |\\/|-)[0-9]{1,2}( |\\/|-)[0-9]{1,4}/g\n"
-          +"/[0-9]{4}( |\\/|-)(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)( |\\/|-)[0-9]{2}/g\n"
-          +"/[0-9]{2}( |\\/|-)(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)( |\\/|-)[0-9]{4}/g\n"
-          +"/[0-9]{2}( |\\/|-)(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)( |\\/|-)[0-9]{2}/g\n"
-          +"/[0-9]{4}( |\\/|-)(JA|FE|MR|AP|MA|JU|JL|AU|SE|OC|NO|DE)( |\\/|-)[0-9]{2}/g\n"
-          +"/[0-9]{2}( |\\/|-)(JA|FE|MR|AP|MA|JU|JL|AU|SE|OC|NO|DE)( |\\/|-)[0-9]{4}/g\n"
-          +"/[0-9]{4}( |\\/|-)[0-9]{2}( |\\/|-)[0-9]{2}/g\n"
-          +"/[0-9]{2}( |\\/|-)[0-9]{2}( |\\/|-)[0-9]{4}/g\n"
-          +"/[0-9]{2}( |\\/|-)[0-9]{2}/g\n",
-      ci:"/[a-f0-9_-]+[0-9]+[_-]*[a-f]+[a-f0-9_-]+/gi" //And data, normally for dynamic ID.
-    }
-  */
-  /*
-  _filterData:function(_type,c,_filters,_empty,_fun){
-    try{
-      var _tmpFilters=_filters.trim().split("\n");
-      var ff=[];
-      var f=null;
-      for(var i=0;i<_tmpFilters.length;i++){
-        f=_tmpFilters[i];
-        if(f.substring(f.lastIndexOf("/")).includes("g")){
-          eval("var f="+f);
-          c=c.replace(f,_empty?"BZ-"+_type:"(BZ-"+_type+"-G-"+i+")");
-        }else{
-          ff.push(f);
-        }
-      }
-      for(var ii=0;ii<ff.length;ii++){
-        eval("f="+ff[ii]);
-        while(true){
-          var v=c.match(f);
-          if(v){
-            if(_fun && !_fun(v)){
-              c= c.substring(0,v.index)+v[0]+this._filterData(_type,c.substring(v.index+v[0].length),_filters,_fun);
-            }else{
-              c=c.substring(0,v.index)+"(BZ-"+_type+"-"+ii+")"+c.substring(v.index+v[0].length);
-            }
-          }
-          break;
-        }
-      }
-    }catch(e){
-      alert("Error on Filter ("+f.toString()+").\nMessage: "+e.message)
-    }
-    return c;
-  },
-  _filterDate:function(c,_filters,_empty){
-    return this._filterData("DATE",c,_filters,_empty,function(v){
-      var vs=v[0].trim().split(/[^0-9a-zA-Z]/);
-      var l=0;
-      for(var i=0;i<vs.length;i++){
-        if(parseInt(vs[i]) && parseInt(vs[i])>12){
-          l++;
-        }
-      }
-      if(l==vs.length || vs.length==1){
-        return false;
-      }
-      return true;
-    });
-  },
-  _filterTime:function(c,_filters,_empty){
-    return this._filterData("TIME",c,_filters,_empty,function(v){
-      var vs=v[0].split(/[^0-9a-zA-Z]/);
-      var l=0;
-      for(var i=0;i<vs.length;i++){
-        var n=parseInt(vs[i]);
-        if(n>23){
-          l++;
-        }else if(n>59){
-          l=3;
-        }
-      }
-      return l<3;
-    });
-  },
-  */
   /***************************************
   //thisIsATest --> this, is, a, test
   //this.is.a.test --> this, is, a, test
@@ -72700,16 +72552,6 @@ var _cooperatorHandler={}
 var _appWordHandler={_wordMap:{}}
 
 console.log("")
-window.onhashchange=function(){
-  bzTwComm._postToIDE({_fun:"_infoPageReady",_scope:"_extensionComm"})
-}
-
-setTimeout(function(){
-  var as=document.getElementsByTagName("a");
-  for(var i=0;i<as.length;i++){
-    _Util._removeLinkTarget(as[i])
-  }
-},100)
 
 var _identifyIFrameHandler={
   _setIframePath:function(v){
@@ -75037,11 +74879,11 @@ var _pickerTemplate={
   },
   _showItems:function(ds,_idx){
     var d=ds[_idx];
-    eval(d._hash)
+    _Util._eval(d._hash,{_idx:_idx})
     var dd={description:d.description};
     var _this=this;
     setTimeout(function(){
-      eval("dd._dom="+d._dom);
+      dd._dom=_Util._eval("dd._dom="+d._dom,{d:d,dd:dd});
       if(dd._dom && dd._dom.ownerDocument && dd._dom.ownerDocument.defaultView && !dd._dom.ownerDocument.defaultView.closed){
         _tipHandler._showItem(dd,ds,_idx);
         dd._dom.ownerDocument.defaultView.focus()
@@ -81822,6 +81664,20 @@ window.bzTwComm={
         console.log("monitor ...")
         console.log(bzTwComm._isExtension()?"ext":"app")
         bzTwComm._monitorInfo()
+
+        if(bzTwComm._isExtension()){
+          window.onhashchange=function(){
+            bzTwComm._postToIDE({_fun:"_infoPageReady",_scope:"_extensionComm"})
+          }
+
+          setTimeout(function(){
+            var as=document.getElementsByTagName("a");
+            for(var i=0;i<as.length;i++){
+              _Util._removeLinkTarget(as[i])
+            }
+          },100)
+        }
+
         if(bzTwComm._isTopApp()){
           bzTwComm._postToIDE({_fun:"_setBZSent",_args:[{i:0,_root:1}],_scope:"_TWHandler"});
         }
