@@ -17510,7 +17510,7 @@ for(k in $util){
   For get customer app info from extension
 */
 window.bzTwComm={
-  _reloadTime:0,
+  _reloadInfo:[],
   _tmpId:0,
   _list:[],_exeList:[],
   _doing:0,
@@ -17627,9 +17627,24 @@ window.bzTwComm={
       }
     }
   },
+  _addFailActionInfo:function(a){
+    let t=BZ._getCurTest()
+    let o=bzTwComm._reloadInfo[bzTwComm._reloadInfo.length-1]
+    if(o){
+      o._failedTime=Date.now()
+      o._failedTest=_IDE._getShortcutKey(".",t)
+      o._failedAction=t._data.actions.indexOf(a)
+    }
+  },
   touchIDE:function(){
     if(!BZ._closed){
-      bzTwComm._reloadTime++
+      let t=BZ._getCurTest(),
+          a=_IDE._data._curAction
+      bzTwComm._reloadInfo.push({
+        _reloadTime:Date.now(),
+        rt:t?_IDE._getShortcutKey(".",t):"",
+        ra:a?t._data.actions.indexOf(a):-1
+      })
       _extensionComm._setStartScript()
       _extensionComm._setShareData()
       chrome.runtime.sendMessage(bzTwComm._getExtensionId(),{status:BZ._data._status},r=>{})

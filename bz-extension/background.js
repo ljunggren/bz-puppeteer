@@ -1,5 +1,5 @@
 importScripts('/ecMap.js');
-let list={},responseList={},appListenerMap={}
+let list={},responseList={},appListenerMap={},resetTime
 let ideId,appId,_ctrlWindowId,initAppScript=[],
     _status=newStatus=0,_lastExeActionReq,doingPopCtrl,_curTest,_data,_curAction,shareData={},_ctrlFrameId;
 let lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="";
@@ -662,7 +662,12 @@ function toInsertAppCode(v){
 function toInitExtCode(v){
   initExtCode(v)
 }
-function resetApp(d){
+function resetApp(){
+  console.log("Reset app ...",new Date())
+  clearTimeout(resetTime)
+  resetTime=setTimeout(()=>{
+    resetApp()
+  },3000)
   chrome.scripting.executeScript(
     {
       target:{
@@ -674,7 +679,9 @@ function resetApp(d){
       },
       args:[]
     },
-    r => {}
+    r => {
+      clearTimeout(resetTime)
+    }
   )
 }
 (async ()=>{
