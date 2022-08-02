@@ -22747,7 +22747,10 @@ window._uiHandler={
     return _result;
   },
   _setFileValue:function(_input,v){
-    v=_Util._eval(v);
+    if(v.constructor==String){
+      v=JSON.parse(v)
+    }
+
     for(var i=0;i<v.length;i++){
       v[i].name=decodeURIComponent(v[i].name.split("?")[0]);
     }
@@ -31015,13 +31018,13 @@ var $data=function(m,t,init){
       }
     }catch(e){}
     if(extensionContent){
-      bzTwComm._postToIDE({_scope:"_ideDataHandler",_fun:"_loadData",_args:[uri,"file"],_async:1,_bkfun:function(v){
+      bzTwComm._postToIDE({_scope:"_ideDataHandler",_fun:"_loadData",_args:[uri,"file",function(v){
         if(v && v.constructor==String){
           _ideDataHandler._loadData(uri,"file",_fun)
         }else{
           _fun(v)
         }
-      }})
+      }]})
     }else{
       _ideDataHandler._loadData(uri,"file",_fun)
     }
@@ -76020,7 +76023,7 @@ _IDE._innerWin._viewDef={
                       _attr:{
                         "class":"bz-btn-tb-icon bz-btn-tb-icon-half bz-dropdown",
                         disabled:function(){
-                          return !_IDE._data._curTest||(BZ._data._status && BZ._data._status!='pause')
+                          return (BZ._data._status && BZ._data._status!='pause') || !_IDE._data._curTest
                         }
                       },
                       _jqext:{
@@ -76111,7 +76114,13 @@ _IDE._innerWin._viewDef={
                       },
                       _jqext:{
                         click:function(){
-                          _rootWin._IDE._innerWin._newAction(this,_rootWin._ideActionData._type._validation)
+                          if(this.className.includes("bz-active")){
+                            bzTwComm._postToIDE({_fun:"_removeCurItem",_scope:"_ideActionManagement",_args:[_ideActionData._type._validation]})
+                            $(this).removeClass("bz-active")
+                            this.blur()
+                          }else{
+                            bzTwComm._postToIDE({_fun:"_newItem",_scope:"_ideActionManagement",_args:[_ideActionData._type._validation]})
+                          }
                         }
                       }
                     },
@@ -76133,12 +76142,17 @@ _IDE._innerWin._viewDef={
                         disabled:function(){
                           let t=_IDE._data._curTest
                           return (BZ._data._status && !BZ._isRecording()) || !t||['int','scenario','api'].includes(t._data.type) || !BZ._isCheckout()
-
                         }
                       },
                       _jqext:{
                         click:function(){
-                          _rootWin._IDE._innerWin._newAction(this,_rootWin._ideActionData._type._comment)
+                          if(this.className.includes("bz-active")){
+                            bzTwComm._postToIDE({_fun:"_removeCurItem",_scope:"_ideActionManagement",_args:[_ideActionData._type._comment]})
+                            $(this).removeClass("bz-active")
+                            this.blur()
+                          }else{
+                            bzTwComm._postToIDE({_fun:"_newItem",_scope:"_ideActionManagement",_args:[_ideActionData._type._comment]})
+                          }
                         }
                       }
                     },
@@ -78001,7 +78015,7 @@ var _ideActionManagement={
         d.method=_ideActionData._method._html;
       }
       if(t._validation==_type && d.method==_ideActionData._method._html && (!d.content || (d.content.type=="JSON" || !d.content.type))){
-        d.content={type:"data"};
+        d.content={type:"innerText"};
         d.compareMark= "==";
         delete d.content.filter;
       }else if(d.method==_ideActionData._method._data && (!d.api || !d.content || (d.content.type && d.content.type!="JSON"))){
@@ -78877,6 +78891,7 @@ var _ideActionManagement={
     function _sendData(a){
       if(bzTwComm._isExtension()){
         BZ._formatInIFramePath(a.panel||a.element)
+        $(".BZIgnore .bz-tb-buttons .bz-active").removeClass("bz-active")
         bzTwComm._postToIDE({_fun:"_updateAction",_args:[a],_scope:"_ideActionManagement"});
       }else{
         _ideTestManagement._save()
@@ -81010,6 +81025,7 @@ var _ideActionManagement={
         _domRecorder._lastAction.event.tmpValue=_value;
         _domRecorder._lastAction.replace=_ideDataBind._data._replaceKeyByParameter;
         BZ._formatInIFramePath(_domRecorder._lastAction.element)
+
         bzTwComm._postToIDE({_fun:"_updateAction",_args:[_domRecorder._lastAction],_scope:"_ideActionManagement"});
         var $d=_code.startsWith("$test")?$test:_code.startsWith("$module")?$module:_code.startsWith("$project")?$project:$parameter||{};
         _code=_code.split(".");

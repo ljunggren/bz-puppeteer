@@ -12038,13 +12038,13 @@ tbody td:first-child,tbody td:last-child{
       }
     }catch(e){}
     if(extensionContent){
-      bzTwComm._postToIDE({_scope:"_ideDataHandler",_fun:"_loadData",_args:[uri,"file"],_async:1,_bkfun:function(v){
+      bzTwComm._postToIDE({_scope:"_ideDataHandler",_fun:"_loadData",_args:[uri,"file",function(v){
         if(v && v.constructor==String){
           _ideDataHandler._loadData(uri,"file",_fun)
         }else{
           _fun(v)
         }
-      }})
+      }]})
     }else{
       _ideDataHandler._loadData(uri,"file",_fun)
     }
@@ -15573,7 +15573,10 @@ tbody td:first-child,tbody td:last-child{
     return _result;
   },
   _setFileValue:function(_input,v){
-    v=_Util._eval(v);
+    if(v.constructor==String){
+      v=JSON.parse(v)
+    }
+
     for(var i=0;i<v.length;i++){
       v[i].name=decodeURIComponent(v[i].name.split("?")[0]);
     }
