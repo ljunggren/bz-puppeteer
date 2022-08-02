@@ -1412,8 +1412,7 @@ input[type=number]{
   getLogList:function(masterUrl){
     let v;
     try{
-      eval("v="+formatter.data.setting.identifyWorker)
-      v= v(masterUrl)
+      v=BZ.eval.exe(`(${formatter.data.setting.identifyWorker})(masterUrl)`,{masterUrl:masterUrl})
       if(!v||v.constructor!=Array||v.includes(masterUrl)){
         v=[]
       }
@@ -2411,9 +2410,7 @@ input[type=number]{
   isMasterPage:function(v){
     if(v.identifyMaster){
       try{
-        let f;
-        eval("f="+v.identifyMaster)
-        return f()
+        return BZ.eval.exe(`(${v.identifyMaster})()`)
       }catch(ex){
         alert("Identify page script issue: "+ex.message)
       }
@@ -2850,7 +2847,7 @@ input[type=number]{
       try{
         if(v[0]!='"'&&v[0]!="'"){
           if(v.match(/^[\/].+[\/][i]?$/)){
-            v=eval(v)
+            v=BZ.eval.exe(v)
           }else{
             v=v.toLowerCase().split(",")
           }
@@ -3011,7 +3008,7 @@ input[type=number]{
               }
             }
             if(xx){
-              eval("xx=/"+xx+"/i")
+              xx=BZ.eval.exe("/"+xx+"/i")
               os=os.filter(x=>{
                 if(!foundTxt(x,xx)){
                   formatter.hideScenario(x)
@@ -3026,7 +3023,7 @@ input[type=number]{
                 xx=xx[1].split(" ").sort((a,b)=>a.length-b.length).pop()
                 xx="##Action[^#]*## .*"+xx
 
-                eval("xx=/"+xx+"/i")
+                xx=BZ.eval.exe("/"+xx+"/i")
                 os=os.filter(x=>{
                   if(!x.details.org.match(xx)){
                     formatter.hideScenario(x)
@@ -3044,7 +3041,7 @@ input[type=number]{
           }
         }).filter(x=>x).join("|")
         if(v){
-          eval("v=/"+v+"/i")
+          v=BZ.eval.exe("/"+v+"/i")
         }
       }else if(v.constructor==String){
         os=os.filter(x=>{
@@ -4039,7 +4036,7 @@ var analyzer={
     }else{
       r=`/[0-9]+: +(>+ Loading |<+ [^\[]+ Feature - )Scenario \\[m[0-9]+\\.t[0-9]+[^><]+(>|<)+/gms`
     }
-    r=eval(r)
+    r=BZ.eval.exe(r)
     return v.match(r)||[]
   },
   retrieveErrHash:function(k,v){

@@ -10879,6 +10879,9 @@ for(k in $util){
     }
     return _outMap
   },
+  exe:function(){
+    return _eval._exeCode(...arguments)
+  },
   _exeCode:function(vs,_outMap,_inMap,_inBzData){
     _outMap=_eval._initOutMap(_outMap),_inMap=_inMap||{};
     if(vs.constructor==String){
@@ -72119,6 +72122,7 @@ String.prototype.plural = function(revert){
   }
 };var BZ={
   _debug:0,
+  eval:_eval,
   _timeoutMap:{},
   reportBZStatus:function(_callBack){
     if(name.includes("bz-client")){
@@ -81644,6 +81648,7 @@ window.bzTwComm={
         rt:t?_IDE._getShortcutKey(".",t):"",
         ra:a?t._data.actions.indexOf(a):-1
       })
+      console.log("BZ-LOG: reload data for background")
       _extensionComm._setStartScript()
       _extensionComm._setShareData()
       chrome.runtime.sendMessage(bzTwComm._getExtensionId(),{status:BZ._data._status},r=>{})

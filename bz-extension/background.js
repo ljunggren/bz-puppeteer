@@ -398,6 +398,11 @@ let funMap={
       }
     }
     callback(1)
+  },
+  log:function(msg){
+    console.log(msg)
+    let v=exeFun.buildBZRequestData("ide","console","log",["BZ-LOG: "+msg])
+    trigger(v,ideId)
   }
 }
 chrome.runtime.onMessageExternal.addListener(funMap.listener);
@@ -663,7 +668,7 @@ function toInitExtCode(v){
   initExtCode(v)
 }
 function resetApp(){
-  console.log("Reset app ...",new Date())
+  funMap.log("Reset app ...")
   clearTimeout(resetTime)
   resetTime=setTimeout(()=>{
     resetApp()
@@ -675,6 +680,7 @@ function resetApp(){
         allFrames:true
       },
       func:()=>{
+        
         registerTab()
       },
       args:[]

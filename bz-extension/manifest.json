@@ -56,7 +56,7 @@
       ],
       "matchAboutBlank":true,
       "all_frames":true,
-      "js": ["plug.js","content"]
+      "js": ["plug.js","content","formatter.js"]
     }
   ],
   "icons": { 
