@@ -344,7 +344,18 @@ let funMap={
     //_console("background (web page): ",req)
     //check whether the request from BZ pages. If not from BZ do nothing.
     let tg=req.tg||""
-    if(req.status!==undefined){
+    if(req.mainPage){
+      chrome.scripting.executeScript(
+        {
+          target:{
+            tabId:sender.tab.id
+          },
+          files:["main_"+req.mainPage],
+          world:"MAIN"
+        },
+        r => {}
+      )
+    }else if(req.status!==undefined){
       //master tab set status before start pop client win
       if(req.status=="popwin-start"){
         doingPopCtrl=1
