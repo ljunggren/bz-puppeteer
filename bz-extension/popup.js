@@ -44,15 +44,6 @@ $(".bz-tab").click(function(){
   updateSetting()
 });
 
-function getPageInfo(){
-  chrome.tabs.query({active: true, currentWindow: true}, function(v){
-    chrome.runtime.sendMessage({ pop:1,fun:"getPageInfo",data:v[0].id},(v)=>{
-      console.log(v)
-    });
-    
-  });
-}
-
 function init(){
   // var image = document.createElement("img");
   // image.src = chrome.runtime.getURL("img/boozang128.png");
@@ -342,4 +333,3 @@ function updateSetting(){
   }
 }
 init();
-getPageInfo();
