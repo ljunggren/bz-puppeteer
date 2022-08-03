@@ -44,14 +44,14 @@ $(".bz-tab").click(function(){
   updateSetting()
 });
 
-function getPageInfo(){
-  chrome.tabs.query({active: true, currentWindow: true}, function(v){
-    chrome.runtime.sendMessage({ pop:1,fun:"getPageInfo",data:v[0].id},(v)=>{
-      console.log(v)
-    });
+// function getPageInfo(){
+//   chrome.tabs.query({active: true, currentWindow: true}, function(v){
+//     chrome.runtime.sendMessage({ pop:1,fun:"getPageInfo",data:v[0].id},(v)=>{
+//       console.log(v)
+//     });
     
-  });
-}
+//   });
+// }
 
 function init(){
   // var image = document.createElement("img");
@@ -342,4 +342,4 @@ function updateSetting(){
   }
 }
 init();
-getPageInfo();
+// getPageInfo();
