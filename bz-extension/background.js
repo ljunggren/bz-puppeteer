@@ -668,6 +668,9 @@ function toInitExtCode(v){
   initExtCode(v)
 }
 function resetApp(){
+  if(!appId){
+    return
+  }
   funMap.log("Reset app ...")
   clearTimeout(resetTime)
   resetTime=setTimeout(()=>{
