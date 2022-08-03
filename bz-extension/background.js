@@ -401,7 +401,7 @@ let funMap={
   },
   log:function(msg){
     console.log(msg)
-    let v=exeFun.buildBZRequestData("ide","console","log",["BZ-LOG: "+msg])
+    let v=funMap.buildBZRequestData("ide","console","log",["BZ-LOG: "+msg])
     trigger(v,ideId)
   }
 }
