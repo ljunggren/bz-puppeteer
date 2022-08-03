@@ -424,15 +424,22 @@ chrome.action.setBadgeText({text:"AI"});
 
 let pop={
   formatLog:function(tab) {
-    chrome.tabs.executeScript(tab.id, {code: `window.formatter&&window.formatter.exeFormag(${JSON.stringify(tab.data)})`,matchAboutBlank:true,allFrames:true},_=>{})
+    chrome.scripting.executeScript({
+      target:{tabId:tab.id}, 
+      func:((d)=>{
+        window.formatter&&window.formatter.exeFormag(d)
+      }),
+      args:[tab.data]
+    },_=>{})
   },
   updateFormatLogSetting:function(tab){
-    chrome.tabs.executeScript(tab.id, {code: `window.formatter&&window.formatter.updateFormatLogSetting(${JSON.stringify(tab.data)})`,matchAboutBlank:true,allFrames:true},_=>{})
-  },
-  getPageInfo:function(tab,fun){
-    chrome.tabs.sendMessage(tab, {scope:"formatter",fun:"getPageInfo"},d=>{
-      fun(d)
-    });
+    chrome.scripting.executeScript({
+      target:{tabId:tab.id}, 
+      func:((d)=>{
+        window.formatter&&window.formatter.updateFormatLogSetting(d)
+      }),
+      args:[tab.data]
+    },_=>{})
   }
 }
 
