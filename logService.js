@@ -49,7 +49,7 @@ const Service = {
 
     page.on('console', msg => {
       let timeout,t;
-      let msgType=msg._type;
+      let msgType=msg.type();
 
       msg = (!!msg && msg.text()) || "def";
       msg=trimPreMsg(msg)
