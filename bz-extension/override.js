@@ -8195,6 +8195,9 @@ tbody td:first-child,tbody td:last-child{
       return bzTwComm._postToApp({_fun:"_takeoverWin",_scope:"_TWHandler"})
     }else if(bzTwComm._isIDE()){
       return;
+    }else{
+      debugger
+      console.log("do _takeoverWin in app")
     }
     try{
       if(window.BZ){
@@ -11091,6 +11094,8 @@ tbody td:first-child,tbody td:last-child{
   },
   _exeAction:function(_data,_setting,_backFun,_descDelay){
     console.log("get action: "+bzTwComm.frameId)
+    console.log(_data)
+    debugger
     _domActionTask._doLog("Exe Action ...")
     _domActionTask._reportAppInfo("Exe action "+_data.description)
     if(_domActionTask._isLoading()){
@@ -11540,6 +11545,8 @@ tbody td:first-child,tbody td:last-child{
             _result=_domActionTask._validateHtml(_data,_force);
           //validation Script
           }else if(_data.type==T._validation && _data.method==M._script){//script
+            debugger
+            console.log("validation Script")
             return _domActionTask._validateJs(_data,_fun);
           //Extract data on html
           }else if(_data.type==T._extractData && _data.method==M._html){ //extract
@@ -12206,8 +12213,10 @@ tbody td:first-child,tbody td:last-child{
     if(c){
       window.$result=$result
       window.$element=$element
-
+debugger
+console.log("_exeScript: "+c)
       c=_Util._parseToExeCode(c)
+      console.log("_exeScript-2: "+c)
       c=_Util._eval(c)
       _fun(c)
     }
@@ -13836,6 +13845,8 @@ tbody td:first-child,tbody td:last-child{
       if(s[s.length-1]==";"){
         s=s.substring(0,s.length-1);
       }
+      debugger
+      console.log("_extractDataByJs")
 
       _domActionTask._exeScript(s,0,$element,function(v){
         _fun({
