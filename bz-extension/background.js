@@ -659,7 +659,7 @@ function trigger(v,tabId,iframeId,fun,init){
   function triggerFun(v){
     return doIt()
     function doIt(){
-      if(window.document.body.classList[0]=="BZIgnore"){
+      if(window.document.body.classList[0]=="BZIgnore"||location.href=="about:blank"){
         return
       }
       if(!v.i&&(!window.bzTwComm||!bzTwComm.appReady)){
