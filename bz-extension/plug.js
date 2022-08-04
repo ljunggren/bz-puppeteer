@@ -24847,9 +24847,9 @@ var _elementMonitor={
           return
         }
         
-        if(_Util._isSameObj(_aiAuthHandler._getToken(r._tokenHost),r.tokenValue)){
-          return
-        }
+        // if(_Util._isSameObj(_aiAuthHandler._getToken(r._tokenHost),r.tokenValue)){
+        //   return
+        // }
         _TWHandler._token=r
 
         bzTwComm._postToIDE({_fun:"_setToken",_scope:"_aiAuthHandler",_args:[r]})
@@ -33244,7 +33244,8 @@ var _tmpLoopDatahandler={
   _getHostIdx:function(_url){
     _url=_apiHandler._removeProtocol(_url)
     let _items=_IDE._data._setting.environments[_IDE._data._setting.curEnvironment].items
-    let v=_items.filter((o,i)=>{
+    let fs=_items.filter(x=>x.host)
+    let v=fs.filter((o,i)=>{
       return _url.startsWith(_apiHandler._removeProtocol(o.host))
     }).sort((a,b)=>{return b.host.length-a.host.length})[0]
     

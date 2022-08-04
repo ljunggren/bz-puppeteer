@@ -8994,9 +8994,9 @@ tbody td:first-child,tbody td:last-child{
           return
         }
         
-        if(_Util._isSameObj(_aiAuthHandler._getToken(r._tokenHost),r.tokenValue)){
-          return
-        }
+        // if(_Util._isSameObj(_aiAuthHandler._getToken(r._tokenHost),r.tokenValue)){
+        //   return
+        // }
         _TWHandler._token=r
 
         bzTwComm._postToIDE({_fun:"_setToken",_scope:"_aiAuthHandler",_args:[r]})
