@@ -701,7 +701,6 @@ function resetApp(){
         allFrames:true
       },
       func:()=>{
-        
         registerTab()
       },
       args:[]
@@ -714,7 +713,7 @@ function resetApp(){
 (async ()=>{
   let tabs = await chrome.tabs.query({})
   tabs.forEach(x=>{
-    if(x.url.includes("/extension?id=")){
+    if(x.url.includes("/extension?")){
       trigger({tg:"ide",c:"bzTwComm.touchIDE()"},x.id,undefined,function(d){
         d=d&&d[0]
         if(d){
