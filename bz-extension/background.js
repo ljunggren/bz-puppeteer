@@ -702,13 +702,13 @@ function resetApp(){
         allFrames:true
       },
       func:()=>{
-        registerTab()
+        return registerTab()
       },
       args:[]
     },
     r => {
-      funMap.log("rigger app result: "+r.result)
-      if(r.result){
+      funMap.log("rigger app result: "+r[0].result)
+      if(r[0].result){
         funMap.log("Get app response ...")
         clearTimeout(resetTime)
       }
