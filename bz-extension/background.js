@@ -283,7 +283,7 @@ let funMap={
       }
 
       // appListenerMap[t.frameId]=funMap.addListener()
-
+      funMap.log("Register App ...")
       if(_msg.name.includes("bz-client")){
         appId=t.tab.id;
         _ctrlWindowId=t.tab.windowId;
@@ -707,7 +707,9 @@ function resetApp(){
       args:[]
     },
     r => {
-      if(r){
+      funMap.log("rigger app result: "+r.result)
+      if(r.result){
+        funMap.log("Get app response ...")
         clearTimeout(resetTime)
       }
     }

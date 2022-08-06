@@ -11,6 +11,6 @@ function registerTab(){
     });
     return 1
   }catch(ex){
-    alert("Register failed:"+ex.message)
+    return "Register failed:"+ex.message
   }
 }
