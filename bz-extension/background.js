@@ -707,7 +707,7 @@ function resetApp(){
       args:[]
     },
     r => {
-      funMap.log("trigger app result: "+r[0].result)
+      funMap.log("trigger app result-2: "+r[0].result)
       if(r[0].result){
         funMap.log("Get app response ...")
         clearTimeout(resetTime)
