@@ -9,7 +9,9 @@ $("#ide").click(()=>{
   chrome.tabs.create({url: getServerUrl()+`/extension?id=${p}#${p}/${v}/`})
 })
 $("#formatPage").click(()=>{
+  console.log("click format page 1")
   chrome.tabs.query({active: true, currentWindow: true}, function(v){
+    console.log("click format page 2")
     bzFormat.gotoOrg=0
     chrome.runtime.sendMessage({ pop:1,fun:"formatLog",data:{
       id:v[0].id,

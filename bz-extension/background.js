@@ -689,6 +689,7 @@ function resetApp(){
   if(!appId){
     return
   }
+  debugger
   funMap.log("Reset app ...")
   clearTimeout(resetTime)
   resetTime=setTimeout(()=>{
@@ -706,7 +707,9 @@ function resetApp(){
       args:[]
     },
     r => {
-      clearTimeout(resetTime)
+      if(r){
+        clearTimeout(resetTime)
+      }
     }
   )
 }

@@ -9,6 +9,7 @@ function registerTab(){
         bzTwComm.setAppInfo(_msg)
       }
     });
+    return 1
   }catch(ex){
     alert("Register failed:"+ex.message)
   }
