@@ -1,5 +1,5 @@
 importScripts('/ecMap.js');
-let list={},responseList={},appListenerMap={},resetTime
+let list={},responseList={},appListenerMap={},resetTime,tmpAppMessageTime
 let ideId,appId,_ctrlWindowId,initAppScript=[],
     _status=newStatus=0,_lastExeActionReq,doingPopCtrl,_curTest,_data,_curAction,shareData={},_ctrlFrameId;
 let lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="";
@@ -277,6 +277,7 @@ let funMap={
   },
   registerTab:function(_msg,t,_sendResponse){
     if(_msg.name.includes("bz-client")||appId==t.tab.id){
+      clearTimeout(tmpAppMessageTime)
       let v
       if(t.url.includes("boozang.com")){
         return alert("Testing on Boozang sites not supported!");
@@ -297,7 +298,9 @@ let funMap={
               tabId:appId,
               frameIds:[t.frameId]
             },
-            func:toInsertAppCode,
+            func:function(v){
+              insertAppCode(v)
+            },
             args:[t.frameId],
             world:"MAIN"
           },
@@ -309,7 +312,9 @@ let funMap={
               tabId:appId,
               frameIds:[t.frameId]
             },
-            func:toInitExtCode,
+            func:function(v){
+              initExtCode(v)
+            },
             args:[t.frameId]
           },
           r => {}
@@ -321,15 +326,18 @@ let funMap={
       _sendResponse(d)
       v=funMap.buildBZRequestData("app","bzTwComm","setAppInfo",[d])
       trigger(v,appId,t.frameId,0,1)
-      funMap.postPreScriptToApp(appId,t.frameId)
-      trigger(funMap.buildBZRequestData("ext","BZ",ecMap.sd,[shareData]),appId,t.frameId,0,1)
-      initAppScript.forEach(x=>{
-        trigger(funMap.buildBZRequestData(x.tg,x[ecMap.s],x[ecMap.f],x[ecMap.ar],x.c,x.d),appId,t.frameId,0,1)
-      })
-      trigger(funMap.buildBZRequestData("ext","BZ",ecMap.ss,[_status]),appId,t.frameId,0,1)
+      funMap.postDataToApp(t.frameId)
     }else{
       _sendResponse(1)
     }
+  },
+  postDataToApp:function(fId){
+    funMap.postPreScriptToApp(appId,fId)
+    trigger(funMap.buildBZRequestData("ext","BZ",ecMap.sd,[shareData]),appId,fId,0,1)
+    initAppScript.forEach(x=>{
+      trigger(funMap.buildBZRequestData(x.tg,x[ecMap.s],x[ecMap.f],x[ecMap.ar],x.c,x.d),appId,fId,0,1)
+    })
+    trigger(funMap.buildBZRequestData("ext","BZ",ecMap.ss,[_status]),appId,fId,0,1)
   },
   postAppRequestInfoToIDE:function(d){
     trigger(funMap.buildBZRequestData("ide",ecMap.ec,ecMap.har,[d]))
@@ -678,13 +686,6 @@ function trigger(v,tabId,iframeId,fun,init){
   }
 }
 
-function toInsertAppCode(v){
-  insertAppCode(v)
-}
-
-function toInitExtCode(v){
-  initExtCode(v)
-}
 function resetApp(){
   if(!appId){
     return
@@ -707,13 +708,47 @@ function resetApp(){
       args:[]
     },
     r => {
-      funMap.log("trigger app result: "+r[0].result)
-      if(r[0].result){
-        funMap.log("Get app response ...")
-        clearTimeout(resetTime)
+      clearTimeout(resetTime)
+      if(r&&r[0]){
+        funMap.log("trigger app result: "+r[0].result)
+        if(r[0].result){
+          funMap.log("Get app response ...")
+        }
+      }else{
+        debugger
+        getMessageFromApp()
       }
     }
   )
+}
+
+function postDataToApp(){
+
+}
+function getMessageFromApp(){
+  if(appId){
+    chrome.scripting.executeScript({
+      target:{
+        tabId:appId,
+        allFrames:true
+      },
+      func:()=>{
+        return bzTwComm.takePostedList()
+      }
+    },r=>{
+      if(r&&r[0]){
+        r.forEach(x=>{
+          x=x.result||[]
+          x.forEach(y=>{
+            funMap.listener(y,{tab:{id:appId}},a=>{})
+          })
+        })
+      }
+    })
+    tmpAppMessageTime=setTimeout(()=>{
+      getMessageFromApp()
+    })
+  }
 }
 (async ()=>{
   let tabs = await chrome.tabs.query({})
@@ -726,7 +761,8 @@ function resetApp(){
           if(d){
             ideId=d.ideId
             appId=d.appId
-            resetApp()
+            funMap.postDataToApp()
+            trigger({tg:"ide",c:"bzTwComm.repost()"},ideId,undefined,function(d){})
           }
         }
       })
