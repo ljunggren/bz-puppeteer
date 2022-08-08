@@ -747,7 +747,7 @@ function getMessageFromApp(){
     })
     tmpAppMessageTime=setTimeout(()=>{
       getMessageFromApp()
-    })
+    },10)
   }
 }
 (async ()=>{
@@ -762,6 +762,7 @@ function getMessageFromApp(){
             ideId=d.ideId
             appId=d.appId
             funMap.postDataToApp()
+            getMessageFromApp()
             trigger({tg:"ide",c:"bzTwComm.repost()"},ideId,undefined,function(d){})
           }
         }
