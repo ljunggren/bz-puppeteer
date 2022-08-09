@@ -8485,6 +8485,7 @@ var _Dialog={
     }else{
       _event = new MouseEvent(e, ps);
     }
+    console.log(o.outerHTML)
     o.dispatchEvent(_event);
     if(e=="mouseover"){
       o.dispatchEvent(new MouseEvent("mouseenter",ps));
@@ -81664,7 +81665,7 @@ window.bzTwComm={
           });
         }catch(ex){
           bzTwComm._postedList.push(v)
-          localStorage.setItem("taskList",JSON.stringify(bzTwComm._list))
+          localStorage.setItem("taskList",JSON.stringify(bzTwComm._postedList))
         }
           
         return
@@ -81778,6 +81779,7 @@ window.bzTwComm={
         }
 
         _postReady()
+        _postLastRequest()
     
         function _postReady(){
           if(!window._domRecorder||!bzTwComm.ideId||(bzTwComm._isExtension()&&(!window.BZ||!window._IDE||!window._IDE._data._setting||!window._IDE._data._setting.content))){
@@ -81788,6 +81790,17 @@ window.bzTwComm={
           bzTwComm.appReady=1
           console.log("page is ready")
           bzTwComm._postToIDE({_fun:"_infoPageReady",_scope:"_extensionComm"});
+        }
+
+        function _postLastRequest(){
+          bzTwComm._postedList=JSON.parse(localStorage.getItem("taskList")||"[]")
+          localStorage.removeItem("taskList")
+          if(bzTwComm._postedList.length){
+            bzTwComm._postedList.forEach(x=>{
+              bzTwComm._postRequest(x)
+            })
+          }
+          bzTwComm._postedList=[]
         }
     
       }
