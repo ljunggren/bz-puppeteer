@@ -1894,8 +1894,8 @@ input[type=number]{
     function handleCamera(s){
       let w=s.org.match(/\n[0-9]+\: Screenshot\:([0-9a-f]{32})/ig);
       if(w){
-        w=w.pop().match(/Screenshot\:([0-9a-f]{32})/i)
-        s.camera=w.pop()
+        w=w.pop().match(/Screenshot\:([0-9a-f]{32})/i)[1]
+        s.camera=w
         formatter.cameraList.push(w)
         formatter.element.header.find(".bz-camera").attr({disabled:false})
       }else{
