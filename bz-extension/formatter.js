@@ -1892,10 +1892,11 @@ input[type=number]{
       }
     }
     function handleCamera(s){
-      let w=s.org.match(/\n[0-9]+\: Screenshot\:([0-9a-f]{32})/i);
+      let w=s.org.match(/\n[0-9]+\: Screenshot\:([0-9a-f]{32})/ig);
       if(w){
-        s.camera=w[1]
-        formatter.cameraList.push(w[1])
+        w=w.pop().match(/Screenshot\:([0-9a-f]{32})/i)
+        s.camera=w.pop()
+        formatter.cameraList.push(w)
         formatter.element.header.find(".bz-camera").attr({disabled:false})
       }else{
         s.cameraMsg="There is no screenshot for API test case. Or got an error on loading page."

@@ -11278,7 +11278,7 @@ tbody td:first-child,tbody td:last-child{
       }else if(_data.type==1&&_data.e&&!_data.apiReplaceEvent&&_data.event&&_data.event.action=="click"){
         _domActionTask._reportAppInfo("clicked: "+_data.e.outerHTML.substring(0,300))
       }
-      if(_data.e){
+      if(_data.e&&_data.type==0){
         _bzDomPicker._flashTmpCover(_data.e)
       }
       _domActionTask._reportAppInfo("After Prepare action: "+_data.e)
@@ -17125,7 +17125,6 @@ tbody td:first-child,tbody td:last-child{
     }else{
       _event = new MouseEvent(e, ps);
     }
-    console.log(o.outerHTML)
     o.dispatchEvent(_event);
     if(e=="mouseover"){
       o.dispatchEvent(new MouseEvent("mouseenter",ps));
