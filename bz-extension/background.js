@@ -5,6 +5,9 @@ let ideId,appId,_ctrlWindowId,initAppScript=[],
 let lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="";
 let _lastIframeRequest=0,_dblCheckTime=0,extendTopScript="",extendEndScript="";
 let funMap={
+  getInfo:function(s,f){
+    f({ideId:ideId,appId:appId})
+  },
   exeFun:function(c,t,bk){
     let ks=c[ecMap.s].split(".")
     let r=ks.shift(),idx=-1
@@ -31,6 +34,8 @@ let funMap={
     r=r[c[ecMap.f]](...ar,t,bk)
     if(idx==-1&&bf){
       callback(r,t,bk)
+    }else{
+      return r
     }
     function callback(d,t,bk){
       if(c[ecMap.bf]){
@@ -85,6 +90,26 @@ let funMap={
       type:v.type,
       method:v.method
     }
+  },
+  getIdeId:async function(fun){
+    if(!ideId){
+      let tabs = await chrome.tabs.query({})
+      tabs.forEach(x=>{
+        if(x.url.startsWith("http")&&x.url.includes("/extension")){
+          trigger({tg:"ide",c:"window.name"},x.id,undefined,function(d){
+            if(d){
+              if(d[0].result=="bz-master"){
+                ideId=x.id
+                fun(ideId)
+              }
+            }
+          })
+        }
+      })
+    }else{
+      fun(ideId)
+    }
+    
   },
   getAppId:async function(fun){
     if(!appId){
@@ -396,8 +421,10 @@ let funMap={
         callback(ideId)
         return
         //Set CSS file path from BZ master page
-      }else{
+      }else if(callback){
         funMap.exeFun(req,sender,callback)
+      }else{
+        return funMap.exeFun(req,sender)
       }
     }else if(tg.includes("ide")){
       trigger(req,req.toId||ideId)
@@ -678,7 +705,8 @@ function trigger(v,tabId,iframeId,fun,init){
         },10)
       }
       try{
-        return bzTwComm.setRequest(v.v)
+        let r= bzTwComm.setRequest(v.v)
+        return r
       }catch(e){
         console.log(e.stack)
       }
@@ -686,70 +714,68 @@ function trigger(v,tabId,iframeId,fun,init){
   }
 }
 
-function resetApp(){
-  if(!appId){
-    return
-  }
-  debugger
-  funMap.log("Reset app ...")
-  clearTimeout(resetTime)
-  resetTime=setTimeout(()=>{
-    resetApp()
-  },3000)
-  chrome.scripting.executeScript(
-    {
-      target:{
-        tabId:appId,
-        allFrames:true
-      },
-      func:()=>{
-        return registerTab()
-      },
-      args:[]
-    },
-    r => {
-      clearTimeout(resetTime)
-      if(r&&r[0]){
-        funMap.log("trigger app result: "+r[0].result)
-        if(r[0].result){
-          funMap.log("Get app response ...")
-        }
-      }else{
-        debugger
-        getMessageFromApp()
-      }
-    }
-  )
-}
+// function resetApp(){
+//   if(!appId){
+//     return
+//   }
+//   debugger
+//   funMap.log("Reset app ...")
+//   clearTimeout(resetTime)
+//   resetTime=setTimeout(()=>{
+//     resetApp()
+//   },3000)
+//   chrome.scripting.executeScript(
+//     {
+//       target:{
+//         tabId:appId,
+//         allFrames:true
+//       },
+//       func:()=>{
+//         return registerTab()
+//       },
+//       args:[]
+//     },
+//     r => {
+//       clearTimeout(resetTime)
+//       if(r&&r[0]){
+//         funMap.log("trigger app result: "+r[0].result)
+//         if(r[0].result){
+//           funMap.log("Get app response ...")
+//         }
+//       }else{
+//         debugger
+//         // getMessageFromApp()
+//       }
+//     }
+//   )
+// }
 
-function postDataToApp(){
-
-}
-function getMessageFromApp(){
-  if(appId){
-    chrome.scripting.executeScript({
-      target:{
-        tabId:appId,
-        allFrames:true
-      },
-      func:()=>{
-        return bzTwComm.takePostedList()
-      }
-    },r=>{
-      if(r&&r[0]){
-        r.forEach(x=>{
-          x=x.result||[]
-          x.forEach(y=>{
-            funMap.listener(y,{tab:{id:appId}},a=>{})
-          })
-        })
-      }
-    })
-    tmpAppMessageTime=setTimeout(()=>{
-      getMessageFromApp()
-    },10)
-  }
-}
+// function getMessageFromApp(){
+//   if(appId){
+//     chrome.scripting.executeScript({
+//       target:{
+//         tabId:appId,
+//         allFrames:true
+//       },
+//       func:()=>{
+//         return bzTwComm.takePostedList()
+//       }
+//     },r=>{
+//       if(r&&r[0]){
+//         r.forEach(x=>{
+//           x=x.result||[]
+//           x.forEach(y=>{
+//             funMap.listener(y,{tab:{id:appId}},a=>{})
+//           })
+//         })
+//       }
+//     })
+//     tmpAppMessageTime=setTimeout(()=>{
+//       getMessageFromApp()
+//     },10)
+//   }
+// }
+console.clear();
 (async ()=>{
   let tabs = await chrome.tabs.query({})
   tabs.forEach(x=>{
@@ -762,7 +788,7 @@ function getMessageFromApp(){
             ideId=d.ideId
             appId=d.appId
             funMap.postDataToApp()
-            getMessageFromApp()
+            // getMessageFromApp()
             trigger({tg:"ide",c:"bzTwComm.repost()"},ideId,undefined,function(d){})
           }
         }
@@ -770,4 +796,4 @@ function getMessageFromApp(){
     }
   })
 })()
-console.clear()
+

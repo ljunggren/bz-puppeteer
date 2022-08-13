@@ -17559,6 +17559,9 @@ window.bzTwComm={
   //    2, script
   // _async:
   _postRequest:function(v){
+    if(bzTwComm._isIDE()&&BZ._closed){
+      return
+    }
     if(v){
       bzTwComm._list.push(v)
     }
@@ -17723,6 +17726,9 @@ window.bzTwComm={
     return this._init(i)
   },
   setRequest:function(v){
+    if(bzTwComm._isIDE()&&BZ._closed){
+      return
+    }
     return bzTwComm._exeRequest(v)||1
   },
   _isIDE:function(){
