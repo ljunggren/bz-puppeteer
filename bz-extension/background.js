@@ -5,6 +5,9 @@ let ideId,appId,_ctrlWindowId,initAppScript=[],
 let lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="";
 let _lastIframeRequest=0,_dblCheckTime=0,extendTopScript="",extendEndScript="";
 let funMap={
+  getInfo:function(s,f){
+    f({ideId:ideId,appId:appId})
+  },
   exeFun:function(c,t,bk){
     let ks=c[ecMap.s].split(".")
     let r=ks.shift(),idx=-1
@@ -459,6 +462,8 @@ chrome.runtime.onMessage.addListener(function(msg, t, sendResponse) {
 
   if(msg.registerTab){
     funMap.registerTab(msg,t,sendResponse)
+  }else if(msg.reqData){
+    sendResponse(shareData)
   }else{
     funMap.listener(msg,t,sendResponse)
   }
@@ -663,11 +668,11 @@ function trigger(v,tabId,iframeId,fun,init){
         return
       }
       if(!v.i&&(!window.bzTwComm||!bzTwComm.appReady)){
-        console.log("deloy on:")
-        console.log(v.v)
+        // console.log("deloy on:")
+        // console.log(v.v)
         return setTimeout(()=>{
           return doIt()
-        },10)
+        },100)
       }
       try{
         return bzTwComm.setRequest(v.v)

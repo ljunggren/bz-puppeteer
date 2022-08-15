@@ -4,13 +4,50 @@ if(window.name.includes("bz-client")||parent!=window){
 
 function registerTab(){
   try{
+    console.log("do register tab")
     chrome.runtime.sendMessage({registerTab: 1,name:window.name},function(_msg){
       if(_msg){
+        console.log("register tab success")
         bzTwComm.setAppInfo(_msg)
+      }else{
+        console.log("register tab failed")
+        createErrMark("Register tab failed")
       }
     });
     return 1
   }catch(ex){
+    console.log("register tab failed")
+    createErrMark("Register tab failed")
     return "Register failed:"+ex.message
+  }
+}
+
+window.createErrMark=function(w){
+  let div=document.getElementById("bz-tmp-err-info")
+  if(div){
+    div.innerText=w
+    return 
+  }
+  console.log(w)
+  div=document.createElement("div")
+
+  div.id="bz-tmp-err-info"
+  div.style.backgroundColor="red"
+  div.style.color="#FFF"
+  div.innerText=w
+  div.style.position="fixed"
+  div.style.fontSize="50px"
+  div.style.top="20px"
+  div.style.left="20px"
+  div.style.zIndex=10000000000000
+  div.style.padding="20px"
+
+  document.body.append(div)
+}
+
+window.removeErrMark=function(){
+  let div=document.getElementById("bz-tmp-err-info")
+  if(div){
+    div.remove()
   }
 }

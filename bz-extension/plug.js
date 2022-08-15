@@ -72290,6 +72290,7 @@ String.prototype.plural = function(revert){
     
     try{
       for(var k in d){
+        console.log("set share data: "+k)
         var v=d[k]
         if(k=="_aiDataHandler"){
           _aiDataHandler._initData(v)
@@ -81547,7 +81548,7 @@ var _ideActionManagement={
 window.bzTwComm={
   _reloadInfo:[],
   _tmpId:Date.now(),
-  _list:[],_exeList:[],_postedMap:{},_postedList:[],_pastMap:{},_pastList:[],_doingMap:[],
+  _list:[],_exeList:[],
   _doing:0,
   appReady:window.name.includes("bz-master"),
   //_world,_frameId,d,ev, _scope, _fun, _args, bktg, _bkfun, _bkscope
@@ -81567,9 +81568,11 @@ window.bzTwComm={
   //    2, script
   // _async:
   _postRequest:function(v){
-    if(v){
-      bzTwComm._list.push(v)
+    if(bzTwComm._isIDE()&&BZ._closed){
+      return
     }
+    v.org=JSON.stringify(v)
+    bzTwComm._list.push(v)
     if(!bzTwComm._getExtensionId()){
       console.log("BZ-LOG:Missing extension id")
     }else if(!bzTwComm.ideId){
@@ -81579,84 +81582,68 @@ window.bzTwComm={
     }else{
       return _doIt()
     }
-    setTimeout(()=>{
-      bzTwComm._postRequest()
-    },10)
+
+    return setTimeout(()=>{
+      _doIt()
+    },100)
 
     function _doIt(){
-      v=bzTwComm._list.shift()
-      if(v){
-        if(!v._key){
-          _prepareData(v)
-        }
-        _exeTask(v)
+      if(bzTwComm._doing){
+        return
       }
-    }
-
-    function _prepareData(v){
-      v.org=JSON.stringify(v)
+      bzTwComm._doing=v=bzTwComm._list.shift()
+      if(!v){
+        return
+      }
+      let vv=v
       v.bz=1
       v.bktg=bzTwComm._getWorld()
+  
+      let k,_ckTimer
       v._args=v._args||[]
-      if(bzTwComm._isIDE()){
-        v.toId=bzTwComm.appId
-        v.fromId=bzTwComm.ideId
-      }else{
-        v.toId=bzTwComm.ideId
-        v.fromId=v.appId
-        v.fromFrameId=bzTwComm.frameId
-      }
-
-      let f=v.bktg+bzTwComm._newId()
-      v._key=f
-
-      v._bkfun=v._bkfun||v._args.find(x=>x&&x.constructor==Function)
-      if(v._bkfun&&v._bkfun.constructor==Function){
-        let _idx=v._args.indexOf(v._bkfun)
-        
-        let ff=v._bkfun
-        window[f]=function(){
-          clearTimeout(v._repeatTime)
-          if(window[f]){
-            delete bzTwComm._postedMap[f]
+      try{
+        v._bkfun=v._bkfun||v._args.find(x=>x&&x.constructor==Function)
+        if(v._bkfun&&v._bkfun.constructor==Function){
+          let _idx=v._args.indexOf(v._bkfun)
+          let f=v.bktg+bzTwComm._newId()
+          let ff=v._bkfun
+          window[f]=function(){
+            clearTimeout(_ckTimer)
             delete window[f]
-            bzTwComm._postNext()
-            let kk=Object.keys(bzTwComm._postedMap)[0]
-            if(kk){
-              v=bzTwComm._postedMap[kk]
-              _exeTask(v)
-            }
             ff(...arguments)          
           }
-        }
-        v._bkfun=f
-        if(_idx>=0){
-          v._args[_idx]=f
-        }
-      }
-    }
-
-    function _exeTask(v){
-      if(bzTwComm._isIDE()){
-        if(!bzTwComm._postedMap[v._key]){
-          bzTwComm._postedMap[v._key]=v
-          if(Object.keys(bzTwComm._postedMap).length>1){
-            return
+          v._bkfun=f
+          if(_idx>=0){
+            v._args[_idx]=f
+          }
+          if(v._ckTimer){
+            _ckTimer=setTimeout(()=>{
+              if(window[f]){
+                delete window[f]
+              }
+            },v._ckTimer)
           }
         }
 
-        return chrome.runtime.sendMessage(bzTwComm._getExtensionId(), v,r=>{
-          if(!r){
-            console.log("Missing response: "+r)
-            console.log(vv)
-          }
-          if(!v._bkfun){
-            delete bzTwComm._postedMap[v._key]
-            bzTwComm._postNext()
-          }
-        });
-      }else if(bzTwComm._isExtension()&&(v.tg=="ide"||v.tg=="bg")){
-        try{
+        if(bzTwComm._isIDE()){
+          v.toId=bzTwComm.appId
+          v.fromId=bzTwComm.ideId
+        }else{
+          v.toId=bzTwComm.ideId
+          v.fromId=v.appId
+          v.fromFrameId=bzTwComm.frameId
+        }
+        if(bzTwComm._isIDE()){
+          return chrome.runtime.sendMessage(bzTwComm._getExtensionId(), v,r=>{
+            if(!r){
+              console.log("Missing response: "+r)
+              console.log(vv)
+            }
+
+            bzTwComm._doing=0
+            _doIt()
+          });
+        }else if(bzTwComm._isExtension()&&(v.tg=="ide"||v.tg=="bg")){
           chrome.runtime.sendMessage(v,r=>{
             if(!r){
               console.log("Missing response: "+r)
@@ -81665,32 +81652,20 @@ window.bzTwComm={
             bzTwComm._doing=0
             _doIt()
           });
-        }catch(ex){
-          bzTwComm._postedList.push(v)
-          localStorage.setItem("taskList",JSON.stringify(bzTwComm._postedList))
+          return
         }
-          
-        return
-      }else{
-        let k=bzTwComm._isExtension()?"app":"ext"
+        k=bzTwComm._isExtension()?"app":"ext"
         document.documentElement.setAttribute("bz-to-"+k+"-"+bzTwComm._newId(),JSON.stringify(v))
+        bzTwComm._doing=0
+        _doIt()
+      }catch(ex){
+        window.createErrMark&&window.createErrMark("Post data error")
+        console.log(ex.stack)
+        bzTwComm._list.unshift(vv)
+        bzTwComm._doing=0
+        _doIt()
       }
     }
-  },
-  _postNext:function(){
-    Object.keys(bzTwComm._postedMap).find(x=>{
-      bzTwComm._postRequest(bzTwComm._postedMap[x])
-      return 1
-    })
-  },
-  repost:function(){
-    bzTwComm._postRequest()
-  },
-  takePostedList:function(){
-    let v=bzTwComm._postedList
-    bzTwComm._postedList=[]
-    localStorage.removeItem("taskList")
-    return v
   },
   _addFailActionInfo:function(a){
     let t=BZ._getCurTest()
@@ -81731,6 +81706,9 @@ window.bzTwComm={
     return this._init(i)
   },
   setRequest:function(v){
+    if(bzTwComm._isIDE()&&BZ._closed){
+      return
+    }
     return bzTwComm._exeRequest(v)||1
   },
   _isIDE:function(){
@@ -81781,28 +81759,31 @@ window.bzTwComm={
         }
 
         _postReady()
-        _postLastRequest()
     
         function _postReady(){
-          if(!window._domRecorder||!bzTwComm.ideId||(bzTwComm._isExtension()&&(!window.BZ||!window._IDE||!window._IDE._data._setting||!window._IDE._data._setting.content))){
+          if(!window._domRecorder||(bzTwComm._isExtension()&&!window.curUser)||!bzTwComm.ideId||(bzTwComm._isExtension()&&(!window.BZ||!window._IDE||!window._IDE._data._setting||!window._IDE._data._setting.content))){
+            bzTwComm._chkTime=bzTwComm._chkTime||Date.now()
+            if(bzTwComm._isExtension()&&Date.now()-bzTwComm._chkTime>3000){
+              bzTwComm._chkTime=0
+              chrome.runtime.sendMessage({tg:"bg",reqData:1},r=>{
+                if(!r){
+                  console.log("Missing response: "+r)
+                }
+                BZ._setShareData(r)
+              });
+            }
+            if(bzTwComm._isExtension()){
+              window.createErrMark&&window.createErrMark("Page is not ready")
+            }
             return setTimeout(()=>{
               _postReady()
             },100)
           }
+          bzTwComm._chkTime=0
           bzTwComm.appReady=1
+          window.removeErrMark&&window.removeErrMark()
           console.log("page is ready")
           bzTwComm._postToIDE({_fun:"_infoPageReady",_scope:"_extensionComm"});
-        }
-
-        function _postLastRequest(){
-          bzTwComm._postedList=JSON.parse(localStorage.getItem("taskList")||"[]")
-          localStorage.removeItem("taskList")
-          if(bzTwComm._postedList.length){
-            bzTwComm._postedList.forEach(x=>{
-              bzTwComm._postRequest(x)
-            })
-          }
-          bzTwComm._postedList=[]
         }
     
       }
@@ -81856,7 +81837,6 @@ window.bzTwComm={
   },
   _exeRequest:function(v){
     let r;
-    bzTwComm._doingMap[v._key]=v
     if(v._scope){
       v._args=v._args||[]
       let d=_getPathData(v._scope+"."+v._fun)
@@ -81894,7 +81874,6 @@ window.bzTwComm={
     return _doCallback(r)
 
     function _doCallback(){
-      delete bzTwComm._doingMap[v._key]
       if(v._bkfun){
         v={
           _scope:v._bkscope||"window",
