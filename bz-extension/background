@@ -1,6 +1,7 @@
 let _appUrl="https:/"+"/ai.boozang.com",_masterTabId,_masterFrameId,_masterUrl,_ctrlTabId,_ctrlWindowId,curElement,_frameIds={},_plugInCode,_bzEnvCode,_css,_status=_newStatus=0,_lastExeActionReq,_doingPopCtrl,_curTest,_data,_curAction,_shareData={},_ctrlFrameId;
 let _lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="",_topFrameId=0,_uncodeFrames=[];
 let _ignoreList=["https://vars.hotjar.com"],_lastIframeRequest=0,_dblCheckTime=0,extendTopScript="",extendEndScript="";
+let bzClient;
 let funMap={
   cleanMaster:function(){
     cleanMaster()
@@ -42,8 +43,18 @@ let funMap={
       img.remove()
     }
   },
-  openWindow:function(s,f,d){
-    window.open(d.url,d.name,d.size)
+  openWindow:function(s,f,d,c){
+    bzClient=window.open(d.url,d.name,d.size);
+    c&&c({})
+  },
+  focusTW:function(){
+    bzClient.focus()
+  },
+  closeTW:function(){
+    bzClient.close()
+  },
+  blurTW:function(){
+    bzClient.blur()
   },
   isRequestCompleted:function(bkScope,bkFun,_rList){
     _rList.forEach((r,i)=>{
