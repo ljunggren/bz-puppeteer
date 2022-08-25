@@ -58721,7 +58721,8 @@ var _aiPageHandler={
           _if:"!_data.sync&&BZ._data._uiSwitch._tmpFieldType=='string'",
           _label:"_bzMessage._setting._objectLib._field.inputFormat",
           _dataModel:"_data.inputFormat",
-          _exDisabled:"_data.sync"
+          _exDisabled:"_data.sync",
+          _type:"textarea"
         },{
           _if:"_data.sync",
           _type:"input",
@@ -58738,7 +58739,8 @@ var _aiPageHandler={
           _if:"_data.sync&&BZ._data._uiSwitch._curField.type!='module'&&BZ._data._uiSwitch._curField.subtype!='module'",
           _label:"_bzMessage._setting._objectLib._field.inputFormat",
           _dataModel:"BZ._data._uiSwitch._curField.inputFormat",
-          _disabled:1
+          _disabled:1,
+          _type:"textarea"
         }])),
         {
           _if:function(){
