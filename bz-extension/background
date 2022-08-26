@@ -44,14 +44,25 @@ let funMap={
     }
   },
   openWindow:function(s,f,d,c){
-    bzClient=window.open(d.url,d.name,d.size);
+    if(d.name=="bz-client"){
+      if(bzClient&&!bzClient.closed){
+        bzClient.close()
+      }
+      bzClient=window.open(d.url,d.name,d.size);
+    }else{
+      window.open(d.url,d.name,d.size);
+    }
     c&&c({})
   },
   focusTW:function(){
     bzClient.focus()
   },
   closeTW:function(){
-    bzClient.close()
+    try{
+      bzClient&&!bzClient.closed&&bzClient.close()
+    }catch(e){
+      debugger
+    }
   },
   blurTW:function(){
     bzClient.blur()
