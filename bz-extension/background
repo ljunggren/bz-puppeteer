@@ -45,10 +45,10 @@ let funMap={
   },
   openWindow:function(s,f,d,c){
     if(d.name=="bz-client"){
-      if(bzClient&&!bzClient.closed){
-        bzClient.close()
-      }
       bzClient=window.open(d.url,d.name,d.size);
+      setTimeout(()=>{
+        bzClient.focus
+      },1000)
     }else{
       window.open(d.url,d.name,d.size);
     }
