@@ -364,3 +364,13 @@ function responseIframeOffset(vs,_sendResponse){
     }
   }
 }
+
+function _focus(){
+  if(!document.body){
+    return setTimeout(()=>{
+      _focus()
+    },100)
+  }
+  document.body.focus()
+}
+_focus()

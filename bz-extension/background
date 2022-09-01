@@ -46,16 +46,20 @@ let funMap={
   openWindow:function(s,f,d,c){
     if(d.name=="bz-client"){
       bzClient=window.open(d.url,d.name,d.size);
-      setTimeout(()=>{
-        bzClient.focus
-      },1000)
+      bzClient.focus()
+      // setTimeout(()=>{
+      //   bzClient=window.open(d.url,d.name,d.size);
+      //   bzClient.focus()
+      // },1)
     }else{
       window.open(d.url,d.name,d.size);
     }
     c&&c({})
   },
   focusTW:function(){
-    bzClient.focus()
+    if(bzClient&&!bzClient.closed){
+      bzClient.focus()
+    }
   },
   closeTW:function(){
     try{
@@ -866,7 +870,9 @@ chrome.webRequest.onErrorOccurred.addListener(function(v){
 },{urls: ["<all_urls>"]});
 function cleanMaster(){
   var tabId=_ctrlTabId
-  _setCodeToContent("window.close();",_topFrameId,tabId);
+  if(tabId!=_masterTabId){
+    _setCodeToContent("window.close();",_topFrameId,tabId);
+  }
   _status=""
   _masterTabId=0;
   _masterFrameId=0;
