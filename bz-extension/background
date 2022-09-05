@@ -59,30 +59,45 @@ let funMap={
   enableAllIframe:function(){
     _uncodeFrames.forEach(f=>{_initFrame(f)})
   },
-  ajax:function(scope,fun,data,_callback){
+  ajax:function(scope,fun,data,_callback,element,responseFun){
     var xhttp = new XMLHttpRequest();
+    let asFile=data.notDownloadAsFile
+    delete data.notDownloadAsFile
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4) {
-        let hs={}
-        this.getAllResponseHeaders().split("\n").forEach(x=>{
-          if(x){
-            let k=x.indexOf(":")
-            let v=x.substring(k+1)
-            hs[x.substring(0,k).trim()]=v.trim()
+        if(data.responseType=="arraybuffer"&&!asFile){
+          let o=_handleBold(this.response,data.url)
+          if(_callback&&_callback.constructor==Function){
+            _callback(o)
+          }else if(responseFun){
+            responseFun(o)
           }
-        })
-        
-        var d={
-          tab:"master",
-          scope:scope,
-          fun:fun,
-          data:{status:this.status,data:this.response,headers:hs},
+        }else{
+          let hs={}
+          this.getAllResponseHeaders().split("\n").forEach(x=>{
+            if(x){
+              let k=x.indexOf(":")
+              let v=x.substring(k+1)
+              hs[x.substring(0,k).trim()]=v.trim()
+            }
+          })
           
+          var d={
+            tab:"master",
+            scope:scope,
+            fun:fun,
+            data:{status:this.status,data:this.response,headers:hs},
+            
+          }
+          if(data.responseType&&this.response){
+            d.data.data=String.fromCharCode.apply(null, new Uint8Array(this.response));
+          }
+          if(_callback&&_callback.constructor==Function){
+            _callback(d.data)
+          }else if(responseFun){
+            responseFun(d.data)
+          }
         }
-        if(data.responseType&&this.response){
-          d.data.data=String.fromCharCode.apply(null, new Uint8Array(this.response));
-        }
-        _callback(d.data)
       }
     };
     xhttp.open(data.method, data.url, true);
@@ -96,6 +111,57 @@ let funMap={
       xhttp.setRequestHeader("Content-Type",data.contentType)
     }
     xhttp.send(data.data);
+
+    function _handleBold(blob,_url){
+      var str=_handleCodePoints(new Uint8Array(blob));
+      
+      //var str = String.fromCharCode.apply(null, new Uint8Array(blob));
+      //var str=new TextDecoder("utf-8").decode(new Uint8Array(blob));
+      var v=_url.split("/");
+      var n=v.pop()||v.pop()
+
+      var t=n.split(".").pop()||"";
+      if(["jpg","png","svg","bmp","gif","jpeg","ico"].includes(t)){
+        t="image/"+t;
+      }else if("txt"==t){
+        t="plant/text"
+      }else{
+        t="application/"+t;
+      }
+      return [{
+        size:str.length,
+        name:n,
+        base64Link:"data:"+t+";base64,"+_b64EncodeUnicode(str),
+        lastModified:Date.now(),
+        lastModifiedDate:new Date(),
+        webkitRelativePath:"",
+        type:t
+      }];
+    }
+    function _handleCodePoints(array) {
+      var CHUNK_SIZE = 0x8000; // arbitrary number here, not too small, not too big
+      var index = 0;
+      var length = array.length;
+      var result = '';
+      var slice;
+      while (index < length) {
+        slice = array.slice(index, Math.min(index + CHUNK_SIZE, length)); // `Math.min` is not really necessary here I think
+        result += String.fromCharCode.apply(null, slice);
+        index += CHUNK_SIZE;
+      }
+      return result;
+    }
+
+    function _b64EncodeUnicode(str) {
+      try{
+        return btoa(str)
+      }catch(e){
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+            function toSolidBytes(match, p1) {
+                return String.fromCharCode('0x' + p1);
+        }));
+      }
+    }
   },
   getScreenshot:function(bkScope,bkFun,d,t){
     let offset={
