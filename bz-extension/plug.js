@@ -2786,7 +2786,7 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
     }
     return w
   },
-  _toCamelWords:function(w){
+  _toCamelWords:function(w,_chkUpperCase){
     w=(w||"").toString().trim()
     if(w){
       w= w.split(/[^\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]]|_+| +|-+/).map((v,i)=>{
@@ -2796,7 +2796,9 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
           return v
         }
       }).join("")
-      
+      if(_chkUpperCase&&w[0]==w[0].toUpperCase()&&w[1]&&w[1]==w[1].toUpperCase()){
+        return w
+      }
       w=w[0].toLowerCase()+w.substring(1)
       return w
     }
@@ -7214,6 +7216,109 @@ var _Dialog={
     }
     return _xml
   },
+  xmlToJson:function(x) {
+    let j = {},cj,ps=[j],k;
+    let xo=x.match(/<[^< \n>]+(>| |\n)/g);
+
+    if(xo){
+      xo.forEach(o=>{
+        let i=x.indexOf(o)
+        if(i){
+          let xx=x.substring(0,i).trim();
+          x=x.substring(i)
+          if(xx[xx.length-1]==">"){
+            xx=xx.substring(0,xx.length-1).trim()
+            _addNode(k)
+            k=""
+            if(xx.endsWith("/")){
+              xx=xx.substring(0,xx.length-1).trim()
+              _parseProperties(xx,j)
+              ps.shift()
+              j=ps[0]
+            }else{
+              _parseProperties(xx,j)
+            }
+          }else{
+            if($.isNumeric(xx)){
+              j[k]=parseFloat(xx)
+            }else{
+              j[k]=xx
+            }
+            k=""
+          }
+        }
+        x=x.substring(o.length).trim()
+
+        if(o[0]=="<"){
+          o=o.substring(1)
+        }
+        if(o[o.length-1]==">"){
+          o=o.substring(0,o.length-1)
+        }
+        if(o[o.length-1]=="/"){
+          return
+        }
+        if(o[0]=="/"){
+          o=_glossaryHandler._getVariableName(o.substring(1),0,1)
+          if(ps[1]&&(ps[1][o]==j||(ps[1][o]&&ps[1][o].constructor==Array&&ps[1][o].includes(j)))){
+            ps.shift()
+            j=ps[0]
+          }
+          return
+        }else{
+          if(k){
+            _addNode(k)
+          }
+          k=_glossaryHandler._getVariableName(o,0,1)
+        }
+      })
+    }
+    return j;
+
+    function _addNode(k){
+      let d={}
+      if(j[k]){
+        if(j[k].constructor!=Array){
+          j[k]=[j[k]]
+        }
+        j[k].push(d)
+      }else{
+        j[k]=d
+      }
+      j=d
+      ps.unshift(d)
+    }
+
+    function _parseProperties(xx,j){
+      let xxo=xx.match(/[^\s=]+=\s*"/g)
+      if(xxo){
+        let k;
+        xxo.forEach(o=>{
+          if(k){
+            let i=xx.indexOf(o)
+            let v=xx.substring(0,i)
+            xx=xx.substring(i)
+            _parseValue(v,j,k)
+          }
+          xx=xx.substring(o.length)
+          o=o.substring(0,o.length-1).trim()
+          o=o.substring(0,o.length-1)
+          k=o=_glossaryHandler._getVariableName(o,0,1)
+        })
+        _parseValue(xx,j,k)
+      }
+    }
+
+    function _parseValue(v,j,k){
+      v=v.trim()
+      if(v){
+        j[k]=v.substring(0,v.length-1)
+        if($.isNumeric(j[k])){
+          j[k]=parseFloat(j[k])
+        }
+      }
+    }
+  },
   getHostIdxByUrl:function(_url){
     _url=_url||location.href
     return _IDE._data._setting.environments[_IDE._data._setting.curEnvironment].items.findIndex(x=>_Util._isSameHost(x.host,_url))
@@ -8324,36 +8429,38 @@ var _Dialog={
       return $util.triggerMouseEvents(o,"click",0,0,0,0,0,_fun)
     }
     $(o).focus();
-    $util.triggerKeyEvent(o,"keydown",k,ch,c,a,s)
-    _exe("_keydownDone",function(){
-      if((!c && !a) || _Util._checkBrowserType().name=="firefox"){
-        if(_Util._isHidden(o)){
-          return _finalFun()
-        }
-        $util.triggerKeyEvent(o,"keypress",k,ch,c,a,s)
-        _exe("_keypressDone",function(){
-        if(_Util._isHidden(o)){
-          return _finalFun()
-        }
-          $util.triggerKeyEvent(o,"textInput",k,ch,c,a,s);
-        if(_Util._isHidden(o)){
-          return _finalFun()
-        }
-          $util.triggerKeyEvent(o,"input",k,ch,c,a,s);
-        if(_Util._isHidden(o)){
-          return _finalFun()
-        }
-          $util.triggerKeyEvent(o,"keyup",k,ch,c,a,s);
-          if(k==9 && ["INPUT","SELECT","A","LINK","BUTTON","TEXTAREA"].includes(o.tagName)){
-            _Util._focusNextByTab(o)
+    setTimeout(()=>{
+      $util.triggerKeyEvent(o,"keydown",k,ch,c,a,s)
+      _exe("_keydownDone",function(){
+        if((!c && !a) || _Util._checkBrowserType().name=="firefox"){
+          if(_Util._isHidden(o)){
+            return _finalFun()
           }
+          $util.triggerKeyEvent(o,"keypress",k,ch,c,a,s)
+          _exe("_keypressDone",function(){
+          if(_Util._isHidden(o)){
+            return _finalFun()
+          }
+            $util.triggerKeyEvent(o,"textInput",k,ch,c,a,s);
+          if(_Util._isHidden(o)){
+            return _finalFun()
+          }
+            $util.triggerKeyEvent(o,"input",k,ch,c,a,s);
+          if(_Util._isHidden(o)){
+            return _finalFun()
+          }
+            $util.triggerKeyEvent(o,"keyup",k,ch,c,a,s);
+            if(k==9 && ["INPUT","SELECT","A","LINK","BUTTON","TEXTAREA"].includes(o.tagName)){
+              _Util._focusNextByTab(o)
+            }
+            _finalFun()
+          })
+        }else{
+          $util.triggerKeyEvent(o,"keyup",k,ch,c,a,s);
           _finalFun()
-        })
-      }else{
-        $util.triggerKeyEvent(o,"keyup",k,ch,c,a,s);
-        _finalFun()
-      }
-    })
+        }
+      })
+    },1)
     function _exe(k,_next,_timer){
       _timer=_timer||Date.now()
       if(o[k]||Date.now()-_timer>50){
@@ -18464,6 +18571,8 @@ window._uiHandler={
             }else{
               s.length?_ideActionManagement._deleteItems(s):_ideTestManagement._deleteTestOrActions(t)
             }
+          }else if(s[0]&&s[0].code[0]=="m"){
+            _ideModuleManagement._deleteItems(s)
           }else if(m){
             _ideTestManagement._deleteItems(s)
           }else{
@@ -53722,7 +53831,9 @@ var _testCaseBodyHandler={
             _dataModel:"_data.method",
             _text:"_data._item",
             _value:"_data._item",
-            _dataRepeat:["GET","POST","PUT","DELETE","OPTIONS","PATCH"]
+            _dataRepeat:function(){
+              return ["GET","POST","PUT","DELETE","OPTIONS","PATCH"]
+            }
           },
           //host
           {
@@ -71621,7 +71732,7 @@ var _aiWordHandler={
     }
     return v
   },
-  _getVariableName:function(w,_keepDash){ 
+  _getVariableName:function(w,_keepDash,_chkUpperCase){ 
     if(w){
       if(w.toUpperCase()==w){
         w=w.toLowerCase()
@@ -71634,7 +71745,7 @@ var _aiWordHandler={
       if(_keepDash){
         return v.replace(" ","")
       }
-      return _Util._toCamelWords(v.replace(/_+/g," "))
+      return _Util._toCamelWords(v.replace(/_+/g," "),_chkUpperCase)
     }else{
       return ""
     }
@@ -77789,6 +77900,7 @@ var _ideActionManagement={
     return vs.length>1 || (_group && vs.length)
   },
   _setCurAction:function(a){
+    BZ._data._uiSwitch._apiRequest=0
     if(!BZ._isPlaying()){
       let o=_IDE._data._curAction
       if(window._testTabHandler&&o&&a&&a.type==3&&o.type!=3){
@@ -81699,6 +81811,7 @@ window.bzTwComm={
     return bzTwComm._tmpId++
   },
   setAppInfo:function(d){
+    debugger
     Object.assign(bzTwComm,d)
   },
   _getWorld:function(){
