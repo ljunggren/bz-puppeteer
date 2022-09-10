@@ -81811,7 +81811,6 @@ window.bzTwComm={
     return bzTwComm._tmpId++
   },
   setAppInfo:function(d){
-    debugger
     Object.assign(bzTwComm,d)
   },
   _getWorld:function(){
