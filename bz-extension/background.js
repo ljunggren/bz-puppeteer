@@ -281,9 +281,6 @@ let funMap={
   registerTab:function(_msg,t,_sendResponse){
     if(_msg.name.includes("bz-client")||appId==t.tab.id){
       let v
-      if(t.url.includes("boozang.com")){
-        return alert("Testing on Boozang sites not supported!");
-      }
 
       // appListenerMap[t.frameId]=funMap.addListener()
       funMap.log("Register App ...")
