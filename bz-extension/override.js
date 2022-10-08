@@ -1835,7 +1835,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
   _trimSign:/(^[^\(\[\{\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+|[^\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC\)\]\}]+$)/g,
   _dataRegex:/(((\$(project|module|test|loop|data|group|action|parameter)((\.|\[|$)([a-zA-Z0-9\u4E00-\u9FCC_\$\'\"\(\)]+[\.|\[|\]]*)*)*|(\'|\").*(\'|\"))+( *(\+|\-|\*|\/) *)*)+)/g,
   _eval:function(v,_map){
-    if(_eval._isBzData(v)||bzTwComm._isExtension()){
+    if(_eval._isBzData(v)||bzTwComm._isExtension()||window.name!="bz-master"){
       return _eval._exeCode(v,_map)
     }else{
       _map=_map||{}
@@ -2753,7 +2753,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
     w="oo"
     result:"lwsoo ok"
   */
-  _ajax:function(a){
+  _ajax:function(a,_proxy){
     a.async=!!a.async
     _Util._handleRequestData(a.data)
     let _jsonData
@@ -2761,6 +2761,24 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
       a.query=v
       $util.generateDataByRegex(a.data,0,(v)=>{
         a.data=v
+        if(_proxy){
+          a={
+            url:_proxy,
+            method:"POST",
+            headers:{
+              "content-type":"application/json"
+            },
+            data:{
+              method:a.method,
+              url:a.url,
+              data:a.data,
+              headers:a.headers
+            },
+            complete:a.complete,
+            async:a.async
+          }
+          return _doIt()
+        }
         _doIt()
       })
     })
@@ -2781,23 +2799,25 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
         }
         return
       }
-      if(_jsonData){
-        if(!a.contentType||a.contentType.toLowerCase().includes("json")){
-          a.data=JSON.stringify(a.data)
-        }else if(a.contentType.toLowerCase().includes("form")&&_Util._isJsonValueString(_jsonData)){
-          _jsonData=_Util._strToJson(_jsonData)
-          if(_jsonData.constructor==Object){
-            _jsonData=a.data=_Util._objToAPIParameter(_jsonData)
+      try{
+        if(_jsonData){
+          if(!a.contentType||a.contentType.toLowerCase().includes("json")){
+            a.data=JSON.stringify(a.data)
+          }else if(a.contentType.toLowerCase().includes("form")&&_Util._isJsonValueString(_jsonData)){
+            _jsonData=_Util._strToJson(_jsonData)
+            if(_jsonData.constructor==Object){
+              _jsonData=a.data=_Util._objToAPIParameter(_jsonData)
+            }
           }
         }
+      }catch(ex){
+        a.complete({message:ex.stack})
       }
-      
-      
       
       if(bzTwComm._isIDE()){
         XMLHttpRequest.prototype._XMLHttpRequestSend=XMLHttpRequest.prototype.send
         XMLHttpRequest.prototype.send=function(v){
-          a.data=v
+          a.data=v||a.data
           this.abort()
           XMLHttpRequest.prototype.send=XMLHttpRequest.prototype._XMLHttpRequestSend
           delete XMLHttpRequest.prototype._XMLHttpRequestSend
@@ -11827,6 +11847,7 @@ tbody td:first-child,tbody td:last-child{
     var a=_Util._clone(aa[i]),_returnData,
         _timerout
     if(a){
+      let _proxy=_IDE._data._setting.advanced[a.host||0].apiProxy
       if(a.disable){
         return _domActionTask._exeAPI(aa,_async,i+1,_fun,_result)
       }
@@ -11929,8 +11950,8 @@ tbody td:first-child,tbody td:last-child{
       })){
         return alert("Not support")
       }
-
-      _Util._ajax(a)
+      _timerout=-1
+      _Util._ajax(a,_proxy)
 
       _timerout=setTimeout(()=>{
         _result._type=1

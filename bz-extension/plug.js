@@ -652,7 +652,7 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
   _trimSign:/(^[^\(\[\{\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+|[^\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC\)\]\}]+$)/g,
   _dataRegex:/(((\$(project|module|test|loop|data|group|action|parameter)((\.|\[|$)([a-zA-Z0-9\u4E00-\u9FCC_\$\'\"\(\)]+[\.|\[|\]]*)*)*|(\'|\").*(\'|\"))+( *(\+|\-|\*|\/) *)*)+)/g,
   _eval:function(v,_map){
-    if(_eval._isBzData(v)||bzTwComm._isExtension()){
+    if(_eval._isBzData(v)||bzTwComm._isExtension()||window.name!="bz-master"){
       return _eval._exeCode(v,_map)
     }else{
       _map=_map||{}
@@ -1570,7 +1570,7 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
     w="oo"
     result:"lwsoo ok"
   */
-  _ajax:function(a){
+  _ajax:function(a,_proxy){
     a.async=!!a.async
     _Util._handleRequestData(a.data)
     let _jsonData
@@ -1578,6 +1578,24 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
       a.query=v
       $util.generateDataByRegex(a.data,0,(v)=>{
         a.data=v
+        if(_proxy){
+          a={
+            url:_proxy,
+            method:"POST",
+            headers:{
+              "content-type":"application/json"
+            },
+            data:{
+              method:a.method,
+              url:a.url,
+              data:a.data,
+              headers:a.headers
+            },
+            complete:a.complete,
+            async:a.async
+          }
+          return _doIt()
+        }
         _doIt()
       })
     })
@@ -1598,23 +1616,25 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
         }
         return
       }
-      if(_jsonData){
-        if(!a.contentType||a.contentType.toLowerCase().includes("json")){
-          a.data=JSON.stringify(a.data)
-        }else if(a.contentType.toLowerCase().includes("form")&&_Util._isJsonValueString(_jsonData)){
-          _jsonData=_Util._strToJson(_jsonData)
-          if(_jsonData.constructor==Object){
-            _jsonData=a.data=_Util._objToAPIParameter(_jsonData)
+      try{
+        if(_jsonData){
+          if(!a.contentType||a.contentType.toLowerCase().includes("json")){
+            a.data=JSON.stringify(a.data)
+          }else if(a.contentType.toLowerCase().includes("form")&&_Util._isJsonValueString(_jsonData)){
+            _jsonData=_Util._strToJson(_jsonData)
+            if(_jsonData.constructor==Object){
+              _jsonData=a.data=_Util._objToAPIParameter(_jsonData)
+            }
           }
         }
+      }catch(ex){
+        a.complete({message:ex.stack})
       }
-      
-      
       
       if(bzTwComm._isIDE()){
         XMLHttpRequest.prototype._XMLHttpRequestSend=XMLHttpRequest.prototype.send
         XMLHttpRequest.prototype.send=function(v){
-          a.data=v
+          a.data=v||a.data
           this.abort()
           XMLHttpRequest.prototype.send=XMLHttpRequest.prototype._XMLHttpRequestSend
           delete XMLHttpRequest.prototype._XMLHttpRequestSend
@@ -9061,6 +9081,7 @@ for(k in $util){
     return _html;
   }
 };var _CtrlDriver={
+  bd:{"{":"}","[":"]","(":")","'":"'",'"':'"','`':'`'},
   _tmpValue:0,
   _curDomItem:null,
   _curSignedList:[],
@@ -9128,10 +9149,115 @@ for(k in $util){
     }
     return o;
   },
+  /**/
+  _findKeyOuterBlock:function(vs,tk,_start,bs,_noRegex){
+    bs=bs||_CtrlDriver.bd
+    let k,b,c,s;
+    _init()
+    if(vs.push){
+      vs=[...vs]
+    }
+    if(_start){
+      vs=vs.push?vs.splice(_start):vs.substring(_start)
+    }
+    for(let i=0;i<vs.length;i++){
+      c=vs[i]
+      if(c=="\\"){
+        b=!b
+      }else if(b){
+        b=0
+      }else if(!_noRegex&&k=="/"&&c=="/"){
+        _init()
+        continue
+      }else if(!_noRegex&&!k&&c=="/"&&(!s||s.trim().match(/[\(\[\=\?\:]$/))){
+        k="/"
+        continue
+      }else if(k){
+        if(k.r==c){
+          if(k.n){
+            k.n--
+          }else{
+            _init()
+          }
+        }else if(k.l==c){
+          k.n++
+        }
+        continue
+      }else if(bs[c]){ //([{
+        k={l:c,r:bs[c],n:0,p:{k:c}}
+      }
+      s.push?s.push(c):s+=c;
+
+      let kk=_isKey(s,c)
+      if(kk){
+        if(vs.pop){
+          return {
+            e:vs.splice(i+1),
+            p:vs.splice(0,i),
+            k:kk
+          }
+        }
+        return {
+          p:vs.substring(0,i-kk.length+1),
+          k:kk,
+          e:vs.substring(i+1)
+        }
+      }
+    }
+
+    function _init(){
+      k=0
+      s=vs.constructor==Array?[]:"";
+    }
+
+    function _isKey(s,c){
+      if(tk.constructor==Function){
+        return tk(s)
+      }else if(tk.constructor==RegExp){
+        s=s.match(tk)
+        return s&&s[0]
+      }
+      return (tk==s||tk==c)&&tk
+    }
+  },
+  _parseViewDef:function(s){
+    if(s&&s.constructor==String){
+      let d={}
+      s=_parseXML(s,d)
+    }
+    return s
+
+    function _parseXML(s){
+      s=s.trim()
+      let p=_CtrlDriver._findKeyOuterBlock(s,">")
+
+    }
+
+    function _parseProperties(s,d){
+      s=s.trim()
+      let p=s.match(/^([^=]+)=/)
+      if(p){
+        s=s.substring(p[0].length).trim()
+        if(s[0].match(/['"]/)){
+          
+        }
+        p=p[1].trim()
+        d._attr=d._attr||{}
+        d[p]=v
+        _parseProperties(s,d)
+      }
+    }
+
+    function _throwError(){
+      throw new Error(_bzMessage._system._error._formatError+s.substring(0,100)+(s.length>100?" ...":""))
+    }
+  },
+  /**/
   _execute:function(_ctrl,_data,_viewDef,_box){
     _doc=_ctrl._document||document;
     _data = _data || _ctrl._data || {};
     _viewDef=_viewDef || _ctrl._viewDef;
+    // _viewDef=_CtrlDriver._parseViewDef(_viewDef);
     _box=_box || _ctrl._area || (_doc==document?_doc.body:_CtrlDriver._createBZArea(_doc));
     if(!_ctrl._data){
       _ctrl._data=_data;
@@ -30914,6 +31040,7 @@ var $data=function(m,t,init){
     var a=_Util._clone(aa[i]),_returnData,
         _timerout
     if(a){
+      let _proxy=_IDE._data._setting.advanced[a.host||0].apiProxy
       if(a.disable){
         return _domActionTask._exeAPI(aa,_async,i+1,_fun,_result)
       }
@@ -31016,8 +31143,8 @@ var $data=function(m,t,init){
       })){
         return alert("Not support")
       }
-
-      _Util._ajax(a)
+      _timerout=-1
+      _Util._ajax(a,_proxy)
 
       _timerout=setTimeout(()=>{
         _result._type=1
@@ -60026,7 +60153,7 @@ var _aiPageHandler={
     if(!_tabs.includes(t)){
       t="_try"
     }else if(d.method=="GET"){
-      _tabs.splice(4,1)
+//      _tabs.splice(4,1)
       if(t=="_body"){
         t="_query"
       }
