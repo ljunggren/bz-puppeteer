@@ -159,8 +159,6 @@ function start(reset){
     }
     
     url=url.replace("#","&docker=1#")
-    
-    console.log("url: "+url)
 
     let inService=0;
     console.log("Browser URL: "+url)
@@ -203,6 +201,7 @@ function start(reset){
 
     const version = await page.browser().version();
     console.log("Running Chrome version: " + version);
+    console.log("Browser URL: "+url)
     const response = await page.goto(url);
 
     page.on("error", idePrintStackTrace);
