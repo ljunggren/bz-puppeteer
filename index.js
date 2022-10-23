@@ -23,7 +23,8 @@ const opts = {
   "keepalive": false,
   "testreset":false,
   "loglevel": "debug",
-  "debugIDE":false
+  "debugIDE":false,
+  proxy:false
 }
 
 // Remove the first two arguments, which are the 'node' binary and the name
@@ -39,6 +40,7 @@ const listscenarios=opts.listscenarios;
 const listsuite=opts.listsuite;
 const debugIDE=opts.debugIDE;
 const sleep=opts.sleep;
+const proxy=opts.proxy;
 
 let keepalive=opts.keepalive;
 let testReset=opts.testreset;
@@ -214,3 +216,14 @@ setTimeout(()=>{
   console.log("Finished sleep!")
   start()
 },sleep*1000)
+
+
+if(proxy){
+  startProxy()
+}
+
+function startProxy(){
+  const express = require('./proxy/express')
+
+  express();
+}
