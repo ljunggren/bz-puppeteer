@@ -11,7 +11,7 @@ global.ioHttp=null;
 // Create a new error handling controller method
 
 // Define the Express configuration method
-module.exports = function() {
+module.exports = function(port) {
   // Create a new Express application instance
   var app = express();
 
@@ -41,10 +41,10 @@ module.exports = function() {
   require('./serverApp/routes/indexRoutes.js')(app);
   app.use(express.static('./public'));
 
-  initHttp(app)
+  initHttp(app,port)
 };
 
-function initHttp(app){
+function initHttp(app,port){
   var httpServer = http.createServer(app);
-  httpServer.listen(8080)
+  httpServer.listen(port)
 }

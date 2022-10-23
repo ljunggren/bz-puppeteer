@@ -49,7 +49,7 @@ const file = opts.file;
 const logLevel=opts.loglevel;
 
 if (result.errors || !result.args || result.args.length !== 1) {
-  console.log('USAGE: boozang [--token] [--docker] [--keepalive] [--testreset] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [url]');
+  console.log('USAGE: boozang [--token] [--docker] [--keepalive] [--testreset] [--verbose] [--userdatadir] [--listscenarios] [--listsuite] [--width] [--height] [--screenshot] [--file=report] [--proxy] [url]');
   process.exit(2);
 }
 
@@ -224,6 +224,9 @@ if(proxy){
 
 function startProxy(){
   const express = require('./proxy/express')
-
-  express();
+  let port=parseInt(proxy)
+  if(!port||port<80){
+    port=8080
+  }
+  express(port);
 }
