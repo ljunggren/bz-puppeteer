@@ -652,7 +652,7 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
   _trimSign:/(^[^\(\[\{\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+|[^\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC\)\]\}]+$)/g,
   _dataRegex:/(((\$(project|module|test|loop|data|group|action|parameter)((\.|\[|$)([a-zA-Z0-9\u4E00-\u9FCC_\$\'\"\(\)]+[\.|\[|\]]*)*)*|(\'|\").*(\'|\"))+( *(\+|\-|\*|\/) *)*)+)/g,
   _eval:function(v,_map){
-    if(_eval._isBzData(v)||bzTwComm._isExtension()||window.name!="bz-master"){
+    if(_eval._isBzData(v)||bzTwComm._isExtension()){
       return _eval._exeCode(v,_map)
     }else{
       _map=_map||{}
@@ -1542,8 +1542,11 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
       $(o).fadeOut(i/2).fadeIn(i/2)
     }
   },
+  _inSelectOption:function(v){
+    return v.tagName=="OPTION"&& (v.parentElement.tagName=="SELECT"||(v.parentElement.parentElement&&v.parentElement.parentElement.tagName=="SELECT"))
+  },
   _isIgnoreElement:function(v){
-    return ["HTML","SCRIPT","LINK","HEAD","META","BASE","STYLE","BR","HR","OPTION"].includes(v.tagName)
+    return ["HTML","SCRIPT","LINK","HEAD","META","BASE","STYLE","BR","HR"].includes(v.tagName)||_Util._inSelectOption(v)
   },
   _isObjOrArray:function(v){
     return v&&[Array,Object].includes(v.constructor)
@@ -3238,7 +3241,7 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
     }
   },
   _isNoTextElement:function(e){
-    return ["TEXTAREA","SELECT","OPTION","IFRAME","SVG","LINK","TITLE","META","SCRIPT","STYLE","HEAD","HTML"].includes(e.tagName.toUpperCase())
+    return ["TEXTAREA","SELECT","IFRAME","SVG","LINK","TITLE","META","SCRIPT","STYLE","HEAD","HTML"].includes(e.tagName.toUpperCase())||_Util._inSelectOption(e)
   },
   _isNoVisibleElement:function(e){
     return ["OPTION","IFRAME","SVG","LINK","TITLE","META","SCRIPT","STYLE","HTML","HEAD"].includes(e.tagName.toUpperCase())
@@ -11296,7 +11299,7 @@ for(k in $util){
           let _idx=v.lastIndexOf("/"),op=v.substring(_idx+1)
           r=new RegExp(v.substring(1,_idx),op)
           rs.push(r)
-        }else if($.isNumeric(v)){
+        }else if(_eval._isNumeric(v)){
           rs.push(JSON.parse(v))
         }else if(_eval._isSign(v[0])){
           rs.push(v)
@@ -11568,12 +11571,16 @@ for(k in $util){
       }
     })
   },
+  _isNumeric:function(a){
+    var b = a && a.toString();
+    return (!a||a.constructor!=Array) && b - parseFloat(b) + 1 >= 0
+  },
   _getValue:function(n,_outMap,_inMap){
     let ns=n.split("."),_map;
     n=ns.shift()
     if(n=="eval"){
       return _eval._buildBzData(_eval._exeCode,_eval,"_exeCode");
-    }else if($.isNumeric(n)||n.match(/^['"`].*[`"']$/)){
+    }else if(_eval._isNumeric(n)||n.match(/^['"`].*[`"']$/)){
       let nn=_eval._getTmpDataName()
       _outMap[nn]=_eval._exeCode(n)
       n=nn
@@ -18619,6 +18626,9 @@ window._uiHandler={
         },
         _disable:function(){
           let a=_IDE._data._curAction
+          if(!a){
+            return
+          }
           if(_uiSwitch._selectedItems.length&&BZ._isCheckout()){
             if(a.type!=7){
               a=_ideActionManagement._getPreAction(a)
@@ -19944,6 +19954,7 @@ window._uiHandler={
                           d=d._item.code
                           let v=eval(_getModelValue())
                           if(v==d||d==_filter._curItem){
+                            debugger
                             v=" active"
                           }else{
                             v=""
@@ -24054,7 +24065,7 @@ var _elementMonitor={
       v=v||""
       v=v.toLowerCase()
 
-      return v&&!wm.find(x=>{
+      return wm&&v&&!wm.find(x=>{
         if(x=="."){
         }else if(x[0]=="!"){
           return v.includes(x.substring(1))
@@ -28533,7 +28544,7 @@ var $data=function(m,t,init){
         return _tagName=="SELECT" || !_cssHandler._getParentSelect(d);
       }
     }
-    return _tagName=="OPTION";
+    return _Util._inSelectOption(d)
   },
   _insertPrepareChange:function(){
     if(this._prepareChange){
@@ -29159,7 +29170,12 @@ var $data=function(m,t,init){
       }
       delete v.host
 
-      v.url=_JSHandler._prepareData(v.url,0,2,_parameter)
+      let _url=_JSHandler._prepareData(v.url,0,2,_parameter)
+      if(!_url||!_url.split){
+        alert("Skipped by empty data on url: "+v.url)
+        return
+      }
+      v.url=_url
       let q=v.query
       if(q&&q.constructor!=Object){
         eval("q="+q)
@@ -33530,8 +33546,8 @@ var _tmpLoopDatahandler={
         d.contentType=r.headers["Content-Type"]||r.headers["content-type"]||r.headers["Accept"]||r.headers["accept"]
       }
       rr.push(d)
-      delete (r.headers||{})["Content-Type"]
-      delete (r.headers||{})["content-type"]
+      // delete (r.headers||{})["Content-Type"]
+      // delete (r.headers||{})["content-type"]
     })
     return rr
   },
@@ -60235,6 +60251,17 @@ var _aiPageHandler={
                 ],
                 _dataModel:"_data.host"
               },
+              {
+                _if:function(){
+                  let d=_IDE._data._setting.advanced[BZ._data._uiSwitch._apiRequest.host]
+                  return d&&d.apiProxy
+                },
+                _tag:"button",
+                _attr:{
+                  class:"btn btn-icon bz-warning bz-small-btn bz-top-space-5",
+                  title:"_Util._formatMessage(_bzMessage._api._proxyWarning,_IDE._data._setting.advanced[BZ._data._uiSwitch._apiRequest.host].apiProxy)"
+                }
+              },
               //As std-api function
               _ideTestManagement._getAsApiFunViewDef()
             ],
@@ -67937,7 +67964,7 @@ var _aiWordHandler={
       }
     }
     _doFinal()
-    if(_simple!=4&&_data.oe!=_data.ee&&o._text&&_data.oe.tagName!="CANVAS"){
+    if(_simple!=4&&_data.oe!=_data.ee&&o._text&&_data.oe.tagName!="CANVAS"&&!_cssHandler._isInShadowDom(_data.oe)){
       if(!pps.find(x=>{return x._type=="text"})){
         pps.unshift({_type:"text",_value:o._text});
       }
@@ -71194,6 +71221,7 @@ var _aiWordHandler={
           p=1
         }
       }
+      // if(!p||(_orgElement&&_Util._getElementRoot(_orgElement)!=document.body) && this._filterTextInEndList(_result,e,0,_orgElement)){
       if(!p && this._filterTextInEndList(_result,e,0,_orgElement)){
         return _result._endList;
       }
@@ -77540,7 +77568,7 @@ var _ideActionManagement={
       h.find((x,i)=>{
         if(x._key=="Content-Type"){
           _Util._eval("d.contentType="+x._value,{d:d})
-          h.splice(i,1)
+          // h.splice(i,1)
           return 1
         }
       })
@@ -79054,9 +79082,15 @@ var _ideActionManagement={
       }
 
       var _idx=t.actions.indexOf(a)+1,
-          _newSelect=_Util._clone(_items);
+          _newSelect=_Util._clone(_items),
+          _set=new Set(t.actions.map(x=>x.id));
 
       _newSelect.forEach((a,i)=>{
+        a.id=a.id||1
+        while(_set.has(a.id)){
+          a.id+=1
+        }
+        _set.add(a.id)
         t.actions.splice(i+_idx,0,a)
         _newSelect[i]=t.actions[i+_idx]
       })

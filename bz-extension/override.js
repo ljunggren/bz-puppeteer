@@ -374,7 +374,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
           let _idx=v.lastIndexOf("/"),op=v.substring(_idx+1)
           r=new RegExp(v.substring(1,_idx),op)
           rs.push(r)
-        }else if($.isNumeric(v)){
+        }else if(_eval._isNumeric(v)){
           rs.push(JSON.parse(v))
         }else if(_eval._isSign(v[0])){
           rs.push(v)
@@ -646,12 +646,16 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
       }
     })
   },
+  _isNumeric:function(a){
+    var b = a && a.toString();
+    return (!a||a.constructor!=Array) && b - parseFloat(b) + 1 >= 0
+  },
   _getValue:function(n,_outMap,_inMap){
     let ns=n.split("."),_map;
     n=ns.shift()
     if(n=="eval"){
       return _eval._buildBzData(_eval._exeCode,_eval,"_exeCode");
-    }else if($.isNumeric(n)||n.match(/^['"`].*[`"']$/)){
+    }else if(_eval._isNumeric(n)||n.match(/^['"`].*[`"']$/)){
       let nn=_eval._getTmpDataName()
       _outMap[nn]=_eval._exeCode(n)
       n=nn
@@ -1835,7 +1839,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
   _trimSign:/(^[^\(\[\{\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+|[^\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC\)\]\}]+$)/g,
   _dataRegex:/(((\$(project|module|test|loop|data|group|action|parameter)((\.|\[|$)([a-zA-Z0-9\u4E00-\u9FCC_\$\'\"\(\)]+[\.|\[|\]]*)*)*|(\'|\").*(\'|\"))+( *(\+|\-|\*|\/) *)*)+)/g,
   _eval:function(v,_map){
-    if(_eval._isBzData(v)||bzTwComm._isExtension()||window.name!="bz-master"){
+    if(_eval._isBzData(v)||bzTwComm._isExtension()){
       return _eval._exeCode(v,_map)
     }else{
       _map=_map||{}
@@ -2725,8 +2729,11 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
       $(o).fadeOut(i/2).fadeIn(i/2)
     }
   },
+  _inSelectOption:function(v){
+    return v.tagName=="OPTION"&& (v.parentElement.tagName=="SELECT"||(v.parentElement.parentElement&&v.parentElement.parentElement.tagName=="SELECT"))
+  },
   _isIgnoreElement:function(v){
-    return ["HTML","SCRIPT","LINK","HEAD","META","BASE","STYLE","BR","HR","OPTION"].includes(v.tagName)
+    return ["HTML","SCRIPT","LINK","HEAD","META","BASE","STYLE","BR","HR"].includes(v.tagName)||_Util._inSelectOption(v)
   },
   _isObjOrArray:function(v){
     return v&&[Array,Object].includes(v.constructor)
@@ -4421,7 +4428,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
     }
   },
   _isNoTextElement:function(e){
-    return ["TEXTAREA","SELECT","OPTION","IFRAME","SVG","LINK","TITLE","META","SCRIPT","STYLE","HEAD","HTML"].includes(e.tagName.toUpperCase())
+    return ["TEXTAREA","SELECT","IFRAME","SVG","LINK","TITLE","META","SCRIPT","STYLE","HEAD","HTML"].includes(e.tagName.toUpperCase())||_Util._inSelectOption(e)
   },
   _isNoVisibleElement:function(e){
     return ["OPTION","IFRAME","SVG","LINK","TITLE","META","SCRIPT","STYLE","HTML","HEAD"].includes(e.tagName.toUpperCase())
@@ -9966,7 +9973,12 @@ tbody td:first-child,tbody td:last-child{
       }
       delete v.host
 
-      v.url=_JSHandler._prepareData(v.url,0,2,_parameter)
+      let _url=_JSHandler._prepareData(v.url,0,2,_parameter)
+      if(!_url||!_url.split){
+        alert("Skipped by empty data on url: "+v.url)
+        return
+      }
+      v.url=_url
       let q=v.query
       if(q&&q.constructor!=Object){
         eval("q="+q)
@@ -15338,7 +15350,7 @@ tbody td:first-child,tbody td:last-child{
         return _tagName=="SELECT" || !_cssHandler._getParentSelect(d);
       }
     }
-    return _tagName=="OPTION";
+    return _Util._inSelectOption(d)
   },
   _insertPrepareChange:function(){
     if(this._prepareChange){
