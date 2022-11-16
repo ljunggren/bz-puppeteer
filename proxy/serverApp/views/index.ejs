@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html style="height:100%;">
+<head>
+  <base href="/">
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <script src="jquery-3.1.1.min.js"></script>
+  <link rel="icon" href="/favicon.ico">
+  <meta name="author" content="Wensheng Li"/>
+  <title>Boozang - Proxy</title>
+  <script>
+    function send(){
+      let v=getViewCode();
+      if(v){
+        let t=document.getElementById("target").value
+        $.ajax({
+          url:"/"+t,
+          method:"POST",
+          contentType:"application/json",
+          data:JSON.stringify(v)
+        }).done(function(d){
+          document.getElementById("result").value=JSON.stringify(d,0,2)
+        }).fail(function(d){
+          document.getElementById("result").value=JSON.stringify(d.responseJSON,0,2)
+        })
+
+      }
+    }
+
+    function changeTarget(){
+      let v=document.getElementById("target").value
+      document.getElementsByClassName("api-panel")[0].style.display="none"
+      document.getElementsByClassName("sql-panel")[0].style.display="none"
+      if(v=="api"){
+        document.getElementsByClassName("api-panel")[0].style.display=""
+      }else{
+        document.getElementsByClassName("sql-panel")[0].style.display=""
+      }
+    }
+
+    function getViewCode(){
+      try{
+        let t=document.getElementById("target").value
+        let v;
+        if(t=="api"){
+          v={
+            url:document.getElementById("url").value,
+            method:document.getElementById("method").value.trim(),
+            headers:document.getElementById("headers").value.trim(),
+            data:document.getElementById("data").value
+          }
+          if(!v.data){
+            delete v.data
+          }else{
+            eval("v.data="+v.data)
+          }
+          if(!v.headers){
+            delete v.headers
+          }else{
+            eval("v.headers="+v.headers)
+          }
+        }else{
+          v={
+            sql:document.getElementById("sql").value
+          }
+        }
+        return v
+      }catch(ex){
+        alert(ex.message)
+      }
+
+    }
+    function viewCode(){
+      let s=getViewCode()
+      let t=document.getElementById("target").value
+      document.getElementsByClassName("view-panel")[0].style.display=""
+      document.getElementById("view-code").value="url: "+location.href+t+"\n\nMethod:POST\n\nData:"+JSON.stringify(s,0,2)
+    }
+    function closeView(){
+      document.getElementsByClassName("view-panel")[0].style.display="none"
+    }
+  </script>
+  <style>
+    .api-panel,.sql-panel,.result-panel{
+      display: flex;
+      flex-direction: column;
+    }
+    span{
+      line-height:25px;
+    }
+    input{
+      height:20px;
+      padding: 1px 5px;
+    }
+    select{
+      height:26px;
+    }
+    textarea{
+      margin: 5px;
+      padding: 5px;
+      width:calc(100% - 17px);
+    }
+    button{
+      font-weight: bold;
+      height: 26px;
+      background: #009;
+      color: #FFF;
+      width: 80px;
+      border-radius: 5px
+    }
+  </style>
+</head>
+<body style="height:calc(100% - 20px);width:calc(100% - 20px);">
+  <div style="display: flex;flex-direction: column;height: 100%;">
+    <div style="margin: 0 5px;">
+      <select id="target" onchange="changeTarget()">
+        <option value="api">API</option>
+        <!--option value="oracle">Oracle</option>
+        <option value="mysql">MySQL</option>
+        <option value="mongodb">MongoDB</option-->
+      </select>
+      <a href="javascript:" onclick="viewCode()" style="float:right; font-size:9px; margin-left:20px;line-height: 30px;">View Request in JSON</a>
+      <button onclick="send()" style="float:right;">Send</button>
+    </div>
+    <div class="api-panel">
+      <div style="display:flex;padding: 5px 0 0 5px;">
+        <select id="method">
+          <option value="GET">GET</option>
+          <option value="POST">POST</option>
+          <option value="PUT">PUT</option>
+          <option value="DELETE">DELETE</option>
+          <option value="PATCH">PATCH</option>
+          <option value="OPTION">OPTIONS</option>
+        </select>
+        <input id="url" style="flex:1" placeholder="URL"/>
+      </div>
+      <textarea id="headers" style="height:100px;" placeholder="Headers"></textarea>
+      <textarea id="data" style="height:200px;" placeholder="Data"></textarea>
+    </div>
+    <div class="sql-panel" style="display: none;">
+      <textarea id="sql" style="height: 200px;" placeholder="SQL"></textarea>
+    </div>
+    <div class="result-panel" style="flex:1;display:flex;">
+      <textarea id="result" readonly style="flex:1;margin: 0 5px;" placeholder="Resule"></textarea>
+    </div>
+    <div class="view-panel" style="flex:1;display:none;position:absolute;top:0;bottom:0;left:0;right:0;background-color: #FFF;width:calc(100% - 5px);">
+      <button onclick="closeView()" style="float:right;">Close</button>
+      <textarea id="view-code" readonly style="flex:1;margin: 0 5px;width:calc(100% - 20px);height:calc(100% - 50px);" placeholder="Resule"></textarea>
+    </div>
+  </div>
+</body>
+</html>
