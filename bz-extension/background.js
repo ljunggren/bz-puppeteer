@@ -288,7 +288,6 @@ let funMap={
         appId=t.tab.id;
         _ctrlWindowId=t.tab.windowId;
         //to tell master the current client tab id
-        debugger
         v=funMap.buildBZRequestData("ide","bzTwComm","setAppInfo",[{appId:appId,appUrl:t.url}])
         trigger(v,ideId);
       }else{

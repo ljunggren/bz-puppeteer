@@ -7,8 +7,10 @@ function registerTab(){
     console.log("do register tab")
     chrome.runtime.sendMessage({registerTab: 1,name:window.name},function(_msg){
       if(_msg){
-        console.log("register tab success")
         bzTwComm.setAppInfo(_msg)
+        bzTwComm._postToIDE({c:"console.log('BZ-LOG: register tab success')"})
+        bzTwComm._postToIDE({_fun:"setAppInfo",_scope:"bzTwComm",_args:[_msg]})
+        bzTwComm._postToIDE({_fun:"_infoPageReady",_scope:"_extensionComm"})
       }else{
         console.log("register tab failed")
         createErrMark("Register tab failed")
