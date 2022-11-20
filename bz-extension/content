@@ -51,3 +51,13 @@ window.removeErrMark=function(){
     div.remove()
   }
 }
+
+function _focus(){
+  if(!document.body){
+    return setTimeout(()=>{
+      _focus()
+    },100)
+  }
+  document.body.focus()
+}
+_focus()

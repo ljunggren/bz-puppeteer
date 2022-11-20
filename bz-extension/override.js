@@ -2839,7 +2839,13 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
       $.ajax(a)
     }
     function _showInfo(_status,_msg){
-      _msg=_Util._formatMessage(_bzMessage._system._error._ajaxFailed,[_status,a.url,a.headers?JSON.stringify(a.headers,0,2):"",a.query?JSON.stringify(a.query,0,2):"",a.body?JSON.stringify(a.body,0,2):"",_msg])
+      _msg=_Util._formatMessage(_bzMessage._system._error._ajaxFailed,[
+        _status,
+        a.url,
+        a.headers?JSON.stringify(a.headers,0,2):"",
+        a.query?JSON.stringify(a.query,0,2):"",
+        a.body?JSON.stringify(a.body,0,2):"",
+        JSON.stringify(_msg,0,2).substring(0,200)])
       alert(_msg)
     }
     function _callExtensionBackgroud(){
@@ -2885,6 +2891,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
           }
           if(!BZ._isAutoRunning()){
             _showInfo(r.status,r.message||r.data)
+            BZ._data._uiSwitch._apiResultTab="_result"
           }
         }
       },"ajax",a)

@@ -1652,7 +1652,13 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
       $.ajax(a)
     }
     function _showInfo(_status,_msg){
-      _msg=_Util._formatMessage(_bzMessage._system._error._ajaxFailed,[_status,a.url,a.headers?JSON.stringify(a.headers,0,2):"",a.query?JSON.stringify(a.query,0,2):"",a.body?JSON.stringify(a.body,0,2):"",_msg])
+      _msg=_Util._formatMessage(_bzMessage._system._error._ajaxFailed,[
+        _status,
+        a.url,
+        a.headers?JSON.stringify(a.headers,0,2):"",
+        a.query?JSON.stringify(a.query,0,2):"",
+        a.body?JSON.stringify(a.body,0,2):"",
+        JSON.stringify(_msg,0,2).substring(0,200)])
       alert(_msg)
     }
     function _callExtensionBackgroud(){
@@ -1698,6 +1704,7 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
           }
           if(!BZ._isAutoRunning()){
             _showInfo(r.status,r.message||r.data)
+            BZ._data._uiSwitch._apiResultTab="_result"
           }
         }
       },"ajax",a)
@@ -60233,6 +60240,10 @@ var _aiPageHandler={
                       c+="background:#FFF;"
                     }
                     return c
+                  },
+                  title:function(){
+                    let _proxy=_IDE._data._setting.advanced[BZ._data._uiSwitch._apiRequest.host].apiProxy
+                    return _proxy?_Util._formatMessage(_bzMessage._api._proxyWarning,_proxy):""
                   }
                 },
                 _items:[
@@ -60242,25 +60253,23 @@ var _aiPageHandler={
                   },
                   {
                     _tag:"option",
-                    _attr:{value:"_data._idx"},
-                    _text:"'['+_data._item.name+'] '+_data._item.host",
+                    _attr:{
+                      value:"_data._idx"
+                    },
+                    _text:function(d){
+                      let _proxy=_IDE._data._setting.advanced[d._idx].apiProxy;
+                      if(_proxy){
+                        return '['+d._item.name+' (Proxy: '+_proxy+')] '+d._item.host
+                      }else{
+                        return '['+d._item.name+'] '+d._item.host
+                      }
+                    },
                     _dataRepeat:function(){
                       return _IDE._data._setting.environments[_IDE._data._setting.curEnvironment].items
                     }
                   }
                 ],
                 _dataModel:"_data.host"
-              },
-              {
-                _if:function(){
-                  let d=_IDE._data._setting.advanced[BZ._data._uiSwitch._apiRequest.host]
-                  return d&&d.apiProxy
-                },
-                _tag:"button",
-                _attr:{
-                  class:"btn btn-icon bz-warning bz-small-btn bz-top-space-5",
-                  title:"_Util._formatMessage(_bzMessage._api._proxyWarning,_IDE._data._setting.advanced[BZ._data._uiSwitch._apiRequest.host].apiProxy)"
-                }
               },
               //As std-api function
               _ideTestManagement._getAsApiFunViewDef()
@@ -60992,7 +61001,6 @@ var _aiPageHandler={
           setTimeout(()=>{
             _aiPageHandler._popAPIForm(d)
             BZ._data._uiSwitch._apiResultTab="_result"
-            BZ._data._uiSwitch._curDetailsTab="_try"
           },10)
         }
       },10)
@@ -79047,6 +79055,9 @@ var _ideActionManagement={
         fun&&fun()
       }
     });
+  },
+  _isSkippedResult:function(r){
+    return r._bzSkip||(r._data.type==4&&!r._data.refOfSuccess)
   },
   _paste:function(){
     let c=_IDE._data._clipData,
