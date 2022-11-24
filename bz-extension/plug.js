@@ -655,14 +655,21 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
     if(_eval._isBzData(v)||bzTwComm._isExtension()){
       return _eval._exeCode(v,_map)
     }else{
-      _map=_map||{}
-      let ks=Object.keys(_map)
-      for(let i=0;i<ks.length;i++){
-          let k=ks[i]
-          eval("var "+k+"=_map."+k)
+      try{
+        _map=_map||{}
+        let ks=Object.keys(_map)
+        for(let i=0;i<ks.length;i++){
+            let k=ks[i]
+            eval("var "+k+"=_map."+k)
+        }
+    
+        return eval(v)
+      }catch(ex){
+        if(ex.message.includes("unsafe-eval")){
+          return this._eval._exeCode(v,_map);
+        }
+        throw ex;
       }
-  
-      return eval(v)
     }
   },
   _isAPISucessStatus:function(v){
