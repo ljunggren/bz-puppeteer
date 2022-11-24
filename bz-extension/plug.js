@@ -82069,7 +82069,9 @@ window.bzTwComm={
           bzTwComm.appReady=1
           window.removeErrMark&&window.removeErrMark()
           console.log("page is ready")
-          bzTwComm._postToIDE({_fun:"_infoPageReady",_scope:"_extensionComm"});
+          if(bzTwComm._isExtension()){
+            bzTwComm._postToIDE({_fun:"_infoPageReady",_scope:"_extensionComm"});
+          }
         }
     
       }

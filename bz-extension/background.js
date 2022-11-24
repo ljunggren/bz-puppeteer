@@ -1,7 +1,7 @@
 importScripts('/ecMap.js');
 let list={},responseList={},appListenerMap={},resetTime
 let ideId,appId,_ctrlWindowId,initAppScript=[],
-    _status=newStatus=0,_lastExeActionReq,doingPopCtrl,_curTest,_data,_curAction,shareData={},_ctrlFrameId;
+    _status=newStatus=0,_lastExeActionReq,doingPopCtrl,_curTest,_data,shareData={},_ctrlFrameId;
 let lastErrPage=0,_loadPageInfo,assignfirmeCall,ignoreReqs="";
 let _lastIframeRequest=0,_dblCheckTime=0,extendTopScript="",extendEndScript="";
 let funMap={
