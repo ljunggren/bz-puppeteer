@@ -1885,7 +1885,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
   },
   _isFileData:function(v){
     try{
-      if(v && v.constructor==String&&v.includes("base64Link")){
+      if(v && v.constructor==String){
         v=_Util._eval("v="+v);
         v=v[0]
       }

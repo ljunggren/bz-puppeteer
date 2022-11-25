@@ -698,7 +698,7 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
   },
   _isFileData:function(v){
     try{
-      if(v && v.constructor==String&&v.includes("base64Link")){
+      if(v && v.constructor==String){
         v=_Util._eval("v="+v);
         v=v[0]
       }
