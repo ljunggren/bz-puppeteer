@@ -1861,7 +1861,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
     }
   },
   _isAPISucessStatus:function(v){
-    return v&&v<400
+    return v!="0"&&v&&v<400
   },
   _parseToExeCode:function(d,_toFunOnly){
     d=(d||"").trim()
@@ -1939,6 +1939,14 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
       console.clear()
     }
     return p
+  },
+  _getElementSimplePath:function(o){
+    let os=document.getElementsByTagName(o.tagName)
+    for(var i=0;i<os.length;i++){
+      if(os[i]==o){
+        return ["BZ.TW.document",o.tagName,i]
+      }
+    }
   },
   _highlightKeywordsInHTML:function(w,k,_match){
     k=(k||"").trim()
@@ -2874,6 +2882,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
           url:a.url,
           headers:a.headers
         }
+
         if(r.status!="error"&&_Util._isAPISucessStatus(r.status)){
           r.responseText=r.data
           _toData(r.data,function(ro){
@@ -3483,6 +3492,8 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
   _jsonToStr:function(s){
     if(s&&(s.constructor==Object||s.constructor==Array)){
       s=JSON.stringify(s,0,2)
+    }else if(s&&$.isNumeric(s)){
+      s=s+""
     }
     return s
   },
@@ -5765,8 +5776,8 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
     }else{
       d.write("<link rel='stylesheet' type='text/css' href='"+_host+"/ide/css/js-editor.css'>");
       d.write("<link rel='stylesheet' type='text/css' href='"+_host+"/ide/css/main.max.css'>");
-      d.write("<link rel='stylesheet' type='text/css' href='"+_host+"/ide/css/main.icons.css'>");
     }
+    d.write("<link rel='stylesheet' type='text/css' href='"+_host+"/ide/css/main.icons.css'>");
     d.write("<style>input{font-family: Courier;}\n#_content span{color:blue;}\nul input{border: 0;margin: 2px;}</style>");
 
     d.write("<link type='image/x-icon' href='"+_host+"/favicon.ico'>");
@@ -7450,6 +7461,264 @@ tbody td:first-child,tbody td:last-child{
       return os
     }
   },
+  //bz-test-code-start
+  _testExtractData:function(){
+    let d={
+      name:"name-1",
+      value:"value-1",
+      data:{
+        name:"name-2",
+        value:"value-2"
+      },
+      list:[
+        {
+          name:"name-3",
+          value:"value-3"
+        },
+        {
+          name:"name-4",
+          value:"value-4",
+          age:33
+        },
+        {
+          name:"name-5",
+          value:"value-5",
+          age:33
+        }
+      ]
+    },
+    ds=[{
+      name:"name-1",
+      value:"value-1",
+      data:{
+        name:"name-2",
+        value:"value-2"
+      },
+      list:[
+        {
+          name:"name-3",
+          value:"value-3"
+        },
+        {
+          name:"name-4",
+          value:"value-4",
+          age:33
+        },
+        {
+          name:"name-5",
+          value:"value-5",
+          age:33
+        }
+      ]
+    },{
+      name:"name-1",
+      value:"value-1",
+      data:{
+        name:"name-2",
+        value:"value-2"
+      },
+      list:[
+        {
+          name:"name-3",
+          value:"value-3"
+        },
+        {
+          name:"name-4",
+          value:"value-4",
+          age:33
+        },
+        {
+          name:"name-5",
+          value:"value-5",
+          age:33
+        }
+      ]
+    }]
+    _testData(d)
+    _testData(ds)
+    function _testData(d){
+      _showData(d,"name")
+      _showData(d,"name(Name)")
+      _showData(d,["name","value"])
+      _showData(d,["name(Name)","value(Value)"])
+      _showData(d,["*.name","*.value"])
+      _showData(d,["*(obj).name","*(obj).value"])
+      _showData(d,["*(obj1).name","*(obj2).value"])
+      _showData(d,{"*":["name","value"]})
+      _showData(d,{"*(obj)":["name(Name)","value(Value)"]})
+      _showData(d,{"+":["name","value"]})
+      _showData(d,{"+(obj)":["name(Name)","value(Value)"]})
+      _showData(d,{"*":[{"bz-if":{name:"name-4"}},"name","value"]})
+      _showData(d,{"*(array)":[{"bz-if":{name:"name-4"}},"name(Name)","value(Value)"]})
+      _showData(d,{"*":[{"bz-if":{name:"name-3"}},{"bz-if":{name:"name-4"}},"name","value"]})
+      _showData(d,{"*":[{"bz-if":{name:{match:/name-[0-9]+/}}},"name","value"]})
+    }
+
+    function _showData(d,k){
+      d=_Util._findValue(d,k)
+      console.log(__(d))
+    }
+  },
+  /**
+   * 1, "name1", "name1.name2","name1.*.name", name1 in top level, name2 under object of name1
+   * 2, ["name1","name2"], in any level
+   * 3, {name1:["name2","name3"]}, name1 is in the any leval, name2 and name3 are under name1, but in the any level
+   * 4, {name1:["name2","name3"]}, name1 is in the any leval, name2 and name3 are under name1, but in the any level
+   * 4, {name1:["name2","name3"]}, name1 is in the any leval, name2 and name3 are under name1, but in the any level
+   */
+  _findValue:function(v,ks){
+    if(!v||!ks){
+      return
+    }
+    let _keyMap={}
+    v=_Util._clone(v);
+    ks=_handleKey(ks);
+
+    if(ks.constructor!=Array){
+      ks=[ks]
+    }
+    
+    return _pickData(v,ks,1)
+    
+    function _pickData(v,ks,_root,_data){
+      if(_Util._isObjOrArray(v)&&ks.length){
+        if(v.constructor==Array){
+          return _pickArray(v,ks,_root)
+        }else{
+          _data=_data||{};
+          return _pickObj(v,ks,_root,_data)
+        }
+      }
+    }
+    function _pickObj(vv,ks,_root,_data){
+      _data=_data||{};
+
+      for(let i =0 ;i<ks.length;i++){
+        let k=ks[i];
+        if(k.constructor==String){
+          k=_findKey(k);
+          if(vv[k._key]!==undefined){
+            if(_data[k._name]===undefined){
+              _data[k._name]=vv[k._key]
+            }else{
+              if(_data[k._name].constructor!=Array){
+                _data[k._name]=[_data[k._name]]
+              }
+              _data[k._name].push(vv[k._key])
+            }
+            delete vv[k._key]
+          }
+          if(_root){
+            ks.splice(i--,1)
+          }
+        }else if(k.constructor==Array){
+          _pickData(vv,k,_root,_data)
+        }else{
+          if(k["bz-if"]){
+            if(!_isValidData(vv,k["bz-if"])){
+              return
+            }
+            continue
+          }
+          for(let kk in k){
+            kk=_findKey(kk)
+            if(kk._key=="*"){
+              _pickData(vv,k[kk._org],_root,_data)
+            }else if(kk._key=="+"){
+              if(!_root){
+                _pickData(vv,k[kk._org],0,_data)
+              }
+            }else{
+              if(vv[kk._key]){
+                let dd={}
+                _data[kk._name]=dd
+                _pickData(vv[kk._key],k[kk._org],0,dd)
+              }
+              if(_root){
+                delete k[kk._org]
+              }
+            }
+            if(d[kk]!==undefined){
+              _data[kk]=d[kk]
+            }
+          }
+        }
+      }
+
+      for(let kk in vv){
+        _pickData(vv[kk],ks,0,_data)
+      }
+
+
+      return _data
+    }
+
+    function _pickArray(vs,ks,_root){
+      return vs.map(x=>{
+        let kk=_Util._clone(ks)
+        return _pickData(x,kk,_root)
+      }).filter(x=>X!==undefined);
+    }
+
+    function _findKey(k){
+      let kk=_keyMap[k]
+      if(!kk){
+        kk=k.split("(")
+        if(kk.length>1){
+          kk={
+            _key:kk[0],
+            _name:kk[1].replace(")",""),
+            _org:k
+          }
+        }else{
+          kk={
+            _key:k,
+            _name:k,
+            _org:k
+          }
+        }
+        _keyMap[k]=kk
+      }
+      return kk
+    }
+
+    function _handleKey(k){
+      if(k.constructor==String){
+        k=k.split(".").map(x=>x.trim())
+        if(k.length>1){
+          let ko={}
+          let ok=ko,lk;
+          k.forEach((kk,ii)=>{
+            if(ii<k.length-1){
+              if(lk){
+                ok=ok[lk]
+              }
+              ok[kk]={}
+              lk=kk
+            }else{
+              ok[lk]=[kk]
+            }
+          })
+          return ko
+        }else{
+          return k[0]
+        }
+      }else if(k.constructor==Array){
+        return k.map(x=>_handleKey(x))
+      }else{
+        for(let kk in k){
+          if(kk!="bz-if"){
+            k[kk]=_handleKey(k[kk])
+          }
+        }
+        return k
+      }
+    }
+  },
+  _validJSON:function(v,d){
+
+  },
+  //bz-test-code-end
   _findDomWithPanels:function(d,ps,pp){
     var _idx=d.pop()
     if(!$.isNumeric(_idx)){
@@ -13123,8 +13392,10 @@ tbody td:first-child,tbody td:last-child{
           return _exe(es)
         }
         if(_Util._isInputObj(x,1)){
-          if(_isEditableInput(x)&&_value!="/{random}/"){
+          if(_value!==undefined&&_isEditableInput(x)&&_value!="/{random}/"){
             _curFun=_exeChange
+          // }else if(!_value){
+          //   return _end()
           }else{
             return _exe(es)
           }
@@ -17115,33 +17386,41 @@ tbody td:first-child,tbody td:last-child{
   },
   //triggerKeyEvents
   triggerKeyEvents:function(o,k,ch,c,a,s,_fun){ //c:ctrl, a:alt, s:shift
-    if(_Util._isSysButton(o)&&[13,32].includes(k)){
-      return $util.triggerMouseEvents(o,"click",0,0,0,0,0,_fun)
+        if(_Util._isSysButton(o)&&[13,32].includes(k)){
+            return $util.triggerMouseEvents(o,"click",0,0,0,0,0,_fun)
     }
     $(o).focus();
     setTimeout(()=>{
-      $util.triggerKeyEvent(o,"keydown",k,ch,c,a,s)
+            o._bzSetKeyPress=0;
+      try{
+        $util.triggerKeyEvent(o,"keydown",k,ch,c,a,s)
+      }catch(e){
+        _domActionTask._doLog("util: "+1345+" "+e.stack)
+      }
       _exe("_keydownDone",function(){
-        if((!c && !a) || _Util._checkBrowserType().name=="firefox"){
+                if((!c && !a) || _Util._checkBrowserType().name=="firefox"){
           if(_Util._isHidden(o)){
             return _finalFun()
           }
           $util.triggerKeyEvent(o,"keypress",k,ch,c,a,s)
-          _exe("_keypressDone",function(){
-          if(_Util._isHidden(o)){
-            return _finalFun()
-          }
+                    _exe("_keypressDone",function(){
+                        if(_Util._isHidden(o)){
+                            return _finalFun()
+            }
             $util.triggerKeyEvent(o,"textInput",k,ch,c,a,s);
-          if(_Util._isHidden(o)){
-            return _finalFun()
-          }
-            $util.triggerKeyEvent(o,"input",k,ch,c,a,s);
-          if(_Util._isHidden(o)){
-            return _finalFun()
-          }
-            $util.triggerKeyEvent(o,"keyup",k,ch,c,a,s);
-            if(k==9 && ["INPUT","SELECT","A","LINK","BUTTON","TEXTAREA"].includes(o.tagName)){
-              _Util._focusNextByTab(o)
+            if(_Util._isHidden(o)){
+                            return _finalFun()
+            }
+              $util.triggerKeyEvent(o,"input",k,ch,c,a,s);
+            if(_Util._isHidden(o)){
+              return _finalFun()
+            }
+            try{
+              $util.triggerKeyEvent(o,"keyup",k,ch,c,a,s);
+              if(k==9 && ["INPUT","SELECT","A","LINK","BUTTON","TEXTAREA"].includes(o.tagName)){
+                _Util._focusNextByTab(o)
+              }
+            }catch(ex){
             }
             _finalFun()
           })
@@ -17155,7 +17434,7 @@ tbody td:first-child,tbody td:last-child{
       _timer=_timer||Date.now()
       if(o[k]||Date.now()-_timer>50){
         o[k]=0
-        return _next()
+                return _next()
       }
       setTimeout(function(){
         _exe(k,_next,_timer)
@@ -17163,14 +17442,14 @@ tbody td:first-child,tbody td:last-child{
     }
     
     function _finalFun(){
-      _fun&&_fun()
+            _fun&&_fun()
     }
   },
   //triggerKeyEvent
   triggerKeyEvent:function(o,e,k,ch,c,a,s){
-      if(!o){
-        return
-      }
+    if(!o){
+      return
+    }
     $(o).focus()
     o._bzKey=ch
     o._bzKeyCode=k
@@ -17212,8 +17491,9 @@ tbody td:first-child,tbody td:last-child{
     }
     
     let _jsPath
+    o.focus()
     if(document.activeElement!=o){
-      o.bzTmp=_cssHandler._findPath(o)
+            o.bzTmp=_cssHandler._findPath(o)
       _Util._setFindDomJS(o)
       _jsPath=o._jsPath
     }else{
@@ -17231,6 +17511,9 @@ tbody td:first-child,tbody td:last-child{
          +"k.charCodeVal = "+(ch||0)+";"
          +"o.dispatchEvent(k);},0);"
     bzTwComm._postToApp({c:s})
+    setTimeout(()=>{
+      o._keydownDone=1
+    },10)
     
   },
   //o:element, e:event, b:button, x, y, c:ctrlKey, a:alt, s:shift, t:target,tr:dataTransfer
@@ -17434,43 +17717,56 @@ tbody td:first-child,tbody td:last-child{
           console.log(e.stack);
         }
         if(_withEnter){
-          return $util.triggerKeyEvents(o,13,0,false,false,false,function(){
-            _doFinal()
+                    return $util.triggerKeyEvents(o,13,0,false,false,false,function(){
+                        _doFinal()
           });
         }else if(_withSubmit){
           let _form=_Util._getParentElementByCss("form",o)
           if(_form){
+                        _doFinal()
             _form.submit()
+            return
           }
+                    _doFinal()
         }else if(!_noAutoSelect){
-          return _autoClickMenuAfterSetValue(v,o,_doFinal)
+                    return _autoClickMenuAfterSetValue(v,o,_doFinal)
         }else{
-          return _doFinal()
+                    return _doFinal()
         }
       }catch(eee){
+                _domActionTask._doLog("util: "+eee.stack)
         console.log(eee.stack);
+        _doFinal()
       }
     }
-    _doFinal()
+
+    // 
     function _doFinal(){
-      if(_blur){
-        $util.triggerBlurEvent(o);
+            if(_blur){
+                $util.triggerBlurEvent(o);
       }
-      _fun&&_fun()
+      _domActionTask._doLog("util: "+1709+(_fun?1:0))
+      if(_fun){
+        let _tmp=_fun
+        _fun=0
+        _tmp()
+      }
+      
     }
     function _autoClickMenuAfterSetValue(v,dom,_afterFun){
-      if(!_handleDiff(v,dom,_afterFun)){
+            if(!_handleDiff(v,dom,_afterFun)){
         if(!_Util._isHidden(dom)){
-          $util.triggerKeyEvents(dom,null,null,false,false,false,_afterFun);
+                    $util.triggerKeyEvents(dom,null,null,false,false,false,_afterFun);
         }else{
-          _afterFun&&_afterFun()
+                    _afterFun&&_afterFun()
         }
         setTimeout(()=>{
           if(!_Util._isHidden(dom)){
-            _handleDiff(v,dom)
+                        _handleDiff(v,dom)
           }
         },50)
-      }
+      }else{
+              }
     }
 
     function _handleDiff(v,dom,_afterFun){
@@ -17501,7 +17797,7 @@ tbody td:first-child,tbody td:last-child{
                 if(_Util._isInMenu(x,o)){
                   _domActionTask._doLog("Click menu: "+x.outerHTML)
                   $util.triggerMouseEvents(x,1,0,0,0,0,0,function(){
-                    $util.triggerKeyEvents(dom,null,null,false,false,false,_afterFun);
+                                        $util.triggerKeyEvents(dom,null,null,false,false,false,_afterFun);
                   })
                   return 1
                 }
@@ -17690,7 +17986,40 @@ tbody td:first-child,tbody td:last-child{
 //Remove output function content
 for(k in $util){
   $util[k].toString=function(){}
-};/*
+}
+
+  /**
+   * includes other element
+   */
+  jQuery.expr[":"].noCss=function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    let v=m[3].toLowerCase().split("|"),
+        c=""
+    return v.find(vv=>{
+      if(vv[0]=="."){
+        if(a.className&&a.className.constructor==String){
+          return !_includes(a.className,vv)
+        }
+      }else if(vv[0]=="#"){
+        if(a.id&&a.id.constructor==String){
+          return !_includes(a.id,vv)
+        }
+      }
+    })&&true
+    
+    function _includes(c,vv){
+      c=c.toLowerCase()
+      vv=vv.substring(1)
+      let v2=vv.split(/[^a-z0-9]/)
+      if(v2.length==1){
+        return c.split(/[^a-z0-9]/).includes(vv)
+      }else{
+        return c.includes(vv)
+      }
+    }
+  };/*
   For get customer app info from extension
 */
 window.bzTwComm={
