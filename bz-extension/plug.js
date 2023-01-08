@@ -26588,7 +26588,6 @@ var _elementMonitor={
     }
   },
   _setBZSent:function(d,_win){
-    console.log(d)
     if(!bzTwComm._isApp() && d.url&&_TWHandler._isIgnoreRequest(d.url)){
       return
     }

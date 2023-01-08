@@ -9096,7 +9096,6 @@ tbody td:first-child,tbody td:last-child{
     }
   },
   _setBZSent:function(d,_win){
-    console.log(d)
     if(!bzTwComm._isApp() && d.url&&_TWHandler._isIgnoreRequest(d.url)){
       return
     }
