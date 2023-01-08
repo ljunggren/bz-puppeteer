@@ -43,6 +43,13 @@ let funMap={
       img.remove()
     }
   },
+  setValidJsonData:function(scope,bkFun,data){
+    validateJsonData=data
+    window.open(data.url+"/showValid","bz-master");
+  },
+  getValidJsonData:function(scope,bkFun,data){
+    chrome.tabs.sendMessage(_masterTabId, {tab:"master",scope:"$util",fun:"showJsonValidateResult",data:validateJsonData});
+  },
   openWindow:function(s,f,d,c){
     if(d.name=="bz-client"){
       bzClient=window.open(d.url,d.name,d.size);

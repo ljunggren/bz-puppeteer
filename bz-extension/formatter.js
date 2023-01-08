@@ -1056,6 +1056,8 @@ input[type=number]{
         },10)
       }else if(o.hasClass("bz-search-content")){
         formatter.search(o.text())
+      }else if(o.hasClass("bz-json-validation")){
+        return formatter.checkJsonValidation(e.target)
       }else if(o.hasClass("bz-switch2")){
         return
       }else if(o.hasClass("bz-close")){
@@ -1607,19 +1609,12 @@ input[type=number]{
   },
   checkJsonValidation:function(o){
     let v=o.nextElementSibling.innerHTML
-    v=v.split("\n-- Validation --\n")
-    v[0]=v[0].replace("-- JSON Data --","").trim()
-    v[1]=v[1].split("-- Result: ")[0].trim()
-    let w=window.open(d,"bz-master","width=800,height=1000,left=0,top=0")
-    doIt(w)
-    function doIt(w){
-      if(!w._IDE){
-        return setTimeout(function(){
-          doIt(w)
-        },1000)
-      }
-      w.$util.showJsonValidateResult(v[0],v[1])
-    }
+    v=v.split("-- Validation --").map(x=>x.trim())
+    let vv=v[0].split("-- Data --").map(x=>x.trim())
+    v[0]=vv[1]
+    vv=vv[0].substring(4).trim()
+    vv+="/showValid"
+    chrome.runtime.sendMessage({bg:1,fun:"setValidJsonData",data:{data:v[0],valid:v[1],url:vv}});
   },
   buildScenarioList:function(v,bkFun){
     let fd=formatter.data,
@@ -1963,20 +1958,8 @@ input[type=number]{
     }
     
     function handleJsonValidation(v){
-      v=v.replace(/Start validating:/g,"<div class='bz-json-validation'><a onclick='checkJsonValidation(this)'>Check JSON Validation</a><div style='display:none'>")
-      v=v.replace(/End validating/g,"</div></div>")
-      let vv=v.match(/Start validating:(.+)End validating/s);
-      if(vv){
-        vv=vv[1]
-        while(1){
-          vv=vv.split("End validating");
-          if(vv.length>1){
-            break;
-          }
-        }
-        return vv.replace(v[0],"");
-      }
-      return v
+      v=v.replace(/BZ-Start-Validating:/g,"<span><a style='cursor:pointer'  class='bz-json-validation'>Check JSON Validation</a><div style='display:none'>")
+      return v.replace(/BZ-End-Validating/g,"</div></span>")
     }
 
     function assignWoker(){
@@ -2143,7 +2126,9 @@ input[type=number]{
     }
     
     function buildActions(v,startTime,endTime,bz,test,inFailed){
-      v=(v||"").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+      if(!v.includes("bz-json-validation")){
+        v=(v||"").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+      }
       let as=(v||"".trim()).match(/(\n|^)[0-9]+\: ##Action.+$/gm),lastAction;
       if(!inFailed&&v.match(/[0-9]+: (failed test|Load page error): /)){
         inFailed=1
