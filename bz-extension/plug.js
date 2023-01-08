@@ -676,6 +676,14 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
   _isAPISucessStatus:function(v){
     return v!="0"&&v&&v<400
   },
+  _toRegExp:function(v){
+    if(_ideDataManagement._isRegexData(v)){
+      v=eval(v)
+    }
+    if(v&&v.constructor==RegExp){
+      return v
+    }
+  },
   _parseToExeCode:function(d,_toFunOnly){
     d=(d||"").trim()
     if(_Util._isFunction(d)){
@@ -6274,264 +6282,6 @@ tbody td:first-child,tbody td:last-child{
       return os
     }
   },
-  //bz-test-code-start
-  _testExtractData:function(){
-    let d={
-      name:"name-1",
-      value:"value-1",
-      data:{
-        name:"name-2",
-        value:"value-2"
-      },
-      list:[
-        {
-          name:"name-3",
-          value:"value-3"
-        },
-        {
-          name:"name-4",
-          value:"value-4",
-          age:33
-        },
-        {
-          name:"name-5",
-          value:"value-5",
-          age:33
-        }
-      ]
-    },
-    ds=[{
-      name:"name-1",
-      value:"value-1",
-      data:{
-        name:"name-2",
-        value:"value-2"
-      },
-      list:[
-        {
-          name:"name-3",
-          value:"value-3"
-        },
-        {
-          name:"name-4",
-          value:"value-4",
-          age:33
-        },
-        {
-          name:"name-5",
-          value:"value-5",
-          age:33
-        }
-      ]
-    },{
-      name:"name-1",
-      value:"value-1",
-      data:{
-        name:"name-2",
-        value:"value-2"
-      },
-      list:[
-        {
-          name:"name-3",
-          value:"value-3"
-        },
-        {
-          name:"name-4",
-          value:"value-4",
-          age:33
-        },
-        {
-          name:"name-5",
-          value:"value-5",
-          age:33
-        }
-      ]
-    }]
-    _testData(d)
-    _testData(ds)
-    function _testData(d){
-      _showData(d,"name")
-      _showData(d,"name(Name)")
-      _showData(d,["name","value"])
-      _showData(d,["name(Name)","value(Value)"])
-      _showData(d,["*.name","*.value"])
-      _showData(d,["*(obj).name","*(obj).value"])
-      _showData(d,["*(obj1).name","*(obj2).value"])
-      _showData(d,{"*":["name","value"]})
-      _showData(d,{"*(obj)":["name(Name)","value(Value)"]})
-      _showData(d,{"+":["name","value"]})
-      _showData(d,{"+(obj)":["name(Name)","value(Value)"]})
-      _showData(d,{"*":[{"bz-if":{name:"name-4"}},"name","value"]})
-      _showData(d,{"*(array)":[{"bz-if":{name:"name-4"}},"name(Name)","value(Value)"]})
-      _showData(d,{"*":[{"bz-if":{name:"name-3"}},{"bz-if":{name:"name-4"}},"name","value"]})
-      _showData(d,{"*":[{"bz-if":{name:{match:/name-[0-9]+/}}},"name","value"]})
-    }
-
-    function _showData(d,k){
-      d=_Util._findValue(d,k)
-      console.log(__(d))
-    }
-  },
-  /**
-   * 1, "name1", "name1.name2","name1.*.name", name1 in top level, name2 under object of name1
-   * 2, ["name1","name2"], in any level
-   * 3, {name1:["name2","name3"]}, name1 is in the any leval, name2 and name3 are under name1, but in the any level
-   * 4, {name1:["name2","name3"]}, name1 is in the any leval, name2 and name3 are under name1, but in the any level
-   * 4, {name1:["name2","name3"]}, name1 is in the any leval, name2 and name3 are under name1, but in the any level
-   */
-  _findValue:function(v,ks){
-    if(!v||!ks){
-      return
-    }
-    let _keyMap={}
-    v=_Util._clone(v);
-    ks=_handleKey(ks);
-
-    if(ks.constructor!=Array){
-      ks=[ks]
-    }
-    
-    return _pickData(v,ks,1)
-    
-    function _pickData(v,ks,_root,_data){
-      if(_Util._isObjOrArray(v)&&ks.length){
-        if(v.constructor==Array){
-          return _pickArray(v,ks,_root)
-        }else{
-          _data=_data||{};
-          return _pickObj(v,ks,_root,_data)
-        }
-      }
-    }
-    function _pickObj(vv,ks,_root,_data){
-      _data=_data||{};
-
-      for(let i =0 ;i<ks.length;i++){
-        let k=ks[i];
-        if(k.constructor==String){
-          k=_findKey(k);
-          if(vv[k._key]!==undefined){
-            if(_data[k._name]===undefined){
-              _data[k._name]=vv[k._key]
-            }else{
-              if(_data[k._name].constructor!=Array){
-                _data[k._name]=[_data[k._name]]
-              }
-              _data[k._name].push(vv[k._key])
-            }
-            delete vv[k._key]
-          }
-          if(_root){
-            ks.splice(i--,1)
-          }
-        }else if(k.constructor==Array){
-          _pickData(vv,k,_root,_data)
-        }else{
-          if(k["bz-if"]){
-            if(!_isValidData(vv,k["bz-if"])){
-              return
-            }
-            continue
-          }
-          for(let kk in k){
-            kk=_findKey(kk)
-            if(kk._key=="*"){
-              _pickData(vv,k[kk._org],_root,_data)
-            }else if(kk._key=="+"){
-              if(!_root){
-                _pickData(vv,k[kk._org],0,_data)
-              }
-            }else{
-              if(vv[kk._key]){
-                let dd={}
-                _data[kk._name]=dd
-                _pickData(vv[kk._key],k[kk._org],0,dd)
-              }
-              if(_root){
-                delete k[kk._org]
-              }
-            }
-            if(d[kk]!==undefined){
-              _data[kk]=d[kk]
-            }
-          }
-        }
-      }
-
-      for(let kk in vv){
-        _pickData(vv[kk],ks,0,_data)
-      }
-
-
-      return _data
-    }
-
-    function _pickArray(vs,ks,_root){
-      return vs.map(x=>{
-        let kk=_Util._clone(ks)
-        return _pickData(x,kk,_root)
-      }).filter(x=>X!==undefined);
-    }
-
-    function _findKey(k){
-      let kk=_keyMap[k]
-      if(!kk){
-        kk=k.split("(")
-        if(kk.length>1){
-          kk={
-            _key:kk[0],
-            _name:kk[1].replace(")",""),
-            _org:k
-          }
-        }else{
-          kk={
-            _key:k,
-            _name:k,
-            _org:k
-          }
-        }
-        _keyMap[k]=kk
-      }
-      return kk
-    }
-
-    function _handleKey(k){
-      if(k.constructor==String){
-        k=k.split(".").map(x=>x.trim())
-        if(k.length>1){
-          let ko={}
-          let ok=ko,lk;
-          k.forEach((kk,ii)=>{
-            if(ii<k.length-1){
-              if(lk){
-                ok=ok[lk]
-              }
-              ok[kk]={}
-              lk=kk
-            }else{
-              ok[lk]=[kk]
-            }
-          })
-          return ko
-        }else{
-          return k[0]
-        }
-      }else if(k.constructor==Array){
-        return k.map(x=>_handleKey(x))
-      }else{
-        for(let kk in k){
-          if(kk!="bz-if"){
-            k[kk]=_handleKey(k[kk])
-          }
-        }
-        return k
-      }
-    }
-  },
-  _validJSON:function(v,d){
-
-  },
-  //bz-test-code-end
   _findDomWithPanels:function(d,ps,pp){
     var _idx=d.pop()
     if(!$.isNumeric(_idx)){
@@ -7447,6 +7197,33 @@ var _Dialog={
     return $(this._window).find(o).length
   }
 };window.$util={
+  extractData:function(d,k){
+    return _extractData._extract(v,d)
+  },
+  showJsonValidateResult:function(v,d){
+    if(!d&&v.valid){
+      d=v.valid
+      v=v.data
+    }
+    _extractData._showTools(v,d)
+  },
+  validateData:function(v,d){
+    let url=location.protocol+"/"+"/"+location.host+location.pathname+"?id="+pId+"#"+_ideLocation._getPath(0,_ideTask._data._curModule||_IDE._data._curModule,_ideTask._data._curTest||_IDE._data._curTest)
+    if(_domActionTask._lastAction){
+      _domActionTask._lastAction._extractJsonData=v
+      _domActionTask._lastAction._validJsonData=d
+      _domActionTask._lastAction._url=url
+    }
+    let r= _extractData._checkData(v,d)
+    console.log("BZ-LOG: BZ-Start-Validating:"
+                +"url: "+url
+                +"-- Data --"
+                +JSON.stringify(v)
+                +"-- Validation --"
+                +JSON.stringify(d)
+                +"BZ-End-Validating");
+    return r
+  },
   extendExtensionScript:function(c,_pos){
     let d={bz:1}
     if(_pos=="end"){
@@ -9332,40 +9109,7 @@ var _Dialog={
 //Remove output function content
 for(k in $util){
   $util[k].toString=function(){}
-}
-
-  /**
-   * includes other element
-   */
-  jQuery.expr[":"].noCss=function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    let v=m[3].toLowerCase().split("|"),
-        c=""
-    return v.find(vv=>{
-      if(vv[0]=="."){
-        if(a.className&&a.className.constructor==String){
-          return !_includes(a.className,vv)
-        }
-      }else if(vv[0]=="#"){
-        if(a.id&&a.id.constructor==String){
-          return !_includes(a.id,vv)
-        }
-      }
-    })&&true
-    
-    function _includes(c,vv){
-      c=c.toLowerCase()
-      vv=vv.substring(1)
-      let v2=vv.split(/[^a-z0-9]/)
-      if(v2.length==1){
-        return c.split(/[^a-z0-9]/).includes(vv)
-      }else{
-        return c.includes(vv)
-      }
-    }
-  };var _BZDocumentsHandler={
+};var _BZDocumentsHandler={
   find:function(_jPath){
     var _result=null;
     this._documents.each(function(i,d){
@@ -9494,7 +9238,7 @@ for(k in $util){
     }
     return o;
   },
-  /**/
+//support parse html to dom-json
   _findKeyOuterBlock:function(vs,tk,_start,bs,_noRegex){
     bs=bs||_CtrlDriver.bd
     let k,b,c,s;
@@ -9566,43 +9310,130 @@ for(k in $util){
     }
   },
   _parseViewDef:function(s){
-    if(s&&s.constructor==String){
-      let d={}
-      s=_parseXML(s,d)
+    let r= {s:s.trim()}
+    let rr=[];
+    while(r.s){
+      r= _parseXML(r.s,{})
+      if(r.d){
+        rr.push(r.d)
+      }
     }
-    return s
+    return rr.length>1?rr:rr[0]
 
-    function _parseXML(s){
-      s=s.trim()
+    function _parseXML(s,d){
       let p=_CtrlDriver._findKeyOuterBlock(s,">")
+      if(p){
+        p.p=_parseTag(p.p,d)
+        _parseProperties(p.p,d)
+        p.e=p.e.trim()
+        if(p.p&&p.p.endsWith("/")){
+          return {d:d,s:p.e}
+        }else{
+          let pp=_CtrlDriver._findKeyOuterBlock(p.e,"<")
+          pp.e=pp.e.trim()
+          _parseContent(pp.p,d)
+          if(pp.e[0]=="/"){
+            pp.e=pp.e.replace(/^\/[^>]+>/,"")
+            return {d:d,s:pp.e}
+          }
+          pp=_parseXML("<"+pp.e,{})
+          if(pp){
+            if(!d._items){
+              d._items=[]
+            }
+            if(pp.d.constructor==Array){
+              d._items.push(...pp.d)
+            }else{
+              d._items.push(pp.d)
+            }
+            return {d:d,s:pp.e}
+          }
+        }
+      }
+      if(s){
+        _parseXML(s,d)
+      }
+      return d
+    }
 
+    function _parseTag(s,d){
+      s=s.substring(1)
+      let p=_CtrlDriver._findKeyOuterBlock(s," ")
+      if(p){
+        d.tag=p.p
+        return p.e
+      }
+      d.tag=s
+      return ""
     }
 
     function _parseProperties(s,d){
       s=s.trim()
-      let p=s.match(/^([^=]+)=/)
-      if(p){
-        s=s.substring(p[0].length).trim()
-        if(s[0].match(/['"]/)){
-          
-        }
-        p=p[1].trim()
-        d._attr=d._attr||{}
-        d[p]=v
-        _parseProperties(s,d)
+      if(!s){
+        return
       }
+      d._attr=d._attr||{}
+      let p=_CtrlDriver._findKeyOuterBlock(s,"=")
+      if(p){
+        p.p=p.p.split(/\s/).map(x=>x);
+        let y=p.p.pop()
+        p.p.forEach(x=>{
+          d._attr[x]=1
+        })
+        let pp=_CtrlDriver._findKeyOuterBlock(p.e.trim()," "),dd;
+        if(y[0]=="_"){
+          dd=d
+        }else if(["click","dblclick","change","focus","blur","mouseover","mousedown","mouseup","keydown","keyup","keypress"].includes(y)){
+          d._jqext=d._jqext||{}
+          dd=d._jqext
+        }else{
+          dd=d._attr
+        }
+        if(pp){
+          dd[y]=_parseValue(pp.p,1)
+          _parseProperties(pp.e,d)
+        }else{
+          dd[y]=_parseValue(p.e,1)
+        }
+      }else{
+        s.split(/\s/).forEach(x=>{
+          d._attr[x]=1
+        })
+      }
+    }
+
+    function _parseContent(s,d){
+      s=s.trim()
+      if(s){
+        d._items=d._items||[]
+        d._items.push({
+          _text:_parseValue(s)
+        })
+      }
+    }
+
+    function _parseValue(s,p){
+      if(p){
+        if(s.match(/["'\[]/)){
+          eval("s="+s)
+          return s
+        }
+      }
+      if(_Util._isFunction(s)){
+        eval("s="+s)
+        return s
+      }
+      return s
     }
 
     function _throwError(){
       throw new Error(_bzMessage._system._error._formatError+s.substring(0,100)+(s.length>100?" ...":""))
     }
   },
-  /**/
   _execute:function(_ctrl,_data,_viewDef,_box){
     _doc=_ctrl._document||document;
     _data = _data || _ctrl._data || {};
     _viewDef=_viewDef || _ctrl._viewDef;
-    // _viewDef=_CtrlDriver._parseViewDef(_viewDef);
     _box=_box || _ctrl._area || (_doc==document?_doc.body:_CtrlDriver._createBZArea(_doc));
     if(!_ctrl._data){
       _ctrl._data=_data;
@@ -10373,7 +10204,7 @@ for(k in $util){
         if(_dom._viewDef._animation && _dom._viewDef._animation._show){
           _dom._viewDef._animation._show(_dom);
         }else if(_CtrlDriver._animationShowAll){
-          _CtrlDriver._animationShowAll(_dom);
+          _CtrlDriver._animationShowAll(_dom); 
         }
       }
     }
@@ -13237,9 +13068,11 @@ for(k in $util){
  for(k in $aiAPI){
    $aiAPI[k].toString=function(){}
  };var __=function(v,c,_tab){
+  if(!v){
+    BZ._log("_IDE._data._curProject,_curVersion,_curModule,_curTest,_curAction,_Util,_CtrlDriver,_setting")
+  }
   v=v||_IDE._data._curAction
 
-  BZ._log("_IDE._data._curProject,_curVersion,_curModule,_curTest,_curAction,_Util,_CtrlDriver,_setting")
   if(!v){
     var t=_IDE._data._curTest,m=_IDE._data._curModule,s=_IDE._data._curVersion.setting;
     var k=BZ._data._curPage._key;
@@ -13274,7 +13107,7 @@ function _extendJQuery(){
   if(!window.jQuery||jQuery.expr[":"].include){
     return
   }
-  var _bzExJQueryFun=/\:(attr|Contains|contains|hidden|show|input|data|link|near|panel|after|before|containCss|css|endContains|endEqual|equal|RowCol|rowcol|bz|textElement|blank|Attr|text) *(=|$)/g;
+  var _bzExJQueryFun=/\:(attr|Contains|contains|hidden|show|input|data|link|near|panel|after|before|containCss|css|noCss|endContains|endEqual|equal|RowCol|rowcol|bz|textElement|blank|Attr|text) *(=|$)/g;
   //div:include({div.btn:bz=$field:name:Contains=lws}{div.btn:bz=$field:id}{:equal=23423423})
   //div:include({div.btn:bz=$field:name:Contains=lws}-{div.btn:bz=$field:id}{:equal=23423423})
   jQuery.expr[":"].include= function(a,i,m){
@@ -14118,6 +13951,38 @@ function _extendJQuery(){
     }
     return $(a).find(m[3].trim()).length>0;
   };
+  /**
+   * includes other element
+   */
+  jQuery.expr[":"].noCss=function(a,i,m){
+    if(_Util._isIgnoreElement(a)){
+      return
+    }
+    let v=m[3].toLowerCase().split("|"),
+        c=""
+    return v.find(vv=>{
+      if(vv[0]=="."){
+        if(a.className&&a.className.constructor==String){
+          return !_includes(a.className,vv)
+        }
+      }else if(vv[0]=="#"){
+        if(a.id&&a.id.constructor==String){
+          return !_includes(a.id,vv)
+        }
+      }
+    })&&true
+    
+    function _includes(c,vv){
+      c=c.toLowerCase()
+      vv=vv.substring(1)
+      let v2=vv.split(/[^a-z0-9]/)
+      if(v2.length==1){
+        return c.split(/[^a-z0-9]/).includes(vv)
+      }else{
+        return c.includes(vv)
+      }
+    }
+  };
 
   jQuery.expr[":"].css=function(a,i,m){
     if(_Util._isIgnoreElement(a)){
@@ -14455,7 +14320,1224 @@ function _extendJQuery(){
     return $util.findIFrame(arguments)
   }
 }
-_extendJQuery();var _infoManagement={
+_extendJQuery();var _extractData={
+//bz-test-code-start
+  _testData:{
+    d:{
+      name:"name-1",
+      value:"value-1",
+      data:{
+        name:"name-2",
+        value:"value-2"
+      },
+      list:[
+        {
+          name:"name-3",
+          value:"value-3"
+        },
+        {
+          name:"name-4",
+          value:"value-4",
+          age:33
+        },
+        {
+          name:"name-5",
+          value:"value-5",
+          age:33
+        }
+      ]
+    },
+    ds:[{
+      name:"name-1",
+      value:"value-1",
+      data:{
+        name:"name-2",
+        value:"value-2"
+      },
+      list:[
+        {
+          name:"name-3",
+          value:"value-3"
+        },
+        {
+          name:"name-4",
+          value:"value-4",
+          age:33
+        },
+        {
+          name:"name-5",
+          value:"value-5",
+          age:33
+        }
+      ]
+    },{
+      name:"name-1",
+      value:"value-1",
+      data:{
+        name:"name-2",
+        value:"value-2"
+      },
+      list:[
+        {
+          name:"name-3",
+          value:"value-3"
+        },
+        {
+          name:"name-4",
+          value:"value-4",
+          age:33
+        },
+        {
+          name:"name-5",
+          value:"value-5",
+          age:33
+        }
+      ]
+    }]
+  },
+  _test:function(){
+    let d=_extractData._testData.d,
+        ds=_extractData._testData.ds
+    
+    _testData(d)
+    _testData(ds)
+    function _testData(d){
+      console.log("Test extractData: ------------------------")
+      _showData(d,"name",{name:"name-1"})
+      _showData(d,"name(Name)",{"Name":"name-1"})
+      _showData(d,"name()","name-1")
+      _showData(d,"*().name()",["name-1","name-2","name-3","name-4","name-5"])
+      _showData(d,["name","value"],{"name": "name-1","value": "value-1"})
+      _showData(d,["name(Name)","value(Value)"],{"Name": "name-1","Value": "value-1"})
+      _showData(d,{"*":["data(-)","list(-)"]},{name:"name-1",value:"value-1"})
+      _showData(d,{"*":["name(-)","value(-)"]},{
+        "data": {},
+        "list": [
+          {},
+          {
+            "age": 33
+          },
+          {
+            "age": 33
+          }
+        ]
+      })
+      _showData(d,{"*":["name(-)","value(-)",{"bz-if":function(v){
+        if(v){
+          if(v.constructor==Object){
+            return Object.keys(v).length
+          }else if(v.constructor==Array){
+            return v.length
+          }
+          return v
+        }else{
+          return v===0
+        }
+      }}]},{
+        "list": [
+          {
+            "age": 33
+          },
+          {
+            "age": 33
+          }
+        ]
+      })
+      // _showData(d,{"*":["name(1)","value(-1)"]},{
+      //   "name": "name-1",
+      //   "value": "value-1",
+      //   "data": {
+      //     "name": "name-2",
+      //     "value": "value-2"
+      //   },
+      //   "list": [
+      //     {
+      //       "name": "name-3",
+      //       "value": "value-3"
+      //     },
+      //     {
+      //       "name": "name-4",
+      //       "value": "value-4"
+      //     },
+      //     {
+      //       "name": "name-5",
+      //       "value": "value-5"
+      //     }
+      //   ]
+      // })
+      // _showData(d,{"*":["name(1)","value(-1)"]},{
+      //   "name": "name-1",
+      //   "value": "value-1",
+      //   "data": {
+      //     "name": "name-2",
+      //     "value": "value-2"
+      //   },
+      //   "list": [
+      //     {
+      //       "name": "name-3",
+      //       "value": "value-3"
+      //     },
+      //     {
+      //       "name": "name-4",
+      //       "value": "value-4"
+      //     },
+      //     {
+      //       "name": "name-5",
+      //       "value": "value-5"
+      //     }
+      //   ]
+      // })
+      _showData(d,["*.name","*.value"],{
+        "name": "name-1",
+        "data": {"name": "name-2","value": "value-2"},
+        "list": [
+          {"name": "name-3"},{"name": "name-4"},{"name": "name-5"},
+          {"value": "value-3"},{"value": "value-4"},{"value": "value-5"}
+        ],
+        "value": "value-1"
+      })
+      _showData(d,["*(obj).name","*(obj).value"],{
+        "obj": {
+          "name": "name-1",
+          "value": "value-1",
+          "data": {
+            "name": "name-2",
+            "value": "value-2"
+          },
+          "list": [
+            {"name": "name-3"},{"name": "name-4"},{"name": "name-5"},
+            {"value": "value-3"},{"value": "value-4"},{"value": "value-5"}
+          ]
+        }
+      })
+      _showData(d,["*(obj1).name","*(obj2).value"],{
+        "obj1": {
+          "name": "name-1",
+          "data": {"name": "name-2"},
+          "list": [{"name": "name-3"},{"name": "name-4"},{"name": "name-5"}]
+        },
+        "obj2": {
+          "value": "value-1",
+          "data": {"value": "value-2"},
+          "list": [{"value": "value-3"},{"value": "value-4"},{"value": "value-5"}]
+        }
+      })
+      _showData(d,{"*":["name","value"]},{
+        "name": "name-1",
+        "value": "value-1",
+        "data": {
+          "name": "name-2",
+          "value": "value-2"
+        },
+        "list": [
+          {
+            "name": "name-3",
+            "value": "value-3"
+          },
+          {
+            "name": "name-4",
+            "value": "value-4"
+          },
+          {
+            "name": "name-5",
+            "value": "value-5"
+          }
+        ]
+      })
+      _showData(d,{"*(obj)":["name(Name)","value(Value)"]},{
+        "obj": {
+          "Name": "name-1",
+          "Value": "value-1",
+          "data": {
+            "Name": "name-2",
+            "Value": "value-2"
+          },
+          "list": [
+            {
+              "Name": "name-3",
+              "Value": "value-3"
+            },
+            {
+              "Name": "name-4",
+              "Value": "value-4"
+            },
+            {
+              "Name": "name-5",
+              "Value": "value-5"
+            }
+          ]
+        }
+      })
+      _showData(d,{"+":["name","value"]},{
+        "data": {
+          "name": "name-2",
+          "value": "value-2"
+        },
+        "list": [
+          {
+            "name": "name-3",
+            "value": "value-3"
+          },
+          {
+            "name": "name-4",
+            "value": "value-4"
+          },
+          {
+            "name": "name-5",
+            "value": "value-5"
+          }
+        ]
+      })
+      _showData(d,{"+(obj)":["name(Name)","value(Value)"]},{
+        "obj": {
+          "data": {
+            "Name": "name-2",
+            "Value": "value-2"
+          },
+          "list": [
+            {
+              "Name": "name-3",
+              "Value": "value-3"
+            },
+            {
+              "Name": "name-4",
+              "Value": "value-4"
+            },
+            {
+              "Name": "name-5",
+              "Value": "value-5"
+            }
+          ]
+        }
+      })
+      _showData(d,{"*":[{"bz-if":{"name()":"name-4"}},"name","value"]})
+      _showData(d,{"*":[{"bz-if":{"*().name()":"name-4"}},"name","value"]},{
+        "name": "name-1",
+        "value": "value-1",
+        "list": [
+          {
+            "name": "name-4",
+            "value": "value-4"
+          }
+        ]
+      })
+      _showData(d,{"*":[{"bz-if":{"*().name()":"name-4"}},"*"]},d)      
+      _showData(d,{"*(array)":[{"bz-if":{"*().name()":"name-4"}},"name(Name)","value(Value)"]},{
+        "array": {
+          "Name": "name-1",
+          "Value": "value-1",
+          "list": [
+            {
+              "Name": "name-4",
+              "Value": "value-4"
+            }
+          ]
+        }
+      })
+      _showData(d,{"*":[{"bz-if":{"name":"name-3"}},{"bz-if":{"*.name":"name-4"}},"name","value"]})
+      _showData(d,{"*":[{"bz-if":{name:/name-[13]+/}},"name","value"]},{
+        "name": "name-1",
+        "value": "value-1",
+        "list": [
+          {
+            "name": "name-3",
+            "value": "value-3"
+          }
+        ]
+      })
+      console.log("Test checkData: ------------------------")
+      _showChkResult(d,/[0-9]+/)
+      _showChkResult(d,{"*.name":/name-[0-9]+/})
+      _showChkResult(d,{"*":{
+        name:/name-[0-9]+/,
+        value:/value-[0-9]+/,
+        age:/[0-9]+/
+      }})
+    }
+    function _showChkResult(d,k){
+      if(!_extractData._checkData(d,k)){
+        console.error("failed: "+__(k))
+      }
+    }
+    function _showData(d,k,t){
+      let kk=_Util._clone(k)
+      if(d.constructor===Array&&d!==t){
+        t=t?[t,t]:[]
+      }
+      d=_extractData._extract(d,k)
+
+      if(_Util._isEqualData(d,t)){
+        // console.log("pass: "+__(kk))
+      }else{
+        console.error("failed: "+__(kk))
+        console.log(d?__(d):d)
+      }
+    }
+  },
+//bz-test-code-end
+  _data:_CtrlDriver._buildProxy({
+    _definition:{},
+    _orgData:{},
+    _showResult:1
+  }),
+  /**
+   * 1, "name1", "name1.name2","name1.*.name", name1 in top level, name2 under object of name1
+   * 2, ["name1","name2"], in any level
+   * 3, {name1:["name2","name3"]}, name1 is in the any leval, name2 and name3 are under name1, but in the any level
+   * 4, {name1:["name2","name3"]}, name1 is in the any leval, name2 and name3 are under name1, but in the any level
+   * 4, {name1:["name2","name3"]}, name1 is in the any leval, name2 and name3 are under name1, but in the any level
+   */
+   _extract:function(ov,ks,_root){
+    if(!ov||!ks){
+      return
+    }
+    let _keyMap={},
+        v=_Util._clone(ov);
+    ks=_extractData._handleKey(ks);
+  
+    if(ks.constructor!=Array){
+      ks=[ks]
+    }
+    let _result= _pickData(v,ks,_root===undefined?1:_root);
+    if(_result&&_result.constructor==Object){
+      if(_Util._isEmpty(_result)){
+        return
+      }
+    }
+    return _result;
+    
+    function _pickData(v,ks,_root,_name,_idx){
+      if(_Util._isEmpty(ks)){
+        if(_Util._isObjOrArray(v)){
+          return _moveData(v)
+        }
+        return v
+      }else if(ks.constructor!=Array){
+        ks=[ks]
+      }
+      if(_Util._isObjOrArray(v)){
+        if(v.constructor==Array){
+          return _pickArray(v,ks,_root,_name,_idx)
+        }else{
+          return _pickObj(v,ks,_root,_name,_idx)
+        }
+      }else if(ks.length){
+        let k=_findKey(Object.keys(ks[0])[0])
+        if(k._minus){
+          return v
+        }
+      }
+    }
+
+    function _pickArray(vs,ks,_root,_name,_idx){
+      let d,dd=[]
+
+      dd= vs.map(x=>{
+        let kk=_Util._clone(ks)
+        return _pickData(x,kk,_root,_name,_idx)
+      }).filter(x=>x!==undefined);
+      if(_name===""){
+        d=[]
+        dd.forEach(x=>{
+          d=d.concat(x)
+        })
+        dd=d
+      }
+      return dd
+    }
+
+    function _pickObj(vv,ks,_root,_name,_idx){
+      let _valid=1,_data;
+      if(_Util._isEmpty(ks)){
+        return vv
+      }
+  
+      for(let i =0 ;i<ks.length;i++){
+        let k=ks[i];
+        if(k["bz-if"]){
+          if(_valid!=-1){
+            _valid=_isValidData(vv,k["bz-if"])&&-1;
+          }
+          continue
+        }
+        if(!_valid){
+          return
+        }
+        if(k.constructor==Object){
+          for(let kk in k){
+            let kv=k[kk]
+            kk=_findKey(kk)
+            let n=_getName(kk._name,_name)
+            if(kk._key=="*"){
+              if(kk._name===""&&kv["*"]&&_Util._isEmpty(kv["*"])){
+                _data=_pickEndData(vv,1)
+              }else if(kk._name===""&&_Util._isEmpty(kv)){
+                _data=_pickEndData(vv)
+              }else if(kk._minus){
+                _data=vv
+              }else{
+                _data=_mergeObj(_pickData(vv,kv,0,n===""?n:undefined,kk._idx),_data,n,kk._idx)
+              }
+            }else if(kk._key=="+"){
+              let d;
+              if(!_root){
+                d=_pickData(vv,kv,0,n===""?n:undefined,kk._idx);
+              }else{
+                for(let k1 in vv){
+                  d=_mergeObj(_pickData(vv[k1],kv,0,n===""?n:k1,kk._idx),d,k1,kk._idx)
+                }
+              }
+              if(d){
+                if(n){
+                  let dd={}
+                  dd[n]=d
+                  d=dd
+                }
+                _data=_Util._mergeDeepWithArray(d,_data)
+              }
+            }else{
+              if(vv[kk._key]!==undefined){
+                if(!kk._minus){
+                  _data=_mergeObj(_pickData(vv[kk._key],kv,0,n===""?n:undefined,kk._idx),_data,n,kk._idx)
+                  delete vv[kk._key]
+                }else{
+                  delete vv[kk._key]
+                  _data=_data||{}
+                  delete _data[kk._key]
+                  for(let k1 in vv){
+                    _data[k1]=vv[k1]
+                  }
+                }
+              }
+              if(_root){
+                delete k[kk._org]
+              }
+            }
+          }
+        }else if(k.constructor==String){
+          k=_findKey(k);
+          if(vv[k._key]!==undefined){
+            if(_data[k._name]===undefined){
+              _data[k._name]=vv[k._key]
+            }else{
+              if(_data[k._name].constructor!=Array){
+                _data[k._name]=[_data[k._name]]
+              }
+              _data[k._name].push(vv[k._key])
+            }
+            delete vv[k._key]
+          }
+          if(_root){
+            ks.splice(i--,1)
+          }
+        }else if(k.constructor==Array){
+          _data=_mergeObj(_pickData(vv[kk._key],kv,0,n===""?n:undefined,kk._idx),_data,n,kk._idx)
+        }
+        if(_Util._isEmpty(k)){
+          ks.splice(i--,1)
+        }
+      }
+      if(!_valid){
+        return
+      }else if(_valid==-1&&!_data){
+        return _moveData(vv)
+      }
+
+      if(!_root&&ks.length){
+        let kk;
+        if(ks.length){
+          kk=_findKey(Object.keys(ks[0])[0])
+        }
+
+        for(let k1 in vv){
+          let d=_pickData(vv[k1],ks,0,_name===""?"":undefined,_idx)
+          if(_name===""&&d&&d.constructor==Array){
+            if(!_data){
+              if(kk&&kk._idx==1){
+                _data=d[0]
+              }else if(kk&&kk._idx==-1){
+                _data=d.pop()
+              }else{
+                _data=d
+              }
+            }else if(_data&&_data.constructor==Array){
+              _data=_data.concat(d)
+              continue
+            }else{
+              if(kk&&kk._idx==1){
+                _data=_data||d[0]
+              }else if(kk&&kk._idx==-1){
+                _data=d.pop()||_data
+              }else{
+                _data=_data.concat(d)
+              }
+            }
+
+          }else if(_idx==1||_idx==-1){
+            debugger
+          }else if(kk&&kk._idx==1){
+            _data=_data||d
+          }else if(kk&&kk._idx==-1){
+            _data=d||_data
+          }else{
+            if(kk&&kk._minus&&_data){
+              _data[_getName(_name,k1)]=d
+            }else{
+              _data=_mergeObj(d,_data,_getName(_name,k1),_idx)
+            }
+          }
+        }
+      }
+  
+  
+      return _data
+    }
+
+    function _pickEndData(vv,_keepLabel,_data){
+      if(_keepLabel){
+        _data=_data||{}
+      }else{
+        _data=_data||[]
+      }
+      for(let kk in vv){
+        let v=vv[kk]
+        if(_Util._isObjOrArray(v)){
+          _pickEndData(v,_keepLabel,_data)
+        }else{
+          if(!_keepLabel){
+            _data.push(v)
+          }else if(_data[kk]){
+            if(_data[kk].constructor!=Array){
+              _data[kk]=[_data[kk]]
+            }
+            _data[kk].push(v)
+          }else{
+            _data[kk]=v
+          }
+        }
+        delete vv[kk]
+      }
+      return _data
+    }
+  
+    function _mergeObj(d,_data,_name,_idx){
+      if(d!==undefined){
+        if(_data){
+          if(_data.constructor==Object){
+            if(!_name){
+              _data=_Util._mergeDeepWithArray(_data,d)
+            }else if(!_data[_name]){
+              _data[_name]=d
+            }else{
+              if(_data[_name].constructor==Array){
+                _data[_name].push(d)
+              }else{
+                _data[_name]=_Util._mergeDeepWithArray(_data[_name],d)
+              }
+            }
+          }else if(_data.constructor==Array){
+            _data.push(d)
+          }else if(_idx==1){
+          }else if(_idx==-1){
+            _data=d
+          }else{
+            _data=[_data,d]
+          }
+        }else if(_name){
+          _data={}
+          _data[_name]=d
+        }else{
+          _data= d
+        }
+      }
+      return _data
+    }
+
+    function _isValidData(vv,_ifObj){
+      if(_ifObj.constructor==Function){
+        return _ifObj(vv)
+      }
+      for(let kk in _ifObj){
+        let v=_extractData._extract(vv,kk)
+        let _if=_ifObj[kk]
+        if(v==_if||(v&&v.constructor==Array&&v.includes(_if))){
+          continue
+        }
+        if(!_if){
+          return
+        }
+        if(_if.constructor==RegExp||_ideDataManagement._isRegexData(_if)){
+          if(v!==""){
+            if(!v||v.constructor!=String){
+              v=JSON.stringify(v)
+            }
+          }
+          if(!_Util._toRegExp(_if).test(v)){
+            return
+          }
+        }else if(_if.constructor==Object){
+          for(let k in _if){
+            if(!eval(v+k+_if[k])){
+              return
+            }
+          }
+        }else{
+          return
+        }
+      }
+      return 1
+    }
+  
+    function _getName(n1,n2){
+      if(n1=="*"||n1===undefined){
+        return n2
+      }
+      return n1
+    }
+
+    function _moveData(v){
+      let d=v.constructor==Array?[]:{}
+
+      for(let k in v){
+        d[k]=v[k]
+        delete v[k]
+      }
+      return d
+    }
+    function _findKey(k){
+      let kk=_keyMap[k]
+      if(!kk){
+        kk=k.split("(")
+        if(kk.length>1){
+          let k1=kk[1].replace(")","").split(",")
+          kk={
+            _key:kk[0],
+            _name:kk[0]=="+"?"*":kk[0],
+            _org:k
+          }
+          if(k1.length){
+            k1.forEach(n=>{
+              if(n=="-"){
+                kk._minus=1
+              }else if(n=="1"||n=="-1"){
+                kk._idx=parseInt(n)
+              }else{
+                kk._name=n
+              }
+            })
+          }else{
+            kk._name=""
+          }
+        }else{
+          kk={
+            _key:k,
+            _name:k=="+"?"*":k,
+            _org:k
+          }
+        }
+        _keyMap[k]=kk
+      }
+      return kk
+    }
+  },
+  _handleKey:function(k){
+    if(k.constructor==String){
+      k=k.split(".").map(x=>x.trim())
+      let ko={}
+      let ok=ko;
+      k.forEach(kk=>{
+        ok[kk]={}
+        ok=ok[kk]
+      })
+      return ko
+    }else if(k.constructor==Array){
+      return k.map(x=>_extractData._handleKey(x))
+    }else{
+      for(let kk in k){
+        if(kk!="bz-if"){
+          k[kk]=_extractData._handleKey(k[kk])
+        }
+      }
+      return k
+    }
+  },
+  _checkData:function(v,d,pk){
+    v=v||""
+    d=d||""
+    if(d.constructor==String&&(_Util._isJsonValueString(d)||_Util._hasCode(d))){
+      eval("d="+d)
+    }
+    if(v.constructor==String&&_Util._isJsonValueString(v)||_Util._hasCode(v)){
+      eval("v="+v)
+    }
+    v=_compressJSON._unConvert(v)
+
+    if(!d||d.constructor!=Object){
+      return _chkValue(v,d,pk)
+    }
+    for(let k in d){
+      let dv=d[k],pp=pk?pk.concat(k):[k]
+      let vv=this._extract(v,k)||v
+      if(dv.constructor==Object){
+        if(!_extractData._checkData(vv,dv)){
+          return
+        }
+      }else if(vv.constructor==Array){
+        if(vv.find(x=>!_extractData._checkData(x,dv,pp))){
+          return
+        }
+      }else{
+        if(!_chkValue(vv,dv,pp)){
+          return
+        }
+      }
+    }
+    return 1
+
+    function _chkValue(v,d,pk){
+      if(!d){
+      }else if(v&&v.constructor==Array){
+        return !v.find(x=>!_chkValue(x,d,pk))
+      }else if(v&&v.constructor==Object){
+        for(let k in v){
+          if(!_chkValue(v[k],d,pk?pk.concat(k):[k])){
+            return 
+          }
+        }
+        return 1
+      }else if(d.constructor==Function){
+        return d(v,pk)
+      }else if(d.constructor==RegExp||_ideDataManagement._isRegexData(d)){
+        v+=""
+        return _Util._toRegExp(d).test(v)
+      }else if(d.constructor==Array){
+        return d.find(x=>_extractData._checkData(v,x,pk))
+      }
+      return v==d
+    }
+  },
+  _saveData:function(v,d){
+    _DataBuilder._saveData(v,d)
+  },
+  _getChkData:function(v,d,ps,r,fs){
+    ps=ps||[];
+    r=r||{}
+    fs=fs||[]
+    v=v||""
+    d=d||""
+    if(d.constructor==String&&(_Util._isJsonValueString(d)||_Util._hasCode(d))){
+      eval("d="+d)
+    }
+    if(v.constructor==String&&_Util._isJsonValueString(v)||_Util._hasCode(v)){
+      eval("v="+v)
+    }
+    for(let k in d){
+      let vv=_extractData._extract(v,k,!ps.length),
+          dv=d[k],p=ps.concat(k);
+      if(!dv||!_Util._isObjOrArray(dv)){
+        let rr;
+        if(!vv){
+          rr=vv==dv?"✔️":"❌"
+        }else{
+          rr=(!_Util._isEmpty(vv)&&_assignResult(vv,dv,p,fs))||(_Util._isEmpty(vv)&&!dv)?"✔️":"❌";
+        }
+        let pp=p.concat([dv])
+        r[rr+pp.join(".")]=vv
+      }else if(dv.constructor==Object){
+        _extractData._getChkData(vv,dv,p,r,fs)
+      }else if(dv.constructor==Array){
+        dv.forEach(x=>_extractData._getChkData(vv,x,p,r,fs))
+      }
+    }
+    return _CtrlDriver._buildProxy(r)
+
+    function _assignResult(v,d,pk,fs){
+      pk=pk||[]
+      let r=1;
+      if(!v||!_Util._isObjOrArray(v)){
+        return _chkValue(v,d,pk,fs)
+      }
+      for(let k in v){
+        let vv=v[k],ps=pk.concat(k)
+        if(!vv){
+        }else if(_Util._isEmpty(vv)){
+          delete v[k]
+          continue
+        }
+        if(_Util._isObjOrArray(vv)){
+          r=_assignResult(vv,d,ps,fs)&&r
+        }else{
+          let rr=_chkValue(vv,d,ps,fs)
+          if(!rr){
+            v[k]="❌"+vv
+          }else{
+            v[k]=vv
+          }
+          r=rr&&r
+        }
+      }
+      return r
+    }
+
+    function _chkValue(v,d,pk,fs){
+      let r;
+      if(!d){
+        r=d==v
+      }else if(d.constructor==Function){
+        r= d(v,pk)
+      }else if(d.constructor==RegExp||_ideDataManagement._isRegexData(d)){
+        v+=""
+        r= _Util._toRegExp(d).test(v)
+      }else{
+        r= v==d
+      }
+      if(!r){
+        fs.push(1)
+      }
+      return r
+    }
+
+  },
+  _findDataInScript:function(){
+    let a=_IDE._data._curAction,ds
+
+    if(a){
+      ds=_debugDataHandler._retrieveBindDataFromAction(a)
+    }
+    if(!ds||!ds.length){
+      ds=_debugDataHandler._retrieveBindDataFromTest(_IDE._data._curTest)
+    }
+    return (ds||[]).filter(x=>{
+      try{
+        return eval(x)
+      }catch(ex){}
+    }).sort((a,b)=>JSON.stringify(b).length-JSON.stringify(a).length)
+  },
+  _findDefinition:function(vs,_chkDef){
+    let r;
+    vs.forEach(x=>{
+      try{
+        let v=_DataBuilder._getOrgDataByPath(x)
+        _chkItem(v,x,_chkDef)
+      }catch(ex){}
+    })
+
+    function _chkItem(v,x,_chkDef,_notSet){
+      if(!v){
+        return
+      }
+      if(v.constructor==RegExp||_ideDataManagement._isRegexData(v)||v.constructor==Function){
+        if(_chkDef){
+          if(!_notSet){
+            _setDefinition(v,x)
+          }
+        }
+        return _chkDef
+      }else if(_Util._isObjOrArray(v)){
+        for(let k in v){
+          if(_chkItem(v[k],x,_chkDef,1)){
+            if(_chkDef){
+              if(!_notSet){
+                _setDefinition(v,x)
+              }
+            }
+            return _chkDef
+          }
+        }
+        if(!_notSet&&!_chkDef){
+          _setDefinition(v,x)
+        }
+      }else{
+        if(!_notSet&&JSON.stringify(v).length<200){
+          _setDefinition(v,x)
+        }
+      }
+    }
+    function _setDefinition(v,x){
+      if(!r){
+        r={v:v,x:x}
+      }else if((!_Util._isObjOrArray(r.v)&&_Util._isObjOrArray(v))||(r.v.constructor==v.constructor&&r.v.toSring().length<v.toSring().length)){
+        r={v:v,x:x}
+      }
+    }
+    return r
+  },
+  _showResult:function(){
+    _CtrlDriver._refreshData(_extractData._data,"_showResult")
+  },
+  _showTools:function(v,d){
+    let ds=_extractData._findDataInScript()||[];
+    (["$test","$parameter"]).forEach(x=>{
+      let xx=eval(x);
+      for(let k in xx){
+        if(!ds.includes(x+"."+k)){
+          ds.push(x+"."+k)
+        }
+      }
+    });
+
+    if(!v){
+      v=_extractData._findDefinition(ds)
+      if(v){
+        _extractData._data._orgData._key=v.x
+        v=v.v
+      }
+    }else if(v && v.constructor==String&&(_Util._isJsonValueString(v)||_Util._hasCode(v))){
+      try{
+        eval("v="+v)
+        if(v.constructor!=String){
+          v=__(v)
+        }
+      }catch(ex){}
+    }
+
+    if(!d){
+      d=_extractData._findDefinition(ds,1)
+      if(d){
+        _extractData._data._definition._key=d.x
+        d=d.v
+      }
+    }else if(d && d.constructor==String&&(_Util._isJsonValueString(d)||_Util._hasCode(d))){
+      try{
+        eval("d="+d)
+        if(d.constructor!=String){
+          d=__(d)
+        }
+      }catch(ex){}
+    }
+    _extractData._data._definition._value=d
+    _extractData._data._orgData._value=v
+    let _viewDev={
+      _tag:"div",
+      _attr:{
+        class:"bz-extract-box"
+      },
+      _items:[
+        //body
+        {
+          _tag:"div",
+          _attr:{
+            class:"bz-extract-body"
+          },
+          _items:[
+            //definition
+            {
+              _tag:"div",
+              _attr:{
+                class:"bz-extract-column"
+              },
+              _after:function(o){
+                setTimeout(()=>{
+                  $(o).find("pre").focus();
+                })
+              },
+              _items:[
+                {
+                  _tag:"div",
+                  _attr:{
+                    class:"bz-extract-column-title"
+                  },
+                  _items:[
+                    _getDataList("_definition")
+                  ]
+                },
+                {
+                  _tag:"div",
+                  _attr:{
+                    class:"bz-extract-column-content"
+                  },
+                  _items:[
+                    _bzJSEditor._buildJSEditor({
+                      _model:"_extractData._data._definition._value",
+                      _noBtn:1,
+                      _label:"",
+                      _noUpdate:1,
+                      _disabled:0
+                    })
+                  ]
+                }
+              ]
+            },
+            //org-data
+            {
+              _tag:"div",
+              _attr:{
+                class:"bz-extract-column",
+                style:"border-left:var(--bz-border);border-right:var(--bz-border);"
+              },
+              _items:[
+                {
+                  _tag:"div",
+                  _attr:{
+                    class:"bz-extract-column-title"
+                  },
+                  _items:[
+                    _getDataList("_orgData")
+                  ]
+                },
+                {
+                  _tag:"div",
+                  _attr:{
+                    class:"bz-extract-column-content"
+                  },
+                  _items:[
+                    _bzJSEditor._buildJSEditor({
+                      _model:"_extractData._data._orgData._value",
+                      _noBtn:1,
+                      _label:"",
+                      _noUpdate:1,
+                      _disabled:0
+                    })
+                  ]
+                }
+              ]
+            },
+            //result-data
+            {
+              _tag:"div",
+              _attr:{
+                class:"bz-extract-column"
+              },
+              _items:[
+                {
+                  _tag:"div",
+                  _attr:{
+                    class:"bz-extract-column-title"
+                  },
+                  _items:[
+                    {
+                      _tag:"span",
+                      _attr:{
+                        style:"position: relative;top: 5px;"
+                      },
+                      _text:"_bzMessage._extractData._result"
+                    },
+                    {
+                      _tag:"button",
+                      _attr:{
+                        class:"btn btn-icon bz-refresh pull-right"
+                      },
+                      _jqext:{
+                        click:function(){
+                          _extractData._showResult()
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  _if:"_extractData._data._showResult",
+                  _tag:"div",
+                  _attr:{
+                    class:"bz-extract-column-content"
+                  },
+                  _items:function(){
+                    let d=_extractData._getChkData(_extractData._data._orgData._value,_extractData._data._definition._value)
+                    return [_jsonViewor._viewDev(d)]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    if(!_extractData._popWin||_extractData._popWin.closed){
+      _extractData._popWin=_Util._popWin("","_bzExtractData",0,Math.max(screen.availWidth*0.8,800),Math.max(screen.availHeight*0.8,800),_viewDev,_bzMessage._extractData._title)
+    }else{
+      _extractData._popWin.focus()
+    }
+
+    function _getDataList(k){
+      return {
+        _tag:"div",
+        _attr:{
+          class:"input-group"
+        },
+        _items:[
+          {
+            _tag:"label",
+            _attr:{
+              class:"input-group-addon"
+            },
+            _text:"_bzMessage._extractData."+k
+          },
+          {
+            _tag:"select",
+            _attr:{
+              class:"form-control"
+            },
+            _items:[
+              {
+                _tag:"option",
+                _text:"_bzMessage._common._select"
+              },
+              {
+                _tag:"option",
+                _attr:{
+                  value:"_data._item"
+                },
+                _text:"_data._item",
+                _dataRepeat:function(){
+                  let vs=[];
+                  (["$loop","$result","$parameter","$test","$module","$project"]).forEach(x=>{
+                    try{
+                      let v=eval(x)
+                      for(let k in v){
+                        if(!_Util._isEmpty(v[k])&&v[k].constructor!=Function){
+                          vs.push(x+"."+k)
+                        }
+                      }
+                    }catch(ex){}
+                  })
+                  return vs
+                }
+              }
+            ],
+            _jqext:{
+              change:function(){
+                let v=_DataBuilder._getOrgDataByPath(this.value)
+                if(v.constructor==String&&_Util._isJsonValueString(v)||_Util._hasCode(v)){
+                  eval("v="+v)
+                }
+                _extractData._data[k]._value=v
+                _extractData._showResult()
+              }
+            },
+            _dataModel:"_extractData._data."+k+"._key"
+          },
+          {
+            _tag:"div",
+            _attr:{
+              class:"input-group-btn"
+            },
+            _items:[
+              {
+                _tag:"button",
+                _attr:{
+                  class:"btn btn-icon bz-save-strong bz-left-space-5",
+                  disabled:function(){
+                    let d=_extractData._data[k]._key
+                    return !d||!d.match(/\$(test|module|project)/)
+                  }
+                },
+                _jqext:{
+                  click:function(){
+                    let d=_extractData._data[k]
+                    if(d._key.match(/^\$(test|module|project)/)){
+                      _extractData._saveData(d._value,d._key)
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
+/** */;var _infoManagement={
   _data:_CtrlDriver._buildProxy({
     _map:{},
     _read:{},
@@ -18334,6 +19416,25 @@ var _scriptActionHandler={
       ]
     }
   },
+  _getTestMenuItems:function(){
+    return [
+      {
+        _html:function(d){
+          return _uiHandler._getBadge(d._item._parent._data,d._item._data)
+        }
+      },
+      {
+        _tag:"span",
+        _attr:{
+          class:"'bz-small-btn bz-hdr-'+_data._item._data.type",
+          style:"padding: 0px 5px;margin: 0px 5px 0 0;background-size: 10px !important;position: relative;top: 3px;"
+        }
+      },
+      {
+        _text:"_data._item._data.name"
+      }
+    ]
+  },
   _getHoverMenuViewDef:function(d){
     return {
       _tag:"div",
@@ -18831,10 +19932,18 @@ window._uiHandler={
             _tag:"div",
             _attr:{
               class:"bz-hover",
-              onclick:"BZ._setHash(_data._item.t);BZ._data._uiSwitch._showRefMenu=0;"
+              onclick:"BZ._setHash(_data._item);BZ._data._uiSwitch._showRefMenu=0;"
             },
-            _text:"_ideTestManagement._getStdDescription(_data._item.t,_data._item.m)",
-            _dataRepeat:"BZ._data._uiSwitch._refList"
+            _items:_stdComponent._getTestMenuItems(),
+            // _text:"_ideTestManagement._getStdDescription(_data._item.t,_data._item.m)",
+            _dataRepeat:function(){
+              return BZ._data._uiSwitch._refList.map(x=>{
+                return {
+                  _parent:x.m,
+                  _data:x.t
+                }
+              })
+            }
           },
           {
             _if:"!BZ._data._uiSwitch._refList.length",
@@ -18864,6 +19973,14 @@ window._uiHandler={
               t=_IDE._data._curTest._data
           _ideReport._switchReport("trends")
           BZ._setHash("/logCurReport/?fun=trends&from="+$util.generateWordsByRegex("/{today-7}/")+"&to="+$util.generateWordsByRegex("/{today}/")+"&test="+m.code+"."+t.code)
+        }
+      },
+      _compare:{
+        _if:"_IDE._data._curTest",
+        _icon:"bz-compare",
+        _title:"_bzMessage._extractData._title",
+        _fun:function(){
+          _extractData._showTools()
         }
       },
       _sort:{
@@ -25062,9 +26179,16 @@ var _elementMonitor={
             return m[i]
           }
           return m
-        }else if(t.match(/.+(\(.+\))+/)){
-          let tt=t.split("("),ts=[]
-          
+        }else{
+          let tt=t.split(">"),ts=[]
+          for(let j=0;j<tt.length;j++){
+            let tv=tt[j]
+            if(tv.endsWith("\\")&&j<tt.length-1){
+              tv=tv.replace("\\",">")+tt[j+1]
+              j--
+            }
+          }
+          tt=tt.map(x=>x.trim())
           while(tt.length){
             let tv=tt.pop().replace(/\)$/,"")
             tv=_TWHandler._getCanvasTextElement(c,tv)
@@ -25464,6 +26588,7 @@ var _elementMonitor={
     }
   },
   _setBZSent:function(d,_win){
+    console.log(d)
     if(!bzTwComm._isApp() && d.url&&_TWHandler._isIgnoreRequest(d.url)){
       return
     }
@@ -25497,7 +26622,7 @@ var _elementMonitor={
       _TWHandler._lastSent=0;
       _TWHandler.BZ_sent=0;
     }
-    if(bzTwComm._isApp()){
+    if(!bzTwComm._isIDE()&&bzTwComm._isApp()){
       bzTwComm._postToIDE({_fun:"_setBZSent",_args:[d],_scope:"_TWHandler"});      
     }else if(bzTwComm._isIDE()&&!BZ._isPlaying()&&d._root&&!d.url){
       _extensionComm._exeFun("_setUIData","_IDE._innerWin",{_dataBind:{_showDataBind:_IDE._innerWin._data._dataBind._showDataBind}});
@@ -29570,9 +30695,32 @@ var $data=function(m,t,init){
       }
     }
   },
+  _setBackData:function(a){
+    let s=(a.script||"")
+    if(a.requests){
+      s+=a.requests.map(x=>x.responseScript||""+(x.loopData||"")).join("")
+    }
+    if(s.includes("$util.validateData")){
+      s=s.split("$util.validateData")
+      s.shift()
+      s.forEach(x=>{
+        x=x.split(",")
+        x.shift()
+        x.forEach(y=>{
+          y=y.split(")")[0].trim()
+          let d=y.match(/\$(test|module|project)[\.\[]([^\.\)]+)/)
+          if(d){
+            let dd=window["$"+d[1]]
+            dd[d[2]]=_DataBuilder._getOrgDataByPath(y)
+          }
+        })
+      })
+    }
+  },
   _prepareItem:function(_setting,a,_result,_funOnSelfCtrl){
     var u=!BZ._isAutoRunning();
     var _element=a.element||a.panel
+    _domActionTask._setBackData(a)
     if(_apiHandler._isRequestAction(a)){
       return 1
     }else if(a.refCom){
@@ -75656,7 +76804,7 @@ var _pickerTemplate={
                           if(c&&c<150){
                             c="background-color:transparent;"
                           }else{
-                            c="background-color:var(--bz-yellow);"
+                            c="background-color:var(--bz-yellow);padding:5px;border-radius:var(--bz-border-radius);"
                           }
                           return c
                         }
@@ -82505,6 +83653,9 @@ window.bzTwComm={
       return
     }
     v.org=JSON.stringify(v)
+    if(bzTwComm._list[bzTwComm._list.length-1]&&bzTwComm._list[bzTwComm._list.length-1].org==v.org){
+      return
+    }
     bzTwComm._list.push(v)
     if(!bzTwComm._getExtensionId()){
       console.log("BZ-LOG:Missing extension id")
@@ -82630,6 +83781,9 @@ window.bzTwComm={
     return bzTwComm._tmpId++
   },
   setAppInfo:function(d){
+    if(bzTwComm._isIDE()){
+      delete d.frameId
+    }
     Object.assign(bzTwComm,d)
   },
   _getWorld:function(){

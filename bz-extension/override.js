@@ -1863,6 +1863,14 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
   _isAPISucessStatus:function(v){
     return v!="0"&&v&&v<400
   },
+  _toRegExp:function(v){
+    if(_ideDataManagement._isRegexData(v)){
+      v=eval(v)
+    }
+    if(v&&v.constructor==RegExp){
+      return v
+    }
+  },
   _parseToExeCode:function(d,_toFunOnly){
     d=(d||"").trim()
     if(_Util._isFunction(d)){
@@ -7461,264 +7469,6 @@ tbody td:first-child,tbody td:last-child{
       return os
     }
   },
-  //bz-test-code-start
-  _testExtractData:function(){
-    let d={
-      name:"name-1",
-      value:"value-1",
-      data:{
-        name:"name-2",
-        value:"value-2"
-      },
-      list:[
-        {
-          name:"name-3",
-          value:"value-3"
-        },
-        {
-          name:"name-4",
-          value:"value-4",
-          age:33
-        },
-        {
-          name:"name-5",
-          value:"value-5",
-          age:33
-        }
-      ]
-    },
-    ds=[{
-      name:"name-1",
-      value:"value-1",
-      data:{
-        name:"name-2",
-        value:"value-2"
-      },
-      list:[
-        {
-          name:"name-3",
-          value:"value-3"
-        },
-        {
-          name:"name-4",
-          value:"value-4",
-          age:33
-        },
-        {
-          name:"name-5",
-          value:"value-5",
-          age:33
-        }
-      ]
-    },{
-      name:"name-1",
-      value:"value-1",
-      data:{
-        name:"name-2",
-        value:"value-2"
-      },
-      list:[
-        {
-          name:"name-3",
-          value:"value-3"
-        },
-        {
-          name:"name-4",
-          value:"value-4",
-          age:33
-        },
-        {
-          name:"name-5",
-          value:"value-5",
-          age:33
-        }
-      ]
-    }]
-    _testData(d)
-    _testData(ds)
-    function _testData(d){
-      _showData(d,"name")
-      _showData(d,"name(Name)")
-      _showData(d,["name","value"])
-      _showData(d,["name(Name)","value(Value)"])
-      _showData(d,["*.name","*.value"])
-      _showData(d,["*(obj).name","*(obj).value"])
-      _showData(d,["*(obj1).name","*(obj2).value"])
-      _showData(d,{"*":["name","value"]})
-      _showData(d,{"*(obj)":["name(Name)","value(Value)"]})
-      _showData(d,{"+":["name","value"]})
-      _showData(d,{"+(obj)":["name(Name)","value(Value)"]})
-      _showData(d,{"*":[{"bz-if":{name:"name-4"}},"name","value"]})
-      _showData(d,{"*(array)":[{"bz-if":{name:"name-4"}},"name(Name)","value(Value)"]})
-      _showData(d,{"*":[{"bz-if":{name:"name-3"}},{"bz-if":{name:"name-4"}},"name","value"]})
-      _showData(d,{"*":[{"bz-if":{name:{match:/name-[0-9]+/}}},"name","value"]})
-    }
-
-    function _showData(d,k){
-      d=_Util._findValue(d,k)
-      console.log(__(d))
-    }
-  },
-  /**
-   * 1, "name1", "name1.name2","name1.*.name", name1 in top level, name2 under object of name1
-   * 2, ["name1","name2"], in any level
-   * 3, {name1:["name2","name3"]}, name1 is in the any leval, name2 and name3 are under name1, but in the any level
-   * 4, {name1:["name2","name3"]}, name1 is in the any leval, name2 and name3 are under name1, but in the any level
-   * 4, {name1:["name2","name3"]}, name1 is in the any leval, name2 and name3 are under name1, but in the any level
-   */
-  _findValue:function(v,ks){
-    if(!v||!ks){
-      return
-    }
-    let _keyMap={}
-    v=_Util._clone(v);
-    ks=_handleKey(ks);
-
-    if(ks.constructor!=Array){
-      ks=[ks]
-    }
-    
-    return _pickData(v,ks,1)
-    
-    function _pickData(v,ks,_root,_data){
-      if(_Util._isObjOrArray(v)&&ks.length){
-        if(v.constructor==Array){
-          return _pickArray(v,ks,_root)
-        }else{
-          _data=_data||{};
-          return _pickObj(v,ks,_root,_data)
-        }
-      }
-    }
-    function _pickObj(vv,ks,_root,_data){
-      _data=_data||{};
-
-      for(let i =0 ;i<ks.length;i++){
-        let k=ks[i];
-        if(k.constructor==String){
-          k=_findKey(k);
-          if(vv[k._key]!==undefined){
-            if(_data[k._name]===undefined){
-              _data[k._name]=vv[k._key]
-            }else{
-              if(_data[k._name].constructor!=Array){
-                _data[k._name]=[_data[k._name]]
-              }
-              _data[k._name].push(vv[k._key])
-            }
-            delete vv[k._key]
-          }
-          if(_root){
-            ks.splice(i--,1)
-          }
-        }else if(k.constructor==Array){
-          _pickData(vv,k,_root,_data)
-        }else{
-          if(k["bz-if"]){
-            if(!_isValidData(vv,k["bz-if"])){
-              return
-            }
-            continue
-          }
-          for(let kk in k){
-            kk=_findKey(kk)
-            if(kk._key=="*"){
-              _pickData(vv,k[kk._org],_root,_data)
-            }else if(kk._key=="+"){
-              if(!_root){
-                _pickData(vv,k[kk._org],0,_data)
-              }
-            }else{
-              if(vv[kk._key]){
-                let dd={}
-                _data[kk._name]=dd
-                _pickData(vv[kk._key],k[kk._org],0,dd)
-              }
-              if(_root){
-                delete k[kk._org]
-              }
-            }
-            if(d[kk]!==undefined){
-              _data[kk]=d[kk]
-            }
-          }
-        }
-      }
-
-      for(let kk in vv){
-        _pickData(vv[kk],ks,0,_data)
-      }
-
-
-      return _data
-    }
-
-    function _pickArray(vs,ks,_root){
-      return vs.map(x=>{
-        let kk=_Util._clone(ks)
-        return _pickData(x,kk,_root)
-      }).filter(x=>X!==undefined);
-    }
-
-    function _findKey(k){
-      let kk=_keyMap[k]
-      if(!kk){
-        kk=k.split("(")
-        if(kk.length>1){
-          kk={
-            _key:kk[0],
-            _name:kk[1].replace(")",""),
-            _org:k
-          }
-        }else{
-          kk={
-            _key:k,
-            _name:k,
-            _org:k
-          }
-        }
-        _keyMap[k]=kk
-      }
-      return kk
-    }
-
-    function _handleKey(k){
-      if(k.constructor==String){
-        k=k.split(".").map(x=>x.trim())
-        if(k.length>1){
-          let ko={}
-          let ok=ko,lk;
-          k.forEach((kk,ii)=>{
-            if(ii<k.length-1){
-              if(lk){
-                ok=ok[lk]
-              }
-              ok[kk]={}
-              lk=kk
-            }else{
-              ok[lk]=[kk]
-            }
-          })
-          return ko
-        }else{
-          return k[0]
-        }
-      }else if(k.constructor==Array){
-        return k.map(x=>_handleKey(x))
-      }else{
-        for(let kk in k){
-          if(kk!="bz-if"){
-            k[kk]=_handleKey(k[kk])
-          }
-        }
-        return k
-      }
-    }
-  },
-  _validJSON:function(v,d){
-
-  },
-  //bz-test-code-end
   _findDomWithPanels:function(d,ps,pp){
     var _idx=d.pop()
     if(!$.isNumeric(_idx)){
@@ -8937,9 +8687,16 @@ tbody td:first-child,tbody td:last-child{
             return m[i]
           }
           return m
-        }else if(t.match(/.+(\(.+\))+/)){
-          let tt=t.split("("),ts=[]
-          
+        }else{
+          let tt=t.split(">"),ts=[]
+          for(let j=0;j<tt.length;j++){
+            let tv=tt[j]
+            if(tv.endsWith("\\")&&j<tt.length-1){
+              tv=tv.replace("\\",">")+tt[j+1]
+              j--
+            }
+          }
+          tt=tt.map(x=>x.trim())
           while(tt.length){
             let tv=tt.pop().replace(/\)$/,"")
             tv=_TWHandler._getCanvasTextElement(c,tv)
@@ -9339,6 +9096,7 @@ tbody td:first-child,tbody td:last-child{
     }
   },
   _setBZSent:function(d,_win){
+    console.log(d)
     if(!bzTwComm._isApp() && d.url&&_TWHandler._isIgnoreRequest(d.url)){
       return
     }
@@ -9372,7 +9130,7 @@ tbody td:first-child,tbody td:last-child{
       _TWHandler._lastSent=0;
       _TWHandler.BZ_sent=0;
     }
-    if(bzTwComm._isApp()){
+    if(!bzTwComm._isIDE()&&bzTwComm._isApp()){
       bzTwComm._postToIDE({_fun:"_setBZSent",_args:[d],_scope:"_TWHandler"});      
     }else if(bzTwComm._isIDE()&&!BZ._isPlaying()&&d._root&&!d.url){
       _extensionComm._exeFun("_setUIData","_IDE._innerWin",{_dataBind:{_showDataBind:_IDE._innerWin._data._dataBind._showDataBind}});
@@ -10318,9 +10076,32 @@ tbody td:first-child,tbody td:last-child{
       }
     }
   },
+  _setBackData:function(a){
+    let s=(a.script||"")
+    if(a.requests){
+      s+=a.requests.map(x=>x.responseScript||""+(x.loopData||"")).join("")
+    }
+    if(s.includes("$util.validateData")){
+      s=s.split("$util.validateData")
+      s.shift()
+      s.forEach(x=>{
+        x=x.split(",")
+        x.shift()
+        x.forEach(y=>{
+          y=y.split(")")[0].trim()
+          let d=y.match(/\$(test|module|project)[\.\[]([^\.\)]+)/)
+          if(d){
+            let dd=window["$"+d[1]]
+            dd[d[2]]=_DataBuilder._getOrgDataByPath(y)
+          }
+        })
+      })
+    }
+  },
   _prepareItem:function(_setting,a,_result,_funOnSelfCtrl){
     var u=!BZ._isAutoRunning();
     var _element=a.element||a.panel
+    _domActionTask._setBackData(a)
     if(_apiHandler._isRequestAction(a)){
       return 1
     }else if(a.refCom){
@@ -16101,6 +15882,33 @@ tbody td:first-child,tbody td:last-child{
     }],0,0,1)
   }
 };window.$util={
+  extractData:function(d,k){
+    return _extractData._extract(v,d)
+  },
+  showJsonValidateResult:function(v,d){
+    if(!d&&v.valid){
+      d=v.valid
+      v=v.data
+    }
+    _extractData._showTools(v,d)
+  },
+  validateData:function(v,d){
+    let url=location.protocol+"/"+"/"+location.host+location.pathname+"?id="+pId+"#"+_ideLocation._getPath(0,_ideTask._data._curModule||_IDE._data._curModule,_ideTask._data._curTest||_IDE._data._curTest)
+    if(_domActionTask._lastAction){
+      _domActionTask._lastAction._extractJsonData=v
+      _domActionTask._lastAction._validJsonData=d
+      _domActionTask._lastAction._url=url
+    }
+    let r= _extractData._checkData(v,d)
+    console.log("BZ-LOG: BZ-Start-Validating:"
+                +"url: "+url
+                +"-- Data --"
+                +JSON.stringify(v)
+                +"-- Validation --"
+                +JSON.stringify(d)
+                +"BZ-End-Validating");
+    return r
+  },
   extendExtensionScript:function(c,_pos){
     let d={bz:1}
     if(_pos=="end"){
@@ -17986,40 +17794,7 @@ tbody td:first-child,tbody td:last-child{
 //Remove output function content
 for(k in $util){
   $util[k].toString=function(){}
-}
-
-  /**
-   * includes other element
-   */
-  jQuery.expr[":"].noCss=function(a,i,m){
-    if(_Util._isIgnoreElement(a)){
-      return
-    }
-    let v=m[3].toLowerCase().split("|"),
-        c=""
-    return v.find(vv=>{
-      if(vv[0]=="."){
-        if(a.className&&a.className.constructor==String){
-          return !_includes(a.className,vv)
-        }
-      }else if(vv[0]=="#"){
-        if(a.id&&a.id.constructor==String){
-          return !_includes(a.id,vv)
-        }
-      }
-    })&&true
-    
-    function _includes(c,vv){
-      c=c.toLowerCase()
-      vv=vv.substring(1)
-      let v2=vv.split(/[^a-z0-9]/)
-      if(v2.length==1){
-        return c.split(/[^a-z0-9]/).includes(vv)
-      }else{
-        return c.includes(vv)
-      }
-    }
-  };/*
+};/*
   For get customer app info from extension
 */
 window.bzTwComm={
@@ -18049,6 +17824,9 @@ window.bzTwComm={
       return
     }
     v.org=JSON.stringify(v)
+    if(bzTwComm._list[bzTwComm._list.length-1]&&bzTwComm._list[bzTwComm._list.length-1].org==v.org){
+      return
+    }
     bzTwComm._list.push(v)
     if(!bzTwComm._getExtensionId()){
       console.log("BZ-LOG:Missing extension id")
@@ -18174,6 +17952,9 @@ window.bzTwComm={
     return bzTwComm._tmpId++
   },
   setAppInfo:function(d){
+    if(bzTwComm._isIDE()){
+      delete d.frameId
+    }
     Object.assign(bzTwComm,d)
   },
   _getWorld:function(){
