@@ -1854,7 +1854,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
       }catch(ex){
         if(ex.message.includes("unsafe-eval")){
           console.log("BZ-LOG: "+v)
-          return _Util._eval._exeCode(v,_map);
+          return _eval._exeCode(v,_map);
         }
         throw ex;
       }

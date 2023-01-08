@@ -667,7 +667,7 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
       }catch(ex){
         if(ex.message.includes("unsafe-eval")){
           console.log("BZ-LOG: "+v)
-          return _Util._eval._exeCode(v,_map);
+          return _eval._exeCode(v,_map);
         }
         throw ex;
       }
