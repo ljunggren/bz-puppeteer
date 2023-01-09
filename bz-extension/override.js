@@ -15898,7 +15898,7 @@ tbody td:first-child,tbody td:last-child{
       _domActionTask._lastAction._validJsonData=d
       _domActionTask._lastAction._url=url
     }
-    let r= _extractData._checkData(v,d)
+    v=_compressJSON._unConvert(v)
     console.log("BZ-LOG: BZ-Start-Validating:"
                 +"url: "+url
                 +"-- Data --"
@@ -15906,7 +15906,7 @@ tbody td:first-child,tbody td:last-child{
                 +"-- Validation --"
                 +JSON.stringify(d)
                 +"BZ-End-Validating");
-    return r
+    return _extractData._checkData(v,d,1)
   },
   extendExtensionScript:function(c,_pos){
     let d={bz:1}

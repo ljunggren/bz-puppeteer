@@ -7214,7 +7214,7 @@ var _Dialog={
       _domActionTask._lastAction._validJsonData=d
       _domActionTask._lastAction._url=url
     }
-    let r= _extractData._checkData(v,d)
+    v=_compressJSON._unConvert(v)
     console.log("BZ-LOG: BZ-Start-Validating:"
                 +"url: "+url
                 +"-- Data --"
@@ -7222,7 +7222,7 @@ var _Dialog={
                 +"-- Validation --"
                 +JSON.stringify(d)
                 +"BZ-End-Validating");
-    return r
+    return _extractData._checkData(v,d,1)
   },
   extendExtensionScript:function(c,_pos){
     let d={bz:1}
@@ -15061,7 +15061,7 @@ _extendJQuery();var _extractData={
       return k
     }
   },
-  _checkData:function(v,d,pk){
+  _checkData:function(v,d,_root,pk){
     v=v||""
     d=d||""
     if(d.constructor==String&&(_Util._isJsonValueString(d)||_Util._hasCode(d))){
@@ -15070,20 +15070,19 @@ _extendJQuery();var _extractData={
     if(v.constructor==String&&_Util._isJsonValueString(v)||_Util._hasCode(v)){
       eval("v="+v)
     }
-    v=_compressJSON._unConvert(v)
 
     if(!d||d.constructor!=Object){
       return _chkValue(v,d,pk)
     }
     for(let k in d){
       let dv=d[k],pp=pk?pk.concat(k):[k]
-      let vv=this._extract(v,k)||v
+      let vv=this._extract(v,k,_root)||v
       if(dv.constructor==Object){
-        if(!_extractData._checkData(vv,dv)){
+        if(!_extractData._checkData(vv,dv,0)){
           return
         }
       }else if(vv.constructor==Array){
-        if(vv.find(x=>!_extractData._checkData(x,dv,pp))){
+        if(vv.find(x=>!_extractData._checkData(x,dv,0,pp))){
           return
         }
       }else{
@@ -15095,9 +15094,10 @@ _extendJQuery();var _extractData={
     return 1
 
     function _chkValue(v,d,pk){
+      let r;
       if(!d){
       }else if(v&&v.constructor==Array){
-        return !v.find(x=>!_chkValue(x,d,pk))
+        r= !v.find(x=>!_chkValue(x,d,pk))
       }else if(v&&v.constructor==Object){
         for(let k in v){
           if(!_chkValue(v[k],d,pk?pk.concat(k):[k])){
@@ -15106,14 +15106,20 @@ _extendJQuery();var _extractData={
         }
         return 1
       }else if(d.constructor==Function){
-        return d(v,pk)
+        r= d(v,pk)
       }else if(d.constructor==RegExp||_ideDataManagement._isRegexData(d)){
         v+=""
-        return _Util._toRegExp(d).test(v)
+        r= _Util._toRegExp(d).test(v)
       }else if(d.constructor==Array){
-        return d.find(x=>_extractData._checkData(v,x,pk))
+        r= d.find(x=>_extractData._checkData(v,x,0,pk))
       }
-      return v==d
+      if(r===undefined){
+        r= v==d
+      }
+      if(!r){
+        console.log("BZ-LOG: Check data fail: "+v+", "+d)
+      }
+      return r
     }
   },
   _saveData:function(v,d){
@@ -15218,9 +15224,24 @@ _extendJQuery();var _extractData={
     vs.forEach(x=>{
       try{
         let v=_DataBuilder._getOrgDataByPath(x)
-        _chkItem(v,x,_chkDef)
+        if(_Util._isJsonValueString(v)){
+          eval("v="+v)
+        }
+        if(x.match(/\$(test|module|project)/)){
+          _chkItem(v,x,_chkDef)
+        }else{
+          _setDefinition(v,x)
+        }
       }catch(ex){}
     })
+    if(r){
+      vs.find((x,i)=>{
+        if(x==r.x){
+          vs.splice(i,1)
+          return 1
+        }
+      })
+    }
 
     function _chkItem(v,x,_chkDef,_notSet){
       if(!v){
