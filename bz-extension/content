@@ -10,6 +10,9 @@ function registerTab(){
         bzTwComm.setAppInfo(_msg)
         bzTwComm._postToIDE({c:"console.log('BZ-LOG: register tab success')"})
         bzTwComm._postToIDE({_fun:"setAppInfo",_scope:"bzTwComm",_args:[_msg]})
+        if(!window._domActionTask||!window._domActionTask._lastAction){
+          bzTwComm._postToIDE({_fun:"resendAction",_scope:"bzTwComm",_args:[_msg]})
+        }
       }else{
         console.log("register tab failed")
         createErrMark("Register tab failed")

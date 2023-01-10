@@ -7198,7 +7198,7 @@ var _Dialog={
   }
 };window.$util={
   extractData:function(d,k){
-    return _extractData._extract(v,d)
+    return _extractData._extract(d,k)
   },
   showJsonValidateResult:function(v,d){
     if(!d&&v.valid){
@@ -7209,11 +7209,11 @@ var _Dialog={
   },
   validateData:function(v,d){
     let url=location.protocol+"/"+"/"+location.host+location.pathname+"?id="+pId+"#"+_ideLocation._getPath(0,_ideTask._data._curModule||_IDE._data._curModule,_ideTask._data._curTest||_IDE._data._curTest)
-    if(_domActionTask._lastAction){
-      _domActionTask._lastAction._extractJsonData=v
-      _domActionTask._lastAction._validJsonData=d
-      _domActionTask._lastAction._url=url
-    }
+    // if(_domActionTask._lastAction){
+    //   _domActionTask._lastAction._extractJsonData=v
+    //   _domActionTask._lastAction._validJsonData=d
+    //   _domActionTask._lastAction._url=url
+    // }
     v=_compressJSON._unConvert(v)
     console.log("BZ-LOG: BZ-Start-Validating:"
                 +"url: "+url
@@ -7222,7 +7222,7 @@ var _Dialog={
                 +"-- Validation --"
                 +JSON.stringify(d)
                 +"BZ-End-Validating");
-    return _extractData._checkData(v,d,1)
+    return !!_extractData._checkData(v,d,1)
   },
   extendExtensionScript:function(c,_pos){
     let d={bz:1}
@@ -15041,6 +15041,9 @@ _extendJQuery();var _extractData={
     }
   },
   _handleKey:function(k){
+    if(k===null||k===undefined){
+      return k
+    }
     if(k.constructor==String){
       k=k.split(".").map(x=>x.trim())
       let ko={}
@@ -31918,6 +31921,7 @@ var $data=function(m,t,init){
           r._newScriptList=$script.newList
           $script.newList=[]
         }
+        _domActionTask._lastAction=0
         if(_backFun){
           let _finalFun=_backFun
           _backFun=0
