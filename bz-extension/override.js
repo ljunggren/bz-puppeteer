@@ -1871,6 +1871,9 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
       return v
     }
   },
+  _isXMLData:function(v){
+    return v&&v.constructor==String&&v.trim().match(/^<([^ ]+).+<([^>]+)>$/s);
+  },
   _parseToExeCode:function(d,_toFunOnly){
     d=(d||"").trim()
     if(_Util._isFunction(d)){
@@ -17914,6 +17917,10 @@ window.bzTwComm={
         bzTwComm._doing=0
         _doIt()
       }catch(ex){
+        if(ex.message=="extension context invalidated"){
+          console.log(ex.message)
+          return
+        }
         window.createErrMark&&window.createErrMark("Post data error")
         console.log(ex.stack)
         bzTwComm._list.unshift(vv)
@@ -17946,6 +17953,20 @@ window.bzTwComm={
       chrome.runtime.sendMessage(bzTwComm._getExtensionId(),{status:BZ._data._status},r=>{})
       chrome.runtime.sendMessage(bzTwComm._getExtensionId(),{bzCode:1},r=>{})
       return {ideId:bzTwComm.ideId,appId:bzTwComm.appId}
+    }
+  },
+  resendAction:function(){
+    let d=_ideTask._exeActionBKFunParameters
+    if(d&&d._data.exeTime&&d._fun=="_app"){
+      console.log("BZ-LOG: redo action for load page issue")
+      clearTimeout(_ideTask._retryTimer)
+      _ideTask._retryTimer=0
+      _ideTask._action._runAction(d._data,d._force,d._backFun)
+    }else{
+      if(d){
+        console.log("BZ-LOG: exeActionBKFunParameters: "+d.exeTime+","+d._fun+","+d._data.runInIDE+","+d._data.description)
+      }
+      console.log("BZ-LOG: no action, app page ready: "+_extensionComm._pageReady)
     }
   },
   _newId:function(){

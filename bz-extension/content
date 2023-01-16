@@ -1,7 +1,3 @@
-if(window.name.includes("bz-client")||parent!=window){
-  registerTab()
-}
-
 function registerTab(){
   try{
     console.log("do register tab")
@@ -11,7 +7,14 @@ function registerTab(){
         bzTwComm._postToIDE({c:"console.log('BZ-LOG: register tab success')"})
         bzTwComm._postToIDE({_fun:"setAppInfo",_scope:"bzTwComm",_args:[_msg]})
         if(!window._domActionTask||!window._domActionTask._lastAction){
-          bzTwComm._postToIDE({_fun:"resendAction",_scope:"bzTwComm",_args:[_msg]})
+          setTimeout(()=>{
+            if(!window._domActionTask||!window._domActionTask._lastAction){
+              bzTwComm._postToIDE({c:"console.log('BZ-LOG: Ask re-action')"})
+              bzTwComm._postToIDE({_fun:"resendAction",_scope:"bzTwComm"})
+            }else{
+              bzTwComm._postToIDE({c:"console.log('BZ-LOG: Exe action in app')"})
+            }
+          },1000)
         }
       }else{
         console.log("register tab failed")
@@ -24,6 +27,9 @@ function registerTab(){
     createErrMark("Register tab failed")
     return "Register failed:"+ex.message
   }
+}
+if(window.name.includes("bz-client")||parent!=window){
+  registerTab()
 }
 
 window.createErrMark=function(w){
