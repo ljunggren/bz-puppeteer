@@ -168,6 +168,7 @@ let funMap={
     if(data.contentType){
       xhttp.setRequestHeader("Content-Type",data.contentType)
     }
+    xhttp.setRequestHeader('Cache-Control', 'no-cache, no-store, max-age=0');
     xhttp.send(data.data);
 
     function _handleBold(blob,_url){
