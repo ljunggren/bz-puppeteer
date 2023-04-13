@@ -163,9 +163,9 @@ function handleMsg(_event, _, sendResponse, codeTime) {
       if(o){
         if(_event.frameId===undefined || _event.frameId.includes(bzIframeId)){
           o.element=_event.element;
-          window[ecMap.iam][ecMap.sca](o);
         }
       }
+      window[ecMap.iam][ecMap.sca](o);
     }else{
       window[ecMap.i][ecMap.d][ecMap.ct]=o;
     }
