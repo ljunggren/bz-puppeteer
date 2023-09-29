@@ -348,7 +348,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   }else{
     //for request execution a BZ testing action
     if(_req.exeAction){
-      _req.frameId=[_topFrameId];
+      assignFrameId(_req,_req.exeAction.element)
       _lastExeActionReq=_req;
       if(_req.exeAction.element){
         return _addFrameId(_req,_req.exeAction.element,function(r){
@@ -371,7 +371,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
         _doIt(r||_req)
       })
     }else if(_req.data&&_req.data.element){
-      _req.frameId=[_topFrameId];
+      assignFrameId(_req,_req.data.element)
       return _addFrameId(_req,_req.data.element,function(r){
         _doIt(r||_req)
       })
@@ -385,7 +385,7 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
         _shareData[k]=_req.shareData[k];
       }
     }else if(_req.updateExpection&&_req.updateExpection.element){
-      _req.frameId=[_topFrameId];
+      assignFrameId(_req,_req.updateExpection.element)
       return _addFrameId(_req,_req.updateExpection.element,function(r){
         _doIt(r||_req)
       })
@@ -421,7 +421,7 @@ function _addFrameId(_req,_element,_fun,_retry){
   }
   _retry=_retry||0
   _appRetry=_retry
-  _req.frameId=[_topFrameId];
+  assignFrameId(_req,_element)
   if(_element&&_element.constructor==Object){
     _element=_element.path
   }
@@ -480,6 +480,13 @@ function _addFrameId(_req,_element,_fun,_retry){
   _fun()
 }
 
+function assignFrameId(o,_element){
+  if(_element && _element[0]!="BZ.TW.document"){
+    o.frameId=[_topFrameId];
+  }else{
+    o.frameId=[0]
+  }
+}
 function getIframePath(_element){
   if(_element&&_element[0]&&!_element[0].startsWith("$(BZ.TW.document.body)")&&_element[0][0]=="$"){
     var v=_element[0].match(/\((.+)\)/)
