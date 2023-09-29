@@ -1826,7 +1826,8 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
     }
     console.log("Spent time: "+(Date.now()-t))
   }
-};window._Util={
+};//bz-ignore
+window._Util={
   _attrRegex:/\[(.+)\=('|)(\$label|\$header)('|)\]/,
   _bzJQFun:/\:(near|input|data|panel|Contains|textElement|after|before|endContains|contains|endEqual|equal|RowCol|rowcol|text)\((\$label|\$header)\)/,
   _allLetterAndNumber:/[\wÀ-Üà-øoù-ÿŒœ\u4E00-\u9FCC]+/,
@@ -1860,16 +1861,43 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
       }
     }
   },
+  _getColorByName:function(v){
+    while(v.length<6){
+      v+=v
+    }
+    let c="#"
+    for(let i=0;i<6;i++){
+      c+=(v.charCodeAt(i)%10)
+    }
+    return c
+  },
+  _getBrowserTime:function(){
+    return performance.now()
+  },
+  _animateDownUp:function(b){
+    if(!b){
+      return
+    }
+    let p=b.style.position,t=b.style.top;
+
+    b.style.position="relative";
+    $(b).animate({top: "10px"});
+    BZ._setTimeout(()=>{
+      $(b).animate({top: 0});
+    },200)
+  },
   _isAPISucessStatus:function(v){
     return v!="0"&&v&&v<400
   },
   _toRegExp:function(v){
-    if(_ideDataManagement._isRegexData(v)){
-      v=eval(v)
-    }
-    if(v&&v.constructor==RegExp){
-      return v
-    }
+    try{
+      if(_ideDataManagement._isRegexData(v)){
+        v=eval(v)
+      }
+      if(v&&v.constructor==RegExp){
+        return v
+      }
+    }catch(ex){}
   },
   _isXMLData:function(v){
     return v&&v.constructor==String&&v.trim().match(/^<([^ ]+).+<([^>]+)>$/s);
@@ -2373,6 +2401,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
         t[k]=f[k]
       }
     }
+    return t
   },
   _overwriteObj:function(c,n){
     $.extend(true,c,n);
@@ -2852,6 +2881,9 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
         XMLHttpRequest.prototype._XMLHttpRequestSend=XMLHttpRequest.prototype.send
         XMLHttpRequest.prototype.send=function(v){
           a.data=v||a.data
+          if(a.headers&&a.headers["Content-Type"]){
+            delete a.contentType
+          }
           this.abort()
           XMLHttpRequest.prototype.send=XMLHttpRequest.prototype._XMLHttpRequestSend
           delete XMLHttpRequest.prototype._XMLHttpRequestSend
@@ -2866,13 +2898,17 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
       $.ajax(a)
     }
     function _showInfo(_status,_msg){
+      _msg=_msg||""
+      if(_msg.constructor!=String){
+        _msg=JSON.stringify(_msg,0,2)
+      }
       _msg=_Util._formatMessage(_bzMessage._system._error._ajaxFailed,[
         _status,
         a.url,
         a.headers?JSON.stringify(a.headers,0,2):"",
         a.query?JSON.stringify(a.query,0,2):"",
         a.body?JSON.stringify(a.body,0,2):"",
-        JSON.stringify(_msg,0,2).substring(0,200)])
+        _msg])
       alert(_msg)
     }
     function _callExtensionBackgroud(){
@@ -3164,7 +3200,10 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
               vv.pop()
             }
             if(!_Util._isEmpty(vv)){
-              vv[vv.length-1]="return "+vv[vv.length-1]
+              let vvv=vv[vv.length-1].trim()
+              if(!vvv.match(/^(var|let|const) /)){
+                vv[vv.length-1]="return "+vv[vv.length-1]
+              }
               vv=vv.join("\n")
               n=_Util._eval("n=(()=>{\n"+vv+"\n})()")
             }
@@ -3530,6 +3569,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
           })
         }
       }catch(e){
+        _domActionTask._doLog(e.message)
         s=_JSHandler._prepareData(s,0,0,_parameter)||s
       }
     }
@@ -3694,7 +3734,33 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
     let s=_Util._formatNumberLength(t%60,2)
     return h+m+s
   },
-  _formatTimeInMinSecond:function(tt){
+  _toOneLevelJson:function(d){
+    let ds=[]
+    _findPath(d)
+    return ds;
+    function _findPath(d,p){
+      if(!d||![Object,Array].includes(d.constructor)){
+        let o={}
+        o[p]=d
+        ds.push(o)
+      }else{
+        if(d.constructor==Object){
+          for(let k in d){
+            let ks=k.split(",")
+            ks.forEach(kk=>{
+              let pp=p?p+"."+kk:kk
+              _findPath(d[k],pp)
+            })
+          }
+        }else{
+          d.forEach(e => {
+            _findPath(e,p)
+          });
+        }
+      }
+    }
+  },
+  _formatTimeInMinSecond:function(tt,_ignoreMs){
     tt=parseInt(tt)
     let p=""
     if(tt<0){
@@ -3719,7 +3785,11 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
     if(!s){
       s=0
     }
-    tt=tt%1000
+    if(!_ignoreMs){
+      tt=tt%1000
+    }else{
+      tt=0
+    }
     return p+h+m+s+(!h&&!m&&s<10&&tt?"."+tt:"")+(!h&&!m?"s":"")
   },
   _formatTimer:function(t){
@@ -3739,6 +3809,19 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
     }
     return h+m+t
   },
+  _changeFavicon:function(src) {
+    src=location.protocol+"/"+"/"+location.host+"/"+src;
+    document.head = document.head || document.getElementsByTagName('head')[0];
+    var link = document.createElement('link'),
+        oldLink = document.getElementById('dynamic-favicon');
+    link.id = 'dynamic-favicon';
+    link.rel = 'shortcut icon';
+    link.href = src;
+    if (oldLink) {
+      document.head.removeChild(oldLink);
+    }
+    document.head.appendChild(link);
+  },  
   _copyText:function(w,_doc,ui){
     _doc=_doc||document
     let _isInput=["INPUT","TEXTAREA"].includes(w.tagName)
@@ -3783,6 +3866,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
         },100)
       }
     }
+    _infoManagement._addBZInfo(_bzMessage._method._copiedText)
   },
   
   _copyData:function(o,_doc){
@@ -4312,6 +4396,24 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
       return $(a).find(o).length
     })
   },
+  _findParentElementByCss:function(p,o){
+    p=$(p).toArray();
+    let oo=0
+    while(!oo){
+      oo= p.find(a=>{
+        return $(a).find(o)[0]
+      })
+      if(oo){
+        return oo
+      }
+      p=p[0].parentElement
+      if(!p){
+        return
+      }
+      p=$(p).toArray();
+    }
+    return oo
+  },
   _getParentByTagName:function(o,_name){
     while(o.parentElement && o.tagName!="BODY"){
       o=o.parentElement
@@ -4736,6 +4838,9 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
       }
       h.onmousedown=function(e){
         _Util._setToTop(_curDom);
+        if($("[draggable]").find(e.target)[0]){
+          return
+        }
         let c=this.parentElement.getBoundingClientRect(),
             r=this.getBoundingClientRect()
         // $(this).css({position:"fixed"})
@@ -5455,7 +5560,52 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
     }else{
       BZ.TW.alert(_msg);
     }
-  },  
+  },
+  _attachResize:function(o,h){
+    setTimeout(()=>{
+      o=$(o)[0];
+      $(o).css({"min-height":"unset"});
+      o=_Util._findParentElementByCss(".bz-modal-window",o);
+      $(o).css({"max-height":"unset"});
+      if(h){
+        $(o).css({height:h+"px"})
+      }
+      _Util._attachResizeWindow(o)
+    },100)
+  },
+  _attachResizeWindow:function(w){
+    let o=$("<div class='bz-corner-resize'></div>").appendTo(w)
+    let p,wr=w.getBoundingClientRect();
+    $(w).css({"max-width":"unset",left:wr.left+"px",top:wr.top+"px",transform:"unset"})
+    o.mousedown(function(e){
+      let x=this
+      o.p=_Util._getMouseXY(e)
+      wr=w.getBoundingClientRect()
+      e.preventDefault()
+      e.stopPropagation()
+
+
+      let _onmousemove=document.body.onmousemove
+      document.body.onmousemove=function(e){
+        if(o.p&&e.buttons){
+          if(!$(document.body).hasClass("prevent-select")){
+            $(document.body).addClass("prevent-select")
+          }
+          let q=_Util._getMouseXY(e)
+          let wl=(q.x-o.p.x),
+              wh=(q.y-o.p.y)
+
+          wl+=wr.width
+          wh+=wr.height
+          $(w).css({width:wl+"px",height:wh+"px"})
+        }else{
+          o.p=0
+          document.body.onmousemove=_onmousemove
+          $(document.body).removeClass("prevent-select")
+        }
+      }
+    })
+  },
   _confirmMessage:function(_msg,_btns,_title,_width,_noCancel,_cancelFun,_noModal,_body,_noMoreAsk){
     let _loading=_msg
     var d=_Util._clone(_Dialog),
@@ -5470,7 +5620,7 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
         ww*=1.5
       }
     }
-    _width=(_width||ww)+"";
+    _width=(_width||Math.min(ww,600))+"";
     if(!_width.match(/\%/)){
       _width+="px"
     }
@@ -5616,10 +5766,8 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
           return $(oi).find(o).length
         })
         _doIt(o)
-      }else{
-        os.forEach(o=>{
-          _doIt(o)
-        })
+      }else if(os.length){
+        _doIt(os.pop())
       }
     },10)
     
@@ -5781,6 +5929,8 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
       _host="/"+"/ai.boozang.com"
     }
 
+    
+
     //Setup css
     if(_Util._style){
       d.write("<style>"+_Util._style+"</style>")
@@ -5810,7 +5960,11 @@ if(curIframeId){console.log('call be bg ...')}else{console.log('call for client'
     _CtrlDriver._execute({},{},_viewDef,d.body);
 
     d.insertBefore(d.implementation.createDocumentType('html','',''), d.childNodes[0]);
-
+    setTimeout(function(){
+      if(curUser.uiModel){
+        $(w.document.body.parentElement).addClass("bz-in-"+curUser.uiModel)
+      }
+    },10)
     return w
   },
   _checkKeycode:function(e) {
@@ -6291,12 +6445,7 @@ tbody td:first-child,tbody td:last-child{
   },
   */
   _formatNumberLength:function(v,l){
-    l=l||2;
-    v=v+"";
-    while(v.length<l){
-      v="0"+v;
-    }
-    return v;
+    return (v+"").padStart(l||2,0);
   },
   _getAngularModelAttr:function(o){
     var _tmp=null;
@@ -6423,6 +6572,16 @@ tbody td:first-child,tbody td:last-child{
       }
     }
     return vs;
+  },
+  _clearEmptyAttr:function(o){
+    let ks=Object.keys(o);
+    ks.forEach(k=>{
+      if(!o[k]&&o[k]!==0){
+        delete o[k];
+      }else if(_Util._isObjOrArray(o[k])){
+        this._clearEmptyAttr(o[k])
+      }
+    })
   },
   _getAttributeCss:function(e,v,bv){
     if(!e.attributes){
@@ -6780,6 +6939,90 @@ tbody td:first-child,tbody td:last-child{
       })
     }
     return _diffs
+  },
+  _formatDiffJson:function(v1,v2,s){
+    let w1="",w2="";
+    s=s||""
+    let ss=s+"  "
+
+    if(v1&&v2&&v1.constructor==v2.constructor){
+      if(v1.constructor==Object){
+        w1+="{\n";w2+="{\n";
+      }else if(v1.constructor==Array){
+        w1+="[\n";w2+="[\n";
+      }else{
+        v1=JSON.stringify(v1);
+        v2=JSON.stringify(v2);
+        if(v1!==v2){
+          v1=_highlight(v1);
+          v2=_highlight(v2);
+        }
+
+        return {w1:v1,w2:v2}
+      }
+      Object.keys(v1).forEach(k=>{
+        if(v1[k]!==undefined){
+          let v=_Util._formatDiffJson(v1[k],v2[k],ss)
+          w1+=ss;
+          w2+=ss;
+          if(v1.constructor==Object){
+            w1+='"'+k+'": '
+            w2+='"'+k+'": '
+          }
+          w1+=v.w1+",\n";
+          w2+=v.w2+",\n";
+          w1=_addLine(w1,w2);
+          w2=_addLine(w2,w1);
+        }
+      })
+      Object.keys(v2).forEach(k=>{
+        if(v1[k]===undefined){
+          let v=_Util._formatDiffJson(v1[k],v2[k],ss)
+          w1+=ss;
+          w2+=ss;
+          if(v1.constructor==Object){
+            w1+='"'+k+'": '
+            w2+='"'+k+'": '
+          }
+          w1+=v.w1+",\n";
+          w2+=v.w2+",\n";
+          w1=_addLine(w1,w2);
+          w2=_addLine(w2,w1);
+        }
+      })
+      w1=w1.replace(/(,)(\n*)$/,"$2")
+      w2=w2.replace(/(,)(\n*)$/,"$2")
+      w1+=s;
+      w2+=s;
+      if(v1.constructor==Object){
+        w1+="}";
+        w2+="}";
+      }else{
+        w1+="]";
+        w2+="]";
+      }
+    }else{
+      w1=_formatJsonWithIndent(v1,ss);
+      w2=_formatJsonWithIndent(v2,ss);
+      if(v1!==v2){
+        w1=_highlight(w1);
+        w2=_highlight(w2);
+      }
+    }
+    return {w1:w1,w2:w2}
+
+    function _addLine(w1,w2){
+      return w1+"\n".repeat(Math.max(w2.split("\n").length-w1.split("\n").length,0))
+    }
+
+    function _highlight(v){
+      return `<span style="background-color:var(--bz-warning);color:#000;">${v}</span>`
+    }
+    function _formatJsonWithIndent(v,s){
+      v=JSON.stringify(v,0,2)||""
+      return v.replace(/^/gm,s).trim()
+    }
+
   },
   _strToObj:function(vv){
     let v=vv||""
@@ -7529,6 +7772,17 @@ tbody td:first-child,tbody td:last-child{
     }
     return e
   },
+  _mergeSummary:function(sd,d,k){
+    if(d){
+      if(!sd[k]){
+        sd[k]=d
+      }else if(sd[k]!=d){
+        Object.keys(d).forEach(x=>{
+          sd[k][x]+=d[x]
+        })
+      }
+    }
+  },
   _getClosestElement:function(p,o,c){
     if($(p).is(c)){
       return p
@@ -8091,6 +8345,15 @@ tbody td:first-child,tbody td:last-child{
       r=r.replace("{module}",_IDE._data._curModule._data.name).replace("{num}","[0-9]+").replace("{timestamp}","[0-9]{13}").replace("{time}","[0-9]{6}")
     }
     return r
+  },
+  _readyExecute:function(_ckFun,_exeFun,_time){
+    setTimeout(()=>{
+      if(_ckFun()){
+        _exeFun()
+      }else{
+        _Util._readyExecute(_ckFun,_exeFun,_time)
+      }
+    },_time||100);
   },
   _parseExpression:function(s,_headerSplit,_logic){
     let w="",b,p=[],g,gs=[],hs=[],pml={
@@ -9408,9 +9671,7 @@ tbody td:first-child,tbody td:last-child{
         return
       }
       _timer++
-      if(!BZ.TW){
-        _crash()
-      }else if(BZ.TW.closed){
+      if(!BZ.TW||BZ.TW.closed){
         _crash()
       }else{
         if(bzTwComm._isIDE()){
@@ -9519,7 +9780,18 @@ tbody td:first-child,tbody td:last-child{
     }
 
     function _finalFun(a,b,c){
-      return _callBack&&_callBack(a,b,c)
+      if(_callBack){
+        _callBack(a,b,c)
+      }else{
+        _Util._readyExecute(()=>{
+          return _extensionComm._pageReady
+        },()=>{
+          setTimeout(()=>{
+            _extensionComm._setCurAction(_IDE._data._curAction)
+          },1000)
+        })
+      }
+
       // // console.warn("lws")
       // // console.log("BZ-LOG: after open url: "+JSON.stringify(a))
       // // console.warn("BZ-LOG: after open url"+JSON.stringify(a))
@@ -9679,6 +9951,8 @@ tbody td:first-child,tbody td:last-child{
             }
           }
           return o.e
+        }else if(o.mutipleElement){
+          window.$element=o.e=_Util._findDoms(o.element.filter(x=>!$.isNumeric(x)));
         }else{
           o.e=$util.findDom(o.element,p);
         }
@@ -10271,7 +10545,7 @@ tbody td:first-child,tbody td:last-child{
         
         return _finalFun()
       }else{
-        if(_Util._isHidden(e)){
+        if(e.constructor!=Array&&_Util._isHidden(e)){
           if(a.content&&a.content.type=="unexist"){
             _domActionTask._reportAppInfo("Prepare action: check unexist on hidden element")
             _result._type=_taskInfo._type._success
@@ -10836,7 +11110,7 @@ tbody td:first-child,tbody td:last-child{
         _args:["BZ-LOG: "+v]
       })
     }else{
-      console.log(v+" (APP)")
+      console.log("BZ-LOG: "+v+" (APP)")
     }
   },
   _exeOneActionList:function(_data,_setting,_backFun,_descDelay){
@@ -11202,7 +11476,7 @@ tbody td:first-child,tbody td:last-child{
     }
   },
   _exeAction:function(_data,_setting,_backFun,_descDelay){
-    console.log("get action: "+bzTwComm.frameId)
+    BZ._data._uiSwitch._curLoadingAPIInfo=0
     
     _domActionTask._doLog("Exe Action ...")
     _domActionTask._reportAppInfo("Exe action "+_data.description)
@@ -11838,6 +12112,9 @@ tbody td:first-child,tbody td:last-child{
     }
     
     function _lanuchRequest(_fun){
+      if(!BZ._isPlaying()){
+        return
+      }
       t=(Date.now()-d._result._start)/1000
       if(t<parseInt(d.rampUp.totalTime)){
         if(d.rampUp.up>0){
@@ -11926,6 +12203,9 @@ tbody td:first-child,tbody td:last-child{
     return _msg
   },
   _exeAPI:function(aa,_async,i,_fun,_result){
+    if(!BZ._isPlaying()){
+      return
+    }
     var a=_Util._clone(aa[i]),_returnData,
         _timerout
     if(a){
@@ -12004,17 +12284,20 @@ tbody td:first-child,tbody td:last-child{
         }else{
           _curDetails=_result._details[_result.idx]
           _curDetails._type=r._type
-          _curDetails._data.push({
-            _url:a.url,
-            _method:a.method,
-            _end:_end,
-            _start:_curDetails._curStart,
-            _status:v.status,
-            _data:s.length,
-            _msg:r._type!=4?s:""
-          })
+          // _curDetails._data.push({
+          //   // _url:a.url,
+          //   // _method:a.method,
+          //   _end:_end,
+          //   _start:_curDetails._curStart,
+          //   _status:v.status,
+          //   // _data:s.length,
+          //   // _msg:r._type!=4?s:""
+          // })
+          delete _curDetails._data
+          _setLoadingInfo(r)
+
         }
-        
+        _ideTask._addTmpDetails(r._type)
         if(r._type!=4){
           if(_result._details){
             _result._details[_result.idx]._end=Date.now()
@@ -12051,6 +12334,24 @@ tbody td:first-child,tbody td:last-child{
       _fun(_result)
     }
 
+    function _setLoadingInfo(r){
+      let l=BZ._data._uiSwitch._curLoadingAPIInfo
+      if(!l){
+        BZ._data._uiSwitch._curLoadingAPIInfo={_startTime:Date.now(),_success:0,_failed:0}
+        l=BZ._data._uiSwitch._curLoadingAPIInfo
+        let t=BZ._getCurTest()
+        if(!t._curLoadingAPIInfo){
+          t._curLoadingAPIInfo={}
+        }
+        t._curLoadingAPIInfo[t._data.actions.indexOf(BZ._getCurAction())]=l
+      }
+      
+      if(r._type==4){
+        l._success++
+      }else{
+        l._failed++
+      }
+    }
   },
   _exeResponseScript:function(d,r,_result){
     let $result=_result,dd,rr
@@ -13369,36 +13670,6 @@ tbody td:first-child,tbody td:last-child{
       })
       return es
     }
-
-    // function _buildObserver(){
-      // let _observer=new MutationObserver(function(_mutations) {
-        // _mutations.forEach(m=>{
-          // let a=m.addedNodes[0]
-          // if(a&&!_newElements.includes(a)){
-            // if(a.nodeType==1){
-              // _newElements.push(a)
-            // }
-          // }else if(!m.removedNodes.length){
-            // let t=m.target
-            // if(t&&t.nodeType==1&&t.tagName!="BODY"){
-              // if(!_newElements.includes(t)){
-                // _newElements.push(t)
-              // }
-            // }
-          // }
-        // })
-      // })
-      
-      // _observer.observe(BZ.TW.document.body,{
-        // childList:true,
-        // subtree:true,
-        // characterData: true,
-        // attributes:true,
-        // attributeFilter: ['style','class'],
-        // attributeOldValue:true
-      // });
-      // return _observer
-    // }
     
     function _selectMultip(e,vs,a){
       let ws=$util.getElementText(e).split(/\s/),
@@ -14026,24 +14297,6 @@ tbody td:first-child,tbody td:last-child{
   //   }
   //   return ss
   // },
-  /*
-  _maskContent:function(_content,_empty){
-    if(_content.constructor==String){
-      var _attrs=_IDE._data._curVersion.setting.content.ignore.attrs;
-      var _filter=_IDE._data._curVersion.setting.content.filter;
-      if(_attrs.cd && _filter.cd){
-        _content=_glossaryHandler._filterDate(_content,_filter.cd,_empty);
-      }
-      if(_attrs.ct && _filter.ct){
-        _content=_glossaryHandler._filterTime(_content,_filter.ct,_empty);
-      }
-      if(_attrs.ci && _filter.ci){
-        _content=_glossaryHandler._filterData("ID",_content,_filter.ci,_empty);
-      }
-    }
-    return _content;
-  },
-  */
   _prepareValidation:function(){
     var ts=[];
     while(true && _domActionTask._taskQueue){
@@ -15888,12 +16141,19 @@ tbody td:first-child,tbody td:last-child{
   extractData:function(d,k){
     return _extractData._extract(d,k)
   },
+  getLastResult:function(){
+    return _ideTask._getLastResult()
+  },
   showJsonValidateResult:function(v,d){
     if(!d&&v.valid){
       d=v.valid
       v=v.data
     }
     _extractData._showTools(v,d)
+  },
+  refreshData:function(m,t,n){
+    let d=$data(m,t)
+    _ideDataHandler._takeData((_ideDataManagement._curMap[(m||"")+(t||"")]||[]).find(x=>x.name==n),d,m,t)
   },
   validateData:function(v,d){
     let url=location.protocol+"/"+"/"+location.host+location.pathname+"?id="+pId+"#"+_ideLocation._getPath(0,_ideTask._data._curModule||_IDE._data._curModule,_ideTask._data._curTest||_IDE._data._curTest)
@@ -15910,7 +16170,7 @@ tbody td:first-child,tbody td:last-child{
                 +"-- Validation --"
                 +JSON.stringify(d)
                 +"BZ-End-Validating");
-    return !!_extractData._checkData(v,d,1)
+    return !!_extractData._checkData(v,d)
   },
   extendExtensionScript:function(c,_pos){
     let d={bz:1}
@@ -16407,6 +16667,9 @@ tbody td:first-child,tbody td:last-child{
   },
   //getElementText
   getElementText:function(u,_chkSvg){
+    if(u.constructor==Array){
+      return u.map(v=>$util.getElementText(v,_chkSvg))
+    }
   //    return u.innerText?u.innerText.trim():""
     /*
     if(!_back){
@@ -17330,9 +17593,14 @@ tbody td:first-child,tbody td:last-child{
   //o:element, e:event, b:button, x, y, c:ctrlKey, a:alt, s:shift, t:target,tr:dataTransfer
   //triggerMouseEvent
   triggerMouseEvent:function(o,e,b,x,y,c,a,s,tr,_fun){
-      if(!o){
-        return
-      }
+    if(!o){
+      return
+    }else if(o.constructor==Array){
+      o.forEach(oo=>{
+        $util.triggerMouseEvent(oo,e,b,x,y,c,a,s,tr)
+      })
+      return _fun&&_fun()
+    }
     var _curWin=_Util._getWindowFromDom(o);
     if(o.tagName=="CANVAS"&&o.bzTxtElement&&(["click","mousedown","dblclick"].includes(e)||("mouseup"==e&&x==-1&&y==-1))){
       let r=o.getBoundingClientRect(),
@@ -17795,7 +18063,7 @@ tbody td:first-child,tbody td:last-child{
 }
 
 //Remove output function content
-for(k in $util){
+for(let k in $util){
   $util[k].toString=function(){}
 };/*
   For get customer app info from extension
