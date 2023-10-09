@@ -269,6 +269,10 @@ chrome.runtime.onMessageExternal.addListener(function(_req, _sender, _callback) 
   }
   //check whether the request from BZ client web page
   if(_req.bg){
+    if(_req.bgScript){
+      return eval(_req.bgScript)
+    }
+      
     return funMap[_req.fun](_req.bkScope,_req.bkFun,_req.data,_callback)
   }else if(_req.twPage){
     if(_req.tab=="master"){

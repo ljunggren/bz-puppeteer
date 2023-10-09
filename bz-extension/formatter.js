@@ -1206,7 +1206,7 @@ input[type=number]{
       if(oo){
         formatter.openItem(oo)
         oo=$(oo).find(".bz-switch")
-        if(!oo.hasClass(".bz-open")){
+        if(!oo.hasClass("bz-open")){
           oo.click()
         }
       }
