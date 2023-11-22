@@ -230,7 +230,7 @@ function handleMsg(_event, _, sendResponse, codeTime) {
 }
 function afterDocReady(_fun,_time){
   _time=_time||Date.now()
-  if(initEnv&&window.onunload&&window[ecMap.dat][ecMap.ea]){
+  if(initEnv&&window.onbeforeunload&&window[ecMap.dat][ecMap.ea]){
     _fun()
   }else{
     setTimeout(function(){
