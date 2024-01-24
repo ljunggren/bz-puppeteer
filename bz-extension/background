@@ -694,8 +694,11 @@ function _initFrame(frameId){
       _setCodeToContent("showCode('BZ Debugging');",frameId);
     }
   }
+
   _setCodeToContent(_bzEnvCode+";window.onbeforeunload=function(){chrome.runtime.sendMessage({unloadFrame:1,id:bzIframeId})}",frameId);
-  _setCodeToContent("_insertCssAndClientCode("+JSON.stringify({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data})+")",frameId)
+  setTimeout(()=>{
+    _setCodeToContent("_insertCssAndClientCode("+JSON.stringify({_css:_css,_newStatus:_newStatus||_status,_status:_status,data:_data})+")",frameId)
+  },1000)
 
   if(_status!="play"){
     if(_curAction){
