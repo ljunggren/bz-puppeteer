@@ -3,23 +3,23 @@
   "version": "4.3.1",
   "description": "An Simple Driver for Chrome Headless basded on Puppeteer",
   "dependencies": {
+    "@replayio/puppeteer": "^0.1.85",
     "axios": "^0.27.2",
-    "https": "^1.0.0",
     "body-parser": "latest",
     "connect-flash": "latest",
     "ejs": "^3.1.6",
+    "express": "latest",
+    "https": "^1.0.0",
     "method-override": "latest",
     "node-options": "latest",
     "puppeteer": "latest",
-    "tree-kill": "latest",
-    "express": "latest",
-    "socket.io": "^4.1.2"
+    "socket.io": "^4.1.2",
+    "tree-kill": "latest"
   },
   "bin": {
     "boozang": "index.js"
   },
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "node index.js"
   },

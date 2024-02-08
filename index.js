@@ -4,7 +4,9 @@
 
 const puppeteer = require('puppeteer');
 const options = require('node-options');
+const { getExecutablePath } = require("@replayio/puppeteer");
 const Service = require('./logService').Service;
+
 
 // Command defaults
 const opts = {
@@ -93,14 +95,18 @@ function start(reset){
       '--disable-extensions-except=' + __dirname + '/bz-extension',
       '--load-extension=' + __dirname + '/bz-extension',
       '--ignore-certificate-errors',
+      '--no-zygote',
       '--no-sandbox',
       `--window-size=${width},${height}`,
       '--defaultViewport: null'
       ];
 
+    console.log("Launching browser using launchargs: " + launchargs);
+
     if(!browser||browser._closed){
       browser = await puppeteer.launch({
         headless: false,
+        executablePath: getExecutablePath("chromium"),
         userDataDir: userdatadir,
         args: launchargs 
       });
