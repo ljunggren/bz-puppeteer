@@ -26,7 +26,6 @@ function initCode(t,tt){
 function registerTab(){
   //_console("content register")
   console.log("Do register from:"+bzIframeId)
-  console.log(_insertCssAndClientCode)
   chrome.runtime.sendMessage({_registerTab: location.href,BZ:Boolean(window.BZ),name:window.name},function(_msg){
     if(_msg && _msg._ignore){
       chrome.runtime.onMessage.removeListener()
