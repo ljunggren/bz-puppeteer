@@ -2448,6 +2448,9 @@ input[type=number]{
     if(v.includes("==>")){
       v=v.split("==>")[1]
     }
+    if(v.includes(" = ")){
+      v=v.split(" = ")[1]
+    }
 
     let vv=v.match(/https?:\/\/.+/)
     v=vv?vv[0]:v
