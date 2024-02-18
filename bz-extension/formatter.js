@@ -1825,7 +1825,7 @@ input[type=number]{
         fd.center=fd.center||"Boozang"
         x=x.match(/(http.+[\/].+)\/extension.*[?&]token\=.+#([^\/]+)[\/]([^\/]+)([\/](m[0-9]+[\/]t[0-9]+)[\/]run)?/);
         debugger
-        fd.startUrl=x[0].split("#")[0].replace(/token=[^&#]+/,"id="+x[2]).replace(/&(self)=[^&#]*/g,"")+"#"+x[2]+"/"+x[3]+"/"
+        fd.startUrl=x[0].split("#")[0].replace(/token=[^&#]+/,"id="+x[2]).replace(/&(self|group)=[^&#]*/g,"")+"#"+x[2]+"/"+x[3]+"/"
         fd.host=x[1]
         fd.project.code=x[2]
         fd.version=x[3]
