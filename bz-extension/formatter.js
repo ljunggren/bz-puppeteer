@@ -1829,7 +1829,7 @@ input[type=number]{
         }
         fd.center=fd.center||"Boozang"
         x=x.match(/(http.+[\/].+)\/extension.*[?&]token\=.+#([^\/]+)[\/]([^\/]+)([\/](m[0-9]+[\/]t[0-9]+)[\/]run)?/);
-        debugger
+
         fd.startUrl=x[0].split("#")[0].replace(/token=[^&#]+/,"id="+x[2]).replace(/&(self|group)=[^&#]*/g,"")+"#"+x[2]+"/"+x[3]+"/"
         fd.host=x[1]
         fd.project.code=x[2]
@@ -2521,7 +2521,7 @@ input[type=number]{
   },
   getCameraPath:function(v){
     let fd=formatter.data
-    return fd.host+"/screenshot/"+fd.project.code+"/"+v+".jpg"
+    return fd.host.replace(/^https?:/,"")+"/screenshot/"+fd.project.code+"/"+v+".jpg"
   },
   showCompare:function(){
     let o=$(".bz-pop-panel");
