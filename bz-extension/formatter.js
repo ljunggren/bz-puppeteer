@@ -877,6 +877,9 @@ input[type=number]{
       formatter.updateFormatLogSetting(setting)
       return
     }
+    if(!document.body){
+      return setTimeout(()=>formatter.exeFormag(setting,auto),1000)
+    }
     if(!document.body.innerHTML.includes("Boozang runner")&&!document.getElementsByTagName("iframe")[0]&&parent==window){
       if(!auto){
         alert("There is no boozang test log")
