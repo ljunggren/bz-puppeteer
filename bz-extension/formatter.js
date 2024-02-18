@@ -881,6 +881,11 @@ input[type=number]{
       if(!auto){
         alert("There is no boozang test log")
       }else{
+        for(let o of document.getElementsByTagName("A")){
+          if(o.innerHTML=="Full Log"){
+              o.click()
+          }
+        }
         if(Date.now()-auto>30000){
           return
         }else{
