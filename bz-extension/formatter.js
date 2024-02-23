@@ -1017,6 +1017,7 @@ input[type=number]{
         formatter.element.exePanel.show()
       }else{
         formatter.element.exePanel.hide()
+        $(".bz-result-header").css({top:"67px"})
       }
     }
   },
@@ -1570,6 +1571,7 @@ input[type=number]{
         formatter.data.project.end.org=formatter.data.curEnd
         formatter.element.end.html(formatter.strToHtml(formatter.data.curEnd))
         formatter.element.exePanel.hide()
+        $(".bz-result-header").css({top:"67px"})
         $(".bz-chk-replay,#bz-chk-replay-all").show()
       }else{
         setTimeout(()=>{
