@@ -290,7 +290,6 @@ button:disabled{
   position: relative;
   font-size: 20px;
   font-weight: bold;
-  top: 6px;
   margin: 2px 15px 5px 5px;
   white-space: nowrap;
   color: #363D4A;
@@ -450,6 +449,12 @@ body>.bz-log-box .bz-header input[type=text]{
 
 .bz-scope{
   counter-reset: line;
+}
+.bz-exe-scope{
+  position: sticky;
+  top: 60px;
+  background: #FFF;
+  z-index: 1;
 }
 .bz-log-box>div>.bz-content:before{
   counter-increment: line;
@@ -816,7 +821,7 @@ input[type=number]{
 .bz-result-header{
   color:#00C;
   position: sticky;
-  top: 67px;
+  top: 120px;
   background: #f3f7f9;
   padding: 7px;
   margin-left: 0px;
@@ -1463,7 +1468,7 @@ input[type=number]{
         <div class='bz-pop-panel bz-close-panel bz-hide'><button class="bz-mini-icon bz-cross" style="position:absolute;"></button><div class='bz-box'></div></div>
       </div>`).appendTo(p),
       init:$(formatter.getGroupElement({name:"Initial",code:"project-init",level:"project",type:"init"})).appendTo(p),
-      exePanel:$("<div class='bz-scope' bz-name='Executing list'></div>").appendTo(p),
+      exePanel:$("<div class='bz-scope bz-exe-scope' bz-name='Executing list'></div>").appendTo(p),
       resultPanel:$("<div class='bz-result-header'><span id='bz-result-content'></span><input type='checkbox' id='bz-chk-replay-all'/></div>").appendTo(p),
       panel:$("<div class='bz-scope bz-hide-scope-header'></div>").appendTo(p),
       waitingList:$("<div class='bz-scope bz-hide' bz-name='Waiting list'></div>").appendTo(p),
